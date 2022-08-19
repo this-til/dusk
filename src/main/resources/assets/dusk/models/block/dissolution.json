@@ -1,0 +1,7 @@
+{
+  "parent": "dusk:custom/dissolution/dissolution",
+  "textures": {
+    "missing": "dusk:block/white_0",
+    "particle": "dusk:block/white"
+  }
+}

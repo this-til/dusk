@@ -1,0 +1,7 @@
+{
+  "parent": "dusk:custom/assemble/assemble",
+  "textures": {
+    "missing": "dusk:block/white_0",
+    "particle": "dusk:block/white"
+  }
+}

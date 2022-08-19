@@ -1,0 +1,8 @@
+{
+  "parent": "dusk:custom/repeater/repeater",
+  "textures": {
+    "textures0": "dusk:block/black",
+    "textures1": "dusk:block/white_0",
+    "particle": "dusk:block/white"
+  }
+}

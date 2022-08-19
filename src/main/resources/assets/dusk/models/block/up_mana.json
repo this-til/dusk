@@ -1,0 +1,7 @@
+{
+  "parent": "dusk:custom/up_mana/up_mana",
+  "textures": {
+    "missing": "dusk:block/white_0",
+    "particle": "dusk:block/white"
+  }
+}

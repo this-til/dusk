@@ -1,0 +1,7 @@
+{
+  "parent": "dusk:custom/unpack/unpack",
+  "textures": {
+    "missing": "dusk:block/white_0",
+    "particle": "dusk:block/white"
+  }
+}

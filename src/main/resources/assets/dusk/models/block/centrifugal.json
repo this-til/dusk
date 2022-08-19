@@ -1,0 +1,7 @@
+{
+  "parent": "dusk:custom/centrifugal/centrifugal",
+  "textures": {
+    "missing": "dusk:block/white_0",
+    "particle": "dusk:block/white"
+  }
+}

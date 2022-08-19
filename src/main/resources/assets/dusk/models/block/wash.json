@@ -1,0 +1,7 @@
+{
+  "parent": "dusk:custom/wash/wash",
+  "textures": {
+    "missing": "dusk:block/white_0",
+    "particle": "dusk:block/white"
+  }
+}

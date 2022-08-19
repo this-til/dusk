@@ -1,0 +1,7 @@
+{
+  "parent": "dusk:custom/high_pressure_fuse/high_pressure_fuse",
+  "textures": {
+    "missing": "dusk:block/white_0",
+    "particle": "dusk:block/white"
+  }
+}

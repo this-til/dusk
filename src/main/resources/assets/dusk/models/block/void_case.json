@@ -1,0 +1,7 @@
+{
+  "parent": "dusk:custom/void_case/void_case",
+  "textures": {
+    "missing": "dusk:block/white_0",
+    "particle": "dusk:block/white"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "parent": "dusk:custom/extract_mana/extract_mana",
+  "textures": {
+    "textures0": "dusk:block/black",
+    "textures1": "dusk:block/white",
+    "missing": "dusk:block/white_0",
+    "particle": "dusk:block/white"
+  }
+}

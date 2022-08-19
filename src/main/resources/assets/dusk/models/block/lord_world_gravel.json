@@ -1,0 +1,8 @@
+{
+  "parent": "dusk:block/cube_ore_all",
+  "textures": {
+    "all0": "minecraft:block/gravel",
+    "all1": "dusk:block/ore_textures",
+    "particle": "minecraft:block/gravel"
+  }
+}
