@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.til.dusk.Dusk;
 import com.til.dusk.register.*;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.ItemModelShaper;
 import net.minecraft.client.renderer.block.BlockModelShaper;
 import net.minecraft.client.resources.model.BakedModel;

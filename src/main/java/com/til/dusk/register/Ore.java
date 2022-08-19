@@ -36,7 +36,7 @@ public class Ore extends RegisterBasics<Ore> {
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
         ORE = event.create(new RegistryBuilder<Ore>().setName(new ResourceLocation(Dusk.MOD_ID, "ore")));
-        testOre = new Ore("test_ore", new Color(255, 200, 140), ManaLevel.t1);
+        testOre = new Ore("test_ore", new Color(255, 200, 140), ManaLevel.t1).setStrength(0.1f);
     }
 
     /***
@@ -68,6 +68,11 @@ public class Ore extends RegisterBasics<Ore> {
         super(name, ORE);
         this.color = color;
         this.manaLevel = manaLevel;
+    }
+
+    public Ore setStrength(float strength) {
+        this.strength = strength;
+        return this;
     }
 
     @Override
