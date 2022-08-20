@@ -395,6 +395,19 @@ public class Pos {
         return Math.sqrt(this.x * this.x + this.z * this.z);
     }
 
+    public Pos toLerp(Pos old, float l) {
+        x = x + (old.x - x) / l;
+        y = y + (old.y - y) / l;
+        z = z + (old.z - z) / l;
+        return this;
+    }
+
+    public Pos getLerp(Pos old, float l) {
+        return new Pos(x = x + (old.x - x) / l,
+                y = y + (old.y - y) / l,
+                z = z + (old.z - z) / l);
+    }
+
     /***
      * 返回向量
      */
@@ -454,5 +467,4 @@ public class Pos {
     public String toString() {
         return "[" + x + "," + y + "," + z + "]";
     }
-
 }

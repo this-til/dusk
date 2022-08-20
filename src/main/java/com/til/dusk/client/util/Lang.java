@@ -1,13 +1,8 @@
 package com.til.dusk.client.util;
 
 import com.til.dusk.Dusk;
-import com.til.dusk.register.Ore;
-import com.til.dusk.register.RegisterBasics;
+import com.til.dusk.common.register.RegisterBasics;
 import net.minecraft.client.resources.language.I18n;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
-
-import java.util.Objects;
 
 
 public class Lang {

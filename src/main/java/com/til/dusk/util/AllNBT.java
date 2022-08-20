@@ -2,23 +2,23 @@ package com.til.dusk.util;
 
 
 import com.til.dusk.Dusk;
-import com.til.dusk.register.BindType;
+import com.til.dusk.common.register.BindType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraftforge.network.NetworkRegistry;
+import net.minecraftforge.network.simple.SimpleChannel;
 
 import java.util.*;
 
 
 public class AllNBT {
 
-
     public static final List<IGS<?>> ALL_NBT = new ArrayList<>();
     public static final List<IGS.IGSHashMap<?, ?>> ALL_NBT_HASH_MAP = new ArrayList<>();
-
 
     public static final IGS<Long> modMana = new IGS.LongNBT("modMana");
     public static final IGS<ListTag> listBlockPosNBTLong = new IGS.ListNBT("listBlockPosNBTLong");
@@ -30,6 +30,14 @@ public class AllNBT {
     public static final IGS<Tag> iClockTime = new IGS.NBTNBT("iClockTime");
     public static final IGS<Tag> voidCylinderHandler = new IGS.NBTNBT("voidCylinderHandler");
     public static final IGS<Tag> voidCaseHandler = new IGS.NBTNBT("voidCaseHandler");
+
+    private static final String PROTOCOL_VERSION = "1";
+    public static final SimpleChannel INSTANCE = NetworkRegistry.newSimpleChannel(
+            new ResourceLocation(Dusk.MOD_ID, "main"),
+            () -> PROTOCOL_VERSION,
+            PROTOCOL_VERSION::equals,
+            PROTOCOL_VERSION::equals
+    );
 
     public static final IGS<Map<BindType, List<BlockPos>>> controlBindBlock = new IGS.BasicsNBT<Map<BindType, List<BlockPos>>>("controlBindBlock") {
         @Override

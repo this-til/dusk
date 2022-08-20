@@ -1,4 +1,66 @@
 1.19.x Changelog
+43.1
+====
+ - 43.1.2 Hotfix for 1.19.2 item animation bug (#8987)
+          * [HOT FIX]: Fixes #8985 by no-oping for vanilla models instead of throwing error
+ - 43.1.1 Add ability to Auto register capabilities via annotation (#8972)
+ - 43.1.0 1.19.2 RB
+
+43.0
+====
+ - 43.0.22 Added ItemDecorator API (#8794)
+ - 43.0.21 [1.19.x] Custom usage animations for items (#8932)
+ - 43.0.20 Allow registering custom `ColorResolver`s (#8880)
+ - 43.0.19 [1.19] Allow custom outline rendering on EntityRenderers and BlockEntityRenderers (#8938)
+ - 43.0.18 Redirect checks for entity selector use to a permission (#8947)
+           This allows greater flexibility for configuring servers with
+           operator-like permissions to user groups through the permissions API and
+           their permissions handler of choice without needing to grant the
+           vanilla operator permission to any player.
+           The new permission is "forge:use_entity_selectors", which is granted by
+           default to players with permission level 2 (GAMEMASTERS) and above.
+           The hook falls back to checking the permission level if the source of
+           the command is not a ServerPlayer, such as for command blocks and
+           functions.
+ - 43.0.17 Allow FakePlayer to report its position (#8963)
+ - 43.0.16 Add alternate version of renderEntityInInventory to allow for directly specifying the angles (#8961)
+ - 43.0.15 Add cancellable ToastAddEvent (#8952)
+ - 43.0.14 Modify ScreenEvent.RenderInventoryMobEffects to allow moving the effect stack left or right (#8951)
+ - 43.0.13 Fix Enchantment#doPostHurt and Enchantment#doPostAttack being called twice for players. Fixes MC-248272 (#8948)
+ - 43.0.12 Remove reflective implementation of ICustomPacket. (#8973)
+           Make vanilla custom packets able to be sent multiple times. Closes #8969
+ - 43.0.11 Filter name spaces to directories only. Closes #8413
+ - 43.0.10 Fix a corner case where the UMLB can not extract a version from a library. (#8967)
+ - 43.0.9  Fix worlds with removed dimension types unable to load. (#8959) Closes #8800
+ - 43.0.8  Fix issue where unknown chunk generators would cause DFU to fail. (#8957)
+ - 43.0.7  Fix comments and documentation that were missed during the review of #8712 (#8945)
+ - 43.0.6  Make AnvilUpdateEvent fire even if the second input is empty, which means it fires even if only changing the item name. (#8905)
+ - 43.0.5  Fix `LivingEntity#isBlocking` to use `ToolActions#SHIELD_BLOCK` instead of `UseAnim#BLOCK` (#8933)
+ - 43.0.4  Add Custom HolderSet Types allowing for logical combining of sets. (#8928)
+ - 43.0.3  Add values to VersionSupportMatrix to support loading mods that restrict versions to 1.19.1 on 1.19.2 (#8946)
+ - 43.0.2  Fix certain particles not updating their bounding box when their position changes (#8925)
+ - 43.0.1  Update EventBus to address concurrency issue in ModLauncher Factory. Closes #8924
+ - 43.0.0  1.19.2
+
+42.0
+====
+ - 42.0.9 Remove calls to getStepHeight in Player#maybeBackOffFromEdge (#8927)
+ - 42.0.8 Add forge tags for tools and armors, these DO NOT replace ToolActions, and are designed just for Recipes. (#8914)
+ - 42.0.7 Add Biomes.BEACH to Tags (#8892)
+ - 42.0.6 Let NetworkInstance.isRemotePresent check minecraft:register for channel IDs.  (#8921)
+ - 42.0.5 Add an event for when the chunk ticket level is updated (#8909)
+ - 42.0.4 Re-add PotentialSpawns event (#8712)
+ - 42.0.3 Fix misplaced patch in ItemEntityRenderer breaking ItemEntityRenderer#shouldBob() (#8919)
+ - 42.0.2 [1.19] [HotFix] Fix the dedicated server not having access to the JiJ filesystems. (#8931)
+ - 42.0.1 Match Mojang's action bar fix for MC-72687 (#8917)
+ - 42.0.0 Forge 1.19.1
+          Load natives from classpath
+          Make command argument types a forge registry
+          Add `EntityMobGriefingEvent` to `Allay#wantsToPickUp`
+          Overhaul `ServerChatEvent` to use `ChatDecorator` system
+          Remove `ClientChatEvent#setMessage` for now
+          Gradle 7.5
+
 41.1
 ====
  - 41.1.0 Mark 1.19 RB
@@ -176,7 +238,7 @@
             - Move lookups to the respective interfaces
             * Model data refactors
             - Convert model data to a final class backed by an immutable map and document mutability requirements. This addresses several thread-safety issues in the current implementation which could result in race conditions
-            - Transfer ownership of the data manager to the client manaLevel. This addresses several issues that arise when multiple levels are used at once
+            - Transfer ownership of the data manager to the client level. This addresses several issues that arise when multiple levels are used at once
             * GUI and widget refactors
             - Move all widgets to the correct package
             - Rename GuiUtils and children to match vanilla naming
