@@ -1,6 +1,8 @@
 package com.til.dusk.common.register.shaped;
 
 import com.til.dusk.Dusk;
+import com.til.dusk.common.capability.clock_time.EventClockTime;
+import com.til.dusk.common.capability.handle.EventHandle;
 import com.til.dusk.common.capability.handle.IHandle;
 import com.til.dusk.common.capability.mana_handle.IManaHandle;
 import com.til.dusk.common.capability.handle.ShapedHandle;
@@ -28,6 +30,9 @@ import java.util.function.Supplier;
 
 import static com.til.dusk.common.capability.handle.ShapedHandle.rand;
 
+/**
+ * @author til
+ */
 @Mod.EventBusSubscriber(modid = Dusk.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public abstract class ShapedHandleProcess extends RegisterBasics<ShapedHandleProcess> {
 
@@ -41,48 +46,50 @@ public abstract class ShapedHandleProcess extends RegisterBasics<ShapedHandlePro
     public static void onEvent(NewRegistryEvent event) {
         SHAPED_TYPE_PROCESS = event.create(new RegistryBuilder<ShapedHandleProcess>().setName(new ResourceLocation(Dusk.MOD_ID, "shaped_handle_process")));
         production = new ShapedHandleProcess("production") {
-            @Override
-            public void up(IHandle iHandle, ShapedHandle shapedHandle, Map<BlockEntity, IManaHandle> manaIn, Map<BlockEntity, IManaHandle> manaOut) {
-                long needGetMana = shapedHandle.consumeMana;
-                for (Map.Entry<BlockEntity, IManaHandle> tileEntityIManaHandleEntry : manaIn.entrySet()) {
+
+            @SubscribeEvent
+            public void onEvent(EventHandle.EventShapedHandle.Up event) {
+                if (!event.shapedHandle.process.equals(this)) {
+                    return;
+                }
+                long needGetMana = event.shapedHandle.consumeMana;
+                for (Map.Entry<BlockEntity, IManaHandle> tileEntityIManaHandleEntry : event.manaIn.entrySet()) {
                     long mana = tileEntityIManaHandleEntry.getValue().extractMana(needGetMana);
                     needGetMana = needGetMana - mana;
                     if (rand.nextFloat() < mana / 320f) {
-                        CommonParticle.MANA_TRANSFER.add(iHandle.getThis().getLevel(),
+                        CommonParticle.MANA_TRANSFER.add(event.iHandle.getThis().getLevel(),
                                 new Pos(tileEntityIManaHandleEntry.getKey().getBlockPos()),
-                                new Pos(iHandle.getThis().getBlockPos()),
+                                new Pos(event.iHandle.getThis().getBlockPos()),
                                 ColorPrefab.MANA_IO,
                                 1);
                     }
                 }
                 if (needGetMana <= 0) {
-                    shapedHandle._surplusTime--;
-                    if (shapedHandle._surplusTime <= 0) {
-                        shapedHandle.process = out;
+                    event.shapedHandle._surplusTime--;
+                    if (event.shapedHandle._surplusTime <= 0) {
+                        event.shapedHandle.process = out;
                     }
                 } else {
-                    shapedHandle.process = trippingOperation;
-                    shapedHandle._surplusTime = shapedHandle.surplusTime;
+                    event.shapedHandle.process = trippingOperation;
+                    event.shapedHandle._surplusTime = event.shapedHandle.surplusTime;
                 }
             }
 
-            @Override
-            public void clock(IHandle iHandle, ShapedHandle shapedHandle, Map<BlockEntity, IItemHandler> itemIn, Map<BlockEntity, IItemHandler> itemOut, Map<BlockEntity, IFluidHandler> fluidIn, Map<BlockEntity, IFluidHandler> fluidOut) {
 
-            }
         };
         out = new ShapedHandleProcess("out") {
-            @Override
-            public void up(IHandle iHandle, ShapedHandle shapedHandle, Map<BlockEntity, IManaHandle> manaIn, Map<BlockEntity, IManaHandle> manaOut) {
-                if (shapedHandle.outMana <= 0) {
+
+            @SubscribeEvent
+            public void onEvent(EventHandle.EventShapedHandle.Up event) {
+                if (!event.shapedHandle.process.equals(this)) {
                     return;
                 }
-                for (Map.Entry<BlockEntity, IManaHandle> tileEntityIManaHandleEntry : manaOut.entrySet()) {
-                    long mana = tileEntityIManaHandleEntry.getValue().addMana(shapedHandle.outMana);
-                    shapedHandle.outMana = shapedHandle.outMana - mana;
+                for (Map.Entry<BlockEntity, IManaHandle> tileEntityIManaHandleEntry : event.manaOut.entrySet()) {
+                    long mana = tileEntityIManaHandleEntry.getValue().addMana(event.shapedHandle.outMana);
+                    event.shapedHandle.outMana = event.shapedHandle.outMana - mana;
                     if (rand.nextFloat() < mana / 320f) {
-                        CommonParticle.MANA_TRANSFER.add(iHandle.getThis().getLevel(),
-                                new Pos(iHandle.getThis().getBlockPos()),
+                        CommonParticle.MANA_TRANSFER.add(event.iHandle.getThis().getLevel(),
+                                new Pos(event.iHandle.getThis().getBlockPos()),
                                 new Pos(tileEntityIManaHandleEntry.getKey().getBlockPos()),
                                 ColorPrefab.MANA_IO,
                                 1);
@@ -90,18 +97,21 @@ public abstract class ShapedHandleProcess extends RegisterBasics<ShapedHandlePro
                 }
             }
 
-            @Override
-            public void clock(IHandle iHandle, ShapedHandle shapedHandle, Map<BlockEntity, IItemHandler> itemIn, Map<BlockEntity, IItemHandler> itemOut, Map<BlockEntity, IFluidHandler> fluidIn, Map<BlockEntity, IFluidHandler> fluidOut) {
-                if (shapedHandle.outItem != null && !shapedHandle.outItem.isEmpty()) {
+            @SubscribeEvent
+            public void onEvent(EventHandle.EventShapedHandle.Clock event) {
+                if (!event.shapedHandle.process.equals(this)) {
+                    return;
+                }
+                if (event.shapedHandle.outItem != null && !event.shapedHandle.outItem.isEmpty()) {
                     List<ItemStack> nItemStack = new ArrayList<>();
-                    for (ItemStack itemStack : shapedHandle.outItem) {
+                    for (ItemStack itemStack : event.shapedHandle.outItem) {
                         ItemStack needOut = itemStack;
-                        for (Map.Entry<BlockEntity, IItemHandler> tileEntityIItemHandlerEntry : itemOut.entrySet()) {
+                        for (Map.Entry<BlockEntity, IItemHandler> tileEntityIItemHandlerEntry : event.itemOut.entrySet()) {
                             ItemStack out = ItemHandlerHelper.insertItemStacked(tileEntityIItemHandlerEntry.getValue(), needOut, false);
                             if (out.getCount() < needOut.getCount()) {
                                 CommonParticle.ITEM_TRANSFER.add(
-                                        iHandle.getThis().getLevel(),
-                                        new Pos(iHandle.getThis().getBlockPos()),
+                                        event.iHandle.getThis().getLevel(),
+                                        new Pos(event.iHandle.getThis().getBlockPos()),
                                         new Pos(tileEntityIItemHandlerEntry.getKey().getBlockPos()),
                                         ColorPrefab.ITEM_IO,
                                         1);
@@ -115,18 +125,18 @@ public abstract class ShapedHandleProcess extends RegisterBasics<ShapedHandlePro
                             nItemStack.add(needOut);
                         }
                     }
-                    shapedHandle.outItem = nItemStack;
+                    event.shapedHandle.outItem = nItemStack;
                 }
 
-                if (shapedHandle.outFluid != null && !shapedHandle.outFluid.isEmpty()) {
+                if (event.shapedHandle.outFluid != null && !event.shapedHandle.outFluid.isEmpty()) {
                     List<FluidStack> nFluidStack = new ArrayList<>();
-                    for (FluidStack fluidStack : shapedHandle.outFluid) {
+                    for (FluidStack fluidStack : event.shapedHandle.outFluid) {
                         FluidStack needOut = fluidStack.copy();
-                        for (java.util.Map.Entry<BlockEntity, IFluidHandler> tileEntityIFluidHandlerEntry : fluidOut.entrySet()) {
+                        for (java.util.Map.Entry<BlockEntity, IFluidHandler> tileEntityIFluidHandlerEntry : event.fluidOut.entrySet()) {
                             int surplus = tileEntityIFluidHandlerEntry.getValue().fill(needOut, IFluidHandler.FluidAction.EXECUTE);
                             if (surplus > 0) {
-                                CommonParticle.FLUID_TRANSFER.add(iHandle.getThis().getLevel(),
-                                        new Pos(iHandle.getThis().getBlockPos()),
+                                CommonParticle.FLUID_TRANSFER.add(event.iHandle.getThis().getLevel(),
+                                        new Pos(event.iHandle.getThis().getBlockPos()),
                                         new Pos(tileEntityIFluidHandlerEntry.getKey().getBlockPos()),
                                         ColorPrefab.FLUID_IO,
                                         surplus / 32f);
@@ -140,20 +150,20 @@ public abstract class ShapedHandleProcess extends RegisterBasics<ShapedHandlePro
                             nFluidStack.add(needOut);
                         }
                     }
-                    shapedHandle.outFluid = nFluidStack;
+                    event.shapedHandle.outFluid = nFluidStack;
                 }
             }
 
+
         };
-        trippingOperation = new ShapedHandleProcess("trippingOperation") {
-            @Override
-            public void up(IHandle iHandle, ShapedHandle shapedHandle, Map<BlockEntity, IManaHandle> manaIn, Map<BlockEntity, IManaHandle> manaOut) {
+        trippingOperation = new ShapedHandleProcess("tripping_operation") {
 
-            }
-
-            @Override
-            public void clock(IHandle iHandle, ShapedHandle shapedHandle, Map<BlockEntity, IItemHandler> itemIn, Map<BlockEntity, IItemHandler> itemOut, Map<BlockEntity, IFluidHandler> fluidIn, Map<BlockEntity, IFluidHandler> fluidOut) {
-                shapedHandle.process = production;
+            @SubscribeEvent
+            public void onEvent(EventHandle.EventShapedHandle.Clock event) {
+                if (!event.shapedHandle.process.equals(this)) {
+                    return;
+                }
+                event.shapedHandle.process = production;
             }
         };
     }
@@ -165,29 +175,6 @@ public abstract class ShapedHandleProcess extends RegisterBasics<ShapedHandlePro
     public ShapedHandleProcess(String name) {
         this(new ResourceLocation(Dusk.MOD_ID, name));
     }
-
-/*    *//***
-     * 在配方更新时触发
-     * @param shapedHandle 配方
-     * @param iHandle 配方处理器
-     * @param manaIn 灵气输入
-     * @param manaOut 灵气输出
-     *//*
-    public abstract void up(IHandle iHandle, IHandle.ShapedHandle shapedHandle, Map<BlockEntity, IManaHandle> manaIn, Map<BlockEntity, IManaHandle> manaOut);*/
-
-/*    *//***
-     * 在时钟周期时触发
-     * @param iHandle 配方处理器
-     * @param shapedHandle 配方
-     * @param itemOut 物品输出
-     * @param fluidOut 流体输入
-     *//*
-    public abstract void clock(IHandle iHandle, IHandle.ShapedHandle shapedHandle,
-                               Map<BlockEntity, IItemHandler> itemIn,
-                               Map<BlockEntity, IItemHandler> itemOut,
-                               Map<BlockEntity, IFluidHandler> fluidIn,
-                               Map<BlockEntity, IFluidHandler> fluidOut);*/
-
 
 
 }

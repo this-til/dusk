@@ -31,7 +31,7 @@ public class ClockTime implements IClockTime {
     }
 
     @Override
-    public void time() {
+    public void up() {
         time--;
         if (time <= 0) {
             time = iManaLevel.manaLevel().clock;

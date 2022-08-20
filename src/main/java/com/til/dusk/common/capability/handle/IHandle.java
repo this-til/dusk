@@ -12,7 +12,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import java.util.*;
 
 
-public interface IHandle extends IThis<BlockEntity>, INBT, ITack {
+public interface IHandle extends IThis<BlockEntity>, INBT, IUp {
 
     /***
      * 获取所有的配方

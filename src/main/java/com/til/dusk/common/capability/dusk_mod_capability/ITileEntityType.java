@@ -1,4 +1,4 @@
-package com.til.dusk.common.capability;
+package com.til.dusk.common.capability.dusk_mod_capability;
 
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.Capability;

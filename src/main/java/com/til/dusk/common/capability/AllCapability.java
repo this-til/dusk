@@ -3,6 +3,8 @@ package com.til.dusk.common.capability;
 import com.til.dusk.Dusk;
 import com.til.dusk.common.capability.clock_time.IClockTime;
 import com.til.dusk.common.capability.control.IControl;
+import com.til.dusk.common.capability.dusk_mod_capability.DuskModCapability;
+import com.til.dusk.common.capability.dusk_mod_capability.ITileEntityType;
 import com.til.dusk.common.capability.handle.IHandle;
 import com.til.dusk.common.capability.mana_handle.IManaHandle;
 import com.til.dusk.common.capability.mana_level.IManaLevel;

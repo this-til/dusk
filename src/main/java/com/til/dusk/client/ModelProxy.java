@@ -3,7 +3,6 @@ package com.til.dusk.client;
 import com.google.common.collect.ImmutableList;
 import com.til.dusk.Dusk;
 import com.til.dusk.common.register.RegisterBasics;
-import com.til.dusk.register.*;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.register.mana_level.ManaLevelBlock;
 import com.til.dusk.common.register.mana_level.ManaLevelItem;

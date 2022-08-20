@@ -6,11 +6,10 @@ import com.til.dusk.common.capability.mana_handle.IManaHandle;
 import com.til.dusk.common.capability.IShapedDrive;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.NewRegistryEvent;
@@ -41,12 +40,12 @@ public class BindType extends RegisterBasics<BindType> {
     public static void onEvent(NewRegistryEvent event) {
         BIND_TYPE = event.create(new RegistryBuilder<BindType>().setName(new ResourceLocation(Dusk.MOD_ID, "bind_type")));
 
-        itemIn = new BindTypeBindCapability<>("item_in", CapabilityItemHandler.ITEM_HANDLER_CAPABILITY);
-        itemOut = new BindTypeBindCapability<>("item_out", CapabilityItemHandler.ITEM_HANDLER_CAPABILITY);
+        itemIn = new BindTypeBindCapability<>("item_in", ForgeCapabilities.ITEM_HANDLER);
+        itemOut = new BindTypeBindCapability<>("item_out", ForgeCapabilities.ITEM_HANDLER);
         manaIn = new BindTypeBindCapability<>("mana_in", AllCapability.I_MANA_HANDEL);
         manaOut = new BindTypeBindCapability<>("mana_out", AllCapability.I_MANA_HANDEL);
-        fluidIn = new BindTypeBindCapability<>("fluid_in", CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY);
-        fluidOut = new BindTypeBindCapability<>("fluid_out", CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY);
+        fluidIn = new BindTypeBindCapability<>("fluid_in", ForgeCapabilities.FLUID_HANDLER);
+        fluidOut = new BindTypeBindCapability<>("fluid_out", ForgeCapabilities.FLUID_HANDLER);
         modelStore = new BindTypeBindCapability<>("model_store", AllCapability.I_SHAPED_DRIVE);
         relayIn = new BindType("relay_in");
         relayOut = new BindType("relay_out");

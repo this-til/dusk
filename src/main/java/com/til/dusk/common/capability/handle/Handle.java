@@ -89,7 +89,7 @@ public class Handle implements IHandle {
     }
 
     @Override
-    public void time() {
+    public void up() {
         Map<BlockEntity, IManaHandle> manaIn = iControl.getCapability(BindType.manaIn);
         Map<BlockEntity, IManaHandle> manaOut = iControl.getCapability(BindType.manaOut);
         MinecraftForge.EVENT_BUS.post(new EventHandle.Up(this, manaIn, manaOut));

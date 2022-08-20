@@ -1,5 +1,6 @@
-package com.til.dusk.common.capability;
+package com.til.dusk.common.capability.dusk_mod_capability;
 
+import com.til.dusk.common.capability.INBT;
 import com.til.dusk.util.AllNBT;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -14,10 +15,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author til
+ */
 public class DuskModCapability implements ICapabilityProvider, INBTSerializable<CompoundTag> {
 
     public final Map<Capability<?>, Object> map;
-    private final List<INBT> inbtSerializables = new ArrayList<>();
+    private final List<INBT> initSerializable = new ArrayList<>();
 
     public DuskModCapability(Map<Capability<?>, Object> map) {
         this.map = map;
@@ -25,10 +29,9 @@ public class DuskModCapability implements ICapabilityProvider, INBTSerializable<
         for (Capability<?> capability : map.keySet()) {
             Object o = map.get(capability);
             if (o instanceof INBT) {
-                inbtSerializables.add((INBT) o);
+                initSerializable.add((INBT) o);
             }
         }
-
     }
 
     @Override
@@ -55,7 +58,7 @@ public class DuskModCapability implements ICapabilityProvider, INBTSerializable<
     @Override
     public CompoundTag serializeNBT() {
         CompoundTag nbtTagCompound = new CompoundTag();
-        for (INBT inbt : inbtSerializables) {
+        for (INBT inbt : initSerializable) {
             if (inbt != null) {
                 AllNBT.IGS<Tag> igs = inbt.getNBTBase();
                 if (igs != null) {
@@ -68,7 +71,7 @@ public class DuskModCapability implements ICapabilityProvider, INBTSerializable<
 
     @Override
     public void deserializeNBT(CompoundTag nbt) {
-        for (INBT inbt : inbtSerializables) {
+        for (INBT inbt : initSerializable) {
             if (inbt != null) {
                 AllNBT.IGS<Tag> igs = inbt.getNBTBase();
                 if (igs != null) {
