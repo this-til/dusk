@@ -1,4 +1,4 @@
-package com.til.dusk.common.capability;
+package com.til.dusk.common.capability.shaped_drive;
 
 import com.til.dusk.common.register.shaped.ShapedDrive;
 

@@ -2,14 +2,14 @@ package com.til.dusk.common.capability.clock_time;
 
 
 import com.til.dusk.common.capability.INBT;
-import com.til.dusk.common.capability.IUp;
+import com.til.dusk.common.capability.up.IUp;
 import com.til.dusk.util.Extension;
 
 /***
  * 时钟时间，在周期结束后触发回调
  * @author til
  */
-public interface IClockTime extends INBT, IUp {
+public interface IClockTime extends INBT {
 
     /***
      * 在能力初始化时，添加回调

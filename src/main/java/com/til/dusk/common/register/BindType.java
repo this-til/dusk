@@ -3,7 +3,7 @@ package com.til.dusk.common.register;
 import com.til.dusk.Dusk;
 import com.til.dusk.common.capability.AllCapability;
 import com.til.dusk.common.capability.mana_handle.IManaHandle;
-import com.til.dusk.common.capability.IShapedDrive;
+import com.til.dusk.common.capability.shaped_drive.IShapedDrive;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;

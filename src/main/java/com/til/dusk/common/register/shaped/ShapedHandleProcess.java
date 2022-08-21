@@ -6,13 +6,14 @@ import com.til.dusk.common.capability.handle.EventHandle;
 import com.til.dusk.common.capability.handle.IHandle;
 import com.til.dusk.common.capability.mana_handle.IManaHandle;
 import com.til.dusk.common.capability.handle.ShapedHandle;
-import com.til.dusk.common.particle.CommonParticle;
+import com.til.dusk.common.event.EventIO;
 import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.util.Pos;
 import com.til.dusk.util.prefab.ColorPrefab;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -56,13 +57,10 @@ public abstract class ShapedHandleProcess extends RegisterBasics<ShapedHandlePro
                 for (Map.Entry<BlockEntity, IManaHandle> tileEntityIManaHandleEntry : event.manaIn.entrySet()) {
                     long mana = tileEntityIManaHandleEntry.getValue().extractMana(needGetMana);
                     needGetMana = needGetMana - mana;
-                    if (rand.nextFloat() < mana / 320f) {
-                        CommonParticle.MANA_TRANSFER.add(event.iHandle.getThis().getLevel(),
-                                new Pos(tileEntityIManaHandleEntry.getKey().getBlockPos()),
-                                new Pos(event.iHandle.getThis().getBlockPos()),
-                                ColorPrefab.MANA_IO,
-                                1);
-                    }
+                    MinecraftForge.EVENT_BUS.post(new EventIO.Mana(event.iHandle.getThis().getLevel(),
+                            new Pos(tileEntityIManaHandleEntry.getKey().getBlockPos()),
+                            new Pos(event.iHandle.getThis().getBlockPos()),
+                            mana));
                 }
                 if (needGetMana <= 0) {
                     event.shapedHandle._surplusTime--;
@@ -87,13 +85,10 @@ public abstract class ShapedHandleProcess extends RegisterBasics<ShapedHandlePro
                 for (Map.Entry<BlockEntity, IManaHandle> tileEntityIManaHandleEntry : event.manaOut.entrySet()) {
                     long mana = tileEntityIManaHandleEntry.getValue().addMana(event.shapedHandle.outMana);
                     event.shapedHandle.outMana = event.shapedHandle.outMana - mana;
-                    if (rand.nextFloat() < mana / 320f) {
-                        CommonParticle.MANA_TRANSFER.add(event.iHandle.getThis().getLevel(),
-                                new Pos(event.iHandle.getThis().getBlockPos()),
-                                new Pos(tileEntityIManaHandleEntry.getKey().getBlockPos()),
-                                ColorPrefab.MANA_IO,
-                                1);
-                    }
+                    MinecraftForge.EVENT_BUS.post(new EventIO.Mana(event.iHandle.getThis().getLevel(),
+                            new Pos(event.iHandle.getThis().getBlockPos()),
+                            new Pos(tileEntityIManaHandleEntry.getKey().getBlockPos()),
+                            mana));
                 }
             }
 
@@ -109,13 +104,12 @@ public abstract class ShapedHandleProcess extends RegisterBasics<ShapedHandlePro
                         for (Map.Entry<BlockEntity, IItemHandler> tileEntityIItemHandlerEntry : event.itemOut.entrySet()) {
                             ItemStack out = ItemHandlerHelper.insertItemStacked(tileEntityIItemHandlerEntry.getValue(), needOut, false);
                             if (out.getCount() < needOut.getCount()) {
-                                CommonParticle.ITEM_TRANSFER.add(
-                                        event.iHandle.getThis().getLevel(),
+                                MinecraftForge.EVENT_BUS.post(new EventIO.Item(event.iHandle.getThis().getLevel(),
                                         new Pos(event.iHandle.getThis().getBlockPos()),
                                         new Pos(tileEntityIItemHandlerEntry.getKey().getBlockPos()),
-                                        ColorPrefab.ITEM_IO,
-                                        1);
+                                        new ItemStack(needOut.getItem(), needOut.getCount() - out.getCount())));
                             }
+
                             needOut = out;
                             if (needOut.isEmpty()) {
                                 break;
@@ -135,11 +129,10 @@ public abstract class ShapedHandleProcess extends RegisterBasics<ShapedHandlePro
                         for (java.util.Map.Entry<BlockEntity, IFluidHandler> tileEntityIFluidHandlerEntry : event.fluidOut.entrySet()) {
                             int surplus = tileEntityIFluidHandlerEntry.getValue().fill(needOut, IFluidHandler.FluidAction.EXECUTE);
                             if (surplus > 0) {
-                                CommonParticle.FLUID_TRANSFER.add(event.iHandle.getThis().getLevel(),
+                                MinecraftForge.EVENT_BUS.post(new EventIO.Fluid(event.iHandle.getThis().getLevel(),
                                         new Pos(event.iHandle.getThis().getBlockPos()),
                                         new Pos(tileEntityIFluidHandlerEntry.getKey().getBlockPos()),
-                                        ColorPrefab.FLUID_IO,
-                                        surplus / 32f);
+                                        new FluidStack(needOut.getFluid(), surplus)));
                             }
                             needOut.setAmount(needOut.getAmount() - surplus);
                             if (needOut.getAmount() <= 0) {

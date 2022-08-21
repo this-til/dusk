@@ -18,7 +18,9 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegistryBuilder;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.function.Supplier;
@@ -51,8 +53,6 @@ public abstract class OreBlock extends Ore.OreType<OreBlock, BlockItem> {
                         .strength(ore.strength, 2f * ore.strength)
                         .requiresCorrectToolForDrops()
                         .sound(SoundType.STONE));
-                //Objects.requireNonNull(ForgeRegistries.BLOCKS.tags()).addOptionalTagDefaults(BlockTags.MINEABLE_WITH_PICKAXE, Set.of(() -> block));
-                //Objects.requireNonNull(ForgeRegistries.BLOCKS.tags()).addOptionalTagDefaults(BlockTags.NEEDS_STONE_TOOL, Set.of(() -> block));
                 TagAdd.addTag(ForgeRegistries.BLOCKS, BlockTags.MINEABLE_WITH_PICKAXE, block);
                 TagAdd.addTag(ForgeRegistries.BLOCKS, BlockTags.NEEDS_STONE_TOOL, block);
                 return block;
@@ -65,8 +65,6 @@ public abstract class OreBlock extends Ore.OreType<OreBlock, BlockItem> {
                         .strength(1.5f * ore.strength, 3f * ore.strength)
                         .requiresCorrectToolForDrops()
                         .sound(SoundType.STONE));
-                //Objects.requireNonNull(ForgeRegistries.BLOCKS.tags()).addOptionalTagDefaults(BlockTags.MINEABLE_WITH_PICKAXE, Set.of(() -> block));
-                //Objects.requireNonNull(ForgeRegistries.BLOCKS.tags()).addOptionalTagDefaults(BlockTags.NEEDS_STONE_TOOL, Set.of(() -> block));
                 TagAdd.addTag(ForgeRegistries.BLOCKS, BlockTags.MINEABLE_WITH_PICKAXE, block);
                 TagAdd.addTag(ForgeRegistries.BLOCKS, BlockTags.NEEDS_STONE_TOOL, block);
                 return block;
@@ -79,8 +77,6 @@ public abstract class OreBlock extends Ore.OreType<OreBlock, BlockItem> {
                         .strength(0.5f * ore.strength, ore.strength)
                         .requiresCorrectToolForDrops()
                         .sound(SoundType.GRAVEL));
-                //Objects.requireNonNull(ForgeRegistries.BLOCKS.tags()).addOptionalTagDefaults(BlockTags.MINEABLE_WITH_SHOVEL, Set.of(() -> block));
-                //Objects.requireNonNull(ForgeRegistries.BLOCKS.tags()).addOptionalTagDefaults(BlockTags.NEEDS_STONE_TOOL, Set.of(() -> block));
                 TagAdd.addTag(ForgeRegistries.BLOCKS, BlockTags.MINEABLE_WITH_SHOVEL, block);
                 TagAdd.addTag(ForgeRegistries.BLOCKS, BlockTags.NEEDS_STONE_TOOL, block);
                 return block;
@@ -94,8 +90,6 @@ public abstract class OreBlock extends Ore.OreType<OreBlock, BlockItem> {
                         .strength(0.5f * ore.strength, ore.strength)
                         .requiresCorrectToolForDrops()
                         .sound(SoundType.GRAVEL));
-                //Objects.requireNonNull(ForgeRegistries.BLOCKS.tags()).addOptionalTagDefaults(BlockTags.MINEABLE_WITH_SHOVEL, Set.of(() -> block));
-                //Objects.requireNonNull(ForgeRegistries.BLOCKS.tags()).addOptionalTagDefaults(BlockTags.NEEDS_STONE_TOOL, Set.of(() -> block));
                 TagAdd.addTag(ForgeRegistries.BLOCKS, BlockTags.MINEABLE_WITH_SHOVEL, block);
                 TagAdd.addTag(ForgeRegistries.BLOCKS, BlockTags.NEEDS_STONE_TOOL, block);
                 return block;
@@ -108,8 +102,6 @@ public abstract class OreBlock extends Ore.OreType<OreBlock, BlockItem> {
                         .strength(0.5f * ore.strength, ore.strength)
                         .requiresCorrectToolForDrops()
                         .sound(SoundType.GRAVEL));
-                //Objects.requireNonNull(ForgeRegistries.BLOCKS.tags()).addOptionalTagDefaults(BlockTags.MINEABLE_WITH_SHOVEL, Set.of(() -> block));
-                //Objects.requireNonNull(ForgeRegistries.BLOCKS.tags()).addOptionalTagDefaults(BlockTags.NEEDS_STONE_TOOL, Set.of(() -> block));
                 TagAdd.addTag(ForgeRegistries.BLOCKS, BlockTags.MINEABLE_WITH_SHOVEL, block);
                 TagAdd.addTag(ForgeRegistries.BLOCKS, BlockTags.NEEDS_STONE_TOOL, block);
                 return block;
@@ -123,8 +115,6 @@ public abstract class OreBlock extends Ore.OreType<OreBlock, BlockItem> {
                         .strength(0.75f * ore.strength, 1.25f * ore.strength)
                         .requiresCorrectToolForDrops()
                         .sound(SoundType.STONE));
-                //Objects.requireNonNull(ForgeRegistries.BLOCKS.tags()).addOptionalTagDefaults(BlockTags.MINEABLE_WITH_PICKAXE, Set.of(() -> block));
-                //Objects.requireNonNull(ForgeRegistries.BLOCKS.tags()).addOptionalTagDefaults(BlockTags.NEEDS_STONE_TOOL, Set.of(() -> block));
                 TagAdd.addTag(ForgeRegistries.BLOCKS, BlockTags.MINEABLE_WITH_SHOVEL, block);
                 TagAdd.addTag(ForgeRegistries.BLOCKS, BlockTags.NEEDS_STONE_TOOL, block);
                 return block;
@@ -137,8 +127,6 @@ public abstract class OreBlock extends Ore.OreType<OreBlock, BlockItem> {
                         .strength(0.6f * ore.strength, 1.2f * ore.strength)
                         .requiresCorrectToolForDrops()
                         .sound(SoundType.STONE));
-                //Objects.requireNonNull(ForgeRegistries.BLOCKS.tags()).addOptionalTagDefaults(BlockTags.MINEABLE_WITH_PICKAXE, Set.of(() -> block));
-                //Objects.requireNonNull(ForgeRegistries.BLOCKS.tags()).addOptionalTagDefaults(BlockTags.NEEDS_STONE_TOOL, Set.of(() -> block));
                 TagAdd.addTag(ForgeRegistries.BLOCKS, BlockTags.MINEABLE_WITH_PICKAXE, block);
                 TagAdd.addTag(ForgeRegistries.BLOCKS, BlockTags.NEEDS_STONE_TOOL, block);
                 return block;
@@ -151,8 +139,6 @@ public abstract class OreBlock extends Ore.OreType<OreBlock, BlockItem> {
                         .strength(0.6f * ore.strength, 1.2f * ore.strength)
                         .requiresCorrectToolForDrops()
                         .sound(SoundType.STONE));
-                //Objects.requireNonNull(ForgeRegistries.BLOCKS.tags()).addOptionalTagDefaults(BlockTags.MINEABLE_WITH_PICKAXE, Set.of(() -> block));
-                //Objects.requireNonNull(ForgeRegistries.BLOCKS.tags()).addOptionalTagDefaults(BlockTags.NEEDS_STONE_TOOL, Set.of(() -> block));
                 TagAdd.addTag(ForgeRegistries.BLOCKS, BlockTags.MINEABLE_WITH_PICKAXE, block);
                 TagAdd.addTag(ForgeRegistries.BLOCKS, BlockTags.NEEDS_STONE_TOOL, block);
                 return block;
@@ -188,33 +174,17 @@ public abstract class OreBlock extends Ore.OreType<OreBlock, BlockItem> {
 
     }
 
-
-/*    public static class OreBlockTableProvider extends LootTableProvider {
-        public OreBlockTableProvider(DataGenerator p_124437_) {
-            super(p_124437_);
+    /***
+     * 代表该方块是矿物
+     */
+    public abstract static class OreBlockMineral extends OreBlock {
+        public OreBlockMineral(ResourceLocation name) {
+            super(name);
         }
 
-        @Override
-        protected List<Pair<Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>>, LootContextParamSet>> getTables() {
-            var list = new ArrayList<Pair<Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>>, LootContextParamSet>>();
-            list.add(new Pair<>(OreBlockLoot::new, LootContextParamSets.BLOCK));
-            return list;
+        public OreBlockMineral(String name) {
+            super(name);
         }
-
-
-    }*/
-
-/*    public static class OreBlockLoot extends BlockLoot {
-        @Override
-        public void accept(BiConsumer<ResourceLocation, LootTable.Builder> biConsumer) {
-            Ore.ORE.get().forEach(o -> o.blockMap.values().forEach(b -> biConsumer.accept(ForgeRegistries.BLOCKS.getKey(b.getBlock()), createSingleItemTable(b.getBlock()))));
-        }
-    }*/
-
-/*    @SubscribeEvent
-    public static void gatherDataEvent(GatherDataEvent event) {
-        event.getGenerator().addProvider(true, new OreBlockTableProvider(event.getGenerator()));
-    }*/
-
+    }
 
 }

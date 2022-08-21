@@ -5,19 +5,20 @@ import com.til.dusk.common.capability.*;
 import com.til.dusk.common.capability.clock_time.IClockTime;
 import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.capability.mana_level.IManaLevel;
+import com.til.dusk.common.capability.up.IUp;
+import com.til.dusk.common.register.shaped.Shaped;
 import com.til.dusk.common.register.shaped.ShapedDrive;
-import com.til.dusk.common.register.shaped.ShapedType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
 import java.util.*;
 
 
-public interface IHandle extends IThis<BlockEntity>, INBT, IUp {
+public interface IHandle extends IThis<BlockEntity>, INBT {
 
     /***
      * 获取所有的配方
      */
-    List<ShapedType> getShapedTypes();
+    List<Shaped> getShaped();
 
     void addShapedHandle(ShapedHandle shaped);
 
@@ -28,11 +29,12 @@ public interface IHandle extends IThis<BlockEntity>, INBT, IUp {
 
     List<ShapedDrive> getShapedDrive();
 
-    IManaLevel getManaLevel();
 
     IControl getControl();
 
     IClockTime getClockTime();
+
+    IUp getUp();
 
 
 }

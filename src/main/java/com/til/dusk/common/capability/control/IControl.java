@@ -1,15 +1,14 @@
 package com.til.dusk.common.capability.control;
 
 
-import com.til.dusk.common.capability.mana_level.IManaLevel;
 import com.til.dusk.common.capability.INBT;
 import com.til.dusk.common.capability.IThis;
 import com.til.dusk.common.register.BindType;
-import com.til.dusk.util.data.MessageData;
 
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.Capability;
 
+import javax.annotation.Nullable;
 import java.util.*;
 
 
@@ -23,12 +22,12 @@ public interface IControl extends IThis<BlockEntity>, INBT {
     /***
      * 绑定
      */
-    MessageData binding(BlockEntity tileEntity, BindType iBindType);
+    TellPlayerMessage binding(BlockEntity tileEntity, BindType iBindType);
 
     /***
      * 解绑
      */
-    MessageData unBindling(BlockEntity tileEntity, BindType iBindType);
+    TellPlayerMessage unBindling(BlockEntity tileEntity, BindType iBindType);
 
     /***
      * 有没有绑定实体
@@ -59,7 +58,22 @@ public interface IControl extends IThis<BlockEntity>, INBT {
      */
     List<BindType> getCanBindType();
 
-    IManaLevel getManaLevel();
+    class TellPlayerMessage {
+        public String key;
+        @Nullable
+        public String[] keys;
+        public boolean actionBar;
 
+        public TellPlayerMessage() {
+            key = "";
+        }
 
+        public TellPlayerMessage(boolean actionBar, String key, @Nullable String... strings) {
+            this.key = key;
+            if (strings != null) {
+                keys = strings;
+            }
+            this.actionBar = actionBar;
+        }
+    }
 }

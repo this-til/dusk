@@ -27,6 +27,10 @@ public class ShapedDrive extends RegisterBasics<ShapedDrive> {
         }
     }
 
+    public static ShapedDrive get(int i) {
+        return SHAPED_DRIVE_MAP.get(i);
+    }
+
     public ShapedDrive(int id) {
         this(new ResourceLocation(Dusk.MOD_ID, "shaped_drive_" + id), id);
     }
@@ -35,4 +39,6 @@ public class ShapedDrive extends RegisterBasics<ShapedDrive> {
         super(name, SHAPED_DRIVE);
         SHAPED_DRIVE_MAP.put(id, this);
     }
+
+
 }

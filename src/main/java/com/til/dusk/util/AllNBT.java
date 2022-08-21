@@ -30,16 +30,7 @@ public class AllNBT {
     public static final IGS<Tag> iClockTime = new IGS.NBTNBT("iClockTime");
     public static final IGS<Tag> voidCylinderHandler = new IGS.NBTNBT("voidCylinderHandler");
     public static final IGS<Tag> voidCaseHandler = new IGS.NBTNBT("voidCaseHandler");
-
-    private static final String PROTOCOL_VERSION = "1";
-    public static final SimpleChannel INSTANCE = NetworkRegistry.newSimpleChannel(
-            new ResourceLocation(Dusk.MOD_ID, "main"),
-            () -> PROTOCOL_VERSION,
-            PROTOCOL_VERSION::equals,
-            PROTOCOL_VERSION::equals
-    );
-
-    public static final IGS<Map<BindType, List<BlockPos>>> controlBindBlock = new IGS.BasicsNBT<Map<BindType, List<BlockPos>>>("controlBindBlock") {
+    public static final IGS<Map<BindType, List<BlockPos>>> controlBindBlock = new IGS.BasicsNBT<>("controlBindBlock") {
         @Override
         public Map<BindType, List<BlockPos>> get(CompoundTag nbt) {
             Map<BindType, List<BlockPos>> map = new HashMap<>();

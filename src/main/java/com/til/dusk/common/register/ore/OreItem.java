@@ -88,8 +88,8 @@ public class OreItem extends Ore.OreType<OreItem, Item> {
                 return Component.translatable(Lang.getLang(ore, oreItem));
             }
         };
-        ForgeRegistries.ITEMS.register(fuseName("_", ore, this), item);
-        Objects.requireNonNull(ForgeRegistries.ITEMS.tags()).addOptionalTagDefaults(ItemTags.create(fuseName("_", ore, this)), Set.of(() -> item));
+        ForgeRegistries.ITEMS.register(fuseName( ore, this), item);
+        Objects.requireNonNull(ForgeRegistries.ITEMS.tags()).addOptionalTagDefaults(ItemTags.create(fuseName(ore, this)), Set.of(() -> item));
         return item;
     }
 }

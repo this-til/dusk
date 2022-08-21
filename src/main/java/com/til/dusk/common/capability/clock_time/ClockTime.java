@@ -1,6 +1,7 @@
 package com.til.dusk.common.capability.clock_time;
 
 import com.til.dusk.common.capability.mana_level.IManaLevel;
+import com.til.dusk.common.capability.up.IUp;
 import com.til.dusk.util.AllNBT;
 import com.til.dusk.util.Extension;
 import net.minecraft.nbt.CompoundTag;
@@ -15,14 +16,19 @@ import java.util.List;
  */
 public class ClockTime implements IClockTime {
 
-    public List<Extension.Action> blackRun = new ArrayList<>();
-    public final IManaLevel iManaLevel;
+    public final List<Extension.Action> blackRun = new ArrayList<>();
+    public final int clock;
 
     public int time;
 
-    public ClockTime(IManaLevel iManaLevel) {
-        this.iManaLevel = iManaLevel;
+    public ClockTime(IUp up, int clock) {
         addBlock(() -> MinecraftForge.EVENT_BUS.post(new EventClockTime.Clock(this)));
+        this.clock = clock;
+        up.addUpBlack(this::up);
+    }
+
+    public ClockTime(IUp up, IManaLevel iManaLevel) {
+        this(up, iManaLevel.manaLevel().clock);
     }
 
     @Override
@@ -30,11 +36,10 @@ public class ClockTime implements IClockTime {
         blackRun.add(black);
     }
 
-    @Override
     public void up() {
         time--;
         if (time <= 0) {
-            time = iManaLevel.manaLevel().clock;
+            time = clock;
             blackRun.forEach(Extension.Action::action);
         }
     }

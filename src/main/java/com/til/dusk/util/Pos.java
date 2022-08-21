@@ -435,8 +435,7 @@ public class Pos {
             return true;
         }
 
-        if (obj instanceof Pos) {
-            Pos pos = ((Pos) obj);
+        if (obj instanceof Pos pos) {
             return pos.x == x && pos.y == y && pos.z == z;
         }
 

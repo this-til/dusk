@@ -3,9 +3,11 @@ package com.til.dusk.common.register.ore;
 import com.til.dusk.Dusk;
 import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.register.mana_level.ManaLevel;
+import com.til.dusk.util.Extension;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -15,6 +17,7 @@ import net.minecraftforge.registries.*;
 import javax.annotation.Nullable;
 import java.awt.*;
 import java.util.*;
+import java.util.List;
 import java.util.function.Supplier;
 
 /**
@@ -43,9 +46,14 @@ public class Ore extends RegisterBasics<Ore> {
     public final ManaLevel manaLevel;
 
     /***
-     * 强度系数，对应方块的采集时间和防爆
+     * 强度系数，对应方块的采集时间和防爆，和加工时间倍数
      */
-    public float strength;
+    public float strength = 1f;
+
+    /***
+     * 加工消耗灵气倍数
+     */
+    public double consume = 1f;
 
     public final Map<OreItem, Item> itemMap = new HashMap<>();
     public final Map<OreBlock, BlockItem> blockMap = new HashMap<>();
@@ -65,6 +73,11 @@ public class Ore extends RegisterBasics<Ore> {
 
     public Ore setStrength(float strength) {
         this.strength = strength;
+        return this;
+    }
+
+    public Ore setConsume(double consume) {
+        this.consume = consume;
         return this;
     }
 
@@ -88,6 +101,30 @@ public class Ore extends RegisterBasics<Ore> {
                 fluidMap.put(oreFluid, field);
             }
         }
+    }
+
+    /***
+     * 洗矿副产物
+     */
+    @Nullable
+    public List<Extension.Data_2<ItemStack, Double>> wash() {
+        return null;
+    }
+
+    /***
+     * 研磨副产物
+     */
+    @Nullable
+    public List<Extension.Data_2<ItemStack, Double>> grind() {
+        return null;
+    }
+
+    /***
+     * 离心机副产物
+     */
+    @Nullable
+    public List<Extension.Data_2<ItemStack, Double>> centrifugal() {
+        return null;
     }
 
 

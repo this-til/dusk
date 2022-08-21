@@ -4,7 +4,6 @@ import com.til.dusk.common.capability.mana_level.IManaLevel;
 import com.til.dusk.common.register.BindType;
 import com.til.dusk.util.AllNBT;
 import com.til.dusk.util.Pos;
-import com.til.dusk.util.data.MessageData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
@@ -22,14 +21,18 @@ import java.util.Map;
 public class Control implements IControl {
 
     public final BlockEntity tileEntity;
-    public final IManaLevel manaLevel;
-    public List<BindType> bindTypes;
+    public final int maxBind;
+    public final List<BindType> bindTypes;
     public Map<BindType, List<BlockPos>> tile = new HashMap<>();
 
-    public Control(BlockEntity tileEntity, List<BindType> bindTypes, IManaLevel manaLevel) {
+    public Control(BlockEntity tileEntity, List<BindType> bindTypes, int maxBind) {
         this.tileEntity = tileEntity;
-        this.manaLevel = manaLevel;
         this.bindTypes = bindTypes;
+        this.maxBind = maxBind;
+    }
+
+    public Control(BlockEntity tileEntity, List<BindType> bindTypes, IManaLevel iManaLevel) {
+        this(tileEntity, bindTypes, iManaLevel.manaLevel().maxBind);
     }
 
     /***
@@ -74,26 +77,26 @@ public class Control implements IControl {
     }
 
     @Override
-    public MessageData binding(BlockEntity tileEntity, BindType iBindType) {
+    public TellPlayerMessage binding(BlockEntity tileEntity, BindType iBindType) {
         List<BlockPos> list = tile.computeIfAbsent(iBindType, k -> new ArrayList<>());
         if (tileEntity.getLevel() != tileEntity.getLevel()) {
-            return new MessageData(true, "错误，方块不属于同一个世界.name");
+            return new TellPlayerMessage(true, "错误，方块不属于同一个世界.name");
         }
         if (!getCanBindType().contains(iBindType)) {
-            return new MessageData(true, "绑定失败，不支持类型为{0}的绑定", iBindType.name.toString());
+            return new TellPlayerMessage(true, "绑定失败，不支持类型为{0}的绑定", iBindType.name.toString());
         }
         if (new Pos(tileEntity.getBlockPos()).getDistance(new Pos(tileEntity.getBlockPos())) > getMaxRange()) {
-            return new MessageData(true, "绑定失败，方块距离超过限制.name");
+            return new TellPlayerMessage(true, "绑定失败，方块距离超过限制.name");
         }
         if (list.size() >= getMaxBind()) {
-            return new MessageData(true, "绑定失败，已达到绑定类型{0}的最大绑定数量.name", iBindType.name.toString());
+            return new TellPlayerMessage(true, "绑定失败，已达到绑定类型{0}的最大绑定数量.name", iBindType.name.toString());
         }
         if (this.getAllTileEntity(iBindType).contains(tileEntity)) {
-            return new MessageData(true, "绑定失败，该方块已经被绑定过了.name");
+            return new TellPlayerMessage(true, "绑定失败，该方块已经被绑定过了.name");
         }
         list.add(tileEntity.getBlockPos());
         MinecraftForge.EVENT_BUS.post(new EventControl.Binding(this, tileEntity, iBindType));
-        return new MessageData(true, "绑定成功.name");
+        return new TellPlayerMessage(true, "绑定成功.name");
     }
 
     @Override
@@ -102,16 +105,16 @@ public class Control implements IControl {
     }
 
     @Override
-    public MessageData unBindling(BlockEntity tileEntity, BindType iBindType) {
+    public TellPlayerMessage unBindling(BlockEntity tileEntity, BindType iBindType) {
         if (tileEntity.getLevel() != tileEntity.getLevel()) {
-            return new MessageData(true, "错误，方块不属于同一个世界.name");
+            return new TellPlayerMessage(true, "错误，方块不属于同一个世界.name");
         }
         if (!this.getAllTileEntity(iBindType).contains(tileEntity)) {
-            return new MessageData(true, "解绑失败，方块没有被绑定.name");
+            return new TellPlayerMessage(true, "解绑失败，方块没有被绑定.name");
         }
         tile.computeIfAbsent(iBindType, k -> new ArrayList<>()).remove(tileEntity.getBlockPos());
         MinecraftForge.EVENT_BUS.post(new EventControl.UnBinding(this, tileEntity, iBindType));
-        return new MessageData(true, "解绑成功.name");
+        return new TellPlayerMessage(true, "解绑成功.name");
     }
 
     @Override
@@ -125,7 +128,7 @@ public class Control implements IControl {
         Map<BlockEntity, C> map = new HashMap<>();
         for (BlockEntity entity : getAllTileEntity(iBindType)) {
             LazyOptional<C> c = entity.getCapability(capability, null);
-            if (c.isPresent()) {
+            if (!LazyOptional.empty().equals(c)) {
                 map.put(entity, c.orElse(null));
             }
         }
@@ -150,7 +153,7 @@ public class Control implements IControl {
      */
     @Override
     public int getMaxBind() {
-        return manaLevel.manaLevel().maxBind;
+        return maxBind;
     }
 
     /***
@@ -161,10 +164,6 @@ public class Control implements IControl {
         return bindTypes;
     }
 
-    @Override
-    public IManaLevel getManaLevel() {
-        return manaLevel;
-    }
 
     @Override
     public void deserializeNBT(CompoundTag nbt) {

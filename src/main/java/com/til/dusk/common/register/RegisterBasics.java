@@ -1,6 +1,7 @@
 package com.til.dusk.common.register;
 
 import com.til.dusk.Dusk;
+import com.til.dusk.util.Util;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -27,25 +28,39 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> {
         this.registrySupplier = registrySupplier;
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         modEventBus.addListener(EventPriority.HIGH, this::registerEvent);
-        modEventBus.addListener(EventPriority.LOW, this::registerSubsidiary);
+        modEventBus.addListener(getRegisterBlackPriority(), this::registerSubsidiary);
     }
 
-    public final void registerEvent(RegisterEvent event) {
+    public void registerEvent(RegisterEvent event) {
         if (!isRegister) {
             isRegister = true;
-            //noinspection unchecked
-            registrySupplier.get().register(name, (T) this);
+            registrySupplier.get().register(name, Util.forcedConversion(this));
         }
     }
 
-    public final void registerSubsidiary(RegisterEvent event) {
+    /***
+     * 注册回调
+     * @param event 注册事件
+     */
+    public void registerSubsidiary(RegisterEvent event) {
         if (!isRegisterSubsidiary) {
             isRegisterSubsidiary = true;
             registerSubsidiaryBlack();
         }
     }
 
+    /***
+     * 注册回调的触发事件
+     */
     public void registerSubsidiaryBlack() {
+    }
+
+    /***
+     * 返回注册回调的触发时间
+     * @return 时间
+     */
+    public EventPriority getRegisterBlackPriority() {
+        return EventPriority.LOW;
     }
 
     @Override
@@ -70,5 +85,9 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> {
             stringArrayList[i] = registerBasics[i].name.getPath();
         }
         return new ResourceLocation(Dusk.MOD_ID, String.join(splicing, Arrays.asList(stringArrayList)));
+    }
+
+    public static ResourceLocation fuseName(RegisterBasics<?>... registerBasics) {
+        return fuseName("_", registerBasics);
     }
 }

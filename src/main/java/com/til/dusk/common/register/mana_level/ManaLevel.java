@@ -37,14 +37,14 @@ public class ManaLevel extends RegisterBasics<ManaLevel> {
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void onEvent(NewRegistryEvent event) {
         LEVEL = event.create(new RegistryBuilder<ManaLevel>().setName(new ResourceLocation(Dusk.MOD_ID, "mana_level")));
-        t1 = new ManaLevel(1, 640, 1, 2, 1, new Color(0, 191, 255), null, null);
-        t2 = new ManaLevel(2, 320, 2, 2, 1.2, new Color(65, 105, 225), null, null);
-        t3 = new ManaLevel(3, 160, 3, 4, 1.4, new Color(221, 140, 144), null, null);
-        t4 = new ManaLevel(4, 80, 4, 4, 1.6, new Color(229, 94, 94), null, null);
-        t5 = new ManaLevel(5, 40, 5, 8, 1.8, new Color(238, 130, 238), null, null);
-        t6 = new ManaLevel(6, 20, 6, 8, 2, new Color(255, 0, 255), null, null);
-        t7 = new ManaLevel(7, 10, 7, 16, 2.2, new Color(168, 0, 168), null, null);
-        t8 = new ManaLevel(8, 5, 8, 16, 2.4, new Color(255, 255, 255), null, null);
+        t1 = new ManaLevel(1, 640, 1, 2, 1, new Color(0, 191, 255), null, t2);
+        t2 = new ManaLevel(2, 320, 2, 2, 1.2, new Color(65, 105, 225), t1, t3);
+        t3 = new ManaLevel(3, 160, 3, 4, 1.4, new Color(221, 140, 144), t2, t4);
+        t4 = new ManaLevel(4, 80, 4, 4, 1.6, new Color(229, 94, 94), t3, t5);
+        t5 = new ManaLevel(5, 40, 5, 8, 1.8, new Color(238, 130, 238), t4, t6);
+        t6 = new ManaLevel(6, 20, 6, 8, 2, new Color(255, 0, 255), t5, t7);
+        t7 = new ManaLevel(7, 10, 7, 16, 2.2, new Color(168, 0, 168), t6, t8);
+        t8 = new ManaLevel(8, 5, 8, 16, 2.4, new Color(255, 255, 255), t7, null);
     }
 
     /***

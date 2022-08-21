@@ -4,6 +4,7 @@ import com.til.dusk.common.capability.clock_time.IClockTime;
 import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.capability.mana_handle.IManaHandle;
 import com.til.dusk.common.capability.mana_level.IManaLevel;
+import com.til.dusk.common.capability.up.IUp;
 import com.til.dusk.common.register.BindType;
 import com.til.dusk.common.register.shaped.Shaped;
 import com.til.dusk.common.register.shaped.ShapedDrive;
@@ -21,36 +22,50 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author til
+ */
 public class Handle implements IHandle {
 
-    public final List<ShapedType> shapedTypes;
+    public final List<Shaped> shapedList;
     public final BlockEntity tileEntity;
     public final IControl iControl;
-    public final IManaLevel iManaLevel;
     public final IClockTime iClockTime;
-
-    /***
-     * 正在生产、输出的配方
-     */
+    public final IUp up;
+    public final int maxParallel;
     public List<ShapedHandle> shapedHandles = new ArrayList<>();
 
-    public Handle(BlockEntity tileEntity, List<ShapedType> shapedTypes, List<BindType> bindTypes, IControl iControl, IManaLevel iManaLevel, IClockTime iClockTime) {
-        this.shapedTypes = shapedTypes;
+    public Handle(BlockEntity tileEntity, List<Shaped> shapedTypes, List<BindType> bindTypes, IControl iControl, IClockTime iClockTime, IUp up, int maxParallel) {
+        this.shapedList = shapedTypes;
         this.tileEntity = tileEntity;
         this.iControl = iControl;
-        this.iManaLevel = iManaLevel;
         this.iClockTime = iClockTime;
+        this.up = up;
+        this.maxParallel = maxParallel;
         iClockTime.addBlock(this::clockTriggerRun);
+        up.addUpBlack(this::up);
+    }
+
+    public Handle(BlockEntity tileEntity, List<ShapedType> shapedTypes, List<BindType> bindTypes, IControl iControl, IClockTime iClockTime, IUp up, IManaLevel maxParallel) {
+        this.shapedList = new ArrayList<>();
+        Shaped.SHAPED.get().forEach(s -> {
+            if (shapedTypes.contains(s.shapedType) && maxParallel.manaLevel().level >= s.manaLevel.level) {
+                shapedList.add(s);
+            }
+        });
+        this.tileEntity = tileEntity;
+        this.iControl = iControl;
+        this.iClockTime = iClockTime;
+        this.up = up;
+        this.maxParallel = maxParallel.manaLevel().parallel;
+        iClockTime.addBlock(this::clockTriggerRun);
+        up.addUpBlack(this::up);
     }
 
     @Override
+
     public int getParallelHandle() {
-        return iManaLevel.manaLevel().parallel;
-    }
-
-    @Override
-    public IManaLevel getManaLevel() {
-        return iManaLevel;
+        return maxParallel;
     }
 
 
@@ -71,8 +86,8 @@ public class Handle implements IHandle {
     }
 
     @Override
-    public List<ShapedType> getShapedTypes() {
-        return shapedTypes;
+    public List<Shaped> getShaped() {
+        return shapedList;
     }
 
     @Override
@@ -89,6 +104,10 @@ public class Handle implements IHandle {
     }
 
     @Override
+    public IUp getUp() {
+        return up;
+    }
+
     public void up() {
         Map<BlockEntity, IManaHandle> manaIn = iControl.getCapability(BindType.manaIn);
         Map<BlockEntity, IManaHandle> manaOut = iControl.getCapability(BindType.manaOut);
@@ -125,29 +144,24 @@ public class Handle implements IHandle {
 
         List<ShapedDrive> shapedDrives = getShapedDrive();
 
-        List<Shaped> shapeds = new ArrayList<>();
-        List<Shaped> rShaped = new ArrayList<>();
-
-        Shaped.MAP.forEach((k, v) -> {
-            if (shapedTypes.contains(k)) {
-                v.forEach((_k, _v) -> {
-                    if (shapedDrives.contains(_k)) {
-                        shapeds.addAll(_v);
-                    }
-                });
+        List<Shaped> shapedList = new ArrayList<>(this.shapedList.size());
+        this.shapedList.forEach(s -> {
+            if (shapedDrives.contains(s.shapedDrive)) {
+                shapedList.add(s);
             }
         });
+        List<Shaped> rShaped = new ArrayList<>();
 
         ShapedHandle shapedHandle;
         do {
             shapedHandle = null;
             if (!rShaped.isEmpty()) {
-                shapeds.removeAll(rShaped);
+                shapedList.removeAll(rShaped);
                 rShaped.clear();
             }
 
-            for (Shaped shaped : shapeds) {
-                shapedHandle = shaped.get(this, iManaLevel.manaLevel(), itemIn, fluidIn);
+            for (Shaped shaped : shapedList) {
+                shapedHandle = shaped.get(this, itemIn, fluidIn);
                 if (shapedHandle != null) {
                     addShapedHandle(shapedHandle);
                     break;

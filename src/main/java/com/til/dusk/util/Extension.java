@@ -4,7 +4,8 @@ public class Extension {
 
     public interface Action {
 
-        Action empty = () -> {};
+        Action empty = () -> {
+        };
 
         void action();
     }
@@ -46,24 +47,24 @@ public class Extension {
     }
 
     public static class Data<D> {
-        D d;
+        public D a;
 
-        public Data(D d) {
-            this.d = d;
+        public Data(D a) {
+            this.a = a;
         }
     }
 
     public static class Data_2<D1, D2> {
-        D1 d1;
-        D2 d2;
+        public D1 a;
+        public D2 b;
 
-        public Data_2(D1 d1, D2 d2) {
-            this.d1 = d1;
-            this.d2 = d2;
+        public Data_2(D1 a, D2 b) {
+            this.a = a;
+            this.b = b;
         }
     }
 
-    public static int recursionDivision(int basic, int r){
+    public static int recursionDivision(int basic, int r) {
         for (int i = 0; i < r; i++) {
             basic /= 2;
         }
