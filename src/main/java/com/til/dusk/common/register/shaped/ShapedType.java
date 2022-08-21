@@ -2,6 +2,7 @@ package com.til.dusk.common.register.shaped;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.common.register.RegisterBasics;
+import com.til.dusk.common.register.mana_level.ManaLevelBlock;
 import com.til.dusk.common.register.ore.Ore;
 import com.til.dusk.common.register.ore.OreBlock;
 import com.til.dusk.common.register.ore.OreItem;
@@ -241,6 +242,11 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
 
     }
 
+    /***
+     * 显示在JEI上的方块
+     */
+    public final ManaLevelBlock manaLevelBlock;
+
     public ShapedType(ResourceLocation name) {
         super(name, SHAPED_TYPE);
     }
@@ -256,4 +262,5 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
 
     @Override
     public abstract void registerSubsidiaryBlack();
+
 }
