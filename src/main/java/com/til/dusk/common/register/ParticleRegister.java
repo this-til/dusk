@@ -5,8 +5,14 @@ import com.til.dusk.common.event.EventIO;
 import com.til.dusk.util.Pos;
 import com.til.dusk.util.prefab.ColorPrefab;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -16,19 +22,19 @@ import net.minecraftforge.registries.RegistryBuilder;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
-
-import static com.til.dusk.common.capability.handle.ShapedHandle.rand;
 
 /**
  * @author til
  */
-@Mod.EventBusSubscriber(modid = Dusk.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.DEDICATED_SERVER)
+@Mod.EventBusSubscriber(modid = Dusk.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ParticleRegister extends RegisterBasics<ParticleRegister> {
 
     public static Supplier<IForgeRegistry<ParticleRegister>> PARTICLE_REGISTER;
 
-    public static final Map<Level, List<Data>> MAP = new HashMap<>();
+    public static final Map<ServerLevel, List<Data>> MAP = new HashMap<>();
+    public static final Map<ServerPlayer, List<Data>> PLAYER_MAP = new HashMap<>();
 
     /***
      * 空粒子效果
@@ -51,6 +57,15 @@ public class ParticleRegister extends RegisterBasics<ParticleRegister> {
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
         PARTICLE_REGISTER = event.create(new RegistryBuilder<ParticleRegister>().setName(new ResourceLocation(Dusk.MOD_ID, "particle_register")));
+        MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, (Consumer<TickEvent.ServerTickEvent>) serverTickEvent -> {
+            MAP.forEach((k, v) -> {
+                List<ServerPlayer> serverPlayerList = k.getPlayers(p -> true);
+                v.forEach(d -> serverPlayerList.forEach(player -> MessageRegister.particleRegisterMessage.sendToPlayerClient(d, player)));
+            });
+            PLAYER_MAP.forEach((k, v) -> v.forEach(d -> MessageRegister.particleRegisterMessage.sendToPlayerClient(d, k)));
+            MAP.clear();
+            PLAYER_MAP.clear();
+        });
         air = new ParticleRegister("air");
         manaTransfer = new ParticleRegister("mana_transfer") {
 
@@ -67,7 +82,7 @@ public class ParticleRegister extends RegisterBasics<ParticleRegister> {
                                 ColorPrefab.MANA_IO,
                                 1);
                     }
-                }  else {
+                } else {
                     this.add(event.level,
                             event.start,
                             event.end,
@@ -110,7 +125,17 @@ public class ParticleRegister extends RegisterBasics<ParticleRegister> {
     }
 
     public void add(Level world, Pos start, Pos end, Color color, double density) {
-        MAP.computeIfAbsent(world, k -> new ArrayList<>()).add(new Data(name.toString(), start, end, color, density));
+        if (world instanceof ServerLevel serverLevel) {
+            MAP.computeIfAbsent(serverLevel, k -> new ArrayList<>()).add(new Data(name.toString(), start, end, color, density));
+        }
+        throw new RuntimeException("在服务端了粒子创建中出现了非服务端的世界");
+    }
+
+    public void add(Player player, Pos start, Pos end, Color color, double density) {
+        if (player instanceof ServerPlayer serverPlayer) {
+            PLAYER_MAP.computeIfAbsent(serverPlayer, k -> new ArrayList<>()).add(new Data(name.toString(), start, end, color, density));
+        }
+        throw new RuntimeException("在服务端了粒子创建中出现了非服务端的玩家");
     }
 
     public static class Data {

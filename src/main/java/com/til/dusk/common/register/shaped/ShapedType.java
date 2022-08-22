@@ -230,7 +230,7 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
                     new Shaped.ShapedOre(
                             fuseName(this, o, OreItem.dust),
                             this,
-                            ShapedDrive.get(2),
+                            ShapedDrive.get(1),
                             o.manaLevel,
                             Map.of(ItemTags.create(fuseName(o, OreItem.dustTiny)), 9),
                             null,
@@ -251,7 +251,7 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
                     new Shaped.ShapedOre(
                             fuseName(this, o, OreItem.ingot),
                             this,
-                            ShapedDrive.get(3),
+                            ShapedDrive.get(2),
                             o.manaLevel,
                             Map.of(ItemTags.create(fuseName(o, OreItem.nuggets)), 9),
                             null,
@@ -300,7 +300,7 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
                     new Shaped.ShapedOre(
                             fuseName(this, o, OreItem.dustTiny),
                             this,
-                            ShapedDrive.get(2),
+                            ShapedDrive.get(1),
                             o.manaLevel,
                             Map.of(ItemTags.create(fuseName(o, OreItem.dust)), 1),
                             null,

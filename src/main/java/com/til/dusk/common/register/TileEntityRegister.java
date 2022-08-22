@@ -43,10 +43,10 @@ public abstract class TileEntityRegister<T extends BlockEntity> extends Register
             public void registerSubsidiaryBlack() {
                 ManaLevel.LEVEL.get().forEach(l -> l.blockMap.forEach((k, v) -> {
                     if (v.getBlock() instanceof ITileEntityType iTileEntityType) {
-                        BlockEntityType.BlockEntitySupplier<DefaultTileEntity> supplier = (blockPos, blockState) ->
-                                new DefaultTileEntity(blockBlockEntityTypeMap.get(iTileEntityType), blockPos, blockState);
-                        BlockEntityType.Builder<DefaultTileEntity> builder = BlockEntityType.Builder.of(supplier, Blocks.FURNACE);
-                        BlockEntityType<DefaultTileEntity> blockEntityType = builder.build(null);
+                        BlockEntityType.Builder<DefaultTileEntity> builder = BlockEntityType.Builder.of((blockPos, blockState) ->
+                                new DefaultTileEntity(blockBlockEntityTypeMap.get(iTileEntityType), blockPos, blockState), v.getBlock());
+                        Type<?> type = net.minecraft.Util.fetchChoiceType(References.BLOCK_ENTITY, fuseName("_", this, l, k).toString());
+                        BlockEntityType<DefaultTileEntity> blockEntityType = builder.build(type);
                         blockBlockEntityTypeMap.put(iTileEntityType, blockEntityType);
                         ForgeRegistries.BLOCK_ENTITY_TYPES.register(fuseName("_", this, l, k), blockEntityType);
                     }

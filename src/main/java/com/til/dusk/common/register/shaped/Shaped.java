@@ -319,8 +319,9 @@ public abstract class Shaped extends RegisterBasics<Shaped> {
         @Override
         public List<Component> getComponent() {
             List<Component> componentList = new ArrayList<>();
+            componentList.add(Lang.getLang("message"));
             componentList.add(Lang.getLang(Lang.getKey("use.mana.level"), Lang.getKey(manaLevel)));
-            componentList.add(Lang.getLang(Lang.getKey("use.shaped.drive"), Lang.getKey(shapedType)));
+            componentList.add(Lang.getLang(Lang.getKey("use.shaped.drive"), shapedDrive.getLangKey()));
             if (consumeMana > 0) {
                 componentList.add(Lang.getLang(Lang.getKey("consume.mana"), ((Long) consumeMana).toString()));
             }

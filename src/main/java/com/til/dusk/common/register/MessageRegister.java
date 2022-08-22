@@ -7,8 +7,10 @@ import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.util.Util;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.simple.SimpleChannel;
@@ -119,5 +121,12 @@ public abstract class MessageRegister<MSG> extends RegisterBasics<MessageRegiste
      */
     public abstract void messageConsumer(MSG msg, Supplier<NetworkEvent.Context> supplier);
 
+    public void sendToServer(MSG msg) {
+        INSTANCE.sendToServer(msg);
+    }
+
+    public void sendToPlayerClient(MSG msg, ServerPlayer player) {
+        INSTANCE.sendTo(msg, player.connection.getConnection(), NetworkDirection.PLAY_TO_CLIENT);
+    }
 
 }

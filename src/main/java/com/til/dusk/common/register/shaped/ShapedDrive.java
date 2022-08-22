@@ -28,11 +28,14 @@ public class ShapedDrive extends RegisterBasics<ShapedDrive> {
     }
 
     public static ShapedDrive get(int i) {
-        return SHAPED_DRIVE_MAP.get(i);
+        if (SHAPED_DRIVE_MAP.containsKey(i)) {
+            return SHAPED_DRIVE_MAP.get(i);
+        }
+        return SHAPED_DRIVE_MAP.get(0);
     }
 
     public ShapedDrive(int id) {
-        this(new ResourceLocation(Dusk.MOD_ID, "shaped_drive_" + id), id);
+        this(new ResourceLocation(Dusk.MOD_ID, ((Integer) id).toString()), id);
     }
 
     public ShapedDrive(ResourceLocation name, int id) {

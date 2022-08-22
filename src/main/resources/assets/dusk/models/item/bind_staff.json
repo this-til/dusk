@@ -1,5 +1,6 @@
 {
   "parent": "dusk:custom/bind_staff/bind_staff",
+  "render_type": "translucent",
   "textures": {
     "missing": "dusk:block/white_0",
     "particle": "dusk:block/white"

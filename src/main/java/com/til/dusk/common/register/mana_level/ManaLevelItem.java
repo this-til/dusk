@@ -1,7 +1,7 @@
 package com.til.dusk.common.register.mana_level;
 
 import com.til.dusk.Dusk;
-import com.til.dusk.client.util.Lang;
+import com.til.dusk.util.Lang;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
@@ -44,7 +44,7 @@ public class ManaLevelItem extends ManaLevel.ManaLevelType<ManaLevelItem, Item> 
         Item item = new Item(new Item.Properties().tab(Dusk.TAB)) {
             @Override
             public @NotNull Component getName(@NotNull ItemStack itemStack) {
-                return Component.translatable(Lang.getLang(manaLevel, manaLevelItem));
+                return Lang.getLang(manaLevel, manaLevelItem);
             }
         };
         ForgeRegistries.ITEMS.register(fuseName("_", this, manaLevelItem), item);

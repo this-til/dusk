@@ -35,7 +35,7 @@ import static com.til.dusk.common.capability.handle.ShapedHandle.rand;
  * @author til
  */
 @Mod.EventBusSubscriber(modid = Dusk.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public abstract class ShapedHandleProcess extends RegisterBasics<ShapedHandleProcess> {
+public abstract class      ShapedHandleProcess extends RegisterBasics<ShapedHandleProcess> {
 
     public static Supplier<IForgeRegistry<ShapedHandleProcess>> SHAPED_TYPE_PROCESS;
 

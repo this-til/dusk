@@ -122,12 +122,12 @@ public class JEI_interact implements IModPlugin {
             for (int y = 0; y < 3; ++y) {
                 for (int x = 0; x < 3; ++x) {
                     if (sID < inputs.size()) {
-                        IRecipeSlotBuilder iRecipeSlotBuilder = iRecipeLayoutBuilder.addSlot(RecipeIngredientRole.INPUT, x * 18, y * 18);
+                        IRecipeSlotBuilder iRecipeSlotBuilder = iRecipeLayoutBuilder.addSlot(RecipeIngredientRole.INPUT, x * 18 + 1, y * 18 + 1);
                         inputs.get(sID).forEach(iRecipeSlotBuilder::addItemStack);
                         iRecipeSlotBuilder.addTooltipCallback(this::itemToolBlack);
                     } else {
                         if (sID - inputFluidStacks.size() < inputFluidStacks.size()) {
-                            IRecipeSlotBuilder iRecipeSlotBuilder = iRecipeLayoutBuilder.addSlot(RecipeIngredientRole.INPUT, x * 18, y * 18);
+                            IRecipeSlotBuilder iRecipeSlotBuilder = iRecipeLayoutBuilder.addSlot(RecipeIngredientRole.INPUT, x * 18 + 1, y * 18 + 1);
                             inputFluidStacks.get(sID - inputs.size()).forEach(f -> iRecipeSlotBuilder.addFluidStack(f.getFluid(), f.getAmount(), f.getTag()));
                             iRecipeSlotBuilder.addTooltipCallback(this::fluidToolBlack);
                         }
@@ -140,12 +140,12 @@ public class JEI_interact implements IModPlugin {
             for (int y = 0; y < 3; ++y) {
                 for (int x = 0; x < 3; ++x) {
                     if (sID < outputs.size()) {
-                        IRecipeSlotBuilder iRecipeSlotBuilder = iRecipeLayoutBuilder.addSlot(RecipeIngredientRole.OUTPUT, 90 + x * 18, y * 18);
+                        IRecipeSlotBuilder iRecipeSlotBuilder = iRecipeLayoutBuilder.addSlot(RecipeIngredientRole.OUTPUT, x * 18 + 91, y * 18 + 1);
                         outputs.get(sID).forEach(iRecipeSlotBuilder::addItemStack);
                         iRecipeSlotBuilder.addTooltipCallback(this::itemToolBlack);
                     } else {
                         if (sID - outputFluidStacks.size() < outputFluidStacks.size()) {
-                            IRecipeSlotBuilder iRecipeSlotBuilder = iRecipeLayoutBuilder.addSlot(RecipeIngredientRole.OUTPUT, 90 + x * 18, y * 18);
+                            IRecipeSlotBuilder iRecipeSlotBuilder = iRecipeLayoutBuilder.addSlot(RecipeIngredientRole.OUTPUT, x + 91, y * 18 + 1);
                             outputFluidStacks.get(sID - inputs.size()).forEach(f -> iRecipeSlotBuilder.addFluidStack(f.getFluid(), 1000, f.getTag()));
                             iRecipeSlotBuilder.addTooltipCallback(this::fluidToolBlack);
                         }

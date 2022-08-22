@@ -153,10 +153,13 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
     //玉
-    //implementation fg.deobf("curse.maven:jade-324717:3866561")
+    //implementation fg.deobf("curse.maven:jade-324717:3943926")
 
     //JEI
     implementation fg.deobf("curse.maven:jade-238222:3944627")
+
+    //WTHIT
+    //implementation fg.deobf("curse.maven:jade-440979:3944309")
 }
 
 // Example for how to get properties into the manifest for reading at runtime.

@@ -33,7 +33,7 @@ public interface ITileEntityType extends EntityBlock {
 
     @Nullable
     @Override
-    default BlockEntity newBlockEntity( BlockPos blockPos, BlockState blockState) {
+    default BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
         if (blockState.getBlock() instanceof ITileEntityType iTileEntityType) {
             return new DefaultTileEntity(TileEntityRegister.defaultTileEntityRegister.blockBlockEntityTypeMap.get(iTileEntityType), blockPos, blockState);
         }
@@ -53,13 +53,18 @@ public interface ITileEntityType extends EntityBlock {
     default <T extends BlockEntity> BlockEntityTicker<T> tick() {
         return (level, blockPos, blockState, tilEntity) -> {
             if (tilEntity instanceof DuskCapabilityProvider.IDeposit deposit) {
-                IUp up = (IUp) deposit.getDuskCapabilityProvider().map.get(AllCapability.I_UP);
-                up.up();
-            } else {
-                LazyOptional<IUp> up = tilEntity.getCapability(AllCapability.I_UP);
-                if (!LazyOptional.empty().equals(up)) {
-                    up.orElse(null).up();
+                DuskCapabilityProvider duskCapabilityProvider = deposit.getDuskCapabilityProvider();
+                if (duskCapabilityProvider != null) {
+                    Object Oup = duskCapabilityProvider.map.get(AllCapability.I_UP);
+                    if (Oup instanceof IUp up) {
+                        up.up();
+                        return;
+                    }
                 }
+            }
+            LazyOptional<IUp> up = tilEntity.getCapability(AllCapability.I_UP);
+            if (up.isPresent()) {
+                up.orElse(null).up();
             }
         };
     }

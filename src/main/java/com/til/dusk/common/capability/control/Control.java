@@ -4,10 +4,12 @@ import com.til.dusk.common.capability.mana_level.IManaLevel;
 import com.til.dusk.common.register.BindType;
 import com.til.dusk.common.register.shaped.ShapedType;
 import com.til.dusk.util.AllNBT;
+import com.til.dusk.util.Lang;
 import com.til.dusk.util.Pos;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.MinecraftForge;
@@ -78,26 +80,26 @@ public class Control implements IControl {
     }
 
     @Override
-    public TellPlayerMessage binding(BlockEntity tileEntity, BindType iBindType) {
+    public Component binding(BlockEntity tileEntity, BindType iBindType) {
         List<BlockPos> list = tile.computeIfAbsent(iBindType, k -> new ArrayList<>());
         if (tileEntity.getLevel() != tileEntity.getLevel()) {
-            return new TellPlayerMessage(true, "错误，方块不属于同一个世界.name");
+            return Lang.getLang(Lang.getKey("错误，方块不属于同一个世界"));
         }
         if (!getCanBindType().contains(iBindType)) {
-            return new TellPlayerMessage(true, "绑定失败，不支持类型为{0}的绑定", iBindType.name.toString());
+            return Lang.getLangFormat(Lang.getKey("绑定失败，不支持类型为{0}的绑定"), Lang.getLang(iBindType));
         }
         if (new Pos(tileEntity.getBlockPos()).getDistance(new Pos(tileEntity.getBlockPos())) > getMaxRange()) {
-            return new TellPlayerMessage(true, "绑定失败，方块距离超过限制.name");
+            return Lang.getLang(Lang.getKey("绑定失败，方块距离超过限制"));
         }
         if (list.size() >= getMaxBind()) {
-            return new TellPlayerMessage(true, "绑定失败，已达到绑定类型{0}的最大绑定数量.name", iBindType.name.toString());
+            return Lang.getLangFormat(Lang.getKey("绑定失败，已达到绑定类型{0}的最大绑定数量"), Lang.getLang(iBindType));
         }
         if (this.getAllTileEntity(iBindType).contains(tileEntity)) {
-            return new TellPlayerMessage(true, "绑定失败，该方块已经被绑定过了.name");
+            return Lang.getLang(Lang.getKey("绑定失败，该方块已经被绑定过了"));
         }
         list.add(tileEntity.getBlockPos());
         MinecraftForge.EVENT_BUS.post(new EventControl.Binding(this, tileEntity, iBindType));
-        return new TellPlayerMessage(true, "绑定成功.name");
+        return Lang.getLang(Lang.getKey("绑定成功"));
     }
 
     @Override
@@ -106,16 +108,16 @@ public class Control implements IControl {
     }
 
     @Override
-    public TellPlayerMessage unBindling(BlockEntity tileEntity, BindType iBindType) {
+    public Component unBindling(BlockEntity tileEntity, BindType iBindType) {
         if (tileEntity.getLevel() != tileEntity.getLevel()) {
-            return new TellPlayerMessage(true, "错误，方块不属于同一个世界.name");
+            return Lang.getLang(Lang.getKey("错误，方块不属于同一个世界"));
         }
         if (!this.getAllTileEntity(iBindType).contains(tileEntity)) {
-            return new TellPlayerMessage(true, "解绑失败，方块没有被绑定.name");
+            return Lang.getLang(Lang.getKey("解绑失败，方块没有被绑定"));
         }
         tile.computeIfAbsent(iBindType, k -> new ArrayList<>()).remove(tileEntity.getBlockPos());
         MinecraftForge.EVENT_BUS.post(new EventControl.UnBinding(this, tileEntity, iBindType));
-        return new TellPlayerMessage(true, "解绑成功.name");
+        return Lang.getLang(Lang.getKey("解绑成功"));
     }
 
     @Override
@@ -129,7 +131,7 @@ public class Control implements IControl {
         Map<BlockEntity, C> map = new HashMap<>();
         for (BlockEntity entity : getAllTileEntity(iBindType)) {
             LazyOptional<C> c = entity.getCapability(capability, null);
-            if (!LazyOptional.empty().equals(c)) {
+            if (c.isPresent()) {
                 map.put(entity, c.orElse(null));
             }
         }

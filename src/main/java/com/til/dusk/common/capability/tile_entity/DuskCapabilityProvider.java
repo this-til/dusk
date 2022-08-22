@@ -16,24 +16,28 @@ import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.NewRegistryEvent;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 /**
  * @author til
  */
-@Mod.EventBusSubscriber(modid = Dusk.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
+@Mod.EventBusSubscriber(modid = Dusk.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class DuskCapabilityProvider implements ICapabilityProvider, INBTSerializable<CompoundTag> {
 
     public final Map<Capability<?>, Object> map;
@@ -104,18 +108,22 @@ public class DuskCapabilityProvider implements ICapabilityProvider, INBTSerializ
     }
 
     @SubscribeEvent
-    public void addTileEntityCapability(AttachCapabilitiesEvent<BlockEntity> event) {
+    public static void addTileEntityCapability(AttachCapabilitiesEvent<BlockEntity> event) {
         Map<Capability<?>, Object> map = new HashMap<>();
         DuskCapabilityProvider duskModCapability = new DuskCapabilityProvider(map);
-        Block tileEntity = event.getObject().getBlockState().getBlock();
-        if (tileEntity instanceof ITileEntityType iTileEntityType) {
+        BlockEntity blockEntity = event.getObject();
+        Block block = blockEntity.getBlockState().getBlock();
+        if (block instanceof ITileEntityType iTileEntityType) {
             iTileEntityType.add(event, duskModCapability);
+        }
+        if (blockEntity instanceof IDeposit deposit) {
+            deposit.setDuskCapabilityProvider(duskModCapability);
         }
         event.addCapability(new ResourceLocation(Dusk.MOD_ID, "dusk_capability_provider"), duskModCapability);
     }
 
     @SubscribeEvent
-    public void addEntityCapability(AttachCapabilitiesEvent<Entity> event) {
+    public static void addEntityCapability(AttachCapabilitiesEvent<Entity> event) {
     }
 
     public interface IDeposit {

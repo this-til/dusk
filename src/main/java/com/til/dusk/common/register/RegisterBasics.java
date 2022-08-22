@@ -79,6 +79,10 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> {
         return false;
     }
 
+    public String getLangKey() {
+        return name.getPath();
+    }
+
     public static ResourceLocation fuseName(String splicing, RegisterBasics<?>... registerBasics) {
         String[] stringArrayList = new String[registerBasics.length];
         for (int i = 0; i < registerBasics.length; i++) {

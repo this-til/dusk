@@ -5,6 +5,7 @@ import com.til.dusk.common.capability.INBT;
 import com.til.dusk.common.capability.IThis;
 import com.til.dusk.common.register.BindType;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.Capability;
 
@@ -22,12 +23,12 @@ public interface IControl extends IThis<BlockEntity>, INBT {
     /***
      * 绑定
      */
-    TellPlayerMessage binding(BlockEntity tileEntity, BindType iBindType);
+    Component binding(BlockEntity tileEntity, BindType iBindType);
 
     /***
      * 解绑
      */
-    TellPlayerMessage unBindling(BlockEntity tileEntity, BindType iBindType);
+    Component unBindling(BlockEntity tileEntity, BindType iBindType);
 
     /***
      * 有没有绑定实体
