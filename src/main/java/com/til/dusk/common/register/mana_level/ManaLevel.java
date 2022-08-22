@@ -116,17 +116,18 @@ public class ManaLevel extends RegisterBasics<ManaLevel> {
             if (item != null) {
                 itemMap.put(levelItem, item);
             }
-            for (ManaLevelBlock levelBlock : ManaLevelBlock.LEVEL_BLOCK.get()) {
-                BlockItem blockItem = levelBlock.create(this);
-                if (blockItem != null) {
-                    blockMap.put(levelBlock, blockItem);
-                }
+
+        }
+        for (ManaLevelBlock levelBlock : ManaLevelBlock.LEVEL_BLOCK.get()) {
+            BlockItem blockItem = levelBlock.create(this);
+            if (blockItem != null) {
+                blockMap.put(levelBlock, blockItem);
             }
-            for (ManaLevelFluid manaLevelFluid : ManaLevelFluid.LEVEL_FLUID.get()) {
-                Fluid field = manaLevelFluid.create(this);
-                if (field != null) {
-                    fluidMap.put(manaLevelFluid, field);
-                }
+        }
+        for (ManaLevelFluid manaLevelFluid : ManaLevelFluid.LEVEL_FLUID.get()) {
+            Fluid field = manaLevelFluid.create(this);
+            if (field != null) {
+                fluidMap.put(manaLevelFluid, field);
             }
         }
     }

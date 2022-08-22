@@ -8,9 +8,11 @@ import com.til.dusk.common.event.EventIO;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.util.Extension;
+import com.til.dusk.util.Lang;
 import com.til.dusk.util.Pos;
 import com.til.dusk.util.prefab.ColorPrefab;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -24,6 +26,7 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.registries.*;
+import org.checkerframework.checker.units.qual.C;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -80,9 +83,11 @@ public abstract class Shaped extends RegisterBasics<Shaped> {
      */
     public abstract IJEIShaped getJEIShaped();
 
+    public abstract List<Component> getComponent();
+
     public interface IJEIShaped {
 
-        IJEIShaped empty = new IJEIShaped() {
+        IJEIShaped EMPTY = new IJEIShaped() {
         };
 
         @Nullable
@@ -274,7 +279,9 @@ public abstract class Shaped extends RegisterBasics<Shaped> {
                     fluid.forEach((k, v) -> {
                         List<FluidStack> itemStackList = new ArrayList<>();
                         for (Fluid fluid1 : ForgeRegistries.FLUIDS.tags().getTag(k)) {
-                            itemStackList.add(new FluidStack(fluid1, v));
+                            CompoundTag compoundTag = new CompoundTag();
+                            compoundTag.putDouble(MB, v);
+                            itemStackList.add(new FluidStack(fluid1, v, compoundTag));
                         }
                         list.add(itemStackList);
                     });
@@ -299,17 +306,39 @@ public abstract class Shaped extends RegisterBasics<Shaped> {
                         return null;
                     }
                     List<List<FluidStack>> list = new ArrayList<>();
-                    outFluid.forEach(i -> list.add(Lists.newArrayList(i)));
+                    outFluid.forEach(i -> {
+                        CompoundTag compoundTag = new CompoundTag();
+                        compoundTag.putDouble(MB, i.getAmount());
+                        list.add(Lists.newArrayList(new FluidStack(i.getFluid(), i.getAmount(), compoundTag)));
+                    });
                     return list;
                 }
             };
         }
+
+        @Override
+        public List<Component> getComponent() {
+            List<Component> componentList = new ArrayList<>();
+            componentList.add(Lang.getLang(Lang.getKey("use.mana.level"), Lang.getKey(manaLevel)));
+            componentList.add(Lang.getLang(Lang.getKey("use.shaped.drive"), Lang.getKey(shapedType)));
+            if (consumeMana > 0) {
+                componentList.add(Lang.getLang(Lang.getKey("consume.mana"), ((Long) consumeMana).toString()));
+            }
+            if (surplusTime > 0) {
+                componentList.add(Lang.getLang(Lang.getKey("consume.time"), ((Long) surplusTime).toString()));
+            }
+            if (outMana > 0) {
+                componentList.add(Lang.getLang(Lang.getKey("out.mana"), ((Long) outMana).toString()));
+            }
+            return componentList;
+        }
     }
+
+    public static final String PROBABILITY = "probability";
+    public static final String MB = "mb";
 
     public static class RandOutOreShaped extends ShapedOre {
 
-        public static final String PROBABILITY = "probability";
-        public static final String MB = "mb";
 
         @Nullable
         List<Extension.Data_2<ItemStack, Double>> outItem;

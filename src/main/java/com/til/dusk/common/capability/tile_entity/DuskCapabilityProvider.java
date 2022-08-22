@@ -50,6 +50,11 @@ public class DuskCapabilityProvider implements ICapabilityProvider, INBTSerializ
         }
     }
 
+    public <T> T addCapability(Capability<T> capability, T t) {
+        map.put(capability, t);
+        return t;
+    }
+
     @Override
     public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap) {
         if (map.containsKey(cap)) {

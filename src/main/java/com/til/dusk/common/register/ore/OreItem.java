@@ -1,7 +1,7 @@
 package com.til.dusk.common.register.ore;
 
 import com.til.dusk.Dusk;
-import com.til.dusk.client.util.Lang;
+import com.til.dusk.util.Lang;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
@@ -34,6 +34,11 @@ public class OreItem extends Ore.OreType<OreItem, Item> {
     public static OreItem ingot;
 
     /***
+     * 晶体
+     */
+    public static OreItem crystal;
+
+    /***
      * 粒
      */
     public static OreItem nuggets;
@@ -62,12 +67,79 @@ public class OreItem extends Ore.OreType<OreItem, Item> {
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
         ORE_ITEM = event.create(new RegistryBuilder<OreItem>().setName(new ResourceLocation(Dusk.MOD_ID, "ore_item")));
-        ingot = new OreItem("ingot");
-        nuggets = new OreItem("nuggets");
-        crushed = new OreItem("crushed");
-        crushedPurified = new OreItem("crushed_purified");
-        dust = new OreItem("dust");
-        dustTiny = new OreItem("dust_tiny");
+        ingot = new OreItem("ingot") {
+            @Override
+            public Item create(Ore ore) {
+                if (!ore.hasMineral) {
+                    return null;
+                }
+                if (ore.isCrystal) {
+                    return null;
+                }
+                return super.create(ore);
+            }
+        };
+        crystal = new OreItem("crystal") {
+            @Override
+            public Item create(Ore ore) {
+                if (!ore.hasMineral) {
+                    return null;
+                }
+                if (!ore.isCrystal) {
+                    return null;
+                }
+                return super.create(ore);
+            }
+        };
+        nuggets = new OreItem("nuggets") {
+            @Override
+            public Item create(Ore ore) {
+                if (!ore.hasMineral) {
+                    return null;
+                }
+                if (ore.isCrystal) {
+                    return null;
+                }
+                return super.create(ore);
+            }
+        };
+        crushed = new OreItem("crushed") {
+            @Override
+            public Item create(Ore ore) {
+                if (!ore.hasMineral) {
+                    return null;
+                }
+                return super.create(ore);
+            }
+        };
+        crushedPurified = new OreItem("crushed_purified") {
+            @Override
+            public Item create(Ore ore) {
+                if (!ore.hasMineral) {
+                    return null;
+                }
+                return super.create(ore);
+            }
+        };
+        dust = new OreItem("dust") {
+            @Override
+            public Item create(Ore ore) {
+
+                if (!ore.hasMineral) {
+                    return null;
+                }
+                return super.create(ore);
+            }
+        };
+        dustTiny = new OreItem("dust_tiny") {
+            @Override
+            public Item create(Ore ore) {
+                if (!ore.hasMineral) {
+                    return null;
+                }
+                return super.create(ore);
+            }
+        };
     }
 
     public OreItem(ResourceLocation name) {
@@ -82,13 +154,12 @@ public class OreItem extends Ore.OreType<OreItem, Item> {
     public Item create(Ore ore) {
         OreItem oreItem = this;
         Item item = new Item(new Item.Properties().tab(Dusk.TAB)) {
-
             @Override
-            public @NotNull Component getName(@NotNull ItemStack itemStack) {
-                return Component.translatable(Lang.getLang(ore, oreItem));
+            public @NotNull Component getName(ItemStack stack) {
+                return Lang.getLang(ore, OreItem.this);
             }
         };
-        ForgeRegistries.ITEMS.register(fuseName( ore, this), item);
+        ForgeRegistries.ITEMS.register(fuseName(ore, this), item);
         Objects.requireNonNull(ForgeRegistries.ITEMS.tags()).addOptionalTagDefaults(ItemTags.create(fuseName(ore, this)), Set.of(() -> item));
         return item;
     }

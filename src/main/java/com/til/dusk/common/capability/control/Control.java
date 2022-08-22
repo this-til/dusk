@@ -2,6 +2,7 @@ package com.til.dusk.common.capability.control;
 
 import com.til.dusk.common.capability.mana_level.IManaLevel;
 import com.til.dusk.common.register.BindType;
+import com.til.dusk.common.register.shaped.ShapedType;
 import com.til.dusk.util.AllNBT;
 import com.til.dusk.util.Pos;
 import net.minecraft.core.BlockPos;

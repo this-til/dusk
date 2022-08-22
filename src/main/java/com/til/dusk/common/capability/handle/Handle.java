@@ -35,7 +35,7 @@ public class Handle implements IHandle {
     public final int maxParallel;
     public List<ShapedHandle> shapedHandles = new ArrayList<>();
 
-    public Handle(BlockEntity tileEntity, List<Shaped> shapedTypes, List<BindType> bindTypes, IControl iControl, IClockTime iClockTime, IUp up, int maxParallel) {
+    public Handle(BlockEntity tileEntity, List<Shaped> shapedTypes,IControl iControl, IClockTime iClockTime, IUp up, int maxParallel) {
         this.shapedList = shapedTypes;
         this.tileEntity = tileEntity;
         this.iControl = iControl;
@@ -46,7 +46,7 @@ public class Handle implements IHandle {
         up.addUpBlack(this::up);
     }
 
-    public Handle(BlockEntity tileEntity, List<ShapedType> shapedTypes, List<BindType> bindTypes, IControl iControl, IClockTime iClockTime, IUp up, IManaLevel maxParallel) {
+    public Handle(BlockEntity tileEntity, List<ShapedType> shapedTypes,  IControl iControl, IClockTime iClockTime, IUp up, IManaLevel maxParallel) {
         this.shapedList = new ArrayList<>();
         Shaped.SHAPED.get().forEach(s -> {
             if (shapedTypes.contains(s.shapedType) && maxParallel.manaLevel().level >= s.manaLevel.level) {

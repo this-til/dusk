@@ -1,5 +1,6 @@
 {
   "parent": "dusk:block/cube_ore_all",
+  "render_type": "translucent",
   "textures": {
     "all0": "minecraft:block/netherrack",
     "all1": "dusk:block/ore_textures",

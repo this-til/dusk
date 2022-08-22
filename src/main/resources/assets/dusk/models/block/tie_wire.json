@@ -1,5 +1,6 @@
 {
   "parent": "dusk:custom/tie_wire/tie_wire",
+  "render_type": "translucent",
   "textures": {
     "missing": "dusk:block/white_0",
     "particle": "dusk:block/white"

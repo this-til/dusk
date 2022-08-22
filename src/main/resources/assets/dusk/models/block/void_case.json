@@ -1,5 +1,6 @@
 {
   "parent": "dusk:custom/void_case/void_case",
+  "render_type": "translucent",
   "textures": {
     "missing": "dusk:block/white_0",
     "particle": "dusk:block/white"

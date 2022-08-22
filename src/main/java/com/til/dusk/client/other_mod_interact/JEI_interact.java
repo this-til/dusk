@@ -1,7 +1,7 @@
 package com.til.dusk.client.other_mod_interact;
 
 import com.til.dusk.Dusk;
-import com.til.dusk.client.util.Lang;
+import com.til.dusk.util.Lang;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.register.shaped.Shaped;
 import com.til.dusk.common.register.shaped.ShapedType;
@@ -12,15 +12,14 @@ import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.builder.IRecipeSlotBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IRecipeSlotView;
+import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
-import mezz.jei.api.registration.IModIngredientRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
-import mezz.jei.api.registration.ISubtypeRegistration;
 import mezz.jei.api.runtime.IJeiRuntime;
 import mezz.jei.common.Internal;
 import mezz.jei.common.runtime.JeiHelpers;
@@ -34,9 +33,11 @@ import org.jetbrains.annotations.NotNull;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
+/**
+ * @author til
+ */
 @JeiPlugin
 public class JEI_interact implements IModPlugin {
     @NotNull
@@ -47,7 +48,7 @@ public class JEI_interact implements IModPlugin {
 
 
     @Override
-    public void registerRecipes(IRecipeRegistration registration) {
+    public void registerRecipes(@NotNull IRecipeRegistration registration) {
         Shaped.MAP.forEach((k, v) -> {
             RecipeType<Shaped> shapedRecipeType = new RecipeType<>(k.name, Shaped.class);
             v.values().forEach(sl -> registration.addRecipes(shapedRecipeType, sl));
@@ -55,7 +56,7 @@ public class JEI_interact implements IModPlugin {
     }
 
     @Override
-    public void registerCategories(IRecipeCategoryRegistration registry) {
+    public void registerCategories(@NotNull IRecipeCategoryRegistration registry) {
         JeiHelpers jeiHelpers = Internal.getHelpers();
         IGuiHelper guiHelper = jeiHelpers.getGuiHelper();
         for (ShapedType shapedType : ShapedType.SHAPED_TYPE.get()) {
@@ -63,15 +64,19 @@ public class JEI_interact implements IModPlugin {
         }
     }
 
-
     @Override
     public void onRuntimeAvailable(IJeiRuntime jeiRuntime) {
     }
 
     public static class CurrencyCategory implements IRecipeCategory<Shaped> {
 
-        public static final int width = 144;
-        public static final int height = 54;
+        public static final int WIDTH = 144;
+        public static final int HEIGHT = 54;
+
+        public static final List<List<ItemStack>> INPUTS = new ArrayList<>();
+        public static final List<List<ItemStack>> OUTPUTS = new ArrayList<>();
+        public static final List<List<FluidStack>> INPUT_FLUID_STACKS = new ArrayList<>();
+        public static final List<List<FluidStack>> OUTPUT_FLUID_STACKS = new ArrayList<>();
 
         public final ShapedType shapedType;
         public final IDrawable background;
@@ -79,8 +84,8 @@ public class JEI_interact implements IModPlugin {
 
         public CurrencyCategory(IGuiHelper guiHelper, ShapedType shapedType) {
             this.shapedType = shapedType;
-            background = guiHelper.createDrawable(new ResourceLocation(Dusk.MOD_ID, "textures/gui/currency_category.png"), 0, 0, width, height);
-            icon = guiHelper.createDrawableItemStack(new ItemStack(ManaLevel.t8.blockMap.get(shapedType.manaLevelBlock)));
+            background = guiHelper.createDrawable(new ResourceLocation(Dusk.MOD_ID, "textures/gui/currency_category.png"), 0, 0, WIDTH, HEIGHT);
+            icon = guiHelper.createDrawableItemStack(new ItemStack(ManaLevel.t8.blockMap.get(shapedType.manaLevelBlock())));
         }
 
         @Override
@@ -90,7 +95,7 @@ public class JEI_interact implements IModPlugin {
 
         @Override
         public @NotNull Component getTitle() {
-            return Component.translatable(Lang.getLang(shapedType));
+            return Lang.getLang(shapedType);
         }
 
         @Override
@@ -100,16 +105,28 @@ public class JEI_interact implements IModPlugin {
             List<List<ItemStack>> outputs = jeiShaped.getItemOut();
             List<List<FluidStack>> inputFluidStacks = jeiShaped.getFluidIn();
             List<List<FluidStack>> outputFluidStacks = jeiShaped.getFluidOut();
+            if (inputs == null) {
+                inputs = INPUTS;
+            }
+            if (outputs == null) {
+                outputs = OUTPUTS;
+            }
+            if (inputFluidStacks == null) {
+                inputFluidStacks = INPUT_FLUID_STACKS;
+            }
+            if (outputFluidStacks == null) {
+                outputFluidStacks = OUTPUT_FLUID_STACKS;
+            }
 
             int sID = 0;
             for (int y = 0; y < 3; ++y) {
                 for (int x = 0; x < 3; ++x) {
-                    if (inputs != null && sID < inputs.size()) {
+                    if (sID < inputs.size()) {
                         IRecipeSlotBuilder iRecipeSlotBuilder = iRecipeLayoutBuilder.addSlot(RecipeIngredientRole.INPUT, x * 18, y * 18);
                         inputs.get(sID).forEach(iRecipeSlotBuilder::addItemStack);
                         iRecipeSlotBuilder.addTooltipCallback(this::itemToolBlack);
                     } else {
-                        if (inputFluidStacks != null && sID - inputFluidStacks.size() < inputFluidStacks.size()) {
+                        if (sID - inputFluidStacks.size() < inputFluidStacks.size()) {
                             IRecipeSlotBuilder iRecipeSlotBuilder = iRecipeLayoutBuilder.addSlot(RecipeIngredientRole.INPUT, x * 18, y * 18);
                             inputFluidStacks.get(sID - inputs.size()).forEach(f -> iRecipeSlotBuilder.addFluidStack(f.getFluid(), f.getAmount(), f.getTag()));
                             iRecipeSlotBuilder.addTooltipCallback(this::fluidToolBlack);
@@ -122,12 +139,12 @@ public class JEI_interact implements IModPlugin {
             sID = 0;
             for (int y = 0; y < 3; ++y) {
                 for (int x = 0; x < 3; ++x) {
-                    if (outputs != null && sID < outputs.size()) {
+                    if (sID < outputs.size()) {
                         IRecipeSlotBuilder iRecipeSlotBuilder = iRecipeLayoutBuilder.addSlot(RecipeIngredientRole.OUTPUT, 90 + x * 18, y * 18);
                         outputs.get(sID).forEach(iRecipeSlotBuilder::addItemStack);
                         iRecipeSlotBuilder.addTooltipCallback(this::itemToolBlack);
                     } else {
-                        if (outputFluidStacks != null && sID - outputFluidStacks.size() < outputFluidStacks.size()) {
+                        if (sID - outputFluidStacks.size() < outputFluidStacks.size()) {
                             IRecipeSlotBuilder iRecipeSlotBuilder = iRecipeLayoutBuilder.addSlot(RecipeIngredientRole.OUTPUT, 90 + x * 18, y * 18);
                             outputFluidStacks.get(sID - inputs.size()).forEach(f -> iRecipeSlotBuilder.addFluidStack(f.getFluid(), 1000, f.getTag()));
                             iRecipeSlotBuilder.addTooltipCallback(this::fluidToolBlack);
@@ -136,8 +153,14 @@ public class JEI_interact implements IModPlugin {
                     sID++;
                 }
             }
+        }
 
-
+        @Override
+        public @NotNull List<Component> getTooltipStrings(Shaped shaped, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
+            if (mouseX > 54 && mouseX < 90 && mouseY > 18 && mouseY < 36) {
+                return shaped.getComponent();
+            }
+            return List.of();
         }
 
         public void fluidToolBlack(IRecipeSlotView iRecipeSlotView, List<Component> listComponent) {
@@ -151,9 +174,9 @@ public class JEI_interact implements IModPlugin {
                 if (compoundTag.contains(Shaped.RandOutOreShaped.MB)) {
                     listComponent.add(Component.nullToEmpty(compoundTag.getInt(Shaped.RandOutOreShaped.MB) + "mb"));
                 }
-                if (compoundTag.contains(Shaped.RandOutOreShaped.PROBABILITY)) {
+                if (compoundTag.contains(Shaped.RandOutOreShaped.PROBABILITY) && compoundTag.getDouble(Shaped.RandOutOreShaped.PROBABILITY) < 1) {
                     DecimalFormat df = new DecimalFormat("0.00%");
-                    listComponent.add(Component.nullToEmpty(Lang.getLang("probability") + df.format(compoundTag.getDouble("probability"))));
+                    listComponent.add(Component.nullToEmpty(Lang.getLang("probability") + df.format(compoundTag.getDouble(Shaped.RandOutOreShaped.MB))));
                 }
             }
         }
@@ -166,9 +189,9 @@ public class JEI_interact implements IModPlugin {
                 if (compoundTag == null) {
                     return;
                 }
-                if (compoundTag.contains(Shaped.RandOutOreShaped.PROBABILITY)) {
+                if (compoundTag.contains(Shaped.RandOutOreShaped.PROBABILITY) && compoundTag.getDouble(Shaped.RandOutOreShaped.PROBABILITY) < 1) {
                     DecimalFormat df = new DecimalFormat("0.00%");
-                    listComponent.add(Component.nullToEmpty(Lang.getLang("probability") + df.format(compoundTag.getDouble("probability"))));
+                    listComponent.add(Component.nullToEmpty(Lang.getLang(Shaped.RandOutOreShaped.MB) + df.format(compoundTag.getDouble(Shaped.RandOutOreShaped.MB))));
                 }
             }
         }
@@ -185,62 +208,4 @@ public class JEI_interact implements IModPlugin {
         }
 
     }
-
-
-    /*public static class ShapedRecipeWrapper implements IRecipeWrapper {
-
-        public final HoverChecker buttonHoverChecker;
-        public final Map<String, HoverChecker> hoverCheckerMap = new Map<>();
-        public final Shaped shaped;
-
-        public ShapedRecipeWrapper(Shaped shaped) {
-            GuiButton guiButton = new GuiButton(0, 61, 19, 22, 15, "");
-            buttonHoverChecker = new HoverChecker(guiButton, -1);
-            this.shaped = shaped;
-        }
-
-        @Override
-        public void getIngredients(IIngredients ingredients) {
-            hoverCheckerMap.clear();
-            Shaped.IJEIShaped ijeiShaped = shaped.getIJEIShaped();
-            List<List<ItemStack>> itemIn = ijeiShaped.getItemIn();
-            if (itemIn != null) {
-                ingredients.setInputLists(VanillaTypes.ITEM, itemIn);
-            }
-            List<List<FluidStack>> fluidIn = ijeiShaped.getFluidIn();
-            if (fluidIn != null) {
-                ingredients.setInputLists(VanillaTypes.FLUID, fluidIn);
-            }
-            List<List<FluidStack>> fluidOut = ijeiShaped.getFluidOut();
-            if (fluidOut != null) {
-                ingredients.setOutputLists(VanillaTypes.FLUID, fluidOut);
-            }
-            List<List<ItemStack>> itemOut = ijeiShaped.getItemOut();
-            if (itemOut != null) {
-                ingredients.setOutputLists(VanillaTypes.ITEM, itemOut);
-            }
-        }
-
-        @Override
-        public List<String> getTooltipStrings(int mouseX, int mouseY) {
-            List<String> tooltipStrings = new ArrayList<>();
-            if (buttonHoverChecker.checkHover(mouseX, mouseY)) {
-                tooltipStrings.add(Lang.getLang("message"));
-
-                tooltipStrings.add(Lang.getLang("use.mana.level") + Lang.getLang(shaped.getManaLevel()));
-                tooltipStrings.add(Lang.getLang("use.shaped.drive") + ShapedDrive.map.getKey(shaped.getShapedDrive()));
-                if (shaped.consumeMana() > 0) {
-                    tooltipStrings.add(Lang.getLang("consume.mana") + shaped.consumeMana());
-                }
-                if (shaped.surplusTiem() > 0) {
-                    tooltipStrings.add(Lang.getLang("consume.time") + shaped.surplusTiem());
-                }
-                if (shaped.outMana() > 0) {
-                    tooltipStrings.add(Lang.getLang("out.mana") + shaped.outMana());
-                }
-            }
-            return tooltipStrings;
-        }
-    }*/
-
 }

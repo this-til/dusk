@@ -1,5 +1,6 @@
 {
   "parent": "dusk:custom/whirl_boost/whirl_boost",
+  "render_type": "translucent",
   "textures": {
     "missing": "dusk:block/white_0",
     "particle": "dusk:block/white"

@@ -1,5 +1,6 @@
 {
   "parent": "dusk:custom/wash/wash",
+  "render_type": "translucent",
   "textures": {
     "missing": "dusk:block/white_0",
     "particle": "dusk:block/white"

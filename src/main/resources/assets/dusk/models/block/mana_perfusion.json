@@ -1,5 +1,6 @@
 {
   "parent": "dusk:custom/mana_perfusion/mana_perfusion",
+  "render_type": "translucent",
   "textures": {
     "missing": "dusk:block/white_0",
     "particle": "dusk:block/white"

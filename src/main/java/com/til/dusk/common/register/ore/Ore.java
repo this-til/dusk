@@ -32,7 +32,7 @@ public class Ore extends RegisterBasics<Ore> {
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
         ORE = event.create(new RegistryBuilder<Ore>().setName(new ResourceLocation(Dusk.MOD_ID, "ore")));
-        testOre = new Ore("test_ore", new Color(255, 200, 140), ManaLevel.t1).setStrength(0.1f);
+        testOre = new Ore("test_ore", new Color(255, 200, 140), ManaLevel.t1);
     }
 
     /***
@@ -48,12 +48,37 @@ public class Ore extends RegisterBasics<Ore> {
     /***
      * 强度系数，对应方块的采集时间和防爆，和加工时间倍数
      */
-    public float strength = 1f;
+    public double strength = 1f;
 
     /***
      * 加工消耗灵气倍数
      */
     public double consume = 1f;
+
+    /***
+     * 有液体
+     */
+    public boolean hasFluid = true;
+
+    /***
+     * 有矿物方块
+     */
+    public boolean hasMineralBlock = true;
+
+    /***
+     * 有相的方块
+     */
+    public boolean hasBlock = true;
+
+    /***
+     * 有矿物
+     */
+    public boolean hasMineral = true;
+
+    /***
+     * 是晶体
+     */
+    public boolean isCrystal;
 
     public final Map<OreItem, Item> itemMap = new HashMap<>();
     public final Map<OreBlock, BlockItem> blockMap = new HashMap<>();
@@ -71,7 +96,7 @@ public class Ore extends RegisterBasics<Ore> {
         this.manaLevel = manaLevel;
     }
 
-    public Ore setStrength(float strength) {
+    public Ore setStrength(double strength) {
         this.strength = strength;
         return this;
     }

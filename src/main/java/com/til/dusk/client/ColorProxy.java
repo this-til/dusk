@@ -46,7 +46,7 @@ public class ColorProxy {
             for (Item value : manaLevel.blockMap.values()) {
                 itemBlockList.add(() -> value);
             }
-            event.register((itemStack, l) -> l == 1 ? manaLevel.color.getRGB() : -1, itemBlockList.toArray(new ItemLike[0]));
+            event.register((itemStack, l) -> l == 0 ? manaLevel.color.getRGB() : -1, itemBlockList.toArray(new ItemLike[0]));
         }
     }
 
@@ -64,7 +64,7 @@ public class ColorProxy {
             for (BlockItem value : manaLevel.blockMap.values()) {
                 blocks.add(value.getBlock());
             }
-            event.register((blockState, blockAndTintGetter, blockPos, l) -> l == 1 ? manaLevel.color.getRGB() : -1, blocks.toArray(new Block[0]));
+            event.register((blockState, blockAndTintGetter, blockPos, l) -> l == 0 ? manaLevel.color.getRGB() : -1, blocks.toArray(new Block[0]));
         }
     }
 

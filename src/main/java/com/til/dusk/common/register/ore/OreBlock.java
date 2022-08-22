@@ -1,12 +1,15 @@
 package com.til.dusk.common.register.ore;
 
 import com.til.dusk.Dusk;
+import com.til.dusk.util.Lang;
 import com.til.dusk.common.data.TagAdd;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -18,9 +21,8 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegistryBuilder;
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.function.Supplier;
@@ -33,24 +35,27 @@ public abstract class OreBlock extends Ore.OreType<OreBlock, BlockItem> {
 
     public static Supplier<IForgeRegistry<OreBlock>> ORE_BLOCK;
 
-    public static OreBlock lordWorld;
-    public static OreBlock lordWorldDeepslate;
-    public static OreBlock lordWorldSand;
-    public static OreBlock lordWorldDirt;
-    public static OreBlock lordWorldGravel;
-    public static OreBlock netherWorldNetherrack;
-    public static OreBlock endWorldEndStone;
+    public static OreBlockMineral lordWorld;
+    public static OreBlockMineral lordWorldDeepslate;
+    public static OreBlockMineral lordWorldSand;
+    public static OreBlockMineral lordWorldDirt;
+    public static OreBlockMineral lordWorldGravel;
+    public static OreBlockMineral netherWorldNetherrack;
+    public static OreBlockMineral endWorldEndStone;
 
     public static OreBlock block;
 
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
         ORE_BLOCK = event.create(new RegistryBuilder<OreBlock>().setName(new ResourceLocation(Dusk.MOD_ID, "ore_block")));
-        lordWorld = new OreBlock("lord_world") {
+        lordWorld = new OreBlockMineral("lord_world") {
             @Override
             public Block createBlock(Ore ore) {
+                if (!ore.hasMineralBlock) {
+                    return null;
+                }
                 Block block = new Block(BlockBehaviour.Properties.of(Material.DIRT, MaterialColor.DIRT)
-                        .strength(ore.strength, 2f * ore.strength)
+                        .strength((float) ore.strength, (float) (2f * ore.strength))
                         .requiresCorrectToolForDrops()
                         .sound(SoundType.STONE));
                 TagAdd.addTag(ForgeRegistries.BLOCKS, BlockTags.MINEABLE_WITH_PICKAXE, block);
@@ -58,11 +63,14 @@ public abstract class OreBlock extends Ore.OreType<OreBlock, BlockItem> {
                 return block;
             }
         };
-        lordWorldDeepslate = new OreBlock("lord_world_deepslate") {
+        lordWorldDeepslate = new OreBlockMineral("lord_world_deepslate") {
             @Override
             public Block createBlock(Ore ore) {
+                if (!ore.hasMineralBlock) {
+                    return null;
+                }
                 Block block = new Block(BlockBehaviour.Properties.of(Material.DIRT, MaterialColor.DIRT)
-                        .strength(1.5f * ore.strength, 3f * ore.strength)
+                        .strength((float) (1.5f * ore.strength), (float) (3f * ore.strength))
                         .requiresCorrectToolForDrops()
                         .sound(SoundType.STONE));
                 TagAdd.addTag(ForgeRegistries.BLOCKS, BlockTags.MINEABLE_WITH_PICKAXE, block);
@@ -70,11 +78,14 @@ public abstract class OreBlock extends Ore.OreType<OreBlock, BlockItem> {
                 return block;
             }
         };
-        lordWorldSand = new OreBlock("lord_world_sand") {
+        lordWorldSand = new OreBlockMineral("lord_world_sand") {
             @Override
             public Block createBlock(Ore ore) {
+                if (!ore.hasMineralBlock) {
+                    return null;
+                }
                 Block block = new Block(BlockBehaviour.Properties.of(Material.DIRT, MaterialColor.DIRT)
-                        .strength(0.5f * ore.strength, ore.strength)
+                        .strength((float) (0.5f * ore.strength), (float) ore.strength)
                         .requiresCorrectToolForDrops()
                         .sound(SoundType.GRAVEL));
                 TagAdd.addTag(ForgeRegistries.BLOCKS, BlockTags.MINEABLE_WITH_SHOVEL, block);
@@ -83,11 +94,14 @@ public abstract class OreBlock extends Ore.OreType<OreBlock, BlockItem> {
             }
         };
 
-        lordWorldDirt = new OreBlock("lord_world_dirt") {
+        lordWorldDirt = new OreBlockMineral("lord_world_dirt") {
             @Override
             public Block createBlock(Ore ore) {
+                if (!ore.hasMineralBlock) {
+                    return null;
+                }
                 Block block = new Block(BlockBehaviour.Properties.of(Material.SAND, MaterialColor.SAND)
-                        .strength(0.5f * ore.strength, ore.strength)
+                        .strength((float) (0.5f * ore.strength), (float) ore.strength)
                         .requiresCorrectToolForDrops()
                         .sound(SoundType.GRAVEL));
                 TagAdd.addTag(ForgeRegistries.BLOCKS, BlockTags.MINEABLE_WITH_SHOVEL, block);
@@ -95,11 +109,14 @@ public abstract class OreBlock extends Ore.OreType<OreBlock, BlockItem> {
                 return block;
             }
         };
-        lordWorldGravel = new OreBlock("lord_world_gravel") {
+        lordWorldGravel = new OreBlockMineral("lord_world_gravel") {
             @Override
             public Block createBlock(Ore ore) {
+                if (!ore.hasMineralBlock) {
+                    return null;
+                }
                 Block block = new Block(BlockBehaviour.Properties.of(Material.SAND, MaterialColor.STONE)
-                        .strength(0.5f * ore.strength, ore.strength)
+                        .strength((float) (0.5f * ore.strength), (float) ore.strength)
                         .requiresCorrectToolForDrops()
                         .sound(SoundType.GRAVEL));
                 TagAdd.addTag(ForgeRegistries.BLOCKS, BlockTags.MINEABLE_WITH_SHOVEL, block);
@@ -108,11 +125,14 @@ public abstract class OreBlock extends Ore.OreType<OreBlock, BlockItem> {
             }
         };
 
-        netherWorldNetherrack = new OreBlock("nether_world_netherrack") {
+        netherWorldNetherrack = new OreBlockMineral("nether_world_netherrack") {
             @Override
             public Block createBlock(Ore ore) {
+                if (!ore.hasMineralBlock) {
+                    return null;
+                }
                 Block block = new Block(BlockBehaviour.Properties.of(Material.SAND, MaterialColor.STONE)
-                        .strength(0.75f * ore.strength, 1.25f * ore.strength)
+                        .strength((float) (0.75f * ore.strength), (float) (1.25f * ore.strength))
                         .requiresCorrectToolForDrops()
                         .sound(SoundType.STONE));
                 TagAdd.addTag(ForgeRegistries.BLOCKS, BlockTags.MINEABLE_WITH_SHOVEL, block);
@@ -120,11 +140,14 @@ public abstract class OreBlock extends Ore.OreType<OreBlock, BlockItem> {
                 return block;
             }
         };
-        endWorldEndStone = new OreBlock("end_world_end_stone") {
+        endWorldEndStone = new OreBlockMineral("end_world_end_stone") {
             @Override
             public Block createBlock(Ore ore) {
+                if (!ore.hasMineralBlock) {
+                    return null;
+                }
                 Block block = new Block(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.SAND)
-                        .strength(0.6f * ore.strength, 1.2f * ore.strength)
+                        .strength((float) (0.6f * ore.strength), (float) (1.2f * ore.strength))
                         .requiresCorrectToolForDrops()
                         .sound(SoundType.STONE));
                 TagAdd.addTag(ForgeRegistries.BLOCKS, BlockTags.MINEABLE_WITH_PICKAXE, block);
@@ -135,8 +158,11 @@ public abstract class OreBlock extends Ore.OreType<OreBlock, BlockItem> {
         block = new OreBlock("block") {
             @Override
             public Block createBlock(Ore ore) {
+                if (!ore.hasBlock) {
+                    return null;
+                }
                 Block block = new Block(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.METAL)
-                        .strength(0.6f * ore.strength, 1.2f * ore.strength)
+                        .strength((float) (0.6f * ore.strength), (float) (1.2f * ore.strength))
                         .requiresCorrectToolForDrops()
                         .sound(SoundType.STONE));
                 TagAdd.addTag(ForgeRegistries.BLOCKS, BlockTags.MINEABLE_WITH_PICKAXE, block);
@@ -170,8 +196,12 @@ public abstract class OreBlock extends Ore.OreType<OreBlock, BlockItem> {
     public abstract Block createBlock(Ore ore);
 
     public BlockItem createBlockItem(Ore ore, Block block) {
-        return new BlockItem(block, new Item.Properties().tab(Dusk.TAB));
-
+        return new BlockItem(block, new Item.Properties().tab(Dusk.TAB)) {
+            @Override
+            public @NotNull Component getName(@NotNull ItemStack stack) {
+                return Lang.getLang(ore, OreBlock.this);
+            }
+        };
     }
 
     /***
@@ -184,6 +214,11 @@ public abstract class OreBlock extends Ore.OreType<OreBlock, BlockItem> {
 
         public OreBlockMineral(String name) {
             super(name);
+        }
+
+        @Override
+        public String getLangKey() {
+            return "ore";
         }
     }
 
