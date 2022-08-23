@@ -7,6 +7,7 @@ import com.til.dusk.common.capability.handle.ShapedHandle;
 import com.til.dusk.common.event.EventIO;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.register.RegisterBasics;
+import com.til.dusk.common.register.tag_tool.TagTool;
 import com.til.dusk.util.Extension;
 import com.til.dusk.util.Lang;
 import com.til.dusk.util.Pos;
@@ -280,7 +281,7 @@ public abstract class Shaped extends RegisterBasics<Shaped> {
                         List<FluidStack> itemStackList = new ArrayList<>();
                         for (Fluid fluid1 : ForgeRegistries.FLUIDS.tags().getTag(k)) {
                             CompoundTag compoundTag = new CompoundTag();
-                            compoundTag.putDouble(MB, v);
+                            TagTool.mBTag.set(compoundTag, v);
                             itemStackList.add(new FluidStack(fluid1, v, compoundTag));
                         }
                         list.add(itemStackList);
@@ -308,7 +309,7 @@ public abstract class Shaped extends RegisterBasics<Shaped> {
                     List<List<FluidStack>> list = new ArrayList<>();
                     outFluid.forEach(i -> {
                         CompoundTag compoundTag = new CompoundTag();
-                        compoundTag.putDouble(MB, i.getAmount());
+                        TagTool.mBTag.set(compoundTag, i.getAmount());
                         list.add(Lists.newArrayList(new FluidStack(i.getFluid(), i.getAmount(), compoundTag)));
                     });
                     return list;
@@ -323,20 +324,17 @@ public abstract class Shaped extends RegisterBasics<Shaped> {
             componentList.add(Lang.getLang(Lang.getKey("use.mana.level"), Lang.getKey(manaLevel)));
             componentList.add(Lang.getLang(Lang.getKey("use.shaped.drive"), shapedDrive.getLangKey()));
             if (consumeMana > 0) {
-                componentList.add(Lang.getLang(Lang.getKey("consume.mana"), ((Long) consumeMana).toString()));
+                componentList.add(Lang.getLang(Lang.getKey("consume.mana"), String.valueOf(consumeMana)));
             }
             if (surplusTime > 0) {
-                componentList.add(Lang.getLang(Lang.getKey("consume.time"), ((Long) surplusTime).toString()));
+                componentList.add(Lang.getLang(Lang.getKey("consume.time"), String.valueOf(surplusTime)));
             }
             if (outMana > 0) {
-                componentList.add(Lang.getLang(Lang.getKey("out.mana"), ((Long) outMana).toString()));
+                componentList.add(Lang.getLang(Lang.getKey("out.mana"), String.valueOf(outMana)));
             }
             return componentList;
         }
     }
-
-    public static final String PROBABILITY = "probability";
-    public static final String MB = "mb";
 
     public static class RandOutOreShaped extends ShapedOre {
 
@@ -420,7 +418,7 @@ public abstract class Shaped extends RegisterBasics<Shaped> {
                     List<List<ItemStack>> list = new ArrayList<>();
                     outItem.forEach(d -> {
                         CompoundTag compoundTag = new CompoundTag();
-                        compoundTag.putDouble(PROBABILITY, d.b);
+                        TagTool.probabilityTag.set(compoundTag, d.b);
                         ItemStack itemStack = d.a.copy();
                         itemStack.setTag(compoundTag.copy());
                         list.add(Lists.newArrayList(itemStack));
@@ -437,8 +435,8 @@ public abstract class Shaped extends RegisterBasics<Shaped> {
                     List<List<FluidStack>> list = new ArrayList<>();
                     outFluid.forEach(d -> {
                         CompoundTag compoundTag = new CompoundTag();
-                        compoundTag.putDouble(PROBABILITY, d.b);
-                        compoundTag.putDouble(MB, d.a.getAmount());
+                        TagTool.probabilityTag.set(compoundTag, d.b);
+                        TagTool.mBTag.set(compoundTag, d.a.getAmount());
                         FluidStack fluidStack = d.a.copy();
                         fluidStack.setTag(compoundTag.copy());
                         list.add(Lists.newArrayList(fluidStack));

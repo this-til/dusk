@@ -1,38 +1,28 @@
 package com.til.dusk.common.capability.tile_entity;
 
 import com.til.dusk.Dusk;
-import com.til.dusk.common.capability.INBT;
-import com.til.dusk.util.AllNBT;
-import net.minecraft.core.BlockPos;
+import com.til.dusk.util.Util;
 import net.minecraft.core.Direction;
-import net.minecraft.data.worldgen.DesertVillagePools;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.NewRegistryEvent;
+import org.apache.logging.log4j.util.PropertySource;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
 
 /**
  * @author til
@@ -41,17 +31,9 @@ import java.util.function.Consumer;
 public class DuskCapabilityProvider implements ICapabilityProvider, INBTSerializable<CompoundTag> {
 
     public final Map<Capability<?>, Object> map;
-    private final List<INBT> initSerializable = new ArrayList<>();
 
     public DuskCapabilityProvider(Map<Capability<?>, Object> map) {
         this.map = map;
-
-        for (Capability<?> capability : map.keySet()) {
-            Object o = map.get(capability);
-            if (o instanceof INBT) {
-                initSerializable.add((INBT) o);
-            }
-        }
     }
 
     public <T> T addCapability(Capability<T> capability, T t) {
@@ -83,28 +65,22 @@ public class DuskCapabilityProvider implements ICapabilityProvider, INBTSerializ
     @Override
     public CompoundTag serializeNBT() {
         CompoundTag nbtTagCompound = new CompoundTag();
-        for (INBT inbt : initSerializable) {
-            if (inbt != null) {
-                AllNBT.IGS<Tag> igs = inbt.getNBTBase();
-                if (igs != null) {
-                    igs.set(nbtTagCompound, inbt.serializeNBT());
-                }
+        map.forEach((k, v) -> {
+            if (v instanceof INBTSerializable<?> serializable) {
+                nbtTagCompound.put(k.getName(), serializable.serializeNBT());
             }
-        }
+        });
         return nbtTagCompound;
     }
 
     @Override
     public void deserializeNBT(CompoundTag nbt) {
-        for (INBT inbt : initSerializable) {
-            if (inbt != null) {
-                AllNBT.IGS<Tag> igs = inbt.getNBTBase();
-                if (igs != null) {
-                    Tag nbtBase = igs.get(nbt);
-                    inbt.deserializeNBT(nbtBase instanceof CompoundTag ? (CompoundTag) nbtBase : new CompoundTag());
-                }
+        map.forEach((k, v) -> {
+            if (v instanceof INBTSerializable<?> serializable) {
+                INBTSerializable<CompoundTag> compoundTagINBTSerializable = Util.forcedConversion(serializable);
+                compoundTagINBTSerializable.deserializeNBT(nbt.getCompound(k.getName()));
             }
-        }
+        });
     }
 
     @SubscribeEvent

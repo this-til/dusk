@@ -1,7 +1,7 @@
 package com.til.dusk.common.capability.tile_entity;
 
-import com.til.dusk.common.capability.AllCapability;
 import com.til.dusk.common.capability.up.IUp;
+import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.common.register.TileEntityRegister;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
@@ -13,7 +13,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraft.world.level.block.Block;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /***
@@ -55,14 +54,14 @@ public interface ITileEntityType extends EntityBlock {
             if (tilEntity instanceof DuskCapabilityProvider.IDeposit deposit) {
                 DuskCapabilityProvider duskCapabilityProvider = deposit.getDuskCapabilityProvider();
                 if (duskCapabilityProvider != null) {
-                    Object Oup = duskCapabilityProvider.map.get(AllCapability.I_UP);
+                    Object Oup = duskCapabilityProvider.map.get(CapabilityRegister.iUp.capability);
                     if (Oup instanceof IUp up) {
                         up.up();
                         return;
                     }
                 }
             }
-            LazyOptional<IUp> up = tilEntity.getCapability(AllCapability.I_UP);
+            LazyOptional<IUp> up = tilEntity.getCapability(CapabilityRegister.iUp.capability);
             if (up.isPresent()) {
                 up.orElse(null).up();
             }

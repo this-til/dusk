@@ -1,6 +1,7 @@
 package com.til.dusk.client.other_mod_interact;
 
 import com.til.dusk.Dusk;
+import com.til.dusk.common.register.tag_tool.TagTool;
 import com.til.dusk.util.Lang;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.register.shaped.Shaped;
@@ -39,7 +40,7 @@ import java.util.Optional;
  * @author til
  */
 @JeiPlugin
-public class JEI_interact implements IModPlugin {
+public class JEI_Interact implements IModPlugin {
     @NotNull
     @Override
     public ResourceLocation getPluginUid() {
@@ -171,12 +172,14 @@ public class JEI_interact implements IModPlugin {
                 if (compoundTag == null) {
                     return;
                 }
-                if (compoundTag.contains(Shaped.RandOutOreShaped.MB)) {
-                    listComponent.add(Component.nullToEmpty(compoundTag.getInt(Shaped.RandOutOreShaped.MB) + "mb"));
+                if (TagTool.mBTag.contains(compoundTag)) {
+                    listComponent.add(Component.literal(TagTool.mBTag.get(compoundTag) + "mb"));
                 }
-                if (compoundTag.contains(Shaped.RandOutOreShaped.PROBABILITY) && compoundTag.getDouble(Shaped.RandOutOreShaped.PROBABILITY) < 1) {
+                if (TagTool.probabilityTag.contains(compoundTag) && TagTool.probabilityTag.get(compoundTag) < 1) {
                     DecimalFormat df = new DecimalFormat("0.00%");
-                    listComponent.add(Component.nullToEmpty(Lang.getLang("probability") + df.format(compoundTag.getDouble(Shaped.RandOutOreShaped.MB))));
+                    listComponent.add(Lang.getLang(Component.translatable(
+                            Lang.getKey("probability")),
+                            Component.literal(df.format(TagTool.probabilityTag.get(compoundTag)))));
                 }
             }
         }
@@ -189,9 +192,11 @@ public class JEI_interact implements IModPlugin {
                 if (compoundTag == null) {
                     return;
                 }
-                if (compoundTag.contains(Shaped.RandOutOreShaped.PROBABILITY) && compoundTag.getDouble(Shaped.RandOutOreShaped.PROBABILITY) < 1) {
+                if (TagTool.probabilityTag.contains(compoundTag) && TagTool.probabilityTag.get(compoundTag) < 1) {
                     DecimalFormat df = new DecimalFormat("0.00%");
-                    listComponent.add(Component.nullToEmpty(Lang.getLang(Shaped.RandOutOreShaped.MB) + df.format(compoundTag.getDouble(Shaped.RandOutOreShaped.MB))));
+                    listComponent.add(Lang.getLang(
+                            Component.translatable(Lang.getKey("probability")),
+                            Component.literal(df.format(TagTool.probabilityTag.get(compoundTag)))));
                 }
             }
         }

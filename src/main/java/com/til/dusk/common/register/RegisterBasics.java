@@ -3,6 +3,7 @@ package com.til.dusk.common.register;
 import com.til.dusk.Dusk;
 import com.til.dusk.util.Util;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -29,6 +30,7 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         modEventBus.addListener(EventPriority.HIGH, this::registerEvent);
         modEventBus.addListener(getRegisterBlackPriority(), this::registerSubsidiary);
+        MinecraftForge.EVENT_BUS.register(this);
     }
 
     public void registerEvent(RegisterEvent event) {

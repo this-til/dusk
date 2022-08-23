@@ -1,18 +1,16 @@
 package com.til.dusk.common.capability.handle;
 
-import com.til.dusk.common.capability.clock_time.IClockTime;
+import com.til.dusk.common.capability.clock.IClock;
 import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.capability.mana_handle.IManaHandle;
 import com.til.dusk.common.capability.mana_level.IManaLevel;
 import com.til.dusk.common.capability.up.IUp;
 import com.til.dusk.common.register.BindType;
+import com.til.dusk.common.register.tag_tool.TagTool;
 import com.til.dusk.common.register.shaped.Shaped;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.ShapedType;
-import com.til.dusk.util.AllNBT;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -30,23 +28,23 @@ public class Handle implements IHandle {
     public final List<Shaped> shapedList;
     public final BlockEntity tileEntity;
     public final IControl iControl;
-    public final IClockTime iClockTime;
+    public final IClock iClock;
     public final IUp up;
     public final int maxParallel;
     public List<ShapedHandle> shapedHandles = new ArrayList<>();
 
-    public Handle(BlockEntity tileEntity, List<Shaped> shapedTypes,IControl iControl, IClockTime iClockTime, IUp up, int maxParallel) {
+    public Handle(BlockEntity tileEntity, List<Shaped> shapedTypes, IControl iControl, IClock iClock, IUp up, int maxParallel) {
         this.shapedList = shapedTypes;
         this.tileEntity = tileEntity;
         this.iControl = iControl;
-        this.iClockTime = iClockTime;
+        this.iClock = iClock;
         this.up = up;
         this.maxParallel = maxParallel;
-        iClockTime.addBlock(this::clockTriggerRun);
+        iClock.addBlock(this::clockTriggerRun);
         up.addUpBlack(this::up);
     }
 
-    public Handle(BlockEntity tileEntity, List<ShapedType> shapedTypes,  IControl iControl, IClockTime iClockTime, IUp up, IManaLevel maxParallel) {
+    public Handle(BlockEntity tileEntity, List<ShapedType> shapedTypes, IControl iControl, IClock iClock, IUp up, IManaLevel maxParallel) {
         this.shapedList = new ArrayList<>();
         Shaped.SHAPED.get().forEach(s -> {
             if (shapedTypes.contains(s.shapedType) && maxParallel.manaLevel().level >= s.manaLevel.level) {
@@ -55,10 +53,10 @@ public class Handle implements IHandle {
         });
         this.tileEntity = tileEntity;
         this.iControl = iControl;
-        this.iClockTime = iClockTime;
+        this.iClock = iClock;
         this.up = up;
         this.maxParallel = maxParallel.manaLevel().parallel;
-        iClockTime.addBlock(this::clockTriggerRun);
+        iClock.addBlock(this::clockTriggerRun);
         up.addUpBlack(this::up);
     }
 
@@ -75,14 +73,8 @@ public class Handle implements IHandle {
     }
 
     @Override
-    public IClockTime getClockTime() {
-        return iClockTime;
-    }
-
-
-    @Override
-    public AllNBT.IGS<Tag> getNBTBase() {
-        return AllNBT.iHandleNBT;
+    public IClock getClockTime() {
+        return iClock;
     }
 
     @Override
@@ -175,22 +167,13 @@ public class Handle implements IHandle {
 
     @Override
     public void deserializeNBT(CompoundTag nbt) {
-        shapedHandles.clear();
-        for (Tag nbtBase : nbt.getList("shapedHandles", 10)) {
-            if (nbtBase instanceof CompoundTag) {
-                shapedHandles.add(new ShapedHandle((CompoundTag) nbtBase));
-            }
-        }
+        shapedHandles = TagTool.shapedHandleListTag.get(nbt);
     }
 
     @Override
     public CompoundTag serializeNBT() {
         CompoundTag nbtTagCompound = new CompoundTag();
-        ListTag nbtBases = new ListTag();
-        for (ShapedHandle shapedHandle : shapedHandles) {
-            nbtBases.add(shapedHandle.serializeNBT());
-        }
-        nbtTagCompound.put("shapedHandles", nbtBases);
+        TagTool.shapedHandleListTag.set(nbtTagCompound, shapedHandles);
         return nbtTagCompound;
     }
 

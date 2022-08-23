@@ -1,14 +1,18 @@
 package com.til.dusk.common.register;
 
 import com.til.dusk.Dusk;
+import com.til.dusk.common.capability.control.IControl;
+import com.til.dusk.common.register.tag_tool.TagTool;
 import com.til.dusk.common.world.ModItem;
 import com.til.dusk.util.Lang;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.api.distmarker.Dist;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.network.NetworkEvent;
@@ -17,7 +21,7 @@ import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegistryBuilder;
 
 import java.awt.*;
-import java.util.Objects;
+import java.util.List;
 import java.util.Random;
 import java.util.function.Supplier;
 
@@ -45,42 +49,59 @@ public abstract class KeyRegister extends RegisterBasics<KeyRegister> {
                     return;
                 }
                 supplier.get().enqueueWork(() -> {
-
-                });
-                ItemStack itemStack = serverPlayer.getMainHandItem();
-                if (itemStack.isEmpty()) {
-                    return;
-                }
-                if (ModItem.bindStaff.equals(itemStack.getItem())) {
-                    CompoundTag compoundTag = itemStack.getTag();
-                    if (compoundTag == null) {
-                        compoundTag = new CompoundTag();
-                        itemStack.setTag(compoundTag);
+                    ItemStack itemStack = serverPlayer.getMainHandItem();
+                    if (itemStack.isEmpty()) {
+                        return;
                     }
-                    if (serverPlayer.isShiftKeyDown()) {
-                        serverPlayer.sendSystemMessage(Lang.getLang("已经清除坐标数据"));
-                        compoundTag = new CompoundTag();
-                        itemStack.setTag(compoundTag);
-                        compoundTag.putInt("color", new Color(random.nextInt(255), random.nextInt(255), random.nextInt(255)).getRGB());
-                    } else {
-                        BindType bindType = BindType.itemIn;
-                        BindType nowBindType = BindType.BIND_TYPE.get().getValue(new ResourceLocation(compoundTag.getString("type")));
-                        boolean trigger = false;
-                        for (BindType type : BindType.BIND_TYPE.get()) {
-                            if (type.equals(nowBindType)) {
-                                trigger = true;
-                                continue;
-                            }
-                            if (trigger) {
-                                bindType = type;
-                                break;
-                            }
+                    if (ModItem.bindStaff.equals(itemStack.getItem())) {
+                        CompoundTag compoundTag = itemStack.getTag();
+                        if (compoundTag == null) {
+                            compoundTag = new CompoundTag();
+                            itemStack.setTag(compoundTag);
                         }
-                        compoundTag.putString("type", bindType.name.toString());
-                        compoundTag.putInt("color", new Color(random.nextInt(255), random.nextInt(255), random.nextInt(255)).getRGB());
-                        serverPlayer.sendSystemMessage(Lang.getLang(Lang.getKey("已经绑定类型切换至——"), Lang.getKey(bindType)));
+                        if (serverPlayer.isShiftKeyDown()) {
+                            serverPlayer.sendSystemMessage(Component.translatable(Lang.getKey("已经清除坐标数据")));
+                            compoundTag = new CompoundTag();
+                            itemStack.setTag(compoundTag);
+                            TagTool.colorTag.set(compoundTag, new Color(random.nextInt(255), random.nextInt(255), random.nextInt(255)).getRGB());
+                        } else {
+                            BlockPos controlBlockPos = TagTool.blockPosTag.get(compoundTag);
+                            BlockEntity blockEntity = serverPlayer.getLevel().getBlockEntity(controlBlockPos);
+                            if (blockEntity == null) {
+                                serverPlayer.sendSystemMessage(Component.translatable(Lang.getKey("绑定控制器丢失，请重新绑定")));
+                                return;
+                            }
+                            LazyOptional<IControl> lazyOptional = blockEntity.getCapability(CapabilityRegister.iControl.capability);
+                            if (!lazyOptional.isPresent()) {
+                                serverPlayer.sendSystemMessage(Component.translatable(Lang.getKey("绑定控制器丢失，请重新绑定")));
+                                return;
+                            }
+                            IControl iControl = lazyOptional.orElse(null);
+                            List<BindType> bindTypeList = iControl.getCanBindType();
+                            if (bindTypeList.isEmpty()) {
+                                serverPlayer.sendSystemMessage(Component.translatable(Lang.getKey("绑定控制器不接受绑定类型")));
+                                return;
+                            }
+                            BindType bindType = bindTypeList.get(0);
+                            BindType nowBindType = TagTool.bindTypeTag.get(compoundTag);
+                            boolean trigger = false;
+                            for (BindType type : bindTypeList) {
+                                if (type.equals(nowBindType)) {
+                                    trigger = true;
+                                    continue;
+                                }
+                                if (trigger) {
+                                    bindType = type;
+                                    break;
+                                }
+                            }
+                            TagTool.bindTypeTag.set(compoundTag, bindType);
+                            TagTool.colorTag.set(compoundTag, new Color(random.nextInt(255), random.nextInt(255), random.nextInt(255)).getRGB());
+                            serverPlayer.sendSystemMessage(Component.translatable(Lang.getKey("已经绑定类型切换至[%s]"), Lang.getLang(bindType)));
+                        }
                     }
-                }
+                });
+
             }
         };
     }

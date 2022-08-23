@@ -1,13 +1,11 @@
 package com.til.dusk.common.capability.mana_handle;
 
-import com.til.dusk.common.capability.INBT;
 import com.til.dusk.common.capability.IThis;
-import com.til.dusk.util.AllNBT;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraftforge.common.util.INBTSerializable;
 
-public interface IManaHandle extends IThis<BlockEntity>, INBT {
+public interface IManaHandle extends IThis<BlockEntity>, INBTSerializable<CompoundTag> {
 
     /***
      * 返回最大容量

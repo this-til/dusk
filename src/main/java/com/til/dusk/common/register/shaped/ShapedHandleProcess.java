@@ -1,15 +1,11 @@
 package com.til.dusk.common.register.shaped;
 
 import com.til.dusk.Dusk;
-import com.til.dusk.common.capability.clock_time.EventClockTime;
 import com.til.dusk.common.capability.handle.EventHandle;
-import com.til.dusk.common.capability.handle.IHandle;
 import com.til.dusk.common.capability.mana_handle.IManaHandle;
-import com.til.dusk.common.capability.handle.ShapedHandle;
 import com.til.dusk.common.event.EventIO;
 import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.util.Pos;
-import com.til.dusk.util.prefab.ColorPrefab;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -29,13 +25,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
-import static com.til.dusk.common.capability.handle.ShapedHandle.rand;
-
 /**
  * @author til
  */
 @Mod.EventBusSubscriber(modid = Dusk.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public abstract class      ShapedHandleProcess extends RegisterBasics<ShapedHandleProcess> {
+public abstract class ShapedHandleProcess extends RegisterBasics<ShapedHandleProcess> {
 
     public static Supplier<IForgeRegistry<ShapedHandleProcess>> SHAPED_TYPE_PROCESS;
 

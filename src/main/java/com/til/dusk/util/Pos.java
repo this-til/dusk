@@ -239,7 +239,9 @@ public class Pos {
     }
 
     public static Pos getMovePos(Pos pos1, Pos pos2, double tick) {
-        if (tick <= 0) return POS0;
+        if (tick <= 0) {
+            return POS0;
+        }
         Pos pos = getCoordinateDifference(pos1, pos2);
         return new Pos(pos.x / tick, pos.y / tick, pos.z / tick);
     }
@@ -253,13 +255,17 @@ public class Pos {
     }
 
     public Pos getMovePos(Pos pos, double tick) {
-        if (tick <= 0) return POS0;
+        if (tick <= 0) {
+            return POS0;
+        }
         Pos p = getCoordinateDifference(pos);
         return new Pos(p.x / tick, p.y / tick, p.z / tick);
     }
 
     public Pos toMovePos(Pos pos, double tick) {
-        if (tick <= 0) return POS0;
+        if (tick <= 0) {
+            return POS0;
+        }
         Pos p = getCoordinateDifference(pos);
         x = p.x / tick;
         y = p.y / tick;

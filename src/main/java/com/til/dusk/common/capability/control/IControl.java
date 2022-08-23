@@ -1,19 +1,20 @@
 package com.til.dusk.common.capability.control;
 
 
-import com.til.dusk.common.capability.INBT;
 import com.til.dusk.common.capability.IThis;
 import com.til.dusk.common.register.BindType;
 
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.INBTSerializable;
 
 import javax.annotation.Nullable;
 import java.util.*;
 
 
-public interface IControl extends IThis<BlockEntity>, INBT {
+public interface IControl extends IThis<BlockEntity>, INBTSerializable<CompoundTag> {
 
     /***
      * 全部解绑

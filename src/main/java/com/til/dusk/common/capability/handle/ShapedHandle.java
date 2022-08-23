@@ -54,40 +54,7 @@ public class ShapedHandle {
         process = ShapedHandleProcess.production;
     }
 
-    public ShapedHandle(CompoundTag nbtTagCompound) {
-        surplusTime = nbtTagCompound.getLong(SURPLUS_TIME);
-        consumeMana = nbtTagCompound.getLong(CONSUME_MANA);
-        _surplusTime = nbtTagCompound.getLong(_SURPLUS_TIME);
-        process = ShapedHandleProcess.SHAPED_TYPE_PROCESS.get().getValue(new ResourceLocation(nbtTagCompound.getString(PROCESS)));
-        if (process == null) {
-            process = ShapedHandleProcess.production;
-        }
 
-        if (nbtTagCompound.contains(OUT_ITEM)) {
-            outItem = new ArrayList<>();
-            for (Tag nbtBase : nbtTagCompound.getList(OUT_ITEM, 10)) {
-                if (nbtBase instanceof CompoundTag _n) {
-                    ItemStack itemStack = ItemStack.of(_n);
-                    if (!itemStack.isEmpty()) {
-                        outItem.add(ItemStack.of(_n));
-                    }
-                }
-            }
-        }
-
-        if (nbtTagCompound.contains(OUT_FLUID)) {
-            outFluid = new ArrayList<>();
-            for (Tag nbtBase : nbtTagCompound.getList(OUT_FLUID, 10)) {
-                if (nbtBase instanceof CompoundTag _n) {
-                    FluidStack fluidStack = FluidStack.loadFluidStackFromNBT(_n);
-                    if (fluidStack.getFluid() != null && fluidStack.getAmount() > 0) {
-                        outFluid.add(fluidStack);
-                    }
-                }
-            }
-        }
-        outMana = nbtTagCompound.getLong(OUT_MANA);
-    }
 
     public CompoundTag serializeNBT() {
         CompoundTag nbtTagCompound = new CompoundTag();
@@ -121,10 +88,6 @@ public class ShapedHandle {
     public boolean isEmpty() {
         return (outItem == null || outItem.isEmpty()) && (outFluid == null || outFluid.isEmpty()) && outMana == 0;
     }
-
-
-    public final static Random rand = new Random();
-
 
     public static class EmptyShapedHandle extends ShapedHandle {
         public EmptyShapedHandle(long surplusTime, long consumeMana, long outMana) {

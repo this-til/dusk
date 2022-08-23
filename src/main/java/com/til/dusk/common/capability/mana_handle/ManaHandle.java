@@ -1,8 +1,7 @@
 package com.til.dusk.common.capability.mana_handle;
 
-import com.til.dusk.util.AllNBT;
+import com.til.dusk.common.register.tag_tool.TagTool;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.MinecraftForge;
 
@@ -60,12 +59,6 @@ public class ManaHandle implements IManaHandle {
     }
 
     @Override
-    public AllNBT.IGS<Tag> getNBTBase() {
-        return AllNBT.iManaHandleNBT;
-    }
-
-
-    @Override
     public BlockEntity getThis() {
         return tileEntity;
     }
@@ -73,12 +66,12 @@ public class ManaHandle implements IManaHandle {
     @Override
     public CompoundTag serializeNBT() {
         CompoundTag nbtTagCompound = new CompoundTag();
-        AllNBT.modMana.set(nbtTagCompound, mana);
+        TagTool.manaTag.set(nbtTagCompound, mana);
         return nbtTagCompound;
     }
 
     @Override
     public void deserializeNBT(CompoundTag nbt) {
-        mana = AllNBT.modMana.get(nbt);
+        mana = TagTool.manaTag.get(nbt);
     }
 }

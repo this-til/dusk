@@ -153,7 +153,7 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
     //玉
-    //implementation fg.deobf("curse.maven:jade-324717:3943926")
+    implementation fg.deobf("curse.maven:jade-324717:3903693")
 
     //JEI
     implementation fg.deobf("curse.maven:jade-238222:3944627")

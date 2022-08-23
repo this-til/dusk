@@ -2,13 +2,11 @@ package com.til.dusk.common.capability.control;
 
 import com.til.dusk.common.capability.mana_level.IManaLevel;
 import com.til.dusk.common.register.BindType;
-import com.til.dusk.common.register.shaped.ShapedType;
-import com.til.dusk.util.AllNBT;
+import com.til.dusk.common.register.tag_tool.TagTool;
 import com.til.dusk.util.Lang;
 import com.til.dusk.util.Pos;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -47,11 +45,6 @@ public class Control implements IControl {
     }
 
     @Override
-    public AllNBT.IGS<Tag> getNBTBase() {
-        return AllNBT.iControlNBT;
-    }
-
-    @Override
     public List<BlockEntity> getAllTileEntity(BindType iBindType) {
         Level level = getThis().getLevel();
         if (level == null) {
@@ -86,16 +79,20 @@ public class Control implements IControl {
             return Lang.getLang(Lang.getKey("错误，方块不属于同一个世界"));
         }
         if (!getCanBindType().contains(iBindType)) {
-            return Lang.getLangFormat(Lang.getKey("绑定失败，不支持类型为{0}的绑定"), Lang.getLang(iBindType));
+            return Component.translatable(Lang.getKey("绑定失败，不支持类型为[%s]的绑定"), Lang.getLang(iBindType));
         }
         if (new Pos(tileEntity.getBlockPos()).getDistance(new Pos(tileEntity.getBlockPos())) > getMaxRange()) {
             return Lang.getLang(Lang.getKey("绑定失败，方块距离超过限制"));
         }
         if (list.size() >= getMaxBind()) {
-            return Lang.getLangFormat(Lang.getKey("绑定失败，已达到绑定类型{0}的最大绑定数量"), Lang.getLang(iBindType));
+            return Component.translatable(Lang.getKey("绑定失败，已达到绑定类型[%s]的最大绑定数量"), Lang.getLang(iBindType));
         }
         if (this.getAllTileEntity(iBindType).contains(tileEntity)) {
             return Lang.getLang(Lang.getKey("绑定失败，该方块已经被绑定过了"));
+        }
+        Component component = iBindType.filter(this, tileEntity);
+        if (component != null) {
+            return component;
         }
         list.add(tileEntity.getBlockPos());
         MinecraftForge.EVENT_BUS.post(new EventControl.Binding(this, tileEntity, iBindType));
@@ -170,13 +167,13 @@ public class Control implements IControl {
 
     @Override
     public void deserializeNBT(CompoundTag nbt) {
-        tile = AllNBT.controlBindBlock.get(nbt);
+        tile = TagTool.bindType_BlockPosListMapTag.get(nbt);
     }
 
     @Override
     public CompoundTag serializeNBT() {
         CompoundTag nbtTagCompound = new CompoundTag();
-        AllNBT.controlBindBlock.set(nbtTagCompound, tile);
+        TagTool.bindType_BlockPosListMapTag.set(nbtTagCompound, tile);
         return nbtTagCompound;
     }
 }

@@ -1,10 +1,10 @@
 package com.til.dusk.common.register.mana_level;
 
 import com.til.dusk.Dusk;
+import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.util.Lang;
-import com.til.dusk.common.capability.AllCapability;
-import com.til.dusk.common.capability.clock_time.ClockTime;
-import com.til.dusk.common.capability.clock_time.IClockTime;
+import com.til.dusk.common.capability.clock.Clock;
+import com.til.dusk.common.capability.clock.IClock;
 import com.til.dusk.common.capability.control.Control;
 import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.capability.handle.Handle;
@@ -180,13 +180,13 @@ public abstract class ManaLevelBlock extends ManaLevel.ManaLevelType<ManaLevelBl
 
             @Override
             public void add(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability, ManaLevel manaLevel) {
-                IManaLevel iManaLevel = duskModCapability.addCapability(AllCapability.I_MANA_LEVEL, new GetManaLevel(event.getObject(), manaLevel));
-                IControl iControl = duskModCapability.addCapability(AllCapability.I_CONTROL, new Control(event.getObject(),
+                IManaLevel iManaLevel = duskModCapability.addCapability(CapabilityRegister.iManaLevel.capability, new GetManaLevel(event.getObject(), manaLevel));
+                IControl iControl = duskModCapability.addCapability(CapabilityRegister.iControl.capability, new Control(event.getObject(),
                         List.of(BindType.manaIn, BindType.manaOut, BindType.itemIn, BindType.itemOut, BindType.fluidIn, BindType.fluidOut, BindType.modelStore)
                         , iManaLevel));
-                IUp iUp = duskModCapability.addCapability(AllCapability.I_UP, new Up());
-                IClockTime iClockTime = duskModCapability.addCapability(AllCapability.I_CLOCK_TIME, new ClockTime(iUp, iManaLevel));
-                IHandle iHandle = duskModCapability.addCapability(AllCapability.I_HANDEL, new Handle(event.getObject(), getShapedTypeList(), iControl, iClockTime, iUp, iManaLevel));
+                IUp iUp = duskModCapability.addCapability(CapabilityRegister.iUp.capability, new Up());
+                IClock iClock = duskModCapability.addCapability(CapabilityRegister.iClock.capability, new Clock(iUp, iManaLevel));
+                IHandle iHandle = duskModCapability.addCapability(CapabilityRegister.iHandle.capability, new Handle(event.getObject(), getShapedTypeList(), iControl, iClock, iUp, iManaLevel));
             }
 
             /***
