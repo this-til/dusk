@@ -8,7 +8,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
  * 代表该实体方块有一个等级
  * @author til
  */
-public interface IManaLevel extends IThis<BlockEntity> {
+public interface IManaLevel  {
 
     /***
      * 获取等级

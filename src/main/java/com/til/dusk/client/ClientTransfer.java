@@ -4,6 +4,7 @@ import com.til.dusk.Dusk;
 import com.til.dusk.client.register.ClientParticleRegister;
 import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.register.ParticleRegister;
+import com.til.dusk.util.Pos;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
@@ -13,6 +14,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.network.NetworkEvent;
 
+import java.awt.*;
 import java.util.function.Supplier;
 
 /***
@@ -46,7 +48,9 @@ public class ClientTransfer {
             Dusk.instance.logger.error("在客户端不存在粒子效果{}", data.type);
             return;
         }
-        supplier.get().enqueueWork(() -> clientParticleRegister.run(Minecraft.getInstance().level, data.start, data.end, data.color, data.density));
-
+        supplier.get().enqueueWork(() -> clientParticleRegister.run(Minecraft.getInstance().level,
+                new Pos(data.start_x, data.start_y, data.start_z),
+                new Pos(data.end_x, data.end_y, data.end_z),
+                new Color(data.color_r, data.color_g, data.color_b, data.color_r), data.density));
     }
 }

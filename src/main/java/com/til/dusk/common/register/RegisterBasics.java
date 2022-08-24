@@ -27,9 +27,8 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> {
     public RegisterBasics(ResourceLocation name, Supplier<IForgeRegistry<T>> registrySupplier) {
         this.name = name;
         this.registrySupplier = registrySupplier;
-        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-        modEventBus.addListener(EventPriority.HIGH, this::registerEvent);
-        modEventBus.addListener(getRegisterBlackPriority(), this::registerSubsidiary);
+        Dusk.instance.modEventBus.addListener(EventPriority.HIGH, this::registerEvent);
+        Dusk.instance.modEventBus.addListener(getRegisterBlackPriority(), this::registerSubsidiary);
         MinecraftForge.EVENT_BUS.register(this);
     }
 

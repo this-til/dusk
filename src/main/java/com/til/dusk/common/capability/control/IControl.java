@@ -4,6 +4,7 @@ package com.til.dusk.common.capability.control;
 import com.til.dusk.common.capability.IThis;
 import com.til.dusk.common.register.BindType;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -24,22 +25,27 @@ public interface IControl extends IThis<BlockEntity>, INBTSerializable<CompoundT
     /***
      * 绑定
      */
-    Component binding(BlockEntity tileEntity, BindType iBindType);
+    Component bind(BlockEntity tileEntity, BindType iBindType);
 
     /***
      * 解绑
      */
-    Component unBindling(BlockEntity tileEntity, BindType iBindType);
+    Component unBind(BlockEntity tileEntity, BindType iBindType);
 
     /***
      * 有没有绑定实体
      */
-    boolean hasBundling(BlockEntity tileEntity, BindType bindType);
+    boolean hasBind(BlockEntity tileEntity, BindType bindType);
 
     /***
      * 获取所有绑定的实体
      */
     List<BlockEntity> getAllTileEntity(BindType iBindType);
+
+    /***
+     * 获取所有绑定的方块信息
+     */
+    Map<BindType,List<BlockPos>> getAllBind();
 
     <C> Map<BlockEntity, C> getCapability(Capability<C> capability, BindType iBindType);
 

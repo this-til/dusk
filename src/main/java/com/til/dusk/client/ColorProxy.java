@@ -2,7 +2,10 @@ package com.til.dusk.client;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.common.register.mana_level.ManaLevel;
+import com.til.dusk.common.register.mana_level.ManaLevelBlock;
 import com.til.dusk.common.register.ore.Ore;
+import com.til.dusk.common.world.ModItem;
+import com.til.dusk.util.prefab.ColorPrefab;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
@@ -24,34 +27,26 @@ import java.util.List;
 public class ColorProxy {
     @SubscribeEvent
     public static void itemColor(RegisterColorHandlersEvent.Item event) {
+        List<ItemLike> sunlightList = new ArrayList<>();
+        List<ItemLike> moonlightList = new ArrayList<>();
         for (Ore ore : Ore.ORE.get()) {
-            List<ItemLike> likes = new ArrayList<>(ore.itemMap.size());
-            for (Item value : ore.itemMap.values()) {
-                likes.add(() -> value);
-            }
-            event.register((itemStack, l) -> l == 0 ? ore.color.getRGB() : -1, likes.toArray(new ItemLike[0]));
-            List<ItemLike> itemBlockList = new ArrayList<>(ore.blockMap.size());
-            for (Item value : ore.blockMap.values()) {
-                itemBlockList.add(() -> value);
-            }
-            event.register((itemStack, l) -> l == 1 ? ore.color.getRGB() : -1, itemBlockList.toArray(new ItemLike[0]));
+            event.register((itemStack, l) -> l == 0 ? ore.color.getRGB() : -1, ore.itemMap.values().toArray(new ItemLike[0]));
+            event.register((itemStack, l) -> l == 1 ? ore.color.getRGB() : -1, ore.blockMap.values().toArray(new ItemLike[0]));
         }
         for (ManaLevel manaLevel : ManaLevel.LEVEL.get()) {
-            List<ItemLike> likes = new ArrayList<>(manaLevel.itemMap.size());
-            for (Item value : manaLevel.itemMap.values()) {
-                likes.add(() -> value);
-            }
-            event.register((itemStack, l) -> l == 0 ? manaLevel.color.getRGB() : -1, likes.toArray(new ItemLike[0]));
-            List<ItemLike> itemBlockList = new ArrayList<>(manaLevel.blockMap.size());
-            for (Item value : manaLevel.blockMap.values()) {
-                itemBlockList.add(() -> value);
-            }
-            event.register((itemStack, l) -> l == 0 ? manaLevel.color.getRGB() : -1, itemBlockList.toArray(new ItemLike[0]));
+            event.register((itemStack, l) -> l == 0 ? manaLevel.color.getRGB() : -1, manaLevel.itemMap.values().toArray(new ItemLike[0]));
+            event.register((itemStack, l) -> l == 0 ? manaLevel.color.getRGB() : -1, manaLevel.blockMap.values().toArray(new ItemLike[0]));
+            sunlightList.add(manaLevel.blockMap.get(ManaLevelBlock.sunlight));
+            moonlightList.add(manaLevel.blockMap.get(ManaLevelBlock.moonlight));
         }
+        event.register((itemStack, l) -> l == 1 ? ColorPrefab.SUNLIGHT_COLOR.getRGB() : -1, sunlightList.toArray(new ItemLike[0]));
+        event.register((itemStack, l) -> l == 1 ? ColorPrefab.MOONLIGHT_COLOR.getRGB() : -1, moonlightList.toArray(new ItemLike[0]));
     }
 
     @SubscribeEvent
     public static void blockColor(RegisterColorHandlersEvent.Block event) {
+        List<Block> sunlightList = new ArrayList<>();
+        List<Block> moonlightList = new ArrayList<>();
         for (Ore ore : Ore.ORE.get()) {
             List<Block> blocks = new ArrayList<>(ore.blockMap.size());
             for (BlockItem value : ore.blockMap.values()) {
@@ -65,7 +60,11 @@ public class ColorProxy {
                 blocks.add(value.getBlock());
             }
             event.register((blockState, blockAndTintGetter, blockPos, l) -> l == 0 ? manaLevel.color.getRGB() : -1, blocks.toArray(new Block[0]));
+            sunlightList.add(manaLevel.blockMap.get(ManaLevelBlock.sunlight).getBlock());
+            moonlightList.add(manaLevel.blockMap.get(ManaLevelBlock.moonlight).getBlock());
         }
+        event.register((blockState, blockAndTintGetter, blockPos, l) -> l == 1 ? ColorPrefab.SUNLIGHT_COLOR.getRGB() : -1, sunlightList.toArray(new Block[0]));
+        event.register((blockState, blockAndTintGetter, blockPos, l) -> l == 1 ? ColorPrefab.MOONLIGHT_COLOR.getRGB() : -1, moonlightList.toArray(new Block[0]));
     }
 
 }

@@ -1,6 +1,7 @@
 package com.til.dusk.common.register;
 
 import com.til.dusk.Dusk;
+import com.til.dusk.client.register.ClientParticleRegister;
 import com.til.dusk.common.event.EventIO;
 import com.til.dusk.util.Pos;
 import com.til.dusk.util.prefab.ColorPrefab;
@@ -28,7 +29,7 @@ import java.util.function.Supplier;
 /**
  * @author til
  */
-@Mod.EventBusSubscriber(modid = Dusk.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
+@Mod.EventBusSubscriber(modid = Dusk.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ParticleRegister extends RegisterBasics<ParticleRegister> {
 
     public static Supplier<IForgeRegistry<ParticleRegister>> PARTICLE_REGISTER;
@@ -52,6 +53,14 @@ public class ParticleRegister extends RegisterBasics<ParticleRegister> {
      * 流体转移
      */
     public static ParticleRegister fluidTransfer;
+    /***
+     * 线
+     */
+    public static ParticleRegister line;
+    /***
+     * 围绕一个方块
+     */
+    public static ParticleRegister block;
 
 
     @SubscribeEvent
@@ -113,6 +122,8 @@ public class ParticleRegister extends RegisterBasics<ParticleRegister> {
                         event.fluidStack.getAmount() / 128f);
             }
         };
+        line = new ParticleRegister("line");
+        block = new ParticleRegister("block");
     }
 
     public ParticleRegister(ResourceLocation name) {
@@ -127,6 +138,7 @@ public class ParticleRegister extends RegisterBasics<ParticleRegister> {
     public void add(Level world, Pos start, Pos end, Color color, double density) {
         if (world instanceof ServerLevel serverLevel) {
             MAP.computeIfAbsent(serverLevel, k -> new ArrayList<>()).add(new Data(name.toString(), start, end, color, density));
+            return;
         }
         throw new RuntimeException("在服务端了粒子创建中出现了非服务端的世界");
     }
@@ -134,6 +146,7 @@ public class ParticleRegister extends RegisterBasics<ParticleRegister> {
     public void add(Player player, Pos start, Pos end, Color color, double density) {
         if (player instanceof ServerPlayer serverPlayer) {
             PLAYER_MAP.computeIfAbsent(serverPlayer, k -> new ArrayList<>()).add(new Data(name.toString(), start, end, color, density));
+            return;
         }
         throw new RuntimeException("在服务端了粒子创建中出现了非服务端的玩家");
     }
@@ -146,15 +159,22 @@ public class ParticleRegister extends RegisterBasics<ParticleRegister> {
         /***
          * 开始点
          */
-        public Pos start;
+        public double start_x;
+        public double start_y;
+        public double start_z;
         /***
          * 结束点
          */
-        public Pos end;
+        public double end_x;
+        public double end_y;
+        public double end_z;
         /***
          * 颜色
          */
-        public Color color;
+        public int color_r;
+        public int color_b;
+        public int color_g;
+        public int color_a;
         /***
          * 密度
          */
@@ -162,17 +182,20 @@ public class ParticleRegister extends RegisterBasics<ParticleRegister> {
 
         public Data() {
             type = ParticleRegister.air.name.toString();
-            start = new Pos();
-            end = new Pos();
-            color = new Color(255, 255, 255, 255);
-
         }
 
         public Data(String type, Pos start, Pos end, Color color, double density) {
             this.type = type;
-            this.start = start;
-            this.end = end;
-            this.color = color;
+            start_x = start.x;
+            start_y = start.y;
+            start_z = start.z;
+            end_x = end.x;
+            end_y = end.y;
+            end_z = end.z;
+            color_r = color.getRed();
+            color_g = color.getGreen();
+            color_b = color.getBlue();
+            color_a = color.getAlpha();
             this.density = density;
         }
 

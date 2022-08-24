@@ -9,8 +9,10 @@ import com.til.dusk.common.register.mana_level.ManaLevelItem;
 import com.til.dusk.common.register.ore.Ore;
 import com.til.dusk.common.register.ore.OreBlock;
 import com.til.dusk.common.register.ore.OreItem;
+import com.til.dusk.common.register.shaped.ShapedDrive;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.BlockModelShaper;
+import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
@@ -40,6 +42,14 @@ public class ModelProxy {
     protected static final Map<OreBlock, ResourceLocation> BLOCK_ORE_MAP = new HashMap<>();
     protected static final Map<ManaLevelBlock, ResourceLocation> BLOCK_MANA_LEVEL_MAP = new HashMap<>();
 
+    //protected static final Map<ShapedDrive, RegisterBasics> ITEM_SHAPED_DRIVE_MAP = new HashMap<>();
+
+    //protected static final Map<ShapedDrive, ResourceLocation> BLOCK_SHAPED_DRIVE_MAP = new HashMap<>();
+
+    protected static ModelResourceLocation shapedDriveItemName;
+
+    protected static ResourceLocation shapedDriveBlockName;
+
     @SubscribeEvent
     public static void clientSetup(final FMLClientSetupEvent event) {
         for (OreItem oreItem : OreItem.ORE_ITEM.get()) {
@@ -56,12 +66,17 @@ public class ModelProxy {
             ITEM_BLOCK_MANA_LEVEL_MAP.put(manaLevelBlock, new ModelResourceLocation(manaLevelBlock.name, "inventory"));
         }
 
+
         for (OreBlock oreBlock : OreBlock.ORE_BLOCK.get()) {
             BLOCK_ORE_MAP.put(oreBlock, makeModelName(oreBlock, BLOCK));
         }
         for (ManaLevelBlock manaLevelBlock : ManaLevelBlock.LEVEL_BLOCK.get()) {
             BLOCK_MANA_LEVEL_MAP.put(manaLevelBlock, makeModelName(manaLevelBlock, BLOCK));
         }
+
+        ResourceLocation resourceLocation = new ResourceLocation(Dusk.MOD_ID, "shaped_drive");
+        shapedDriveItemName = new ModelResourceLocation(resourceLocation.getNamespace(), resourceLocation.getNamespace(), "inventory");
+        shapedDriveBlockName = makeModelName(resourceLocation, BLOCK);
     }
 
     @SubscribeEvent
@@ -96,6 +111,8 @@ public class ModelProxy {
             });
             variant.stream().distinct().toList().forEach(s -> event.register(new ModelResourceLocation(v, s)));
         });
+        event.register(shapedDriveItemName);
+        event.register(shapedDriveBlockName);
     }
 
     @SubscribeEvent
@@ -109,6 +126,8 @@ public class ModelProxy {
             manaLevel.itemMap.forEach((k, v) -> Minecraft.getInstance().getItemRenderer().getItemModelShaper().register(v, ITEM_MANA_LEVEL_MAP.get(k)));
             manaLevel.blockMap.forEach((k, v) -> Minecraft.getInstance().getItemRenderer().getItemModelShaper().register(v, ITEM_BLOCK_MANA_LEVEL_MAP.get(k)));
         }
+
+        ShapedDrive.SHAPED_DRIVE.get().forEach(s -> Minecraft.getInstance().getItemRenderer().getItemModelShaper().register(s.blockItem, shapedDriveItemName));
 
         for (Ore ore : Ore.ORE.get()) {
             ore.blockMap.forEach((k, v) -> {
@@ -133,6 +152,11 @@ public class ModelProxy {
                 }
             });
         }
+
+        BakedModel shapedDriveBakedModel = event.getModelManager().getModel(shapedDriveBlockName);
+        for (ShapedDrive shapedDrive : ShapedDrive.SHAPED_DRIVE.get()) {
+            event.getModels().put(BlockModelShaper.stateToModelLocation(shapedDrive.blockItem.getBlock().getStateDefinition().any()), shapedDriveBakedModel);
+        }
     }
 
     @SubscribeEvent
@@ -140,9 +164,12 @@ public class ModelProxy {
 
     }
 
+    public static ResourceLocation makeModelName(ResourceLocation resourceLocation, String prefix) {
+        return new ResourceLocation(resourceLocation.getNamespace(), prefix + "/" + resourceLocation.getPath());
+    }
 
     public static ResourceLocation makeModelName(RegisterBasics<?> registerBasics, String prefix) {
-        return new ResourceLocation(registerBasics.name.getNamespace(), prefix + "/" + registerBasics.name.getPath());
+        return makeModelName(registerBasics.name, prefix);
     }
 
    /* @SubscribeEvent

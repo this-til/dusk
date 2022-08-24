@@ -36,7 +36,7 @@ public class DefaultParticle extends Particle {
     @Nullable
     public ResourceLocation textureName;
 
-    public int particleHalfAge;
+    public float particleHalfAge;
 
     /***
      * 粒子大小
@@ -75,7 +75,7 @@ public class DefaultParticle extends Particle {
     @Override
     public void setLifetime(int lifetime) {
         super.setLifetime(lifetime);
-        particleHalfAge = lifetime / 2;
+        particleHalfAge = lifetime * 0.5f;
         particleEveryTimeUpScale = size / lifetime;
     }
 
@@ -99,11 +99,18 @@ public class DefaultParticle extends Particle {
             this.currentScale += this.particleEveryTimeUpScale;
         } else {
             this.currentScale -= this.particleEveryTimeUpScale;
+            if (this.currentScale <= 0) {
+                this.remove();
+            }
         }
     }
 
+
     @Override
     public void render(@NotNull VertexConsumer vertexConsumer, Camera camera, float time) {
+        if (removed) {
+            return;
+        }
         Vec3 vec3 = camera.getPosition();
         Vector3f lPos = new Vector3f((float) (Mth.lerp(time, this.xo, this.x) - vec3.x()), (float) (Mth.lerp(time, this.yo, this.y) - vec3.y()), (float) (Mth.lerp(time, this.zo, this.z) - vec3.z()));
         Quaternion quaternion;

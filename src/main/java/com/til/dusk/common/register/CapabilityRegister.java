@@ -6,6 +6,7 @@ import com.til.dusk.common.capability.clock.IClock;
 import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.capability.handle.IHandle;
 import com.til.dusk.common.capability.handle.ShapedHandle;
+import com.til.dusk.common.capability.item_handler.VoidCaseItemHandler;
 import com.til.dusk.common.capability.mana_handle.IManaHandle;
 import com.til.dusk.common.capability.mana_level.IManaLevel;
 import com.til.dusk.common.capability.shaped_drive.IShapedDrive;
@@ -20,29 +21,28 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.effect.AttackDamageMobEffect;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.common.capabilities.CapabilityToken;
-import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraftforge.common.capabilities.*;
 import net.minecraftforge.common.util.INBTSerializable;
-import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegistryBuilder;
 import org.jetbrains.annotations.NotNull;
 import snownee.jade.api.BlockAccessor;
-import snownee.jade.api.ITooltip;
 import snownee.jade.api.config.IPluginConfig;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
@@ -52,14 +52,14 @@ public abstract class CapabilityRegister<C> extends RegisterBasics<CapabilityReg
 
     public static Supplier<IForgeRegistry<CapabilityRegister<?>>> CAPABILITY_REGISTER;
     public static CapabilityRegister<IManaLevel> iManaLevel;
+    public static CapabilityRegister<IItemHandler> iItemHandler;
+    public static CapabilityRegister<IFluidHandler> iFluidHandler;
     public static CapabilityRegister<IClock> iClock;
     public static CapabilityRegister<IControl> iControl;
-
     public static CapabilityRegister<IUp> iUp;
     public static CapabilityRegister<IManaHandle> iManaHandle;
     public static CapabilityRegister<IShapedDrive> iShapedDrive;
     public static CapabilityRegister<IHandle> iHandle;
-
 
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
@@ -77,6 +77,85 @@ public abstract class CapabilityRegister<C> extends RegisterBasics<CapabilityReg
                 CompoundTag compoundTag = new CompoundTag();
                 TagTool.manaLevelTag.set(compoundTag, i.manaLevel());
                 return compoundTag;
+            }
+        };
+        iItemHandler = new CapabilityRegister<>("i_item_handler", IItemHandler.class, ForgeCapabilities.ITEM_HANDLER) {
+            @Override
+            public @NotNull CompoundTag appendServerData(ServerPlayer serverPlayer, Level level, BlockEntity blockEntity, boolean detailed, IItemHandler i) {
+                if (i instanceof VoidCaseItemHandler voidCaseItemHandler) {
+                    CompoundTag compoundTag = voidCaseItemHandler.serializeNBT();
+                    TagTool.isVoidCaseItemHandlerTag.set(compoundTag, true);
+                    return compoundTag;
+                } else {
+                    CompoundTag compoundTag = new CompoundTag();
+                    List<ItemStack> itemStackList = new ArrayList<>(i.getSlots());
+                    for (int i1 = 0; i1 < i.getSlots(); i1++) {
+                        itemStackList.add(i.getStackInSlot(i1));
+                    }
+                    TagTool.itemStackListTag.set(compoundTag, itemStackList);
+                    return compoundTag;
+                }
+            }
+
+            @Override
+            public void appendTooltip(Jade_Interact.TooltipPack iTooltip, BlockAccessor blockAccessor, IPluginConfig iPluginConfig, CompoundTag compoundTag) {
+                if (TagTool.isVoidCaseItemHandlerTag.get(compoundTag)) {
+                    ItemStack itemStack = TagTool.itemStackTag.get(compoundTag);
+                    long c = TagTool.count.get(compoundTag);
+                    if (!itemStack.isEmpty() && c > 0) {
+                        iTooltip.add(Lang.getLang(Lang.getLang(this), itemStack.getDisplayName(), Component.literal("x" + c)));
+                        return;
+                    }
+                }
+                super.appendTooltip(iTooltip, blockAccessor, iPluginConfig, compoundTag);
+                Map<Item, Integer> integerMap = new HashMap<>();
+                TagTool.itemStackListTag.get(compoundTag).forEach(itemStack -> {
+                    if (itemStack.isEmpty()) {
+                        return;
+                    }
+                    Item item = itemStack.getItem();
+                    if (integerMap.containsKey(item)) {
+                        integerMap.put(item, integerMap.get(item) + itemStack.getCount());
+                    } else {
+                        integerMap.put(item, itemStack.getCount());
+                    }
+                });
+                integerMap.forEach((k, v) -> iTooltip.add(
+                        Lang.getLang(k.getDescription(),
+                                Component.literal("x" + v))));
+
+            }
+        };
+        iFluidHandler = new CapabilityRegister<>("i_fluid_handler", IFluidHandler.class, ForgeCapabilities.FLUID_HANDLER) {
+            @Override
+            public @NotNull CompoundTag appendServerData(ServerPlayer serverPlayer, Level level, BlockEntity blockEntity, boolean detailed, IFluidHandler i) {
+                CompoundTag compoundTag = new CompoundTag();
+                List<FluidStack> fluidStacks = new ArrayList<>(i.getTanks());
+                for (int i1 = 0; i1 < i.getTanks(); i1++) {
+                    fluidStacks.add(i.getFluidInTank(i1));
+                }
+                TagTool.fluidStackListTag.set(compoundTag, fluidStacks);
+                return compoundTag;
+            }
+
+            @Override
+            public void appendTooltip(Jade_Interact.TooltipPack iTooltip, BlockAccessor blockAccessor, IPluginConfig iPluginConfig, CompoundTag compoundTag) {
+                super.appendTooltip(iTooltip, blockAccessor, iPluginConfig, compoundTag);
+                Map<Fluid, Integer> integerMap = new HashMap<>();
+                TagTool.fluidStackListTag.get(compoundTag).forEach(fluidStack -> {
+                    if (fluidStack.isEmpty()) {
+                        return;
+                    }
+                    Fluid item = fluidStack.getFluid();
+                    if (integerMap.containsKey(item)) {
+                        integerMap.put(item, integerMap.get(item) + fluidStack.getAmount());
+                    } else {
+                        integerMap.put(item, fluidStack.getAmount());
+                    }
+                });
+                integerMap.forEach((k, v) -> iTooltip.add(
+                        Lang.getLang(k.getFluidType().getDescription(),
+                                Component.literal("x" + v))));
             }
         };
         iClock = new CapabilityRegister<>("i_clock", IClock.class, () -> new CapabilityToken<IClock>() {
@@ -160,9 +239,9 @@ public abstract class CapabilityRegister<C> extends RegisterBasics<CapabilityReg
                 long maxMana = TagTool.maxManaTag.get(compoundTag);
                 long rate = TagTool.rateTag.get(compoundTag);
                 if (mana > 0 && maxMana > 0) {
-                    iTooltip.add(Lang.getLang(Lang.getLang(Lang.getKey("now.mana.handel")), Component.literal(mana + "/" + maxMana)));
+                    iTooltip.add(Lang.getLang(Component.translatable(Lang.getKey("now.mana")), Component.literal(mana + "/" + maxMana)));
                 }
-                iTooltip.add(Lang.getLang(Lang.getLang(Lang.getKey("rate.mana.handel")), Component.literal(String.valueOf(rate))));
+                iTooltip.add(Lang.getLang(Component.translatable(Lang.getKey("rate.mana.handel")), Component.literal(String.valueOf(rate))));
             }
         };
         iShapedDrive = new CapabilityRegister<>("i_shaped_drive", IShapedDrive.class, () -> new CapabilityToken<IShapedDrive>() {
@@ -274,12 +353,12 @@ public abstract class CapabilityRegister<C> extends RegisterBasics<CapabilityReg
 
     public final Class<C> cClass;
     public final Capability<C> capability;
+    public boolean needRegister = true;
 
     public CapabilityRegister(ResourceLocation name, Class<C> cClass, Supplier<CapabilityToken<C>> create) {
         super(name, Util.forcedConversion(CAPABILITY_REGISTER));
         this.cClass = cClass;
-        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-        modEventBus.addListener(this::registerCapabilities);
+        Dusk.instance.modEventBus.addListener(this::registerCapabilities);
         capability = CapabilityManager.get(create.get());
     }
 
@@ -287,8 +366,23 @@ public abstract class CapabilityRegister<C> extends RegisterBasics<CapabilityReg
         this(new ResourceLocation(Dusk.MOD_ID, name), cClass, create);
     }
 
+    public CapabilityRegister(ResourceLocation name, Class<C> cClass, Capability<C> capability) {
+        super(name, Util.forcedConversion(CAPABILITY_REGISTER));
+        this.cClass = cClass;
+        Dusk.instance.modEventBus.addListener(this::registerCapabilities);
+        this.capability = capability;
+        this.needRegister = false;
+
+    }
+
+    public CapabilityRegister(String name, Class<C> cClass, Capability<C> capability) {
+        this(new ResourceLocation(Dusk.MOD_ID, name), cClass, capability);
+    }
+
     public void registerCapabilities(RegisterCapabilitiesEvent event) {
-        event.register(cClass);
+        if (needRegister) {
+            event.register(cClass);
+        }
     }
 
     @Nullable

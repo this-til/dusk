@@ -2,7 +2,7 @@ package com.til.dusk.client.register;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import com.til.dusk.Dusk;
-import com.til.dusk.common.register.KeyRegister;
+import com.til.dusk.common.register.key.KeyRegister;
 import com.til.dusk.common.register.MessageRegister;
 import com.til.dusk.common.register.RegisterBasics;
 import net.minecraft.client.KeyMapping;
@@ -15,15 +15,12 @@ import net.minecraftforge.client.settings.KeyModifier;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegistryBuilder;
 
-import javax.swing.text.JTextComponent;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -41,11 +38,17 @@ public class ClientKeyRegister extends RegisterBasics<ClientKeyRegister> {
      * 默认 G
      */
     public static ClientKeyRegister switchBindType;
+    /***
+     * 显示绑定状态
+     * 默认 H
+     */
+    public static ClientKeyRegister showBindState;
 
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
         CLIENT_KEY_REGISTER = event.create(new RegistryBuilder<ClientKeyRegister>().setName(new ResourceLocation(Dusk.MOD_ID, "client_key_register")));
         switchBindType = new ClientKeyRegister("switch_bind_type", InputConstants.KEY_G);
+        showBindState = new ClientKeyRegister("show_bind_state", InputConstants.KEY_H);
     }
 
     public final int inputId;
@@ -55,19 +58,18 @@ public class ClientKeyRegister extends RegisterBasics<ClientKeyRegister> {
     public ClientKeyRegister(ResourceLocation name, int inputId) {
         super(name, CLIENT_KEY_REGISTER);
         this.inputId = inputId;
-        keyMapping = new KeyMapping(name.toString(), KeyConflictContext.UNIVERSAL, KeyModifier.CONTROL, InputConstants.Type.KEYSYM, inputId, Dusk.MOD_ID + ".key");
-        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-        modEventBus.addListener(this::registerKeyMapping);
-        MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL,(Consumer<TickEvent.ClientTickEvent>) c -> {
+        keyMapping = new KeyMapping(name.toString(), KeyConflictContext.UNIVERSAL, KeyModifier.NONE, InputConstants.Type.KEYSYM, inputId, Dusk.MOD_ID + ".key");
+        Dusk.instance.modEventBus.addListener(this::registerKeyMapping);
+        MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, (Consumer<TickEvent.ClientTickEvent>) c -> {
             if (keyMapping.isDown()) {
                 if (lock) {
                     lock = false;
                     MessageRegister.keyMessage.sendToServer(new KeyRegister.KeyData(name.toString()));
                 }
-            }  else {
+            } else {
                 lock = true;
             }
-        } );
+        });
     }
 
     public ClientKeyRegister(String name, int inputId) {

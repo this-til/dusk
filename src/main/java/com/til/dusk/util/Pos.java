@@ -13,11 +13,14 @@ import java.util.Random;
 
 public class Pos {
 
-    public double x;
-    public double y;
-    public double z;
+    public final double x;
+    public final double y;
+    public final double z;
 
     public Pos() {
+        this.x = 0;
+        this.y = 0;
+        this.z = 0;
     }
 
     public Pos(Vec3i vec3i) {
@@ -25,7 +28,9 @@ public class Pos {
     }
 
     public Pos(double x, double y, double z) {
-        setPos(x, y, z);
+        this.x = x;
+        this.y = y;
+        this.z = z;
     }
 
     public Pos(Entity entity) {
@@ -35,7 +40,7 @@ public class Pos {
     }
 
     public Pos(Pos pos) {
-        setPos(pos.x, pos.y, pos.z);
+        this(pos.x, pos.y, pos.z);
     }
 
     public Pos(BlockEntity tileEntity) {
@@ -45,7 +50,9 @@ public class Pos {
     public Pos(double rotationYaw, double rotationPitch) {
         double fYawDtoR = (rotationYaw / 180d) * Math.PI;
         double fPitDtoR = (rotationPitch / 180d) * Math.PI;
-        setPos(-Math.sin(fYawDtoR) * Math.cos(fPitDtoR), -Math.sin(fPitDtoR), Math.cos(fYawDtoR) * Math.cos(fPitDtoR));
+        x = -Math.sin(fYawDtoR) * Math.cos(fPitDtoR);
+        y = -Math.sin(fPitDtoR);
+        z = Math.cos(fYawDtoR) * Math.cos(fPitDtoR);
     }
 
     public Pos(CompoundTag nbtTagCompound) {
@@ -85,50 +92,33 @@ public class Pos {
         return d;
     }
 
-    public Pos setPos(double x, double y, double z) {
-        this.x = x;
-        this.y = y;
-        this.z = z;
-        return this;
-    }
-
-    public Pos setPos(Pos pos) {
-        return setPos(pos.x, pos.y, pos.z);
-    }
 
     public Pos addX(double x) {
-        this.x += x;
-        return this;
+        return new Pos(this.x + x, y, z);
     }
 
     public Pos addY(double y) {
-        this.y += y;
-        return this;
+        return new Pos(x, this.y + y, z);
     }
 
     public Pos addZ(double z) {
-        this.z += z;
-        return this;
+        return new Pos(x, y, this.z + z);
     }
 
-    public AABB toAxisAlignedBB(double dAmbit) {
+    public Pos move(Pos pos) {
+        return new Pos(x + pos.x, y + pos.y, z + pos.z);
+    }
+
+    public Pos move(double x, double y, double z) {
+        return new Pos(this.x + x, this.y + y, this.z + z);
+    }
+
+    public AABB axisAlignedBB(double dAmbit) {
         return new AABB(x - dAmbit, y - dAmbit, z - dAmbit, x + dAmbit,
                 y + dAmbit, z + dAmbit);
     }
 
-    public double getX() {
-        return x;
-    }
-
-    public double getY() {
-        return y;
-    }
-
-    public double getZ() {
-        return z;
-    }
-
-    public float getDistance(Pos pos) {
+    public float distance(Pos pos) {
         double f = this.x - pos.x;
         double f1 = this.y - pos.y;
         double f2 = this.z - pos.z;
@@ -155,190 +145,158 @@ public class Pos {
     }
 
     public Pos normalize() {
-        double d = getMag();
+        double d = mag();
         if (d != 0) {
-            return getMultiply(1 / d);
+            return multiply(1 / d);
         }
 
         return this;
     }
 
-    public Pos getMultiply(double d) {
-        return getMultiply(d, d, d);
+    public Pos multiply(double d) {
+        return multiply(d, d, d);
     }
 
-    public Pos getMultiply(double fx, double fy, double fz) {
+    public Pos multiply(double fx, double fy, double fz) {
         return new Pos(x * fx, y * fy, z * fz);
     }
 
-    public Pos toMultiply(double fx, double fy, double fz) {
-        x *= fx;
-        y *= fy;
-        z *= fz;
-        return this;
-    }
-
-    public Pos toMultiply(double d) {
-        return toMultiply(d, d, d);
-    }
-
-    public double getMag() {
+    public double mag() {
         return Math.sqrt(x * x + y * y + z * z);
     }
 
-    public float getDistance(Entity entity) {
+    public float distance(Entity entity) {
         double f = this.x - entity.getX();
         double f1 = this.y - entity.getY() + entity.getEyeHeight();
         double f2 = this.z - entity.getZ();
         return (float) Math.sqrt(f * f + f1 * f1 + f2 * f2);
     }
 
-    public BlockPos toBlockPos() {
+    public BlockPos blockPos() {
         return new BlockPos(x, y, z);
     }
 
-
-    public Pos toMove(Pos pos) {
-        x += pos.x;
-        y += pos.y;
-        z += pos.z;
-        return this;
-    }
-
-    public Pos getMove(Pos pos) {
-        return new Pos(x + pos.x, y + pos.y, z + pos.z);
-    }
-
-    public Vec3i getVec3d() {
+    public Vec3i vec3d() {
         return new Vec3i(x, y, z);
     }
 
     public static final Random rand = new Random();
     public static final Pos POS0 = new Pos();
 
-    public static Pos getRandomPos() {
+    public static Pos randomPos() {
         return new Pos(rand.nextBoolean() ? rand.nextDouble() : -rand.nextDouble(),
                 rand.nextBoolean() ? rand.nextDouble() : -rand.nextDouble(),
                 rand.nextBoolean() ? rand.nextDouble() : -rand.nextDouble());
     }
 
-    public static Pos getRandomPos(double x, double y, double z) {
+    public static Pos randomPos(double x, double y, double z) {
         return new Pos(rand.nextBoolean() ? rand.nextDouble() * x : -(rand.nextDouble() * x),
                 rand.nextBoolean() ? rand.nextDouble() * y : -(rand.nextDouble() * y),
                 rand.nextBoolean() ? rand.nextDouble() * z : -(rand.nextDouble() * z));
     }
 
-    public static Pos getRandomPos(double x, double y, double z, double xMin, double yMin, double zMin) {
+    public static Pos randomPos(double x, double y, double z, double xMin, double yMin, double zMin) {
         return new Pos((rand.nextBoolean() ? rand.nextDouble() * x : -(rand.nextDouble() * x)) + xMin,
                 (rand.nextBoolean() ? rand.nextDouble() * y : -(rand.nextDouble() * y)) + yMin,
                 (rand.nextBoolean() ? rand.nextDouble() * z : -(rand.nextDouble() * z)) + zMin);
     }
 
-    public static Pos getCoordinateDifference(Pos pos1, Pos pos2) {
+    public static Pos coordinateDifference(Pos pos1, Pos pos2) {
         return new Pos(pos2.x - pos1.x, pos2.y - pos1.y, pos2.z - pos1.z);
     }
 
-    public static Pos getMovePos(Pos pos1, Pos pos2, double tick) {
+    public static Pos movePos(Pos pos1, Pos pos2, double tick) {
         if (tick <= 0) {
             return POS0;
         }
-        Pos pos = getCoordinateDifference(pos1, pos2);
+        Pos pos = coordinateDifference(pos1, pos2);
         return new Pos(pos.x / tick, pos.y / tick, pos.z / tick);
     }
 
-    public Pos getCoordinateDifference(Pos pos) {
+    public Pos coordinateDifference(Pos pos) {
         return new Pos(pos.x - this.x, pos.y - this.y, pos.z - this.z);
     }
 
-    public Pos getContraryCoordinateDifference(Pos pos) {
-        return new Pos(this.x - pos.x, this.y - pos.y, this.z - pos.z);
-    }
-
-    public Pos getMovePos(Pos pos, double tick) {
+    public Pos movePos(Pos pos, double tick) {
         if (tick <= 0) {
             return POS0;
         }
-        Pos p = getCoordinateDifference(pos);
+        Pos p = coordinateDifference(pos);
         return new Pos(p.x / tick, p.y / tick, p.z / tick);
     }
 
-    public Pos toMovePos(Pos pos, double tick) {
-        if (tick <= 0) {
-            return POS0;
-        }
-        Pos p = getCoordinateDifference(pos);
-        x = p.x / tick;
-        y = p.y / tick;
-        z = p.z / tick;
-        return this;
-    }
-
-    public Pos toLimtx(double d) {
+    public Pos limtX(double d) {
         d = Math.abs(d);
+        double xx = x;
         if (Math.abs(x) > d) {
             if (x > 0) {
-                x = d;
+                xx = d;
             } else {
-                x = -d;
+                xx = -d;
             }
         }
-        return this;
+        return new Pos(xx, y, z);
     }
 
-    public Pos toLimty(double d) {
+    public Pos limtY(double d) {
         d = Math.abs(d);
+        double yy = y;
         if (Math.abs(y) > d) {
             if (y > 0) {
-                y = d;
+                yy = d;
             } else {
-                y = -d;
+                yy = -d;
             }
         }
-        return this;
+        return new Pos(x, yy, z);
     }
 
-    public Pos toLimtz(double d) {
+    public Pos limtZ(double d) {
         d = Math.abs(d);
+        double zz = z;
         if (Math.abs(z) > d) {
             if (z > 0) {
-                z = d;
+                zz = d;
             } else {
-                z = -d;
+                zz = -d;
             }
         }
-        return this;
+        return new Pos(x, y, zz);
     }
 
     public Pos toLimit(double d) {
         d = Math.abs(d);
+        double xx = x;
+        double yy = y;
+        double zz = z;
         if (Math.abs(x) > d) {
             if (x > 0) {
-                x = d;
+                xx = d;
             } else {
-                x = -d;
+                xx = -d;
             }
         }
 
         if (Math.abs(y) > d) {
             if (y > 0) {
-                y = d;
+                yy = d;
             } else {
-                y = -d;
+                yy = -d;
             }
         }
 
         if (Math.abs(z) > d) {
             if (z > 0) {
-                z = d;
+                zz = d;
             } else {
-                z = -d;
+                zz = -d;
             }
         }
 
-        return this;
+        return new Pos(xx, yy, zz);
     }
 
-    public Pos getCrossProduct(Pos vec) {
+    public Pos crossProduct(Pos vec) {
         double d = y * vec.z - z * vec.y;
         double d1 = z * vec.x - x * vec.z;
         double d2 = x * vec.y - y * vec.x;
@@ -346,72 +304,37 @@ public class Pos {
     }
 
     public Pos toNegative() {
-        x = -x;
-        y = -y;
-        z = -z;
-        return this;
+        return new Pos(-x, -y, -z);
     }
 
-    public Pos toNegativeX() {
-        x = -x;
-        return this;
+    public Pos negativeX() {
+        return new Pos(-x, y, z);
     }
 
-    public Pos toNegativeY() {
-        y = -y;
-        return this;
+    public Pos negativeY() {
+        return new Pos(x, -y, z);
     }
 
     public Pos toNegativeZ() {
-        z = -z;
-        return this;
+        return new Pos(x, y, -z);
     }
 
-    public Pos getNegative() {
-        return new Pos(this).toNegative();
-    }
-
-    public Pos getNegativeX() {
-        return new Pos(this).toNegativeZ();
-    }
-
-    public Pos getNegativeY() {
-        return new Pos(this).toNegativeY();
-    }
-
-    public Pos getNegativeZ() {
-        return new Pos(this).toNegativeZ();
-    }
 
     /***
      * 返回相量
      */
-    public Pos getPhasor() {
+    public Pos phasor() {
         return new Pos(Math.atan2(this.x, this.y) * 180 / Math.PI, (Math.atan2(this.y, getSqrt()) * 180.0D / Math.PI), 0);
-    }
-
-    public Pos toPhasor() {
-        x = Math.atan2(this.x, this.y) * 180 / Math.PI;
-        y = Math.atan2(this.y, getSqrt()) * 180.0D / Math.PI;
-        z = 0;
-        return this;
     }
 
     public double getSqrt() {
         return Math.sqrt(this.x * this.x + this.z * this.z);
     }
 
-    public Pos toLerp(Pos old, float l) {
-        x = x + (old.x - x) / l;
-        y = y + (old.y - y) / l;
-        z = z + (old.z - z) / l;
-        return this;
-    }
-
-    public Pos getLerp(Pos old, float l) {
-        return new Pos(x = x + (old.x - x) / l,
-                y = y + (old.y - y) / l,
-                z = z + (old.z - z) / l);
+    public Pos lerp(Pos old, float l) {
+        return new Pos(x + (old.x - x) / l,
+                y + (old.y - y) / l,
+                z + (old.z - z) / l);
     }
 
     /***
@@ -431,8 +354,7 @@ public class Pos {
     }
 
     public Pos toVector() {
-        setPos(getVector(x, y));
-        return this;
+        return getVector(x, y);
     }
 
     @Override
@@ -459,12 +381,18 @@ public class Pos {
     public Pos(JsonObject jsonObject) {
         if (jsonObject.has("x")) {
             x = jsonObject.get("x").getAsDouble();
+        } else {
+            x = 0;
         }
         if (jsonObject.has("y")) {
             y = jsonObject.get("y").getAsDouble();
+        } else {
+            y = 0;
         }
         if (jsonObject.has("z")) {
             z = jsonObject.get("z").getAsDouble();
+        } else {
+            z = 0;
         }
     }
 

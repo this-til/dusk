@@ -25,7 +25,7 @@ import java.util.stream.Stream;
  *
  * @author til
  */
-@Mod.EventBusSubscriber(modid = Dusk.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
+//@Mod.EventBusSubscriber(modid = Dusk.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class TagAdd {
 
     public static Field forgeRegistry_tagManager;

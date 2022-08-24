@@ -5,6 +5,7 @@ import com.til.dusk.Dusk;
 import com.til.dusk.common.capability.tile_entity.DefaultTileEntity;
 import com.til.dusk.common.capability.tile_entity.ITileEntityType;
 import com.til.dusk.common.register.mana_level.ManaLevel;
+import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.util.Util;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.datafix.fixes.References;
@@ -51,6 +52,16 @@ public abstract class TileEntityRegister<T extends BlockEntity> extends Register
                         ForgeRegistries.BLOCK_ENTITY_TYPES.register(fuseName("_", this, l, k), blockEntityType);
                     }
                 }));
+                ShapedDrive.SHAPED_DRIVE.get().forEach(s -> {
+                    if (s.blockItem.getBlock() instanceof ITileEntityType iTileEntityType) {
+                        BlockEntityType.Builder<DefaultTileEntity> builder = BlockEntityType.Builder.of((blockPos, blockState) ->
+                                new DefaultTileEntity(blockBlockEntityTypeMap.get(iTileEntityType), blockPos, blockState), s.blockItem.getBlock());
+                        Type<?> type = net.minecraft.Util.fetchChoiceType(References.BLOCK_ENTITY, fuseName("_", this, s).toString());
+                        BlockEntityType<DefaultTileEntity> blockEntityType = builder.build(type);
+                        blockBlockEntityTypeMap.put(iTileEntityType, blockEntityType);
+                        ForgeRegistries.BLOCK_ENTITY_TYPES.register(fuseName("_", this, s), blockEntityType);
+                    }
+                });
             }
         };
     }

@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.til.dusk.Dusk;
 import com.til.dusk.client.ClientTransfer;
 import com.til.dusk.common.capability.control.IControl;
+import com.til.dusk.common.register.key.KeyRegister;
 import com.til.dusk.util.Util;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;

@@ -1,5 +1,5 @@
 {
-  "parent": "dusk:custom/void_cylinder/void_cylinder",
+  "parent": "dusk:custom/void_tank/void_tank",
   "render_type": "translucent",
   "textures": {
     "missing": "dusk:block/white_0",

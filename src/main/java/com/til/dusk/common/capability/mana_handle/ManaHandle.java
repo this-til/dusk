@@ -9,14 +9,12 @@ import net.minecraftforge.common.MinecraftForge;
  * @author til
  */
 public class ManaHandle implements IManaHandle {
-    public final BlockEntity tileEntity;
 
     public final long maxMana;
     public final long rate;
     public long mana;
 
-    public ManaHandle(BlockEntity tileEntity, long maxMana, long rate) {
-        this.tileEntity = tileEntity;
+    public ManaHandle(long maxMana, long rate) {
         this.maxMana = maxMana;
         this.rate = rate;
     }
@@ -56,11 +54,6 @@ public class ManaHandle implements IManaHandle {
         this.mana -= extractMana;
         MinecraftForge.EVENT_BUS.post(new EventManaHandle.Extract(this, extractMana));
         return extractMana;
-    }
-
-    @Override
-    public BlockEntity getThis() {
-        return tileEntity;
     }
 
     @Override

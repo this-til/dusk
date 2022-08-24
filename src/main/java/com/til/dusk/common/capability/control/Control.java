@@ -73,7 +73,7 @@ public class Control implements IControl {
     }
 
     @Override
-    public Component binding(BlockEntity tileEntity, BindType iBindType) {
+    public Component bind(BlockEntity tileEntity, BindType iBindType) {
         List<BlockPos> list = tile.computeIfAbsent(iBindType, k -> new ArrayList<>());
         if (tileEntity.getLevel() != tileEntity.getLevel()) {
             return Lang.getLang(Lang.getKey("错误，方块不属于同一个世界"));
@@ -81,7 +81,7 @@ public class Control implements IControl {
         if (!getCanBindType().contains(iBindType)) {
             return Component.translatable(Lang.getKey("绑定失败，不支持类型为[%s]的绑定"), Lang.getLang(iBindType));
         }
-        if (new Pos(tileEntity.getBlockPos()).getDistance(new Pos(tileEntity.getBlockPos())) > getMaxRange()) {
+        if (new Pos(tileEntity.getBlockPos()).distance(new Pos(tileEntity.getBlockPos())) > getMaxRange()) {
             return Lang.getLang(Lang.getKey("绑定失败，方块距离超过限制"));
         }
         if (list.size() >= getMaxBind()) {
@@ -100,12 +100,17 @@ public class Control implements IControl {
     }
 
     @Override
-    public boolean hasBundling(BlockEntity tileEntity, BindType bindType) {
+    public Map<BindType, List<BlockPos>> getAllBind() {
+        return tile;
+    }
+
+    @Override
+    public boolean hasBind(BlockEntity tileEntity, BindType bindType) {
         return tile.computeIfAbsent(bindType, k -> new ArrayList<>()).contains(tileEntity.getBlockPos());
     }
 
     @Override
-    public Component unBindling(BlockEntity tileEntity, BindType iBindType) {
+    public Component unBind(BlockEntity tileEntity, BindType iBindType) {
         if (tileEntity.getLevel() != tileEntity.getLevel()) {
             return Lang.getLang(Lang.getKey("错误，方块不属于同一个世界"));
         }

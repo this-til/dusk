@@ -23,6 +23,8 @@ import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegistryBuilder;
 
 import javax.annotation.Nullable;
+import java.awt.*;
+import java.awt.image.ColorConvertOp;
 import java.util.function.Supplier;
 
 /**
@@ -48,24 +50,27 @@ public class BindType extends RegisterBasics<BindType> {
     public static void onEvent(NewRegistryEvent event) {
         BIND_TYPE = event.create(new RegistryBuilder<BindType>().setName(new ResourceLocation(Dusk.MOD_ID, "bind_type")));
 
-        itemIn = new BindTypeBindCapability<>("item_in",Lang.getKey("capability.item_handler") ,() -> ForgeCapabilities.ITEM_HANDLER);
-        itemOut = new BindTypeBindCapability<>("item_out",Lang.getKey("capability.item_handler") ,() -> ForgeCapabilities.ITEM_HANDLER);
-        manaIn = new BindTypeBindCapability<>("mana_in", Lang.getKey("capability.mana_handler"),() -> CapabilityRegister.iManaHandle.capability);
-        manaOut = new BindTypeBindCapability<>("mana_out",Lang.getKey("capability.mana_handler") ,() -> CapabilityRegister.iManaHandle.capability);
-        fluidIn = new BindTypeBindCapability<>("fluid_in", Lang.getKey("capability.fluid_handler"),() -> ForgeCapabilities.FLUID_HANDLER);
-        fluidOut = new BindTypeBindCapability<>("fluid_out",Lang.getKey("capability.fluid_handler") ,() -> ForgeCapabilities.FLUID_HANDLER);
-        modelStore = new BindTypeBindCapability<>("model_store",Lang.getKey("capability.shaped_drive ")  , () -> CapabilityRegister.iShapedDrive.capability);
-        relayIn = new BindType("relay_in");
-        relayOut = new BindType("relay_out");
+        itemIn = new BindTypeBindCapability<>("item_in", new Color(43, 255, 33), Lang.getKey("capability.item_handler"), () -> ForgeCapabilities.ITEM_HANDLER);
+        itemOut = new BindTypeBindCapability<>("item_out", new Color(65, 112, 62), Lang.getKey("capability.item_handler"), () -> ForgeCapabilities.ITEM_HANDLER);
+        manaIn = new BindTypeBindCapability<>("mana_in", new Color(255, 255, 0), Lang.getKey("capability.mana_handler"), () -> CapabilityRegister.iManaHandle.capability);
+        manaOut = new BindTypeBindCapability<>("mana_out", new Color(129, 129, 72), Lang.getKey("capability.mana_handler"), () -> CapabilityRegister.iManaHandle.capability);
+        fluidIn = new BindTypeBindCapability<>("fluid_in", new Color(29, 237, 255), Lang.getKey("capability.fluid_handler"), () -> ForgeCapabilities.FLUID_HANDLER);
+        fluidOut = new BindTypeBindCapability<>("fluid_out", new Color(68, 124, 129), Lang.getKey("capability.fluid_handler"), () -> ForgeCapabilities.FLUID_HANDLER);
+        modelStore = new BindTypeBindCapability<>("model_store", new Color(204, 147, 255), Lang.getKey("capability.shaped_drive "), () -> CapabilityRegister.iShapedDrive.capability);
+        relayIn = new BindType("relay_in", new Color(255, 0, 0));
+        relayOut = new BindType("relay_out", new Color(141, 74, 74));
 
     }
 
-    public BindType(ResourceLocation name) {
+    public final Color color;
+
+    public BindType(ResourceLocation name, Color color) {
         super(name, BIND_TYPE);
+        this.color = color;
     }
 
-    public BindType(String name) {
-        this(new ResourceLocation(Dusk.MOD_ID, name));
+    public BindType(String name, Color color) {
+        this(new ResourceLocation(Dusk.MOD_ID, name), color);
     }
 
 
@@ -84,16 +89,16 @@ public class BindType extends RegisterBasics<BindType> {
 
         public Capability<C> capability;
         public Supplier<Capability<C>> supplier;
-        public String capabilityName;
 
-        public BindTypeBindCapability(String name, String capabilityName, Supplier<Capability<C>> supplier) {
-            this(new ResourceLocation(Dusk.MOD_ID, name), capabilityName, supplier);
+        public final String capabilityName;
+
+        public BindTypeBindCapability(String name, Color color, String capabilityName, Supplier<Capability<C>> supplier) {
+            this(new ResourceLocation(Dusk.MOD_ID, name), color, capabilityName, supplier);
         }
 
-        public BindTypeBindCapability(ResourceLocation resourceLocation, String capabilityName, Supplier<Capability<C>> supplier) {
-            super(resourceLocation);
-            IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-            modEventBus.addListener(this::commonSetup);
+        public BindTypeBindCapability(ResourceLocation resourceLocation, Color color, String capabilityName, Supplier<Capability<C>> supplier) {
+            super(resourceLocation, color);
+            Dusk.instance.modEventBus.addListener(this::commonSetup);
             this.supplier = supplier;
             this.capabilityName = capabilityName;
         }
@@ -115,7 +120,7 @@ public class BindType extends RegisterBasics<BindType> {
             if (lazyOptional.isPresent()) {
                 return null;
             }
-            return Component.translatable("绑定方块没有[%s]的能力", Component.translatable(capabilityName));
+            return Component.translatable("绑定失败，绑定方块没有[%s]的能力", Component.translatable(capabilityName));
         }
 
     }

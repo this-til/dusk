@@ -5,6 +5,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.IForgeRegistry;
 
+import javax.annotation.Nullable;
 import java.util.function.Supplier;
 
 public class RegisterItemTool<T> extends TagTool<T> {
@@ -19,9 +20,15 @@ public class RegisterItemTool<T> extends TagTool<T> {
         this(new ResourceLocation(Dusk.MOD_ID, name), registrySupplier);
     }
 
+    @Nullable
     @Override
     public T get(CompoundTag nbt) {
-        return registrySupplier.get().getValue(new ResourceLocation(nbt.getString(tagName)));
+        try {
+            return registrySupplier.get().getValue(new ResourceLocation(nbt.getString(tagName)));
+        } catch (Exception e) {
+            return null;
+        }
+
     }
 
     @Override

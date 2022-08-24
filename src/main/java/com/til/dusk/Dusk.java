@@ -26,10 +26,10 @@ public class Dusk {
         }
     };
     public final Logger logger = LogUtils.getLogger();
+    public final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
     public Dusk() {
         instance = this;
-        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::clientSetup);
         MinecraftForge.EVENT_BUS.register(this);

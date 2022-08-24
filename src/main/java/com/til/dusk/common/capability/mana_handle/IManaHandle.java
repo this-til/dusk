@@ -5,7 +5,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.util.INBTSerializable;
 
-public interface IManaHandle extends IThis<BlockEntity>, INBTSerializable<CompoundTag> {
+public interface IManaHandle extends INBTSerializable<CompoundTag> {
 
     /***
      * 返回最大容量

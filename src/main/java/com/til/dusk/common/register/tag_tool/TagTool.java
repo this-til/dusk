@@ -11,10 +11,13 @@ import com.til.dusk.util.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.*;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegistryBuilder;
@@ -33,7 +36,11 @@ import java.util.function.Supplier;
 public abstract class TagTool<V> extends RegisterBasics<TagTool<V>> {
     public static Supplier<IForgeRegistry<TagTool<?>>> TAG_TOOL;
 
+    public static RegisterItemTool<Item> itemTag;
+    public static PackTag<Item> itemPackTag;
     public static TagTool<ItemStack> itemStackTag;
+    public static RegisterItemTool<Fluid> fluidTag;
+    public static PackTag<Fluid> fluidPackTag;
     public static TagTool<FluidStack> fluidStackTag;
     public static TagTool<BlockPos> blockPosTag;
 
@@ -67,10 +74,16 @@ public abstract class TagTool<V> extends RegisterBasics<TagTool<V>> {
     public static IntTag maxParallelTag;
     public static DoubleTag probabilityTag;
     public static IntTag mBTag;
+    public static ListTag<ItemStack> itemStackListTag;
+    public static ListTag<FluidStack> fluidStackListTag;
+    public static LongTag count;
+    public static BooleanTag isVoidCaseItemHandlerTag;
 
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
         TAG_TOOL = event.create(new RegistryBuilder<TagTool<?>>().setName(new ResourceLocation(Dusk.MOD_ID, "nbt_tool")));
+        itemTag = new RegisterItemTool<>("item_tag", () -> ForgeRegistries.ITEMS);
+        itemPackTag = new PackTag<>("item_pack_tag", itemTag);
         itemStackTag = new TagTool<>("item_stack_tag") {
             @Override
             public ItemStack get(CompoundTag nbt) {
@@ -82,6 +95,8 @@ public abstract class TagTool<V> extends RegisterBasics<TagTool<V>> {
                 copy(nbt, stack.serializeNBT());
             }
         };
+        fluidTag = new RegisterItemTool<>("fluid_tag", () -> ForgeRegistries.FLUIDS);
+        fluidPackTag = new PackTag<>("fluid_pack_tag", fluidTag);
         fluidStackTag = new TagTool<>("fluid_stack") {
             @Override
             public FluidStack get(CompoundTag nbt) {
@@ -143,12 +158,25 @@ public abstract class TagTool<V> extends RegisterBasics<TagTool<V>> {
                 ShapedHandle shapedHandle = new ShapedHandle(surplusTimeTag.get(nbt), consumeManaTag.get(nbt), outManaTag.get(nbt), outItemTag.get(nbt), outFluidTag.get(nbt));
                 shapedHandle._surplusTime = _surplusTimeTag.get(nbt);
                 shapedHandle.process = processTag.get(nbt);
+                if (shapedHandle.process == null) {
+                    shapedHandle.process = ShapedHandleProcess.trippingOperation;
+                }
                 return shapedHandle;
             }
 
             @Override
             public void set(CompoundTag nbt, ShapedHandle shapedHandle) {
-
+                surplusTimeTag.set(nbt, shapedHandle.surplusTime);
+                consumeManaTag.set(nbt, shapedHandle.consumeMana);
+                if (shapedHandle.outItem != null) {
+                    outItemTag.set(nbt, shapedHandle.outItem);
+                }
+                if (shapedHandle.outFluid != null) {
+                    outFluidTag.set(nbt, shapedHandle.outFluid);
+                }
+                outManaTag.set(nbt, shapedHandle.outMana);
+                processTag.set(nbt, shapedHandle.process);
+                _surplusTimeTag.set(nbt, shapedHandle._surplusTime);
             }
         };
         manaTag = new LongTag("mana_tag_tag");
@@ -169,6 +197,10 @@ public abstract class TagTool<V> extends RegisterBasics<TagTool<V>> {
         maxParallelTag = new IntTag("max_parallel_tag");
         mBTag = new IntTag("mb_tag");
         probabilityTag = new DoubleTag("probability_tag");
+        itemStackListTag = new ListTag<>("item_stack_list_tag", itemStackTag);
+        fluidStackListTag = new ListTag<>("fluid_stack_list_tag", fluidStackTag);
+        count = new LongTag("count");
+        isVoidCaseItemHandlerTag = new BooleanTag("is_void_case_item_handler_tag");
     }
 
     public final String tagName;

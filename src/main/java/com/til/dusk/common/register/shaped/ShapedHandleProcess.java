@@ -43,7 +43,7 @@ public abstract class ShapedHandleProcess extends RegisterBasics<ShapedHandlePro
         production = new ShapedHandleProcess("production") {
 
             @SubscribeEvent
-            public void onEvent(EventHandle.EventShapedHandle.Up event) {
+            public void up(EventHandle.EventShapedHandle.Up event) {
                 if (!event.shapedHandle.process.equals(this)) {
                     return;
                 }
@@ -72,7 +72,7 @@ public abstract class ShapedHandleProcess extends RegisterBasics<ShapedHandlePro
         out = new ShapedHandleProcess("out") {
 
             @SubscribeEvent
-            public void onEvent(EventHandle.EventShapedHandle.Up event) {
+            public void up(EventHandle.EventShapedHandle.Up event) {
                 if (!event.shapedHandle.process.equals(this)) {
                     return;
                 }
@@ -87,7 +87,7 @@ public abstract class ShapedHandleProcess extends RegisterBasics<ShapedHandlePro
             }
 
             @SubscribeEvent
-            public void onEvent(EventHandle.EventShapedHandle.Clock event) {
+            public void clock(EventHandle.EventShapedHandle.Clock event) {
                 if (!event.shapedHandle.process.equals(this)) {
                     return;
                 }
@@ -146,7 +146,7 @@ public abstract class ShapedHandleProcess extends RegisterBasics<ShapedHandlePro
         trippingOperation = new ShapedHandleProcess("tripping_operation") {
 
             @SubscribeEvent
-            public void onEvent(EventHandle.EventShapedHandle.Clock event) {
+            public void clock(EventHandle.EventShapedHandle.Clock event) {
                 if (!event.shapedHandle.process.equals(this)) {
                     return;
                 }
