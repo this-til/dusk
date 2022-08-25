@@ -1,6 +1,6 @@
 package com.til.dusk.common.capability.fluid_handler;
 
-import com.til.dusk.common.register.tag_tool.TagTool;
+import com.til.dusk.util.tag_tool.TagTool;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.fluids.FluidStack;

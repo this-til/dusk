@@ -8,7 +8,7 @@ import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.common.register.ParticleRegister;
 import com.til.dusk.common.register.key.EventKey;
 import com.til.dusk.common.register.key.KeyRegister;
-import com.til.dusk.common.register.tag_tool.TagTool;
+import com.til.dusk.util.tag_tool.TagTool;
 import com.til.dusk.util.Lang;
 import com.til.dusk.util.Pos;
 import com.til.dusk.util.prefab.ColorPrefab;

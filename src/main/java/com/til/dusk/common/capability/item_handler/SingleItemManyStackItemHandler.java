@@ -1,6 +1,6 @@
 package com.til.dusk.common.capability.item_handler;
 
-import com.til.dusk.common.register.tag_tool.TagTool;
+import com.til.dusk.util.tag_tool.TagTool;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.Item;

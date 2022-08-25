@@ -2,7 +2,7 @@ package com.til.dusk.common.capability.clock;
 
 import com.til.dusk.common.capability.mana_level.IManaLevel;
 import com.til.dusk.common.capability.up.IUp;
-import com.til.dusk.common.register.tag_tool.TagTool;
+import com.til.dusk.util.tag_tool.TagTool;
 import com.til.dusk.util.Extension;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.common.MinecraftForge;

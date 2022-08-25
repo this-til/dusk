@@ -1,7 +1,7 @@
 package com.til.dusk.client.other_mod_interact;
 
 import com.til.dusk.Dusk;
-import com.til.dusk.common.register.tag_tool.TagTool;
+import com.til.dusk.util.tag_tool.TagTool;
 import com.til.dusk.util.Lang;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.register.shaped.Shaped;

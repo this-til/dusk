@@ -13,7 +13,7 @@ import com.til.dusk.common.capability.shaped_drive.IShapedDrive;
 import com.til.dusk.common.capability.up.IUp;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.register.shaped.ShapedDrive;
-import com.til.dusk.common.register.tag_tool.TagTool;
+import com.til.dusk.util.tag_tool.TagTool;
 import com.til.dusk.util.Lang;
 import com.til.dusk.util.Util;
 import net.minecraft.core.BlockPos;

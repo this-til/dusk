@@ -1,16 +1,17 @@
 package com.til.dusk.common.register;
 
 import com.til.dusk.Dusk;
+import com.til.dusk.util.Extension;
+import com.til.dusk.util.StaticTag;
 import com.til.dusk.util.Util;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegisterEvent;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.function.Supplier;
 
 /**
@@ -20,6 +21,7 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> {
 
     public final ResourceLocation name;
     public final Supplier<IForgeRegistry<T>> registrySupplier;
+    public List<StaticTag> staticTagList = new ArrayList<>();
 
     protected boolean isRegister;
     protected boolean isRegisterSubsidiary;
@@ -47,6 +49,65 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> {
             isRegisterSubsidiary = true;
             registerSubsidiaryBlack();
         }
+    }
+
+    public T setTag(Extension.Action_1V<List<StaticTag>> action) {
+        action.action(staticTagList);
+        return Util.forcedConversion(this);
+    }
+
+    public T removeTag(StaticTag staticTag) {
+        staticTagList.remove(staticTag);
+        return Util.forcedConversion(this);
+    }
+
+    public T removeTag(StaticTag... staticTags) {
+        for (StaticTag staticTag : staticTags) {
+            removeTag(staticTag);
+        }
+        return Util.forcedConversion(this);
+    }
+
+    public T addTag(StaticTag staticTag) {
+        if (!staticTagList.contains(staticTag)) {
+            staticTagList.add(staticTag);
+            for (StaticTag tag : staticTag.father) {
+                addTag(staticTag);
+            }
+        }
+        return Util.forcedConversion(this);
+    }
+
+    public T addTag(StaticTag... staticTags) {
+        for (StaticTag staticTag : staticTags) {
+            addTag(staticTag);
+        }
+        return Util.forcedConversion(this);
+    }
+
+    public boolean hasTag(StaticTag staticTag) {
+        if (staticTagList.contains(staticTag)) {
+            return hasTag(staticTag.father);
+        }
+        return false;
+    }
+
+    public boolean hasTag(List<StaticTag> staticTags) {
+        for (StaticTag staticTag : staticTags) {
+            if (!hasTag(staticTag)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean hasTag(StaticTag... staticTags) {
+        for (StaticTag staticTag : staticTags) {
+            if (!hasTag(staticTag)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /***

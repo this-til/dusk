@@ -1,4 +1,4 @@
-package com.til.dusk.common.register.tag_tool;
+package com.til.dusk.util.tag_tool;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NumericTag;

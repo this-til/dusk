@@ -1,4 +1,4 @@
-package com.til.dusk.common.register.tag_tool;
+package com.til.dusk.util.tag_tool;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.common.capability.handle.ShapedHandle;
@@ -32,9 +32,7 @@ import java.util.function.Supplier;
  *
  * @author til
  */
-@Mod.EventBusSubscriber(modid = Dusk.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public abstract class TagTool<V> extends RegisterBasics<TagTool<V>> {
-    public static Supplier<IForgeRegistry<TagTool<?>>> TAG_TOOL;
+public abstract class TagTool<V> {
 
     public static RegisterItemTool<Item> itemTag;
     public static PackTag<Item> itemPackTag;
@@ -71,7 +69,7 @@ public abstract class TagTool<V> extends RegisterBasics<TagTool<V>> {
     public static ListTag<ShapedHandle> shapedHandleListTag;
     public static RegisterItemTool<ManaLevel> manaLevelTag;
     public static RegisterItemListTool<ShapedDrive> shapedDriveListTag;
-    public static IntTag maxParallelTag;
+    public static com.til.dusk.util.tag_tool.IntTag maxParallelTag;
     public static DoubleTag probabilityTag;
     public static IntTag mBTag;
     public static ListTag<ItemStack> itemStackListTag;
@@ -79,9 +77,7 @@ public abstract class TagTool<V> extends RegisterBasics<TagTool<V>> {
     public static LongTag count;
     public static BooleanTag isVoidCaseItemHandlerTag;
 
-    @SubscribeEvent
-    public static void onEvent(NewRegistryEvent event) {
-        TAG_TOOL = event.create(new RegistryBuilder<TagTool<?>>().setName(new ResourceLocation(Dusk.MOD_ID, "nbt_tool")));
+     static {
         itemTag = new RegisterItemTool<>("item_tag", () -> ForgeRegistries.ITEMS);
         itemPackTag = new PackTag<>("item_pack_tag", itemTag);
         itemStackTag = new TagTool<>("item_stack_tag") {
@@ -203,10 +199,11 @@ public abstract class TagTool<V> extends RegisterBasics<TagTool<V>> {
         isVoidCaseItemHandlerTag = new BooleanTag("is_void_case_item_handler_tag");
     }
 
+    public final ResourceLocation name;
     public final String tagName;
 
     public TagTool(ResourceLocation name) {
-        super(name, Util.forcedConversion(TAG_TOOL));
+        this.name = name;
         tagName = name.toString();
     }
 

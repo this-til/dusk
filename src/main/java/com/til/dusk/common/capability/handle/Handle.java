@@ -6,7 +6,7 @@ import com.til.dusk.common.capability.mana_handle.IManaHandle;
 import com.til.dusk.common.capability.mana_level.IManaLevel;
 import com.til.dusk.common.capability.up.IUp;
 import com.til.dusk.common.register.BindType;
-import com.til.dusk.common.register.tag_tool.TagTool;
+import com.til.dusk.util.tag_tool.TagTool;
 import com.til.dusk.common.register.shaped.Shaped;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.ShapedType;

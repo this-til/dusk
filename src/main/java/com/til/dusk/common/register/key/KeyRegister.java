@@ -1,22 +1,9 @@
 package com.til.dusk.common.register.key;
 
 import com.til.dusk.Dusk;
-import com.til.dusk.common.capability.control.IControl;
-import com.til.dusk.common.register.BindType;
-import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.common.register.RegisterBasics;
-import com.til.dusk.common.register.tag_tool.TagTool;
-import com.til.dusk.common.world.ModItem;
-import com.til.dusk.util.Lang;
-import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.network.NetworkEvent;
@@ -24,9 +11,6 @@ import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegistryBuilder;
 
-import java.awt.*;
-import java.util.List;
-import java.util.Random;
 import java.util.function.Supplier;
 
 /**

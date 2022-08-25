@@ -102,13 +102,7 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
         grind = new ShapedType("grind", () -> ManaLevelBlock.grind) {
             @Override
             public void registerSubsidiaryBlack() {
-                for (Ore ore : Ore.ORE.get()) {
-                    if (!ore.isMineralBlock) {
-                        return;
-                    }
-                    if (!ore.hasMineral) {
-                        return;
-                    }
+                for (Ore ore : Ore.screen(Ore.HAS_MINERAL_BLOCK, Ore.HAS_CRUSHED)) {
                     List<Extension.Data_2<ItemStack, Double>> grindOut = ore.grind();
                     ore.blockMap.forEach((k, v) -> {
                         List<Extension.Data_2<ItemStack, Double>> outItem = new ArrayList<>();
@@ -133,19 +127,32 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
                     });
                 }
 
-                for (Ore ore : Ore.ORE.get()) {
-                    if (!ore.hasMineral) {
-                        return;
-                    }
+                for (Ore ore : Ore.screen(Ore.IS_METAL, Ore.HAS_DUST)) {
                     new Shaped.ShapedOre(
-                            fuseName(this, ore, OreItem.ingot),
+                            fuseName(this, ore, OreItem.dust),
                             this,
                             ShapedDrive.get(1),
                             ore.manaLevel,
-                            Map.of(ItemTags.create(fuseName(ore, ore.isCrystal ? OreItem.crystal : OreItem.ingot)), 1),
+                            Map.of(ItemTags.create(fuseName(ore, OreItem.ingot)), 1),
                             null,
                             (long) (ore.strength * 320L),
                             (long) (ore.consume * 8L),
+                            0,
+                            List.of(new ItemStack(ore.itemMap.get(OreItem.dust), 1)),
+                            null
+                    );
+                }
+
+                for (Ore ore : Ore.screen(Ore.IS_CRYSTA, Ore.HAS_DUST)) {
+                    new Shaped.ShapedOre(
+                            fuseName( "__",this, ore, OreItem.dust),
+                            this,
+                            ShapedDrive.get(2),
+                            ore.manaLevel,
+                            Map.of(ItemTags.create(fuseName(ore, OreItem.crystal)), 1),
+                            null,
+                            (long) (ore.strength * 320L),
+                            (long) (ore.consume * 12L),
                             0,
                             List.of(new ItemStack(ore.itemMap.get(OreItem.dust), 1)),
                             null
@@ -159,10 +166,7 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
         wash = new ShapedType("wash", () -> ManaLevelBlock.wash) {
             @Override
             public void registerSubsidiaryBlack() {
-                for (Ore ore : Ore.ORE.get()) {
-                    if (!ore.hasMineral) {
-                        return;
-                    }
+                for (Ore ore : Ore.screen(Ore.HAS_CRUSHED)) {
                     List<Extension.Data_2<ItemStack, Double>> grindOut = ore.wash();
                     List<Extension.Data_2<ItemStack, Double>> out = new ArrayList<>();
                     out.add(new Extension.Data_2<>(
@@ -193,10 +197,7 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
         centrifugal = new ShapedType("centrifugal", () -> ManaLevelBlock.centrifugal) {
             @Override
             public void registerSubsidiaryBlack() {
-                for (Ore ore : Ore.ORE.get()) {
-                    if (!ore.hasMineral) {
-                        return;
-                    }
+                for (Ore ore : Ore.screen(Ore.HAS_CRUSHED, Ore.HAS_DUST)) {
                     List<Extension.Data_2<ItemStack, Double>> grindOut = ore.wash();
                     List<Extension.Data_2<ItemStack, Double>> out = new ArrayList<>();
                     out.add(new Extension.Data_2<>(
@@ -220,25 +221,18 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
                             null);
                 }
             }
-
         };
 
         pack = new ShapedType("pack", () -> ManaLevelBlock.pack) {
             @Override
             public void registerSubsidiaryBlack() {
-                for (Ore ore : Ore.ORE.get()) {
-                    if (!ore.hasBlock) {
-                        return;
-                    }
-                    if (!ore.hasMineral) {
-                        return;
-                    }
+                for (Ore ore : Ore.screen(Ore.HAS_BLOCK, Ore.IS_METAL)) {
                     new Shaped.ShapedOre(
                             fuseName(this, ore, OreBlock.block),
                             this,
                             ShapedDrive.get(0),
                             ore.manaLevel,
-                            Map.of(ItemTags.create(fuseName(ore, ore.isCrystal ? OreItem.crystal : OreItem.ingot)), 9),
+                            Map.of(ItemTags.create(fuseName(ore, OreItem.ingot)), 9),
                             null,
                             (long) (ore.strength * 128L),
                             (long) (ore.consume * 4L),
@@ -247,31 +241,22 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
                             null);
                 }
 
-                for (Ore ore : Ore.ORE.get()) {
-                    if (!ore.hasMineral) {
-                        return;
-                    }
+                for (Ore ore : Ore.screen(Ore.HAS_BLOCK, Ore.IS_CRYSTA)) {
                     new Shaped.ShapedOre(
-                            fuseName(this, ore, OreItem.dust),
+                            fuseName("__", this, ore, OreBlock.block),
                             this,
                             ShapedDrive.get(1),
                             ore.manaLevel,
-                            Map.of(ItemTags.create(fuseName(ore, OreItem.dustTiny)), 9),
+                            Map.of(ItemTags.create(fuseName(ore, OreItem.crystal)), 9),
                             null,
                             (long) (ore.strength * 128L),
                             (long) (ore.consume * 4L),
                             0,
-                            List.of(new ItemStack(ore.itemMap.get(OreItem.dust))),
+                            List.of(new ItemStack(ore.blockMap.get(OreBlock.block))),
                             null);
                 }
 
-                for (Ore ore : Ore.ORE.get()) {
-                    if (!ore.hasMineral) {
-                        return;
-                    }
-                    if (ore.isCrystal) {
-                        return;
-                    }
+                for (Ore ore : Ore.screen(Ore.IS_METAL)) {
                     new Shaped.ShapedOre(
                             fuseName(this, ore, OreItem.ingot),
                             this,
@@ -285,6 +270,21 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
                             List.of(new ItemStack(ore.itemMap.get(OreItem.ingot))),
                             null);
                 }
+
+                for (Ore ore : Ore.screen(Ore.HAS_DUST)) {
+                    new Shaped.ShapedOre(
+                            fuseName(this, ore, OreItem.dust),
+                            this,
+                            ShapedDrive.get(3),
+                            ore.manaLevel,
+                            Map.of(ItemTags.create(fuseName(ore, OreItem.dustTiny)), 9),
+                            null,
+                            (long) (ore.strength * 128L),
+                            (long) (ore.consume * 4L),
+                            0,
+                            List.of(new ItemStack(ore.itemMap.get(OreItem.dust))),
+                            null);
+                }
             }
 
         };
@@ -292,13 +292,7 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
         unpack = new ShapedType("unpack", () -> ManaLevelBlock.unpack) {
             @Override
             public void registerSubsidiaryBlack() {
-                for (Ore ore : Ore.ORE.get()) {
-                    if (!ore.hasBlock) {
-                        return;
-                    }
-                    if (!ore.hasMineral) {
-                        return;
-                    }
+                for (Ore ore : Ore.screen(Ore.HAS_BLOCK, Ore.IS_METAL)) {
                     new Shaped.ShapedOre(
                             fuseName(this, ore, OreItem.ingot),
                             this,
@@ -309,35 +303,26 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
                             (long) (ore.strength * 128L),
                             (long) (ore.consume * 4L),
                             0,
-                            List.of(new ItemStack(ore.itemMap.get(ore.isCrystal ? OreItem.crystal : OreItem.ingot), 9)),
+                            List.of(new ItemStack(ore.itemMap.get(OreItem.ingot), 9)),
                             null);
                 }
 
-                for (Ore ore : Ore.ORE.get()) {
-                    if (!ore.hasMineral) {
-                        return;
-                    }
+                for (Ore ore : Ore.screen(Ore.HAS_BLOCK, Ore.IS_CRYSTA)) {
                     new Shaped.ShapedOre(
-                            fuseName(this, ore, OreItem.dustTiny),
+                            fuseName("__", this, ore, OreItem.ingot),
                             this,
                             ShapedDrive.get(1),
                             ore.manaLevel,
-                            Map.of(ItemTags.create(fuseName(ore, OreItem.dust)), 1),
+                            Map.of(ItemTags.create(fuseName(ore, OreBlock.block)), 1),
                             null,
                             (long) (ore.strength * 128L),
                             (long) (ore.consume * 4L),
                             0,
-                            List.of(new ItemStack(ore.itemMap.get(OreItem.dustTiny), 9)),
+                            List.of(new ItemStack(ore.itemMap.get(OreItem.crystal), 9)),
                             null);
                 }
 
-                for (Ore ore : Ore.ORE.get()) {
-                    if (!ore.hasMineral) {
-                        return;
-                    }
-                    if (ore.isCrystal) {
-                        return;
-                    }
+                for (Ore ore : Ore.screen(Ore.IS_METAL)) {
                     new Shaped.ShapedOre(
                             fuseName(this, ore, OreItem.nuggets),
                             this,
@@ -351,19 +336,30 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
                             List.of(new ItemStack(ore.itemMap.get(OreItem.nuggets), 9)),
                             null);
                 }
+
+                for (Ore ore : Ore.screen(Ore.HAS_DUST)) {
+                    new Shaped.ShapedOre(
+                            fuseName(this, ore, OreItem.dustTiny),
+                            this,
+                            ShapedDrive.get(3),
+                            ore.manaLevel,
+                            Map.of(ItemTags.create(fuseName(ore, OreItem.dust)), 1),
+                            null,
+                            (long) (ore.strength * 128L),
+                            (long) (ore.consume * 4L),
+                            0,
+                            List.of(new ItemStack(ore.itemMap.get(OreItem.dustTiny), 9)),
+                            null);
+                }
+
+
             }
         };
 
         blastFurnace = new ShapedType("blast_furnace", () -> ManaLevelBlock.blastFurnace) {
             @Override
             public void registerSubsidiaryBlack() {
-                for (Ore ore : Ore.ORE.get()) {
-                    if (!ore.hasMineral) {
-                        return;
-                    }
-                    if (ore.isCrystal) {
-                        return;
-                    }
+                for (Ore ore : Ore.screen(Ore.IS_METAL, Ore.HAS_DUST)) {
                     new Shaped.ShapedOre(
                             fuseName(this, ore, OreItem.ingot),
                             this,
@@ -385,13 +381,7 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
 
             @Override
             public void registerSubsidiaryBlack() {
-                for (Ore ore : Ore.ORE.get()) {
-                    if (!ore.hasMineral) {
-                        return;
-                    }
-                    if (!ore.isCrystal) {
-                        return;
-                    }
+                for (Ore ore : Ore.screen(Ore.IS_CRYSTA, Ore.HAS_DUST)) {
                     new Shaped.ShapedOre(
                             fuseName(this, ore, OreItem.crystal),
                             this,
