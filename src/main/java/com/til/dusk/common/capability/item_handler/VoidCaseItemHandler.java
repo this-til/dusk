@@ -87,6 +87,8 @@ public class VoidCaseItemHandler implements IItemHandler, INBTSerializable<Compo
             return ItemStack.EMPTY;
         }
         long out = Math.min(Math.min(amount, itemStackTag.getMaxStackSize()), count);
+        ItemStack outItemStack = itemStackTag.copy();
+        outItemStack.setCount((int) out);
         if (!simulate) {
             count -= out;
             if (count <= 0) {
@@ -94,8 +96,6 @@ public class VoidCaseItemHandler implements IItemHandler, INBTSerializable<Compo
                 count = 0;
             }
         }
-        ItemStack outItemStack = itemStackTag.copy();
-        outItemStack.setCount((int) out);
         return outItemStack;
     }
 

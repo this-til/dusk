@@ -11,10 +11,14 @@ import com.til.dusk.common.register.ore.OreBlock;
 import com.til.dusk.common.register.ore.OreItem;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ItemModelShaper;
 import net.minecraft.client.renderer.block.BlockModelShaper;
 import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.resources.model.ModelManager;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -34,17 +38,10 @@ public class ModelProxy {
 
     public final static String ITEM = "item";
     public final static String BLOCK = "block";
+    public static final String BLOCK_STATES = "blockstates";
 
-    protected final static Map<OreItem, ModelResourceLocation> ITEM_ORE_MAP = new HashMap<>();
-    protected final static Map<OreBlock, ModelResourceLocation> ITEM_BLOCK_ORE_MAP = new HashMap<>();
-    protected final static Map<ManaLevelItem, ModelResourceLocation> ITEM_MANA_LEVEL_MAP = new HashMap<>();
-    protected final static Map<ManaLevelBlock, ModelResourceLocation> ITEM_BLOCK_MANA_LEVEL_MAP = new HashMap<>();
-    protected static final Map<OreBlock, ResourceLocation> BLOCK_ORE_MAP = new HashMap<>();
-    protected static final Map<ManaLevelBlock, ResourceLocation> BLOCK_MANA_LEVEL_MAP = new HashMap<>();
-
-    //protected static final Map<ShapedDrive, RegisterBasics> ITEM_SHAPED_DRIVE_MAP = new HashMap<>();
-
-    //protected static final Map<ShapedDrive, ResourceLocation> BLOCK_SHAPED_DRIVE_MAP = new HashMap<>();
+    protected final static Map<Item, ModelResourceLocation> ITEM_MODEL_MAP = new HashMap<>();
+    protected final static Map<BlockState, ResourceLocation> BLOCK_STATE_MAP = new HashMap<>();
 
     protected static ModelResourceLocation shapedDriveItemName;
 
@@ -52,110 +49,68 @@ public class ModelProxy {
 
     @SubscribeEvent
     public static void clientSetup(final FMLClientSetupEvent event) {
-        for (OreItem oreItem : OreItem.ORE_ITEM.get()) {
-            ITEM_ORE_MAP.put(oreItem, new ModelResourceLocation(oreItem.name, "inventory"));
-        }
-        for (OreBlock oreBlock : OreBlock.ORE_BLOCK.get()) {
-            ITEM_BLOCK_ORE_MAP.put(oreBlock, new ModelResourceLocation(oreBlock.name, "inventory"));
-        }
-
-        for (ManaLevelItem manaLevelItem : ManaLevelItem.LEVEL_ITEM.get()) {
-            ITEM_MANA_LEVEL_MAP.put(manaLevelItem, new ModelResourceLocation(manaLevelItem.name, "inventory"));
-        }
-        for (ManaLevelBlock manaLevelBlock : ManaLevelBlock.LEVEL_BLOCK.get()) {
-            ITEM_BLOCK_MANA_LEVEL_MAP.put(manaLevelBlock, new ModelResourceLocation(manaLevelBlock.name, "inventory"));
-        }
-
-
-        for (OreBlock oreBlock : OreBlock.ORE_BLOCK.get()) {
-            BLOCK_ORE_MAP.put(oreBlock, makeModelName(oreBlock, BLOCK));
-        }
-        for (ManaLevelBlock manaLevelBlock : ManaLevelBlock.LEVEL_BLOCK.get()) {
-            BLOCK_MANA_LEVEL_MAP.put(manaLevelBlock, makeModelName(manaLevelBlock, BLOCK));
+        for (Ore ore : Ore.ORE.get()) {
+            for (Map.Entry<OreItem, Item> entry : ore.itemMap.entrySet()) {
+                ITEM_MODEL_MAP.put(entry.getValue(), new ModelResourceLocation(entry.getKey().name, "inventory"));
+            }
+            for (Map.Entry<OreBlock, BlockItem> entry : ore.blockMap.entrySet()) {
+                ITEM_MODEL_MAP.put(entry.getValue(), new ModelResourceLocation(entry.getKey().name, "inventory"));
+                ImmutableList<BlockState> definition = entry.getValue().getBlock().getStateDefinition().getPossibleStates();
+                if (definition.size() == 1) {
+                    BLOCK_STATE_MAP.put(definition.get(0), makeModelName(entry.getKey(), BLOCK));
+                } else {
+                    for (BlockState blockState : definition) {
+                        BLOCK_STATE_MAP.put(blockState, new ModelResourceLocation(entry.getKey().name, BlockModelShaper.statePropertiesToString(blockState.getValues())));
+                    }
+                }
+            }
         }
 
-        ResourceLocation resourceLocation = new ResourceLocation(Dusk.MOD_ID, "shaped_drive");
-        shapedDriveItemName = new ModelResourceLocation(resourceLocation.getNamespace(), resourceLocation.getNamespace(), "inventory");
-        shapedDriveBlockName = makeModelName(resourceLocation, BLOCK);
+        for (ManaLevel manaLevel : ManaLevel.LEVEL.get()) {
+            for (Map.Entry<ManaLevelItem, Item> entry : manaLevel.itemMap.entrySet()) {
+                ITEM_MODEL_MAP.put(entry.getValue(), new ModelResourceLocation(entry.getKey().name, "inventory"));
+            }
+            for (Map.Entry<ManaLevelBlock, BlockItem> entry : manaLevel.blockMap.entrySet()) {
+                ITEM_MODEL_MAP.put(entry.getValue(), new ModelResourceLocation(entry.getKey().name, "inventory"));
+                ImmutableList<BlockState> definition = entry.getValue().getBlock().getStateDefinition().getPossibleStates();
+                if (definition.size() == 1) {
+                    BLOCK_STATE_MAP.put(definition.get(0), makeModelName(entry.getKey(), BLOCK));
+                } else {
+                    for (BlockState blockState : definition) {
+                        BLOCK_STATE_MAP.put(blockState, new ModelResourceLocation(entry.getKey().name, BlockModelShaper.statePropertiesToString(blockState.getValues())));
+                    }
+                }
+            }
+        }
+
+        ResourceLocation shapedDriveName = new ResourceLocation(Dusk.MOD_ID, "shaped_drive");
+        for (ShapedDrive shapedDrive : ShapedDrive.SHAPED_DRIVE.get()) {
+            ITEM_MODEL_MAP.put(shapedDrive.blockItem, new ModelResourceLocation(shapedDriveName, "inventory"));
+            BlockState blockState = shapedDrive.blockItem.getBlock().defaultBlockState();
+            BLOCK_STATE_MAP.put(blockState, makeModelName(shapedDriveName, BLOCK));
+        }
     }
 
     @SubscribeEvent
     public static void registerMadel(ModelEvent.RegisterAdditional event) {
-        ITEM_ORE_MAP.values().forEach(event::register);
-        ITEM_BLOCK_ORE_MAP.values().forEach(event::register);
-        ITEM_MANA_LEVEL_MAP.values().forEach(event::register);
-        ITEM_BLOCK_MANA_LEVEL_MAP.values().forEach(event::register);
-        BLOCK_ORE_MAP.values().forEach(event::register);
-        BLOCK_ORE_MAP.forEach((k, v) -> {
-            List<String> variant = new ArrayList<>();
-            Ore.ORE.get().forEach(o -> {
-                if (o.blockMap.containsKey(k)) {
-                    ImmutableList<BlockState> definition = o.blockMap.get(k).getBlock().getStateDefinition().getPossibleStates();
-                    if (definition.size() > 1) {
-                        definition.forEach(s -> variant.add(BlockModelShaper.statePropertiesToString(s.getValues())));
-                    }
-                }
-            });
-            variant.stream().distinct().toList().forEach(s -> event.register(new ModelResourceLocation(v, s)));
-        });
-        BLOCK_MANA_LEVEL_MAP.values().forEach(event::register);
-        BLOCK_MANA_LEVEL_MAP.forEach((k, v) -> {
-            List<String> variant = new ArrayList<>();
-            ManaLevel.LEVEL.get().forEach(m -> {
-                if (m.blockMap.containsKey(k)) {
-                    ImmutableList<BlockState> definition = m.blockMap.get(k).getBlock().getStateDefinition().getPossibleStates();
-                    if (definition.size() > 1) {
-                        definition.forEach(s -> variant.add(BlockModelShaper.statePropertiesToString(s.getValues())));
-                    }
-                }
-            });
-            variant.stream().distinct().toList().forEach(s -> event.register(new ModelResourceLocation(v, s)));
-        });
-        event.register(shapedDriveItemName);
-        event.register(shapedDriveBlockName);
+        List<ResourceLocation> list = new ArrayList<>();
+        list.addAll(ITEM_MODEL_MAP.values());
+        list.addAll(BLOCK_STATE_MAP.values());
+        list.stream().distinct().toList().forEach(event::register);
     }
 
     @SubscribeEvent
     public static void registerMadel(ModelEvent.BakingCompleted event) {
+        Map<ResourceLocation, BakedModel> map = event.getModels();
+        ModelManager modelManager = event.getModelManager();
+        ItemModelShaper itemModelShaper = Minecraft.getInstance().getItemRenderer().getItemModelShaper();
 
-        for (Ore ore : Ore.ORE.get()) {
-            ore.itemMap.forEach((k, v) -> Minecraft.getInstance().getItemRenderer().getItemModelShaper().register(v, ITEM_ORE_MAP.get(k)));
-            ore.blockMap.forEach((k, v) -> Minecraft.getInstance().getItemRenderer().getItemModelShaper().register(v, ITEM_BLOCK_ORE_MAP.get(k)));
-        }
-        for (ManaLevel manaLevel : ManaLevel.LEVEL.get()) {
-            manaLevel.itemMap.forEach((k, v) -> Minecraft.getInstance().getItemRenderer().getItemModelShaper().register(v, ITEM_MANA_LEVEL_MAP.get(k)));
-            manaLevel.blockMap.forEach((k, v) -> Minecraft.getInstance().getItemRenderer().getItemModelShaper().register(v, ITEM_BLOCK_MANA_LEVEL_MAP.get(k)));
+        for (Map.Entry<Item, ModelResourceLocation> entry : ITEM_MODEL_MAP.entrySet()) {
+            itemModelShaper.register(entry.getKey(), entry.getValue());
         }
 
-        ShapedDrive.SHAPED_DRIVE.get().forEach(s -> Minecraft.getInstance().getItemRenderer().getItemModelShaper().register(s.blockItem, shapedDriveItemName));
-
-        for (Ore ore : Ore.ORE.get()) {
-            ore.blockMap.forEach((k, v) -> {
-                ImmutableList<BlockState> definition = v.getBlock().getStateDefinition().getPossibleStates();
-                if (definition.size() == 1) {
-                    event.getModels().put(BlockModelShaper.stateToModelLocation(v.getBlock().getStateDefinition().any()), event.getModelManager().getModel(BLOCK_ORE_MAP.get(k)));
-                } else {
-                    definition.forEach(s -> event.getModels().put(BlockModelShaper.stateToModelLocation(s), event.getModelManager().getModel(
-                            new ModelResourceLocation(BLOCK_ORE_MAP.get(k), BlockModelShaper.statePropertiesToString(s.getValues())))));
-                }
-            });
-
-        }
-        for (ManaLevel manaLevel : ManaLevel.LEVEL.get()) {
-            manaLevel.blockMap.forEach((k, v) -> {
-                ImmutableList<BlockState> definition = v.getBlock().getStateDefinition().getPossibleStates();
-                if (definition.size() == 1) {
-                    event.getModels().put(BlockModelShaper.stateToModelLocation(v.getBlock().getStateDefinition().any()), event.getModelManager().getModel(BLOCK_MANA_LEVEL_MAP.get(k)));
-                } else {
-                    definition.forEach(s -> event.getModels().put(BlockModelShaper.stateToModelLocation(s), event.getModelManager().getModel(
-                            new ModelResourceLocation(BLOCK_MANA_LEVEL_MAP.get(k), BlockModelShaper.statePropertiesToString(s.getValues())))));
-                }
-            });
-        }
-
-        BakedModel shapedDriveBakedModel = event.getModelManager().getModel(shapedDriveBlockName);
-        for (ShapedDrive shapedDrive : ShapedDrive.SHAPED_DRIVE.get()) {
-            event.getModels().put(BlockModelShaper.stateToModelLocation(shapedDrive.blockItem.getBlock().getStateDefinition().any()), shapedDriveBakedModel);
+        for (Map.Entry<BlockState, ResourceLocation> entry : BLOCK_STATE_MAP.entrySet()) {
+            map.put(BlockModelShaper.stateToModelLocation(entry.getKey()), modelManager.getModel(entry.getValue()));
         }
     }
 

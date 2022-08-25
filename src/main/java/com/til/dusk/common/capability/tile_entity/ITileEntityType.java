@@ -34,7 +34,7 @@ public interface ITileEntityType extends EntityBlock {
     @Override
     default BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
         if (blockState.getBlock() instanceof ITileEntityType iTileEntityType) {
-            return new DefaultTileEntity(TileEntityRegister.defaultTileEntityRegister.blockBlockEntityTypeMap.get(iTileEntityType), blockPos, blockState);
+            return new DefaultTileEntity(TileEntityRegister.defaultTileEntityRegister.tileEntityTypeBlockEntityTypeMap.get(iTileEntityType), blockPos, blockState);
         }
         return null;
     }

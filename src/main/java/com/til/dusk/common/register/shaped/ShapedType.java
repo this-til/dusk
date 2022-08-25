@@ -10,21 +10,15 @@ import com.til.dusk.util.Extension;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.TagKey;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegistryBuilder;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
@@ -62,293 +56,412 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
      */
     public static ShapedType unpack;
 
+    /***
+     * 高炉
+     */
+    public static ShapedType blastFurnace;
+
+    /***
+     * 结晶
+     */
+    public static ShapedType crystallizing;
+
+    /***
+     * 组装
+     */
+    public static ShapedType assemble;
+
+    /***
+     * 蒸馏
+     */
+    public static ShapedType distillation;
+
+    /***
+     * 溶解
+     */
+    public static ShapedType dissolution;
+
+    /***
+     * 凝固
+     */
+    public static ShapedType freezing;
+
+    /***
+     * 高压融合
+     */
+    public static ShapedType highPressureFuse;
+
+    /***
+     * 雕刻
+     */
+    public static ShapedType carving;
+
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
         SHAPED_TYPE = event.create(new RegistryBuilder<ShapedType>().setName(new ResourceLocation(Dusk.MOD_ID, "shaped_type")));
-        grind = new ShapedType("grind") {
+        grind = new ShapedType("grind", () -> ManaLevelBlock.grind) {
             @Override
             public void registerSubsidiaryBlack() {
-                Ore.ORE.get().forEach(o -> {
-                    if (!o.hasMineralBlock) {
+                for (Ore ore : Ore.ORE.get()) {
+                    if (!ore.isMineralBlock) {
                         return;
                     }
-                    if (!o.hasMineral) {
+                    if (!ore.hasMineral) {
                         return;
                     }
-                    List<Extension.Data_2<ItemStack, Double>> grindOut = o.grind();
-                    o.blockMap.forEach((k, v) -> {
+                    List<Extension.Data_2<ItemStack, Double>> grindOut = ore.grind();
+                    ore.blockMap.forEach((k, v) -> {
                         List<Extension.Data_2<ItemStack, Double>> outItem = new ArrayList<>();
-                        outItem.add(new Extension.Data_2<>(new ItemStack(o.itemMap.get(OreItem.crushed), 2), 1d));
+                        outItem.add(new Extension.Data_2<>(new ItemStack(ore.itemMap.get(OreItem.crushed), 2), 1d));
                         if (grindOut != null) {
                             outItem.addAll(grindOut);
                         }
                         if (k instanceof OreBlock.OreBlockMineral) {
                             new Shaped.ShapedOre.RandOutOreShaped(
-                                    fuseName(this, o, k),
+                                    fuseName(this, ore, k),
                                     this,
                                     ShapedDrive.get(0),
-                                    o.manaLevel,
-                                    Map.of(ItemTags.create(fuseName(o, k)), 1),
+                                    ore.manaLevel,
+                                    Map.of(ItemTags.create(fuseName(ore, k)), 1),
                                     null,
-                                    (long) (o.strength * 640L),
-                                    (long) (o.consume * 16L),
+                                    (long) (ore.strength * 640L),
+                                    (long) (ore.consume * 16L),
                                     0,
                                     outItem,
                                     null);
                         }
                     });
-                });
+                }
 
-                Ore.ORE.get().forEach(o -> {
-                    if (!o.hasMineral) {
+                for (Ore ore : Ore.ORE.get()) {
+                    if (!ore.hasMineral) {
                         return;
                     }
                     new Shaped.ShapedOre(
-                            fuseName(this, o, OreItem.ingot),
+                            fuseName(this, ore, OreItem.ingot),
                             this,
                             ShapedDrive.get(1),
-                            o.manaLevel,
-                            Map.of(ItemTags.create(fuseName(o, o.isCrystal ? OreItem.crystal : OreItem.ingot)), 1),
+                            ore.manaLevel,
+                            Map.of(ItemTags.create(fuseName(ore, ore.isCrystal ? OreItem.crystal : OreItem.ingot)), 1),
                             null,
-                            (long) (o.strength * 320L),
-                            (long) (o.consume * 8L),
+                            (long) (ore.strength * 320L),
+                            (long) (ore.consume * 8L),
                             0,
-                            List.of(new ItemStack(o.itemMap.get(OreItem.dust), 1)),
+                            List.of(new ItemStack(ore.itemMap.get(OreItem.dust), 1)),
                             null
                     );
-                });
+                }
             }
 
-            @Override
-            public ManaLevelBlock manaLevelBlock() {
-                return ManaLevelBlock.grind;
-            }
+
         };
 
-        wash = new ShapedType("wash") {
+        wash = new ShapedType("wash", () -> ManaLevelBlock.wash) {
             @Override
             public void registerSubsidiaryBlack() {
-                Ore.ORE.get().forEach(o -> {
-                    if (!o.hasMineral) {
+                for (Ore ore : Ore.ORE.get()) {
+                    if (!ore.hasMineral) {
                         return;
                     }
-                    List<Extension.Data_2<ItemStack, Double>> grindOut = o.wash();
+                    List<Extension.Data_2<ItemStack, Double>> grindOut = ore.wash();
                     List<Extension.Data_2<ItemStack, Double>> out = new ArrayList<>();
                     out.add(new Extension.Data_2<>(
-                            new ItemStack(o.itemMap.get(OreItem.crushedPurified), 1),
+                            new ItemStack(ore.itemMap.get(OreItem.crushedPurified), 1),
                             1d
                     ));
                     if (grindOut != null) {
                         out.addAll(grindOut);
                     }
                     new Shaped.RandOutOreShaped(
-                            fuseName(this, o, OreItem.crushedPurified),
+                            fuseName(this, ore, OreItem.crushedPurified),
                             this,
                             ShapedDrive.get(0),
-                            o.manaLevel,
-                            Map.of(ItemTags.create(fuseName(o, OreItem.crushed)), 1),
+                            ore.manaLevel,
+                            Map.of(ItemTags.create(fuseName(ore, OreItem.crushed)), 1),
                             Map.of(FluidTags.WATER, 1000),
-                            (long) (o.strength * 1280L),
-                            (long) (o.consume * 12L),
+                            (long) (ore.strength * 1280L),
+                            (long) (ore.consume * 12L),
                             0,
                             out,
                             null);
-                });
+                }
             }
 
-            @Override
-            public ManaLevelBlock manaLevelBlock() {
-                return ManaLevelBlock.wash;
-            }
+
         };
 
-        centrifugal = new ShapedType("centrifugal") {
+        centrifugal = new ShapedType("centrifugal", () -> ManaLevelBlock.centrifugal) {
             @Override
             public void registerSubsidiaryBlack() {
-                Ore.ORE.get().forEach(o -> {
-                    if (!o.hasMineral) {
+                for (Ore ore : Ore.ORE.get()) {
+                    if (!ore.hasMineral) {
                         return;
                     }
-                    List<Extension.Data_2<ItemStack, Double>> grindOut = o.wash();
+                    List<Extension.Data_2<ItemStack, Double>> grindOut = ore.wash();
                     List<Extension.Data_2<ItemStack, Double>> out = new ArrayList<>();
                     out.add(new Extension.Data_2<>(
-                            new ItemStack(o.itemMap.get(OreItem.dust), 1),
+                            new ItemStack(ore.itemMap.get(OreItem.dust), 1),
                             1d
                     ));
                     if (grindOut != null) {
                         out.addAll(grindOut);
                     }
                     new Shaped.RandOutOreShaped(
-                            fuseName(this, o, OreItem.dust),
+                            fuseName(this, ore, OreItem.dust),
                             this,
                             ShapedDrive.get(0),
-                            o.manaLevel,
-                            Map.of(ItemTags.create(fuseName(o, OreItem.crushedPurified)), 1),
+                            ore.manaLevel,
+                            Map.of(ItemTags.create(fuseName(ore, OreItem.crushedPurified)), 1),
                             null,
-                            (long) (o.strength * 1280L),
-                            (long) (o.consume * 48L),
+                            (long) (ore.strength * 1280L),
+                            (long) (ore.consume * 48L),
                             0,
                             out,
                             null);
-                });
+                }
             }
 
-            @Override
-            public ManaLevelBlock manaLevelBlock() {
-                return ManaLevelBlock.centrifugal;
-            }
         };
 
-        pack = new ShapedType("pack") {
+        pack = new ShapedType("pack", () -> ManaLevelBlock.pack) {
             @Override
             public void registerSubsidiaryBlack() {
-                Ore.ORE.get().forEach(o -> {
-                    if (!o.hasBlock) {
+                for (Ore ore : Ore.ORE.get()) {
+                    if (!ore.hasBlock) {
                         return;
                     }
-                    if (!o.hasMineral) {
+                    if (!ore.hasMineral) {
                         return;
                     }
                     new Shaped.ShapedOre(
-                            fuseName(this, o, OreBlock.block),
+                            fuseName(this, ore, OreBlock.block),
                             this,
                             ShapedDrive.get(0),
-                            o.manaLevel,
-                            Map.of(ItemTags.create(fuseName(o, o.isCrystal ? OreItem.crystal : OreItem.ingot)), 9),
+                            ore.manaLevel,
+                            Map.of(ItemTags.create(fuseName(ore, ore.isCrystal ? OreItem.crystal : OreItem.ingot)), 9),
                             null,
-                            (long) (o.strength * 128L),
-                            (long) (o.consume * 4L),
+                            (long) (ore.strength * 128L),
+                            (long) (ore.consume * 4L),
                             0,
-                            List.of(new ItemStack(o.blockMap.get(OreBlock.block))),
+                            List.of(new ItemStack(ore.blockMap.get(OreBlock.block))),
                             null);
-                });
+                }
 
-                Ore.ORE.get().forEach(o -> {
-                    if (!o.hasMineral) {
+                for (Ore ore : Ore.ORE.get()) {
+                    if (!ore.hasMineral) {
                         return;
                     }
                     new Shaped.ShapedOre(
-                            fuseName(this, o, OreItem.dust),
+                            fuseName(this, ore, OreItem.dust),
                             this,
                             ShapedDrive.get(1),
-                            o.manaLevel,
-                            Map.of(ItemTags.create(fuseName(o, OreItem.dustTiny)), 9),
+                            ore.manaLevel,
+                            Map.of(ItemTags.create(fuseName(ore, OreItem.dustTiny)), 9),
                             null,
-                            (long) (o.strength * 128L),
-                            (long) (o.consume * 48L),
+                            (long) (ore.strength * 128L),
+                            (long) (ore.consume * 4L),
                             0,
-                            List.of(new ItemStack(o.itemMap.get(OreItem.dust))),
+                            List.of(new ItemStack(ore.itemMap.get(OreItem.dust))),
                             null);
-                });
+                }
 
-                Ore.ORE.get().forEach(o -> {
-                    if (!o.hasMineral) {
+                for (Ore ore : Ore.ORE.get()) {
+                    if (!ore.hasMineral) {
                         return;
                     }
-                    if (o.isCrystal) {
+                    if (ore.isCrystal) {
                         return;
                     }
                     new Shaped.ShapedOre(
-                            fuseName(this, o, OreItem.ingot),
+                            fuseName(this, ore, OreItem.ingot),
                             this,
                             ShapedDrive.get(2),
-                            o.manaLevel,
-                            Map.of(ItemTags.create(fuseName(o, OreItem.nuggets)), 9),
+                            ore.manaLevel,
+                            Map.of(ItemTags.create(fuseName(ore, OreItem.nuggets)), 9),
                             null,
-                            (long) (o.strength * 128L),
-                            (long) (o.consume * 48L),
+                            (long) (ore.strength * 128L),
+                            (long) (ore.consume * 4L),
                             0,
-                            List.of(new ItemStack(o.itemMap.get(OreItem.ingot))),
+                            List.of(new ItemStack(ore.itemMap.get(OreItem.ingot))),
                             null);
-                });
+                }
             }
 
-            @Override
-            public ManaLevelBlock manaLevelBlock() {
-                return ManaLevelBlock.pack;
-            }
         };
 
-        unpack = new ShapedType("unpack") {
+        unpack = new ShapedType("unpack", () -> ManaLevelBlock.unpack) {
             @Override
             public void registerSubsidiaryBlack() {
-                Ore.ORE.get().forEach(o -> {
-                    if (!o.hasBlock) {
+                for (Ore ore : Ore.ORE.get()) {
+                    if (!ore.hasBlock) {
                         return;
                     }
-                    if (!o.hasMineral) {
+                    if (!ore.hasMineral) {
                         return;
                     }
                     new Shaped.ShapedOre(
-                            fuseName(this, o, OreItem.ingot),
+                            fuseName(this, ore, OreItem.ingot),
                             this,
                             ShapedDrive.get(0),
-                            o.manaLevel,
-                            Map.of(ItemTags.create(fuseName(o, OreBlock.block)), 1),
+                            ore.manaLevel,
+                            Map.of(ItemTags.create(fuseName(ore, OreBlock.block)), 1),
                             null,
-                            (long) (o.strength * 128L),
-                            (long) (o.consume * 4L),
+                            (long) (ore.strength * 128L),
+                            (long) (ore.consume * 4L),
                             0,
-                            List.of(new ItemStack(o.itemMap.get(o.isCrystal ? OreItem.crystal : OreItem.ingot), 9)),
+                            List.of(new ItemStack(ore.itemMap.get(ore.isCrystal ? OreItem.crystal : OreItem.ingot), 9)),
                             null);
-                });
+                }
 
-                Ore.ORE.get().forEach(o -> {
-                    if (!o.hasMineral) {
+                for (Ore ore : Ore.ORE.get()) {
+                    if (!ore.hasMineral) {
                         return;
                     }
                     new Shaped.ShapedOre(
-                            fuseName(this, o, OreItem.dustTiny),
+                            fuseName(this, ore, OreItem.dustTiny),
                             this,
                             ShapedDrive.get(1),
-                            o.manaLevel,
-                            Map.of(ItemTags.create(fuseName(o, OreItem.dust)), 1),
+                            ore.manaLevel,
+                            Map.of(ItemTags.create(fuseName(ore, OreItem.dust)), 1),
                             null,
-                            (long) (o.strength * 128L),
-                            (long) (o.consume * 48L),
+                            (long) (ore.strength * 128L),
+                            (long) (ore.consume * 4L),
                             0,
-                            List.of(new ItemStack(o.itemMap.get(OreItem.dustTiny), 9)),
+                            List.of(new ItemStack(ore.itemMap.get(OreItem.dustTiny), 9)),
                             null);
-                });
+                }
 
-                Ore.ORE.get().forEach(o -> {
-                    if (!o.hasMineral) {
+                for (Ore ore : Ore.ORE.get()) {
+                    if (!ore.hasMineral) {
                         return;
                     }
-                    if (o.isCrystal) {
+                    if (ore.isCrystal) {
                         return;
                     }
                     new Shaped.ShapedOre(
-                            fuseName(this, o, OreItem.nuggets),
+                            fuseName(this, ore, OreItem.nuggets),
                             this,
                             ShapedDrive.get(2),
-                            o.manaLevel,
-                            Map.of(ItemTags.create(fuseName(o, OreItem.ingot)), 1),
+                            ore.manaLevel,
+                            Map.of(ItemTags.create(fuseName(ore, OreItem.ingot)), 1),
                             null,
-                            (long) (o.strength * 128L),
-                            (long) (o.consume * 48L),
+                            (long) (ore.strength * 128L),
+                            (long) (ore.consume * 4L),
                             0,
-                            List.of(new ItemStack(o.itemMap.get(OreItem.nuggets), 9)),
+                            List.of(new ItemStack(ore.itemMap.get(OreItem.nuggets), 9)),
                             null);
-                });
-            }
-
-            @Override
-            public ManaLevelBlock manaLevelBlock() {
-                return ManaLevelBlock.unpack;
+                }
             }
         };
 
+        blastFurnace = new ShapedType("blast_furnace", () -> ManaLevelBlock.blastFurnace) {
+            @Override
+            public void registerSubsidiaryBlack() {
+                for (Ore ore : Ore.ORE.get()) {
+                    if (!ore.hasMineral) {
+                        return;
+                    }
+                    if (ore.isCrystal) {
+                        return;
+                    }
+                    new Shaped.ShapedOre(
+                            fuseName(this, ore, OreItem.ingot),
+                            this,
+                            ShapedDrive.get(0),
+                            ore.manaLevel,
+                            Map.of(ItemTags.create(fuseName(ore, OreItem.dust)), 1),
+                            null,
+                            (long) (ore.strength * 1024L),
+                            (long) (ore.consume * 32L),
+                            0,
+                            List.of(new ItemStack(ore.itemMap.get(OreItem.ingot), 1)),
+                            null
+                    );
+                }
+            }
+        };
 
+        crystallizing = new ShapedType("crystallizing", () -> ManaLevelBlock.crystallizing) {
+
+            @Override
+            public void registerSubsidiaryBlack() {
+                for (Ore ore : Ore.ORE.get()) {
+                    if (!ore.hasMineral) {
+                        return;
+                    }
+                    if (!ore.isCrystal) {
+                        return;
+                    }
+                    new Shaped.ShapedOre(
+                            fuseName(this, ore, OreItem.crystal),
+                            this,
+                            ShapedDrive.get(0),
+                            ore.manaLevel,
+                            Map.of(ItemTags.create(fuseName(ore, OreItem.dust)), 1),
+                            null,
+                            (long) (ore.strength * 4096L),
+                            (long) (ore.consume * 12L),
+                            0,
+                            List.of(new ItemStack(ore.itemMap.get(OreItem.crystal), 1)),
+                            null
+                    );
+                }
+            }
+
+        };
+
+        assemble = new ShapedType("assemble", () -> ManaLevelBlock.assemble) {
+
+            @Override
+            public void registerSubsidiaryBlack() {
+
+            }
+        };
+
+        distillation = new ShapedType("distillation", () -> ManaLevelBlock.distillation) {
+
+            @Override
+            public void registerSubsidiaryBlack() {
+
+            }
+
+        };
+        dissolution = new ShapedType("dissolution", () -> ManaLevelBlock.dissolution) {
+            @Override
+            public void registerSubsidiaryBlack() {
+
+            }
+        };
+        freezing = new ShapedType("freezing", () -> ManaLevelBlock.freezing) {
+            @Override
+            public void registerSubsidiaryBlack() {
+
+            }
+        };
+        highPressureFuse = new ShapedType("high_pressure_fuse", () -> ManaLevelBlock.highPressureFuse) {
+            @Override
+            public void registerSubsidiaryBlack() {
+
+            }
+        };
+        carving = new ShapedType("carving", () -> ManaLevelBlock.carving) {
+            @Override
+            public void registerSubsidiaryBlack() {
+
+            }
+
+        };
     }
 
+    public final Supplier<ManaLevelBlock> manaLevelBlockSupplier;
 
-    public ShapedType(ResourceLocation name) {
+    public ShapedType(ResourceLocation name, Supplier<ManaLevelBlock> manaLevelBlockSupplier) {
         super(name, SHAPED_TYPE);
+        this.manaLevelBlockSupplier = manaLevelBlockSupplier;
     }
 
-    public ShapedType(String name) {
-        this(new ResourceLocation(Dusk.MOD_ID, name));
+    public ShapedType(String name, Supplier<ManaLevelBlock> manaLevelBlockSupplier) {
+        this(new ResourceLocation(Dusk.MOD_ID, name), manaLevelBlockSupplier);
     }
 
     @Override
@@ -358,9 +471,4 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
 
     @Override
     public abstract void registerSubsidiaryBlack();
-
-    /***
-     * 显示在JEI上的方块
-     */
-    public abstract ManaLevelBlock manaLevelBlock();
 }

@@ -2,6 +2,7 @@ package com.til.dusk.common.other_mod_interact;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.common.capability.tile_entity.DefaultTileEntity;
+import com.til.dusk.common.capability.tile_entity.RepeaterTileEntity;
 import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.util.Util;
 import net.minecraft.nbt.CompoundTag;
@@ -19,7 +20,7 @@ import snownee.jade.api.*;
 public class Jade_Interact implements IWailaPlugin {
     @Override
     public void register(IWailaCommonRegistration registration) {
-        registration.registerBlockDataProvider(new IServerDataProvider<>() {
+        IServerDataProvider<BlockEntity> serverDataProvider = new IServerDataProvider<>() {
             @Override
             public void appendServerData(CompoundTag compoundTag, ServerPlayer serverPlayer, Level level, BlockEntity blockEntity, boolean b) {
                 for (CapabilityRegister<?> capabilityRegister : CapabilityRegister.CAPABILITY_REGISTER.get()) {
@@ -37,11 +38,15 @@ public class Jade_Interact implements IWailaPlugin {
             public ResourceLocation getUid() {
                 return new ResourceLocation(Dusk.MOD_ID, "default");
             }
-        }, DefaultTileEntity.class);
+        };
+        registration.registerBlockDataProvider(serverDataProvider, DefaultTileEntity.class);
+        registration.registerBlockDataProvider(serverDataProvider, RepeaterTileEntity.class);
     }
 
     @Override
     public void registerClient(IWailaClientRegistration registration) {
         com.til.dusk.client.other_mod_interact.Jade_Interact.registerClient(registration);
     }
+
+
 }

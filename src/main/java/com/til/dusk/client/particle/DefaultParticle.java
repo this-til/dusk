@@ -60,6 +60,7 @@ public class DefaultParticle extends Particle {
         setMove(move);
         setSize(size);
         setLifetime(maxAge);
+        hasPhysics = false;
     }
 
     public void setColor(Color color) {
@@ -108,9 +109,6 @@ public class DefaultParticle extends Particle {
 
     @Override
     public void render(@NotNull VertexConsumer vertexConsumer, Camera camera, float time) {
-        if (removed) {
-            return;
-        }
         Vec3 vec3 = camera.getPosition();
         Vector3f lPos = new Vector3f((float) (Mth.lerp(time, this.xo, this.x) - vec3.x()), (float) (Mth.lerp(time, this.yo, this.y) - vec3.y()), (float) (Mth.lerp(time, this.zo, this.z) - vec3.z()));
         Quaternion quaternion;

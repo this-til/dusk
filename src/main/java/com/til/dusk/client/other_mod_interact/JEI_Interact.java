@@ -86,7 +86,7 @@ public class JEI_Interact implements IModPlugin {
         public CurrencyCategory(IGuiHelper guiHelper, ShapedType shapedType) {
             this.shapedType = shapedType;
             background = guiHelper.createDrawable(new ResourceLocation(Dusk.MOD_ID, "textures/gui/currency_category.png"), 0, 0, WIDTH, HEIGHT);
-            icon = guiHelper.createDrawableItemStack(new ItemStack(ManaLevel.t8.blockMap.get(shapedType.manaLevelBlock())));
+            icon = guiHelper.createDrawableItemStack(new ItemStack(ManaLevel.t8.blockMap.get(shapedType.manaLevelBlockSupplier.get())));
         }
 
         @Override

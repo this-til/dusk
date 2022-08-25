@@ -81,45 +81,50 @@ public class ParticleRegister extends RegisterBasics<ParticleRegister> {
             final float manaThreshold = 320f;
             final Random random = new Random();
 
-            @SubscribeEvent
-            public void onEvent(EventIO.Mana event) {
-                if (event.mana < manaThreshold && random.nextFloat() < event.mana / manaThreshold) {
-                    if (random.nextFloat() < event.mana / manaThreshold) {
+            @Override
+            public void registerSubsidiaryBlack() {
+                MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, (Consumer<EventIO.Mana>) event -> {
+                    if (event.mana < manaThreshold) {
+                        if (random.nextFloat() < event.mana / manaThreshold) {
+                            this.add(event.level,
+                                    event.start,
+                                    event.end,
+                                    ColorPrefab.MANA_IO,
+                                    1);
+                        }
+                    } else {
                         this.add(event.level,
                                 event.start,
                                 event.end,
                                 ColorPrefab.MANA_IO,
-                                1);
+                                event.mana / manaThreshold);
                     }
-                } else {
-                    this.add(event.level,
-                            event.start,
-                            event.end,
-                            ColorPrefab.MANA_IO,
-                            event.mana / manaThreshold);
-                }
-
-
+                });
             }
         };
         itemTransfer = new ParticleRegister("item_transfer") {
-            @SubscribeEvent
-            public void onEvent(EventIO.Item event) {
-                this.add(event.level,
-                        event.start,
-                        event.end,
-                        ColorPrefab.ITEM_IO,
-                        1);
+            @Override
+            public void registerSubsidiaryBlack() {
+                MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, (Consumer<EventIO.Item>) event -> {
+                    this.add(event.level,
+                            event.start,
+                            event.end,
+                            ColorPrefab.ITEM_IO,
+                            1);
+                });
             }
         };
         fluidTransfer = new ParticleRegister("fluid_transfer") {
-            @SubscribeEvent
-            public void onEvent(EventIO.Fluid event) {
-                this.add(event.level,
-                        event.start,
-                        event.end,
-                        ColorPrefab.FLUID_IO,
-                        event.fluidStack.getAmount() / 128f);
+
+            @Override
+            public void registerSubsidiaryBlack() {
+                MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, (Consumer<EventIO.Fluid>) event -> {
+                    this.add(event.level,
+                            event.start,
+                            event.end,
+                            ColorPrefab.FLUID_IO,
+                            event.fluidStack.getAmount() / 128f);
+                });
             }
         };
         line = new ParticleRegister("line");
@@ -159,22 +164,15 @@ public class ParticleRegister extends RegisterBasics<ParticleRegister> {
         /***
          * 开始点
          */
-        public double start_x;
-        public double start_y;
-        public double start_z;
+        public Pos start;
         /***
          * 结束点
          */
-        public double end_x;
-        public double end_y;
-        public double end_z;
+        public Pos end;
         /***
          * 颜色
          */
-        public int color_r;
-        public int color_b;
-        public int color_g;
-        public int color_a;
+        public Color color;
         /***
          * 密度
          */
@@ -186,16 +184,9 @@ public class ParticleRegister extends RegisterBasics<ParticleRegister> {
 
         public Data(String type, Pos start, Pos end, Color color, double density) {
             this.type = type;
-            start_x = start.x;
-            start_y = start.y;
-            start_z = start.z;
-            end_x = end.x;
-            end_y = end.y;
-            end_z = end.z;
-            color_r = color.getRed();
-            color_g = color.getGreen();
-            color_b = color.getBlue();
-            color_a = color.getAlpha();
+            this.start = start;
+            this.end = end;
+            this.color = color;
             this.density = density;
         }
 

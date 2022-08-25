@@ -7,11 +7,14 @@ import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.world.ModBlock;
+import com.til.dusk.util.Lang;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
@@ -22,6 +25,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegistryBuilder;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.function.Supplier;
@@ -73,7 +77,12 @@ public class ShapedDrive extends RegisterBasics<ShapedDrive> {
         Objects.requireNonNull(ForgeRegistries.BLOCKS.tags()).addOptionalTagDefaults(BlockTags.create(name), Set.of(() -> block));
         ForgeRegistries.BLOCKS.register(name, block);
 
-        blockItem = new BlockItem(block, new Item.Properties().tab(Dusk.TAB));
+        blockItem = new BlockItem(block, new Item.Properties().tab(Dusk.TAB)){
+            @Override
+            public @NotNull Component getName(@NotNull ItemStack itemStack) {
+                return Component.translatable(Lang.getKey("shaped_drive"), Component.literal(name.getPath()));
+            }
+        };
         Objects.requireNonNull(ForgeRegistries.ITEMS.tags()).addOptionalTagDefaults(ItemTags.create(SHAPED_DRIVE.get().getRegistryName()), Set.of(() -> blockItem));
         Objects.requireNonNull(ForgeRegistries.ITEMS.tags()).addOptionalTagDefaults(ItemTags.create(name), Set.of(() -> blockItem));
         ForgeRegistries.ITEMS.register(name, blockItem);

@@ -5,6 +5,7 @@ import com.til.dusk.Dusk;
 import com.til.dusk.client.ClientTransfer;
 import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.register.key.KeyRegister;
+import com.til.dusk.util.Pos;
 import com.til.dusk.util.Util;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -19,6 +20,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegistryBuilder;
 
+import java.awt.*;
 import java.util.function.Supplier;
 
 /**
@@ -34,7 +36,6 @@ public abstract class MessageRegister<MSG> extends RegisterBasics<MessageRegiste
 
     public static int idSequence;
 
-    public static MessageRegister<IControl.TellPlayerMessage> tellPlayerMessage;
     public static MessageRegister<ParticleRegister.Data> particleRegisterMessage;
 
     public static MessageRegister<KeyRegister.KeyData> keyMessage;
@@ -49,17 +50,24 @@ public abstract class MessageRegister<MSG> extends RegisterBasics<MessageRegiste
                 PROTOCOL_VERSION::equals
         );
 
-        tellPlayerMessage = new MessageRegister<>("tell_player_message", IControl.TellPlayerMessage.class) {
-            @Override
-            public void messageConsumer(IControl.TellPlayerMessage tellPlayerMessage, Supplier<NetworkEvent.Context> supplier) {
-                ClientTransfer.messageConsumer(tellPlayerMessage, supplier);
-            }
-        };
-
         particleRegisterMessage = new MessageRegister<>("particle_register_message", ParticleRegister.Data.class) {
             @Override
             public void messageConsumer(ParticleRegister.Data data, Supplier<NetworkEvent.Context> supplier) {
                 ClientTransfer.messageConsumer(data, supplier);
+            }
+
+            @Override
+            public void encoder(ParticleRegister.Data data, FriendlyByteBuf friendlyByteBuf) {
+                friendlyByteBuf.writeUtf(data.type);
+                data.start.write(friendlyByteBuf);
+                data.end.write(friendlyByteBuf);
+                friendlyByteBuf.writeInt(data.color.getRGB());
+                friendlyByteBuf.writeDouble(data.density);
+            }
+
+            @Override
+            public ParticleRegister.Data decoder(FriendlyByteBuf friendlyByteBuf) {
+                return new ParticleRegister.Data(friendlyByteBuf.readUtf(), new Pos(friendlyByteBuf), new Pos(friendlyByteBuf), new Color(friendlyByteBuf.readInt()), friendlyByteBuf.readDouble());
             }
         };
 
@@ -83,8 +91,8 @@ public abstract class MessageRegister<MSG> extends RegisterBasics<MessageRegiste
 
     public MessageRegister(ResourceLocation name, Class<MSG> msgClass) {
         super(name, Util.forcedConversion(MESSAGE_REGISTER));
-        idSequence++;
         id = idSequence;
+        idSequence++;
         this.msgClass = msgClass;
 
     }
@@ -99,20 +107,11 @@ public abstract class MessageRegister<MSG> extends RegisterBasics<MessageRegiste
     }
 
     public void encoder(MSG msg, FriendlyByteBuf friendlyByteBuf) {
-        String s = GSON.toJson(msg);
-        friendlyByteBuf.writeInt(s.length());
-        for (char c : s.toCharArray()) {
-            friendlyByteBuf.writeChar(c);
-        }
+        friendlyByteBuf.writeUtf(GSON.toJson(msg));
     }
 
     public MSG decoder(FriendlyByteBuf friendlyByteBuf) {
-        int l = friendlyByteBuf.readInt();
-        char[] chars = new char[l];
-        for (int i = 0; i < l; i++) {
-            chars[i] = friendlyByteBuf.readChar();
-        }
-        return GSON.fromJson(String.copyValueOf(chars), msgClass);
+        return GSON.fromJson(friendlyByteBuf.readUtf(), msgClass);
     }
 
     /***

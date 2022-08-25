@@ -51,7 +51,7 @@ public abstract class OreBlock extends Ore.OreType<OreBlock, BlockItem> {
         lordWorld = new OreBlockMineral("lord_world") {
             @Override
             public Block createBlock(Ore ore) {
-                if (!ore.hasMineralBlock) {
+                if (!ore.isMineralBlock) {
                     return null;
                 }
                 Block block = new Block(BlockBehaviour.Properties.of(Material.DIRT, MaterialColor.DIRT)
@@ -66,7 +66,7 @@ public abstract class OreBlock extends Ore.OreType<OreBlock, BlockItem> {
         lordWorldDeepslate = new OreBlockMineral("lord_world_deepslate") {
             @Override
             public Block createBlock(Ore ore) {
-                if (!ore.hasMineralBlock) {
+                if (!ore.isMineralBlock) {
                     return null;
                 }
                 Block block = new Block(BlockBehaviour.Properties.of(Material.DIRT, MaterialColor.DIRT)
@@ -81,7 +81,7 @@ public abstract class OreBlock extends Ore.OreType<OreBlock, BlockItem> {
         lordWorldSand = new OreBlockMineral("lord_world_sand") {
             @Override
             public Block createBlock(Ore ore) {
-                if (!ore.hasMineralBlock) {
+                if (!ore.isMineralBlock) {
                     return null;
                 }
                 Block block = new Block(BlockBehaviour.Properties.of(Material.DIRT, MaterialColor.DIRT)
@@ -97,7 +97,7 @@ public abstract class OreBlock extends Ore.OreType<OreBlock, BlockItem> {
         lordWorldDirt = new OreBlockMineral("lord_world_dirt") {
             @Override
             public Block createBlock(Ore ore) {
-                if (!ore.hasMineralBlock) {
+                if (!ore.isMineralBlock) {
                     return null;
                 }
                 Block block = new Block(BlockBehaviour.Properties.of(Material.SAND, MaterialColor.SAND)
@@ -112,7 +112,7 @@ public abstract class OreBlock extends Ore.OreType<OreBlock, BlockItem> {
         lordWorldGravel = new OreBlockMineral("lord_world_gravel") {
             @Override
             public Block createBlock(Ore ore) {
-                if (!ore.hasMineralBlock) {
+                if (!ore.isMineralBlock) {
                     return null;
                 }
                 Block block = new Block(BlockBehaviour.Properties.of(Material.SAND, MaterialColor.STONE)
@@ -128,7 +128,7 @@ public abstract class OreBlock extends Ore.OreType<OreBlock, BlockItem> {
         netherWorldNetherrack = new OreBlockMineral("nether_world_netherrack") {
             @Override
             public Block createBlock(Ore ore) {
-                if (!ore.hasMineralBlock) {
+                if (!ore.isMineralBlock) {
                     return null;
                 }
                 Block block = new Block(BlockBehaviour.Properties.of(Material.SAND, MaterialColor.STONE)
@@ -143,7 +143,7 @@ public abstract class OreBlock extends Ore.OreType<OreBlock, BlockItem> {
         endWorldEndStone = new OreBlockMineral("end_world_end_stone") {
             @Override
             public Block createBlock(Ore ore) {
-                if (!ore.hasMineralBlock) {
+                if (!ore.isMineralBlock) {
                     return null;
                 }
                 Block block = new Block(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.SAND)

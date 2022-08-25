@@ -5,7 +5,9 @@ import com.til.dusk.common.capability.fluid_handler.VoidTankFluidHandler;
 import com.til.dusk.common.capability.item_handler.VoidCaseItemHandler;
 import com.til.dusk.common.capability.mana_handle.IManaHandle;
 import com.til.dusk.common.capability.mana_handle.ManaHandle;
+import com.til.dusk.common.capability.tile_entity.RepeaterTileEntity;
 import com.til.dusk.common.register.CapabilityRegister;
+import com.til.dusk.util.Extension;
 import com.til.dusk.util.Lang;
 import com.til.dusk.common.capability.clock.Clock;
 import com.til.dusk.common.capability.clock.IClock;
@@ -30,8 +32,13 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.RepeaterBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -43,6 +50,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegistryBuilder;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Objects;
@@ -56,6 +64,13 @@ import java.util.function.Supplier;
 public abstract class ManaLevelBlock extends ManaLevel.ManaLevelType<ManaLevelBlock, BlockItem> {
 
     public static Supplier<IForgeRegistry<ManaLevelBlock>> LEVEL_BLOCK;
+
+    //基础
+    /***
+     * 中继器
+     * 在提取相应方块能力
+     */
+    public static Mechanic repeater;
 
     //产物
     /***
@@ -95,6 +110,46 @@ public abstract class ManaLevelBlock extends ManaLevel.ManaLevelType<ManaLevelBl
      */
     public static Mechanic.HandleMechanic unpack;
 
+    /***
+     * 高炉
+     */
+    public static Mechanic.HandleMechanic blastFurnace;
+
+    /***
+     * 结晶
+     */
+    public static Mechanic.HandleMechanic crystallizing;
+
+    /***
+     * 组装机
+     */
+    public static Mechanic.HandleMechanic assemble;
+
+    /***
+     * 蒸馏
+     */
+    public static Mechanic.HandleMechanic distillation;
+
+    /***
+     * 溶解
+     */
+    public static Mechanic.HandleMechanic dissolution;
+
+    /***
+     * 凝固
+     */
+    public static Mechanic.HandleMechanic freezing;
+
+    /***
+     * 高压融合
+     */
+    public static Mechanic.HandleMechanic highPressureFuse;
+
+    /***
+     * 雕刻
+     */
+    public static Mechanic.HandleMechanic carving;
+
     //功能
 
     /***
@@ -114,51 +169,42 @@ public abstract class ManaLevelBlock extends ManaLevel.ManaLevelType<ManaLevelBl
      */
     public static Mechanic gatherMana;
 
+
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
         LEVEL_BLOCK = event.create(new RegistryBuilder<ManaLevelBlock>().setName(new ResourceLocation(Dusk.MOD_ID, "mana_level_block")));
-        sunlight = new Mechanic.PassiveProductionMechanic.SimilarSolarEnergyMechanic("sunlight", 1) {
+        repeater = new Mechanic("repeater") {
             @Override
-            public boolean isTimePass(Level level, BlockEntity blockEntity, IManaHandle iManaHandle, ManaLevel manaLevel) {
-                return level.isDay();
+            public Block createBlock(ManaLevel manaLevel) {
+                return new ModBlock.RepeaterBlock(manaLevel);
+            }
+
+            @Override
+            public @NotNull Block createCamouflageBlock() {
+                return new Block(BlockBehaviour.Properties.of(Material.AIR)) {
+                    @Override
+                    protected void createBlockStateDefinition(StateDefinition.@NotNull Builder<Block, BlockState> blockBlockStateBuilder) {
+                        blockBlockStateBuilder.add(ModBlock.RepeaterBlock.FACING);
+                    }
+                };
             }
         };
-        moonlight = new Mechanic.PassiveProductionMechanic.SimilarSolarEnergyMechanic("moonlight", 1) {
-            @Override
-            public boolean isTimePass(Level level, BlockEntity blockEntity, IManaHandle iManaHandle, ManaLevel manaLevel) {
-                return level.isNight();
-            }
-        };
-        grind = new Mechanic.HandleMechanic("grind") {
-            @Override
-            public List<ShapedType> getShapedTypeList() {
-                return List.of(ShapedType.grind);
-            }
-        };
-        wash = new Mechanic.HandleMechanic("wash") {
-            @Override
-            public List<ShapedType> getShapedTypeList() {
-                return List.of(ShapedType.wash);
-            }
-        };
-        centrifugal = new Mechanic.HandleMechanic("centrifugal") {
-            @Override
-            public List<ShapedType> getShapedTypeList() {
-                return List.of(ShapedType.centrifugal);
-            }
-        };
-        pack = new Mechanic.HandleMechanic("pack") {
-            @Override
-            public List<ShapedType> getShapedTypeList() {
-                return List.of(ShapedType.pack);
-            }
-        };
-        unpack = new Mechanic.HandleMechanic("unpack") {
-            @Override
-            public List<ShapedType> getShapedTypeList() {
-                return List.of(ShapedType.unpack);
-            }
-        };
+        sunlight = new Mechanic.PassiveProductionMechanic.SimilarSolarEnergyMechanic("sunlight", 1, Level::isDay);
+        moonlight = new Mechanic.PassiveProductionMechanic.SimilarSolarEnergyMechanic("moonlight", 1, Level::isNight);
+        grind = new Mechanic.HandleMechanic("grind", () -> List.of(ShapedType.grind));
+        wash = new Mechanic.HandleMechanic("wash", () -> List.of(ShapedType.wash));
+        centrifugal = new Mechanic.HandleMechanic("centrifugal", () -> List.of(ShapedType.centrifugal));
+        pack = new Mechanic.HandleMechanic("pack", () -> List.of(ShapedType.pack));
+        unpack = new Mechanic.HandleMechanic("unpack", () -> List.of(ShapedType.unpack));
+        blastFurnace = new Mechanic.HandleMechanic("blast_furnace", () -> List.of(ShapedType.blastFurnace));
+        crystallizing = new Mechanic.HandleMechanic("crystallizing", () -> List.of(ShapedType.crystallizing));
+        assemble = new Mechanic.HandleMechanic("assemble", () -> List.of(ShapedType.assemble));
+
+        distillation = new Mechanic.HandleMechanic("distillation", () -> List.of(ShapedType.distillation));
+        dissolution = new Mechanic.HandleMechanic("dissolution", () -> List.of(ShapedType.dissolution));
+        freezing = new Mechanic.HandleMechanic("freezing", () -> List.of(ShapedType.freezing));
+        highPressureFuse = new Mechanic.HandleMechanic("high_pressure_fuse", () -> List.of(ShapedType.highPressureFuse));
+        carving = new Mechanic.HandleMechanic("carving", () -> List.of(ShapedType.carving));
         voidCase = new Mechanic("void_case") {
             @Override
             public Block createBlock(ManaLevel manaLevel) {
@@ -190,7 +236,7 @@ public abstract class ManaLevelBlock extends ManaLevel.ManaLevelType<ManaLevelBl
                     @Override
                     public void add(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability) {
                         duskModCapability.addCapability(CapabilityRegister.iManaLevel.capability, () -> manaLevel);
-                        duskModCapability.addCapability(CapabilityRegister.iManaHandle.capability, new ManaHandle(512000L * manaLevel.level, 128L * manaLevel.level));
+                        duskModCapability.addCapability(CapabilityRegister.iManaHandle.capability, new ManaHandle(5120000L * manaLevel.level, 128L * manaLevel.level));
                     }
                 };
             }
@@ -229,6 +275,23 @@ public abstract class ManaLevelBlock extends ManaLevel.ManaLevelType<ManaLevelBl
         };
     }
 
+    @Override
+    public void registerSubsidiaryBlack() {
+        Block block = createCamouflageBlock();
+        if (block != null) {
+            ForgeRegistries.BLOCKS.register(name, block);
+        }
+    }
+
+    /***
+     * 创建伪装方块，作用在映射带有多个方块状态的模型时欺骗模型加载器
+     * @return 伪装方块
+     */
+    @Nullable
+    public Block createCamouflageBlock() {
+        return null;
+    }
+
     public static abstract class Mechanic extends ManaLevelBlock {
         public Mechanic(ResourceLocation name) {
             super(name);
@@ -238,14 +301,17 @@ public abstract class ManaLevelBlock extends ManaLevel.ManaLevelType<ManaLevelBl
             super(name);
         }
 
-        public static abstract class HandleMechanic extends Mechanic {
+        public static class HandleMechanic extends Mechanic {
 
-            public HandleMechanic(ResourceLocation name) {
+            public final Supplier<List<ShapedType>> getShapedTypeList;
+
+            public HandleMechanic(ResourceLocation name, Supplier<List<ShapedType>> getShapedTypeList) {
                 super(name);
+                this.getShapedTypeList = getShapedTypeList;
             }
 
-            public HandleMechanic(String name) {
-                super(name);
+            public HandleMechanic(String name, Supplier<List<ShapedType>> getShapedTypeList) {
+                this(new ResourceLocation(Dusk.MOD_ID, name), getShapedTypeList);
             }
 
             public Block createBlock(ManaLevel manaLevel) {
@@ -261,20 +327,11 @@ public abstract class ManaLevelBlock extends ManaLevel.ManaLevelType<ManaLevelBl
 
             public void addCapabilitie(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability, ManaLevel manaLevel) {
                 IManaLevel iManaLevel = duskModCapability.addCapability(CapabilityRegister.iManaLevel.capability, () -> manaLevel);
-                IControl iControl = duskModCapability.addCapability(CapabilityRegister.iControl.capability, new Control(event.getObject(),
-                        List.of(BindType.manaIn, BindType.manaOut, BindType.itemIn, BindType.itemOut, BindType.fluidIn, BindType.fluidOut, BindType.modelStore)
-                        , iManaLevel));
+                IControl iControl = duskModCapability.addCapability(CapabilityRegister.iControl.capability, new Control(event.getObject(), List.of(BindType.manaIn, BindType.manaOut, BindType.itemIn, BindType.itemOut, BindType.fluidIn, BindType.fluidOut, BindType.modelStore), iManaLevel));
                 IUp iUp = duskModCapability.addCapability(CapabilityRegister.iUp.capability, new Up());
                 IClock iClock = duskModCapability.addCapability(CapabilityRegister.iClock.capability, new Clock(iUp, iManaLevel));
-                IHandle iHandle = duskModCapability.addCapability(CapabilityRegister.iHandle.capability, new Handle(event.getObject(), getShapedTypeList(), iControl, iClock, iUp, iManaLevel));
+                IHandle iHandle = duskModCapability.addCapability(CapabilityRegister.iHandle.capability, new Handle(event.getObject(), getShapedTypeList.get(), iControl, iClock, iUp, iManaLevel));
             }
-
-            /***
-             * 返回可接受的配方
-             * @return 接受的配方
-             */
-            public abstract List<ShapedType> getShapedTypeList();
-
 
         }
 
@@ -309,16 +366,18 @@ public abstract class ManaLevelBlock extends ManaLevel.ManaLevelType<ManaLevelBl
              */
             public abstract void up(BlockEntity blockEntity, IManaHandle iManaHandle, ManaLevel manaLevel);
 
-            public static abstract class SimilarSolarEnergyMechanic extends PassiveProductionMechanic {
+            public static class SimilarSolarEnergyMechanic extends PassiveProductionMechanic {
                 public final long productionMultiple;
+                public final Extension.Func_1I<Level, Boolean> isTimePass;
 
-                public SimilarSolarEnergyMechanic(ResourceLocation name, long productionMultiple) {
+                public SimilarSolarEnergyMechanic(ResourceLocation name, long productionMultiple, Extension.Func_1I<Level, Boolean> isTimePass) {
                     super(name);
                     this.productionMultiple = productionMultiple;
+                    this.isTimePass = isTimePass;
                 }
 
-                public SimilarSolarEnergyMechanic(String name, long productionMultiple) {
-                    this(new ResourceLocation(Dusk.MOD_ID, name), productionMultiple);
+                public SimilarSolarEnergyMechanic(String name, long productionMultiple, Extension.Func_1I<Level, Boolean> isTimePass) {
+                    this(new ResourceLocation(Dusk.MOD_ID, name), productionMultiple, isTimePass);
                 }
 
                 @Override
@@ -327,30 +386,17 @@ public abstract class ManaLevelBlock extends ManaLevel.ManaLevelType<ManaLevelBl
                     if (level == null || level.isClientSide) {
                         return;
                     }
-                    if (!level.isDay()) {
-                        return;
-                    }
-                    if (!isTimePass(level, blockEntity, iManaHandle, manaLevel)) {
+                    if (!isTimePass.func(level)) {
                         return;
                     }
                     BlockPos blockPos = blockEntity.getBlockPos();
                     for (int i = blockPos.getY() + 1; i < 255; i++) {
-                        if (level.getBlockState(new BlockPos(blockPos.getY(), i, blockPos.getZ())).canOcclude()) {
+                        if (!level.getBlockState(new BlockPos(blockPos.getX(), i, blockPos.getZ())).getBlock().equals(Blocks.AIR)) {
                             return;
                         }
                     }
                     iManaHandle.addMana(manaLevel.level * productionMultiple);
                 }
-
-                /***
-                 * 再时间上通过
-                 * @param level 世界
-                 * @param blockEntity 方块类型
-                 * @param iManaHandle 灵气处理
-                 * @param manaLevel 等级
-                 * @return 时候通过
-                 */
-                public abstract boolean isTimePass(Level level, BlockEntity blockEntity, IManaHandle iManaHandle, ManaLevel manaLevel);
             }
         }
 

@@ -49,8 +49,7 @@ public class ClientTransfer {
             return;
         }
         supplier.get().enqueueWork(() -> clientParticleRegister.run(Minecraft.getInstance().level,
-                new Pos(data.start_x, data.start_y, data.start_z),
-                new Pos(data.end_x, data.end_y, data.end_z),
-                new Color(data.color_r, data.color_g, data.color_b, data.color_r), data.density));
+                data.start, data.end, data.color, data.density));
+        supplier.get().setPacketHandled(true);
     }
 }

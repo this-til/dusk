@@ -26,6 +26,7 @@ import snownee.jade.api.config.IPluginConfig;
 public class Jade_Interact {
     public static void registerClient(IWailaClientRegistration registration) {
         registration.registerBlockComponent(BlockComponentProvider.getInstance(), ModBlock.MechanicBlock.class);
+        registration.registerBlockComponent(BlockComponentProvider.getInstance(), ModBlock.RepeaterBlock.class);
     }
 
     public static class BlockComponentProvider implements IBlockComponentProvider {

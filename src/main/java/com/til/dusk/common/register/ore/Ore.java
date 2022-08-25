@@ -29,10 +29,23 @@ public class Ore extends RegisterBasics<Ore> {
 
     public static Ore testOre;
 
+
+    /***
+     * 日耀
+     */
+    public static Ore sunlight;
+
+    /***
+     * 月耀
+     */
+    public static Ore moonlight;
+
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
         ORE = event.create(new RegistryBuilder<Ore>().setName(new ResourceLocation(Dusk.MOD_ID, "ore")));
         testOre = new Ore("test_ore", new Color(255, 200, 140), ManaLevel.t1);
+        sunlight = new Ore("sunlight", new Color(250, 250, 87), ManaLevel.t2);
+        moonlight = new Ore("moonlight", new Color(45, 121, 255, 255), ManaLevel.t2);
     }
 
     /***
@@ -63,10 +76,10 @@ public class Ore extends RegisterBasics<Ore> {
     /***
      * 有矿物方块
      */
-    public boolean hasMineralBlock = true;
+    public boolean isMineralBlock = true;
 
     /***
-     * 有相的方块
+     * 有方块
      */
     public boolean hasBlock = true;
 

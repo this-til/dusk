@@ -29,7 +29,6 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> {
         this.registrySupplier = registrySupplier;
         Dusk.instance.modEventBus.addListener(EventPriority.HIGH, this::registerEvent);
         Dusk.instance.modEventBus.addListener(getRegisterBlackPriority(), this::registerSubsidiary);
-        MinecraftForge.EVENT_BUS.register(this);
     }
 
     public void registerEvent(RegisterEvent event) {

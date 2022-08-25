@@ -120,9 +120,12 @@ public abstract class CapabilityRegister<C> extends RegisterBasics<CapabilityReg
                         integerMap.put(item, itemStack.getCount());
                     }
                 });
-                integerMap.forEach((k, v) -> iTooltip.add(
-                        Lang.getLang(k.getDescription(),
-                                Component.literal("x" + v))));
+                for (Map.Entry<Item, Integer> itemIntegerEntry : integerMap.entrySet()) {
+                    ItemStack itemStack = new ItemStack(itemIntegerEntry.getKey(), itemIntegerEntry.getValue());
+                    iTooltip.add(
+                            Lang.getLang(itemStack.getDisplayName(),
+                                    Component.literal("x" + itemIntegerEntry.getValue())));
+                }
 
             }
         };
@@ -153,9 +156,11 @@ public abstract class CapabilityRegister<C> extends RegisterBasics<CapabilityReg
                         integerMap.put(item, fluidStack.getAmount());
                     }
                 });
-                integerMap.forEach((k, v) -> iTooltip.add(
-                        Lang.getLang(k.getFluidType().getDescription(),
-                                Component.literal("x" + v))));
+                for (Map.Entry<Fluid, Integer> fluidIntegerEntry : integerMap.entrySet()) {
+                    FluidStack fluidStack = new FluidStack(fluidIntegerEntry.getKey(), fluidIntegerEntry.getValue());
+                    Lang.getLang(fluidStack.getDisplayName(),
+                            Component.literal("x" + fluidIntegerEntry.getValue()));
+                }
             }
         };
         iClock = new CapabilityRegister<>("i_clock", IClock.class, () -> new CapabilityToken<IClock>() {
@@ -197,7 +202,7 @@ public abstract class CapabilityRegister<C> extends RegisterBasics<CapabilityReg
 
                 Map<BindType, List<BlockPos>> bindTypeListMap = TagTool.bindType_BlockPosListMapTag.get(compoundTag);
                 List<BindType> bindTypeList = TagTool.bindTypeListTag.get(compoundTag);
-                iTooltip.add(Component.translatable(Lang.getKey("bind.type")));
+                iTooltip.add(Component.translatable(Lang.getKey("max.bind")));
                 iTooltip.indent();
                 for (BindType bindType : bindTypeList) {
                     iTooltip.add(Lang.getLang(Lang.getLang(bindType), Component.literal(":")));
@@ -327,7 +332,7 @@ public abstract class CapabilityRegister<C> extends RegisterBasics<CapabilityReg
                         iTooltip.add(Lang.getLang(Lang.getLang(BindType.itemOut), Component.translatable(":")));
                         iTooltip.indent();
                         for (ItemStack itemStack : shapedHandle.outItem) {
-                            iTooltip.add(Lang.getLang(itemStack.getItem().getName(itemStack), Component.literal("x" + itemStack.getCount())));
+                            iTooltip.add(Lang.getLang(itemStack.getDisplayName(), Component.literal("x" + itemStack.getCount())));
                         }
                         iTooltip.returnIndent();
                         iTooltip.returnIndent();
@@ -337,7 +342,7 @@ public abstract class CapabilityRegister<C> extends RegisterBasics<CapabilityReg
                         iTooltip.add(Lang.getLang(Lang.getLang(BindType.fluidOut), Component.translatable(":")));
                         iTooltip.indent();
                         for (FluidStack fluidStack : shapedHandle.outFluid) {
-                            iTooltip.add(Lang.getLang(fluidStack.getFluid().getFluidType().getDescription(), Component.literal("x" + fluidStack.getAmount() + "ml")));
+                            iTooltip.add(Lang.getLang(fluidStack.getDisplayName(), Component.literal("x" + fluidStack.getAmount() + "ml")));
                         }
                         iTooltip.returnIndent();
                         iTooltip.returnIndent();

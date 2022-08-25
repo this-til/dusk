@@ -5,6 +5,7 @@ import com.google.gson.JsonPrimitive;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.AABB;
@@ -61,6 +62,17 @@ public class Pos {
         z = nbtTagCompound.getDouble("z");
     }
 
+    public Pos(FriendlyByteBuf friendlyByteBuf) {
+        x = friendlyByteBuf.readDouble();
+        y = friendlyByteBuf.readDouble();
+        z = friendlyByteBuf.readDouble();
+    }
+
+    public void write(FriendlyByteBuf friendlyByteBuf) {
+        friendlyByteBuf.writeDouble(x);
+        friendlyByteBuf.writeDouble(y);
+        friendlyByteBuf.writeDouble(z);
+    }
 
     public CompoundTag getNBT() {
         CompoundTag nbtTagCompound = new CompoundTag();
