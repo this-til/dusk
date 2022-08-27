@@ -197,12 +197,12 @@ public abstract class CapabilityRegister<C> extends RegisterBasics<CapabilityReg
             @Override
             public void appendTooltip(Jade_Interact.TooltipPack iTooltip, BlockAccessor blockAccessor, IPluginConfig iPluginConfig, CompoundTag compoundTag) {
                 super.appendTooltip(iTooltip, blockAccessor, iPluginConfig, compoundTag);
-                iTooltip.add(Lang.getLang(Component.translatable(Lang.getKey("can.bind")), Component.literal(String.valueOf(TagTool.maxBindTag.get(compoundTag)))));
-                iTooltip.add(Lang.getLang(Component.translatable(Lang.getKey("max.range")), Component.literal(String.valueOf(TagTool.maxRangeTag.get(compoundTag)))));
+                iTooltip.add(Lang.getLang(Component.translatable(Lang.getKey("最大绑定数量")), Component.literal(String.valueOf(TagTool.maxBindTag.get(compoundTag)))));
+                iTooltip.add(Lang.getLang(Component.translatable(Lang.getKey("最大范围")), Component.literal(String.valueOf(TagTool.maxRangeTag.get(compoundTag)))));
 
                 Map<BindType, List<BlockPos>> bindTypeListMap = TagTool.bindType_BlockPosListMapTag.get(compoundTag);
                 List<BindType> bindTypeList = TagTool.bindTypeListTag.get(compoundTag);
-                iTooltip.add(Component.translatable(Lang.getKey("max.bind")));
+                iTooltip.add(Component.translatable(Lang.getKey("绑定类型")));
                 iTooltip.indent();
                 for (BindType bindType : bindTypeList) {
                     iTooltip.add(Lang.getLang(Lang.getLang(bindType), Component.literal(":")));
@@ -244,9 +244,9 @@ public abstract class CapabilityRegister<C> extends RegisterBasics<CapabilityReg
                 long maxMana = TagTool.maxManaTag.get(compoundTag);
                 long rate = TagTool.rateTag.get(compoundTag);
                 if (mana > 0 && maxMana > 0) {
-                    iTooltip.add(Lang.getLang(Component.translatable(Lang.getKey("now.mana")), Component.literal(mana + "/" + maxMana)));
+                    iTooltip.add(Lang.getLang(Component.translatable(Lang.getKey("现存灵气")), Component.literal(mana + "/" + maxMana)));
                 }
-                iTooltip.add(Lang.getLang(Component.translatable(Lang.getKey("rate.mana.handel")), Component.literal(String.valueOf(rate))));
+                iTooltip.add(Lang.getLang(Component.translatable(Lang.getKey("最大灵气流速")), Component.literal(String.valueOf(rate))));
             }
         };
         iShapedDrive = new CapabilityRegister<>("i_shaped_drive", IShapedDrive.class, () -> new CapabilityToken<IShapedDrive>() {
@@ -303,10 +303,10 @@ public abstract class CapabilityRegister<C> extends RegisterBasics<CapabilityReg
                         stringBuilder.append(shapedDrive.name.getPath());
                         stringBuilder.append(',');
                     }
-                    stringBuilder.charAt(stringBuilder.length() - 1);
+                    stringBuilder.deleteCharAt(stringBuilder.length() - 1);
                     stringBuilder.append(']');
                 }
-                iTooltip.add(Lang.getLang(Component.translatable(Lang.getKey("use.shaped.type")), Component.literal(stringBuilder.toString())));
+                iTooltip.add(Lang.getLang(Component.translatable(Lang.getKey("使用配方集")), Component.literal(stringBuilder.toString())));
 
                 List<ShapedHandle> shapedHandles = TagTool.shapedHandleListTag.get(compoundTag);
                 if (shapedHandles.isEmpty()) {
@@ -315,17 +315,17 @@ public abstract class CapabilityRegister<C> extends RegisterBasics<CapabilityReg
                 for (int i = 0; i < shapedHandles.size(); i++) {
                     ShapedHandle shapedHandle = shapedHandles.get(i);
                     iTooltip.indent();
-                    iTooltip.add(Lang.getLang(Component.translatable(Lang.getKey("shaped.handle")), Component.literal(String.valueOf(i))));
+                    iTooltip.add(Lang.getLang(Component.translatable(Lang.getKey("配方处理")), Component.literal(String.valueOf(i))));
                     iTooltip.indent();
-                    iTooltip.add(Lang.getLang(Component.translatable(Lang.getKey("state")), Lang.getLang(shapedHandle.process)));
+                    iTooltip.add(Lang.getLang(Component.translatable(Lang.getKey("状态")), Lang.getLang(shapedHandle.process)));
                     if (shapedHandle.consumeMana > 0) {
-                        iTooltip.add(Lang.getLang(Component.translatable(Lang.getKey("consume.mana")), Component.literal(String.valueOf(shapedHandle.consumeMana))));
+                        iTooltip.add(Lang.getLang(Component.translatable(Lang.getKey("消耗灵气")), Component.literal(String.valueOf(shapedHandle.consumeMana))));
                     }
                     if (shapedHandle._surplusTime > 0) {
-                        iTooltip.add(Lang.getLang(Component.translatable(Lang.getKey("surplus.time")), Component.literal(String.valueOf(shapedHandle._surplusTime))));
+                        iTooltip.add(Lang.getLang(Component.translatable(Lang.getKey("剩余时间")), Component.literal(String.valueOf(shapedHandle._surplusTime))));
                     }
                     if (shapedHandle.outMana > 0) {
-                        iTooltip.add(Lang.getLang(Component.translatable(Lang.getKey("out.mana")), Component.literal(String.valueOf(shapedHandle.outMana))));
+                        iTooltip.add(Lang.getLang(Component.translatable(Lang.getKey("输出灵气")), Component.literal(String.valueOf(shapedHandle.outMana))));
                     }
                     if (shapedHandle.outItem != null) {
                         iTooltip.indent();

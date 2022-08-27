@@ -7,6 +7,7 @@ import com.til.dusk.common.register.ore.Ore;
 import com.til.dusk.common.register.ore.OreBlock;
 import com.til.dusk.common.register.ore.OreItem;
 import com.til.dusk.util.Extension;
+import com.til.dusk.util.pack.BlockPack;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.ItemTags;
@@ -104,27 +105,25 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
             public void registerSubsidiaryBlack() {
                 for (Ore ore : Ore.screen(Ore.HAS_MINERAL_BLOCK, Ore.HAS_CRUSHED)) {
                     List<Extension.Data_2<ItemStack, Double>> grindOut = ore.grind();
-                    ore.blockMap.forEach((k, v) -> {
+                    for (Map.Entry<OreBlock, BlockPack> entry :ore.blockMap.entrySet()){
                         List<Extension.Data_2<ItemStack, Double>> outItem = new ArrayList<>();
-                        outItem.add(new Extension.Data_2<>(new ItemStack(ore.itemMap.get(OreItem.crushed), 2), 1d));
+                        outItem.add(new Extension.Data_2<>(new ItemStack(ore.itemMap.get(OreItem.crushed).item(), 2), 1d));
                         if (grindOut != null) {
                             outItem.addAll(grindOut);
                         }
-                        if (k instanceof OreBlock.OreBlockMineral) {
-                            new Shaped.ShapedOre.RandOutOreShaped(
-                                    fuseName(this, ore, k),
-                                    this,
-                                    ShapedDrive.get(0),
-                                    ore.manaLevel,
-                                    Map.of(ItemTags.create(fuseName(ore, k)), 1),
-                                    null,
-                                    (long) (ore.strength * 640L),
-                                    (long) (ore.consume * 16L),
-                                    0,
-                                    outItem,
-                                    null);
-                        }
-                    });
+                        new Shaped.ShapedOre.RandOutOreShaped(
+                                fuseName(this, ore, entry.getKey()),
+                                this,
+                                ShapedDrive.get(0),
+                                ore.manaLevel,
+                                Map.of(ore.blockMap.get(entry.getKey()).blockItemTag(), 1),
+                                null,
+                                (long) (ore.strength * 640L),
+                                (long) (ore.consume * 16L),
+                                0,
+                                outItem,
+                                null);
+                    }
                 }
 
                 for (Ore ore : Ore.screen(Ore.IS_METAL, Ore.HAS_DUST)) {
@@ -138,14 +137,14 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
                             (long) (ore.strength * 320L),
                             (long) (ore.consume * 8L),
                             0,
-                            List.of(new ItemStack(ore.itemMap.get(OreItem.dust), 1)),
+                            List.of(new ItemStack(ore.itemMap.get(OreItem.dust).item(), 1)),
                             null
                     );
                 }
 
                 for (Ore ore : Ore.screen(Ore.IS_CRYSTA, Ore.HAS_DUST)) {
                     new Shaped.ShapedOre(
-                            fuseName( "__",this, ore, OreItem.dust),
+                            fuseName("__", this, ore, OreItem.dust),
                             this,
                             ShapedDrive.get(2),
                             ore.manaLevel,
@@ -154,7 +153,7 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
                             (long) (ore.strength * 320L),
                             (long) (ore.consume * 12L),
                             0,
-                            List.of(new ItemStack(ore.itemMap.get(OreItem.dust), 1)),
+                            List.of(new ItemStack(ore.itemMap.get(OreItem.dust).item(), 1)),
                             null
                     );
                 }
@@ -170,7 +169,7 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
                     List<Extension.Data_2<ItemStack, Double>> grindOut = ore.wash();
                     List<Extension.Data_2<ItemStack, Double>> out = new ArrayList<>();
                     out.add(new Extension.Data_2<>(
-                            new ItemStack(ore.itemMap.get(OreItem.crushedPurified), 1),
+                            new ItemStack(ore.itemMap.get(OreItem.crushedPurified).item(), 1),
                             1d
                     ));
                     if (grindOut != null) {
@@ -201,7 +200,7 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
                     List<Extension.Data_2<ItemStack, Double>> grindOut = ore.wash();
                     List<Extension.Data_2<ItemStack, Double>> out = new ArrayList<>();
                     out.add(new Extension.Data_2<>(
-                            new ItemStack(ore.itemMap.get(OreItem.dust), 1),
+                            new ItemStack(ore.itemMap.get(OreItem.dust).item(), 1),
                             1d
                     ));
                     if (grindOut != null) {
@@ -237,7 +236,7 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
                             (long) (ore.strength * 128L),
                             (long) (ore.consume * 4L),
                             0,
-                            List.of(new ItemStack(ore.blockMap.get(OreBlock.block))),
+                            List.of(new ItemStack(ore.blockMap.get(OreBlock.block).blockItem())),
                             null);
                 }
 
@@ -252,7 +251,7 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
                             (long) (ore.strength * 128L),
                             (long) (ore.consume * 4L),
                             0,
-                            List.of(new ItemStack(ore.blockMap.get(OreBlock.block))),
+                            List.of(new ItemStack(ore.blockMap.get(OreBlock.block).blockItem())),
                             null);
                 }
 
@@ -267,7 +266,7 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
                             (long) (ore.strength * 128L),
                             (long) (ore.consume * 4L),
                             0,
-                            List.of(new ItemStack(ore.itemMap.get(OreItem.ingot))),
+                            List.of(new ItemStack(ore.itemMap.get(OreItem.ingot).item())),
                             null);
                 }
 
@@ -282,7 +281,7 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
                             (long) (ore.strength * 128L),
                             (long) (ore.consume * 4L),
                             0,
-                            List.of(new ItemStack(ore.itemMap.get(OreItem.dust))),
+                            List.of(new ItemStack(ore.itemMap.get(OreItem.dust).item())),
                             null);
                 }
             }
@@ -303,7 +302,7 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
                             (long) (ore.strength * 128L),
                             (long) (ore.consume * 4L),
                             0,
-                            List.of(new ItemStack(ore.itemMap.get(OreItem.ingot), 9)),
+                            List.of(new ItemStack(ore.itemMap.get(OreItem.ingot).item(), 9)),
                             null);
                 }
 
@@ -318,7 +317,7 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
                             (long) (ore.strength * 128L),
                             (long) (ore.consume * 4L),
                             0,
-                            List.of(new ItemStack(ore.itemMap.get(OreItem.crystal), 9)),
+                            List.of(new ItemStack(ore.itemMap.get(OreItem.crystal).item(), 9)),
                             null);
                 }
 
@@ -333,7 +332,7 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
                             (long) (ore.strength * 128L),
                             (long) (ore.consume * 4L),
                             0,
-                            List.of(new ItemStack(ore.itemMap.get(OreItem.nuggets), 9)),
+                            List.of(new ItemStack(ore.itemMap.get(OreItem.nuggets).item(), 9)),
                             null);
                 }
 
@@ -348,7 +347,7 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
                             (long) (ore.strength * 128L),
                             (long) (ore.consume * 4L),
                             0,
-                            List.of(new ItemStack(ore.itemMap.get(OreItem.dustTiny), 9)),
+                            List.of(new ItemStack(ore.itemMap.get(OreItem.dustTiny).item(), 9)),
                             null);
                 }
 
@@ -370,7 +369,7 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
                             (long) (ore.strength * 1024L),
                             (long) (ore.consume * 32L),
                             0,
-                            List.of(new ItemStack(ore.itemMap.get(OreItem.ingot), 1)),
+                            List.of(new ItemStack(ore.itemMap.get(OreItem.ingot).item(), 1)),
                             null
                     );
                 }
@@ -381,7 +380,7 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
 
             @Override
             public void registerSubsidiaryBlack() {
-                for (Ore ore : Ore.screen(Ore.IS_CRYSTA, Ore.HAS_DUST)) {
+                /*for (Ore ore : Ore.screen(Ore.IS_CRYSTA, Ore.HAS_DUST)) {
                     new Shaped.ShapedOre(
                             fuseName(this, ore, OreItem.crystal),
                             this,
@@ -395,7 +394,7 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
                             List.of(new ItemStack(ore.itemMap.get(OreItem.crystal), 1)),
                             null
                     );
-                }
+                }*/
             }
 
         };

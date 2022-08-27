@@ -7,6 +7,7 @@ import com.til.dusk.common.capability.mana_handle.IManaHandle;
 import com.til.dusk.common.capability.mana_handle.ManaHandle;
 import com.til.dusk.common.capability.tile_entity.RepeaterTileEntity;
 import com.til.dusk.common.register.CapabilityRegister;
+import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.util.Extension;
 import com.til.dusk.util.Lang;
 import com.til.dusk.common.capability.clock.Clock;
@@ -61,7 +62,7 @@ import java.util.function.Supplier;
  * @author til
  */
 @Mod.EventBusSubscriber(modid = Dusk.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public abstract class ManaLevelBlock extends ManaLevel.ManaLevelType<ManaLevelBlock, BlockItem> {
+public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<ManaLevelBlock, ManaLevel> {
 
     public static Supplier<IForgeRegistry<ManaLevelBlock>> LEVEL_BLOCK;
 
@@ -199,7 +200,6 @@ public abstract class ManaLevelBlock extends ManaLevel.ManaLevelType<ManaLevelBl
         blastFurnace = new Mechanic.HandleMechanic("blast_furnace", () -> List.of(ShapedType.blastFurnace));
         crystallizing = new Mechanic.HandleMechanic("crystallizing", () -> List.of(ShapedType.crystallizing));
         assemble = new Mechanic.HandleMechanic("assemble", () -> List.of(ShapedType.assemble));
-
         distillation = new Mechanic.HandleMechanic("distillation", () -> List.of(ShapedType.distillation));
         dissolution = new Mechanic.HandleMechanic("dissolution", () -> List.of(ShapedType.dissolution));
         freezing = new Mechanic.HandleMechanic("freezing", () -> List.of(ShapedType.freezing));
@@ -251,47 +251,6 @@ public abstract class ManaLevelBlock extends ManaLevel.ManaLevelType<ManaLevelBl
         this(new ResourceLocation(Dusk.MOD_ID, name));
     }
 
-    @Override
-    public BlockItem create(ManaLevel manaLevel) {
-        Block block = createBlock(manaLevel);
-        ForgeRegistries.BLOCKS.register(fuseName("_", manaLevel, this), block);
-        Objects.requireNonNull(ForgeRegistries.BLOCKS.tags()).addOptionalTagDefaults(BlockTags.create(fuseName("_", manaLevel, this)), Set.of(() -> block));
-
-        BlockItem blockItem = createBlockItem(manaLevel, block);
-        ForgeRegistries.ITEMS.register(fuseName("_", manaLevel, this), blockItem);
-        Objects.requireNonNull(ForgeRegistries.ITEMS.tags()).addOptionalTagDefaults(ItemTags.create(fuseName("_", manaLevel, this)), Set.of(() -> blockItem));
-
-        return blockItem;
-    }
-
-    public abstract Block createBlock(ManaLevel manaLevel);
-
-    public BlockItem createBlockItem(ManaLevel manaLevel, Block block) {
-        return new BlockItem(block, new Item.Properties().tab(Dusk.TAB)) {
-            @Override
-            public @NotNull Component getName(@NotNull ItemStack stack) {
-                return Lang.getLang(manaLevel, ManaLevelBlock.this);
-            }
-        };
-    }
-
-    @Override
-    public void registerSubsidiaryBlack() {
-        Block block = createCamouflageBlock();
-        if (block != null) {
-            ForgeRegistries.BLOCKS.register(name, block);
-        }
-    }
-
-    /***
-     * 创建伪装方块，作用在映射带有多个方块状态的模型时欺骗模型加载器
-     * @return 伪装方块
-     */
-    @Nullable
-    public Block createCamouflageBlock() {
-        return null;
-    }
-
     public static abstract class Mechanic extends ManaLevelBlock {
         public Mechanic(ResourceLocation name) {
             super(name);
@@ -314,6 +273,7 @@ public abstract class ManaLevelBlock extends ManaLevel.ManaLevelType<ManaLevelBl
                 this(new ResourceLocation(Dusk.MOD_ID, name), getShapedTypeList);
             }
 
+            @Override
             public Block createBlock(ManaLevel manaLevel) {
 
                 return new ModBlock.MechanicBlock(manaLevel) {
@@ -399,7 +359,5 @@ public abstract class ManaLevelBlock extends ManaLevel.ManaLevelType<ManaLevelBl
                 }
             }
         }
-
     }
-
 }

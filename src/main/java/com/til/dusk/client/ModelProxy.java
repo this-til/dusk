@@ -10,6 +10,8 @@ import com.til.dusk.common.register.ore.Ore;
 import com.til.dusk.common.register.ore.OreBlock;
 import com.til.dusk.common.register.ore.OreItem;
 import com.til.dusk.common.register.shaped.ShapedDrive;
+import com.til.dusk.util.pack.BlockPack;
+import com.til.dusk.util.pack.ItemPack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemModelShaper;
 import net.minecraft.client.renderer.block.BlockModelShaper;
@@ -50,12 +52,12 @@ public class ModelProxy {
     @SubscribeEvent
     public static void clientSetup(final FMLClientSetupEvent event) {
         for (Ore ore : Ore.ORE.get()) {
-            for (Map.Entry<OreItem, Item> entry : ore.itemMap.entrySet()) {
-                ITEM_MODEL_MAP.put(entry.getValue(), new ModelResourceLocation(entry.getKey().name, "inventory"));
+            for (Map.Entry<OreItem, ItemPack> entry : ore.itemMap.entrySet()) {
+                ITEM_MODEL_MAP.put(entry.getValue().item(), new ModelResourceLocation(entry.getKey().name, "inventory"));
             }
-            for (Map.Entry<OreBlock, BlockItem> entry : ore.blockMap.entrySet()) {
-                ITEM_MODEL_MAP.put(entry.getValue(), new ModelResourceLocation(entry.getKey().name, "inventory"));
-                ImmutableList<BlockState> definition = entry.getValue().getBlock().getStateDefinition().getPossibleStates();
+            for (Map.Entry<OreBlock, BlockPack> entry : ore.blockMap.entrySet()) {
+                ITEM_MODEL_MAP.put(entry.getValue().blockItem(), new ModelResourceLocation(entry.getKey().name, "inventory"));
+                ImmutableList<BlockState> definition = entry.getValue().block().getStateDefinition().getPossibleStates();
                 if (definition.size() == 1) {
                     BLOCK_STATE_MAP.put(definition.get(0), makeModelName(entry.getKey(), BLOCK));
                 } else {
@@ -67,12 +69,12 @@ public class ModelProxy {
         }
 
         for (ManaLevel manaLevel : ManaLevel.LEVEL.get()) {
-            for (Map.Entry<ManaLevelItem, Item> entry : manaLevel.itemMap.entrySet()) {
-                ITEM_MODEL_MAP.put(entry.getValue(), new ModelResourceLocation(entry.getKey().name, "inventory"));
+            for (Map.Entry<ManaLevelItem, ItemPack> entry : manaLevel.itemMap.entrySet()) {
+                ITEM_MODEL_MAP.put(entry.getValue().item(), new ModelResourceLocation(entry.getKey().name, "inventory"));
             }
-            for (Map.Entry<ManaLevelBlock, BlockItem> entry : manaLevel.blockMap.entrySet()) {
-                ITEM_MODEL_MAP.put(entry.getValue(), new ModelResourceLocation(entry.getKey().name, "inventory"));
-                ImmutableList<BlockState> definition = entry.getValue().getBlock().getStateDefinition().getPossibleStates();
+            for (Map.Entry<ManaLevelBlock, BlockPack> entry : manaLevel.blockMap.entrySet()) {
+                ITEM_MODEL_MAP.put(entry.getValue().blockItem(), new ModelResourceLocation(entry.getKey().name, "inventory"));
+                ImmutableList<BlockState> definition = entry.getValue().block().getStateDefinition().getPossibleStates();
                 if (definition.size() == 1) {
                     BLOCK_STATE_MAP.put(definition.get(0), makeModelName(entry.getKey(), BLOCK));
                 } else {

@@ -46,6 +46,14 @@ public class Extension {
         O func(I1 i1, I2 i2);
     }
 
+    public interface Func_3I<I1, I2, I3, O> {
+        O func(I1 i1, I2 i2, I3 i3);
+    }
+
+    public interface Func_4I<I1, I2, I3, I4, O> {
+        O func(I1 i1, I2 i2, I3 i3, I4 i4);
+    }
+
     public static class Data<D> {
         public D a;
 

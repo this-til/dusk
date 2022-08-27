@@ -68,7 +68,11 @@ public abstract class Shaped extends RegisterBasics<Shaped> {
             iForgeRegistry.register(name, this);
         }
         isRegister = true;
-        registerSubsidiaryBlack();
+        try {
+            registerSubsidiaryBlack();
+        } catch (AssertionError assertionError) {
+            Dusk.instance.logger.error(String.format("注册项目[%s]出错", name), assertionError);
+        }
     }
 
     @Override
@@ -318,25 +322,23 @@ public abstract class Shaped extends RegisterBasics<Shaped> {
         @Override
         public List<Component> getComponent() {
             List<Component> componentList = new ArrayList<>();
-            componentList.add(Lang.getLang("message"));
-            componentList.add(Lang.getLang(Lang.getKey("use.mana.level"), Lang.getKey(manaLevel)));
-            componentList.add(Lang.getLang(Lang.getKey("use.shaped.drive"), shapedDrive.getLangKey()));
+            componentList.add(Component.literal("message"));
+            componentList.add(Lang.getLang(Lang.getKey("需要灵压等级"), Lang.getKey(manaLevel)));
+            componentList.add(Lang.getLang(Lang.getKey("需要配方集"), shapedDrive.getLangKey()));
             if (consumeMana > 0) {
-                componentList.add(Lang.getLang(Lang.getKey("consume.mana"), String.valueOf(consumeMana)));
+                componentList.add(Lang.getLang(Lang.getKey("消耗灵气"), String.valueOf(consumeMana)));
             }
             if (surplusTime > 0) {
-                componentList.add(Lang.getLang(Lang.getKey("consume.time"), String.valueOf(surplusTime)));
+                componentList.add(Lang.getLang(Lang.getKey("消耗时间"), String.valueOf(surplusTime)));
             }
             if (outMana > 0) {
-                componentList.add(Lang.getLang(Lang.getKey("out.mana"), String.valueOf(outMana)));
+                componentList.add(Lang.getLang(Lang.getKey("输出灵气"), String.valueOf(outMana)));
             }
             return componentList;
         }
     }
 
     public static class RandOutOreShaped extends ShapedOre {
-
-
         @Nullable
         List<Extension.Data_2<ItemStack, Double>> outItem;
         @Nullable

@@ -1,12 +1,13 @@
 package com.til.dusk.common.register.ore;
 
 import com.til.dusk.Dusk;
+import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.util.Lang;
 import com.til.dusk.common.data.TagAdd;
+import com.til.dusk.util.StaticTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -23,32 +24,32 @@ import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegistryBuilder;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
-import java.util.Set;
+import java.util.List;
 import java.util.function.Supplier;
 
 /**
  * @author til
  */
 @Mod.EventBusSubscriber(modid = Dusk.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public abstract class OreBlock extends Ore.OreType<OreBlock, BlockItem> {
+public abstract class OreBlock extends RegisterBasics.BlockUnitRegister<OreBlock, Ore> {
 
+    //public static final StaticTag IS_MINERAL = new StaticTag("IS_MINERAL", List.of());
     public static Supplier<IForgeRegistry<OreBlock>> ORE_BLOCK;
 
-    public static OreBlockMineral lordWorld;
-    public static OreBlockMineral lordWorldDeepslate;
-    public static OreBlockMineral lordWorldSand;
-    public static OreBlockMineral lordWorldDirt;
-    public static OreBlockMineral lordWorldGravel;
-    public static OreBlockMineral netherWorldNetherrack;
-    public static OreBlockMineral endWorldEndStone;
+    public static OreBlock lordWorld;
+    public static OreBlock lordWorldDeepslate;
+    public static OreBlock lordWorldSand;
+    public static OreBlock lordWorldDirt;
+    public static OreBlock lordWorldGravel;
+    public static OreBlock netherWorldNetherrack;
+    public static OreBlock endWorldEndStone;
 
     public static OreBlock block;
 
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
         ORE_BLOCK = event.create(new RegistryBuilder<OreBlock>().setName(new ResourceLocation(Dusk.MOD_ID, "ore_block")));
-        lordWorld = new OreBlockMineral("lord_world") {
+        lordWorld = new OreBlock("lord_world") {
             @Override
             public Block createBlock(Ore ore) {
                 if (!ore.hasTag(Ore.HAS_MINERAL_BLOCK)) {
@@ -63,7 +64,7 @@ public abstract class OreBlock extends Ore.OreType<OreBlock, BlockItem> {
                 return block;
             }
         };
-        lordWorldDeepslate = new OreBlockMineral("lord_world_deepslate") {
+        lordWorldDeepslate = new OreBlock("lord_world_deepslate") {
             @Override
             public Block createBlock(Ore ore) {
                 if (!ore.hasTag(Ore.HAS_MINERAL_BLOCK)) {
@@ -78,7 +79,7 @@ public abstract class OreBlock extends Ore.OreType<OreBlock, BlockItem> {
                 return block;
             }
         };
-        lordWorldSand = new OreBlockMineral("lord_world_sand") {
+        lordWorldSand = new OreBlock("lord_world_sand") {
             @Override
             public Block createBlock(Ore ore) {
                 if (!ore.hasTag(Ore.HAS_MINERAL_BLOCK)) {
@@ -94,7 +95,7 @@ public abstract class OreBlock extends Ore.OreType<OreBlock, BlockItem> {
             }
         };
 
-        lordWorldDirt = new OreBlockMineral("lord_world_dirt") {
+        lordWorldDirt = new OreBlock("lord_world_dirt") {
             @Override
             public Block createBlock(Ore ore) {
                 if (!ore.hasTag(Ore.HAS_MINERAL_BLOCK)) {
@@ -109,7 +110,7 @@ public abstract class OreBlock extends Ore.OreType<OreBlock, BlockItem> {
                 return block;
             }
         };
-        lordWorldGravel = new OreBlockMineral("lord_world_gravel") {
+        lordWorldGravel = new OreBlock("lord_world_gravel") {
             @Override
             public Block createBlock(Ore ore) {
                 if (!ore.hasTag(Ore.HAS_MINERAL_BLOCK)) {
@@ -125,7 +126,7 @@ public abstract class OreBlock extends Ore.OreType<OreBlock, BlockItem> {
             }
         };
 
-        netherWorldNetherrack = new OreBlockMineral("nether_world_netherrack") {
+        netherWorldNetherrack = new OreBlock("nether_world_netherrack") {
             @Override
             public Block createBlock(Ore ore) {
                 if (!ore.hasTag(Ore.HAS_MINERAL_BLOCK)) {
@@ -140,7 +141,7 @@ public abstract class OreBlock extends Ore.OreType<OreBlock, BlockItem> {
                 return block;
             }
         };
-        endWorldEndStone = new OreBlockMineral("end_world_end_stone") {
+        endWorldEndStone = new OreBlock("end_world_end_stone") {
             @Override
             public Block createBlock(Ore ore) {
                 if (!ore.hasTag(Ore.HAS_MINERAL_BLOCK)) {
@@ -180,21 +181,6 @@ public abstract class OreBlock extends Ore.OreType<OreBlock, BlockItem> {
         this(new ResourceLocation(Dusk.MOD_ID, name));
     }
 
-    @Override
-    public BlockItem create(Ore ore) {
-        Block block = createBlock(ore);
-        ForgeRegistries.BLOCKS.register(fuseName("_", ore, this), block);
-        Objects.requireNonNull(ForgeRegistries.BLOCKS.tags()).addOptionalTagDefaults(BlockTags.create(fuseName("_", ore, this)), Set.of(() -> block));
-
-        BlockItem blockItem = createBlockItem(ore, block);
-        ForgeRegistries.ITEMS.register(fuseName("_", ore, this), blockItem);
-        Objects.requireNonNull(ForgeRegistries.ITEMS.tags()).addOptionalTagDefaults(ItemTags.create(fuseName("_", ore, this)), Set.of(() -> blockItem));
-
-        return blockItem;
-    }
-
-    public abstract Block createBlock(Ore ore);
-
     public BlockItem createBlockItem(Ore ore, Block block) {
         return new BlockItem(block, new Item.Properties().tab(Dusk.TAB)) {
             @Override
@@ -204,22 +190,15 @@ public abstract class OreBlock extends Ore.OreType<OreBlock, BlockItem> {
         };
     }
 
-    /***
-     * 代表该方块是矿物
-     */
-    public abstract static class OreBlockMineral extends OreBlock {
-        public OreBlockMineral(ResourceLocation name) {
+ /*   public static abstract class Mineral extends OreBlock {
+        public Mineral(ResourceLocation name) {
             super(name);
+            addTag(IS_MINERAL);
         }
 
-        public OreBlockMineral(String name) {
-            super(name);
+        public Mineral(String name) {
+            this(new ResourceLocation(Dusk.MOD_ID, name));
         }
-
-        @Override
-        public String getLangKey() {
-            return "ore";
-        }
-    }
+    }*/
 
 }

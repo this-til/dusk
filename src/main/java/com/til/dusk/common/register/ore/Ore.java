@@ -25,7 +25,7 @@ import java.util.function.Supplier;
  * @author til
  */
 @Mod.EventBusSubscriber(modid = Dusk.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class Ore extends RegisterBasics<Ore> {
+public class Ore extends RegisterBasics.UnitRegister<Ore, OreItem, OreBlock, OreFluid> {
     /***
      * 有矿物方块
      */
@@ -60,6 +60,11 @@ public class Ore extends RegisterBasics<Ore> {
      * 是晶体
      */
     public static final StaticTag IS_CRYSTA = new StaticTag("IS_CRYSTA", List.of());
+
+    /***
+     * 是晶体
+     */
+    public static final StaticTag CAN_PLANT = new StaticTag("CAN_PLANT", List.of(IS_CRYSTA));
 
     public static Supplier<IForgeRegistry<Ore>> ORE;
 
@@ -103,14 +108,10 @@ public class Ore extends RegisterBasics<Ore> {
      */
     public double consume = 1f;
 
-    public final Map<OreItem, Item> itemMap = new HashMap<>();
-    public final Map<OreBlock, BlockItem> blockMap = new HashMap<>();
-    public final Map<OreFluid, Fluid> fluidMap = new HashMap<>();
-
 
     public Ore(String name, Color color, ManaLevel manaLevel) {
         this(new ResourceLocation(Dusk.MOD_ID, name), color, manaLevel);
-        addTag(HAS_MINERAL_BLOCK, HAS_BLOCK, HAS_FLUID, HAS_CRUSHED, HAS_DUST,IS_METAL);
+        addTag(HAS_MINERAL_BLOCK, HAS_BLOCK, HAS_FLUID, HAS_CRUSHED, HAS_DUST, IS_METAL);
     }
 
 
@@ -131,25 +132,18 @@ public class Ore extends RegisterBasics<Ore> {
     }
 
     @Override
-    public void registerSubsidiaryBlack() {
-        for (OreItem oreItem : OreItem.ORE_ITEM.get()) {
-            Item item = oreItem.create(this);
-            if (item != null) {
-                itemMap.put(oreItem, item);
-            }
-        }
-        for (OreBlock oreBlock : OreBlock.ORE_BLOCK.get()) {
-            BlockItem blockItem = oreBlock.create(this);
-            if (blockItem != null) {
-                blockMap.put(oreBlock, blockItem);
-            }
-        }
-        for (OreFluid oreFluid : OreFluid.ORE_FLUID.get()) {
-            Fluid field = oreFluid.create(this);
-            if (field != null) {
-                fluidMap.put(oreFluid, field);
-            }
-        }
+    public Supplier<IForgeRegistry<OreItem>> itemRegistry() {
+        return OreItem.ORE_ITEM;
+    }
+
+    @Override
+    public Supplier<IForgeRegistry<OreBlock>> blockRegistry() {
+        return OreBlock.ORE_BLOCK;
+    }
+
+    @Override
+    public Supplier<IForgeRegistry<OreFluid>> fluidRegistry() {
+        return OreFluid.ORE_FLUID;
     }
 
     /***
@@ -184,20 +178,5 @@ public class Ore extends RegisterBasics<Ore> {
             }
         }
         return oreList;
-    }
-
-    public static abstract class OreType<T extends RegisterBasics<?>, I> extends RegisterBasics<T> {
-        public OreType(ResourceLocation name, Supplier<IForgeRegistry<T>> iForgeRegistrySupplier) {
-            super(name, iForgeRegistrySupplier);
-        }
-
-        /***
-         * 创建元素
-         * @param ore 创建的目标对象
-         * @return 创建结果
-         */
-        @Nullable
-        public abstract I create(Ore ore);
-
     }
 }

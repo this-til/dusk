@@ -44,13 +44,13 @@ public abstract class TileEntityRegister<T extends BlockEntity> extends Register
             @Override
             public void registerSubsidiaryBlack() {
                 ManaLevel.LEVEL.get().forEach(l -> l.blockMap.forEach((k, v) -> {
-                    if (v.getBlock() instanceof ITileEntityType iTileEntityType) {
+                    if (v.block() instanceof ITileEntityType iTileEntityType) {
                         BlockEntityType.Builder<DefaultTileEntity> builder = BlockEntityType.Builder.of((blockPos, blockState) ->
-                                new DefaultTileEntity(tileEntityTypeBlockEntityTypeMap.get(iTileEntityType), blockPos, blockState), v.getBlock());
+                                new DefaultTileEntity(tileEntityTypeBlockEntityTypeMap.get(iTileEntityType), blockPos, blockState), v.block());
                         Type<?> type = net.minecraft.Util.fetchChoiceType(References.BLOCK_ENTITY, fuseName("_", this, l, k).toString());
                         BlockEntityType<DefaultTileEntity> blockEntityType = builder.build(type);
                         tileEntityTypeBlockEntityTypeMap.put(iTileEntityType, blockEntityType);
-                        blockBlockEntityTypeMap.put(v.getBlock(), blockEntityType);
+                        blockBlockEntityTypeMap.put(v.block(), blockEntityType);
                         ForgeRegistries.BLOCK_ENTITY_TYPES.register(fuseName("_", this, l, k), blockEntityType);
                     }
                 }));
@@ -71,9 +71,9 @@ public abstract class TileEntityRegister<T extends BlockEntity> extends Register
             @Override
             public void registerSubsidiaryBlack() {
                 ManaLevel.LEVEL.get().forEach(l -> l.blockMap.forEach((k, v) -> {
-                    if (v.getBlock() instanceof ModBlock.RepeaterBlock repeaterBlock) {
+                    if (v.block() instanceof ModBlock.RepeaterBlock repeaterBlock) {
                         BlockEntityType.Builder<RepeaterTileEntity> builder = BlockEntityType.Builder.of((blockPos, blockState) ->
-                                new RepeaterTileEntity(blockBlockEntityTypeMap.get(v.getBlock()), blockPos, blockState), v.getBlock());
+                                new RepeaterTileEntity(blockBlockEntityTypeMap.get(v.block()), blockPos, blockState), v.block());
                         Type<?> type = net.minecraft.Util.fetchChoiceType(References.BLOCK_ENTITY, fuseName("_", this, l).toString());
                         BlockEntityType<RepeaterTileEntity> blockEntityType = builder.build(type);
                         ForgeRegistries.BLOCK_ENTITY_TYPES.register(fuseName("_", this, l), blockEntityType);

@@ -3,6 +3,7 @@ package com.til.dusk.common.data;
 import com.til.dusk.Dusk;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.register.ore.Ore;
+import com.til.dusk.util.pack.BlockPack;
 import net.minecraft.data.loot.BlockLoot;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
@@ -46,8 +47,6 @@ public class LootTableAdd {
         } catch (NoSuchFieldException e) {
             Dusk.instance.logger.error("", e);
         }
-
-
     }
 
     @SubscribeEvent
@@ -57,22 +56,22 @@ public class LootTableAdd {
             Map<ResourceLocation, LootTable> oldMap = (Map<ResourceLocation, LootTable>) lootTables_tables.get(lootTables);
             Map<ResourceLocation, LootTable> map = new HashMap<>();
             for (Ore o : Ore.ORE.get()) {
-                for (BlockItem b : o.blockMap.values()) {
-                    ResourceLocation blockName = ForgeRegistries.BLOCKS.getKey(b.getBlock());
+                for (BlockPack b : o.blockMap.values()) {
+                    ResourceLocation blockName = ForgeRegistries.BLOCKS.getKey(b.block());
                     if (blockName == null) {
                         continue;
                     }
-                    LootTable.Builder builder = (LootTable.Builder) createOreDrop.invoke(null, b.getBlock(), b);
+                    LootTable.Builder builder = (LootTable.Builder) createOreDrop.invoke(null, b.block(), b);
                     map.put(new ResourceLocation(blockName.getNamespace(), "blocks/" + blockName.getPath()), builder.build());
                 }
             }
             for (ManaLevel manaLevel : ManaLevel.LEVEL.get()) {
-                for (BlockItem value : manaLevel.blockMap.values()) {
-                    ResourceLocation blockName = ForgeRegistries.BLOCKS.getKey(value.getBlock());
+                for (BlockPack value : manaLevel.blockMap.values()) {
+                    ResourceLocation blockName = ForgeRegistries.BLOCKS.getKey(value.block());
                     if (blockName == null) {
                         continue;
                     }
-                    LootTable.Builder builder = (LootTable.Builder) createOreDrop.invoke(null, value.getBlock(), value);
+                    LootTable.Builder builder = (LootTable.Builder) createOreDrop.invoke(null, value.block(), value);
                     map.put(new ResourceLocation(blockName.getNamespace(), "blocks/" + blockName.getPath()), builder.build());
                 }
             }

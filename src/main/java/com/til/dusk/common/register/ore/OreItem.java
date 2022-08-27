@@ -1,11 +1,14 @@
 package com.til.dusk.common.register.ore;
 
 import com.til.dusk.Dusk;
+import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.util.Lang;
 import com.til.dusk.util.StaticTag;
+import com.til.dusk.util.pack.ItemPack;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -15,6 +18,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegistryBuilder;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Objects;
@@ -25,7 +29,7 @@ import java.util.function.Supplier;
  * @author til
  */
 @Mod.EventBusSubscriber(modid = Dusk.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class OreItem extends Ore.OreType<OreItem, Item> {
+public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
 
     public static Supplier<IForgeRegistry<OreItem>> ORE_ITEM;
 
@@ -34,6 +38,11 @@ public class OreItem extends Ore.OreType<OreItem, Item> {
      * 矿物锭
      */
     public static OreItem ingot;
+
+    /***
+     * 粒
+     */
+    public static OreItem nuggets;
 
     /***
      * 破损的晶体
@@ -56,9 +65,9 @@ public class OreItem extends Ore.OreType<OreItem, Item> {
     public static OreItem perfectCrystal;
 
     /***
-     * 粒
+     * 晶体种子
      */
-    public static OreItem nuggets;
+    public static OreItem crystalSeed;
 
     /***
      * 粉碎矿物
@@ -85,13 +94,14 @@ public class OreItem extends Ore.OreType<OreItem, Item> {
     public static void onEvent(NewRegistryEvent event) {
         ORE_ITEM = event.create(new RegistryBuilder<OreItem>().setName(new ResourceLocation(Dusk.MOD_ID, "ore_item")));
         ingot = new OreItem("ingot", List.of(Ore.IS_METAL));
-        damagedCrystal = new OreItem("damaged_crystal", List.of(Ore.IS_CRYSTA));
-        crystal = new OreItem("crystal", List.of(Ore.IS_CRYSTA));
-        delicateCrystal = new OreItem("perfect_crystal", List.of(Ore.IS_CRYSTA));
-        perfectCrystal = new OreItem("perfect_crystal", List.of(Ore.IS_CRYSTA));
         nuggets = new OreItem("nuggets", List.of(Ore.IS_METAL));
+        damagedCrystal = new OreItem("crystal_damaged", List.of(Ore.IS_CRYSTA));
+        crystal = new OreItem("crystal", List.of(Ore.IS_CRYSTA));
+        delicateCrystal = new OreItem("crystal_delicate", List.of(Ore.IS_CRYSTA));
+        perfectCrystal = new OreItem("crystal_perfect", List.of(Ore.IS_CRYSTA));
         crushed = new OreItem("crushed", List.of(Ore.HAS_CRUSHED));
         crushedPurified = new OreItem("crushed_purified", List.of(Ore.HAS_CRUSHED));
+        crystalSeed = new OreItem("crystal_seed", List.of(Ore.CAN_PLANT));
         dust = new OreItem("dust", List.of(Ore.HAS_DUST));
         dustTiny = new OreItem("dust_tiny", List.of(Ore.HAS_DUST));
     }
@@ -108,18 +118,10 @@ public class OreItem extends Ore.OreType<OreItem, Item> {
     }
 
     @Override
-    public Item create(Ore ore) {
-        if (!ore.hasTag(oreHasTag)) {
-            return null;
+    public @Nullable ItemPack create(Ore ore) {
+        if (ore.hasTag(oreHasTag)) {
+            return super.create(ore);
         }
-        Item item = new Item(new Item.Properties().tab(Dusk.TAB)) {
-            @Override
-            public @NotNull Component getName(ItemStack stack) {
-                return Lang.getLang(ore, OreItem.this);
-            }
-        };
-        ForgeRegistries.ITEMS.register(fuseName(ore, this), item);
-        Objects.requireNonNull(ForgeRegistries.ITEMS.tags()).addOptionalTagDefaults(ItemTags.create(fuseName(ore, this)), Set.of(() -> item));
-        return item;
+        return null;
     }
 }

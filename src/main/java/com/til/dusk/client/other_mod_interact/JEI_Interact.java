@@ -86,7 +86,7 @@ public class JEI_Interact implements IModPlugin {
         public CurrencyCategory(IGuiHelper guiHelper, ShapedType shapedType) {
             this.shapedType = shapedType;
             background = guiHelper.createDrawable(new ResourceLocation(Dusk.MOD_ID, "textures/gui/currency_category.png"), 0, 0, WIDTH, HEIGHT);
-            icon = guiHelper.createDrawableItemStack(new ItemStack(ManaLevel.t8.blockMap.get(shapedType.manaLevelBlockSupplier.get())));
+            icon = guiHelper.createDrawableItemStack(new ItemStack(ManaLevel.t8.blockMap.get(shapedType.manaLevelBlockSupplier.get()).block()));
         }
 
         @Override
@@ -178,7 +178,7 @@ public class JEI_Interact implements IModPlugin {
                 if (TagTool.probabilityTag.contains(compoundTag) && TagTool.probabilityTag.get(compoundTag) < 1) {
                     DecimalFormat df = new DecimalFormat("0.00%");
                     listComponent.add(Lang.getLang(Component.translatable(
-                            Lang.getKey("probability")),
+                            Lang.getKey("概率")),
                             Component.literal(df.format(TagTool.probabilityTag.get(compoundTag)))));
                 }
             }
@@ -195,7 +195,7 @@ public class JEI_Interact implements IModPlugin {
                 if (TagTool.probabilityTag.contains(compoundTag) && TagTool.probabilityTag.get(compoundTag) < 1) {
                     DecimalFormat df = new DecimalFormat("0.00%");
                     listComponent.add(Lang.getLang(
-                            Component.translatable(Lang.getKey("probability")),
+                            Component.translatable(Lang.getKey("概率")),
                             Component.literal(df.format(TagTool.probabilityTag.get(compoundTag)))));
                 }
             }
