@@ -270,7 +270,7 @@ public abstract class CapabilityRegister<C> extends RegisterBasics<CapabilityReg
                     stringBuilder.append(shapedDrive.name.getPath());
                     stringBuilder.append(',');
                 }
-                stringBuilder.charAt(stringBuilder.length() - 1);
+                stringBuilder.deleteCharAt(stringBuilder.length() - 1);
                 stringBuilder.append(']');
                 iTooltip.add(Lang.getLang(Lang.getLang(this), Component.literal(stringBuilder.toString())));
             }
@@ -291,7 +291,7 @@ public abstract class CapabilityRegister<C> extends RegisterBasics<CapabilityReg
             @Override
             public void appendTooltip(Jade_Interact.TooltipPack iTooltip, BlockAccessor blockAccessor, IPluginConfig iPluginConfig, CompoundTag compoundTag) {
                 super.appendTooltip(iTooltip, blockAccessor, iPluginConfig, compoundTag);
-                iTooltip.add(Lang.getLang(Component.translatable(Lang.getKey("max.parallel")),
+                iTooltip.add(Lang.getLang(Component.translatable(Lang.getKey("最大并行配方")),
                         Component.literal(String.valueOf(TagTool.maxParallelTag.get(compoundTag)))));
                 List<ShapedDrive> shapedDriveList = TagTool.shapedDriveListTag.get(compoundTag);
                 StringBuilder stringBuilder = new StringBuilder();

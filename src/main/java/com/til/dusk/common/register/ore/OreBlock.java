@@ -33,7 +33,7 @@ import java.util.function.Supplier;
 @Mod.EventBusSubscriber(modid = Dusk.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public abstract class OreBlock extends RegisterBasics.BlockUnitRegister<OreBlock, Ore> {
 
-    //public static final StaticTag IS_MINERAL = new StaticTag("IS_MINERAL", List.of());
+    public static final StaticTag IS_MINERAL = new StaticTag("IS_MINERAL", List.of());
     public static Supplier<IForgeRegistry<OreBlock>> ORE_BLOCK;
 
     public static OreBlock lordWorld;
@@ -63,7 +63,7 @@ public abstract class OreBlock extends RegisterBasics.BlockUnitRegister<OreBlock
                 TagAdd.addTag(ForgeRegistries.BLOCKS, BlockTags.NEEDS_STONE_TOOL, block);
                 return block;
             }
-        };
+        }.addTag(IS_MINERAL);
         lordWorldDeepslate = new OreBlock("lord_world_deepslate") {
             @Override
             public Block createBlock(Ore ore) {
@@ -78,7 +78,7 @@ public abstract class OreBlock extends RegisterBasics.BlockUnitRegister<OreBlock
                 TagAdd.addTag(ForgeRegistries.BLOCKS, BlockTags.NEEDS_STONE_TOOL, block);
                 return block;
             }
-        };
+        }.addTag(IS_MINERAL);
         lordWorldSand = new OreBlock("lord_world_sand") {
             @Override
             public Block createBlock(Ore ore) {
@@ -93,7 +93,7 @@ public abstract class OreBlock extends RegisterBasics.BlockUnitRegister<OreBlock
                 TagAdd.addTag(ForgeRegistries.BLOCKS, BlockTags.NEEDS_STONE_TOOL, block);
                 return block;
             }
-        };
+        }.addTag(IS_MINERAL);
 
         lordWorldDirt = new OreBlock("lord_world_dirt") {
             @Override
@@ -109,7 +109,7 @@ public abstract class OreBlock extends RegisterBasics.BlockUnitRegister<OreBlock
                 TagAdd.addTag(ForgeRegistries.BLOCKS, BlockTags.NEEDS_STONE_TOOL, block);
                 return block;
             }
-        };
+        }.addTag(IS_MINERAL);
         lordWorldGravel = new OreBlock("lord_world_gravel") {
             @Override
             public Block createBlock(Ore ore) {
@@ -124,7 +124,7 @@ public abstract class OreBlock extends RegisterBasics.BlockUnitRegister<OreBlock
                 TagAdd.addTag(ForgeRegistries.BLOCKS, BlockTags.NEEDS_STONE_TOOL, block);
                 return block;
             }
-        };
+        }.addTag(IS_MINERAL);
 
         netherWorldNetherrack = new OreBlock("nether_world_netherrack") {
             @Override
@@ -140,7 +140,7 @@ public abstract class OreBlock extends RegisterBasics.BlockUnitRegister<OreBlock
                 TagAdd.addTag(ForgeRegistries.BLOCKS, BlockTags.NEEDS_STONE_TOOL, block);
                 return block;
             }
-        };
+        }.addTag(IS_MINERAL);
         endWorldEndStone = new OreBlock("end_world_end_stone") {
             @Override
             public Block createBlock(Ore ore) {
@@ -155,7 +155,7 @@ public abstract class OreBlock extends RegisterBasics.BlockUnitRegister<OreBlock
                 TagAdd.addTag(ForgeRegistries.BLOCKS, BlockTags.NEEDS_STONE_TOOL, block);
                 return block;
             }
-        };
+        }.addTag(IS_MINERAL);
         block = new OreBlock("block") {
             @Override
             public Block createBlock(Ore ore) {

@@ -100,7 +100,7 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> {
         if (!staticTagList.contains(staticTag)) {
             staticTagList.add(staticTag);
             for (StaticTag tag : staticTag.father) {
-                addTag(staticTag);
+                addTag(tag);
             }
         }
         return Util.forcedConversion(this);
@@ -170,6 +170,11 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> {
 
     public String getLangKey() {
         return name.getPath();
+    }
+
+    @Override
+    public String toString() {
+        return name.toString();
     }
 
     public static ResourceLocation fuseName(String splicing, String[] strings) {

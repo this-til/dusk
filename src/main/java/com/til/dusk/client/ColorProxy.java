@@ -7,6 +7,7 @@ import com.til.dusk.common.register.ore.Ore;
 import com.til.dusk.common.world.ModItem;
 import com.til.dusk.util.Extension;
 import com.til.dusk.util.pack.BlockPack;
+import com.til.dusk.util.pack.FluidPack;
 import com.til.dusk.util.pack.ItemPack;
 import com.til.dusk.util.prefab.ColorPrefab;
 import net.minecraft.client.color.block.BlockColor;
@@ -54,6 +55,11 @@ public class ColorProxy {
             for (BlockPack value : ore.blockMap.values()) {
                 ITEM_COLOR_PACK_MAP.put(value.blockItem(), new ItemColorPack(value.blockItem()));
             }
+            for (FluidPack value : ore.fluidMap.values()) {
+                if (value.bucketItem() != null) {
+                    ITEM_COLOR_PACK_MAP.put(value.bucketItem(), new ItemColorPack(value.bucketItem()));
+                }
+            }
         }
         for (ManaLevel manaLevel : ManaLevel.LEVEL.get()) {
             for (ItemPack value : manaLevel.itemMap.values()) {
@@ -61,6 +67,11 @@ public class ColorProxy {
             }
             for (BlockPack value : manaLevel.blockMap.values()) {
                 ITEM_COLOR_PACK_MAP.put(value.blockItem(), new ItemColorPack(value.blockItem()));
+            }
+            for (FluidPack value : manaLevel.fluidMap.values()) {
+                if (value.bucketItem() != null) {
+                    ITEM_COLOR_PACK_MAP.put(value.bucketItem(), new ItemColorPack(value.bucketItem()));
+                }
             }
         }
         for (Ore ore : Ore.ORE.get()) {
@@ -78,6 +89,11 @@ public class ColorProxy {
             for (BlockPack value : manaLevel.blockMap.values()) {
                 ITEM_COLOR_PACK_MAP.get(value.blockItem()).addClock(0, itemStack -> manaLevel.color);
             }
+            for (BlockPack value : manaLevel.blockMap.values()) {
+                if (value.blockItem() != null) {
+                    ITEM_COLOR_PACK_MAP.get(value.blockItem()).addClock(0, itemStack -> manaLevel.color);
+                }
+            }
             ITEM_COLOR_PACK_MAP.get(manaLevel.blockMap.get(ManaLevelBlock.moonlight).blockItem()).addClock(1, itemStack -> ColorPrefab.MOONLIGHT_COLOR);
             ITEM_COLOR_PACK_MAP.get(manaLevel.blockMap.get(ManaLevelBlock.sunlight).blockItem()).addClock(1, itemStack -> ColorPrefab.SUNLIGHT_COLOR);
         }
@@ -92,10 +108,20 @@ public class ColorProxy {
             for (BlockPack value : ore.blockMap.values()) {
                 BLOCK_COLOR_PACK_MAP.put(value.block(), new BlockColorPack(value.block()));
             }
+            for (FluidPack value : ore.fluidMap.values()) {
+                if (value.liquidBlock() != null) {
+                    BLOCK_COLOR_PACK_MAP.put(value.liquidBlock(), new BlockColorPack(value.liquidBlock()));
+                }
+            }
         }
         for (ManaLevel manaLevel : ManaLevel.LEVEL.get()) {
             for (BlockPack value : manaLevel.blockMap.values()) {
                 BLOCK_COLOR_PACK_MAP.put(value.block(), new BlockColorPack(value.block()));
+            }
+            for (FluidPack value : manaLevel.fluidMap.values()) {
+                if (value.bucketItem() != null) {
+                    BLOCK_COLOR_PACK_MAP.put(value.liquidBlock(), new BlockColorPack(value.liquidBlock()));
+                }
             }
         }
         for (Ore ore : Ore.ORE.get()) {
@@ -106,6 +132,11 @@ public class ColorProxy {
         for (ManaLevel manaLevel : ManaLevel.LEVEL.get()) {
             for (BlockPack value : manaLevel.blockMap.values()) {
                 BLOCK_COLOR_PACK_MAP.get(value.block()).addClock(0, (blockState, blockAndTintGetter, blockPos) -> manaLevel.color);
+            }
+            for (FluidPack value : manaLevel.fluidMap.values()) {
+                if (value.liquidBlock() != null) {
+                    BLOCK_COLOR_PACK_MAP.get(value.liquidBlock()).addClock(0, (blockState, blockAndTintGetter, blockPos) -> manaLevel.color);
+                }
             }
             BLOCK_COLOR_PACK_MAP.get(manaLevel.blockMap.get(ManaLevelBlock.sunlight).block()).addClock(1, (blockState, blockAndTintGetter, blockPos) -> ColorPrefab.SUNLIGHT_COLOR);
             BLOCK_COLOR_PACK_MAP.get(manaLevel.blockMap.get(ManaLevelBlock.moonlight).block()).addClock(1, (blockState, blockAndTintGetter, blockPos) -> ColorPrefab.MOONLIGHT_COLOR);

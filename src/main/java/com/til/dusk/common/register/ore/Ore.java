@@ -62,7 +62,7 @@ public class Ore extends RegisterBasics.UnitRegister<Ore, OreItem, OreBlock, Ore
     public static final StaticTag IS_CRYSTA = new StaticTag("IS_CRYSTA", List.of());
 
     /***
-     * 是晶体
+     * 晶体可以种植
      */
     public static final StaticTag CAN_PLANT = new StaticTag("CAN_PLANT", List.of(IS_CRYSTA));
 
@@ -84,8 +84,8 @@ public class Ore extends RegisterBasics.UnitRegister<Ore, OreItem, OreBlock, Ore
     public static void onEvent(NewRegistryEvent event) {
         ORE = event.create(new RegistryBuilder<Ore>().setName(new ResourceLocation(Dusk.MOD_ID, "ore")));
         testOre = new Ore("test_ore", new Color(255, 200, 140), ManaLevel.t1);
-        sunlight = new Ore("sunlight", new Color(250, 250, 87), ManaLevel.t2).removeTag(IS_METAL).addTag(IS_CRYSTA);
-        moonlight = new Ore("moonlight", new Color(45, 121, 255, 255), ManaLevel.t2).removeTag(IS_METAL).addTag(IS_CRYSTA);
+        sunlight = new Ore("sunlight", new Color(250, 250, 87), ManaLevel.t2).removeTag(IS_METAL).addTag(CAN_PLANT);
+        moonlight = new Ore("moonlight", new Color(45, 121, 255, 255), ManaLevel.t2).removeTag(IS_METAL).addTag(CAN_PLANT);
     }
 
     /***

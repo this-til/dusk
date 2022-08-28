@@ -5,6 +5,7 @@ import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.register.mana_level.ManaLevelBlock;
 import com.til.dusk.common.register.ore.Ore;
 import com.til.dusk.common.register.ore.OreBlock;
+import com.til.dusk.common.register.ore.OreFluid;
 import com.til.dusk.common.register.ore.OreItem;
 import com.til.dusk.util.Extension;
 import com.til.dusk.util.pack.BlockPack;
@@ -12,8 +13,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.NewRegistryEvent;
@@ -105,7 +108,10 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
             public void registerSubsidiaryBlack() {
                 for (Ore ore : Ore.screen(Ore.HAS_MINERAL_BLOCK, Ore.HAS_CRUSHED)) {
                     List<Extension.Data_2<ItemStack, Double>> grindOut = ore.grind();
-                    for (Map.Entry<OreBlock, BlockPack> entry :ore.blockMap.entrySet()){
+                    for (Map.Entry<OreBlock, BlockPack> entry : ore.blockMap.entrySet()) {
+                        if (!entry.getKey().hasTag(OreBlock.IS_MINERAL)) {
+                            continue;
+                        }
                         List<Extension.Data_2<ItemStack, Double>> outItem = new ArrayList<>();
                         outItem.add(new Extension.Data_2<>(new ItemStack(ore.itemMap.get(OreItem.crushed).item(), 2), 1d));
                         if (grindOut != null) {
@@ -380,21 +386,22 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
 
             @Override
             public void registerSubsidiaryBlack() {
-                /*for (Ore ore : Ore.screen(Ore.IS_CRYSTA, Ore.HAS_DUST)) {
+
+                for (Ore ore : Ore.screen(Ore.CAN_PLANT, Ore.HAS_FLUID)) {
                     new Shaped.ShapedOre(
                             fuseName(this, ore, OreItem.crystal),
                             this,
                             ShapedDrive.get(0),
                             ore.manaLevel,
-                            Map.of(ItemTags.create(fuseName(ore, OreItem.dust)), 1),
-                            null,
+                            Map.of(ore.itemMap.get(OreItem.crystalSeed).itemTag(), 1),
+                            Map.of(ore.fluidMap.get(OreFluid.solution).fluidTag(), 288),
                             (long) (ore.strength * 4096L),
-                            (long) (ore.consume * 12L),
+                            (long) (ore.consume * 8L),
                             0,
-                            List.of(new ItemStack(ore.itemMap.get(OreItem.crystal), 1)),
+                            List.of(new ItemStack(ore.itemMap.get(OreItem.crystal).item(), 1)),
                             null
                     );
-                }*/
+                }
             }
 
         };
@@ -418,7 +425,48 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
         dissolution = new ShapedType("dissolution", () -> ManaLevelBlock.dissolution) {
             @Override
             public void registerSubsidiaryBlack() {
-
+                for (Ore ore : Ore.screen(Ore.HAS_FLUID, Ore.IS_METAL)) {
+                    new Shaped.ShapedOre(
+                            fuseName(this, ore, OreFluid.solution),
+                            this,
+                            ShapedDrive.get(0),
+                            ore.manaLevel,
+                            Map.of(ore.itemMap.get(OreItem.ingot).itemTag(), 1),
+                            null,
+                            (long) (ore.strength * 512),
+                            (long) (ore.consume * 128L),
+                            0,
+                            null,
+                            List.of(new FluidStack(ore.fluidMap.get(OreFluid.solution).source(), 144)));
+                }
+                for (Ore ore : Ore.screen(Ore.HAS_FLUID, Ore.IS_CRYSTA)) {
+                    new Shaped.ShapedOre(
+                            fuseName("__", this, ore, OreFluid.solution),
+                            this,
+                            ShapedDrive.get(1),
+                            ore.manaLevel,
+                            Map.of(ore.itemMap.get(OreItem.crystal).itemTag(), 1),
+                            null,
+                            (long) (ore.strength * 512),
+                            (long) (ore.consume * 128L),
+                            0,
+                            null,
+                            List.of(new FluidStack(ore.fluidMap.get(OreFluid.solution).source(), 144)));
+                }
+                for (Ore ore : Ore.screen(Ore.HAS_FLUID, Ore.HAS_DUST)) {
+                    new Shaped.ShapedOre(
+                            fuseName("___", this, ore, OreFluid.solution),
+                            this,
+                            ShapedDrive.get(2),
+                            ore.manaLevel,
+                            Map.of(ore.itemMap.get(OreItem.dust).itemTag(), 1),
+                            null,
+                            (long) (ore.strength * 512),
+                            (long) (ore.consume * 128L),
+                            0,
+                            null,
+                            List.of(new FluidStack(ore.fluidMap.get(OreFluid.solution).source(), 144)));
+                }
             }
         };
         freezing = new ShapedType("freezing", () -> ManaLevelBlock.freezing) {

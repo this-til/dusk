@@ -27,7 +27,10 @@ import mezz.jei.common.runtime.JeiHelpers;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.fluids.FluidStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -100,12 +103,16 @@ public class JEI_Interact implements IModPlugin {
         }
 
         @Override
-        public void setRecipe(@NotNull IRecipeLayoutBuilder iRecipeLayoutBuilder, Shaped shaped, IFocusGroup iFocusGroup) {
+        public void setRecipe(@NotNull IRecipeLayoutBuilder iRecipeLayoutBuilder, Shaped shaped, @NotNull IFocusGroup iFocusGroup) {
             Shaped.IJEIShaped jeiShaped = shaped.getJEIShaped();
             List<List<ItemStack>> inputs = jeiShaped.getItemIn();
             List<List<ItemStack>> outputs = jeiShaped.getItemOut();
             List<List<FluidStack>> inputFluidStacks = jeiShaped.getFluidIn();
             List<List<FluidStack>> outputFluidStacks = jeiShaped.getFluidOut();
+            iRecipeLayoutBuilder.addInvisibleIngredients(RecipeIngredientRole.INPUT);
+            iRecipeLayoutBuilder.addInvisibleIngredients(RecipeIngredientRole.OUTPUT);
+            iRecipeLayoutBuilder.addInvisibleIngredients(RecipeIngredientRole.RENDER_ONLY);
+            iRecipeLayoutBuilder.addInvisibleIngredients(RecipeIngredientRole.CATALYST);
             if (inputs == null) {
                 inputs = INPUTS;
             }
@@ -118,7 +125,6 @@ public class JEI_Interact implements IModPlugin {
             if (outputFluidStacks == null) {
                 outputFluidStacks = OUTPUT_FLUID_STACKS;
             }
-
             int sID = 0;
             for (int y = 0; y < 3; ++y) {
                 for (int x = 0; x < 3; ++x) {
@@ -127,15 +133,16 @@ public class JEI_Interact implements IModPlugin {
                         inputs.get(sID).forEach(iRecipeSlotBuilder::addItemStack);
                         iRecipeSlotBuilder.addTooltipCallback(this::itemToolBlack);
                     } else {
-                        if (sID - inputFluidStacks.size() < inputFluidStacks.size()) {
+                        if (sID - inputs.size() < inputFluidStacks.size()) {
                             IRecipeSlotBuilder iRecipeSlotBuilder = iRecipeLayoutBuilder.addSlot(RecipeIngredientRole.INPUT, x * 18 + 1, y * 18 + 1);
-                            inputFluidStacks.get(sID - inputs.size()).forEach(f -> iRecipeSlotBuilder.addFluidStack(f.getFluid(), f.getAmount(), f.getTag()));
+                            inputFluidStacks.get(sID - inputs.size()).forEach(f -> iRecipeSlotBuilder.addFluidStack(f.getFluid(), 1000, f.getTag()));
                             iRecipeSlotBuilder.addTooltipCallback(this::fluidToolBlack);
                         }
                     }
                     sID++;
                 }
             }
+
 
             sID = 0;
             for (int y = 0; y < 3; ++y) {
@@ -145,9 +152,9 @@ public class JEI_Interact implements IModPlugin {
                         outputs.get(sID).forEach(iRecipeSlotBuilder::addItemStack);
                         iRecipeSlotBuilder.addTooltipCallback(this::itemToolBlack);
                     } else {
-                        if (sID - outputFluidStacks.size() < outputFluidStacks.size()) {
-                            IRecipeSlotBuilder iRecipeSlotBuilder = iRecipeLayoutBuilder.addSlot(RecipeIngredientRole.OUTPUT, x + 91, y * 18 + 1);
-                            outputFluidStacks.get(sID - inputs.size()).forEach(f -> iRecipeSlotBuilder.addFluidStack(f.getFluid(), 1000, f.getTag()));
+                        if (sID - outputs.size() < outputFluidStacks.size()) {
+                            IRecipeSlotBuilder iRecipeSlotBuilder = iRecipeLayoutBuilder.addSlot(RecipeIngredientRole.OUTPUT, x * 18 + 91, y * 18 + 1);
+                            outputFluidStacks.get(sID - outputs.size()).forEach(f -> iRecipeSlotBuilder.addFluidStack(f.getFluid(), 1000, f.getTag()));
                             iRecipeSlotBuilder.addTooltipCallback(this::fluidToolBlack);
                         }
                     }
@@ -178,7 +185,7 @@ public class JEI_Interact implements IModPlugin {
                 if (TagTool.probabilityTag.contains(compoundTag) && TagTool.probabilityTag.get(compoundTag) < 1) {
                     DecimalFormat df = new DecimalFormat("0.00%");
                     listComponent.add(Lang.getLang(Component.translatable(
-                            Lang.getKey("概率")),
+                                    Lang.getKey("概率")),
                             Component.literal(df.format(TagTool.probabilityTag.get(compoundTag)))));
                 }
             }
