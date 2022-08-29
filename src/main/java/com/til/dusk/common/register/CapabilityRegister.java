@@ -158,8 +158,8 @@ public abstract class CapabilityRegister<C> extends RegisterBasics<CapabilityReg
                 });
                 for (Map.Entry<Fluid, Integer> fluidIntegerEntry : integerMap.entrySet()) {
                     FluidStack fluidStack = new FluidStack(fluidIntegerEntry.getKey(), fluidIntegerEntry.getValue());
-                    Lang.getLang(fluidStack.getDisplayName(),
-                            Component.literal("x" + fluidIntegerEntry.getValue()));
+                    iTooltip.add(Lang.getLang(fluidStack.getDisplayName(),
+                            Component.literal("x" + fluidIntegerEntry.getValue())));
                 }
             }
         };

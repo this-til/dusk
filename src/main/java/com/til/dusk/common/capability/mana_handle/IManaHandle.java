@@ -5,6 +5,9 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.util.INBTSerializable;
 
+/**
+ * @author til
+ */
 public interface IManaHandle extends INBTSerializable<CompoundTag> {
 
     /***
@@ -28,6 +31,16 @@ public interface IManaHandle extends INBTSerializable<CompoundTag> {
      * 返回最大的提取速度
      */
     long getMaxRate();
+
+    /***
+     * 返回当前输入速度
+     */
+    long getInCurrentRate();
+
+    /***
+     * 返回当前输出的速度
+     */
+    long getOutCurrentRate();
 
     /***
      * 添加灵气

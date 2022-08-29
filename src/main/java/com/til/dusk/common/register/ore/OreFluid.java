@@ -3,7 +3,10 @@ package com.til.dusk.common.register.ore;
 import com.til.dusk.Dusk;
 import com.til.dusk.common.register.RegisterBasics;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.BucketItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.FluidType;
@@ -43,7 +46,7 @@ public class OreFluid extends RegisterBasics.FluidUnitRegister<OreFluid, Ore> {
     }
 
     @Override
-    public @Nullable BucketItem createBanner(Ore ore, FlowingFluid fluid) {
+    public @Nullable BucketItem createBanner(Ore ore, FlowingFluid source) {
         return null;
     }
 }

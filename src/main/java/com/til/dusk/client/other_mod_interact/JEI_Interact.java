@@ -109,10 +109,6 @@ public class JEI_Interact implements IModPlugin {
             List<List<ItemStack>> outputs = jeiShaped.getItemOut();
             List<List<FluidStack>> inputFluidStacks = jeiShaped.getFluidIn();
             List<List<FluidStack>> outputFluidStacks = jeiShaped.getFluidOut();
-            iRecipeLayoutBuilder.addInvisibleIngredients(RecipeIngredientRole.INPUT);
-            iRecipeLayoutBuilder.addInvisibleIngredients(RecipeIngredientRole.OUTPUT);
-            iRecipeLayoutBuilder.addInvisibleIngredients(RecipeIngredientRole.RENDER_ONLY);
-            iRecipeLayoutBuilder.addInvisibleIngredients(RecipeIngredientRole.CATALYST);
             if (inputs == null) {
                 inputs = INPUTS;
             }
@@ -164,7 +160,7 @@ public class JEI_Interact implements IModPlugin {
         }
 
         @Override
-        public @NotNull List<Component> getTooltipStrings(Shaped shaped, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
+        public @NotNull List<Component> getTooltipStrings(@NotNull Shaped shaped, @NotNull IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
             if (mouseX > 54 && mouseX < 90 && mouseY > 18 && mouseY < 36) {
                 return shaped.getComponent();
             }

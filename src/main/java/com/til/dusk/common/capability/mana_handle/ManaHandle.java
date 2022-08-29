@@ -1,5 +1,6 @@
 package com.til.dusk.common.capability.mana_handle;
 
+import com.til.dusk.common.capability.up.IUp;
 import com.til.dusk.util.tag_tool.TagTool;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.common.MinecraftForge;
@@ -10,12 +11,30 @@ import net.minecraftforge.common.MinecraftForge;
 public class ManaHandle implements IManaHandle {
 
     public final long maxMana;
-    public final long rate;
+    public final long maxRate;
+    public long inRate;
+    public long outRate;
     public long mana;
 
-    public ManaHandle(long maxMana, long rate) {
+    public ManaHandle(long maxMana, long maxRate, IUp iUp) {
         this.maxMana = maxMana;
-        this.rate = rate;
+        this.maxRate = maxRate;
+        iUp.addUpBlack(this::up);
+    }
+
+    public void up() {
+        inRate = maxRate;
+        outRate = maxRate;
+    }
+
+    @Override
+    public long getInCurrentRate() {
+        return inRate;
+    }
+
+    @Override
+    public long getOutCurrentRate() {
+        return outRate;
     }
 
     @Override
@@ -30,7 +49,7 @@ public class ManaHandle implements IManaHandle {
 
     @Override
     public long getMaxRate() {
-        return rate;
+        return maxRate;
     }
 
     @Override
@@ -38,7 +57,7 @@ public class ManaHandle implements IManaHandle {
         if (mana == 0) {
             return 0;
         }
-        long addMana = Math.min(Math.min(mana, this.getMaxRate()), this.getRemainMana());
+        long addMana = Math.min(Math.min(mana, this.getInCurrentRate()), this.getRemainMana());
         this.mana += addMana;
         MinecraftForge.EVENT_BUS.post(new EventManaHandle.Add(this, addMana));
         return addMana;
@@ -49,7 +68,7 @@ public class ManaHandle implements IManaHandle {
         if (demand == 0) {
             return 0;
         }
-        long extractMana = Math.min(Math.min(demand, this.getMaxRate()), this.getMana());
+        long extractMana = Math.min(Math.min(demand, this.getOutCurrentRate()), this.getMana());
         this.mana -= extractMana;
         MinecraftForge.EVENT_BUS.post(new EventManaHandle.Extract(this, extractMana));
         return extractMana;

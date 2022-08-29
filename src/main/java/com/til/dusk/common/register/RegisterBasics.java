@@ -5,6 +5,7 @@ import com.til.dusk.common.register.ore.Ore;
 import com.til.dusk.common.register.ore.OreBlock;
 import com.til.dusk.common.register.ore.OreFluid;
 import com.til.dusk.common.register.ore.OreItem;
+import com.til.dusk.common.world.ModBlock;
 import com.til.dusk.util.Extension;
 import com.til.dusk.util.Lang;
 import com.til.dusk.util.StaticTag;
@@ -12,6 +13,8 @@ import com.til.dusk.util.Util;
 import com.til.dusk.util.pack.BlockPack;
 import com.til.dusk.util.pack.FluidPack;
 import com.til.dusk.util.pack.ItemPack;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
@@ -20,14 +23,20 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.FlowingFluid;
-import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.material.*;
 import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.ItemFluidContainer;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegisterEvent;
@@ -295,11 +304,19 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> {
             FlowingFluid flowing = createFlowingFluid(o, properties);
             flowingMap.put(o, flowing);
             LiquidBlock liquidBlock = createLiquidBlock(o, source);
+            if (liquidBlock != null) {
+                properties.block(() -> liquidBlock);
+            }
             BucketItem item = createBanner(o, source);
+            if (item != null) {
+                properties.bucket(() -> item);
+            }
             return new FluidPack(fluidType, source, flowing, createFluidTag(o), liquidBlock, createBlockTag(o), item, createBlockItemTag(o));
         }
 
-        public abstract FluidType createFluidType(O ore);
+        public FluidType createFluidType(O ore) {
+            return new FluidType(FluidType.Properties.create());
+        }
 
         public ForgeFlowingFluid.Properties createProperties(O ore, FluidType fluidType) {
             return new ForgeFlowingFluid.Properties(() -> fluidType, () -> sourceMap.get(ore), () -> flowingMap.get(ore));
@@ -318,12 +335,9 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> {
         }
 
         @Nullable
-        public FluidType createFluidType(Ore ore) {
-            return new FluidType(FluidType.Properties.create());
+        public LiquidBlock createLiquidBlock(O o, FlowingFluid source) {
+            return new LiquidBlock(() -> source, BlockBehaviour.Properties.of(Material.WATER).noCollission());
         }
-
-        @Nullable
-        public abstract LiquidBlock createLiquidBlock(O o, FlowingFluid source);
 
         @Nullable
         public TagKey<Block> createBlockTag(O o) {
@@ -331,8 +345,8 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> {
         }
 
         @Nullable
-        public BucketItem createBanner(O o, FlowingFluid fluid) {
-            return new BucketItem(() -> fluid, new Item.Properties().tab(Dusk.TAB)) {
+        public BucketItem createBanner(O o, FlowingFluid source) {
+            return new BucketItem(() -> source, new Item.Properties().tab(Dusk.TAB)) {
                 @Override
                 public @NotNull Component getName(@NotNull ItemStack stack) {
                     return Lang.getLang(o, FluidUnitRegister.this);
@@ -345,8 +359,15 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> {
             return ItemTags.create(fuseName(o, this));
         }
 
-        public @Nullable LiquidBlock createLiquidBlock(Ore ore, FlowingFluid source) {
-            return new LiquidBlock(() -> source, BlockBehaviour.Properties.of(Material.WATER).noCollission());
+        @Override
+        public void registerSubsidiaryBlack() throws AssertionError {
+            Block block = new Block(BlockBehaviour.Properties.of(Material.WATER)) {
+                @Override
+                protected void createBlockStateDefinition(StateDefinition.@NotNull Builder<Block, BlockState> blockBlockStateBuilder) {
+                    blockBlockStateBuilder.add(BlockStateProperties.LEVEL);
+                }
+            };
+            ForgeRegistries.BLOCKS.register(name, block);
         }
     }
 

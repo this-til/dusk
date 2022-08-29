@@ -124,8 +124,8 @@ public abstract class TagTool<V> {
 
             final String r = "r";
             final String g = "g";
-            final String b = "b";
-            final String a = "a";
+            final String b = "d2";
+            final String a = "d1";
 
             @Override
             public Color get(CompoundTag nbt) {

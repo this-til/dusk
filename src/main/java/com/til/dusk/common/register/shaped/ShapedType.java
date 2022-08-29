@@ -2,6 +2,7 @@ package com.til.dusk.common.register.shaped;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.common.register.RegisterBasics;
+import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.register.mana_level.ManaLevelBlock;
 import com.til.dusk.common.register.ore.Ore;
 import com.til.dusk.common.register.ore.OreBlock;
@@ -395,10 +396,38 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
                             ore.manaLevel,
                             Map.of(ore.itemMap.get(OreItem.crystalSeed).itemTag(), 1),
                             Map.of(ore.fluidMap.get(OreFluid.solution).fluidTag(), 288),
-                            (long) (ore.strength * 4096L),
+                            (long) (ore.strength * 2048L),
                             (long) (ore.consume * 8L),
                             0,
                             List.of(new ItemStack(ore.itemMap.get(OreItem.crystal).item(), 1)),
+                            null
+                    );
+
+                    new Shaped.ShapedOre(
+                            fuseName("__", this, ore, OreItem.crystal),
+                            this,
+                            ShapedDrive.get(1),
+                            ore.manaLevel,
+                            Map.of(ore.itemMap.get(OreItem.crystal).itemTag(), 1),
+                            Map.of(ore.fluidMap.get(OreFluid.solution).fluidTag(), 1152),
+                            (long) (ore.strength * 4096L),
+                            (long) (ore.consume * 8L),
+                            0,
+                            List.of(new ItemStack(ore.itemMap.get(OreItem.delicateCrystal).item(), 1)),
+                            null
+                    );
+
+                    new Shaped.ShapedOre(
+                            fuseName("___", this, ore, OreItem.crystal),
+                            this,
+                            ShapedDrive.get(2),
+                            ore.manaLevel,
+                            Map.of(ore.itemMap.get(OreItem.crystal).itemTag(), 1),
+                            Map.of(ore.fluidMap.get(OreFluid.solution).fluidTag(), 4608),
+                            (long) (ore.strength * 8192L),
+                            (long) (ore.consume * 8L),
+                            0,
+                            List.of(new ItemStack(ore.itemMap.get(OreItem.delicateCrystal).item(), 1)),
                             null
                     );
                 }
@@ -410,7 +439,33 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
 
             @Override
             public void registerSubsidiaryBlack() {
+                List<ManaLevelBlock> needUp = new ArrayList<>();
+                for (ManaLevelBlock manaLevelBlock : ManaLevelBlock.LEVEL_BLOCK.get()) {
+                    if (manaLevelBlock.hasTag(ManaLevelBlock.NEED_FRAME_UP)) {
+                        needUp.add(manaLevelBlock);
+                    }
+                }
+                for (ManaLevel manaLevel : ManaLevel.LEVEL.get()) {
+                    if (manaLevel.next == null) {
+                        continue;
+                    }
+                    for (ManaLevelBlock manaLevelBlock : needUp) {
+                        new Shaped.ShapedOre(
+                                fuseName(this, manaLevel.next.get(), manaLevelBlock),
+                                this,
+                                ShapedDrive.get(0),
+                                manaLevel,
+                                Map.of(manaLevel.blockMap.get(manaLevelBlock).blockItemTag(), 1, manaLevel.next.get().blockMap.get(ManaLevelBlock.frameBasic).blockItemTag(), 1),
+                                null,
+                                manaLevel.level * 1024L,
+                                manaLevel.level * 32L,
+                                0,
+                                List.of(new ItemStack(manaLevel.next.get().blockMap.get(manaLevelBlock).blockItem())),
+                                null
+                        );
+                    }
 
+                }
             }
         };
 

@@ -5,12 +5,15 @@ import com.til.dusk.Dusk;
 import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.register.mana_level.ManaLevelBlock;
+import com.til.dusk.common.register.mana_level.ManaLevelFluid;
 import com.til.dusk.common.register.mana_level.ManaLevelItem;
 import com.til.dusk.common.register.ore.Ore;
 import com.til.dusk.common.register.ore.OreBlock;
+import com.til.dusk.common.register.ore.OreFluid;
 import com.til.dusk.common.register.ore.OreItem;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.util.pack.BlockPack;
+import com.til.dusk.util.pack.FluidPack;
 import com.til.dusk.util.pack.ItemPack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemModelShaper;
@@ -45,10 +48,6 @@ public class ModelProxy {
     protected final static Map<Item, ModelResourceLocation> ITEM_MODEL_MAP = new HashMap<>();
     protected final static Map<BlockState, ResourceLocation> BLOCK_STATE_MAP = new HashMap<>();
 
-    protected static ModelResourceLocation shapedDriveItemName;
-
-    protected static ResourceLocation shapedDriveBlockName;
-
     @SubscribeEvent
     public static void clientSetup(final FMLClientSetupEvent event) {
         for (Ore ore : Ore.ORE.get()) {
@@ -66,6 +65,21 @@ public class ModelProxy {
                     }
                 }
             }
+            for (Map.Entry<OreFluid, FluidPack> entry : ore.fluidMap.entrySet()) {
+                if (entry.getValue().bucketItem() != null) {
+                    ITEM_MODEL_MAP.put(entry.getValue().bucketItem(), new ModelResourceLocation(entry.getKey().name, "inventory"));
+                }
+                if (entry.getValue().liquidBlock() != null) {
+                    ImmutableList<BlockState> definition = entry.getValue().liquidBlock().getStateDefinition().getPossibleStates();
+                    if (definition.size() == 1) {
+                        BLOCK_STATE_MAP.put(definition.get(0), makeModelName(entry.getKey(), BLOCK));
+                    } else {
+                        for (BlockState blockState : definition) {
+                            BLOCK_STATE_MAP.put(blockState, new ModelResourceLocation(entry.getKey().name, BlockModelShaper.statePropertiesToString(blockState.getValues())));
+                        }
+                    }
+                }
+            }
         }
 
         for (ManaLevel manaLevel : ManaLevel.LEVEL.get()) {
@@ -80,6 +94,21 @@ public class ModelProxy {
                 } else {
                     for (BlockState blockState : definition) {
                         BLOCK_STATE_MAP.put(blockState, new ModelResourceLocation(entry.getKey().name, BlockModelShaper.statePropertiesToString(blockState.getValues())));
+                    }
+                }
+            }
+            for (Map.Entry<ManaLevelFluid, FluidPack> entry : manaLevel.fluidMap.entrySet()) {
+                if (entry.getValue().bucketItem() != null) {
+                    ITEM_MODEL_MAP.put(entry.getValue().bucketItem(), new ModelResourceLocation(entry.getKey().name, "inventory"));
+                }
+                if (entry.getValue().liquidBlock() != null) {
+                    ImmutableList<BlockState> definition = entry.getValue().liquidBlock().getStateDefinition().getPossibleStates();
+                    if (definition.size() == 1) {
+                        BLOCK_STATE_MAP.put(definition.get(0), makeModelName(entry.getKey(), BLOCK));
+                    } else {
+                        for (BlockState blockState : definition) {
+                            BLOCK_STATE_MAP.put(blockState, new ModelResourceLocation(entry.getKey().name, BlockModelShaper.statePropertiesToString(blockState.getValues())));
+                        }
                     }
                 }
             }
@@ -128,36 +157,4 @@ public class ModelProxy {
     public static ResourceLocation makeModelName(RegisterBasics<?> registerBasics, String prefix) {
         return makeModelName(registerBasics.name, prefix);
     }
-
-   /* @SubscribeEvent
-    public void registerMadel(ModelEvent event) {
-
-        for (Ore ore : Ore.register) {
-            ore.item.forEach((oreType, item) -> ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(Objects.requireNonNull(oreType.getRegistryName()), "inventory")));
-            ore.itemBlock.forEach((oreBlock, itemBlock) -> ModelLoader.setCustomModelResourceLocation(itemBlock, 0, new ModelResourceLocation(Objects.requireNonNull(oreBlock.getRegistryName()), "inventory")));
-            ore.fluidItem.forEach((oreFluid, item) -> ModelBakery.registerItemVariants(item));
-            ore.fluidItem.forEach((oreFluid, item) -> {
-                ModelLoader.setCustomMeshDefinition(item, stack -> {
-                    ResourceLocation fileType = Objects.requireNonNull(oreFluid.getRegistryName());
-                    return new ModelResourceLocation(fileType, fileType.getResourcePath());
-                });
-            });
-            ore.fluidBlock.forEach((oreFluid, blockFluidClassic) -> {
-                ResourceLocation fluidName = Objects.requireNonNull(blockFluidClassic.getRegistryName());
-                ModelLoader.setCustomStateMapper(blockFluidClassic, new StateMapperBase() {
-                    @Override
-                    protected ModelResourceLocation getModelResourceLocation(IBlockState state) {
-                        ResourceLocation fileType = Objects.requireNonNull(oreFluid.getRegistryName());
-                        return new ModelResourceLocation(fileType, fileType.getResourcePath());
-                    }
-                });
-            });
-        }
-        for (ManaLevel manaLevel : ManaLevel.register) {
-            manaLevel.item.forEach((manaLevelItem, item) -> ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(Objects.requireNonNull(manaLevelItem.getRegistryName()), "inventory")));
-            manaLevel.itemBlock.forEach((oreBlock, itemBlock) -> ModelLoader.setCustomModelResourceLocation(itemBlock, 0, new ModelResourceLocation(Objects.requireNonNull(oreBlock.getRegistryName()), "inventory")));
-        }
-        ShapedDrive.register.forEach(d -> ModelLoader.setCustomModelResourceLocation(d.itemBlock, 0, new ModelResourceLocation(AbyssMana2.MODID + ":" + "shaped_drive", "inventory")));
-        AllItem.independentItem.forEach(i -> ModelLoader.setCustomModelResourceLocation(i, 0, new ModelResourceLocation(Objects.requireNonNull(i.getRegistryName()), "inventory")));
-    }*/
 }

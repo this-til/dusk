@@ -371,8 +371,8 @@ public abstract class Shaped extends RegisterBasics<Shaped> {
             }
             List<FluidStack> fluidStacks = new ArrayList<>(outFluid.size());
             outFluid.forEach(f -> {
-                if (random.nextDouble() < f.b) {
-                    fluidStacks.add(f.a.copy());
+                if (random.nextDouble() < f.d2()) {
+                    fluidStacks.add(f.d1().copy());
                 }
             });
             return fluidStacks;
@@ -386,8 +386,8 @@ public abstract class Shaped extends RegisterBasics<Shaped> {
             }
             List<ItemStack> itemStackList = new ArrayList<>(outItem.size());
             outItem.forEach(f -> {
-                if (random.nextDouble() < f.b) {
-                    itemStackList.add(f.a.copy());
+                if (random.nextDouble() < f.d2()) {
+                    itemStackList.add(f.d1().copy());
                 }
             });
             return itemStackList;
@@ -418,8 +418,8 @@ public abstract class Shaped extends RegisterBasics<Shaped> {
                     List<List<ItemStack>> list = new ArrayList<>();
                     outItem.forEach(d -> {
                         CompoundTag compoundTag = new CompoundTag();
-                        TagTool.probabilityTag.set(compoundTag, d.b);
-                        ItemStack itemStack = d.a.copy();
+                        TagTool.probabilityTag.set(compoundTag, d.d2());
+                        ItemStack itemStack = d.d1().copy();
                         itemStack.setTag(compoundTag.copy());
                         list.add(Lists.newArrayList(itemStack));
                     });
@@ -435,9 +435,9 @@ public abstract class Shaped extends RegisterBasics<Shaped> {
                     List<List<FluidStack>> list = new ArrayList<>();
                     outFluid.forEach(d -> {
                         CompoundTag compoundTag = new CompoundTag();
-                        TagTool.probabilityTag.set(compoundTag, d.b);
-                        TagTool.mBTag.set(compoundTag, d.a.getAmount());
-                        FluidStack fluidStack = d.a.copy();
+                        TagTool.probabilityTag.set(compoundTag, d.d2());
+                        TagTool.mBTag.set(compoundTag, d.d1().getAmount());
+                        FluidStack fluidStack = d.d1().copy();
                         fluidStack.setTag(compoundTag.copy());
                         list.add(Lists.newArrayList(fluidStack));
                     });

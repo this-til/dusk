@@ -1,5 +1,5 @@
 {
-  "parent": "dusk:custom/high_pressure_fuse/high_pressure_fuse",
+  "parent": "dusk:custom/blast_furnace/blast_furnace",
   "render_type": "translucent",
   "textures": {
     "missing": "dusk:block/white_0",

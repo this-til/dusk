@@ -160,6 +160,9 @@ dependencies {
 
     //WTHIT
     //implementation fg.deobf("curse.maven:jade-440979:3944309")
+
+    //mek
+    //implementation fg.deobf("curse.maven:jade-268560:3954410")
 }
 
 // Example for how to get properties into the manifest for reading at runtime.

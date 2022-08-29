@@ -54,23 +54,19 @@ public class Extension {
         O func(I1 i1, I2 i2, I3 i3, I4 i4);
     }
 
-    public static class Data<D> {
-        public D a;
-
-        public Data(D a) {
-            this.a = a;
-        }
+    public record Data<D>(D d1) {
     }
 
-    public static class Data_2<D1, D2> {
-        public D1 a;
-        public D2 b;
-
-        public Data_2(D1 a, D2 b) {
-            this.a = a;
-            this.b = b;
-        }
+    public record Data_2<D1, D2>(D1 d1, D2 d2) {
     }
+
+    public record Data_3<D1,D2,D3>(D1 d1, D2 d2, D3 d3) {}
+
+    public record Data_4<D1,D2,D3,D4>(D1 d1, D2 d2, D3 d3, D4 d4) {}
+
+    public record Data_5<D1,D2,D3,D4,D5>(D1 d1, D2 d2, D3 d3, D4 d4, D5 d5) {}
+
+    public record Data_6<D1,D2,D3,D4,D5,D6>(D1 d1, D2 d2, D3 d3, D4 d4, D5 d5, D6 d6) {}
 
     public static int recursionDivision(int basic, int r) {
         for (int i = 0; i < r; i++) {

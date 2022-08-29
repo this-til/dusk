@@ -13,7 +13,7 @@ public interface IClock extends INBTSerializable<CompoundTag> {
 
     /***
      * 在能力初始化时，添加回调
-     * @param black 会调函数
+     * @param black 回调函数
      */
     void addBlock(Extension.Action black);
 

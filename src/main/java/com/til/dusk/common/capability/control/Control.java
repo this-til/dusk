@@ -23,17 +23,19 @@ public class Control implements IControl {
 
     public final BlockEntity tileEntity;
     public final int maxBind;
+    public final int maxRange;
     public final List<BindType> bindTypes;
     public Map<BindType, List<BlockPos>> tile = new HashMap<>();
 
-    public Control(BlockEntity tileEntity, List<BindType> bindTypes, int maxBind) {
+    public Control(BlockEntity tileEntity, List<BindType> bindTypes, int maxBind, int maxRange) {
         this.tileEntity = tileEntity;
         this.bindTypes = bindTypes;
         this.maxBind = maxBind;
+        this.maxRange = maxRange;
     }
 
     public Control(BlockEntity tileEntity, List<BindType> bindTypes, IManaLevel iManaLevel) {
-        this(tileEntity, bindTypes, iManaLevel.manaLevel().maxBind);
+        this(tileEntity, bindTypes, iManaLevel.manaLevel().maxBind, 16);
     }
 
     /***
@@ -150,7 +152,7 @@ public class Control implements IControl {
      */
     @Override
     public int getMaxRange() {
-        return 16;
+        return maxRange;
     }
 
     /***

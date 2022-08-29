@@ -140,7 +140,7 @@ public abstract class ClientParticleRegister extends RegisterBasics<ClientPartic
                         new Extension.Data_2<>(p4, p8),
                 };
                 for (Extension.Data_2 posPosData_2 : l) {
-                    line.run(world, (Pos) posPosData_2.a, (Pos) posPosData_2.b, color, density);
+                    line.run(world, (Pos) posPosData_2.d1(), (Pos) posPosData_2.d2(), color, density);
                 }
             }
         };
