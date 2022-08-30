@@ -1,6 +1,7 @@
 package com.til.dusk.client.other_mod_interact;
 
 import com.til.dusk.Dusk;
+import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.util.tag_tool.TagTool;
 import com.til.dusk.util.Lang;
 import com.til.dusk.common.register.mana_level.ManaLevel;
@@ -37,6 +38,7 @@ import org.jetbrains.annotations.NotNull;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -50,13 +52,22 @@ public class JEI_Interact implements IModPlugin {
         return new ResourceLocation(Dusk.MOD_ID, "main");
     }
 
-
     @Override
     public void registerRecipes(@NotNull IRecipeRegistration registration) {
-        Shaped.MAP.forEach((k, v) -> {
-            RecipeType<Shaped> shapedRecipeType = new RecipeType<>(k.name, Shaped.class);
-            v.values().forEach(sl -> registration.addRecipes(shapedRecipeType, sl));
-        });
+        for (Map.Entry<ShapedType, Map<ShapedDrive, List<Shaped>>> entry : Shaped.MAP.entrySet()) {
+            RecipeType<Shaped> shapedRecipeType = new RecipeType<>(entry.getKey().name, Shaped.class);
+            for (List<Shaped> value : entry.getValue().values()) {
+                List<Shaped> shapedList = new ArrayList<>();
+                for (Shaped shaped : value) {
+                    if (!shaped.isJEIShow) {
+                        continue;
+                    }
+                    shapedList.add(shaped);
+                }
+                registration.addRecipes(shapedRecipeType, shapedList);
+            }
+        }
+
     }
 
     @Override

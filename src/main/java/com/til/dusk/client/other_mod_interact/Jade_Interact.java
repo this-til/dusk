@@ -1,18 +1,11 @@
 package com.til.dusk.client.other_mod_interact;
 
 import com.til.dusk.Dusk;
-import com.til.dusk.common.capability.tile_entity.ITileEntityType;
 import com.til.dusk.common.register.CapabilityRegister;
-import com.til.dusk.common.register.mana_level.ManaLevel;
-import com.til.dusk.common.register.mana_level.ManaLevelBlock;
 import com.til.dusk.common.world.ModBlock;
-import com.til.dusk.util.Lang;
-import net.minecraft.core.BlockPos;
+import com.til.dusk.util.TooltipPack;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import snownee.jade.api.*;
@@ -58,29 +51,4 @@ public class Jade_Interact {
         }
     }
 
-    public static class TooltipPack {
-
-        public final ITooltip iTooltip;
-        public int indent;
-
-        public TooltipPack(ITooltip iTooltip) {
-            this.iTooltip = iTooltip;
-        }
-
-        public void indent() {
-            indent++;
-        }
-
-        public void returnIndent() {
-            indent--;
-            if (indent < 0) {
-                indent = 0;
-            }
-        }
-
-        public void add(Component component) {
-            iTooltip.add(Component.translatable("%s%s", Component.literal("  ".repeat(Math.max(0, indent))), component));
-        }
-
-    }
 }

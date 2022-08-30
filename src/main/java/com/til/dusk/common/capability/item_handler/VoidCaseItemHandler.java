@@ -1,15 +1,23 @@
 package com.til.dusk.common.capability.item_handler;
 
+import com.til.dusk.common.capability.ITooltipCapability;
+import com.til.dusk.common.register.CapabilityRegister;
+import com.til.dusk.util.Lang;
+import com.til.dusk.util.TooltipPack;
 import com.til.dusk.util.tag_tool.TagTool;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.items.IItemHandler;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
-public class VoidCaseItemHandler implements IItemHandler, INBTSerializable<CompoundTag> {
+public class VoidCaseItemHandler implements IItemHandler, INBTSerializable<CompoundTag>, ITooltipCapability {
 
     /***
      * 最大数量
@@ -119,6 +127,23 @@ public class VoidCaseItemHandler implements IItemHandler, INBTSerializable<Compo
         if (itemStackTag.isEmpty() || count <= 0) {
             itemStackTag = null;
             count = 0;
+        }
+    }
+
+    @org.jetbrains.annotations.Nullable
+    @Override
+    public CompoundTag appendServerData(ServerPlayer serverPlayer, Level level, BlockEntity blockEntity, boolean detailed) {
+        return serializeNBT();
+    }
+
+    @Override
+    public void appendTooltip(TooltipPack iTooltip, CompoundTag compoundTag) {
+        ItemStack itemStack = TagTool.itemStackTag.get(compoundTag);
+        long c = TagTool.count.get(compoundTag);
+        if (!itemStack.isEmpty() && c > 0) {
+            iTooltip.add(Lang.getLang(Lang.getLang(CapabilityRegister.iItemHandler), itemStack.getDisplayName(), Component.literal("x" + c)));
+        } else {
+            iTooltip.add(Lang.getLang(Lang.getLang(CapabilityRegister.iItemHandler)));
         }
     }
 }

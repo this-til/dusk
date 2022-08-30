@@ -1,15 +1,52 @@
 package com.til.dusk.common.capability.shaped_drive;
 
+import com.til.dusk.common.capability.ITooltipCapability;
+import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.common.register.shaped.ShapedDrive;
+import com.til.dusk.util.Lang;
+import com.til.dusk.util.TooltipPack;
+import com.til.dusk.util.tag_tool.TagTool;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 /**
  * 返回可以使用的配方
+ *
  * @author til
  */
-public interface IShapedDrive {
+public interface IShapedDrive extends ITooltipCapability {
 
     List<ShapedDrive> get();
 
+    @Nullable
+    @Override
+    default CompoundTag appendServerData(ServerPlayer serverPlayer, Level level, BlockEntity blockEntity, boolean detailed) {
+        CompoundTag compoundTag = new CompoundTag();
+        TagTool.shapedDriveListTag.set(compoundTag, get());
+        return compoundTag;
+    }
+
+    @Override
+    default void appendTooltip(TooltipPack iTooltip, CompoundTag compoundTag) {
+        List<ShapedDrive> shapedDriveList = TagTool.shapedDriveListTag.get(compoundTag);
+        if (shapedDriveList.isEmpty()) {
+            return;
+        }
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append('[');
+        for (ShapedDrive shapedDrive : shapedDriveList) {
+            stringBuilder.append(shapedDrive.name.getPath());
+            stringBuilder.append(',');
+        }
+        stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+        stringBuilder.append(']');
+        iTooltip.add(Lang.getLang(Lang.getLang(CapabilityRegister.iShapedDrive), Component.literal(stringBuilder.toString())));
+
+    }
 }

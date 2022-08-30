@@ -1,15 +1,34 @@
 package com.til.dusk.common.capability.fluid_handler;
 
+import com.til.dusk.common.capability.ITooltipCapability;
+import com.til.dusk.common.register.CapabilityRegister;
+import com.til.dusk.util.Lang;
+import com.til.dusk.util.TooltipPack;
 import com.til.dusk.util.tag_tool.TagTool;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
+import org.checkerframework.checker.units.qual.C;
 import org.jetbrains.annotations.NotNull;
+import snownee.jade.api.BlockAccessor;
+import snownee.jade.api.config.IPluginConfig;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-public class VoidTankFluidHandler implements IFluidHandler, INBTSerializable<CompoundTag> {
+/**
+ * @author til
+ */
+public class VoidTankFluidHandler implements IFluidHandler, INBTSerializable<CompoundTag>, ITooltipCapability {
 
     public final int maxAmount;
     @Nullable
@@ -121,4 +140,55 @@ public class VoidTankFluidHandler implements IFluidHandler, INBTSerializable<Com
             fluidStack = null;
         }
     }
+
+    @Nullable
+    @Override
+    public CompoundTag appendServerData(ServerPlayer serverPlayer, Level level, BlockEntity blockEntity, boolean detailed) {
+        return serializeNBT();
+    }
+
+    @Override
+    public void appendTooltip(TooltipPack iTooltip, CompoundTag compoundTag) {
+        FluidStack fluidStack = TagTool.fluidStackTag.get(compoundTag);
+        if (!fluidStack.isEmpty()) {
+            iTooltip.add(Lang.getLang(Lang.getLang(CapabilityRegister.iFluidHandler),
+                    fluidStack.getDisplayName(), Component.literal("x"), Component.literal(fluidStack.getAmount() + "mb")));
+        } else {
+            iTooltip.add(Lang.getLang(CapabilityRegister.iFluidHandler));
+        }
+
+    }
+
+   /* @Override
+    public @NotNull CompoundTag appendServerData(ServerPlayer serverPlayer, Level level, BlockEntity blockEntity, boolean detailed, IFluidHandler i) {
+        CompoundTag compoundTag = new CompoundTag();
+        List<FluidStack> fluidStacks = new ArrayList<>(i.getTanks());
+        for (int i1 = 0; i1 < i.getTanks(); i1++) {
+            fluidStacks.add(i.getFluidInTank(i1));
+        }
+        TagTool.fluidStackListTag.set(compoundTag, fluidStacks);
+        return compoundTag;
+    }
+
+    @Override
+    public void appendTooltip(Jade_Interact.TooltipPack iTooltip, BlockAccessor blockAccessor, IPluginConfig iPluginConfig, CompoundTag compoundTag) {
+        super.appendTooltip(iTooltip, blockAccessor, iPluginConfig, compoundTag);
+        Map<Fluid, Integer> integerMap = new HashMap<>();
+        TagTool.fluidStackListTag.get(compoundTag).forEach(fluidStack -> {
+            if (fluidStack.isEmpty()) {
+                return;
+            }
+            Fluid item = fluidStack.getFluid();
+            if (integerMap.containsKey(item)) {
+                integerMap.put(item, integerMap.get(item) + fluidStack.getAmount());
+            } else {
+                integerMap.put(item, fluidStack.getAmount());
+            }
+        });
+        for (Map.Entry<Fluid, Integer> fluidIntegerEntry : integerMap.entrySet()) {
+            FluidStack fluidStack = new FluidStack(fluidIntegerEntry.getKey(), fluidIntegerEntry.getValue());
+            iTooltip.add(Lang.getLang(fluidStack.getDisplayName(),
+                    Component.literal("x" + fluidIntegerEntry.getValue())));
+        }
+    }*/
 }

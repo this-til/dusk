@@ -69,7 +69,7 @@ public abstract class TagTool<V> {
     public static ListTag<ShapedHandle> shapedHandleListTag;
     public static RegisterItemTool<ManaLevel> manaLevelTag;
     public static RegisterItemListTool<ShapedDrive> shapedDriveListTag;
-    public static com.til.dusk.util.tag_tool.IntTag maxParallelTag;
+    public static IntTag maxParallelTag;
     public static DoubleTag probabilityTag;
     public static IntTag mBTag;
     public static ListTag<ItemStack> itemStackListTag;

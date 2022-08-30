@@ -2,18 +2,25 @@ package com.til.dusk.client;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.common.register.mana_level.ManaLevel;
-import com.til.dusk.common.register.mana_level.ManaLevelBlock;
+import com.til.dusk.common.register.mana_level.mana_level_block.ManaLevelBlock;
+import com.til.dusk.common.register.mana_level.ManaLevelFluid;
+import com.til.dusk.common.register.mana_level.ManaLevelItem;
 import com.til.dusk.common.register.ore.Ore;
+import com.til.dusk.common.register.ore.OreBlock;
+import com.til.dusk.common.register.ore.OreFluid;
+import com.til.dusk.common.register.ore.OreItem;
+import com.til.dusk.common.world.ModBlock;
 import com.til.dusk.common.world.ModItem;
 import com.til.dusk.util.Extension;
 import com.til.dusk.util.pack.BlockPack;
 import com.til.dusk.util.pack.FluidPack;
 import com.til.dusk.util.pack.ItemPack;
 import com.til.dusk.util.prefab.ColorPrefab;
+import com.til.dusk.util.tag_tool.TagTool;
 import net.minecraft.client.color.block.BlockColor;
 import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.item.BlockItem;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockAndTintGetter;
@@ -25,15 +32,12 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import org.checkerframework.checker.units.qual.C;
+import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -49,97 +53,86 @@ public class ColorProxy {
     @SubscribeEvent
     public static void itemColor(RegisterColorHandlersEvent.Item event) {
         for (Ore ore : Ore.ORE.get()) {
-            for (ItemPack value : ore.itemMap.values()) {
-                ITEM_COLOR_PACK_MAP.put(value.item(), new ItemColorPack(value.item()));
+            for (Map.Entry<OreItem, ItemPack> entry : ore.itemMap.entrySet()) {
+                ItemColorPack itemColorPack = new ItemColorPack(entry.getValue().item());
+                ITEM_COLOR_PACK_MAP.put(entry.getValue().item(), itemColorPack);
+                entry.getKey().dyeBlack(ore, itemColorPack);
             }
-            for (BlockPack value : ore.blockMap.values()) {
-                ITEM_COLOR_PACK_MAP.put(value.blockItem(), new ItemColorPack(value.blockItem()));
+            for (Map.Entry<OreBlock, BlockPack> entry : ore.blockMap.entrySet()) {
+                ItemColorPack itemColorPack = new ItemColorPack(entry.getValue().blockItem());
+                ITEM_COLOR_PACK_MAP.put(entry.getValue().blockItem(), itemColorPack);
+                entry.getKey().dyeBlack(ore, itemColorPack);
             }
-            for (FluidPack value : ore.fluidMap.values()) {
-                if (value.bucketItem() != null) {
-                    ITEM_COLOR_PACK_MAP.put(value.bucketItem(), new ItemColorPack(value.bucketItem()));
+            for (Map.Entry<OreFluid, FluidPack> entry : ore.fluidMap.entrySet()) {
+                if (entry.getValue().bucketItem() != null) {
+                    ItemColorPack itemColorPack = new ItemColorPack(entry.getValue().bucketItem());
+                    ITEM_COLOR_PACK_MAP.put(entry.getValue().bucketItem(), itemColorPack);
                 }
             }
         }
         for (ManaLevel manaLevel : ManaLevel.LEVEL.get()) {
-            for (ItemPack value : manaLevel.itemMap.values()) {
-                ITEM_COLOR_PACK_MAP.put(value.item(), new ItemColorPack(value.item()));
+            for (Map.Entry<ManaLevelItem, ItemPack> entry : manaLevel.itemMap.entrySet()) {
+                ItemColorPack itemColorPack = new ItemColorPack(entry.getValue().item());
+                ITEM_COLOR_PACK_MAP.put(entry.getValue().item(), itemColorPack);
+                entry.getKey().dyeBlack(manaLevel, itemColorPack);
             }
-            for (BlockPack value : manaLevel.blockMap.values()) {
-                ITEM_COLOR_PACK_MAP.put(value.blockItem(), new ItemColorPack(value.blockItem()));
+            for (Map.Entry<ManaLevelBlock, BlockPack> entry : manaLevel.blockMap.entrySet()) {
+                ItemColorPack itemColorPack = new ItemColorPack(entry.getValue().blockItem());
+                ITEM_COLOR_PACK_MAP.put(entry.getValue().blockItem(), itemColorPack);
+                entry.getKey().dyeBlack(manaLevel, itemColorPack);
             }
-            for (FluidPack value : manaLevel.fluidMap.values()) {
-                if (value.bucketItem() != null) {
-                    ITEM_COLOR_PACK_MAP.put(value.bucketItem(), new ItemColorPack(value.bucketItem()));
+            for (Map.Entry<ManaLevelFluid, FluidPack> entry : manaLevel.fluidMap.entrySet()) {
+                if (entry.getValue().bucketItem() != null) {
+                    ItemColorPack itemColorPack = new ItemColorPack(entry.getValue().bucketItem());
+                    ITEM_COLOR_PACK_MAP.put(entry.getValue().bucketItem(), itemColorPack);
                 }
             }
         }
-        for (Ore ore : Ore.ORE.get()) {
-            for (ItemPack value : ore.itemMap.values()) {
-                ITEM_COLOR_PACK_MAP.get(value.item()).addClock(0, itemStack -> ore.color);
-            }
-            for (BlockPack value : ore.blockMap.values()) {
-                ITEM_COLOR_PACK_MAP.get(value.blockItem()).addClock(1, itemStack -> ore.color);
-            }
+        for (RegistryObject<Item> entry : ModItem.ITEMS.getEntries()) {
+            ITEM_COLOR_PACK_MAP.put(entry.get(), new ItemColorPack(entry.get()));
         }
-        for (ManaLevel manaLevel : ManaLevel.LEVEL.get()) {
-            for (ItemPack value : manaLevel.itemMap.values()) {
-                ITEM_COLOR_PACK_MAP.get(value.item()).addClock(0, itemStack -> manaLevel.color);
-            }
-            for (BlockPack value : manaLevel.blockMap.values()) {
-                ITEM_COLOR_PACK_MAP.get(value.blockItem()).addClock(0, itemStack -> manaLevel.color);
-            }
-            for (BlockPack value : manaLevel.blockMap.values()) {
-                if (value.blockItem() != null) {
-                    ITEM_COLOR_PACK_MAP.get(value.blockItem()).addClock(0, itemStack -> manaLevel.color);
-                }
-            }
-            ITEM_COLOR_PACK_MAP.get(manaLevel.blockMap.get(ManaLevelBlock.moonlight).blockItem()).addClock(1, itemStack -> ColorPrefab.MOONLIGHT_COLOR);
-            ITEM_COLOR_PACK_MAP.get(manaLevel.blockMap.get(ManaLevelBlock.sunlight).blockItem()).addClock(1, itemStack -> ColorPrefab.SUNLIGHT_COLOR);
+        for (RegistryObject<Block> entry : ModBlock.BLOCKS.getEntries()) {
+            BLOCK_COLOR_PACK_MAP.put(entry.get(), new BlockColorPack(entry.get()));
         }
         for (Map.Entry<Item, ItemColorPack> itemItemColorPackEntry : ITEM_COLOR_PACK_MAP.entrySet()) {
             event.register(itemItemColorPackEntry.getValue(), itemItemColorPackEntry.getKey());
         }
+        ITEM_COLOR_PACK_MAP.get(ModItem.BIND_STAFF.get()).addClock(0, itemStack -> {
+            CompoundTag compoundTag = itemStack.getTag();
+            if (compoundTag == null) {
+                return new Color(-1);
+            }
+            return new Color(TagTool.colorTag.get(compoundTag));
+        });
     }
 
     @SubscribeEvent
     public static void blockColor(RegisterColorHandlersEvent.Block event) {
         for (Ore ore : Ore.ORE.get()) {
-            for (BlockPack value : ore.blockMap.values()) {
-                BLOCK_COLOR_PACK_MAP.put(value.block(), new BlockColorPack(value.block()));
+            for (Map.Entry<OreBlock, BlockPack> entry : ore.blockMap.entrySet()) {
+                BlockColorPack blockColorPack = new BlockColorPack(entry.getValue().block());
+                BLOCK_COLOR_PACK_MAP.put(entry.getValue().block(), blockColorPack);
+                entry.getKey().dyeBlack(ore, blockColorPack);
             }
-            for (FluidPack value : ore.fluidMap.values()) {
-                if (value.liquidBlock() != null) {
-                    BLOCK_COLOR_PACK_MAP.put(value.liquidBlock(), new BlockColorPack(value.liquidBlock()));
+            for (Map.Entry<OreFluid, FluidPack> entry : ore.fluidMap.entrySet()) {
+                if (entry.getValue().liquidBlock() != null) {
+                    BlockColorPack blockColorPack = new BlockColorPack(entry.getValue().liquidBlock());
+                    BLOCK_COLOR_PACK_MAP.put(entry.getValue().liquidBlock(), blockColorPack);
                 }
             }
         }
         for (ManaLevel manaLevel : ManaLevel.LEVEL.get()) {
-            for (BlockPack value : manaLevel.blockMap.values()) {
-                BLOCK_COLOR_PACK_MAP.put(value.block(), new BlockColorPack(value.block()));
+            for (Map.Entry<ManaLevelBlock, BlockPack> entry : manaLevel.blockMap.entrySet()) {
+                BlockColorPack blockColorPack = new BlockColorPack(entry.getValue().block());
+                BLOCK_COLOR_PACK_MAP.put(entry.getValue().block(), blockColorPack);
+                entry.getKey().dyeBlack(manaLevel, blockColorPack);
             }
-            for (FluidPack value : manaLevel.fluidMap.values()) {
-                if (value.bucketItem() != null) {
-                    BLOCK_COLOR_PACK_MAP.put(value.liquidBlock(), new BlockColorPack(value.liquidBlock()));
+            for (Map.Entry<ManaLevelFluid, FluidPack> entry : manaLevel.fluidMap.entrySet()) {
+                if (entry.getValue().liquidBlock() != null) {
+                    BlockColorPack blockColorPack = new BlockColorPack(entry.getValue().liquidBlock());
+                    BLOCK_COLOR_PACK_MAP.put(entry.getValue().liquidBlock(), blockColorPack);
                 }
             }
-        }
-        for (Ore ore : Ore.ORE.get()) {
-            for (BlockPack value : ore.blockMap.values()) {
-                BLOCK_COLOR_PACK_MAP.get(value.block()).addClock(1, (blockState, blockAndTintGetter, blockPos) -> ore.color);
-            }
-        }
-        for (ManaLevel manaLevel : ManaLevel.LEVEL.get()) {
-            for (BlockPack value : manaLevel.blockMap.values()) {
-                BLOCK_COLOR_PACK_MAP.get(value.block()).addClock(0, (blockState, blockAndTintGetter, blockPos) -> manaLevel.color);
-            }
-            for (FluidPack value : manaLevel.fluidMap.values()) {
-                if (value.liquidBlock() != null) {
-                    BLOCK_COLOR_PACK_MAP.get(value.liquidBlock()).addClock(0, (blockState, blockAndTintGetter, blockPos) -> manaLevel.color);
-                }
-            }
-            BLOCK_COLOR_PACK_MAP.get(manaLevel.blockMap.get(ManaLevelBlock.sunlight).block()).addClock(1, (blockState, blockAndTintGetter, blockPos) -> ColorPrefab.SUNLIGHT_COLOR);
-            BLOCK_COLOR_PACK_MAP.get(manaLevel.blockMap.get(ManaLevelBlock.moonlight).block()).addClock(1, (blockState, blockAndTintGetter, blockPos) -> ColorPrefab.MOONLIGHT_COLOR);
         }
         for (Map.Entry<Block, BlockColorPack> blockBlockColorPackEntry : BLOCK_COLOR_PACK_MAP.entrySet()) {
             event.register(blockBlockColorPackEntry.getValue(), blockBlockColorPackEntry.getKey());

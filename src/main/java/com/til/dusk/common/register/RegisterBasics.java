@@ -1,6 +1,7 @@
 package com.til.dusk.common.register;
 
 import com.til.dusk.Dusk;
+import com.til.dusk.client.ColorProxy;
 import com.til.dusk.common.register.ore.Ore;
 import com.til.dusk.common.register.ore.OreBlock;
 import com.til.dusk.common.register.ore.OreFluid;
@@ -44,6 +45,7 @@ import net.minecraftforge.registries.tags.ITagManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.awt.image.ColorModel;
 import java.util.*;
 import java.util.function.Supplier;
 
@@ -239,6 +241,18 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> {
             };
         }
 
+
+        /***
+         * 获取方块物品模型映射
+         */
+        public ResourceLocation getItemMoldMapping(O o) {
+            return name;
+        }
+
+        /***
+         * 染色回调
+         */
+        public abstract void dyeBlack(O o, ColorProxy.ItemColorPack itemColorPack);
     }
 
     public static abstract class BlockUnitRegister<T extends BlockUnitRegister<T, O>, O extends RegisterBasics<?>> extends RegisterBasics<T> {
@@ -280,10 +294,37 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> {
             return ItemTags.create(fuseName(o, this));
         }
 
+        /***
+         * 创建一个假方块并且注册，用去欺骗mc去加载模型
+         */
         @Nullable
         public Block createCamouflageBlock() {
             return null;
         }
+
+        /***
+         * 获取模型映射
+         */
+        public ResourceLocation getBlockModelMapping(O o) {
+            return name;
+        }
+
+        /***
+         * 获取方块物品模型映射
+         */
+        public ResourceLocation getBlockItemMoldMapping(O o) {
+            return getBlockModelMapping(o);
+        }
+
+        /***
+         * 染色回调
+         */
+        public abstract void dyeBlack(O o, ColorProxy.ItemColorPack itemColorPack);
+
+        /***
+         * 染色回调
+         */
+        public abstract void dyeBlack(O o, ColorProxy.BlockColorPack itemColorPack);
     }
 
     public static abstract class FluidUnitRegister<T extends FluidUnitRegister<T, O>, O extends RegisterBasics<?>> extends RegisterBasics<T> {

@@ -2,10 +2,19 @@ package com.til.dusk.common.capability.clock;
 
 import com.til.dusk.common.capability.mana_level.IManaLevel;
 import com.til.dusk.common.capability.up.IUp;
+import com.til.dusk.common.register.CapabilityRegister;
+import com.til.dusk.common.register.mana_level.ManaLevel;
+import com.til.dusk.util.Lang;
+import com.til.dusk.util.TooltipPack;
 import com.til.dusk.util.tag_tool.TagTool;
 import com.til.dusk.util.Extension;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.MinecraftForge;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +35,8 @@ public class Clock implements IClock {
         up.addUpBlack(this::up);
     }
 
-    public Clock(IUp up, IManaLevel iManaLevel) {
-        this(up, iManaLevel.manaLevel().clock);
+    public Clock(IUp up, ManaLevel iManaLevel) {
+        this(up, iManaLevel.clock);
     }
 
     @Override
@@ -63,5 +72,17 @@ public class Clock implements IClock {
     @Override
     public void deserializeNBT(CompoundTag nbt) {
         time = TagTool.timeTag.get(nbt);
+    }
+
+    @Nullable
+    @Override
+    public CompoundTag appendServerData(ServerPlayer serverPlayer, Level level, BlockEntity blockEntity, boolean detailed) {
+        return serializeNBT();
+
+    }
+
+    @Override
+    public void appendTooltip(TooltipPack iTooltip, CompoundTag compoundTag) {
+        iTooltip.add(Lang.getLang(Lang.getLang(CapabilityRegister.iClock), Component.literal(TagTool.timeTag.get(compoundTag) + "/" + TagTool.cycleTimeTag.get(compoundTag))));
     }
 }

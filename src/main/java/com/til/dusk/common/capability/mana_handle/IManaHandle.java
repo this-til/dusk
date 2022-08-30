@@ -1,6 +1,7 @@
 package com.til.dusk.common.capability.mana_handle;
 
 import com.til.dusk.common.capability.IThis;
+import com.til.dusk.common.capability.ITooltipCapability;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.util.INBTSerializable;
@@ -8,7 +9,7 @@ import net.minecraftforge.common.util.INBTSerializable;
 /**
  * @author til
  */
-public interface IManaHandle extends INBTSerializable<CompoundTag> {
+public interface IManaHandle extends INBTSerializable<CompoundTag>, ITooltipCapability {
 
     /***
      * 返回最大容量

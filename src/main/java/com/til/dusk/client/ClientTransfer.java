@@ -24,22 +24,6 @@ import java.util.function.Supplier;
  */
 @OnlyIn(Dist.CLIENT)
 public class ClientTransfer {
-    public static void messageConsumer(IControl.TellPlayerMessage tellPlayerMessage, Supplier<NetworkEvent.Context> supplier) {
-        Player player = Minecraft.getInstance().player;
-        if (player == null) {
-            return;
-        }
-        String text = tellPlayerMessage.key;
-        if (tellPlayerMessage.keys != null) {
-            String[] keys = new String[tellPlayerMessage.keys.length];
-            for (int i = 0; i < tellPlayerMessage.keys.length; i++) {
-                keys[i] = I18n.get(tellPlayerMessage.keys[i]);
-            }
-            text = I18n.get(text, (Object[]) keys);
-        }
-        String finalText = text;
-        supplier.get().enqueueWork(() -> player.sendSystemMessage(Component.translatable(finalText, tellPlayerMessage.actionBar)));
-    }
 
     public static void messageConsumer(ParticleRegister.Data data, Supplier<NetworkEvent.Context> supplier) {
         ResourceLocation name = new ResourceLocation(data.type);

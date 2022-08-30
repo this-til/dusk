@@ -1,21 +1,34 @@
 package com.til.dusk.common.capability.item_handler;
 
+import com.til.dusk.common.capability.ITooltipCapability;
+import com.til.dusk.common.register.CapabilityRegister;
+import com.til.dusk.util.Lang;
+import com.til.dusk.util.TooltipPack;
 import com.til.dusk.util.tag_tool.TagTool;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.items.IItemHandler;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author til
  */
-public class SingleItemManyStackItemHandler implements IItemHandler, INBTSerializable<CompoundTag> {
+public class SingleItemManyStackItemHandler implements IItemHandler, INBTSerializable<CompoundTag>, ITooltipCapability {
+
 
     public final int size;
     public final NonNullList<ItemStack> itemStacks;
@@ -158,6 +171,42 @@ public class SingleItemManyStackItemHandler implements IItemHandler, INBTSeriali
                     break;
                 }
             }
+        }
+    }
+
+    @Nullable
+    @Override
+    public CompoundTag appendServerData(ServerPlayer serverPlayer, Level level, BlockEntity blockEntity, boolean detailed) {
+        CompoundTag compoundTag = new CompoundTag();
+        List<ItemStack> itemStackList = new ArrayList<>(getSlots());
+        for (int i1 = 0; i1 < getSlots(); i1++) {
+            itemStackList.add(getStackInSlot(i1));
+        }
+        TagTool.itemStackListTag.set(compoundTag, itemStackList);
+        return compoundTag;
+    }
+
+    @Override
+    public void appendTooltip(TooltipPack iTooltip, CompoundTag compoundTag) {
+        iTooltip.add(Lang.getLang(CapabilityRegister.iItemHandler));
+        iTooltip.indent();
+        Map<Item, Integer> integerMap = new HashMap<>();
+        TagTool.itemStackListTag.get(compoundTag).forEach(itemStack -> {
+            if (itemStack.isEmpty()) {
+                return;
+            }
+            Item item = itemStack.getItem();
+            if (integerMap.containsKey(item)) {
+                integerMap.put(item, integerMap.get(item) + itemStack.getCount());
+            } else {
+                integerMap.put(item, itemStack.getCount());
+            }
+        });
+        for (Map.Entry<Item, Integer> itemIntegerEntry : integerMap.entrySet()) {
+            ItemStack itemStack = new ItemStack(itemIntegerEntry.getKey(), itemIntegerEntry.getValue());
+            iTooltip.add(
+                    Lang.getLang(itemStack.getDisplayName(),
+                            Component.literal("x" + itemIntegerEntry.getValue())));
         }
     }
 }

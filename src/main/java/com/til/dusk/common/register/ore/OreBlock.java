@@ -1,7 +1,9 @@
 package com.til.dusk.common.register.ore;
 
 import com.til.dusk.Dusk;
+import com.til.dusk.client.ColorProxy;
 import com.til.dusk.common.register.RegisterBasics;
+import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.util.Lang;
 import com.til.dusk.common.data.TagAdd;
 import com.til.dusk.util.StaticTag;
@@ -190,7 +192,17 @@ public abstract class OreBlock extends RegisterBasics.BlockUnitRegister<OreBlock
         };
     }
 
- /*   public static abstract class Mineral extends OreBlock {
+
+    @Override
+    public void dyeBlack(Ore ore, ColorProxy.ItemColorPack itemColorPack) {
+        itemColorPack.addClock(1, itemStack -> ore.color);
+    }
+
+    @Override
+    public void dyeBlack(Ore ore, ColorProxy.BlockColorPack itemColorPack) {
+        itemColorPack.addClock(1, (blockState, blockAndTintGetter, blockPos) -> ore.color);
+    }
+    /*   public static abstract class Mineral extends OreBlock {
         public Mineral(ResourceLocation name) {
             super(name);
             addTag(IS_MINERAL);

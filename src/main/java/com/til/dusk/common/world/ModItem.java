@@ -117,10 +117,11 @@ public class ModItem {
                 List<BindType> bindTypeList = iControl.getCanBindType();
                 if (!bindTypeList.isEmpty()) {
                     TagTool.bindTypeTag.set(compoundTag, bindTypeList.get(0));
+                    TagTool.colorTag.set(compoundTag, bindTypeList.get(0).color.getRGB());
                 } else {
                     TagTool.bindTypeTag.set(compoundTag, BindType.itemIn);
+                    TagTool.colorTag.set(compoundTag, -1);
                 }
-                TagTool.colorTag.set(compoundTag, new Color(random.nextInt(255), random.nextInt(255), random.nextInt(255)).getRGB());
                 player.sendSystemMessage(Lang.getLang(Lang.getKey("已将目标方块设定为主绑定对象")));
             } else {
                 player.sendSystemMessage(Lang.getLang(Lang.getKey("错误，目标方块没有控制器，无法设置为主绑定对象")));
@@ -154,7 +155,7 @@ public class ModItem {
                     serverPlayer.sendSystemMessage(Component.translatable(Lang.getKey("已经清除坐标数据")));
                     compoundTag = new CompoundTag();
                     itemStack.setTag(compoundTag);
-                    TagTool.colorTag.set(compoundTag, new Color(random.nextInt(255), random.nextInt(255), random.nextInt(255)).getRGB());
+                    TagTool.colorTag.set(compoundTag, -1);
                 } else {
                     BlockPos controlBlockPos = TagTool.blockPosTag.get(compoundTag);
                     BlockEntity blockEntity = serverPlayer.getLevel().getBlockEntity(controlBlockPos);
@@ -187,7 +188,7 @@ public class ModItem {
                         }
                     }
                     TagTool.bindTypeTag.set(compoundTag, bindType);
-                    TagTool.colorTag.set(compoundTag, new Color(random.nextInt(255), random.nextInt(255), random.nextInt(255)).getRGB());
+                    TagTool.colorTag.set(compoundTag, bindType.color.getRGB());
                     serverPlayer.sendSystemMessage(Component.translatable(Lang.getKey("已经绑定类型切换至[%s]"), Lang.getLang(bindType)));
                 }
             });

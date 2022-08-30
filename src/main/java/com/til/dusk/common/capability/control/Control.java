@@ -2,17 +2,22 @@ package com.til.dusk.common.capability.control;
 
 import com.til.dusk.common.capability.mana_level.IManaLevel;
 import com.til.dusk.common.register.BindType;
+import com.til.dusk.common.register.CapabilityRegister;
+import com.til.dusk.common.register.mana_level.ManaLevel;
+import com.til.dusk.util.TooltipPack;
 import com.til.dusk.util.tag_tool.TagTool;
 import com.til.dusk.util.Lang;
 import com.til.dusk.util.Pos;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,8 +39,8 @@ public class Control implements IControl {
         this.maxRange = maxRange;
     }
 
-    public Control(BlockEntity tileEntity, List<BindType> bindTypes, IManaLevel iManaLevel) {
-        this(tileEntity, bindTypes, iManaLevel.manaLevel().maxBind, 16);
+    public Control(BlockEntity tileEntity, List<BindType> bindTypes, ManaLevel iManaLevel) {
+        this(tileEntity, bindTypes, iManaLevel.maxBind, 16);
     }
 
     /***
@@ -182,5 +187,43 @@ public class Control implements IControl {
         CompoundTag nbtTagCompound = new CompoundTag();
         TagTool.bindType_BlockPosListMapTag.set(nbtTagCompound, tile);
         return nbtTagCompound;
+    }
+
+    @Nullable
+    @Override
+    public CompoundTag appendServerData(ServerPlayer serverPlayer, Level level, BlockEntity blockEntity, boolean detailed) {
+        CompoundTag compoundTag = serializeNBT();
+        TagTool.maxBindTag.set(compoundTag, getMaxBind());
+        TagTool.maxRangeTag.set(compoundTag, getMaxRange());
+        TagTool.bindTypeListTag.set(compoundTag, getCanBindType());
+        return compoundTag;
+    }
+
+    @Override
+    public void appendTooltip(TooltipPack iTooltip, CompoundTag compoundTag) {
+        iTooltip.add(Lang.getLang(CapabilityRegister.iControl));
+        iTooltip.indent();
+        iTooltip.add(Lang.getLang(Component.translatable(Lang.getKey("最大绑定数量")), Component.literal(String.valueOf(TagTool.maxBindTag.get(compoundTag)))));
+        iTooltip.add(Lang.getLang(Component.translatable(Lang.getKey("最大范围")), Component.literal(String.valueOf(TagTool.maxRangeTag.get(compoundTag)))));
+
+        Map<BindType, List<BlockPos>> bindTypeListMap = TagTool.bindType_BlockPosListMapTag.get(compoundTag);
+        List<BindType> bindTypeList = TagTool.bindTypeListTag.get(compoundTag);
+        iTooltip.add(Component.translatable(Lang.getKey("绑定类型")));
+        iTooltip.indent();
+        for (BindType bindType : bindTypeList) {
+            iTooltip.add(Lang.getLang(Lang.getLang(bindType), Component.literal(":")));
+            iTooltip.indent();
+            if (bindTypeListMap.containsKey(bindType)) {
+                for (BlockPos blockPos : bindTypeListMap.get(bindType)) {
+                    iTooltip.add(Component.translatable("[x:%s,y:%s,z:%s]",
+                            Component.literal(String.valueOf(blockPos.getX())),
+                            Component.literal(String.valueOf(blockPos.getY())),
+                            Component.literal(String.valueOf(blockPos.getZ()))));
+                }
+
+            }
+            iTooltip.returnIndent();
+        }
+        iTooltip.returnIndent();
     }
 }

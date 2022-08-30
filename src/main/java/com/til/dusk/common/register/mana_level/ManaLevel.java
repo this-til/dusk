@@ -2,10 +2,8 @@ package com.til.dusk.common.register.mana_level;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.common.register.RegisterBasics;
+import com.til.dusk.common.register.mana_level.mana_level_block.ManaLevelBlock;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -13,8 +11,6 @@ import net.minecraftforge.registries.*;
 
 import javax.annotation.Nullable;
 import java.awt.*;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.function.Supplier;
 
 /**
@@ -51,6 +47,7 @@ public class ManaLevel extends RegisterBasics.UnitRegister<ManaLevel, ManaLevelI
      * 等级序列
      */
     public final int level;
+
     /***
      * 机器运行时的时钟时间
      */

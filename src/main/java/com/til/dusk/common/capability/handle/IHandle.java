@@ -7,14 +7,18 @@ import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.capability.up.IUp;
 import com.til.dusk.common.register.shaped.Shaped;
 import com.til.dusk.common.register.shaped.ShapedDrive;
+import com.til.dusk.util.TooltipPack;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.util.INBTSerializable;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
 
-public interface IHandle extends IThis<BlockEntity>, INBTSerializable<CompoundTag> {
+public interface IHandle extends IThis<BlockEntity>, INBTSerializable<CompoundTag>, ITooltipCapability {
 
     /***
      * 获取所有的配方
@@ -35,6 +39,4 @@ public interface IHandle extends IThis<BlockEntity>, INBTSerializable<CompoundTa
     IClock getClockTime();
 
     IUp getUp();
-
-
 }

@@ -170,6 +170,14 @@ public class Ore extends RegisterBasics.UnitRegister<Ore, OreItem, OreBlock, Ore
         return null;
     }
 
+    /***
+     * 筛选副产物
+     */
+    @Nullable
+    public List<Extension.Data_2<ItemStack, Double>>screen(){
+        return null;
+    }
+
     public static List<Ore> screen(StaticTag... staticTags) {
         List<Ore> oreList = new ArrayList<>();
         for (Ore ore : ORE.get()) {

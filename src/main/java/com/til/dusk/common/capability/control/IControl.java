@@ -2,20 +2,27 @@ package com.til.dusk.common.capability.control;
 
 
 import com.til.dusk.common.capability.IThis;
+import com.til.dusk.common.capability.ITooltipCapability;
 import com.til.dusk.common.register.BindType;
 
+import com.til.dusk.common.register.CapabilityRegister;
+import com.til.dusk.util.Lang;
+import com.til.dusk.util.TooltipPack;
+import com.til.dusk.util.tag_tool.TagTool;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.INBTSerializable;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.util.*;
 
 
-public interface IControl extends IThis<BlockEntity>, INBTSerializable<CompoundTag> {
+public interface IControl extends IThis<BlockEntity>, INBTSerializable<CompoundTag>, ITooltipCapability {
 
     /***
      * 全部解绑
@@ -45,7 +52,7 @@ public interface IControl extends IThis<BlockEntity>, INBTSerializable<CompoundT
     /***
      * 获取所有绑定的方块信息
      */
-    Map<BindType,List<BlockPos>> getAllBind();
+    Map<BindType, List<BlockPos>> getAllBind();
 
     <C> Map<BlockEntity, C> getCapability(Capability<C> capability, BindType iBindType);
 
@@ -65,23 +72,4 @@ public interface IControl extends IThis<BlockEntity>, INBTSerializable<CompoundT
      * 获得可以绑定的类型
      */
     List<BindType> getCanBindType();
-
-    class TellPlayerMessage {
-        public String key;
-        @Nullable
-        public String[] keys;
-        public boolean actionBar;
-
-        public TellPlayerMessage() {
-            key = "";
-        }
-
-        public TellPlayerMessage(boolean actionBar, String key, @Nullable String... strings) {
-            this.key = key;
-            if (strings != null) {
-                keys = strings;
-            }
-            this.actionBar = actionBar;
-        }
-    }
 }

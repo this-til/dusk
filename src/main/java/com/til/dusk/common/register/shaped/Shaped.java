@@ -57,6 +57,12 @@ public abstract class Shaped extends RegisterBasics<Shaped> {
      */
     public final ManaLevel manaLevel;
 
+    /***
+     * 在JEI中显示
+     */
+    public boolean isJEIShow = true;
+
+
     public Shaped(ResourceLocation name, ShapedType shapedType, ShapedDrive shapedDrive, ManaLevel manaLevel) {
         super(name, SHAPED);
         this.shapedType = shapedType;
@@ -79,6 +85,7 @@ public abstract class Shaped extends RegisterBasics<Shaped> {
     public void registerEvent(RegisterEvent event) {
     }
 
+    @Nullable
     public abstract ShapedHandle get(IHandle iControl, Map<BlockEntity, IItemHandler> items, Map<BlockEntity, IFluidHandler> fluids);
 
     /***

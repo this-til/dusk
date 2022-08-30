@@ -1,7 +1,3 @@
 {
-  "parent": "item/generated",
-  "textures": {
-    "layer0": "dusk:item/io_0",
-    "layer1": "dusk:item/io_1"
-  }
+  "parent": "dusk:block/io"
 }

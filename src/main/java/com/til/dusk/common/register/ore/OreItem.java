@@ -1,6 +1,7 @@
 package com.til.dusk.common.register.ore;
 
 import com.til.dusk.Dusk;
+import com.til.dusk.client.ColorProxy;
 import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.util.Lang;
 import com.til.dusk.util.StaticTag;
@@ -123,5 +124,10 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
             return super.create(ore);
         }
         return null;
+    }
+
+    @Override
+    public void dyeBlack(Ore ore, ColorProxy.ItemColorPack itemColorPack) {
+        itemColorPack.addClock(0, itemStack -> ore.color);
     }
 }

@@ -10,6 +10,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.util.LazyOptional;
 import snownee.jade.api.*;
 
@@ -23,15 +25,15 @@ public class Jade_Interact implements IWailaPlugin {
         IServerDataProvider<BlockEntity> serverDataProvider = new IServerDataProvider<>() {
             @Override
             public void appendServerData(CompoundTag compoundTag, ServerPlayer serverPlayer, Level level, BlockEntity blockEntity, boolean b) {
-                for (CapabilityRegister<?> capabilityRegister : CapabilityRegister.CAPABILITY_REGISTER.get()) {
-                    LazyOptional<?> lazyOptional = blockEntity.getCapability(capabilityRegister.capability);
+               /* for (CapabilityManager value : CapabilityManager.INSTANCE.) {
+                    LazyOptional<?> lazyOptional = blockEntity.getCapability(value);
                     if (lazyOptional.isPresent()) {
-                        CompoundTag sNBT = capabilityRegister.appendServerData(serverPlayer, level, blockEntity, b, Util.forcedConversion(lazyOptional.orElse(null)));
-                        if (sNBT != null) {
-                            compoundTag.put(capabilityRegister.capability.getName(), sNBT);
-                        }
+
                     }
                 }
+                for (CapabilityRegister<?> capabilityRegister : CapabilityRegister.CAPABILITY_REGISTER.get()) {
+
+                }*/
             }
 
             @Override
