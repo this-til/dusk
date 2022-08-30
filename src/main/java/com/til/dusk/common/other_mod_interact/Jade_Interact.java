@@ -1,6 +1,7 @@
 package com.til.dusk.common.other_mod_interact;
 
 import com.til.dusk.Dusk;
+import com.til.dusk.common.capability.ITooltipCapability;
 import com.til.dusk.common.capability.tile_entity.DefaultTileEntity;
 import com.til.dusk.common.capability.tile_entity.RepeaterTileEntity;
 import com.til.dusk.common.register.CapabilityRegister;
@@ -25,15 +26,14 @@ public class Jade_Interact implements IWailaPlugin {
         IServerDataProvider<BlockEntity> serverDataProvider = new IServerDataProvider<>() {
             @Override
             public void appendServerData(CompoundTag compoundTag, ServerPlayer serverPlayer, Level level, BlockEntity blockEntity, boolean b) {
-               /* for (CapabilityManager value : CapabilityManager.INSTANCE.) {
-                    LazyOptional<?> lazyOptional = blockEntity.getCapability(value);
+                for (CapabilityRegister<?> capabilityRegister : CapabilityRegister.CAPABILITY_REGISTER.get()) {
+                    LazyOptional<?> lazyOptional = blockEntity.getCapability(capabilityRegister.capability);
                     if (lazyOptional.isPresent()) {
-
+                        if (lazyOptional.orElse(null) instanceof ITooltipCapability iTooltipCapability) {
+                            compoundTag.put(capabilityRegister.capability.getName(), iTooltipCapability.appendServerData(serverPlayer, level, blockEntity, b));
+                        }
                     }
                 }
-                for (CapabilityRegister<?> capabilityRegister : CapabilityRegister.CAPABILITY_REGISTER.get()) {
-
-                }*/
             }
 
             @Override
