@@ -17,6 +17,9 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
+/**
+ * @author til
+ */
 public class VoidCaseItemHandler implements IItemHandler, INBTSerializable<CompoundTag>, ITooltipCapability {
 
     /***

@@ -4,6 +4,7 @@ import com.til.dusk.Dusk;
 import com.til.dusk.client.ColorProxy;
 import com.til.dusk.common.capability.clock.Clock;
 import com.til.dusk.common.capability.clock.IClock;
+import com.til.dusk.common.capability.clock.ManaClock;
 import com.til.dusk.common.capability.control.Control;
 import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.capability.mana_handle.IManaHandle;
@@ -26,6 +27,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
+import net.minecraftforge.items.ItemStackHandler;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -151,7 +153,7 @@ public class IOMechanic extends DefaultCapacityMechanic {
             super.addCapability(event, duskModCapability, manaLevel);
             IControl iControl = duskModCapability.addCapability(CapabilityRegister.iControl.capability, new Control(event.getObject(), List.of(BindType.itemIn, BindType.itemOut, BindType.manaIn), manaLevel));
             IUp iUp = duskModCapability.addCapability(CapabilityRegister.iUp.capability, new Up());
-            IClock iClock = duskModCapability.addCapability(CapabilityRegister.iClock.capability, new Clock(iUp, manaLevel.clock / 20));
+            IClock iClock = duskModCapability.addCapability(CapabilityRegister.iClock.capability, new ManaClock(iUp, manaLevel.clock / 20, event.getObject(),iControl,4L * manaLevel.level));
             iClock.addBlock(() -> {
                 Level level = event.getObject().getLevel();
                 if (level == null) {
@@ -197,7 +199,7 @@ public class IOMechanic extends DefaultCapacityMechanic {
                     return;
                 }
                 for (IItemHandler value : outMap.values()) {
-                    outSimulate = ItemHandlerHelper.insertItem(value, outSimulate, true);
+                    outSimulate = ItemHandlerHelper.insertItemStacked(value, outSimulate, true);
                     if (outSimulate.isEmpty()) {
                         break;
                     }
@@ -209,7 +211,7 @@ public class IOMechanic extends DefaultCapacityMechanic {
                 MinecraftForge.EVENT_BUS.post(new EventIO.Item(level, new Pos(outData.d1().getBlockPos()), new Pos(event.getObject().getBlockPos()), out));
                 for (Map.Entry<BlockEntity, IItemHandler> entry : outMap.entrySet()) {
                     ItemStack outCopy = out.copy();
-                    out = ItemHandlerHelper.insertItem(entry.getValue(), out, false);
+                    out = ItemHandlerHelper.insertItemStacked(entry.getValue(), out, false);
                     outCopy.setCount(outCopy.getCount() - out.getCount());
                     MinecraftForge.EVENT_BUS.post(new EventIO.Item(level, new Pos(event.getObject().getBlockPos()), new Pos(entry.getKey().getBlockPos()), outCopy));
                     if (out.isEmpty()) {
@@ -234,7 +236,7 @@ public class IOMechanic extends DefaultCapacityMechanic {
             super.addCapability(event, duskModCapability, manaLevel);
             IControl iControl = duskModCapability.addCapability(CapabilityRegister.iControl.capability, new Control(event.getObject(), List.of(BindType.fluidIn, BindType.fluidOut, BindType.manaIn), manaLevel));
             IUp iUp = duskModCapability.addCapability(CapabilityRegister.iUp.capability, new Up());
-            IClock iClock = duskModCapability.addCapability(CapabilityRegister.iClock.capability, new Clock(iUp, manaLevel.clock / 20));
+            IClock iClock = duskModCapability.addCapability(CapabilityRegister.iClock.capability, new ManaClock(iUp, manaLevel.clock / 20, event.getObject(), iControl, 4L * manaLevel.level));
             iClock.addBlock(() -> {
                 Level level = event.getObject().getLevel();
                 if (level == null) {

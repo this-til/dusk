@@ -49,6 +49,7 @@ public class Jade_Interact {
                 if (lazyOptional.isPresent()) {
                     if (lazyOptional.orElse(null) instanceof ITooltipCapability iTooltipCapability) {
                         iTooltipCapability.appendTooltip(tooltipPack, compoundTag.getCompound(capabilityRegister.capability.getName()));
+                        tooltipPack.indent = 0;
                     }
                 }
             }

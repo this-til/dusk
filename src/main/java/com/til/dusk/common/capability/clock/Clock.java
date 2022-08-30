@@ -78,7 +78,6 @@ public class Clock implements IClock {
     @Override
     public CompoundTag appendServerData(ServerPlayer serverPlayer, Level level, BlockEntity blockEntity, boolean detailed) {
         return serializeNBT();
-
     }
 
     @Override

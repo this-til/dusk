@@ -13,7 +13,9 @@ import net.minecraft.nbt.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.Mod;
@@ -77,8 +79,8 @@ public abstract class TagTool<V> {
     public static LongTag count;
     public static BooleanTag isVoidCaseItemHandlerTag;
 
-     static {
-        itemTag = new RegisterItemTool<>("item_tag", () -> ForgeRegistries.ITEMS);
+    static {
+        itemTag = new RegisterItemTool<>("item_tag", () -> ForgeRegistries.ITEMS, () -> Items.AIR);
         itemPackTag = new PackTag<>("item_pack_tag", itemTag);
         itemStackTag = new TagTool<>("item_stack_tag") {
             @Override
@@ -91,7 +93,7 @@ public abstract class TagTool<V> {
                 copy(nbt, stack.serializeNBT());
             }
         };
-        fluidTag = new RegisterItemTool<>("fluid_tag", () -> ForgeRegistries.FLUIDS);
+        fluidTag = new RegisterItemTool<>("fluid_tag", () -> ForgeRegistries.FLUIDS, () -> Fluids.EMPTY);
         fluidPackTag = new PackTag<>("fluid_pack_tag", fluidTag);
         fluidStackTag = new TagTool<>("fluid_stack") {
             @Override
@@ -144,7 +146,7 @@ public abstract class TagTool<V> {
         surplusTimeTag = new LongTag("surplus_time_tag");
         consumeManaTag = new LongTag("consume_mana_tag");
         _surplusTimeTag = new LongTag("_surplus_time_tag");
-        processTag = new RegisterItemTool<>("process_tag", () -> ShapedHandleProcess.SHAPED_TYPE_PROCESS.get());
+        processTag = new RegisterItemTool<>("process_tag", () -> ShapedHandleProcess.SHAPED_TYPE_PROCESS.get(), () -> ShapedHandleProcess.trippingOperation);
         outItemTag = new ListTag<>("out_item_tag", itemStackTag);
         outFluidTag = new ListTag<>("out_fluid_tag", fluidStackTag);
         outManaTag = new LongTag("out_mana");
@@ -181,14 +183,14 @@ public abstract class TagTool<V> {
         timeTag = new IntTag("time_tag_tag");
         cycleTimeTag = new IntTag("cycle_time_tag");
         bindTypeListTag = new RegisterItemListTool<>("bind_type_list_tag", () -> BindType.BIND_TYPE.get());
-        bindTypeTag = new RegisterItemTool<BindType>("bind_type_tag", () -> BindType.BIND_TYPE.get());
+        bindTypeTag = new RegisterItemTool<BindType>("bind_type_tag", () -> BindType.BIND_TYPE.get(), () -> BindType.itemOut);
         blockPosListTag = new ListTag<>("block_pos_list_tag", blockPosTag);
         blockPosListListTag = new ListTag<>("block_pos_list_list_tag", blockPosListTag);
         maxBindTag = new IntTag("max_bind_tag");
         maxRangeTag = new IntTag("max_range_tag");
         bindType_BlockPosListMapTag = new MapTag<>("bind_type_block_pos_list_map_tag", bindTypeListTag, blockPosListListTag);
         shapedHandleListTag = new ListTag<>("shaped_handle_list_tag", shapedHandleTag);
-        manaLevelTag = new RegisterItemTool<>("mana_level_tag", () -> ManaLevel.LEVEL.get());
+        manaLevelTag = new RegisterItemTool<>("mana_level_tag", () -> ManaLevel.LEVEL.get(), () -> ManaLevel.t1);
         shapedDriveListTag = new RegisterItemListTool<>("shaped_drive_list_tag", () -> ShapedDrive.SHAPED_DRIVE.get());
         maxParallelTag = new IntTag("max_parallel_tag");
         mBTag = new IntTag("mb_tag");

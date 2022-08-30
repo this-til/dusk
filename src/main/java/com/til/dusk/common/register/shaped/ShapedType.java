@@ -19,7 +19,9 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.FluidStack;
@@ -123,6 +125,11 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
      * 熔炉
      */
     public static ShapedType furnace;
+
+    /***
+     * 造石
+     */
+    public static ShapedType makerStone;
 
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
@@ -653,6 +660,49 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
                     }
                 };
                 shaped.isJEIShow = false;
+            }
+        };
+        makerStone = new ShapedType("maker_stone", () -> ManaLevelBlock.makerStone) {
+            @Override
+            public void registerSubsidiaryBlack() {
+                new Shaped.ShapedOre(
+                        fuseName(name, Tags.Items.STONE.location()),
+                        this,
+                        ShapedDrive.get(0),
+                        ManaLevel.t1,
+                        null,
+                        Map.of(FluidTags.WATER, 10, FluidTags.LAVA, 1),
+                        128,
+                        4L,
+                        0,
+                        List.of(new ItemStack(Blocks.STONE)),
+                        null);
+
+                new Shaped.ShapedOre(
+                        fuseName(name, Tags.Items.COBBLESTONE.location()),
+                        this,
+                        ShapedDrive.get(1),
+                        ManaLevel.t1,
+                        null,
+                        Map.of(FluidTags.WATER, 10, FluidTags.LAVA, 1),
+                        128,
+                        4L,
+                        0,
+                        List.of(new ItemStack(Blocks.COBBLESTONE)),
+                        null);
+
+                new Shaped.ShapedOre(
+                        fuseName(name, Tags.Items.OBSIDIAN.location()),
+                        this,
+                        ShapedDrive.get(1),
+                        ManaLevel.t1,
+                        null,
+                        Map.of(FluidTags.WATER, 1000, FluidTags.LAVA, 1000),
+                        512L,
+                        4L,
+                        0,
+                        List.of(new ItemStack(Blocks.OBSIDIAN)),
+                        null);
             }
         };
     }

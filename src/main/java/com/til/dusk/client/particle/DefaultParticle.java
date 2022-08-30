@@ -182,7 +182,7 @@ public class DefaultParticle extends Particle {
 
     public static Map<ResourceLocation, ParticleRenderType> map = new HashMap<>();
 
-    ParticleRenderType NULL_TEXTURE = new ParticleRenderType() {
+    public static final ParticleRenderType NULL_TEXTURE = new ParticleRenderType() {
         @Override
         public void begin(BufferBuilder bufferBuilder, @NotNull TextureManager textureManager) {
             Minecraft.getInstance().gameRenderer.lightTexture().turnOnLightLayer();

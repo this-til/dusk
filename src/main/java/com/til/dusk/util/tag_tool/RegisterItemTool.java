@@ -10,23 +10,29 @@ import java.util.function.Supplier;
 
 public class RegisterItemTool<T> extends TagTool<T> {
     public final Supplier<IForgeRegistry<T>> registrySupplier;
+    public final Supplier<T> defaultItem;
 
-    public RegisterItemTool(ResourceLocation name, Supplier<IForgeRegistry<T>> registrySupplier) {
+    public RegisterItemTool(ResourceLocation name, Supplier<IForgeRegistry<T>> registrySupplier,  Supplier<T>  defaultItem) {
         super(name);
         this.registrySupplier = registrySupplier;
+        this.defaultItem = defaultItem;
     }
 
-    public RegisterItemTool(String name, Supplier<IForgeRegistry<T>> registrySupplier) {
-        this(new ResourceLocation(Dusk.MOD_ID, name), registrySupplier);
+    public RegisterItemTool(String name, Supplier<IForgeRegistry<T>> registrySupplier,  Supplier<T>  defaultItem) {
+        this(new ResourceLocation(Dusk.MOD_ID, name), registrySupplier, defaultItem);
     }
 
     @Nullable
     @Override
     public T get(CompoundTag nbt) {
         try {
-            return registrySupplier.get().getValue(new ResourceLocation(nbt.getString(tagName)));
+            T t = registrySupplier.get().getValue(new ResourceLocation(nbt.getString(tagName)));
+            if (t == null) {
+                t = defaultItem.get();
+            }
+            return t;
         } catch (Exception e) {
-            return null;
+            return defaultItem.get();
         }
 
     }

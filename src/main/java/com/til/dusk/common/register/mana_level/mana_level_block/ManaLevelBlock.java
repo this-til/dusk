@@ -161,6 +161,11 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
      */
     public static Mechanic furnace;
 
+    /***
+     * 造石机
+     */
+    public static Mechanic makerStone;
+
     //功能
 
     /***
@@ -195,6 +200,10 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
      */
     public static IOMechanic.FluidIO fluidIO;
 
+    /***
+     * 收集晶体
+     */
+    public static CollectMechanic collect;
 
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
@@ -219,6 +228,7 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
         carving = new HandleMechanic("carving", () -> List.of(ShapedType.carving));
         screen = new HandleMechanic("screen", () -> List.of(ShapedType.screen));
         furnace = new HandleMechanic("furnace", () -> List.of(ShapedType.furnace));
+        makerStone = new HandleMechanic("maker_stone", () -> List.of(ShapedType.makerStone));
         voidCase = new DefaultCapacityMechanic("void_case") {
             @Override
             public void addCapability(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability, ManaLevel manaLevel) {
@@ -241,9 +251,10 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
                 duskModCapability.addCapability(CapabilityRegister.iManaHandle.capability, new ManaHandle(5120000L * manaLevel.level, 32L * manaLevel.level, iUp));
             }
         };
-        manaIO = new IOMechanic.ManaIO("mana_io", ColorPrefab.MANA_IO) ;
+        manaIO = new IOMechanic.ManaIO("mana_io", ColorPrefab.MANA_IO);
         itemIO = new IOMechanic.ItemIO("item_io", ColorPrefab.ITEM_IO);
         fluidIO = new IOMechanic.FluidIO("fluid_io", ColorPrefab.FLUID_IO);
+        collect = new CollectMechanic("collect");
     }
 
     public ManaLevelBlock(ResourceLocation name) {
