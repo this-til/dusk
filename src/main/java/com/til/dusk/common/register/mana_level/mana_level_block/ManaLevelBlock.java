@@ -90,6 +90,41 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
      */
     public static HandleMechanic extractMana;
 
+    /***
+     * 解咒转灵晶体
+     */
+    public static HandleMechanic dischantmentMana;
+
+    /***
+     * 解咒转灵晶体
+     */
+    public static HandleMechanic enderMana;
+
+    /***
+     * 药水转灵晶体
+     */
+    public static HandleMechanic potionMana;
+
+    /***
+     * 爆破转灵晶体
+     */
+    public static HandleMechanic explosiveMana;
+
+    /***
+     * 寒霜转灵晶体
+     */
+    public static HandleMechanic frostyMana;
+
+    /***
+     * 粘液转灵晶体
+     */
+    public static HandleMechanic slimeyMana;
+
+    /***
+     * 口臭转灵晶体
+     */
+    public static HandleMechanic halitosisMana;
+
     //处理
 
     /***
@@ -245,6 +280,13 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
         moonlight = new SimilarSolarEnergyMechanic("moonlight", 1, level -> level.isNight() && !level.isRaining(), ColorPrefab.MOONLIGHT_COLOR);
         rain = new SimilarSolarEnergyMechanic("rain", 4, Level::isRaining, ColorPrefab.RAIN_COLOR);
         extractMana = new HandleMechanic("extract_mana", () -> List.of(ShapedType.extractMana));
+        dischantmentMana = new HandleMechanic("dischantment_mana",  () ->List.of(ShapedType.dischantmentMana));
+        enderMana = new HandleMechanic("ender_mana", () -> List.of(ShapedType.enderMana));
+        potionMana = new HandleMechanic("potion_mana",  () ->List.of(ShapedType.potionMana));
+        explosiveMana = new HandleMechanic("explosive_mana",  () ->List.of(ShapedType.explosiveMana));
+        frostyMana = new HandleMechanic("frosty_mana", () -> List.of(ShapedType.frostyMana));
+        slimeyMana = new HandleMechanic("slimey_mana",  () ->List.of(ShapedType.slimeyMana));
+        halitosisMana = new HandleMechanic("halitosis_mana", () -> List.of(ShapedType.halitosisMana));
         grind = new HandleMechanic("grind", () -> List.of(ShapedType.grind));
         wash = new HandleMechanic("wash", () -> List.of(ShapedType.wash));
         centrifugal = new HandleMechanic("centrifugal", () -> List.of(ShapedType.centrifugal));

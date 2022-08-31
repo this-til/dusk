@@ -5,6 +5,7 @@ import com.til.dusk.common.capability.handle.IHandle;
 import com.til.dusk.common.capability.handle.ShapedHandle;
 import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.register.mana_level.ManaLevel;
+import com.til.dusk.common.register.mana_level.mana_level_block.HandleMechanic;
 import com.til.dusk.common.register.mana_level.mana_level_block.ManaLevelBlock;
 import com.til.dusk.common.register.ore.Ore;
 import com.til.dusk.common.register.ore.OreBlock;
@@ -49,6 +50,42 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
      * 灵气提取
      */
     public static ShapedType extractMana;
+
+    /***
+     * 解咒转灵
+     */
+    public static ShapedType dischantmentMana;
+
+    /***
+     * 末影转灵
+     */
+    public static ShapedType enderMana;
+
+    /***
+     * 药水转灵
+     */
+    public static ShapedType potionMana;
+
+    /***
+     * 爆破转灵
+     */
+    public static ShapedType explosiveMana;
+
+    /***
+     * 寒霜转灵
+     */
+    public static ShapedType frostyMana;
+
+    /***
+     * 粘液转灵
+     */
+    public static ShapedType slimeyMana;
+
+    /***
+     * 口臭转灵
+     */
+    public static ShapedType halitosisMana;
+
 
     /***
      * 研磨
@@ -159,6 +196,48 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
     public static void onEvent(NewRegistryEvent event) {
         SHAPED_TYPE = event.create(new RegistryBuilder<ShapedType>().setName(new ResourceLocation(Dusk.MOD_ID, "shaped_type")));
         extractMana = new ShapedType("extract_mana", () -> ManaLevelBlock.grind) {
+            @Override
+            public void registerSubsidiaryBlack() {
+
+            }
+        };
+        dischantmentMana = new ShapedType("dischantment_mana", () -> ManaLevelBlock.dischantmentMana) {
+            @Override
+            public void registerSubsidiaryBlack() {
+
+            }
+        };
+        enderMana = new ShapedType("ender_mana", () -> ManaLevelBlock.enderMana) {
+            @Override
+            public void registerSubsidiaryBlack() {
+
+            }
+        };
+        potionMana = new ShapedType("potion_mana", () -> ManaLevelBlock.potionMana) {
+            @Override
+            public void registerSubsidiaryBlack() {
+
+            }
+        };
+        explosiveMana = new ShapedType("explosive_mana", () -> ManaLevelBlock.explosiveMana) {
+            @Override
+            public void registerSubsidiaryBlack() {
+
+            }
+        };
+        frostyMana = new ShapedType("frosty_mana", () -> ManaLevelBlock.frostyMana) {
+            @Override
+            public void registerSubsidiaryBlack() {
+
+            }
+        };
+        slimeyMana = new ShapedType("slimey_mana", () -> ManaLevelBlock.slimeyMana) {
+            @Override
+            public void registerSubsidiaryBlack() {
+
+            }
+        };
+        halitosisMana = new ShapedType("halitosis_mana", () -> ManaLevelBlock.halitosisMana) {
             @Override
             public void registerSubsidiaryBlack() {
 

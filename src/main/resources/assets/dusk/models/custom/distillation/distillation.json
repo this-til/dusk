@@ -6,12 +6,12 @@
 			"to": [10, 9, 9.25],
 			"color": 7,
 			"faces": {
-				"north": {"uv": [0, 0, 4, 2], "texture": "#missing"},
-				"east": {"uv": [0, 0, 2.5, 2], "texture": "#missing"},
-				"south": {"uv": [0, 0, 4, 2], "texture": "#missing"},
-				"west": {"uv": [0, 0, 2.5, 2], "texture": "#missing"},
-				"up": {"uv": [0, 0, 4, 2.5], "texture": "#missing"},
-				"down": {"uv": [0, 0, 4, 2.5], "texture": "#missing"}
+				"north": { "texture": "#missing","tintindex": 0},
+				"east": {"texture": "#missing","tintindex": 0},
+				"south": {"texture": "#missing","tintindex": 0},
+				"west": { "texture": "#missing","tintindex": 0},
+				"up": { "texture": "#missing","tintindex": 0},
+				"down": { "texture": "#missing","tintindex": 0}
 			}
 		},
 		{
@@ -20,12 +20,12 @@
 			"rotation": {"angle": 45, "axis": "y", "origin": [8, 8, 8]},
 			"color": 7,
 			"faces": {
-				"north": {"uv": [0, 0, 2, 4.5], "texture": "#missing"},
-				"east": {"uv": [0, 0, 2, 4.5], "texture": "#missing"},
-				"south": {"uv": [0, 0, 2, 4.5], "texture": "#missing"},
-				"west": {"uv": [0, 0, 2, 4.5], "texture": "#missing"},
-				"up": {"uv": [0, 0, 2, 2], "texture": "#missing"},
-				"down": {"uv": [0, 0, 2, 2], "texture": "#missing"}
+				"north": { "texture": "#missing","tintindex": 0},
+				"east": {"texture": "#missing","tintindex": 0},
+				"south": {"texture": "#missing","tintindex": 0},
+				"west": { "texture": "#missing","tintindex": 0},
+				"up": { "texture": "#missing","tintindex": 0},
+				"down": { "texture": "#missing","tintindex": 0}
 			}
 		},
 		{
@@ -34,12 +34,12 @@
 			"rotation": {"angle": -45, "axis": "z", "origin": [7.5, 8, 7.5]},
 			"color": 7,
 			"faces": {
-				"north": {"uv": [0, 0, 2.25, 2.25], "texture": "#missing"},
-				"east": {"uv": [0, 0, 4, 2.25], "texture": "#missing"},
-				"south": {"uv": [0, 0, 2.25, 2.25], "texture": "#missing"},
-				"west": {"uv": [0, 0, 4, 2.25], "texture": "#missing"},
-				"up": {"uv": [0, 0, 2.25, 4], "texture": "#missing"},
-				"down": {"uv": [0, 0, 2.25, 4], "texture": "#missing"}
+				"north": { "texture": "#missing","tintindex": 0},
+				"east": {"texture": "#missing","tintindex": 0},
+				"south": {"texture": "#missing","tintindex": 0},
+				"west": { "texture": "#missing","tintindex": 0},
+				"up": { "texture": "#missing","tintindex": 0},
+				"down": { "texture": "#missing","tintindex": 0}
 			}
 		}
 	]
