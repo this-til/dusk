@@ -34,4 +34,6 @@ public class ColorPrefab {
      */
     public static final Color MOONLIGHT_COLOR = new Color(0, 125, 255, 255);
 
+    public static final Color RAIN_COLOR = new Color(110, 174, 255, 255);
+
 }

@@ -229,11 +229,11 @@ public class ModItem {
                 }
                 IControl iControl = lazyOptional.orElse(null);
                 Pos sPos = new Pos(controlBlockPos);
-                ParticleRegister.block.add(serverPlayer, sPos, new Pos(), ColorPrefab.CONTROL_TAG, 10);
+                ParticleRegister.block.add(serverPlayer, ColorPrefab.CONTROL_TAG, 10, sPos);
                 for (Map.Entry<BindType, List<BlockPos>> bindTypeListEntry : iControl.getAllBind().entrySet()) {
                     for (BlockPos blockPos : bindTypeListEntry.getValue()) {
-                        ParticleRegister.line.add(serverPlayer, sPos, new Pos(blockPos), bindTypeListEntry.getKey().color, 10);
-                        ParticleRegister.block.add(serverPlayer, new Pos(blockPos), new Pos(), bindTypeListEntry.getKey().color, 10);
+                        ParticleRegister.line.add(serverPlayer, bindTypeListEntry.getKey().color, 10, sPos, new Pos(blockPos));
+                        ParticleRegister.block.add(serverPlayer, bindTypeListEntry.getKey().color, 10, new Pos(blockPos), new Pos());
                     }
                 }
             });

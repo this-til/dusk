@@ -59,15 +59,26 @@ public abstract class MessageRegister<MSG> extends RegisterBasics<MessageRegiste
             @Override
             public void encoder(ParticleRegister.Data data, FriendlyByteBuf friendlyByteBuf) {
                 friendlyByteBuf.writeUtf(data.type);
-                data.start.write(friendlyByteBuf);
-                data.end.write(friendlyByteBuf);
                 friendlyByteBuf.writeInt(data.color.getRGB());
                 friendlyByteBuf.writeDouble(data.density);
+                friendlyByteBuf.writeInt(data.pos.length);
+                for (Pos po : data.pos) {
+                    po.write(friendlyByteBuf);
+                }
             }
 
             @Override
             public ParticleRegister.Data decoder(FriendlyByteBuf friendlyByteBuf) {
-                return new ParticleRegister.Data(friendlyByteBuf.readUtf(), new Pos(friendlyByteBuf), new Pos(friendlyByteBuf), new Color(friendlyByteBuf.readInt()), friendlyByteBuf.readDouble());
+
+                String type = friendlyByteBuf.readUtf();
+                Color color = new Color(friendlyByteBuf.readInt());
+                double density = friendlyByteBuf.readDouble();
+                int l = friendlyByteBuf.readInt();
+                Pos[] pos = new Pos[l];
+                for (int i = 0; i < l; i++) {
+                    pos[i] = new Pos(friendlyByteBuf);
+                }
+                return new ParticleRegister.Data(type, color, density, pos);
             }
         };
 

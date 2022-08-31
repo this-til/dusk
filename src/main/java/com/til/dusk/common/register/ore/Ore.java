@@ -5,11 +5,9 @@ import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.util.Extension;
 import com.til.dusk.util.StaticTag;
+import com.til.dusk.util.prefab.ColorPrefab;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.*;
@@ -70,6 +68,8 @@ public class Ore extends RegisterBasics.UnitRegister<Ore, OreItem, OreBlock, Ore
 
     public static Ore testOre;
 
+    public static Ore mana;
+
     /***
      * 日耀
      */
@@ -80,12 +80,19 @@ public class Ore extends RegisterBasics.UnitRegister<Ore, OreItem, OreBlock, Ore
      */
     public static Ore moonlight;
 
+    /***
+     * 雨灵
+     */
+    public static Ore rain;
+
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
         ORE = event.create(new RegistryBuilder<Ore>().setName(new ResourceLocation(Dusk.MOD_ID, "ore")));
+        mana = new Ore("mana", ColorPrefab.MANA_IO, ManaLevel.t1).removeTag(HAS_MINERAL_BLOCK, HAS_BLOCK, HAS_CRUSHED, HAS_DUST, IS_METAL);
         testOre = new Ore("test_ore", new Color(255, 200, 140), ManaLevel.t1);
-        sunlight = new Ore("sunlight", new Color(250, 250, 87), ManaLevel.t2).removeTag(IS_METAL).addTag(CAN_PLANT);
-        moonlight = new Ore("moonlight", new Color(45, 121, 255, 255), ManaLevel.t2).removeTag(IS_METAL).addTag(CAN_PLANT);
+        sunlight = new Ore("sunlight", ColorPrefab.SUNLIGHT_COLOR, ManaLevel.t2).removeTag(IS_METAL).addTag(CAN_PLANT);
+        moonlight = new Ore("moonlight", ColorPrefab.MOONLIGHT_COLOR, ManaLevel.t2).removeTag(IS_METAL).addTag(CAN_PLANT);
+        rain = new Ore("rain", ColorPrefab.RAIN_COLOR, ManaLevel.t2).removeTag(IS_METAL).addTag(CAN_PLANT);
     }
 
     /***
@@ -174,7 +181,7 @@ public class Ore extends RegisterBasics.UnitRegister<Ore, OreItem, OreBlock, Ore
      * 筛选副产物
      */
     @Nullable
-    public List<Extension.Data_2<ItemStack, Double>>screen(){
+    public List<Extension.Data_2<ItemStack, Double>> screen() {
         return null;
     }
 

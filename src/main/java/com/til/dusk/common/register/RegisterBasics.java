@@ -271,10 +271,14 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> {
         @Nullable
         public BlockPack create(O o) {
             Block block = createBlock(o);
+            if (block == null) {
+                return null;
+            }
             BlockItem blockItem = createBlockItem(o, block);
             return new BlockPack(block, createBlockTag(o), blockItem, createBlockItemTag(o));
         }
 
+        @Nullable
         public abstract Block createBlock(O o);
 
         public TagKey<Block> createBlockTag(O o) {

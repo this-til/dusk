@@ -23,6 +23,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.IItemHandler;
@@ -76,6 +77,7 @@ public class IOMechanic extends DefaultCapacityMechanic {
         public ManaIO(String name, Color color) {
             super(name, color);
         }
+
         @Override
         public void addCapability(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability, ManaLevel manaLevel) {
             super.addCapability(event, duskModCapability, manaLevel);
@@ -100,37 +102,28 @@ public class IOMechanic extends DefaultCapacityMechanic {
                         outMap.put(entry.getKey(), entry.getValue());
                     }
                 }
-                long needOut = 0;
-                for (IManaHandle value : outMap.values()) {
-                    needOut += value.getOutCurrentRate();
-                }
-                if (needOut == 0) {
-                    return;
-                }
-                long needIn = 0;
-                for (IManaHandle value : inMap.values()) {
-                    needIn += value.getInCurrentRate();
-                }
-                if (needIn == 0) {
-                    return;
-                }
-                long need = Math.min(needIn, needOut);
-                long inIO = 0;
                 for (Map.Entry<BlockEntity, IManaHandle> entry : inMap.entrySet()) {
-                    long in = entry.getValue().extractMana(need);
-                    MinecraftForge.EVENT_BUS.post(new EventIO.Mana(level, new Pos(entry.getKey().getBlockPos()), new Pos(event.getObject().getBlockPos()), in));
-                    need -= in;
-                    inIO += in;
-                    if (need <= 0) {
-                        break;
-                    }
-                }
-                for (Map.Entry<BlockEntity, IManaHandle> entry : outMap.entrySet()) {
-                    long out = entry.getValue().addMana(inIO);
-                    MinecraftForge.EVENT_BUS.post(new EventIO.Mana(level, new Pos(event.getObject().getBlockPos()), new Pos(entry.getKey().getBlockPos()), out));
-                    inIO -= out;
-                    if (inIO <= 0) {
-                        break;
+                    long needOutName = entry.getValue().getOutCurrentRate();
+                    for (Map.Entry<BlockEntity, IManaHandle> _entry : outMap.entrySet()) {
+                        if (needOutName == 0) {
+                            break;
+                        }
+                        long needTransferMana = Math.min(needOutName, _entry.getValue().getInCurrentRate());
+                        if (needTransferMana == 0) {
+                            continue;
+                        }
+                        long transferMana = _entry.getValue().addMana(entry.getValue().extractMana(needTransferMana));
+                        if (transferMana == 0) {
+                            continue;
+                        }
+                        needOutName -= needTransferMana;
+                        MinecraftForge.EVENT_BUS.post(new EventIO.Mana(
+                                level,
+                                transferMana,
+                                new Pos(entry.getKey().getBlockPos()),
+                                new Pos(event.getObject()),
+                                new Pos(_entry.getKey().getBlockPos())
+                        ));
                     }
                 }
             });
@@ -153,7 +146,7 @@ public class IOMechanic extends DefaultCapacityMechanic {
             super.addCapability(event, duskModCapability, manaLevel);
             IControl iControl = duskModCapability.addCapability(CapabilityRegister.iControl.capability, new Control(event.getObject(), List.of(BindType.itemIn, BindType.itemOut, BindType.manaIn), manaLevel));
             IUp iUp = duskModCapability.addCapability(CapabilityRegister.iUp.capability, new Up());
-            IClock iClock = duskModCapability.addCapability(CapabilityRegister.iClock.capability, new ManaClock(iUp, manaLevel.clock / 20, event.getObject(),iControl,4L * manaLevel.level));
+            IClock iClock = duskModCapability.addCapability(CapabilityRegister.iClock.capability, new ManaClock(iUp, manaLevel.clock / 20, event.getObject(), iControl, 4L * manaLevel.level));
             iClock.addBlock(() -> {
                 Level level = event.getObject().getLevel();
                 if (level == null) {
@@ -208,12 +201,15 @@ public class IOMechanic extends DefaultCapacityMechanic {
                     return;
                 }
                 ItemStack out = outData.d2().extractItem(outData.d4(), outData.d3().getCount(), false);
-                MinecraftForge.EVENT_BUS.post(new EventIO.Item(level, new Pos(outData.d1().getBlockPos()), new Pos(event.getObject().getBlockPos()), out));
                 for (Map.Entry<BlockEntity, IItemHandler> entry : outMap.entrySet()) {
                     ItemStack outCopy = out.copy();
                     out = ItemHandlerHelper.insertItemStacked(entry.getValue(), out, false);
                     outCopy.setCount(outCopy.getCount() - out.getCount());
-                    MinecraftForge.EVENT_BUS.post(new EventIO.Item(level, new Pos(event.getObject().getBlockPos()), new Pos(entry.getKey().getBlockPos()), outCopy));
+                    MinecraftForge.EVENT_BUS.post(new EventIO.Item(level,
+                            outCopy,
+                            new Pos(outData.d1().getBlockPos()),
+                            new Pos(event.getObject().getBlockPos()),
+                            new Pos(entry.getKey().getBlockPos())));
                     if (out.isEmpty()) {
                         return;
                     }
@@ -222,7 +218,7 @@ public class IOMechanic extends DefaultCapacityMechanic {
         }
     }
 
-    public static class FluidIO extends  IOMechanic{
+    public static class FluidIO extends IOMechanic {
         public FluidIO(ResourceLocation name, Color color) {
             super(name, color);
         }
@@ -293,13 +289,15 @@ public class IOMechanic extends DefaultCapacityMechanic {
                 if (out.isEmpty()) {
                     return;
                 }
-                MinecraftForge.EVENT_BUS.post(new EventIO.Fluid(level, new Pos(outData.d1().getBlockPos()), new Pos(event.getObject().getBlockPos()), out));
                 for (Map.Entry<BlockEntity, IFluidHandler> entry : outMap.entrySet()) {
                     int _out = entry.getValue().fill(out, IFluidHandler.FluidAction.EXECUTE);
                     FluidStack __out = out.copy();
                     __out.setAmount(_out);
                     out.setAmount(out.getAmount() - _out);
-                    MinecraftForge.EVENT_BUS.post(new EventIO.Fluid(level, new Pos(event.getObject().getBlockPos()), new Pos(entry.getKey().getBlockPos()), __out));
+                    MinecraftForge.EVENT_BUS.post(new EventIO.Fluid(level,
+                            __out, new Pos(outData.d1().getBlockPos()),
+                            new Pos(event.getObject().getBlockPos()),
+                            new Pos(entry.getKey().getBlockPos())));
                     if (out.isEmpty()) {
                         return;
                     }

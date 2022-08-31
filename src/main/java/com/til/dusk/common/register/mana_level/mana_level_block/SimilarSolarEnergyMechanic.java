@@ -17,6 +17,8 @@ import java.awt.*;
  * @author til
  */
 public class SimilarSolarEnergyMechanic extends PassiveProductionMechanic {
+
+    public static final ResourceLocation MODEL_NAME = new ResourceLocation(Dusk.MOD_ID, "solar_energy");
     public final long productionMultiple;
     public final Extension.Func_1I<Level, Boolean> isTimePass;
     public final Color color;
@@ -60,5 +62,10 @@ public class SimilarSolarEnergyMechanic extends PassiveProductionMechanic {
     public void dyeBlack(ManaLevel manaLevel, ColorProxy.ItemColorPack itemColorPack) {
         super.dyeBlack(manaLevel, itemColorPack);
         itemColorPack.addClock(1, itemStack -> color);
+    }
+
+    @Override
+    public ResourceLocation getBlockModelMapping(ManaLevel manaLevel) {
+        return MODEL_NAME;
     }
 }

@@ -37,6 +37,7 @@ import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegistryBuilder;
+import org.w3c.dom.stylesheets.LinkStyle;
 
 import java.util.*;
 import java.util.List;
@@ -78,6 +79,11 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
      * 月光晶体
      */
     public static SimilarSolarEnergyMechanic moonlight;
+
+    /***
+     * 雨灵晶体
+     */
+    public static SimilarSolarEnergyMechanic rain;
 
     /***
      * 灵气提提取器
@@ -166,6 +172,31 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
      */
     public static Mechanic makerStone;
 
+    /***
+     * 冲压机
+     */
+    public static Mechanic stampingMachine;
+
+    /***
+     * 车床
+     */
+    public static Mechanic lathe;
+
+    /***
+     * 扎线机
+     */
+    public static Mechanic tieWire;
+
+    /***
+     * 切割
+     */
+    public static Mechanic cutting;
+
+    /***
+     * 灵气凝结晶体
+     */
+    public static Mechanic manaCoagulation;
+
     //功能
 
     /***
@@ -210,8 +241,9 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
         LEVEL_BLOCK = event.create(new RegistryBuilder<ManaLevelBlock>().setName(new ResourceLocation(Dusk.MOD_ID, "mana_level_block")));
         repeater = new RepeaterMechanic("repeater");
         frameBasic = (DefaultCapacityMechanic) new DefaultCapacityMechanic("frame_basic").removeTag(NEED_FRAME_UP);
-        sunlight = new SimilarSolarEnergyMechanic("sunlight", 1, Level::isDay, ColorPrefab.SUNLIGHT_COLOR);
-        moonlight = new SimilarSolarEnergyMechanic("moonlight", 1, Level::isNight, ColorPrefab.MOONLIGHT_COLOR);
+        sunlight = new SimilarSolarEnergyMechanic("sunlight", 1, level -> level.isDay() && !level.isRaining(), ColorPrefab.SUNLIGHT_COLOR);
+        moonlight = new SimilarSolarEnergyMechanic("moonlight", 1, level -> level.isNight() && !level.isRaining(), ColorPrefab.MOONLIGHT_COLOR);
+        rain = new SimilarSolarEnergyMechanic("rain", 4, Level::isRaining, ColorPrefab.RAIN_COLOR);
         extractMana = new HandleMechanic("extract_mana", () -> List.of(ShapedType.extractMana));
         grind = new HandleMechanic("grind", () -> List.of(ShapedType.grind));
         wash = new HandleMechanic("wash", () -> List.of(ShapedType.wash));
@@ -229,6 +261,11 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
         screen = new HandleMechanic("screen", () -> List.of(ShapedType.screen));
         furnace = new HandleMechanic("furnace", () -> List.of(ShapedType.furnace));
         makerStone = new HandleMechanic("maker_stone", () -> List.of(ShapedType.makerStone));
+        stampingMachine = new HandleMechanic("stamping_machine", () -> List.of(ShapedType.stampingMachine));
+        lathe = new HandleMechanic("lathe", () -> List.of(ShapedType.lathe));
+        tieWire = new HandleMechanic("tie_wire", () -> List.of(ShapedType.tieWire));
+        cutting = new HandleMechanic("cutting", () -> List.of(ShapedType.cutting));
+        manaCoagulation = new HandleMechanic("mana_coagulation", () -> List.of(ShapedType.manaCoagulation));
         voidCase = new DefaultCapacityMechanic("void_case") {
             @Override
             public void addCapability(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability, ManaLevel manaLevel) {

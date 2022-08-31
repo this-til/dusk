@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Quaternion;
 import com.mojang.math.Vector3f;
 import com.til.dusk.Dusk;
+import com.til.dusk.util.Extension;
 import com.til.dusk.util.Pos;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
@@ -105,7 +106,6 @@ public class DefaultParticle extends Particle {
             }
         }
     }
-
 
     @Override
     public void render(@NotNull VertexConsumer vertexConsumer, Camera camera, float time) {

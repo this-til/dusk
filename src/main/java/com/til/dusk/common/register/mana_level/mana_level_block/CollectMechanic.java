@@ -74,14 +74,16 @@ public class CollectMechanic extends DefaultCapacityMechanic {
                     return;
                 }
                 ItemStack itemStack = itemEntity.getItem().copy();
-                MinecraftForge.EVENT_BUS.post(new EventIO.Item(event.getObject().getLevel(), new Pos(itemEntity),
-                        new Pos(event.getObject().getBlockPos()), itemEntity.getItem()));
                 for (Map.Entry<BlockEntity, IItemHandler> entry : outItem.entrySet()) {
                     ItemStack out = ItemHandlerHelper.insertItemStacked(entry.getValue(), itemStack, false);
                     if (out.getCount() < itemStack.getCount()) {
-                        MinecraftForge.EVENT_BUS.post(new EventIO.Item(event.getObject().getLevel(),
-                                new Pos(event.getObject().getBlockPos()), new Pos(entry.getKey().getBlockPos()),
-                                new ItemStack(itemStack.getItem(), itemStack.getCount() - out.getCount())));
+
+                        MinecraftForge.EVENT_BUS.post(new EventIO.Item(
+                                event.getObject().getLevel(),
+                                new ItemStack(itemStack.getItem(), itemStack.getCount() - out.getCount()),
+                                new Pos(itemEntity),
+                                new Pos(event.getObject().getBlockPos()),
+                                new Pos(entry.getKey().getBlockPos())));
                     }
                     itemStack = out;
                     if (itemStack.isEmpty()) {

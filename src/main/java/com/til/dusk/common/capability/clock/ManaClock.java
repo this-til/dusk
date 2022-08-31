@@ -42,7 +42,7 @@ public class ManaClock extends Clock implements IManaClock {
     public void up() {
         long needMana = getConsumeMana();
         time--;
-        if (time <= clock) {
+        if (time <= 0) {
             time = clock;
             if (!process.equals(ShapedHandleProcess.trippingOperation)) {
                 blackRun.forEach(Extension.Action::action);
@@ -114,7 +114,7 @@ public class ManaClock extends Clock implements IManaClock {
         iTooltip.add(Lang.getLang(Lang.getLang(CapabilityRegister.iClock), Component.literal(TagTool.timeTag.get(compoundTag) + "/" + TagTool.cycleTimeTag.get(compoundTag))));
         iTooltip.indent();
         iTooltip.add(Lang.getLang(Component.translatable(Lang.getKey("状态")), Lang.getLang(TagTool.processTag.get(compoundTag))));
-        iTooltip.add(Lang.getLang(Component.translatable(Lang.getKey("消耗灵气"), Component.literal(String.valueOf(TagTool.consumeManaTag.get(compoundTag))))));
+        iTooltip.add(Lang.getLang(Component.translatable(Lang.getKey("消耗灵气")), Component.literal(String.valueOf(TagTool.consumeManaTag.get(compoundTag)))));
     }
 
 }

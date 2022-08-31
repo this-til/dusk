@@ -41,6 +41,36 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
     public static OreItem ingot;
 
     /***
+     * 板
+     */
+    public static OreItem plate;
+
+    /***
+     * 外壳
+     */
+    public static OreItem casing;
+
+    /***
+     * 箔
+     */
+    public static OreItem foil;
+
+    /***
+     * 杆
+     */
+    public static OreItem stick;
+
+    /***
+     * 长杆
+     */
+    public static OreItem stick_long;
+
+    /***
+     * 线
+     */
+    public static OreItem string;
+
+    /***
      * 粒
      */
     public static OreItem nuggets;
@@ -91,10 +121,17 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
      */
     public static OreItem dustTiny;
 
+
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
         ORE_ITEM = event.create(new RegistryBuilder<OreItem>().setName(new ResourceLocation(Dusk.MOD_ID, "ore_item")));
         ingot = new OreItem("ingot", List.of(Ore.IS_METAL));
+        plate = new OreItem("plate", List.of(Ore.IS_METAL));
+        foil = new OreItem("foil", List.of(Ore.IS_METAL));
+        casing = new OreItem("casing", List.of(Ore.IS_METAL));
+        stick = new OreItem("stick", List.of(Ore.IS_METAL));
+        stick_long = new OreItem("stick_long", List.of(Ore.IS_METAL));
+        string = new OreItem("string", List.of(Ore.IS_METAL));
         nuggets = new OreItem("nuggets", List.of(Ore.IS_METAL));
         damagedCrystal = new OreItem("crystal_damaged", List.of(Ore.IS_CRYSTA));
         crystal = new OreItem("crystal", List.of(Ore.IS_CRYSTA));

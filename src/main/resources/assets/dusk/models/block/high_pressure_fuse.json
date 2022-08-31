@@ -1,5 +1,5 @@
 {
-  "parent": "dusk:custom/sunlight/sunlight",
+  "parent": "dusk:custom/high_pressure_fuse/high_pressure_fuse",
   "render_type": "translucent",
   "textures": {
     "missing": "dusk:block/white_0",

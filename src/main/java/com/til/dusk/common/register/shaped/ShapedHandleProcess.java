@@ -79,9 +79,9 @@ public abstract class ShapedHandleProcess extends RegisterBasics<ShapedHandlePro
                             ItemStack out = ItemHandlerHelper.insertItemStacked(tileEntityIItemHandlerEntry.getValue(), needOut, false);
                             if (out.getCount() < needOut.getCount()) {
                                 MinecraftForge.EVENT_BUS.post(new EventIO.Item(event.iHandle.getThis().getLevel(),
+                                        new ItemStack(needOut.getItem(), needOut.getCount() - out.getCount()),
                                         new Pos(event.iHandle.getThis().getBlockPos()),
-                                        new Pos(tileEntityIItemHandlerEntry.getKey().getBlockPos()),
-                                        new ItemStack(needOut.getItem(), needOut.getCount() - out.getCount())));
+                                        new Pos(tileEntityIItemHandlerEntry.getKey().getBlockPos())));
                             }
 
                             needOut = out;
@@ -103,9 +103,9 @@ public abstract class ShapedHandleProcess extends RegisterBasics<ShapedHandlePro
                             int surplus = tileEntityIFluidHandlerEntry.getValue().fill(needOut, IFluidHandler.FluidAction.EXECUTE);
                             if (surplus > 0) {
                                 MinecraftForge.EVENT_BUS.post(new EventIO.Fluid(event.iHandle.getThis().getLevel(),
+                                        new FluidStack(needOut.getFluid(), surplus),
                                         new Pos(event.iHandle.getThis().getBlockPos()),
-                                        new Pos(tileEntityIFluidHandlerEntry.getKey().getBlockPos()),
-                                        new FluidStack(needOut.getFluid(), surplus)));
+                                        new Pos(tileEntityIFluidHandlerEntry.getKey().getBlockPos())));
                             }
                             needOut.setAmount(needOut.getAmount() - surplus);
                             if (needOut.getAmount() <= 0) {

@@ -211,8 +211,8 @@ public abstract class Shaped extends RegisterBasics<Shaped> {
                         ItemStack outItemStack = entry.getValue().extractItem(i, needItem, isSimulated);
                         needItem = needItem - outItemStack.getCount();
                         if (!isSimulated) {
-                            MinecraftForge.EVENT_BUS.post(new EventIO.Item(iControl.getThis().getLevel(), new Pos(entry.getKey().getBlockPos()),
-                                    new Pos(iControl.getThis().getBlockPos()), outItemStack.copy()));
+                            MinecraftForge.EVENT_BUS.post(new EventIO.Item(iControl.getThis().getLevel(), outItemStack.copy(), new Pos(entry.getKey().getBlockPos()),
+                                    new Pos(iControl.getThis().getBlockPos())));
                         }
                     }
                     if (needItem == 0) {
@@ -240,9 +240,9 @@ public abstract class Shaped extends RegisterBasics<Shaped> {
                         if (isSimulated.execute()) {
                             MinecraftForge.EVENT_BUS.post(new EventIO.Fluid(
                                     iControl.getThis().getLevel(),
+                                    out.copy(),
                                     new Pos(blockEntityIFluidHandlerEntry.getKey().getBlockPos()),
-                                    new Pos(iControl.getThis().getBlockPos()),
-                                    out.copy()
+                                    new Pos(iControl.getThis().getBlockPos())
                             ));
                         }
                         if (need == 0) {

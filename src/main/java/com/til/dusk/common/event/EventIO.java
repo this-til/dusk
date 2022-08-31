@@ -15,13 +15,14 @@ public class EventIO extends Event {
 
     public final Level level;
 
-    public final Pos start;
-    public final Pos end;
+    public final Pos[] pos;
 
-    public EventIO(Level level, Pos start, Pos end) {
+    public EventIO(Level level, Pos... pos) {
         this.level = level;
-        this.start = start;
-        this.end = end;
+        if (pos == null) {
+            pos = new Pos[0];
+        }
+        this.pos = pos;
     }
 
     /***
@@ -30,8 +31,8 @@ public class EventIO extends Event {
     public static class Item extends EventIO {
         public final ItemStack itemStack;
 
-        public Item(Level level, Pos start, Pos end, ItemStack itemStack) {
-            super(level, start, end);
+        public Item(Level level, ItemStack itemStack, Pos... pos) {
+            super(level, pos);
             this.itemStack = itemStack;
         }
     }
@@ -42,8 +43,8 @@ public class EventIO extends Event {
     public static class Fluid extends EventIO {
         public final FluidStack fluidStack;
 
-        public Fluid(Level level, Pos start, Pos end, FluidStack fluidStack) {
-            super(level, start, end);
+        public Fluid(Level level, FluidStack fluidStack, Pos... pos) {
+            super(level, pos);
             this.fluidStack = fluidStack;
         }
     }
@@ -54,8 +55,8 @@ public class EventIO extends Event {
     public static class Mana extends EventIO {
         public final long mana;
 
-        public Mana(Level level, Pos start, Pos end, long mana) {
-            super(level, start, end);
+        public Mana(Level level, long mana, Pos... pos) {
+            super(level, pos);
             this.mana = mana;
         }
     }

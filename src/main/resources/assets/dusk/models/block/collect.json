@@ -1,5 +1,5 @@
 {
-  "parent": "dusk:custom/moonlight/moonlight",
+  "parent": "dusk:custom/collect/collect",
   "render_type": "translucent",
   "textures": {
     "missing": "dusk:block/white_0",

@@ -28,7 +28,6 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegistryBuilder;
@@ -130,6 +129,31 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
      * 造石
      */
     public static ShapedType makerStone;
+
+    /***
+     * 冲压
+     */
+    public static ShapedType stampingMachine;
+
+    /***
+     * 车床
+     */
+    public static ShapedType lathe;
+
+    /***
+     * 扎线
+     */
+    public static ShapedType tieWire;
+    /***
+     * 切割·
+     */
+    public static ShapedType cutting;
+
+    /***
+     * 灵气凝聚
+     */
+    public static ShapedType manaCoagulation;
+
 
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
@@ -703,6 +727,106 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
                         0,
                         List.of(new ItemStack(Blocks.OBSIDIAN)),
                         null);
+            }
+        };
+        stampingMachine = new ShapedType("stamping_machine", () -> ManaLevelBlock.stampingMachine) {
+            @Override
+            public void registerSubsidiaryBlack() {
+                for (Ore ore : Ore.screen(Ore.IS_METAL)) {
+                    new Shaped.ShapedOre(
+                            fuseName(this, ore, OreItem.plate),
+                            this,
+                            ShapedDrive.get(0),
+                            ore.manaLevel,
+                            Map.of(ore.itemMap.get(OreItem.ingot).itemTag(), 1),
+                            null,
+                            (long) (ore.strength * 1024L),
+                            (long) (ore.consume * 16L),
+                            0,
+                            List.of(new ItemStack(ore.itemMap.get(OreItem.plate).item(), 1)),
+                            null
+                    );
+                }
+                for (Ore ore : Ore.screen(Ore.IS_METAL)) {
+                    new Shaped.ShapedOre(
+                            fuseName(this, ore, OreItem.casing),
+                            this,
+                            ShapedDrive.get(1),
+                            ore.manaLevel,
+                            Map.of(ore.itemMap.get(OreItem.plate).itemTag(), 1),
+                            null,
+                            (long) (ore.strength * 512L),
+                            (long) (ore.consume * 16L),
+                            0,
+                            List.of(new ItemStack(ore.itemMap.get(OreItem.casing).item(), 1)),
+                            null
+                    );
+                }
+                for (Ore ore : Ore.screen(Ore.IS_METAL)) {
+                    new Shaped.ShapedOre(
+                            fuseName(this, ore, OreItem.foil),
+                            this,
+                            ShapedDrive.get(2),
+                            ore.manaLevel,
+                            Map.of(ore.itemMap.get(OreItem.plate).itemTag(), 1),
+                            null,
+                            (long) (ore.strength * 2048L),
+                            (long) (ore.consume * 12L),
+                            0,
+                            List.of(new ItemStack(ore.itemMap.get(OreItem.foil).item(), 1)),
+                            null
+                    );
+                }
+            }
+        };
+        lathe = new ShapedType("lathe", () -> ManaLevelBlock.lathe) {
+            @Override
+            public void registerSubsidiaryBlack() {
+
+            }
+        };
+        tieWire = new ShapedType("tie_wire", () -> ManaLevelBlock.tieWire) {
+            @Override
+            public void registerSubsidiaryBlack() {
+                for (Ore ore : Ore.screen(Ore.IS_METAL)) {
+                    new Shaped.ShapedOre(
+                            fuseName(this, ore, OreItem.string),
+                            this,
+                            ShapedDrive.get(1),
+                            ore.manaLevel,
+                            Map.of(ore.itemMap.get(OreItem.stick).itemTag(), 1),
+                            null,
+                            (long) (ore.strength * 1024L),
+                            (long) (ore.consume * 12L),
+                            0,
+                            List.of(new ItemStack(ore.itemMap.get(OreItem.string).item(), 1)),
+                            null
+                    );
+                }
+            }
+        };
+        manaCoagulation = new ShapedType("mana_coagulation", () -> ManaLevelBlock.manaCoagulation) {
+            @Override
+            public void registerSubsidiaryBlack() {
+                new Shaped.ShapedOre(
+                        this.name,
+                        this,
+                        ShapedDrive.get(0),
+                        ManaLevel.t1,
+                        null,
+                        null,
+                        1024L,
+                        32L,
+                        0,
+                        null,
+                        List.of(new FluidStack(Ore.mana.fluidMap.get(OreFluid.solution).source(), 1))
+                );
+            }
+        };
+        cutting = new ShapedType("cutting", () -> ManaLevelBlock.cutting) {
+            @Override
+            public void registerSubsidiaryBlack() {
+
             }
         };
     }

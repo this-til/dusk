@@ -57,6 +57,8 @@ public class Extension {
     public record Data<D>(D d1) {
     }
 
+
+
     public record Data_2<D1, D2>(D1 d1, D2 d2) {
     }
 
@@ -68,6 +70,23 @@ public class Extension {
 
     public record Data_6<D1,D2,D3,D4,D5,D6>(D1 d1, D2 d2, D3 d3, D4 d4, D5 d5, D6 d6) {}
 
+    public static class VariableData<D> {
+        public D d1;
+
+        public VariableData(D d1) {
+            this.d1 = d1;
+        }
+    }
+
+    public static class VariableData_2<D1, D2> {
+        public D1 d1;
+        public D2 d2;
+
+        public VariableData_2(D1 d1, D2 d2) {
+            this.d1 = d1;
+            this.d2 = d2;
+        }
+    }
     public static int recursionDivision(int basic, int r) {
         for (int i = 0; i < r; i++) {
             basic /= 2;

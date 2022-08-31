@@ -33,7 +33,7 @@ public class ManaHandleHelp {
             long in = entry.getValue().addMana(mana);
             inMana += in;
             mana -= in;
-            MinecraftForge.EVENT_BUS.post(new EventIO.Mana(start.getLevel(), new Pos(start.getBlockPos()), new Pos(entry.getKey().getBlockPos()), in));
+            MinecraftForge.EVENT_BUS.post(new EventIO.Mana(start.getLevel(), in, new Pos(start.getBlockPos()), new Pos(entry.getKey().getBlockPos())));
             if (mana <= 0) {
                 break;
             }
@@ -60,7 +60,7 @@ public class ManaHandleHelp {
             long out = entry.getValue().extractMana(mana);
             outMana += out;
             mana -= out;
-            MinecraftForge.EVENT_BUS.post(new EventIO.Mana(end.getLevel(), new Pos(entry.getKey().getBlockPos()), new Pos(end.getBlockPos()), out));
+            MinecraftForge.EVENT_BUS.post(new EventIO.Mana(end.getLevel(), out, new Pos(entry.getKey().getBlockPos()), new Pos(end.getBlockPos())));
             if (mana < 0) {
                 break;
             }

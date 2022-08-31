@@ -87,17 +87,15 @@ public class ParticleRegister extends RegisterBasics<ParticleRegister> {
                     if (event.mana < manaThreshold) {
                         if (random.nextFloat() < event.mana / manaThreshold) {
                             this.add(event.level,
-                                    event.start,
-                                    event.end,
                                     ColorPrefab.MANA_IO,
-                                    1);
+                                    1,
+                                    event.pos);
                         }
                     } else {
                         this.add(event.level,
-                                event.start,
-                                event.end,
                                 ColorPrefab.MANA_IO,
-                                event.mana / manaThreshold);
+                                event.mana / manaThreshold
+                                , event.pos);
                     }
                 });
             }
@@ -107,10 +105,9 @@ public class ParticleRegister extends RegisterBasics<ParticleRegister> {
             public void registerSubsidiaryBlack() {
                 MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, (Consumer<EventIO.Item>) event -> {
                     this.add(event.level,
-                            event.start,
-                            event.end,
                             ColorPrefab.ITEM_IO,
-                            1);
+                            1,
+                            event.pos);
                 });
             }
         };
@@ -120,10 +117,9 @@ public class ParticleRegister extends RegisterBasics<ParticleRegister> {
             public void registerSubsidiaryBlack() {
                 MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, (Consumer<EventIO.Fluid>) event -> {
                     this.add(event.level,
-                            event.start,
-                            event.end,
                             ColorPrefab.FLUID_IO,
-                            event.fluidStack.getAmount() / 128f);
+                            event.fluidStack.getAmount() / 128f,
+                            event.pos);
                 });
             }
         };
@@ -140,17 +136,17 @@ public class ParticleRegister extends RegisterBasics<ParticleRegister> {
         this(new ResourceLocation(Dusk.MOD_ID, name));
     }
 
-    public void add(Level world, Pos start, Pos end, Color color, double density) {
+    public void add(Level world, Color color, double density, Pos... pos) {
         if (world instanceof ServerLevel serverLevel) {
-            MAP.computeIfAbsent(serverLevel, k -> new ArrayList<>()).add(new Data(name.toString(), start, end, color, density));
+            MAP.computeIfAbsent(serverLevel, k -> new ArrayList<>()).add(new Data(name.toString(), color, density, pos));
             return;
         }
         throw new RuntimeException("在服务端了粒子创建中出现了非服务端的世界");
     }
 
-    public void add(Player player, Pos start, Pos end, Color color, double density) {
+    public void add(Player player, Color color, double density, Pos... pos) {
         if (player instanceof ServerPlayer serverPlayer) {
-            PLAYER_MAP.computeIfAbsent(serverPlayer, k -> new ArrayList<>()).add(new Data(name.toString(), start, end, color, density));
+            PLAYER_MAP.computeIfAbsent(serverPlayer, k -> new ArrayList<>()).add(new Data(name.toString(), color, density, pos));
             return;
         }
         throw new RuntimeException("在服务端了粒子创建中出现了非服务端的玩家");
@@ -161,14 +157,9 @@ public class ParticleRegister extends RegisterBasics<ParticleRegister> {
          * 粒子类型
          */
         public String type;
-        /***
-         * 开始点
-         */
-        public Pos start;
-        /***
-         * 结束点
-         */
-        public Pos end;
+
+        public Pos[] pos;
+
         /***
          * 颜色
          */
@@ -178,16 +169,14 @@ public class ParticleRegister extends RegisterBasics<ParticleRegister> {
          */
         public double density;
 
-        public Data() {
-            type = ParticleRegister.air.name.toString();
-        }
-
-        public Data(String type, Pos start, Pos end, Color color, double density) {
+        public Data(String type, Color color, double density, Pos... pos) {
             this.type = type;
-            this.start = start;
-            this.end = end;
             this.color = color;
             this.density = density;
+            this.pos = pos;
+            if (this.pos == null) {
+                this.pos = new Pos[0];
+            }
         }
 
 
