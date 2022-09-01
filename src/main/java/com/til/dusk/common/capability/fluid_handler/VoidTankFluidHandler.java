@@ -4,26 +4,18 @@ import com.til.dusk.common.capability.ITooltipCapability;
 import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.util.Lang;
 import com.til.dusk.util.TooltipPack;
-import com.til.dusk.util.tag_tool.TagTool;
+import com.til.dusk.util.nbt.pack.AllNBTPack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
-import org.checkerframework.checker.units.qual.C;
 import org.jetbrains.annotations.NotNull;
-import snownee.jade.api.BlockAccessor;
-import snownee.jade.api.config.IPluginConfig;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author til
@@ -129,13 +121,13 @@ public class VoidTankFluidHandler implements IFluidHandler, INBTSerializable<Com
     @Override
     public CompoundTag serializeNBT() {
         CompoundTag compoundTag = new CompoundTag();
-        TagTool.fluidStackTag.set(compoundTag, fluidStack == null ? FluidStack.EMPTY : fluidStack);
+        AllNBTPack.FLUID_STACK.set(compoundTag, fluidStack == null ? FluidStack.EMPTY : fluidStack);
         return compoundTag;
     }
 
     @Override
     public void deserializeNBT(CompoundTag nbt) {
-        fluidStack = TagTool.fluidStackTag.get(nbt);
+        fluidStack = AllNBTPack.FLUID_STACK.get(nbt);
         if (fluidStack.isEmpty()) {
             fluidStack = null;
         }
@@ -149,7 +141,7 @@ public class VoidTankFluidHandler implements IFluidHandler, INBTSerializable<Com
 
     @Override
     public void appendTooltip(TooltipPack iTooltip, CompoundTag compoundTag) {
-        FluidStack fluidStack = TagTool.fluidStackTag.get(compoundTag);
+        FluidStack fluidStack = AllNBTPack.FLUID_STACK.get(compoundTag);
         if (!fluidStack.isEmpty()) {
             iTooltip.add(Lang.getLang(Lang.getLang(CapabilityRegister.iFluidHandler),
                     fluidStack.getDisplayName(), Component.literal("x"), Component.literal(fluidStack.getAmount() + "mb")));

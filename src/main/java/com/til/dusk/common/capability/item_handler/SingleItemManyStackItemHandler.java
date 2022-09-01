@@ -4,7 +4,7 @@ import com.til.dusk.common.capability.ITooltipCapability;
 import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.util.Lang;
 import com.til.dusk.util.TooltipPack;
-import com.til.dusk.util.tag_tool.TagTool;
+import com.til.dusk.util.nbt.pack.AllNBTPack;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -148,19 +148,19 @@ public class SingleItemManyStackItemHandler implements IItemHandler, INBTSeriali
     @Override
     public CompoundTag serializeNBT() {
         CompoundTag compoundTag = new CompoundTag();
-        TagTool.itemStackListTag.set(compoundTag, itemStacks);
-        TagTool.itemPackTag.set(compoundTag, itemTag == null ? Items.AIR : itemTag);
+        AllNBTPack.ITEM_STACK_LIST_TAG.set(compoundTag, itemStacks);
+        AllNBTPack.ITEM.set(compoundTag, itemTag == null ? Items.AIR : itemTag);
         return compoundTag;
     }
 
     @Override
     public void deserializeNBT(CompoundTag nbt) {
         itemStacks.clear();
-        List<ItemStack> list = TagTool.itemStackListTag.get(nbt);
+        List<ItemStack> list = AllNBTPack.ITEM_STACK_LIST_TAG.get(nbt);
         for (int i = 0; i < list.size(); i++) {
             itemStacks.set(i, list.get(i));
         }
-        itemTag = TagTool.itemPackTag.get(nbt);
+        itemTag = AllNBTPack.ITEM.get(nbt);
         if (itemTag.equals(Items.AIR)) {
             itemTag = null;
         }
@@ -182,7 +182,7 @@ public class SingleItemManyStackItemHandler implements IItemHandler, INBTSeriali
         for (int i1 = 0; i1 < getSlots(); i1++) {
             itemStackList.add(getStackInSlot(i1));
         }
-        TagTool.itemStackListTag.set(compoundTag, itemStackList);
+        AllNBTPack.ITEM_STACK_LIST_TAG.set(compoundTag, itemStackList);
         return compoundTag;
     }
 
@@ -191,7 +191,7 @@ public class SingleItemManyStackItemHandler implements IItemHandler, INBTSeriali
         iTooltip.add(Lang.getLang(CapabilityRegister.iItemHandler));
         iTooltip.indent();
         Map<Item, Integer> integerMap = new HashMap<>();
-        TagTool.itemStackListTag.get(compoundTag).forEach(itemStack -> {
+        AllNBTPack.ITEM_STACK_LIST_TAG.get(compoundTag).forEach(itemStack -> {
             if (itemStack.isEmpty()) {
                 return;
             }

@@ -55,36 +55,6 @@ public class ShapedHandle {
     }
 
 
-
-    public CompoundTag serializeNBT() {
-        CompoundTag nbtTagCompound = new CompoundTag();
-
-        nbtTagCompound.putLong(SURPLUS_TIME, surplusTime);
-        nbtTagCompound.putLong(CONSUME_MANA, consumeMana);
-        nbtTagCompound.putLong(_SURPLUS_TIME, _surplusTime);
-        nbtTagCompound.putString(PROCESS, process.name.toString());
-
-        if (outItem != null && !outItem.isEmpty()) {
-            ListTag _outItem = new ListTag();
-            for (ItemStack itemStack : outItem) {
-                _outItem.add(itemStack.serializeNBT());
-            }
-            nbtTagCompound.put(OUT_ITEM, _outItem);
-        }
-
-        if (outFluid != null && !outFluid.isEmpty()) {
-            ListTag _outFuid = new ListTag();
-            for (FluidStack fluidStack : outFluid) {
-                _outFuid.add(fluidStack.writeToNBT(new CompoundTag()));
-            }
-            nbtTagCompound.put(OUT_FLUID, _outFuid);
-        }
-
-        nbtTagCompound.putLong(OUT_MANA, outMana);
-
-        return nbtTagCompound;
-    }
-
     public boolean isEmpty() {
         return (outItem == null || outItem.isEmpty()) && (outFluid == null || outFluid.isEmpty()) && outMana == 0;
     }

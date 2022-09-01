@@ -1,12 +1,11 @@
 package com.til.dusk.common.capability.clock;
 
-import com.til.dusk.common.capability.mana_level.IManaLevel;
 import com.til.dusk.common.capability.up.IUp;
 import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.util.Lang;
 import com.til.dusk.util.TooltipPack;
-import com.til.dusk.util.tag_tool.TagTool;
+import com.til.dusk.util.nbt.pack.AllNBTPack;
 import com.til.dusk.util.Extension;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -65,25 +64,25 @@ public class Clock implements IClock {
     @Override
     public CompoundTag serializeNBT() {
         CompoundTag nbtTagCompound = new CompoundTag();
-        TagTool.timeTag.set(nbtTagCompound, time);
+        AllNBTPack.TIME.set(nbtTagCompound, time);
         return nbtTagCompound;
     }
 
     @Override
     public void deserializeNBT(CompoundTag nbt) {
-        time = TagTool.timeTag.get(nbt);
+        time = AllNBTPack.TIME.get(nbt);
     }
 
     @Nullable
     @Override
     public CompoundTag appendServerData(ServerPlayer serverPlayer, Level level, BlockEntity blockEntity, boolean detailed) {
         CompoundTag compoundTag =  serializeNBT();
-        TagTool.cycleTimeTag.set(compoundTag, getCycleTime());
+        AllNBTPack.CYCLE_TIME.set(compoundTag, getCycleTime());
         return compoundTag;
     }
 
     @Override
     public void appendTooltip(TooltipPack iTooltip, CompoundTag compoundTag) {
-        iTooltip.add(Lang.getLang(Lang.getLang(CapabilityRegister.iClock), Component.literal(TagTool.timeTag.get(compoundTag) + "/" + TagTool.cycleTimeTag.get(compoundTag))));
+        iTooltip.add(Lang.getLang(Lang.getLang(CapabilityRegister.iClock), Component.literal(AllNBTPack.TIME.get(compoundTag) + "/" + AllNBTPack.CYCLE_TIME.get(compoundTag))));
     }
 }

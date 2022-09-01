@@ -5,7 +5,7 @@ import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.util.Lang;
 import com.til.dusk.util.TooltipPack;
-import com.til.dusk.util.tag_tool.TagTool;
+import com.til.dusk.util.nbt.pack.AllNBTPack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -28,13 +28,13 @@ public interface IShapedDrive extends ITooltipCapability {
     @Override
     default CompoundTag appendServerData(ServerPlayer serverPlayer, Level level, BlockEntity blockEntity, boolean detailed) {
         CompoundTag compoundTag = new CompoundTag();
-        TagTool.shapedDriveListTag.set(compoundTag, get());
+        AllNBTPack.SHAPED_DRIVE_LIST.set(compoundTag, get());
         return compoundTag;
     }
 
     @Override
     default void appendTooltip(TooltipPack iTooltip, CompoundTag compoundTag) {
-        List<ShapedDrive> shapedDriveList = TagTool.shapedDriveListTag.get(compoundTag);
+        List<ShapedDrive> shapedDriveList = AllNBTPack.SHAPED_DRIVE_LIST.get(compoundTag);
         if (shapedDriveList.isEmpty()) {
             return;
         }

@@ -3,17 +3,17 @@ package com.til.dusk.common.capability.handle;
 import com.til.dusk.common.capability.clock.IClock;
 import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.capability.mana_handle.IManaHandle;
-import com.til.dusk.common.capability.mana_level.IManaLevel;
 import com.til.dusk.common.capability.up.IUp;
+import com.til.dusk.common.data.shaped.ModShaped;
 import com.til.dusk.common.register.BindType;
 import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.util.Lang;
 import com.til.dusk.util.TooltipPack;
-import com.til.dusk.util.tag_tool.TagTool;
-import com.til.dusk.common.register.shaped.Shaped;
+import com.til.dusk.util.nbt.pack.AllNBTPack;
+import com.til.dusk.common.data.shaped.Shaped;
 import com.til.dusk.common.register.shaped.ShapedDrive;
-import com.til.dusk.common.register.shaped.ShapedType;
+import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -56,11 +56,11 @@ public class Handle implements IHandle {
 
     public Handle(BlockEntity tileEntity, List<ShapedType> shapedTypes, IControl iControl, IClock iClock, IUp up, ManaLevel maxParallel) {
         this.shapedList = new ArrayList<>();
-        Shaped.SHAPED.get().forEach(s -> {
-            if (shapedTypes.contains(s.shapedType) && maxParallel.level >= s.manaLevel.level) {
-                shapedList.add(s);
+        for (ShapedType shapedType : shapedTypes) {
+            for (List<Shaped> value : ModShaped.MAP.get(shapedType).values()) {
+                shapedList.addAll(value);
             }
-        });
+        }
         this.tileEntity = tileEntity;
         this.iControl = iControl;
         this.iClock = iClock;
@@ -185,13 +185,13 @@ public class Handle implements IHandle {
 
     @Override
     public void deserializeNBT(CompoundTag nbt) {
-        shapedHandles = TagTool.shapedHandleListTag.get(nbt);
+        shapedHandles = AllNBTPack.SHAPED_HANDLE_LIST.get(nbt);
     }
 
     @Override
     public CompoundTag serializeNBT() {
         CompoundTag nbtTagCompound = new CompoundTag();
-        TagTool.shapedHandleListTag.set(nbtTagCompound, shapedHandles);
+        AllNBTPack.SHAPED_HANDLE_LIST.set(nbtTagCompound, shapedHandles);
         return nbtTagCompound;
     }
 
@@ -204,8 +204,8 @@ public class Handle implements IHandle {
     @Override
     public CompoundTag appendServerData(ServerPlayer serverPlayer, Level level, BlockEntity blockEntity, boolean detailed) {
         CompoundTag compoundTag = serializeNBT();
-        TagTool.maxParallelTag.set(compoundTag, getParallelHandle());
-        TagTool.shapedDriveListTag.set(compoundTag, getShapedDrive());
+        AllNBTPack.MAX_PARALLEL.set(compoundTag, getParallelHandle());
+        AllNBTPack.SHAPED_DRIVE_LIST.set(compoundTag, getShapedDrive());
         return compoundTag;
     }
 
@@ -213,8 +213,8 @@ public class Handle implements IHandle {
     public void appendTooltip(TooltipPack iTooltip, CompoundTag compoundTag) {
         iTooltip.add(Lang.getLang(CapabilityRegister.iControl));
         iTooltip.add(Lang.getLang(Component.translatable(Lang.getKey("最大并行配方")),
-                Component.literal(String.valueOf(TagTool.maxParallelTag.get(compoundTag)))));
-        List<ShapedDrive> shapedDriveList = TagTool.shapedDriveListTag.get(compoundTag);
+                Component.literal(String.valueOf(AllNBTPack.MAX_PARALLEL.get(compoundTag)))));
+        List<ShapedDrive> shapedDriveList = AllNBTPack.SHAPED_DRIVE_LIST.get(compoundTag);
         StringBuilder stringBuilder = new StringBuilder();
         if (shapedDriveList.isEmpty()) {
             stringBuilder.append('[').append(']');
@@ -229,7 +229,7 @@ public class Handle implements IHandle {
         }
         iTooltip.add(Lang.getLang(Component.translatable(Lang.getKey("使用配方集")), Component.literal(stringBuilder.toString())));
 
-        List<ShapedHandle> shapedHandles = TagTool.shapedHandleListTag.get(compoundTag);
+        List<ShapedHandle> shapedHandles = AllNBTPack.SHAPED_HANDLE_LIST.get(compoundTag);
         if (shapedHandles.isEmpty()) {
             return;
         }

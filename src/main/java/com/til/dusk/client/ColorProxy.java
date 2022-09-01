@@ -15,8 +15,7 @@ import com.til.dusk.util.Extension;
 import com.til.dusk.util.pack.BlockPack;
 import com.til.dusk.util.pack.FluidPack;
 import com.til.dusk.util.pack.ItemPack;
-import com.til.dusk.util.prefab.ColorPrefab;
-import com.til.dusk.util.tag_tool.TagTool;
+import com.til.dusk.util.nbt.pack.AllNBTPack;
 import net.minecraft.client.color.block.BlockColor;
 import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.core.BlockPos;
@@ -102,7 +101,7 @@ public class ColorProxy {
             if (compoundTag == null) {
                 return new Color(-1);
             }
-            return new Color(TagTool.colorTag.get(compoundTag));
+            return new Color(AllNBTPack.COLOR.get(compoundTag));
         });
     }
 

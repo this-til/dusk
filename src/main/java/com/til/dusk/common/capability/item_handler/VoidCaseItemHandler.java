@@ -4,7 +4,7 @@ import com.til.dusk.common.capability.ITooltipCapability;
 import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.util.Lang;
 import com.til.dusk.util.TooltipPack;
-import com.til.dusk.util.tag_tool.TagTool;
+import com.til.dusk.util.nbt.pack.AllNBTPack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -118,15 +118,15 @@ public class VoidCaseItemHandler implements IItemHandler, INBTSerializable<Compo
     @Override
     public CompoundTag serializeNBT() {
         CompoundTag compoundTag = new CompoundTag();
-        TagTool.itemStackTag.set(compoundTag, itemStackTag == null ? ItemStack.EMPTY : itemStackTag);
-        TagTool.count.set(compoundTag, count);
+        AllNBTPack.ITEM_STACK.set(compoundTag, itemStackTag == null ? ItemStack.EMPTY : itemStackTag);
+        AllNBTPack.COUNT.set(compoundTag, count);
         return compoundTag;
     }
 
     @Override
     public void deserializeNBT(CompoundTag nbt) {
-        count = TagTool.count.get(nbt);
-        itemStackTag = TagTool.itemStackTag.get(nbt);
+        count = AllNBTPack.COUNT.get(nbt);
+        itemStackTag = AllNBTPack.ITEM_STACK.get(nbt);
         if (itemStackTag.isEmpty() || count <= 0) {
             itemStackTag = null;
             count = 0;
@@ -141,8 +141,8 @@ public class VoidCaseItemHandler implements IItemHandler, INBTSerializable<Compo
 
     @Override
     public void appendTooltip(TooltipPack iTooltip, CompoundTag compoundTag) {
-        ItemStack itemStack = TagTool.itemStackTag.get(compoundTag);
-        long c = TagTool.count.get(compoundTag);
+        ItemStack itemStack = AllNBTPack.ITEM_STACK.get(compoundTag);
+        long c = AllNBTPack.COUNT.get(compoundTag);
         if (!itemStack.isEmpty() && c > 0) {
             iTooltip.add(Lang.getLang(Lang.getLang(CapabilityRegister.iItemHandler), itemStack.getDisplayName(), Component.literal("x" + c)));
         } else {

@@ -153,38 +153,6 @@ public class Ore extends RegisterBasics.UnitRegister<Ore, OreItem, OreBlock, Ore
         return OreFluid.ORE_FLUID;
     }
 
-    /***
-     * 洗矿副产物
-     */
-    @Nullable
-    public List<Extension.Data_2<ItemStack, Double>> wash() {
-        return null;
-    }
-
-    /***
-     * 研磨副产物
-     */
-    @Nullable
-    public List<Extension.Data_2<ItemStack, Double>> grind() {
-        return null;
-    }
-
-    /***
-     * 离心机副产物
-     */
-    @Nullable
-    public List<Extension.Data_2<ItemStack, Double>> centrifugal() {
-        return null;
-    }
-
-    /***
-     * 筛选副产物
-     */
-    @Nullable
-    public List<Extension.Data_2<ItemStack, Double>> screen() {
-        return null;
-    }
-
     public static List<Ore> screen(StaticTag... staticTags) {
         List<Ore> oreList = new ArrayList<>();
         for (Ore ore : ORE.get()) {

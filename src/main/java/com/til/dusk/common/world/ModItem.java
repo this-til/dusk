@@ -8,7 +8,7 @@ import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.common.register.ParticleRegister;
 import com.til.dusk.common.register.key.EventKey;
 import com.til.dusk.common.register.key.KeyRegister;
-import com.til.dusk.util.tag_tool.TagTool;
+import com.til.dusk.util.nbt.pack.AllNBTPack;
 import com.til.dusk.util.Lang;
 import com.til.dusk.util.Pos;
 import com.til.dusk.util.prefab.ColorPrefab;
@@ -32,7 +32,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.*;
 import org.jetbrains.annotations.NotNull;
 
-import java.awt.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -50,7 +49,7 @@ public class ModItem {
         public @NotNull Component getName(@NotNull ItemStack stack) {
             CompoundTag compoundTag = stack.getTag();
             if (compoundTag != null) {
-                BindType bindType = TagTool.bindTypeTag.get(compoundTag);
+                BindType bindType = AllNBTPack.BIND_TYPE.get(compoundTag);
                 if (bindType != null) {
                     return Component.translatable("%s[%s]", Component.translatable(this.getDescriptionId(stack)), Lang.getLang(bindType));
                 }
@@ -88,7 +87,7 @@ public class ModItem {
                 compoundTag = new CompoundTag();
                 itemStack.setTag(compoundTag);
             }
-            BlockPos controlBlockPos = TagTool.blockPosTag.get(compoundTag);
+            BlockPos controlBlockPos = AllNBTPack.BLOCK_POS.get(compoundTag);
             if (controlBlockPos.equals(blockPos)) {
                 player.sendSystemMessage(Lang.getLang(Lang.getKey("错误，目标方块和要绑定的方块是同一方块")));
                 return InteractionResult.SUCCESS;
@@ -98,7 +97,7 @@ public class ModItem {
                 LazyOptional<IControl> iControlLazyOptional = controlBlockEntity.getCapability(CapabilityRegister.iControl.capability);
                 if (iControlLazyOptional.isPresent()) {
                     IControl iControl = iControlLazyOptional.orElse(null);
-                    BindType bindType = TagTool.bindTypeTag.get(compoundTag);
+                    BindType bindType = AllNBTPack.BIND_TYPE.get(compoundTag);
                     if (bindType == null) {
                         bindType = BindType.itemIn;
                     }
@@ -113,14 +112,14 @@ public class ModItem {
             LazyOptional<IControl> iControlLazyOptional = blockEntity.getCapability(CapabilityRegister.iControl.capability);
             if (iControlLazyOptional.isPresent()) {
                 IControl iControl = iControlLazyOptional.orElse(null);
-                TagTool.blockPosTag.set(compoundTag, blockPos);
+                AllNBTPack.BLOCK_POS.set(compoundTag, blockPos);
                 List<BindType> bindTypeList = iControl.getCanBindType();
                 if (!bindTypeList.isEmpty()) {
-                    TagTool.bindTypeTag.set(compoundTag, bindTypeList.get(0));
-                    TagTool.colorTag.set(compoundTag, bindTypeList.get(0).color.getRGB());
+                    AllNBTPack.BIND_TYPE.set(compoundTag, bindTypeList.get(0));
+                    AllNBTPack.COLOR.set(compoundTag, bindTypeList.get(0).color.getRGB());
                 } else {
-                    TagTool.bindTypeTag.set(compoundTag, BindType.itemIn);
-                    TagTool.colorTag.set(compoundTag, -1);
+                    AllNBTPack.BIND_TYPE.set(compoundTag, BindType.itemIn);
+                    AllNBTPack.COLOR.set(compoundTag, -1);
                 }
                 player.sendSystemMessage(Lang.getLang(Lang.getKey("已将目标方块设定为主绑定对象")));
             } else {
@@ -155,9 +154,9 @@ public class ModItem {
                     serverPlayer.sendSystemMessage(Component.translatable(Lang.getKey("已经清除坐标数据")));
                     compoundTag = new CompoundTag();
                     itemStack.setTag(compoundTag);
-                    TagTool.colorTag.set(compoundTag, -1);
+                    AllNBTPack.COLOR.set(compoundTag, -1);
                 } else {
-                    BlockPos controlBlockPos = TagTool.blockPosTag.get(compoundTag);
+                    BlockPos controlBlockPos = AllNBTPack.BLOCK_POS.get(compoundTag);
                     BlockEntity blockEntity = serverPlayer.getLevel().getBlockEntity(controlBlockPos);
                     if (blockEntity == null) {
                         serverPlayer.sendSystemMessage(Component.translatable(Lang.getKey("绑定控制器丢失，请重新绑定")));
@@ -175,7 +174,7 @@ public class ModItem {
                         return;
                     }
                     BindType bindType = bindTypeList.get(0);
-                    BindType nowBindType = TagTool.bindTypeTag.get(compoundTag);
+                    BindType nowBindType = AllNBTPack.BIND_TYPE.get(compoundTag);
                     boolean trigger = false;
                     for (BindType type : bindTypeList) {
                         if (type.equals(nowBindType)) {
@@ -187,8 +186,8 @@ public class ModItem {
                             break;
                         }
                     }
-                    TagTool.bindTypeTag.set(compoundTag, bindType);
-                    TagTool.colorTag.set(compoundTag, bindType.color.getRGB());
+                    AllNBTPack.BIND_TYPE.set(compoundTag, bindType);
+                    AllNBTPack.COLOR.set(compoundTag, bindType.color.getRGB());
                     serverPlayer.sendSystemMessage(Component.translatable(Lang.getKey("已经绑定类型切换至[%s]"), Lang.getLang(bindType)));
                 }
             });
@@ -216,7 +215,7 @@ public class ModItem {
                     compoundTag = new CompoundTag();
                     itemStack.setTag(compoundTag);
                 }
-                BlockPos controlBlockPos = TagTool.blockPosTag.get(compoundTag);
+                BlockPos controlBlockPos = AllNBTPack.BLOCK_POS.get(compoundTag);
                 BlockEntity blockEntity = serverPlayer.getLevel().getBlockEntity(controlBlockPos);
                 if (blockEntity == null) {
                     serverPlayer.sendSystemMessage(Component.translatable(Lang.getKey("绑定控制器丢失，请重新绑定")));

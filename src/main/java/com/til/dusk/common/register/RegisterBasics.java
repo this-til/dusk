@@ -2,11 +2,9 @@ package com.til.dusk.common.register;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.client.ColorProxy;
-import com.til.dusk.common.register.ore.Ore;
-import com.til.dusk.common.register.ore.OreBlock;
-import com.til.dusk.common.register.ore.OreFluid;
-import com.til.dusk.common.register.ore.OreItem;
-import com.til.dusk.common.world.ModBlock;
+import com.til.dusk.common.data.tag.BlockTag;
+import com.til.dusk.common.data.tag.FluidTag;
+import com.til.dusk.common.data.tag.ItemTag;
 import com.til.dusk.util.Extension;
 import com.til.dusk.util.Lang;
 import com.til.dusk.util.StaticTag;
@@ -14,8 +12,6 @@ import com.til.dusk.util.Util;
 import com.til.dusk.util.pack.BlockPack;
 import com.til.dusk.util.pack.FluidPack;
 import com.til.dusk.util.pack.ItemPack;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
@@ -24,7 +20,6 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -32,12 +27,8 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.*;
 import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fluids.capability.ItemFluidContainer;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegisterEvent;
@@ -45,7 +36,6 @@ import net.minecraftforge.registries.tags.ITagManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.awt.image.ColorModel;
 import java.util.*;
 import java.util.function.Supplier;
 
@@ -229,7 +219,7 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> {
         }
 
         public TagKey<Item> createItemTag(O o) {
-            return ItemTags.create(fuseName(o, this));
+            return ItemTags.create(fuseName("/",o, this));
         }
 
         public Item createItem(O o) {
@@ -282,7 +272,7 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> {
         public abstract Block createBlock(O o);
 
         public TagKey<Block> createBlockTag(O o) {
-            return BlockTags.create(fuseName(o, this));
+            return BlockTags.create(fuseName("/", o, this));
         }
 
         public BlockItem createBlockItem(O o, Block block) {
@@ -295,7 +285,7 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> {
         }
 
         public TagKey<Item> createBlockItemTag(O o) {
-            return ItemTags.create(fuseName(o, this));
+            return ItemTags.create(fuseName("/",o, this));
         }
 
         /***
@@ -376,7 +366,7 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> {
         }
 
         public TagKey<Fluid> createFluidTag(O o) {
-            return FluidTags.create(fuseName(o, this));
+            return FluidTags.create(fuseName("/",o, this));
         }
 
         @Nullable
@@ -386,7 +376,7 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> {
 
         @Nullable
         public TagKey<Block> createBlockTag(O o) {
-            return BlockTags.create(fuseName(o, this));
+            return BlockTags.create(fuseName("/",o, this));
         }
 
         @Nullable
@@ -401,7 +391,7 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> {
 
         @Nullable
         public TagKey<Item> createBlockItemTag(O o) {
-            return ItemTags.create(fuseName(o, this));
+            return ItemTags.create(fuseName("/",o, this));
         }
 
         @Override
@@ -453,7 +443,7 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> {
                 }
                 itemMap.put(item, itemPack);
                 itemIForgeRegistry.register(fuseName(this, item), itemPack.item());
-                itemITagManager.addOptionalTagDefaults(itemPack.itemTag(), Set.of(itemPack::item));
+                ItemTag.getInstance().addTag(itemPack.itemTag(), itemPack.item());
             }
             for (BLOCK block : blockRegistry.get()) {
                 BlockPack blockPack = block.create(Util.forcedConversion(this));
@@ -462,9 +452,9 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> {
                 }
                 blockMap.put(block, blockPack);
                 blockIForgeRegistry.register(fuseName(this, block), blockPack.block());
-                blockITagManager.addOptionalTagDefaults(blockPack.blockTag(), Set.of(blockPack::block));
+                BlockTag.getInstance().addTag(blockPack.blockTag(), blockPack.block());
                 itemIForgeRegistry.register(fuseName(this, block), blockPack.blockItem());
-                itemITagManager.addOptionalTagDefaults(blockPack.blockItemTag(), Set.of(blockPack::blockItem));
+                ItemTag.getInstance().addTag(blockPack.blockItemTag(), blockPack.blockItem());
             }
             for (FLUID fluid : fluidRegistry.get()) {
                 FluidPack fluidPack = fluid.create(Util.forcedConversion(this));
@@ -474,17 +464,18 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> {
                 fluidMap.put(fluid, fluidPack);
                 fluidIForgeRegistry.register(fuseName("_", new String[]{name.getPath(), fluid.name.getPath(), "source"}), fluidPack.source());
                 fluidIForgeRegistry.register(fuseName("_", new String[]{name.getPath(), fluid.name.getPath(), "flowing"}), fluidPack.flowing());
-                fluidITagManager.addOptionalTagDefaults(fluidPack.fluidTag(), Set.of(fluidPack::source, fluidPack::flowing));
+                FluidTag.getInstance().addTag(fluidPack.fluidTag(), fluidPack.source());
+                FluidTag.getInstance().addTag(fluidPack.fluidTag(), fluidPack.flowing());
                 if (fluidPack.liquidBlock() != null) {
                     blockIForgeRegistry.register(fuseName(this, fluid), fluidPack.liquidBlock());
                     if (fluidPack.liquidBlockTag() != null) {
-                        blockITagManager.addOptionalTagDefaults(fluidPack.liquidBlockTag(), Set.of(fluidPack::liquidBlock));
+                        BlockTag.getInstance().addTag(fluidPack.liquidBlockTag(), fluidPack.liquidBlock());
                     }
                 }
                 if (fluidPack.bucketItem() != null) {
                     itemIForgeRegistry.register(fuseName(this, fluid), fluidPack.bucketItem());
                     if (fluidPack.bucketItemTag() != null) {
-                        itemITagManager.addOptionalTagDefaults(fluidPack.bucketItemTag(), Set.of(fluidPack::bucketItem));
+                        ItemTag.getInstance().addTag(fluidPack.bucketItemTag(), fluidPack.bucketItem());
                     }
                 }
 

@@ -1,12 +1,11 @@
 package com.til.dusk.common.capability.mana_level;
 
-import com.til.dusk.common.capability.IThis;
 import com.til.dusk.common.capability.ITooltipCapability;
 import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.util.Lang;
 import com.til.dusk.util.TooltipPack;
-import com.til.dusk.util.tag_tool.TagTool;
+import com.til.dusk.util.nbt.pack.AllNBTPack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
@@ -29,14 +28,14 @@ public interface IManaLevel extends ITooltipCapability {
     @Override
    default CompoundTag appendServerData(ServerPlayer serverPlayer, Level level, BlockEntity blockEntity, boolean detailed){
         CompoundTag compoundTag = new CompoundTag();
-        TagTool.manaLevelTag.set(compoundTag, manaLevel());
+        AllNBTPack.MANA_LEVEL.set(compoundTag, manaLevel());
         return compoundTag;
 
     }
 
     @Override
     default  void appendTooltip(TooltipPack iTooltip, CompoundTag compoundTag){
-        ManaLevel manaLevel = TagTool.manaLevelTag.get(compoundTag);
+        ManaLevel manaLevel = AllNBTPack.MANA_LEVEL.get(compoundTag);
         iTooltip.add(Lang.getLang(Lang.getLang(CapabilityRegister.iManaHandle), Lang.getLang(manaLevel)));
 
     }

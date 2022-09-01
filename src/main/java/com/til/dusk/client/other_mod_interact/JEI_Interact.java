@@ -1,12 +1,13 @@
 package com.til.dusk.client.other_mod_interact;
 
 import com.til.dusk.Dusk;
+import com.til.dusk.common.data.shaped.ModShaped;
 import com.til.dusk.common.register.shaped.ShapedDrive;
-import com.til.dusk.util.tag_tool.TagTool;
+import com.til.dusk.util.nbt.pack.AllNBTPack;
 import com.til.dusk.util.Lang;
 import com.til.dusk.common.register.mana_level.ManaLevel;
-import com.til.dusk.common.register.shaped.Shaped;
-import com.til.dusk.common.register.shaped.ShapedType;
+import com.til.dusk.common.data.shaped.Shaped;
+import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.forge.ForgeTypes;
@@ -28,10 +29,7 @@ import mezz.jei.common.runtime.JeiHelpers;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.ItemTags;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraftforge.fluids.FluidStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -54,12 +52,12 @@ public class JEI_Interact implements IModPlugin {
 
     @Override
     public void registerRecipes(@NotNull IRecipeRegistration registration) {
-        for (Map.Entry<ShapedType, Map<ShapedDrive, List<Shaped>>> entry : Shaped.MAP.entrySet()) {
+        for (Map.Entry<ShapedType, Map<ShapedDrive, List<Shaped>>> entry : ModShaped.MAP.entrySet()) {
             RecipeType<Shaped> shapedRecipeType = new RecipeType<>(entry.getKey().name, Shaped.class);
             for (List<Shaped> value : entry.getValue().values()) {
                 List<Shaped> shapedList = new ArrayList<>();
                 for (Shaped shaped : value) {
-                    if (!shaped.isJEIShow) {
+                    if (!shaped.isJEIShow()) {
                         continue;
                     }
                     shapedList.add(shaped);
@@ -186,14 +184,14 @@ public class JEI_Interact implements IModPlugin {
                 if (compoundTag == null) {
                     return;
                 }
-                if (TagTool.mBTag.contains(compoundTag)) {
-                    listComponent.add(Component.literal(TagTool.mBTag.get(compoundTag) + "mb"));
+                if (AllNBTPack.MB.contains(compoundTag)) {
+                    listComponent.add(Component.literal(AllNBTPack.MB.get(compoundTag) + "mb"));
                 }
-                if (TagTool.probabilityTag.contains(compoundTag) && TagTool.probabilityTag.get(compoundTag) < 1) {
+                if (AllNBTPack.PROBABILITY.contains(compoundTag) && AllNBTPack.PROBABILITY.get(compoundTag) < 1) {
                     DecimalFormat df = new DecimalFormat("0.00%");
                     listComponent.add(Lang.getLang(Component.translatable(
                                     Lang.getKey("概率")),
-                            Component.literal(df.format(TagTool.probabilityTag.get(compoundTag)))));
+                            Component.literal(df.format(AllNBTPack.PROBABILITY.get(compoundTag)))));
                 }
             }
         }
@@ -206,11 +204,11 @@ public class JEI_Interact implements IModPlugin {
                 if (compoundTag == null) {
                     return;
                 }
-                if (TagTool.probabilityTag.contains(compoundTag) && TagTool.probabilityTag.get(compoundTag) < 1) {
+                if (AllNBTPack.PROBABILITY.contains(compoundTag) && AllNBTPack.PROBABILITY.get(compoundTag) < 1) {
                     DecimalFormat df = new DecimalFormat("0.00%");
                     listComponent.add(Lang.getLang(
                             Component.translatable(Lang.getKey("概率")),
-                            Component.literal(df.format(TagTool.probabilityTag.get(compoundTag)))));
+                            Component.literal(df.format(AllNBTPack.PROBABILITY.get(compoundTag)))));
                 }
             }
         }

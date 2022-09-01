@@ -3,9 +3,8 @@ package com.til.dusk.common.register.ore;
 import com.til.dusk.Dusk;
 import com.til.dusk.client.ColorProxy;
 import com.til.dusk.common.register.RegisterBasics;
-import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.util.Lang;
-import com.til.dusk.common.data.TagAdd;
+import com.til.dusk.common.data.tag.BlockTag;
 import com.til.dusk.util.StaticTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -20,7 +19,6 @@ import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegistryBuilder;
@@ -61,8 +59,8 @@ public abstract class OreBlock extends RegisterBasics.BlockUnitRegister<OreBlock
                         .strength((float) ore.strength, (float) (2f * ore.strength))
                         .requiresCorrectToolForDrops()
                         .sound(SoundType.STONE));
-                TagAdd.addTag(ForgeRegistries.BLOCKS, BlockTags.MINEABLE_WITH_PICKAXE, block);
-                TagAdd.addTag(ForgeRegistries.BLOCKS, BlockTags.NEEDS_STONE_TOOL, block);
+                BlockTag.getInstance().addTag(BlockTags.MINEABLE_WITH_PICKAXE, block);
+                BlockTag.getInstance().addTag(BlockTags.NEEDS_STONE_TOOL, block);
                 return block;
             }
         }.addTag(IS_MINERAL);
@@ -76,8 +74,8 @@ public abstract class OreBlock extends RegisterBasics.BlockUnitRegister<OreBlock
                         .strength((float) (1.5f * ore.strength), (float) (3f * ore.strength))
                         .requiresCorrectToolForDrops()
                         .sound(SoundType.STONE));
-                TagAdd.addTag(ForgeRegistries.BLOCKS, BlockTags.MINEABLE_WITH_PICKAXE, block);
-                TagAdd.addTag(ForgeRegistries.BLOCKS, BlockTags.NEEDS_STONE_TOOL, block);
+                BlockTag.getInstance().addTag(BlockTags.MINEABLE_WITH_PICKAXE, block);
+                BlockTag.getInstance().addTag(BlockTags.NEEDS_STONE_TOOL, block);
                 return block;
             }
         }.addTag(IS_MINERAL);
@@ -91,8 +89,8 @@ public abstract class OreBlock extends RegisterBasics.BlockUnitRegister<OreBlock
                         .strength((float) (0.5f * ore.strength), (float) ore.strength)
                         .requiresCorrectToolForDrops()
                         .sound(SoundType.GRAVEL));
-                TagAdd.addTag(ForgeRegistries.BLOCKS, BlockTags.MINEABLE_WITH_SHOVEL, block);
-                TagAdd.addTag(ForgeRegistries.BLOCKS, BlockTags.NEEDS_STONE_TOOL, block);
+                BlockTag.getInstance().addTag(BlockTags.MINEABLE_WITH_SHOVEL, block);
+                BlockTag.getInstance().addTag(BlockTags.NEEDS_STONE_TOOL, block);
                 return block;
             }
         }.addTag(IS_MINERAL);
@@ -107,8 +105,8 @@ public abstract class OreBlock extends RegisterBasics.BlockUnitRegister<OreBlock
                         .strength((float) (0.5f * ore.strength), (float) ore.strength)
                         .requiresCorrectToolForDrops()
                         .sound(SoundType.GRAVEL));
-                TagAdd.addTag(ForgeRegistries.BLOCKS, BlockTags.MINEABLE_WITH_SHOVEL, block);
-                TagAdd.addTag(ForgeRegistries.BLOCKS, BlockTags.NEEDS_STONE_TOOL, block);
+                BlockTag.getInstance().addTag(BlockTags.MINEABLE_WITH_SHOVEL, block);
+                BlockTag.getInstance().addTag(BlockTags.NEEDS_STONE_TOOL, block);
                 return block;
             }
         }.addTag(IS_MINERAL);
@@ -122,8 +120,8 @@ public abstract class OreBlock extends RegisterBasics.BlockUnitRegister<OreBlock
                         .strength((float) (0.5f * ore.strength), (float) ore.strength)
                         .requiresCorrectToolForDrops()
                         .sound(SoundType.GRAVEL));
-                TagAdd.addTag(ForgeRegistries.BLOCKS, BlockTags.MINEABLE_WITH_SHOVEL, block);
-                TagAdd.addTag(ForgeRegistries.BLOCKS, BlockTags.NEEDS_STONE_TOOL, block);
+                BlockTag.getInstance().addTag(BlockTags.MINEABLE_WITH_SHOVEL, block);
+                BlockTag.getInstance().addTag(BlockTags.NEEDS_STONE_TOOL, block);
                 return block;
             }
         }.addTag(IS_MINERAL);
@@ -138,8 +136,8 @@ public abstract class OreBlock extends RegisterBasics.BlockUnitRegister<OreBlock
                         .strength((float) (0.75f * ore.strength), (float) (1.25f * ore.strength))
                         .requiresCorrectToolForDrops()
                         .sound(SoundType.STONE));
-                TagAdd.addTag(ForgeRegistries.BLOCKS, BlockTags.MINEABLE_WITH_SHOVEL, block);
-                TagAdd.addTag(ForgeRegistries.BLOCKS, BlockTags.NEEDS_STONE_TOOL, block);
+                BlockTag.getInstance().addTag(BlockTags.MINEABLE_WITH_SHOVEL, block);
+                BlockTag.getInstance().addTag(BlockTags.NEEDS_STONE_TOOL, block);
                 return block;
             }
         }.addTag(IS_MINERAL);
@@ -153,8 +151,8 @@ public abstract class OreBlock extends RegisterBasics.BlockUnitRegister<OreBlock
                         .strength((float) (0.6f * ore.strength), (float) (1.2f * ore.strength))
                         .requiresCorrectToolForDrops()
                         .sound(SoundType.STONE));
-                TagAdd.addTag(ForgeRegistries.BLOCKS, BlockTags.MINEABLE_WITH_PICKAXE, block);
-                TagAdd.addTag(ForgeRegistries.BLOCKS, BlockTags.NEEDS_STONE_TOOL, block);
+                BlockTag.getInstance().addTag(BlockTags.MINEABLE_WITH_PICKAXE, block);
+                BlockTag.getInstance().addTag(BlockTags.NEEDS_STONE_TOOL, block);
                 return block;
             }
         }.addTag(IS_MINERAL);
@@ -168,8 +166,8 @@ public abstract class OreBlock extends RegisterBasics.BlockUnitRegister<OreBlock
                         .strength((float) (0.6f * ore.strength), (float) (1.2f * ore.strength))
                         .requiresCorrectToolForDrops()
                         .sound(SoundType.STONE));
-                TagAdd.addTag(ForgeRegistries.BLOCKS, BlockTags.MINEABLE_WITH_PICKAXE, block);
-                TagAdd.addTag(ForgeRegistries.BLOCKS, BlockTags.NEEDS_STONE_TOOL, block);
+                BlockTag.getInstance().addTag(BlockTags.MINEABLE_WITH_PICKAXE, block);
+                BlockTag.getInstance().addTag(BlockTags.NEEDS_STONE_TOOL, block);
                 return block;
             }
         };

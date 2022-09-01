@@ -5,19 +5,12 @@ import com.til.dusk.common.capability.IThis;
 import com.til.dusk.common.capability.ITooltipCapability;
 import com.til.dusk.common.register.BindType;
 
-import com.til.dusk.common.register.CapabilityRegister;
-import com.til.dusk.util.Lang;
-import com.til.dusk.util.TooltipPack;
-import com.til.dusk.util.tag_tool.TagTool;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.INBTSerializable;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
