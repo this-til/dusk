@@ -4,8 +4,8 @@ import com.til.dusk.common.register.mana_level.mana_level_block.ManaLevelBlock;
 import com.til.dusk.common.register.ore.Ore;
 import com.til.dusk.common.register.ore.OreFluid;
 import com.til.dusk.common.register.ore.OreItem;
-import com.til.dusk.common.data.shaped.Shaped;
 import com.til.dusk.common.register.shaped.ShapedDrive;
+import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
 import net.minecraftforge.fluids.FluidStack;
 
 import java.util.List;
@@ -23,8 +23,7 @@ public class DissolutionShapedType extends ShapedType{
     @Override
     public void registerSubsidiaryBlack() {
         for (Ore ore : Ore.screen(Ore.HAS_FLUID, Ore.IS_METAL)) {
-            new Shaped.ShapedOre(
-                    fuseName(this, ore, OreFluid.solution),
+            new ShapedOre(
                     this,
                     ShapedDrive.get(0),
                     ore.manaLevel,
@@ -34,11 +33,10 @@ public class DissolutionShapedType extends ShapedType{
                     (long) (ore.consume * 128L),
                     0,
                     null,
-                    List.of(new FluidStack(ore.fluidMap.get(OreFluid.solution).source(), 144)));
+                    Map.of(new FluidStack(ore.fluidMap.get(OreFluid.solution).source(), 144), 1d));
         }
         for (Ore ore : Ore.screen(Ore.HAS_FLUID, Ore.IS_CRYSTA)) {
-            new Shaped.ShapedOre(
-                    fuseName("__", this, ore, OreFluid.solution),
+            new ShapedOre(
                     this,
                     ShapedDrive.get(1),
                     ore.manaLevel,
@@ -48,11 +46,10 @@ public class DissolutionShapedType extends ShapedType{
                     (long) (ore.consume * 128L),
                     0,
                     null,
-                    List.of(new FluidStack(ore.fluidMap.get(OreFluid.solution).source(), 144)));
+                    Map.of(new FluidStack(ore.fluidMap.get(OreFluid.solution).source(), 144), 1d));
         }
         for (Ore ore : Ore.screen(Ore.HAS_FLUID, Ore.HAS_DUST)) {
-            new Shaped.ShapedOre(
-                    fuseName("___", this, ore, OreFluid.solution),
+            new ShapedOre(
                     this,
                     ShapedDrive.get(2),
                     ore.manaLevel,
@@ -62,7 +59,7 @@ public class DissolutionShapedType extends ShapedType{
                     (long) (ore.consume * 128L),
                     0,
                     null,
-                    List.of(new FluidStack(ore.fluidMap.get(OreFluid.solution).source(), 144)));
+                    Map.of(new FluidStack(ore.fluidMap.get(OreFluid.solution).source(), 144), 1d));
         }
     }
 

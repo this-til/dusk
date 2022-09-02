@@ -2,6 +2,7 @@ package com.til.dusk.util.nbt.cell;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.StringTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.IForgeRegistry;
 
@@ -11,7 +12,7 @@ import java.util.function.Supplier;
 /**
  * @author til
  */
-public class RegisterItemNBTCell<E> extends NBTCell<StringTag, E> {
+public class RegisterItemNBTCell<E> extends NBTCell<E> {
 
     public final Supplier<IForgeRegistry<E>> registrySupplier;
     public final Supplier<E> defaultItem;
@@ -31,18 +32,13 @@ public class RegisterItemNBTCell<E> extends NBTCell<StringTag, E> {
     }
 
     @Override
-    public E from(StringTag stringTag) {
+    public E from(Tag tag) {
         try {
-            E e = registrySupplier.get().getValue(new ResourceLocation(stringTag.getAsString()));
+            E e = registrySupplier.get().getValue(new ResourceLocation(tag.getAsString()));
             assert e != null;
             return e;
         } catch (Exception exception) {
             return defaultItem.get();
         }
-    }
-
-    @Override
-    public byte getaNBTId() {
-        return 8;
     }
 }

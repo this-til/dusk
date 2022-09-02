@@ -5,7 +5,7 @@ import com.til.dusk.common.capability.*;
 import com.til.dusk.common.capability.clock.IClock;
 import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.capability.up.IUp;
-import com.til.dusk.common.data.shaped.Shaped;
+import com.til.dusk.common.register.shaped.shapeds.Shaped;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;

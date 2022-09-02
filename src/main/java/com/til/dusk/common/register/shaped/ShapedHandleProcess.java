@@ -46,7 +46,7 @@ public abstract class ShapedHandleProcess extends RegisterBasics<ShapedHandlePro
         production = new ShapedHandleProcess("production") {
             @Override
             public void up(EventHandle.EventShapedHandle.Up event) {
-                if (ManaHandleHelp.extractMana(event.shapedHandle.consumeMana, event.manaIn, event.iHandle.getThis()) < event.shapedHandle.outMana) {
+                if (ManaHandleHelp.extractMana(event.shapedHandle.consumeMana, event.manaIn, event.iHandle.getThis()) < event.shapedHandle.consumeMana) {
                     event.shapedHandle.process = trippingOperation;
                     event.shapedHandle._surplusTime = event.shapedHandle.surplusTime;
                 } else {

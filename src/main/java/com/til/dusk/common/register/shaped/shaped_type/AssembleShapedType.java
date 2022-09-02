@@ -2,8 +2,8 @@ package com.til.dusk.common.register.shaped.shaped_type;
 
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.register.mana_level.mana_level_block.ManaLevelBlock;
-import com.til.dusk.common.data.shaped.Shaped;
 import com.til.dusk.common.register.shaped.ShapedDrive;
+import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.ArrayList;
@@ -31,8 +31,7 @@ public class AssembleShapedType extends ShapedType {
                 continue;
             }
             for (ManaLevelBlock manaLevelBlock : needUp) {
-                new Shaped.ShapedOre(
-                        fuseName(this, manaLevel.next.get(), manaLevelBlock),
+                new ShapedOre(
                         this,
                         ShapedDrive.get(0),
                         manaLevel,
@@ -41,7 +40,7 @@ public class AssembleShapedType extends ShapedType {
                         manaLevel.level * 1024L,
                         manaLevel.level * 32L,
                         0,
-                        List.of(new ItemStack(manaLevel.next.get().blockMap.get(manaLevelBlock).blockItem())),
+                        Map.of(new ItemStack(manaLevel.next.get().blockMap.get(manaLevelBlock).blockItem()), 1d),
                         null
                 );
             }

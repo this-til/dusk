@@ -27,6 +27,8 @@ import java.util.Map;
  */
 public class AllNBTPack {
 
+    public static final IntPack ID = new IntPack("id");
+
     public static final NBTPack<Item> ITEM = new NBTPack<>("item", AllNBTCell.ITEM);
     public static final NBTPack<Block> BLOCK = new NBTPack<>("block", AllNBTCell.BLOCK);
     public static final NBTPack<Fluid> FLUID = new NBTPack<>("fluid", AllNBTCell.FLUID);

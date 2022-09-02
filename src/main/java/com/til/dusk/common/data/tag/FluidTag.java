@@ -9,19 +9,10 @@ import java.util.List;
 import java.util.Map;
 
 public class FluidTag {
-    private static FluidTag fluidTag;
 
+    public static Map<TagKey<Fluid>, List<Fluid>> map = new HashMap<>();
 
-    public static FluidTag getInstance() {
-        if (fluidTag == null) {
-            fluidTag = new FluidTag();
-        }
-        return fluidTag;
-    }
-
-    public Map<TagKey<Fluid>, List<Fluid>> map = new HashMap<>();
-
-    public void addTag(TagKey<Fluid> tTagKey, Fluid t) {
+    public static void addTag(TagKey<Fluid> tTagKey, Fluid t) {
         List<Fluid> tList;
         if (map.containsKey(tTagKey)) {
             tList = map.get(tTagKey);

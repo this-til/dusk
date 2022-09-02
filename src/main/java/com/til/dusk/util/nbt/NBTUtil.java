@@ -4,10 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NumericTag;
-import net.minecraft.nbt.StringTag;
-import net.minecraft.nbt.Tag;
+import net.minecraft.nbt.*;
 
 import java.util.Set;
 
@@ -48,7 +45,20 @@ public class NBTUtil {
             return net.minecraft.nbt.StringTag.valueOf("null");
         }
         if (jsonElement.isJsonPrimitive()) {
-            return net.minecraft.nbt.StringTag.valueOf(jsonElement.getAsJsonPrimitive().getAsString());
+            String s = jsonElement.getAsJsonPrimitive().getAsString();
+            if (s.isEmpty()) {
+                return DoubleTag.valueOf(0);
+            }
+            String ns = s;
+            char c = s.charAt(s.length() - 1);
+            if (!Character.isDigit(c)) {
+                ns = s.substring(0, s.length() - 1);
+            }
+            try {
+                return DoubleTag.valueOf(Double.parseDouble(ns));
+            } catch (Exception e) {
+                return net.minecraft.nbt.StringTag.valueOf(jsonElement.getAsJsonPrimitive().getAsString());
+            }
         }
         if (jsonElement.isJsonArray()) {
             net.minecraft.nbt.ListTag listTag = new net.minecraft.nbt.ListTag();
@@ -72,7 +82,7 @@ public class NBTUtil {
             return new JsonPrimitive(stringTag.getAsString());
         }
         if (tag instanceof NumericTag numericTag) {
-            return new JsonPrimitive(numericTag.getAsString());
+            return new JsonPrimitive(numericTag.getAsDouble());
         }
         if (tag instanceof net.minecraft.nbt.ListTag listTag) {
             JsonArray arrayList = new JsonArray();
@@ -90,4 +100,74 @@ public class NBTUtil {
         }
         return new JsonObject();
     }
+
+    public static Tag create(byte getaNBTId, Number numeric) {
+        switch (getaNBTId) {
+            case Tag.TAG_BYTE -> {
+                return ByteTag.valueOf(numeric.byteValue());
+            }
+            case Tag.TAG_SHORT -> {
+                return ShortTag.valueOf(numeric.shortValue());
+            }
+            case Tag.TAG_INT -> {
+                return IntTag.valueOf(numeric.intValue());
+            }
+            case Tag.TAG_LONG -> {
+                return LongTag.valueOf(numeric.longValue());
+            }
+            case Tag.TAG_FLOAT -> {
+                return FloatTag.valueOf(numeric.floatValue());
+            }
+            case Tag.TAG_DOUBLE -> {
+                return DoubleTag.valueOf(numeric.doubleValue());
+            }
+            case Tag.TAG_STRING -> {
+                return StringTag.valueOf(numeric.toString());
+            }
+            case Tag.TAG_LIST -> {
+                return new ListTag();
+            }
+            case Tag.TAG_COMPOUND -> {
+                return new CompoundTag();
+            }
+            default -> {
+                return EndTag.INSTANCE;
+            }
+        }
+    }
+
+/*    public static Tag get(byte id, String name, CompoundTag compoundTag) {
+        switch (id) {
+            case Tag.TAG_BYTE -> {
+                return compoundTag.getA
+            }
+            case Tag.TAG_SHORT -> {
+                return ShortTag.valueOf(numeric.shortValue());
+            }
+            case Tag.TAG_INT -> {
+                return IntTag.valueOf(numeric.intValue());
+            }
+            case Tag.TAG_LONG -> {
+                return LongTag.valueOf(numeric.longValue());
+            }
+            case Tag.TAG_FLOAT -> {
+                return FloatTag.valueOf(numeric.floatValue());
+            }
+            case Tag.TAG_DOUBLE -> {
+                return DoubleTag.valueOf(numeric.doubleValue());
+            }
+            case Tag.TAG_STRING -> {
+                return StringTag.valueOf(numeric.toString());
+            }
+            case Tag.TAG_LIST -> {
+                return new ListTag();
+            }
+            case Tag.TAG_COMPOUND -> {
+                return new CompoundTag()
+            }
+            default -> {
+                return EndTag.INSTANCE;
+            }
+        }
+    }*/
 }

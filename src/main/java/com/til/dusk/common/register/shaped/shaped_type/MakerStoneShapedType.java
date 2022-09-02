@@ -3,8 +3,8 @@ package com.til.dusk.common.register.shaped.shaped_type;
 
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.register.mana_level.mana_level_block.ManaLevelBlock;
-import com.til.dusk.common.data.shaped.Shaped;
 import com.til.dusk.common.register.shaped.ShapedDrive;
+import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
@@ -16,16 +16,15 @@ import java.util.Map;
 /**
  * @author til
  */
-public class MakerStoneShapedType extends ShapedType{
+public class MakerStoneShapedType extends ShapedType {
 
-    public MakerStoneShapedType(){
+    public MakerStoneShapedType() {
         super("maker_stone", () -> ManaLevelBlock.makerStone);
     }
 
     @Override
     public void registerSubsidiaryBlack() {
-        new Shaped.ShapedOre(
-                fuseName(name, Tags.Items.STONE.location()),
+        new ShapedOre(
                 this,
                 ShapedDrive.get(0),
                 ManaLevel.t1,
@@ -34,11 +33,10 @@ public class MakerStoneShapedType extends ShapedType{
                 128,
                 4L,
                 0,
-                List.of(new ItemStack(Blocks.STONE)),
+                Map.of(new ItemStack(Blocks.STONE), 1d),
                 null);
 
-        new Shaped.ShapedOre(
-                fuseName(name, Tags.Items.COBBLESTONE.location()),
+        new ShapedOre(
                 this,
                 ShapedDrive.get(1),
                 ManaLevel.t1,
@@ -47,11 +45,10 @@ public class MakerStoneShapedType extends ShapedType{
                 128,
                 4L,
                 0,
-                List.of(new ItemStack(Blocks.COBBLESTONE)),
+                Map.of(new ItemStack(Blocks.COBBLESTONE), 1d),
                 null);
 
-        new Shaped.ShapedOre(
-                fuseName(name, Tags.Items.OBSIDIAN.location()),
+        new ShapedOre(
                 this,
                 ShapedDrive.get(1),
                 ManaLevel.t1,
@@ -60,7 +57,7 @@ public class MakerStoneShapedType extends ShapedType{
                 512L,
                 4L,
                 0,
-                List.of(new ItemStack(Blocks.OBSIDIAN)),
+                Map.of(new ItemStack(Blocks.OBSIDIAN), 1d),
                 null);
     }
 }

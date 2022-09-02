@@ -57,15 +57,12 @@ public class ShapedDrive extends RegisterBasics<ShapedDrive> {
     public BlockItem blockItem;
     public final List<ShapedDrive> thisShapedDriveList;
 
-    public ShapedDrive(int id) {
-        this(new ResourceLocation(Dusk.MOD_ID, ((Integer) id).toString()), id);
-    }
-
-    public ShapedDrive(ResourceLocation name, int id) {
-        super(name, SHAPED_DRIVE);
+    protected ShapedDrive(int id) {
+        super(new ResourceLocation(Dusk.MOD_ID, String.valueOf(id)), SHAPED_DRIVE);
         SHAPED_DRIVE_MAP.put(id, this);
         thisShapedDriveList = List.of(this);
     }
+
 
     @Override
     public void registerSubsidiaryBlack() {
@@ -80,7 +77,7 @@ public class ShapedDrive extends RegisterBasics<ShapedDrive> {
         Objects.requireNonNull(ForgeRegistries.BLOCKS.tags()).addOptionalTagDefaults(BlockTags.create(name), Set.of(() -> block));
         ForgeRegistries.BLOCKS.register(name, block);
 
-        blockItem = new BlockItem(block, new Item.Properties().tab(Dusk.TAB)){
+        blockItem = new BlockItem(block, new Item.Properties().tab(Dusk.TAB)) {
             @Override
             public @NotNull Component getName(@NotNull ItemStack itemStack) {
                 return Component.translatable(Lang.getKey("shaped_drive"), Component.literal(name.getPath()));

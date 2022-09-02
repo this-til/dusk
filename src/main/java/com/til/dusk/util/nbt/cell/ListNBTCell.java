@@ -7,11 +7,11 @@ import net.minecraft.nbt.Tag;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListNBTCell<E> extends NBTCell<ListTag, List<E>> {
+public class ListNBTCell<E> extends NBTCell<List<E>> {
 
-    protected final NBTCell<?, E> nbtCell;
+    protected final NBTCell<E> nbtCell;
 
-    public ListNBTCell(NBTCell<?, E> nbtCell) {
+    public ListNBTCell(NBTCell<E> nbtCell) {
         this.nbtCell = nbtCell;
     }
 
@@ -25,20 +25,13 @@ public class ListNBTCell<E> extends NBTCell<ListTag, List<E>> {
     }
 
     @Override
-    public List<E> from(ListTag listTag) {
+    public List<E> from(Tag tag) {
         List<E> list = new ArrayList<>();
-        for (Tag tag : listTag) {
-            if (tag.getId() != nbtCell.getaNBTId()) {
-                continue;
-            }
-            list.add(nbtCell.from(Util.forcedConversion(tag)));
+        for (Tag _tag : getAsListTag(tag)) {
+            list.add(nbtCell.from(_tag));
         }
         return list;
+
     }
 
-
-    @Override
-    public byte getaNBTId() {
-        return 9;
-    }
 }

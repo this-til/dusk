@@ -63,6 +63,21 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
      */
     public static HalitosisManaShapedType halitosisMana;
 
+    /***
+     * 烈焰转灵
+     */
+    public static FlameManaShapedType flameMana;
+
+    /***
+     * 植物转灵
+     */
+    public static BotanyManaShapedType botanyMana;
+
+    /***
+     * 食物转灵
+     */
+    public static FoodManaShapedType foodMana;
+
 
     /***
      * 研磨
@@ -184,6 +199,9 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
         frostyMana = new FrostyManaShapedType();
         slimeyMana = new SlimeyManaShapedType();
         halitosisMana = new HalitosisManaShapedType();
+        flameMana = new FlameManaShapedType();
+        botanyMana = new BotanyManaShapedType();
+        foodMana = new FoodManaShapedType();
         grind = new GrindShapedType();
         wash = new WashShapedType();
         centrifugal = new CentrifugalShapedType();

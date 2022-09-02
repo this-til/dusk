@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+/**
+ * @author til
+ */
 public class Lang {
 
     public static Component getLang(Component... components) {

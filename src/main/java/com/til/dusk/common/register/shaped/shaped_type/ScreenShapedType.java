@@ -4,14 +4,11 @@ package com.til.dusk.common.register.shaped.shaped_type;
 import com.til.dusk.common.register.mana_level.mana_level_block.ManaLevelBlock;
 import com.til.dusk.common.register.ore.Ore;
 import com.til.dusk.common.register.ore.OreItem;
-import com.til.dusk.common.data.shaped.Shaped;
 import com.til.dusk.common.register.shaped.ShapedDrive;
-import com.til.dusk.util.Extension;
+import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
 import net.minecraft.world.item.ItemStack;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class ScreenShapedType extends ShapedType {
@@ -33,8 +30,7 @@ public class ScreenShapedType extends ShapedType {
                 out.put(new ItemStack(ore.itemMap.get(OreItem.dustTiny).item(), 1), 0.6);
                 out.put(new ItemStack(ore.itemMap.get(OreItem.dust).item(), 1), 0.2);
             }
-            new Shaped.ShapedOre(
-                    fuseName(this, ore, OreItem.crystal),
+            new ShapedOre(
                     this,
                     ShapedDrive.get(0),
                     ore.manaLevel,

@@ -3,12 +3,10 @@ package com.til.dusk.common.register.shaped.shaped_type;
 import com.til.dusk.common.data.tag.ItemTag;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.register.mana_level.mana_level_block.ManaLevelBlock;
-import com.til.dusk.common.data.shaped.Shaped;
 import com.til.dusk.common.register.shaped.ShapedDrive;
-import net.minecraft.world.item.ItemStack;
+import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
 import net.minecraftforge.common.Tags;
 
-import java.util.List;
 import java.util.Map;
 
 
@@ -22,8 +20,7 @@ public class ExplosiveManaShapedType extends ShapedType {
 
     @Override
     public void registerSubsidiaryBlack() {
-        new Shaped.ShapedOre(
-                fuseName(name, Tags.Items.GUNPOWDER.location()),
+        new ShapedOre(
                 this,
                 ShapedDrive.get(0),
                 ManaLevel.t1,
@@ -31,20 +28,19 @@ public class ExplosiveManaShapedType extends ShapedType {
                 null,
                 512,
                 0,
-                8192,
-                (List<ItemStack>) null,
+                4096,
+                null,
                 null);
-        new Shaped.ShapedOre(
-                fuseName(name, ItemTag.TNT.d1().location()),
+        new ShapedOre(
                 this,
-                ShapedDrive.get(0),
+                ShapedDrive.get(1),
                 ManaLevel.t1,
                 Map.of(ItemTag.TNT.d1(), 1),
                 null,
                 4096,
                 0,
-                50000,
-                (List<ItemStack>) null,
+                25000,
+                null,
                 null);
     }
 }

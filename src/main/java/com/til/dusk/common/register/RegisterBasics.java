@@ -443,7 +443,7 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> {
                 }
                 itemMap.put(item, itemPack);
                 itemIForgeRegistry.register(fuseName(this, item), itemPack.item());
-                ItemTag.getInstance().addTag(itemPack.itemTag(), itemPack.item());
+                ItemTag.addTag(itemPack.itemTag(), itemPack.item());
             }
             for (BLOCK block : blockRegistry.get()) {
                 BlockPack blockPack = block.create(Util.forcedConversion(this));
@@ -452,9 +452,9 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> {
                 }
                 blockMap.put(block, blockPack);
                 blockIForgeRegistry.register(fuseName(this, block), blockPack.block());
-                BlockTag.getInstance().addTag(blockPack.blockTag(), blockPack.block());
+                BlockTag.addTag(blockPack.blockTag(), blockPack.block());
                 itemIForgeRegistry.register(fuseName(this, block), blockPack.blockItem());
-                ItemTag.getInstance().addTag(blockPack.blockItemTag(), blockPack.blockItem());
+                ItemTag.addTag(blockPack.blockItemTag(), blockPack.blockItem());
             }
             for (FLUID fluid : fluidRegistry.get()) {
                 FluidPack fluidPack = fluid.create(Util.forcedConversion(this));
@@ -464,18 +464,18 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> {
                 fluidMap.put(fluid, fluidPack);
                 fluidIForgeRegistry.register(fuseName("_", new String[]{name.getPath(), fluid.name.getPath(), "source"}), fluidPack.source());
                 fluidIForgeRegistry.register(fuseName("_", new String[]{name.getPath(), fluid.name.getPath(), "flowing"}), fluidPack.flowing());
-                FluidTag.getInstance().addTag(fluidPack.fluidTag(), fluidPack.source());
-                FluidTag.getInstance().addTag(fluidPack.fluidTag(), fluidPack.flowing());
+                FluidTag.addTag(fluidPack.fluidTag(), fluidPack.source());
+                FluidTag.addTag(fluidPack.fluidTag(), fluidPack.flowing());
                 if (fluidPack.liquidBlock() != null) {
                     blockIForgeRegistry.register(fuseName(this, fluid), fluidPack.liquidBlock());
                     if (fluidPack.liquidBlockTag() != null) {
-                        BlockTag.getInstance().addTag(fluidPack.liquidBlockTag(), fluidPack.liquidBlock());
+                        BlockTag.addTag(fluidPack.liquidBlockTag(), fluidPack.liquidBlock());
                     }
                 }
                 if (fluidPack.bucketItem() != null) {
                     itemIForgeRegistry.register(fuseName(this, fluid), fluidPack.bucketItem());
                     if (fluidPack.bucketItemTag() != null) {
-                        ItemTag.getInstance().addTag(fluidPack.bucketItemTag(), fluidPack.bucketItem());
+                        ItemTag.addTag(fluidPack.bucketItemTag(), fluidPack.bucketItem());
                     }
                 }
 

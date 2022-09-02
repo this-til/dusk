@@ -1,12 +1,11 @@
 package com.til.dusk.client.other_mod_interact;
 
 import com.til.dusk.Dusk;
-import com.til.dusk.common.data.shaped.ModShaped;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.util.nbt.pack.AllNBTPack;
 import com.til.dusk.util.Lang;
 import com.til.dusk.common.register.mana_level.ManaLevel;
-import com.til.dusk.common.data.shaped.Shaped;
+import com.til.dusk.common.register.shaped.shapeds.Shaped;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
@@ -52,7 +51,7 @@ public class JEI_Interact implements IModPlugin {
 
     @Override
     public void registerRecipes(@NotNull IRecipeRegistration registration) {
-        for (Map.Entry<ShapedType, Map<ShapedDrive, List<Shaped>>> entry : ModShaped.MAP.entrySet()) {
+        for (Map.Entry<ShapedType, Map<ShapedDrive, List<Shaped>>> entry : Shaped.MAP.entrySet()) {
             RecipeType<Shaped> shapedRecipeType = new RecipeType<>(entry.getKey().name, Shaped.class);
             for (List<Shaped> value : entry.getValue().values()) {
                 List<Shaped> shapedList = new ArrayList<>();

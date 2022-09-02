@@ -4,14 +4,13 @@ import com.til.dusk.common.capability.clock.IClock;
 import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.capability.mana_handle.IManaHandle;
 import com.til.dusk.common.capability.up.IUp;
-import com.til.dusk.common.data.shaped.ModShaped;
 import com.til.dusk.common.register.BindType;
 import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.util.Lang;
 import com.til.dusk.util.TooltipPack;
 import com.til.dusk.util.nbt.pack.AllNBTPack;
-import com.til.dusk.common.data.shaped.Shaped;
+import com.til.dusk.common.register.shaped.shapeds.Shaped;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 import net.minecraft.nbt.CompoundTag;
@@ -57,7 +56,7 @@ public class Handle implements IHandle {
     public Handle(BlockEntity tileEntity, List<ShapedType> shapedTypes, IControl iControl, IClock iClock, IUp up, ManaLevel maxParallel) {
         this.shapedList = new ArrayList<>();
         for (ShapedType shapedType : shapedTypes) {
-            for (List<Shaped> value : ModShaped.MAP.get(shapedType).values()) {
+            for (List<Shaped> value : Shaped.MAP.get(shapedType).values()) {
                 shapedList.addAll(value);
             }
         }

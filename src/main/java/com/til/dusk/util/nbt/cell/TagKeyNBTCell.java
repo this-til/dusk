@@ -1,6 +1,7 @@
 package com.til.dusk.util.nbt.cell;
 
 import net.minecraft.nbt.StringTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -9,7 +10,7 @@ import net.minecraftforge.registries.tags.ITagManager;
 import java.util.Objects;
 import java.util.function.Supplier;
 
-public class TagKeyNBTCell<E> extends NBTCell<StringTag, TagKey<E>> {
+public class TagKeyNBTCell<E> extends NBTCell<TagKey<E>> {
     public final Supplier<ITagManager<E>> registrySupplier;
 
     public TagKeyNBTCell(Supplier<ITagManager<E>> registrySupplier) {
@@ -23,12 +24,7 @@ public class TagKeyNBTCell<E> extends NBTCell<StringTag, TagKey<E>> {
     }
 
     @Override
-    public TagKey<E> from(StringTag stringTag) {
+    public TagKey<E> from(Tag stringTag) {
         return registrySupplier.get().createTagKey(new ResourceLocation(stringTag.getAsString()));
-    }
-
-    @Override
-    public byte getaNBTId() {
-        return 8;
     }
 }

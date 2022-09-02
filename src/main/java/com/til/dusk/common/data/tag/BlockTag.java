@@ -10,21 +10,11 @@ import java.util.*;
  *
  * @author til
  */
-public class BlockTag  {
+public class BlockTag {
 
-    private static BlockTag blockTag;
+    public static Map<TagKey<Block>, List<Block>> map = new HashMap<>();
 
-
-    public static BlockTag getInstance() {
-        if (blockTag == null) {
-            blockTag = new BlockTag();
-        }
-        return blockTag;
-    }
-
-    public Map<TagKey<Block>, List<Block>> map = new HashMap<>();
-
-    public void addTag(TagKey<Block> tTagKey, Block t) {
+    public static void addTag(TagKey<Block> tTagKey, Block t) {
         List<Block> tList;
         if (map.containsKey(tTagKey)) {
             tList = map.get(tTagKey);

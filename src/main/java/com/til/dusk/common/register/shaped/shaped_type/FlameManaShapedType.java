@@ -5,19 +5,17 @@ import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.register.mana_level.mana_level_block.ManaLevelBlock;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.tags.FluidTags;
 import net.minecraftforge.common.Tags;
 
-import java.util.List;
 import java.util.Map;
 
 /**
  * @author til
  */
-public class EnderManaShapedType extends ShapedType {
-
-    public EnderManaShapedType() {
-        super("ender_mana", () -> ManaLevelBlock.enderMana);
+public class FlameManaShapedType extends ShapedType {
+    public FlameManaShapedType() {
+        super("flame_mana", () -> ManaLevelBlock.flameMana);
     }
 
     @Override
@@ -26,7 +24,18 @@ public class EnderManaShapedType extends ShapedType {
                 this,
                 ShapedDrive.get(0),
                 ManaLevel.t1,
-                Map.of(Tags.Items.END_STONES, 1),
+                null,
+                Map.of(FluidTags.WATER, 10),
+                512,
+                0,
+                8192,
+                null,
+                null);
+        new ShapedOre(
+                this,
+                ShapedDrive.get(1),
+                ManaLevel.t1,
+                Map.of(ItemTag.BLAZE_POWDER, 1),
                 null,
                 512,
                 0,
@@ -35,25 +44,15 @@ public class EnderManaShapedType extends ShapedType {
                 null);
         new ShapedOre(
                 this,
-                ShapedDrive.get(1),
-                ManaLevel.t1,
-                Map.of(Tags.Items.ENDER_PEARLS, 1),
-                null,
-                1024,
-                0,
-                16384,
-                null,
-                null);
-        new ShapedOre(
-                this,
                 ShapedDrive.get(2),
                 ManaLevel.t1,
-                Map.of(ItemTag.ENDER_EYE, 1),
+                Map.of(Tags.Items.RODS_BLAZE, 1),
                 null,
-                1024,
+                512,
                 0,
-                16384,
+                4096,
                 null,
                 null);
+
     }
 }

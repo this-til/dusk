@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class NBTMapCell<K, V> extends NBTCell<CompoundTag, Map<K, V>> {
+public class NBTMapCell<K, V> extends NBTCell<Map<K, V>> {
 
     public static final String K = "k";
     public static final String V = "v";
@@ -31,7 +31,8 @@ public class NBTMapCell<K, V> extends NBTCell<CompoundTag, Map<K, V>> {
     }
 
     @Override
-    public Map<K, V> from(CompoundTag compoundTag) {
+    public Map<K, V> from(Tag tag) {
+        CompoundTag compoundTag = getAsCompoundTag(tag);
         Tag kNBT = compoundTag.get(K);
         if (kNBT == null) {
             return new HashMap<>(0);
@@ -40,8 +41,8 @@ public class NBTMapCell<K, V> extends NBTCell<CompoundTag, Map<K, V>> {
         if (vNBT == null) {
             return new HashMap<>(0);
         }
-        List<K> kList = this.kList.from(Util.forcedConversion(kNBT));
-        List<V> vList = this.vList.from(Util.forcedConversion(vNBT));
+        List<K> kList = this.kList.from(kNBT);
+        List<V> vList = this.vList.from(vNBT);
         int s = kList.size();
         Map<K, V> map = new HashMap<>(s);
         for (int i = 0; i < s; i++) {
@@ -56,10 +57,5 @@ public class NBTMapCell<K, V> extends NBTCell<CompoundTag, Map<K, V>> {
             map.put(k, v);
         }
         return map;
-    }
-
-    @Override
-    public byte getaNBTId() {
-        return 10;
     }
 }

@@ -109,6 +109,21 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
      */
     public static HandleMechanic halitosisMana;
 
+    /***
+     * 烈焰转灵晶体
+     */
+    public static HandleMechanic flameMana;
+
+    /***
+     * 植物转灵晶体
+     */
+    public static HandleMechanic botanyMana;
+
+    /***
+     * 食物转灵晶体
+     */
+    public static HandleMechanic foodMana;
+
     //处理
 
     /***
@@ -271,6 +286,9 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
         frostyMana = new HandleMechanic("frosty_mana", () -> List.of(ShapedType.frostyMana));
         slimeyMana = new HandleMechanic("slimey_mana",  () ->List.of(ShapedType.slimeyMana));
         halitosisMana = new HandleMechanic("halitosis_mana", () -> List.of(ShapedType.halitosisMana));
+        flameMana = new HandleMechanic("flame_mana",() ->List.of( ShapedType.flameMana));
+        botanyMana = new HandleMechanic("botany_mana",() ->List.of( ShapedType.botanyMana));
+        foodMana = new HandleMechanic("food_mana",() ->List.of( ShapedType.foodMana));
         grind = new HandleMechanic("grind", () -> List.of(ShapedType.grind));
         wash = new HandleMechanic("wash", () -> List.of(ShapedType.wash));
         centrifugal = new HandleMechanic("centrifugal", () -> List.of(ShapedType.centrifugal));
