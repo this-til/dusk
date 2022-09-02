@@ -24,7 +24,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import java.awt.*;
 import java.util.List;
-import java.util.Map;
 
 public class AllNBTCell {
 
@@ -240,10 +239,10 @@ public class AllNBTCell {
         }
     };
 
-    public static final NBTMapCell<BindType, List<BlockPos>> BIND_TYPE_LIST = new NBTMapCell<>(BIND_TYPE.getListNBTCell(), BLOCK_POS.getListNBTCell().getListNBTCell());
-    public static final NBTMapCell<TagKey<Item>, Integer> ITEM_TAG_INT_MAP = new NBTMapCell<>(ITEM_TAG.getListNBTCell(), INT.getListNBTCell());
-    public static final NBTMapCell<TagKey<Fluid>, Integer> FLUID_TAG_INT_MAP = new NBTMapCell<>(FLUID_TAG.getListNBTCell(), INT.getListNBTCell());
-    public static final NBTMapCell<ItemStack, Double> ITEM_STACK_DOUBLE_MAP = new NBTMapCell<>(ITEM_STACK.getListNBTCell(), DOUBLE.getListNBTCell());
-    public static final NBTMapCell<FluidStack, Double> FLUID_STACK_DOUBLE_MAP = new NBTMapCell<>(FLUID_STATE.getListNBTCell(), DOUBLE.getListNBTCell());
+    public static final NBTTowListMapCell<BindType, List<BlockPos>> BIND_TYPE_LIST = new NBTTowListMapCell<>(BIND_TYPE.getListNBTCell(), BLOCK_POS.getListNBTCell().getListNBTCell());
+    public static final NBTTowListMapCell<TagKey<Item>, Integer> ITEM_TAG_INT_MAP = new NBTTowListMapCell<>(ITEM_TAG.getListNBTCell(), INT.getListNBTCell());
+    public static final NBTTowListMapCell<TagKey<Fluid>, Integer> FLUID_TAG_INT_MAP = new NBTTowListMapCell<>(FLUID_TAG.getListNBTCell(), INT.getListNBTCell());
+    public static final NBTTowListMapCell<ItemStack, Double> ITEM_STACK_DOUBLE_MAP = new NBTTowListMapCell<>(ITEM_STACK.getListNBTCell(), DOUBLE.getListNBTCell());
+    public static final NBTTowListMapCell<FluidStack, Double> FLUID_STACK_DOUBLE_MAP = new NBTTowListMapCell<>(FLUID_STATE.getListNBTCell(), DOUBLE.getListNBTCell());
 
 }

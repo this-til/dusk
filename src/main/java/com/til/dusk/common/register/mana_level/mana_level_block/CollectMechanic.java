@@ -60,9 +60,7 @@ public class CollectMechanic extends DefaultCapacityMechanic {
             if (outItem.isEmpty()) {
                 return;
             }
-            int numbe = 4 + manaLevel.level;
             for (ItemEntity itemEntity : itemEntityList) {
-
                 ItemStack itemStackSimulate = itemEntity.getItem().copy();
                 for (IItemHandler value : outItem.values()) {
                     itemStackSimulate = ItemHandlerHelper.insertItemStacked(value, itemStackSimulate, true);
@@ -88,12 +86,8 @@ public class CollectMechanic extends DefaultCapacityMechanic {
                     itemStack = out;
                     if (itemStack.isEmpty()) {
                         itemEntity.kill();
-                        break;
+                        return;
                     }
-                }
-                numbe--;
-                if (numbe <= 0) {
-                    return;
                 }
             }
         });

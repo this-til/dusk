@@ -58,16 +58,4 @@ public class ShapedHandle {
     public boolean isEmpty() {
         return (outItem == null || outItem.isEmpty()) && (outFluid == null || outFluid.isEmpty()) && outMana == 0;
     }
-
-    public static class EmptyShapedHandle extends ShapedHandle {
-        public EmptyShapedHandle(long surplusTime, long consumeMana, long outMana) {
-            super(surplusTime, consumeMana, outMana, null, null);
-            process = ShapedHandleProcess.out;
-        }
-
-        @Override
-        public boolean isEmpty() {
-            return true;
-        }
-    }
 }

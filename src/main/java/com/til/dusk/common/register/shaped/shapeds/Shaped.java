@@ -31,7 +31,7 @@ public abstract class Shaped {
 
     private static int shapedId = 0;
 
-    public final int id;
+    public final String name;
 
     /***
      * 配方类型
@@ -50,7 +50,7 @@ public abstract class Shaped {
 
 
     public Shaped(ShapedType shapedType, ShapedDrive shapedDrive, ManaLevel manaLevel) {
-        id = shapedId++;
+        name = String.valueOf(shapedId++);
         this.shapedType = shapedType;
         this.shapedDrive = shapedDrive;
         this.manaLevel = manaLevel;
@@ -69,7 +69,7 @@ public abstract class Shaped {
         this.shapedType = ShapedType.SHAPED_TYPE.get().getValue(new ResourceLocation(name.getNamespace(), strings[0]));
         this.shapedDrive = ShapedDrive.get(Integer.parseInt(strings[1]));
         manaLevel = AllNBTPack.MANA_LEVEL.get(compoundTag);
-        id = Integer.parseInt(strings[2]);
+        this.name = strings[2];
     }
 
 
@@ -138,16 +138,26 @@ public abstract class Shaped {
 
     @Override
     public String toString() {
-        return String.valueOf(id);
+        return String.valueOf(name);
     }
 
     /***
      * 通过名字找寻
      */
-    public static final Map<Integer, Shaped> ID_MAP = new HashMap<>();
+    public static final Map<String, Shaped> ID_MAP = new HashMap<>();
 
     public static void add(Shaped shaped) {
         MAP.computeIfAbsent(shaped.shapedType, k -> new HashMap<>(8)).computeIfAbsent(shaped.shapedDrive, k -> new ArrayList<>()).add(shaped);
-        ID_MAP.put(shaped.id, shaped);
+        ID_MAP.put(shaped.name, shaped);
+    }
+
+    public static List<Shaped> get(ShapedType... s) {
+        List<Shaped> list = new ArrayList<>();
+        for (ShapedType shapedType : s) {
+            if (MAP.containsKey(shapedType)) {
+                MAP.get(shapedType).values().forEach(list::addAll);
+            }
+        }
+        return list;
     }
 }

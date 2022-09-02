@@ -1,5 +1,6 @@
 package com.til.dusk.common.register.shaped.shaped_type;
 
+import com.til.dusk.Dusk;
 import com.til.dusk.common.capability.handle.IHandle;
 import com.til.dusk.common.capability.handle.ShapedHandle;
 import com.til.dusk.common.data.tag.ItemTag;
@@ -87,7 +88,7 @@ public class PotionManaShapedType extends ShapedType {
                         continue;
                     }
                     Potion potion = PotionUtils.getPotion(itemStack);
-                    Optional<IReverseTag<Potion>> optional = PotionsTag.POTION_TAG.getReverseTag(potion);
+                    Optional<IReverseTag<Potion>> optional = Dusk.instance.POTION_TAG.getReverseTag(potion);
                     if (optional.isEmpty()) {
                         continue;
                     }
@@ -116,9 +117,9 @@ public class PotionManaShapedType extends ShapedType {
                 @Override
                 public @NotNull List<List<ItemStack>> getItemIn() {
                     List<ItemStack> itemStackList = new ArrayList<>();
-                    List<Item> itemList = ItemTag.ITEM_TAG.getTag(ItemTag.POTIONS).stream().toList();
+                    List<Item> itemList = Dusk.instance.ITEM_TAG.getTag(ItemTag.POTIONS).stream().toList();
                     for (Potion potion : ForgeRegistries.POTIONS) {
-                        Optional<IReverseTag<Potion>> optional = PotionsTag.POTION_TAG.getReverseTag(potion);
+                        Optional<IReverseTag<Potion>> optional = Dusk.instance.POTION_TAG.getReverseTag(potion);
                         if (optional.isEmpty()) {
                             continue;
                         }

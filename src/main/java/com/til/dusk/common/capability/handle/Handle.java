@@ -54,12 +54,7 @@ public class Handle implements IHandle {
     }
 
     public Handle(BlockEntity tileEntity, List<ShapedType> shapedTypes, IControl iControl, IClock iClock, IUp up, ManaLevel maxParallel) {
-        this.shapedList = new ArrayList<>();
-        for (ShapedType shapedType : shapedTypes) {
-            for (List<Shaped> value : Shaped.MAP.get(shapedType).values()) {
-                shapedList.addAll(value);
-            }
-        }
+        this.shapedList = Shaped.get(shapedTypes.toArray(new ShapedType[0]));
         this.tileEntity = tileEntity;
         this.iControl = iControl;
         this.iClock = iClock;

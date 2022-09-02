@@ -66,8 +66,11 @@ public class ManaHandle implements IManaHandle {
             return 0;
         }
         long addMana = Math.min(Math.min(mana, this.getInCurrentRate()), this.getRemainMana());
-        this.mana += addMana;
-        MinecraftForge.EVENT_BUS.post(new EventManaHandle.Add(this, addMana));
+        if (addMana != 0) {
+            this.mana += addMana;
+            this.inRate -= addMana;
+            MinecraftForge.EVENT_BUS.post(new EventManaHandle.Add(this, addMana));
+        }
         return addMana;
     }
 
@@ -77,8 +80,11 @@ public class ManaHandle implements IManaHandle {
             return 0;
         }
         long extractMana = Math.min(Math.min(demand, this.getOutCurrentRate()), this.getMana());
-        this.mana -= extractMana;
-        MinecraftForge.EVENT_BUS.post(new EventManaHandle.Extract(this, extractMana));
+        if (extractMana != 0) {
+            this.mana -= extractMana;
+            this.outRate -= extractMana;
+            MinecraftForge.EVENT_BUS.post(new EventManaHandle.Extract(this, extractMana));
+        }
         return extractMana;
     }
 

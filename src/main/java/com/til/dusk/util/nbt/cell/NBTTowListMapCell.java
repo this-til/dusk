@@ -1,6 +1,5 @@
 package com.til.dusk.util.nbt.cell;
 
-import com.til.dusk.util.Util;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 
@@ -9,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class NBTMapCell<K, V> extends NBTCell<Map<K, V>> {
+public class NBTTowListMapCell<K, V> extends NBTCell<Map<K, V>> {
 
     public static final String K = "k";
     public static final String V = "v";
@@ -17,7 +16,7 @@ public class NBTMapCell<K, V> extends NBTCell<Map<K, V>> {
     public final ListNBTCell<K> kList;
     public final ListNBTCell<V> vList;
 
-    public NBTMapCell(ListNBTCell<K> kList, ListNBTCell<V> vList) {
+    public NBTTowListMapCell(ListNBTCell<K> kList, ListNBTCell<V> vList) {
         this.kList = kList;
         this.vList = vList;
     }

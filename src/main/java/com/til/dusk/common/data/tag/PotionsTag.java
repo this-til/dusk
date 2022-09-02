@@ -24,19 +24,9 @@ import java.util.Map;
 @Mod.EventBusSubscriber(modid = Dusk.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class PotionsTag {
 
-    public static final IForgeRegistry<Potion> POTIONS = ForgeRegistries.POTIONS;
-    public static ITagManager<Potion> POTION_TAG;
     public static Map<TagKey<Potion>, List<Potion>> map = new HashMap<>();
 
-    public static void init() {
-        if (POTION_TAG == null) {
-            POTION_TAG = POTIONS.tags();
-            assert POTION_TAG != null;
-        }
-    }
-
     public static void addTag(TagKey<Potion> tTagKey, Potion t) {
-        init();
         List<Potion> tList;
         if (map.containsKey(tTagKey)) {
             tList = map.get(tTagKey);
@@ -51,8 +41,7 @@ public class PotionsTag {
 
     @SubscribeEvent
     public static void event(NewRegistryEvent event) {
-        init();
-        NO_EFFECT = POTION_TAG.createTagKey(new ResourceLocation(Dusk.MOD_ID, "no_effect"));
+        NO_EFFECT = Dusk.instance.POTION_TAG.createTagKey(new ResourceLocation(Dusk.MOD_ID, "no_effect"));
         {
             addTag(NO_EFFECT, Potions.EMPTY);
             addTag(NO_EFFECT, Potions.WATER);

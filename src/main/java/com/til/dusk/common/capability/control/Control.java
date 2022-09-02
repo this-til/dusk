@@ -13,15 +13,13 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Control implements IControl {
 
@@ -102,6 +100,10 @@ public class Control implements IControl {
         }
         list.add(tileEntity.getBlockPos());
         MinecraftForge.EVENT_BUS.post(new EventControl.Binding(this, tileEntity, iBindType));
+        Level level = getThis().getLevel();
+        if (level != null) {
+            level.getChunk(getThis().getBlockPos()).setUnsaved(true);
+        }
         return Lang.getLang(Lang.getKey("绑定成功"));
     }
 
@@ -125,6 +127,10 @@ public class Control implements IControl {
         }
         tile.computeIfAbsent(iBindType, k -> new ArrayList<>()).remove(tileEntity.getBlockPos());
         MinecraftForge.EVENT_BUS.post(new EventControl.UnBinding(this, tileEntity, iBindType));
+        Level level = getThis().getLevel();
+        if (level != null) {
+            level.getChunk(getThis().getBlockPos()).setUnsaved(true);
+        }
         return Lang.getLang(Lang.getKey("解绑成功"));
     }
 

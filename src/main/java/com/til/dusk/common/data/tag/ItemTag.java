@@ -30,11 +30,6 @@ import java.util.Map;
 @Mod.EventBusSubscriber(modid = Dusk.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ItemTag {
 
-    public static final IForgeRegistry<Item> ITEMS = ForgeRegistries.ITEMS;
-    public static final IForgeRegistry<Block> BLOCKS = ForgeRegistries.BLOCKS;
-    public static ITagManager<Item> ITEM_TAG;
-    public static ITagManager<Block> BLOCK_TAG;
-
     public static Map<TagKey<Item>, List<Item>> map = new HashMap<>();
 
     public static void addTag(TagKey<Item> tTagKey, Item t) {
@@ -49,37 +44,24 @@ public class ItemTag {
     }
 
     public static TagKey<Item> createTag(Item item) {
-        init();
-        ResourceLocation itemName = ITEMS.getKey(item);
+        ResourceLocation itemName = ForgeRegistries.ITEMS.getKey(item);
         assert itemName != null;
-        TagKey<Item> itemTagKey = ITEM_TAG.createTagKey(itemName);
+        TagKey<Item> itemTagKey = Dusk.instance.ITEM_TAG.createTagKey(itemName);
         addTag(itemTagKey, item);
         return itemTagKey;
     }
 
     public static Extension.Data_2<TagKey<Item>, TagKey<Block>> createBlockTag(BlockItem blockItem) {
-        init();
-        ResourceLocation itemName = ITEMS.getKey(blockItem);
+        ResourceLocation itemName = ForgeRegistries.ITEMS.getKey(blockItem);
         assert itemName != null;
-        TagKey<Item> itemTagKey = ITEM_TAG.createTagKey(itemName);
+        TagKey<Item> itemTagKey = Dusk.instance.ITEM_TAG.createTagKey(itemName);
         Block block = blockItem.getBlock();
-        ResourceLocation blockName = BLOCKS.getKey(block);
+        ResourceLocation blockName = ForgeRegistries.BLOCKS.getKey(block);
         assert blockName != null;
-        TagKey<Block> blockTagKey = BLOCK_TAG.createTagKey(itemName);
+        TagKey<Block> blockTagKey = Dusk.instance.BLOCK_TAG.createTagKey(itemName);
         addTag(itemTagKey, blockItem);
         BlockTag.addTag(blockTagKey, block);
         return new Extension.Data_2<>(itemTagKey, blockTagKey);
-    }
-
-    public static void init() {
-        if (ITEM_TAG == null) {
-            ITEM_TAG = ITEMS.tags();
-            assert ITEM_TAG != null;
-        }
-        if (BLOCK_TAG == null) {
-            BLOCK_TAG = BLOCKS.tags();
-            assert BLOCK_TAG != null;
-        }
     }
 
     public static Extension.Data_2<TagKey<Item>, TagKey<Block>> TNT;
@@ -113,8 +95,8 @@ public class ItemTag {
         DRAGON_BREATH = createTag(Items.DRAGON_BREATH);
         POTION = createTag(Items.POTION);
         SPLASH_POTION = createTag(Items.SPLASH_POTION);
-        LINGERING_POTION= createTag(Items.LINGERING_POTION);
-        POTIONS = ITEM_TAG.createTagKey(new ResourceLocation("potions"));
+        LINGERING_POTION = createTag(Items.LINGERING_POTION);
+        POTIONS = Dusk.instance.ITEM_TAG.createTagKey(new ResourceLocation("potions"));
         {
             addTag(POTIONS, Items.POTION);
             addTag(POTIONS, Items.SPLASH_POTION);

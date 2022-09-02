@@ -90,7 +90,7 @@ public class ModData {
         event.getGenerator().addProvider(true, new DataProvider() {
             @Override
             public void run(@NotNull CachedOutput cachedOutput) throws IOException {
-                for (Map.Entry<Integer, Shaped> entry : Shaped.ID_MAP.entrySet()) {
+                for (Map.Entry<String, Shaped> entry : Shaped.ID_MAP.entrySet()) {
                     Shaped shaped = entry.getValue();
                     CompoundTag compoundTag = new CompoundTag();
                     AllNBTPack.CLASS.set(compoundTag, shaped.getClass());
@@ -101,7 +101,7 @@ public class ModData {
                             shaped.shapedType.name.getNamespace(),
                             shaped.shapedType.name.getPath(),
                             shaped.shapedDrive.name.getPath(),
-                            shaped.id);
+                            shaped.name);
                     Path outputPath = mainOutput.resolve(pathSuffix);
                     DataProvider.saveStable(cachedOutput, NBTUtil.toJson(compoundTag), outputPath);
                 }
