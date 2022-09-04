@@ -1,5 +1,8 @@
 package com.til.dusk.util.nbt.cell;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import com.til.dusk.Dusk;
 import com.til.dusk.common.capability.handle.ShapedHandle;
 import com.til.dusk.common.register.BindType;
@@ -7,6 +10,7 @@ import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.ShapedHandleProcess;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
+import com.til.dusk.util.nbt.NBTUtil;
 import com.til.dusk.util.nbt.pack.AllNBTPack;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.*;
@@ -25,6 +29,9 @@ import net.minecraftforge.registries.ForgeRegistries;
 import java.awt.*;
 import java.util.List;
 
+/***
+ * @author til
+ */
 public class AllNBTCell {
 
     public static final NBTCell<Integer> INT = new NBTCell<>() {
@@ -37,6 +44,16 @@ public class AllNBTCell {
         public Integer from(Tag tag) {
             return getAsNumericTag(tag).getAsInt();
         }
+
+        @Override
+        public JsonElement asJson(Integer integer) {
+            return new JsonPrimitive(integer);
+        }
+
+        @Override
+        public Integer fromJson(JsonElement json) {
+            return json.getAsInt();
+        }
     };
     public static final NBTCell<Double> DOUBLE = new NBTCell<>() {
         @Override
@@ -47,6 +64,16 @@ public class AllNBTCell {
         @Override
         public Double from(Tag tag) {
             return getAsNumericTag(tag).getAsDouble();
+        }
+
+        @Override
+        public JsonElement asJson(Double aDouble) {
+            return new JsonPrimitive(aDouble);
+        }
+
+        @Override
+        public Double fromJson(JsonElement json) {
+            return json.getAsDouble();
         }
     };
     public static final NBTCell<Float> FLOAT = new NBTCell<>() {
@@ -59,6 +86,16 @@ public class AllNBTCell {
         public Float from(Tag tag) {
             return getAsNumericTag(tag).getAsFloat();
         }
+
+        @Override
+        public JsonElement asJson(Float aFloat) {
+            return new JsonPrimitive(aFloat);
+        }
+
+        @Override
+        public Float fromJson(JsonElement json) {
+            return json.getAsFloat();
+        }
     };
     public static final NBTCell<Long> LONG = new NBTCell<>() {
         @Override
@@ -69,6 +106,16 @@ public class AllNBTCell {
         @Override
         public Long from(Tag tag) {
             return getAsNumericTag(tag).getAsLong();
+        }
+
+        @Override
+        public JsonElement asJson(Long aLong) {
+            return new JsonPrimitive(aLong);
+        }
+
+        @Override
+        public Long fromJson(JsonElement json) {
+            return json.getAsLong();
         }
     };
     public static final NBTCell<String> STRING = new NBTCell<>() {
@@ -81,6 +128,16 @@ public class AllNBTCell {
         public String from(Tag tag) {
             return tag.getAsString();
         }
+
+        @Override
+        public JsonElement asJson(String s) {
+            return new JsonPrimitive(s);
+        }
+
+        @Override
+        public String fromJson(JsonElement json) {
+            return json.getAsString();
+        }
     };
     public static final NBTCell<Boolean> BOOLEAN = new NBTCell<>() {
         @Override
@@ -91,6 +148,16 @@ public class AllNBTCell {
         @Override
         public Boolean from(Tag tag) {
             return getAsNumericTag(tag).getAsByte() != 0;
+        }
+
+        @Override
+        public JsonElement asJson(Boolean aBoolean) {
+            return new JsonPrimitive(aBoolean);
+        }
+
+        @Override
+        public Boolean fromJson(JsonElement json) {
+            return json.getAsBoolean();
         }
     };
     public static final NBTCell<Class<?>> CLASS = new NBTCell<>() {
@@ -107,6 +174,20 @@ public class AllNBTCell {
                 return Object.class;
             }
         }
+
+        @Override
+        public JsonElement asJson(Class<?> aClass) {
+            return new JsonPrimitive(aClass.getName());
+        }
+
+        @Override
+        public Class<?> fromJson(JsonElement json) {
+            try {
+                return Class.forName(json.getAsString());
+            } catch (ClassNotFoundException e) {
+                return Object.class;
+            }
+        }
     };
     public static final NBTCell<ResourceLocation> RESOURCE_LOCATION = new NBTCell<>() {
         @Override
@@ -118,6 +199,20 @@ public class AllNBTCell {
         public ResourceLocation from(Tag tag) {
             try {
                 return new ResourceLocation(tag.getAsString());
+            } catch (Exception e) {
+                return new ResourceLocation(Dusk.MOD_ID, "null");
+            }
+        }
+
+        @Override
+        public JsonElement asJson(ResourceLocation resourceLocation) {
+            return new JsonPrimitive(resourceLocation.toString());
+        }
+
+        @Override
+        public ResourceLocation fromJson(JsonElement json) {
+            try {
+                return new ResourceLocation(json.getAsString());
             } catch (Exception e) {
                 return new ResourceLocation(Dusk.MOD_ID, "null");
             }
@@ -148,6 +243,16 @@ public class AllNBTCell {
         public ItemStack from(Tag tag) {
             return ItemStack.of(getAsCompoundTag(tag));
         }
+
+        @Override
+        public JsonElement asJson(ItemStack itemStack) {
+            return NBTUtil.toJson(as(itemStack));
+        }
+
+        @Override
+        public ItemStack fromJson(JsonElement json) {
+            return from(NBTUtil.toTag(json));
+        }
     };
     public static final NBTCell<FluidStack> FLUID_STATE = new NBTCell<>() {
 
@@ -159,6 +264,16 @@ public class AllNBTCell {
         @Override
         public FluidStack from(Tag tag) {
             return FluidStack.loadFluidStackFromNBT(getAsCompoundTag(tag));
+        }
+
+        @Override
+        public JsonElement asJson(FluidStack fluidStack) {
+            return NBTUtil.toJson(as(fluidStack));
+        }
+
+        @Override
+        public FluidStack fromJson(JsonElement json) {
+            return from(NBTUtil.toTag(json));
         }
     };
     public static final NBTCell<BlockPos> BLOCK_POS = new NBTCell<>() {
@@ -180,6 +295,21 @@ public class AllNBTCell {
         public BlockPos from(Tag tag) {
             CompoundTag compoundTag = getAsCompoundTag(tag);
             return new BlockPos(compoundTag.getInt(X), compoundTag.getInt(Y), compoundTag.getInt(Z));
+        }
+
+        @Override
+        public JsonElement asJson(BlockPos blockPos) {
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty(X, blockPos.getX());
+            jsonObject.addProperty(Y, blockPos.getY());
+            jsonObject.addProperty(Z, blockPos.getZ());
+            return jsonObject;
+        }
+
+        @Override
+        public BlockPos fromJson(JsonElement json) {
+            JsonObject jsonObject = json.getAsJsonObject();
+            return new BlockPos(jsonObject.get(X).getAsInt(), jsonObject.get(Y).getAsInt(), jsonObject.get(Z).getAsInt());
         }
     };
     public static final NBTCell<Color> COLOR = new NBTCell<>() {
@@ -203,6 +333,22 @@ public class AllNBTCell {
         public Color from(Tag tag) {
             CompoundTag compoundTag = getAsCompoundTag(tag);
             return new Color(compoundTag.getInt(r), compoundTag.getInt(g), compoundTag.getInt(b), compoundTag.getInt(a));
+        }
+
+        @Override
+        public JsonElement asJson(Color color) {
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty(r, color.getRed());
+            jsonObject.addProperty(g, color.getGreen());
+            jsonObject.addProperty(b, color.getBlue());
+            jsonObject.addProperty(a, color.getAlpha());
+            return jsonObject;
+        }
+
+        @Override
+        public Color fromJson(JsonElement json) {
+            JsonObject jsonObject = json.getAsJsonObject();
+            return new Color(jsonObject.get(r).getAsFloat(), jsonObject.get(g).getAsFloat(), jsonObject.get(b).getAsFloat(), jsonObject.get(a).getAsFloat());
         }
     };
     public static final NBTCell<ShapedHandle> SHAPED_HANDLE = new NBTCell<>() {
@@ -232,17 +378,42 @@ public class AllNBTCell {
                     AllNBTPack.OUT_ITEM.get(compoundTag), AllNBTPack.OUT_FLUID.get(compoundTag));
             shapedHandle._surplusTime = AllNBTPack._SURPLUS_TIME.get(compoundTag);
             shapedHandle.process = AllNBTPack.PROCESS.get(compoundTag);
-            if (shapedHandle.process == null) {
-                shapedHandle.process = ShapedHandleProcess.trippingOperation;
+            return shapedHandle;
+        }
+
+        @Override
+        public JsonElement asJson(ShapedHandle shapedHandle) {
+            JsonObject jsonObject = new JsonObject();
+            AllNBTPack.SURPLUS_TIME.set(jsonObject, shapedHandle.surplusTime);
+            AllNBTPack.CONSUME_MANA.set(jsonObject, shapedHandle.consumeMana);
+            if (shapedHandle.outItem != null) {
+                AllNBTPack.OUT_ITEM.set(jsonObject, shapedHandle.outItem);
             }
+            if (shapedHandle.outFluid != null) {
+                AllNBTPack.OUT_FLUID.set(jsonObject, shapedHandle.outFluid);
+            }
+            AllNBTPack.OUT_MANA.set(jsonObject, shapedHandle.outMana);
+            AllNBTPack.PROCESS.set(jsonObject, shapedHandle.process);
+            AllNBTPack._SURPLUS_TIME.set(jsonObject, shapedHandle._surplusTime);
+            return jsonObject;
+        }
+
+        @Override
+        public ShapedHandle fromJson(JsonElement json) {
+            JsonObject jsonObject = json.getAsJsonObject();
+            ShapedHandle shapedHandle = new ShapedHandle(AllNBTPack.SURPLUS_TIME.get(jsonObject),
+                    AllNBTPack.CONSUME_MANA.get(jsonObject), AllNBTPack.OUT_MANA.get(jsonObject),
+                    AllNBTPack.OUT_ITEM.get(jsonObject), AllNBTPack.OUT_FLUID.get(jsonObject));
+            shapedHandle._surplusTime = AllNBTPack._SURPLUS_TIME.get(jsonObject);
+            shapedHandle.process = AllNBTPack.PROCESS.get(jsonObject);
             return shapedHandle;
         }
     };
 
-    public static final NBTTowListMapCell<BindType, List<BlockPos>> BIND_TYPE_LIST = new NBTTowListMapCell<>(BIND_TYPE.getListNBTCell(), BLOCK_POS.getListNBTCell().getListNBTCell());
-    public static final NBTTowListMapCell<TagKey<Item>, Integer> ITEM_TAG_INT_MAP = new NBTTowListMapCell<>(ITEM_TAG.getListNBTCell(), INT.getListNBTCell());
-    public static final NBTTowListMapCell<TagKey<Fluid>, Integer> FLUID_TAG_INT_MAP = new NBTTowListMapCell<>(FLUID_TAG.getListNBTCell(), INT.getListNBTCell());
-    public static final NBTTowListMapCell<ItemStack, Double> ITEM_STACK_DOUBLE_MAP = new NBTTowListMapCell<>(ITEM_STACK.getListNBTCell(), DOUBLE.getListNBTCell());
-    public static final NBTTowListMapCell<FluidStack, Double> FLUID_STACK_DOUBLE_MAP = new NBTTowListMapCell<>(FLUID_STATE.getListNBTCell(), DOUBLE.getListNBTCell());
+    public static final NBTMapCell<BindType, List<BlockPos>> BIND_TYPE_LIST = new NBTMapCell<>(BIND_TYPE, BLOCK_POS.getListNBTCell());
+    public static final NBTMapCell<TagKey<Item>, Integer> ITEM_TAG_INT_MAP = new NBTMapCell<>(ITEM_TAG, INT);
+    public static final NBTMapCell<TagKey<Fluid>, Integer> FLUID_TAG_INT_MAP = new NBTMapCell<>(FLUID_TAG, INT);
+    public static final NBTMapCell<ItemStack, Double> ITEM_STACK_DOUBLE_MAP = new NBTMapCell<>(ITEM_STACK, DOUBLE);
+    public static final NBTMapCell<FluidStack, Double> FLUID_STACK_DOUBLE_MAP = new NBTMapCell<>(FLUID_STATE, DOUBLE);
 
 }

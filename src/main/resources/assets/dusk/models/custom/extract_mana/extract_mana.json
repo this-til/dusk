@@ -7,12 +7,12 @@
 			"rotation": {"angle": -45, "axis": "x", "origin": [7, 6, 7]},
 			"color": 2,
 			"faces": {
-				"north": {"uv": [0, 0, 2, 2], "rotation": 180, "texture": "#missing","tintindex": 0},
-				"east": {"uv": [0, 0, 2, 2], "rotation": 90, "texture": "#missing","tintindex": 0},
-				"south": {"uv": [0, 0, 2, 2], "texture": "#missing","tintindex": 0},
-				"west": {"uv": [0, 0, 2, 2], "rotation": 270, "texture": "#missing","tintindex": 0},
-				"up": {"uv": [0, 0, 2, 2], "texture": "#missing","tintindex": 0},
-				"down": {"uv": [0, 0, 2, 2], "rotation": 180, "texture": "#missing","tintindex": 0}
+				"north": {"uv": [0, 0, 2, 2], "rotation": 180, "texture": "#missing","tintindex": 1},
+				"east": {"uv": [0, 0, 2, 2], "rotation": 90, "texture": "#missing","tintindex": 1},
+				"south": {"uv": [0, 0, 2, 2], "texture": "#missing","tintindex": 1},
+				"west": {"uv": [0, 0, 2, 2], "rotation": 270, "texture": "#missing","tintindex": 1},
+				"up": {"uv": [0, 0, 2, 2], "texture": "#missing","tintindex": 1},
+				"down": {"uv": [0, 0, 2, 2], "rotation": 180, "texture": "#missing","tintindex": 1}
 			}
 		},
 		{
@@ -106,13 +106,13 @@
 			"name": "底座",
 			"origin": [8, 8, 8],
 			"color": 0,
-			"children": [0, 1]
+			"children": [0]
 		},
 		{
 			"name": "本体",
 			"origin": [8, 8, 8],
 			"color": 0,
-			"children": [2, 3, 4, 5, 6, 7, 8]
+			"children": [1 ,2, 3, 4, 5, 6, 7, 8]
 		}
 	]
 }

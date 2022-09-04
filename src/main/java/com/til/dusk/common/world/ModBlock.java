@@ -1,6 +1,7 @@
 package com.til.dusk.common.world;
 
 import com.til.dusk.Dusk;
+import com.til.dusk.common.capability.pos.IPosTrack;
 import com.til.dusk.common.capability.tile_entity.DuskCapabilityProvider;
 import com.til.dusk.common.capability.tile_entity.ITileEntityType;
 import com.til.dusk.common.capability.tile_entity.RepeaterTileEntity;
@@ -8,7 +9,6 @@ import com.til.dusk.common.register.TileEntityRegister;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DirectionalBlock;
@@ -17,8 +17,6 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.registries.DeferredRegister;
@@ -47,7 +45,7 @@ public class ModBlock {
         }
 
         @Override
-        public abstract void add(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability);
+        public abstract void add(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability, IPosTrack iPosTrack);
     }
 
     public static class RepeaterBlock extends DirectionalBlock implements EntityBlock {

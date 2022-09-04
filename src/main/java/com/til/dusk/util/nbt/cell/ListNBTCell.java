@@ -1,5 +1,7 @@
 package com.til.dusk.util.nbt.cell;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.til.dusk.util.Util;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -7,6 +9,9 @@ import net.minecraft.nbt.Tag;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author til
+ */
 public class ListNBTCell<E> extends NBTCell<List<E>> {
 
     protected final NBTCell<E> nbtCell;
@@ -31,7 +36,23 @@ public class ListNBTCell<E> extends NBTCell<List<E>> {
             list.add(nbtCell.from(_tag));
         }
         return list;
-
     }
 
+    @Override
+    public JsonElement asJson(List<E> es) {
+        JsonArray jsonArray = new JsonArray();
+        for (E e : es) {
+            jsonArray.add(nbtCell.asJson(e));
+        }
+        return jsonArray;
+    }
+
+    @Override
+    public List<E> fromJson(JsonElement json) {
+        List<E> list = new ArrayList<>();
+        for (JsonElement jsonElement : json.getAsJsonArray()) {
+            list.add(nbtCell.fromJson(jsonElement));
+        }
+        return list;
+    }
 }

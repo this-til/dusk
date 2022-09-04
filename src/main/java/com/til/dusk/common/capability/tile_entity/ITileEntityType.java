@@ -1,5 +1,6 @@
 package com.til.dusk.common.capability.tile_entity;
 
+import com.til.dusk.common.capability.pos.IPosTrack;
 import com.til.dusk.common.capability.up.IUp;
 import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.common.register.TileEntityRegister;
@@ -26,8 +27,9 @@ public interface ITileEntityType extends EntityBlock {
      * 添加能力
      * @param event 添加能力时触发的事件
      * @param duskModCapability 能力和能力实体的对照表
+     * @param iPosTrack
      */
-    void add(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability);
+    void add(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability, IPosTrack iPosTrack);
 
 
     @Nullable

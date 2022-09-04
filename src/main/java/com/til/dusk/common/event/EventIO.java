@@ -1,63 +1,62 @@
 package com.til.dusk.common.event;
 
 import com.til.dusk.util.Pos;
+import com.til.dusk.util.RoutePack;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.Mod;
 
+import java.util.List;
+
 
 /**
  * @author til
  */
-public class EventIO extends Event {
+public class EventIO<T> extends Event {
 
     public final Level level;
 
-    public final Pos[] pos;
+    public RoutePack<T> routePack;
 
-    public EventIO(Level level, Pos... pos) {
+
+    public EventIO(Level level, RoutePack<T> routePack) {
         this.level = level;
-        if (pos == null) {
-            pos = new Pos[0];
-        }
-        this.pos = pos;
+        this.routePack = routePack;
+    }
+
+    public List<Pos> getPos() {
+        return routePack.getAllPos();
     }
 
     /***
      * 物品转移
      */
-    public static class Item extends EventIO {
-        public final ItemStack itemStack;
-
-        public Item(Level level, ItemStack itemStack, Pos... pos) {
-            super(level, pos);
-            this.itemStack = itemStack;
+    public static class Item extends EventIO<ItemStack> {
+        public Item(Level level, RoutePack<ItemStack> routePack) {
+            super(level, routePack);
         }
+
     }
 
     /***
      * 流体转移
      */
-    public static class Fluid extends EventIO {
-        public final FluidStack fluidStack;
+    public static class Fluid extends EventIO<FluidStack> {
 
-        public Fluid(Level level, FluidStack fluidStack, Pos... pos) {
-            super(level, pos);
-            this.fluidStack = fluidStack;
+        public Fluid(Level level, RoutePack<FluidStack> routePack) {
+            super(level, routePack);
         }
+
     }
 
     /***
      * 灵气转移
      */
-    public static class Mana extends EventIO {
-        public final long mana;
-
-        public Mana(Level level, long mana, Pos... pos) {
-            super(level, pos);
-            this.mana = mana;
+    public static class Mana extends EventIO<Long> {
+        public Mana(Level level, RoutePack<Long> routePack) {
+            super(level, routePack);
         }
     }
 }

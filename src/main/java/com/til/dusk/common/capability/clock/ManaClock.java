@@ -1,7 +1,7 @@
 package com.til.dusk.common.capability.clock;
 
 import com.til.dusk.common.capability.control.IControl;
-import com.til.dusk.common.capability.mana_handle.ManaHandleHelp;
+import com.til.dusk.common.capability.CapabilityHelp;
 import com.til.dusk.common.capability.up.IUp;
 import com.til.dusk.common.register.BindType;
 import com.til.dusk.common.register.CapabilityRegister;
@@ -52,7 +52,7 @@ public class ManaClock extends Clock implements IManaClock {
         if (process.equals(ShapedHandleProcess.trippingOperation)) {
             return;
         }
-        if (ManaHandleHelp.extractMana(getConsumeMana(), getControl().getCapability(BindType.manaIn), getThis()) < getConsumeMana()) {
+        if (CapabilityHelp.extractMana(control.getPosTrack(), null, getControl().getCapability(BindType.manaIn), getConsumeMana(), false) < getConsumeMana()) {
             setProcess(ShapedHandleProcess.trippingOperation);
         }
     }
@@ -65,11 +65,6 @@ public class ManaClock extends Clock implements IManaClock {
     @Override
     public long getConsumeMana() {
         return consumeMana;
-    }
-
-    @Override
-    public BlockEntity getThis() {
-        return blockEntity;
     }
 
     @Override

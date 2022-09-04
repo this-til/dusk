@@ -6,6 +6,7 @@ import com.til.dusk.client.ClientTransfer;
 import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.register.key.KeyRegister;
 import com.til.dusk.util.Pos;
+import com.til.dusk.util.RoutePack;
 import com.til.dusk.util.Util;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -21,6 +22,8 @@ import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegistryBuilder;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Supplier;
 
 /**
@@ -37,6 +40,8 @@ public abstract class MessageRegister<MSG> extends RegisterBasics<MessageRegiste
     public static int idSequence;
 
     public static MessageRegister<ParticleRegister.Data> particleRegisterMessage;
+
+    public static MessageRegister<ParticleRegister.RouteData> particleRouteRegisterMessage;
 
     public static MessageRegister<KeyRegister.KeyData> keyMessage;
 
@@ -69,7 +74,6 @@ public abstract class MessageRegister<MSG> extends RegisterBasics<MessageRegiste
 
             @Override
             public ParticleRegister.Data decoder(FriendlyByteBuf friendlyByteBuf) {
-
                 String type = friendlyByteBuf.readUtf();
                 Color color = new Color(friendlyByteBuf.readInt());
                 double density = friendlyByteBuf.readDouble();
@@ -81,7 +85,45 @@ public abstract class MessageRegister<MSG> extends RegisterBasics<MessageRegiste
                 return new ParticleRegister.Data(type, color, density, pos);
             }
         };
+        particleRouteRegisterMessage = new MessageRegister<>("particle_route_register_message", ParticleRegister.RouteData.class) {
 
+            @Override
+            public void encoder(ParticleRegister.RouteData data, FriendlyByteBuf friendlyByteBuf) {
+                friendlyByteBuf.writeUtf(data.type);
+                friendlyByteBuf.writeInt(data.color.getRGB());
+                friendlyByteBuf.writeInt(data.route.size());
+                for (List<RoutePack.RouteCell<Double>> routeCells : data.route) {
+                    friendlyByteBuf.writeInt(routeCells.size());
+                    for (RoutePack.RouteCell<Double> routeCell : routeCells) {
+                        routeCell.start().write(friendlyByteBuf);
+                        routeCell.end().write(friendlyByteBuf);
+                        friendlyByteBuf.writeDouble(routeCell.data());
+                    }
+                }
+            }
+
+            @Override
+            public ParticleRegister.RouteData decoder(FriendlyByteBuf friendlyByteBuf) {
+                String type = friendlyByteBuf.readUtf();
+                Color color = new Color(friendlyByteBuf.readInt());
+                int l = friendlyByteBuf.readInt();
+                List<List<RoutePack.RouteCell<Double>>> pack = new ArrayList<>(l);
+                for (int i = 0; i < l; i++) {
+                    int ll = friendlyByteBuf.readInt();
+                    List<RoutePack.RouteCell<Double>> data = new ArrayList<>(ll);
+                    for (int ii = 0; ii < ll; ii++) {
+                        data.add(new RoutePack.RouteCell<>(new Pos(friendlyByteBuf), new Pos(friendlyByteBuf), friendlyByteBuf.readDouble()));
+                    }
+                    pack.add(data);
+                }
+                return new ParticleRegister.RouteData(pack, type, color);
+            }
+
+            @Override
+            public void messageConsumer(ParticleRegister.RouteData routeData, Supplier<NetworkEvent.Context> supplier) {
+                ClientTransfer.messageConsumer(routeData, supplier);
+            }
+        };
         keyMessage = new MessageRegister<>("key_message", KeyRegister.KeyData.class) {
             @Override
             public void messageConsumer(KeyRegister.KeyData keyData, Supplier<NetworkEvent.Context> supplier) {

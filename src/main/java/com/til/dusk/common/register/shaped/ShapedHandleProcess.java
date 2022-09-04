@@ -2,8 +2,7 @@ package com.til.dusk.common.register.shaped;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.common.capability.handle.EventHandle;
-import com.til.dusk.common.capability.mana_handle.IManaHandle;
-import com.til.dusk.common.capability.mana_handle.ManaHandleHelp;
+import com.til.dusk.common.capability.CapabilityHelp;
 import com.til.dusk.common.event.EventIO;
 import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.util.Pos;
@@ -11,7 +10,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -25,7 +23,6 @@ import net.minecraftforge.registries.RegistryBuilder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 /**
@@ -46,7 +43,7 @@ public abstract class ShapedHandleProcess extends RegisterBasics<ShapedHandlePro
         production = new ShapedHandleProcess("production") {
             @Override
             public void up(EventHandle.EventShapedHandle.Up event) {
-                if (ManaHandleHelp.extractMana(event.shapedHandle.consumeMana, event.manaIn, event.iHandle.getThis()) < event.shapedHandle.consumeMana) {
+                if (CapabilityHelp.extractMana(event.iHandle.getPosTrack() , null, event.manaIn, event.shapedHandle.consumeMana, false) < event.shapedHandle.consumeMana) {
                     event.shapedHandle.process = trippingOperation;
                     event.shapedHandle._surplusTime = event.shapedHandle.surplusTime;
                 } else {
@@ -66,57 +63,16 @@ public abstract class ShapedHandleProcess extends RegisterBasics<ShapedHandlePro
 
             @Override
             public void up(EventHandle.EventShapedHandle.Up event) {
-                event.shapedHandle.outMana -= ManaHandleHelp.addMana(event.shapedHandle.outMana, event.manaOut, event.iHandle.getThis());
+                event.shapedHandle.outMana -= CapabilityHelp.addMana(event.iHandle.getPosTrack() , null, event.manaOut, event.shapedHandle.outMana, false);
             }
 
             @Override
             public void clock(EventHandle.EventShapedHandle.Clock event) {
                 if (event.shapedHandle.outItem != null && !event.shapedHandle.outItem.isEmpty()) {
-                    List<ItemStack> nItemStack = new ArrayList<>();
-                    for (ItemStack itemStack : event.shapedHandle.outItem) {
-                        ItemStack needOut = itemStack;
-                        for (Map.Entry<BlockEntity, IItemHandler> tileEntityIItemHandlerEntry : event.itemOut.entrySet()) {
-                            ItemStack out = ItemHandlerHelper.insertItemStacked(tileEntityIItemHandlerEntry.getValue(), needOut, false);
-                            if (out.getCount() < needOut.getCount()) {
-                                MinecraftForge.EVENT_BUS.post(new EventIO.Item(event.iHandle.getThis().getLevel(),
-                                        new ItemStack(needOut.getItem(), needOut.getCount() - out.getCount()),
-                                        new Pos(event.iHandle.getThis().getBlockPos()),
-                                        new Pos(tileEntityIItemHandlerEntry.getKey().getBlockPos())));
-                            }
-
-                            needOut = out;
-                            if (needOut.isEmpty()) {
-                                break;
-                            }
-                        }
-                        if (!needOut.isEmpty()) {
-                            nItemStack.add(needOut);
-                        }
-                    }
-                    event.shapedHandle.outItem = nItemStack;
+                    event.shapedHandle.outItem = CapabilityHelp.insertItem(event.iHandle.getPosTrack(), null, event.itemOut, event.shapedHandle.outItem, false);
                 }
                 if (event.shapedHandle.outFluid != null && !event.shapedHandle.outFluid.isEmpty()) {
-                    List<FluidStack> nFluidStack = new ArrayList<>();
-                    for (FluidStack fluidStack : event.shapedHandle.outFluid) {
-                        FluidStack needOut = fluidStack.copy();
-                        for (java.util.Map.Entry<BlockEntity, IFluidHandler> tileEntityIFluidHandlerEntry : event.fluidOut.entrySet()) {
-                            int surplus = tileEntityIFluidHandlerEntry.getValue().fill(needOut, IFluidHandler.FluidAction.EXECUTE);
-                            if (surplus > 0) {
-                                MinecraftForge.EVENT_BUS.post(new EventIO.Fluid(event.iHandle.getThis().getLevel(),
-                                        new FluidStack(needOut.getFluid(), surplus),
-                                        new Pos(event.iHandle.getThis().getBlockPos()),
-                                        new Pos(tileEntityIFluidHandlerEntry.getKey().getBlockPos())));
-                            }
-                            needOut.setAmount(needOut.getAmount() - surplus);
-                            if (needOut.getAmount() <= 0) {
-                                break;
-                            }
-                        }
-                        if (needOut.getAmount() > 0) {
-                            nFluidStack.add(needOut);
-                        }
-                    }
-                    event.shapedHandle.outFluid = nFluidStack;
+                    event.shapedHandle.outFluid = CapabilityHelp.fill(event.iHandle.getPosTrack(), null, event.fluidOut, event.shapedHandle.outFluid, false);
                 }
             }
         };

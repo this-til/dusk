@@ -1,5 +1,6 @@
 package com.til.dusk.util.nbt.cell;
 
+import com.google.gson.JsonElement;
 import com.mojang.realmsclient.Unit;
 import com.til.dusk.Dusk;
 import com.til.dusk.util.Util;
@@ -21,6 +22,10 @@ public abstract class NBTCell<E> {
     public abstract Tag as(E e);
 
     public abstract E from(Tag t);
+
+    public abstract JsonElement asJson(E e);
+
+    public abstract E fromJson(JsonElement json);
 
     public ListNBTCell<E> getListNBTCell() {
         if (listNBTCell == null) {

@@ -15,14 +15,6 @@ import java.util.Random;
 
 public class ShapedHandle {
 
-    public static final String SURPLUS_TIME = "surplusTime";
-    public static final String CONSUME_MANA = "consumeMana";
-    public static final String _SURPLUS_TIME = "_surplusTime";
-    public static final String PROCESS = "process";
-    public static final String OUT_ITEM = "outItem";
-    public static final String OUT_FLUID = "outFluid";
-    public static final String OUT_MANA = "outMana";
-
 
     public final long consumeMana;
 

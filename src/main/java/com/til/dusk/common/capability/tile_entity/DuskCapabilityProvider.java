@@ -1,10 +1,12 @@
 package com.til.dusk.common.capability.tile_entity;
 
 import com.til.dusk.Dusk;
+import com.til.dusk.common.capability.pos.IPosTrack;
+import com.til.dusk.common.capability.pos.PosTrack;
+import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.util.Util;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.Block;
@@ -16,12 +18,9 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import org.apache.logging.log4j.util.PropertySource;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -89,8 +88,9 @@ public class DuskCapabilityProvider implements ICapabilityProvider, INBTSerializ
         DuskCapabilityProvider duskModCapability = new DuskCapabilityProvider(map);
         BlockEntity blockEntity = event.getObject();
         Block block = blockEntity.getBlockState().getBlock();
+        IPosTrack iPosTrack = duskModCapability.addCapability(CapabilityRegister.iPosTrack.capability, PosTrack.of(event.getObject()));
         if (block instanceof ITileEntityType iTileEntityType) {
-            iTileEntityType.add(event, duskModCapability);
+            iTileEntityType.add(event, duskModCapability, iPosTrack);
         }
         if (blockEntity instanceof IDeposit deposit) {
             deposit.setDuskCapabilityProvider(duskModCapability);

@@ -3,19 +3,15 @@ package com.til.dusk.common.data.tag;
 import com.til.dusk.Dusk;
 import com.til.dusk.util.Extension;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.common.Tags;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.NewRegistryEvent;
-import net.minecraftforge.registries.tags.ITagManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,6 +39,11 @@ public class ItemTag {
         tList.add(t);
     }
 
+    public static void addTag(Extension.Data_2<TagKey<Item>, TagKey<Block>> tag, BlockItem blockItem) {
+        addTag(tag.d1(), blockItem);
+        BlockTag.addTag(tag.d2(), blockItem.getBlock());
+    }
+
     public static TagKey<Item> createTag(Item item) {
         ResourceLocation itemName = ForgeRegistries.ITEMS.getKey(item);
         assert itemName != null;
@@ -64,9 +65,12 @@ public class ItemTag {
         return new Extension.Data_2<>(itemTagKey, blockTagKey);
     }
 
+    public static Extension.Data_2<TagKey<Item>, TagKey<Block>> createBlockTag(ResourceLocation resourceLocation) {
+        return new Extension.Data_2<>(Dusk.instance.ITEM_TAG.createTagKey(resourceLocation), Dusk.instance.BLOCK_TAG.createTagKey(resourceLocation));
+    }
+
     public static Extension.Data_2<TagKey<Item>, TagKey<Block>> TNT;
-    public static Extension.Data_2<TagKey<Item>, TagKey<Block>> ICE;
-    public static Extension.Data_2<TagKey<Item>, TagKey<Block>> PACKED_ICE;
+    public static Extension.Data_2<TagKey<Item>, TagKey<Block>> ICES;
     public static Extension.Data_2<TagKey<Item>, TagKey<Block>> SNOW_BLOCK;
     public static Extension.Data_2<TagKey<Item>, TagKey<Block>> SLIME_BLOCK;
 
@@ -84,8 +88,12 @@ public class ItemTag {
     @SubscribeEvent
     public static void event(NewRegistryEvent event) {
         TNT = createBlockTag((BlockItem) Items.TNT);
-        ICE = createBlockTag((BlockItem) Items.ICE);
-        PACKED_ICE = createBlockTag((BlockItem) Items.PACKED_ICE);
+        ICES = createBlockTag(new ResourceLocation("ices"));
+        {
+            addTag(ICES, (BlockItem) Items.ICE);
+            addTag(ICES, (BlockItem) Items.PACKED_ICE);
+            addTag(ICES, (BlockItem) Items.BLUE_ICE);
+        }
         SNOW_BLOCK = createBlockTag((BlockItem) Items.SNOW_BLOCK);
         SLIME_BLOCK = createBlockTag((BlockItem) Items.SLIME_BLOCK);
         ENDER_EYE = createTag(Items.ENDER_EYE);

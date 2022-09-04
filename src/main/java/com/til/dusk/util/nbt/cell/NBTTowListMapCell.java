@@ -1,5 +1,7 @@
 package com.til.dusk.util.nbt.cell;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 
@@ -42,6 +44,43 @@ public class NBTTowListMapCell<K, V> extends NBTCell<Map<K, V>> {
         }
         List<K> kList = this.kList.from(kNBT);
         List<V> vList = this.vList.from(vNBT);
+        int s = kList.size();
+        Map<K, V> map = new HashMap<>(s);
+        for (int i = 0; i < s; i++) {
+            K k = kList.get(i);
+            if (k == null) {
+                continue;
+            }
+            if (i >= vList.size()) {
+                continue;
+            }
+            V v = vList.get(i);
+            map.put(k, v);
+        }
+        return map;
+    }
+
+    @Override
+    public JsonElement asJson(Map<K, V> kvMap) {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.add(K, kList.asJson(new ArrayList<>(kvMap.keySet())));
+        jsonObject.add(V, vList.asJson(new ArrayList<>(kvMap.values())));
+        return jsonObject;
+    }
+
+    @Override
+    public Map<K, V> fromJson(JsonElement json) {
+        JsonObject jsonObject = json.getAsJsonObject();
+        JsonElement kJson = jsonObject.get(K);
+        if (kJson == null) {
+            return new HashMap<>(0);
+        }
+        JsonElement vJson = jsonObject.get(V);
+        if (vJson == null) {
+            return new HashMap<>(0);
+        }
+        List<K> kList = this.kList.fromJson(kJson);
+        List<V> vList = this.vList.fromJson(vJson);
         int s = kList.size();
         Map<K, V> map = new HashMap<>(s);
         for (int i = 0; i < s; i++) {

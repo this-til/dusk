@@ -1,8 +1,8 @@
 package com.til.dusk.common.capability.control;
 
 
-import com.til.dusk.common.capability.IThis;
 import com.til.dusk.common.capability.ITooltipCapability;
+import com.til.dusk.common.capability.pos.IPosTrack;
 import com.til.dusk.common.register.BindType;
 
 import net.minecraft.core.BlockPos;
@@ -15,7 +15,10 @@ import net.minecraftforge.common.util.INBTSerializable;
 import java.util.*;
 
 
-public interface IControl extends IThis<BlockEntity>, INBTSerializable<CompoundTag>, ITooltipCapability {
+/**
+ * @author til
+ */
+public interface IControl extends INBTSerializable<CompoundTag>, ITooltipCapability {
 
     /***
      * 全部解绑
@@ -65,4 +68,9 @@ public interface IControl extends IThis<BlockEntity>, INBTSerializable<CompoundT
      * 获得可以绑定的类型
      */
     List<BindType> getCanBindType();
+
+    /***
+     * 获取位置追踪
+     */
+    IPosTrack getPosTrack();
 }

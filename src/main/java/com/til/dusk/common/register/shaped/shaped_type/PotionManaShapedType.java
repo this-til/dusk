@@ -1,6 +1,8 @@
 package com.til.dusk.common.register.shaped.shaped_type;
 
+import com.google.gson.JsonObject;
 import com.til.dusk.Dusk;
+import com.til.dusk.common.capability.CapabilityHelp;
 import com.til.dusk.common.capability.handle.IHandle;
 import com.til.dusk.common.capability.handle.ShapedHandle;
 import com.til.dusk.common.data.tag.ItemTag;
@@ -57,8 +59,8 @@ public class PotionManaShapedType extends ShapedType {
             super(shapedType, shapedDrive, manaLevel, surplusTime, consumeMana, outMana);
         }
 
-        public ShapedPotionMana(ResourceLocation name, CompoundTag compoundTag) throws Exception {
-            super(name, compoundTag);
+        public ShapedPotionMana(ResourceLocation name, JsonObject jsonObject) throws Exception {
+            super(name, jsonObject);
         }
 
         @Nullable
@@ -95,15 +97,9 @@ public class PotionManaShapedType extends ShapedType {
                     if (optional.get().containsTag(PotionsTag.NO_EFFECT)) {
                         continue;
                     }
-                    ItemStack outItemStack = entry.getValue().extractItem(i, 1, isSimulated);
+                    ItemStack outItemStack = CapabilityHelp.extractItem(iHandle.getPosTrack(), null, entry.getValue(), new Pos(entry.getKey()), i, 1,isSimulated);
                     if (outItemStack.isEmpty()) {
                         continue;
-                    }
-                    if (!isSimulated) {
-                        MinecraftForge.EVENT_BUS.post(new EventIO.Item(iHandle.getThis().getLevel(),
-                                outItemStack.copy(),
-                                new Pos(entry.getKey().getBlockPos()),
-                                new Pos(iHandle.getThis().getBlockPos())));
                     }
                     return outItemStack;
                 }

@@ -3,8 +3,11 @@ package com.til.dusk.common.capability.mana_handle;
 import com.til.dusk.common.capability.up.IUp;
 import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.util.Lang;
+import com.til.dusk.util.Pos;
+import com.til.dusk.util.RoutePack;
 import com.til.dusk.util.TooltipPack;
 import com.til.dusk.util.nbt.pack.AllNBTPack;
+import mezz.jei.api.recipe.RecipeType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -12,6 +15,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.MinecraftForge;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.function.Supplier;
 
 /**
  * @author til
@@ -24,7 +29,7 @@ public class ManaHandle implements IManaHandle {
     public long outRate;
     public long mana;
 
-    public ManaHandle(long maxMana, long maxRate, IUp iUp) {
+    public ManaHandle(long maxRate, IUp iUp, long maxMana) {
         this.maxMana = maxMana;
         this.maxRate = maxRate;
         iUp.addUpBlack(this::up);
@@ -60,30 +65,36 @@ public class ManaHandle implements IManaHandle {
         return maxRate;
     }
 
+
+
     @Override
-    public long addMana(long mana) {
+    public long addMana(long mana, boolean isSimulate) {
         if (mana <= 0) {
             return 0;
         }
         long addMana = Math.min(Math.min(mana, this.getInCurrentRate()), this.getRemainMana());
         if (addMana != 0) {
-            this.mana += addMana;
-            this.inRate -= addMana;
-            MinecraftForge.EVENT_BUS.post(new EventManaHandle.Add(this, addMana));
+            if (!isSimulate) {
+                this.mana += addMana;
+                this.inRate -= addMana;
+                MinecraftForge.EVENT_BUS.post(new EventManaHandle.Add(this, addMana));
+            }
         }
         return addMana;
     }
 
     @Override
-    public long extractMana(long demand) {
+    public long extractMana(long demand, boolean isSimulate) {
         if (demand <= 0) {
             return 0;
         }
         long extractMana = Math.min(Math.min(demand, this.getOutCurrentRate()), this.getMana());
         if (extractMana != 0) {
-            this.mana -= extractMana;
-            this.outRate -= extractMana;
-            MinecraftForge.EVENT_BUS.post(new EventManaHandle.Extract(this, extractMana));
+            if (!isSimulate) {
+                this.mana -= extractMana;
+                this.outRate -= extractMana;
+                MinecraftForge.EVENT_BUS.post(new EventManaHandle.Extract(this, extractMana));
+            }
         }
         return extractMana;
     }

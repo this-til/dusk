@@ -5,6 +5,7 @@ import com.til.dusk.client.register.ClientParticleRegister;
 import com.til.dusk.common.register.ParticleRegister;
 import com.til.dusk.util.Extension;
 import com.til.dusk.util.Pos;
+import com.til.dusk.util.RoutePack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.resources.ResourceLocation;
@@ -97,6 +98,34 @@ public class ClientTransfer {
                     }
                 });
                 time += data_2.d1();
+            }
+        });
+        supplier.get().setPacketHandled(true);
+    }
+
+    public static void messageConsumer(ParticleRegister.RouteData data, Supplier<NetworkEvent.Context> supplier) {
+        ResourceLocation name = new ResourceLocation(data.type);
+        ClientParticleRegister clientParticleRegister = ClientParticleRegister.CLIENT_PARTICLE_REGISTER.get().getValue(name);
+        if (clientParticleRegister == null) {
+            Dusk.instance.logger.error("在客户端不存在粒子效果{}", data.type);
+            return;
+        }
+        supplier.get().enqueueWork(() -> {
+            float time = 0;
+            for (List<RoutePack.RouteCell<Double>> routeCells : data.route) {
+                float _time = 0;
+                for (RoutePack.RouteCell<Double> routeCell : routeCells) {
+                    Extension.Data_2<Float, List<Particle>> data_2 = clientParticleRegister.run(Minecraft.getInstance().level, routeCell.start(), routeCell.end(), data.color, routeCell.data());
+                    if (data_2 != null) {
+                        _time = Math.max(_time, data_2.d1());
+                        addRun(time, () -> {
+                            for (Particle particle : data_2.d2()) {
+                                Minecraft.getInstance().particleEngine.add(particle);
+                            }
+                        });
+                    }
+                }
+                time += _time;
             }
         });
         supplier.get().setPacketHandled(true);

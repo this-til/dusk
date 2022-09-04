@@ -1,7 +1,7 @@
 package com.til.dusk.common.register.shaped;
 
 import com.til.dusk.Dusk;
-import com.til.dusk.common.capability.mana_level.IManaLevel;
+import com.til.dusk.common.capability.pos.IPosTrack;
 import com.til.dusk.common.capability.tile_entity.DuskCapabilityProvider;
 import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.common.register.RegisterBasics;
@@ -17,7 +17,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -68,7 +67,7 @@ public class ShapedDrive extends RegisterBasics<ShapedDrive> {
     public void registerSubsidiaryBlack() {
         Block block = new ModBlock.MechanicBlock(ManaLevel.t1) {
             @Override
-            public void add(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability) {
+            public void add(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability, IPosTrack iPosTrack) {
                 duskModCapability.addCapability(CapabilityRegister.iManaLevel.capability, () -> ManaLevel.t1);
                 duskModCapability.addCapability(CapabilityRegister.iShapedDrive.capability, () -> thisShapedDriveList);
             }

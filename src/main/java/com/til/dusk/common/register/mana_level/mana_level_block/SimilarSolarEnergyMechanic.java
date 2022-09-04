@@ -49,7 +49,7 @@ public class SimilarSolarEnergyMechanic extends PassiveProductionMechanic {
                 return;
             }
         }
-        iManaHandle.addMana(manaLevel.level * productionMultiple);
+        iManaHandle.addMana(manaLevel.level * productionMultiple,false);
     }
 
     @Override

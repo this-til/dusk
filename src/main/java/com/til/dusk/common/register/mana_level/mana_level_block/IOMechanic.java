@@ -2,12 +2,14 @@ package com.til.dusk.common.register.mana_level.mana_level_block;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.client.ColorProxy;
-import com.til.dusk.common.capability.clock.Clock;
+import com.til.dusk.common.capability.CapabilityHelp;
 import com.til.dusk.common.capability.clock.IClock;
 import com.til.dusk.common.capability.clock.ManaClock;
 import com.til.dusk.common.capability.control.Control;
 import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.capability.mana_handle.IManaHandle;
+import com.til.dusk.common.capability.pos.IPosTrack;
+import com.til.dusk.common.capability.pos.PosTrack;
 import com.til.dusk.common.capability.tile_entity.DuskCapabilityProvider;
 import com.til.dusk.common.capability.up.IUp;
 import com.til.dusk.common.capability.up.Up;
@@ -23,12 +25,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
-import net.minecraftforge.items.ItemStackHandler;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -79,53 +79,16 @@ public class IOMechanic extends DefaultCapacityMechanic {
         }
 
         @Override
-        public void addCapability(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability, ManaLevel manaLevel) {
-            super.addCapability(event, duskModCapability, manaLevel);
-            IControl iControl = duskModCapability.addCapability(CapabilityRegister.iControl.capability, new Control(event.getObject(), List.of(BindType.manaIn, BindType.manaOut), manaLevel));
+        public void addCapability(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability, ManaLevel manaLevel, IPosTrack iPosTrack) {
+            super.addCapability(event, duskModCapability, manaLevel, iPosTrack);
+            IControl iControl = duskModCapability.addCapability(CapabilityRegister.iControl.capability, new Control(iPosTrack, List.of(BindType.manaIn, BindType.manaOut), manaLevel));
             IUp iUp = duskModCapability.addCapability(CapabilityRegister.iUp.capability, new Up());
             iUp.addUpBlack(() -> {
                 Level level = event.getObject().getLevel();
                 if (level == null) {
                     return;
                 }
-                Map<BlockEntity, IManaHandle> inMap = iControl.getCapability(BindType.manaIn);
-                if (inMap.isEmpty()) {
-                    return;
-                }
-                Map<BlockEntity, IManaHandle> _outMap = iControl.getCapability(BindType.manaOut);
-                if (_outMap.isEmpty()) {
-                    return;
-                }
-                Map<BlockEntity, IManaHandle> outMap = new HashMap<>();
-                for (Map.Entry<BlockEntity, IManaHandle> entry : _outMap.entrySet()) {
-                    if (!inMap.containsKey(entry.getKey())) {
-                        outMap.put(entry.getKey(), entry.getValue());
-                    }
-                }
-                for (Map.Entry<BlockEntity, IManaHandle> entry : inMap.entrySet()) {
-                    long needOutName = entry.getValue().getOutCurrentRate();
-                    for (Map.Entry<BlockEntity, IManaHandle> _entry : outMap.entrySet()) {
-                        if (needOutName == 0) {
-                            break;
-                        }
-                        long needTransferMana = Math.min(needOutName, _entry.getValue().getInCurrentRate());
-                        if (needTransferMana == 0) {
-                            continue;
-                        }
-                        long transferMana = _entry.getValue().addMana(entry.getValue().extractMana(needTransferMana));
-                        if (transferMana == 0) {
-                            continue;
-                        }
-                        needOutName -= needTransferMana;
-                        MinecraftForge.EVENT_BUS.post(new EventIO.Mana(
-                                level,
-                                transferMana,
-                                new Pos(entry.getKey().getBlockPos()),
-                                new Pos(event.getObject()),
-                                new Pos(_entry.getKey().getBlockPos())
-                        ));
-                    }
-                }
+                CapabilityHelp.manaPointToPointTransmit(iControl.getPosTrack(), iControl.getCapability(BindType.manaIn),iControl.getCapability(BindType.manaOut), false);
             });
         }
 
@@ -142,9 +105,9 @@ public class IOMechanic extends DefaultCapacityMechanic {
         }
 
         @Override
-        public void addCapability(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability, ManaLevel manaLevel) {
-            super.addCapability(event, duskModCapability, manaLevel);
-            IControl iControl = duskModCapability.addCapability(CapabilityRegister.iControl.capability, new Control(event.getObject(), List.of(BindType.itemIn, BindType.itemOut, BindType.manaIn), manaLevel));
+        public void addCapability(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability, ManaLevel manaLevel, IPosTrack iPosTrack) {
+            super.addCapability(event, duskModCapability, manaLevel, iPosTrack);
+            IControl iControl = duskModCapability.addCapability(CapabilityRegister.iControl.capability, new Control(iPosTrack, List.of(BindType.itemIn, BindType.itemOut, BindType.manaIn), manaLevel));
             IUp iUp = duskModCapability.addCapability(CapabilityRegister.iUp.capability, new Up());
             IClock iClock = duskModCapability.addCapability(CapabilityRegister.iClock.capability, new ManaClock(iUp, manaLevel.clock / 20, event.getObject(), iControl, 4L * manaLevel.level));
             iClock.addBlock(() -> {
@@ -200,20 +163,7 @@ public class IOMechanic extends DefaultCapacityMechanic {
                 if (!outSimulate.isEmpty()) {
                     return;
                 }
-                ItemStack out = outData.d2().extractItem(outData.d4(), outData.d3().getCount(), false);
-                for (Map.Entry<BlockEntity, IItemHandler> entry : outMap.entrySet()) {
-                    ItemStack outCopy = out.copy();
-                    out = ItemHandlerHelper.insertItemStacked(entry.getValue(), out, false);
-                    outCopy.setCount(outCopy.getCount() - out.getCount());
-                    MinecraftForge.EVENT_BUS.post(new EventIO.Item(level,
-                            outCopy,
-                            new Pos(outData.d1().getBlockPos()),
-                            new Pos(event.getObject().getBlockPos()),
-                            new Pos(entry.getKey().getBlockPos())));
-                    if (out.isEmpty()) {
-                        return;
-                    }
-                }
+                CapabilityHelp.extractAndInsertItem(iPosTrack, outData.d2(), new Pos(outData.d1()), outData.d4(), outData.d3().getCount(), outMap, false);
             });
         }
     }
@@ -228,9 +178,9 @@ public class IOMechanic extends DefaultCapacityMechanic {
         }
 
         @Override
-        public void addCapability(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability, ManaLevel manaLevel) {
-            super.addCapability(event, duskModCapability, manaLevel);
-            IControl iControl = duskModCapability.addCapability(CapabilityRegister.iControl.capability, new Control(event.getObject(), List.of(BindType.fluidIn, BindType.fluidOut, BindType.manaIn), manaLevel));
+        public void addCapability(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability, ManaLevel manaLevel, IPosTrack iPosTrack) {
+            super.addCapability(event, duskModCapability, manaLevel, iPosTrack);
+            IControl iControl = duskModCapability.addCapability(CapabilityRegister.iControl.capability, new Control(iPosTrack, List.of(BindType.fluidIn, BindType.fluidOut, BindType.manaIn), manaLevel));
             IUp iUp = duskModCapability.addCapability(CapabilityRegister.iUp.capability, new Up());
             IClock iClock = duskModCapability.addCapability(CapabilityRegister.iClock.capability, new ManaClock(iUp, manaLevel.clock / 20, event.getObject(), iControl, 4L * manaLevel.level));
             iClock.addBlock(() -> {
@@ -285,23 +235,7 @@ public class IOMechanic extends DefaultCapacityMechanic {
                 if (!outSimulate.isEmpty()) {
                     return;
                 }
-                FluidStack out = outData.d2().drain(outData.d3(), IFluidHandler.FluidAction.EXECUTE);
-                if (out.isEmpty()) {
-                    return;
-                }
-                for (Map.Entry<BlockEntity, IFluidHandler> entry : outMap.entrySet()) {
-                    int _out = entry.getValue().fill(out, IFluidHandler.FluidAction.EXECUTE);
-                    FluidStack __out = out.copy();
-                    __out.setAmount(_out);
-                    out.setAmount(out.getAmount() - _out);
-                    MinecraftForge.EVENT_BUS.post(new EventIO.Fluid(level,
-                            __out, new Pos(outData.d1().getBlockPos()),
-                            new Pos(event.getObject().getBlockPos()),
-                            new Pos(entry.getKey().getBlockPos())));
-                    if (out.isEmpty()) {
-                        return;
-                    }
-                }
+                CapabilityHelp.drainAndFillFluid(iPosTrack, outData.d2(), new Pos(outData.d1()), outData.d3(), outMap, false );
             });
         }
     }

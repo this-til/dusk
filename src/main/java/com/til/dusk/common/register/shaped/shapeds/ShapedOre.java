@@ -1,6 +1,9 @@
 package com.til.dusk.common.register.shaped.shapeds;
 
 import com.google.common.collect.Lists;
+import com.google.gson.JsonObject;
+import com.til.dusk.Dusk;
+import com.til.dusk.common.capability.CapabilityHelp;
 import com.til.dusk.common.capability.handle.IHandle;
 import com.til.dusk.common.capability.handle.ShapedHandle;
 import com.til.dusk.common.event.EventIO;
@@ -8,6 +11,7 @@ import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 import com.til.dusk.util.Pos;
+import com.til.dusk.util.RoutePack;
 import com.til.dusk.util.nbt.pack.AllNBTPack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -49,32 +53,32 @@ public class ShapedOre extends ShapedMiddle {
         this.outFluid = outFluid;
     }
 
-    public ShapedOre(ResourceLocation name, CompoundTag compoundTag) throws Exception {
-        super(name, compoundTag);
-        if (AllNBTPack.ITEM_IN_MAP.contains(compoundTag)) {
-            item = AllNBTPack.ITEM_IN_MAP.get(compoundTag);
+    public ShapedOre(ResourceLocation name, JsonObject jsonObject) throws Exception {
+        super(name, jsonObject);
+        if (AllNBTPack.ITEM_IN_MAP.contains(jsonObject)) {
+            item = AllNBTPack.ITEM_IN_MAP.get(jsonObject);
         } else {
             item = null;
         }
-        if (AllNBTPack.FLUID_IN_MAP.contains(compoundTag)) {
-            fluid = AllNBTPack.FLUID_IN_MAP.get(compoundTag);
+        if (AllNBTPack.FLUID_IN_MAP.contains(jsonObject)) {
+            fluid = AllNBTPack.FLUID_IN_MAP.get(jsonObject);
         } else {
             fluid = null;
         }
-        if (AllNBTPack.ITEM_OUT_MAP.contains(compoundTag)) {
-            outItem = AllNBTPack.ITEM_OUT_MAP.get(compoundTag);
+        if (AllNBTPack.ITEM_OUT_MAP.contains(jsonObject)) {
+            outItem = AllNBTPack.ITEM_OUT_MAP.get(jsonObject);
         } else {
             outItem = null;
         }
-        if (AllNBTPack.FLUID_OUT_MAP.contains(compoundTag)) {
-            outFluid = AllNBTPack.FLUID_OUT_MAP.get(compoundTag);
+        if (AllNBTPack.FLUID_OUT_MAP.contains(jsonObject)) {
+            outFluid = AllNBTPack.FLUID_OUT_MAP.get(jsonObject);
         } else {
             outFluid = null;
         }
     }
 
     @Override
-    public @Nullable CompoundTag writ(CompoundTag compoundTag) {
+    public @Nullable JsonObject writ(JsonObject compoundTag) {
         super.writ(compoundTag);
         if (item != null) {
             AllNBTPack.ITEM_IN_MAP.set(compoundTag, item);
@@ -99,17 +103,17 @@ public class ShapedOre extends ShapedMiddle {
         if (fluid != null && fluidHandlers.isEmpty()) {
             return null;
         }
-        if (extractFluid(iControl, fluidHandlers, IFluidHandler.FluidAction.SIMULATE)) {
+        if (extractFluid(iControl, fluidHandlers, true)) {
             if (item != null) {
                 for (Map.Entry<BlockEntity, IItemHandler> tileEntityIItemHandlerEntry : iItemHandlers.entrySet()) {
                     if (extractItem(iControl, tileEntityIItemHandlerEntry, true)) {
-                        extractFluid(iControl, fluidHandlers, IFluidHandler.FluidAction.EXECUTE);
+                        extractFluid(iControl, fluidHandlers, true);
                         extractItem(iControl, tileEntityIItemHandlerEntry, false);
                         return new ShapedHandle(surplusTime, consumeMana, outMana, makeOutItem(), makeOutFluid());
                     }
                 }
             } else {
-                extractFluid(iControl, fluidHandlers, IFluidHandler.FluidAction.EXECUTE);
+                extractFluid(iControl, fluidHandlers, false);
                 return new ShapedHandle(surplusTime, consumeMana, outMana, makeOutItem(), makeOutFluid());
 
             }
@@ -149,6 +153,7 @@ public class ShapedOre extends ShapedMiddle {
         if (item == null) {
             return true;
         }
+        RoutePack<ItemStack> routePack = new RoutePack<>();
         for (Map.Entry<TagKey<Item>, Integer> tagKeyIntegerEntry : item.entrySet()) {
             int needItem = tagKeyIntegerEntry.getValue();
             for (int i = 0; i < entry.getValue().getSlots(); i++) {
@@ -157,12 +162,8 @@ public class ShapedOre extends ShapedMiddle {
                     continue;
                 }
                 if (oldItemStack.is(tagKeyIntegerEntry.getKey())) {
-                    ItemStack outItemStack = entry.getValue().extractItem(i, needItem, isSimulated);
+                    ItemStack outItemStack = CapabilityHelp.extractItem(iControl.getPosTrack(), routePack, entry.getValue(), new Pos(entry.getKey()), i, needItem, isSimulated);
                     needItem = needItem - outItemStack.getCount();
-                    if (!isSimulated) {
-                        MinecraftForge.EVENT_BUS.post(new EventIO.Item(iControl.getThis().getLevel(), outItemStack.copy(), new Pos(entry.getKey().getBlockPos()),
-                                new Pos(iControl.getThis().getBlockPos())));
-                    }
                 }
                 if (needItem == 0) {
                     break;
@@ -172,37 +173,33 @@ public class ShapedOre extends ShapedMiddle {
                 return false;
             }
         }
+        if (!isSimulated) {
+            MinecraftForge.EVENT_BUS.post(new EventIO.Item(iControl.getPosTrack().getLevel(), routePack));
+        }
         return true;
     }
 
-    protected boolean extractFluid(IHandle iControl, Map<BlockEntity, IFluidHandler> fluidHandlers, IFluidHandler.FluidAction isSimulated) {
+    protected boolean extractFluid(IHandle iControl, Map<BlockEntity, IFluidHandler> fluidHandlers, boolean isSimulated) {
         if (fluid == null) {
             return true;
         }
+        RoutePack<FluidStack> routePack = new RoutePack<>();
         for (Map.Entry<TagKey<Fluid>, Integer> tagKeyIntegerEntry : fluid.entrySet()) {
             int need = tagKeyIntegerEntry.getValue();
-            for (Map.Entry<BlockEntity, IFluidHandler> blockEntityIFluidHandlerEntry : fluidHandlers.entrySet()) {
-                for (Fluid fluid1 : ForgeRegistries.FLUIDS.tags().getTag(tagKeyIntegerEntry.getKey())) {
-                    FluidStack fluidStack = new FluidStack(fluid1, need);
-                    FluidStack out = blockEntityIFluidHandlerEntry.getValue().drain(fluidStack, isSimulated);
-                    need = need - out.getAmount();
-                    if (isSimulated.execute()) {
-                        MinecraftForge.EVENT_BUS.post(new EventIO.Fluid(
-                                iControl.getThis().getLevel(),
-                                out.copy(),
-                                new Pos(blockEntityIFluidHandlerEntry.getKey().getBlockPos()),
-                                new Pos(iControl.getThis().getBlockPos())
-                        ));
-                    }
-                    if (need == 0) {
-                        break;
-                    }
+            for (Fluid fluid1 : Dusk.instance.FLUID_TAG.getTag(tagKeyIntegerEntry.getKey())) {
+                FluidStack fluidStack = new FluidStack(fluid1, need);
+                FluidStack out = CapabilityHelp.drain(iControl.getPosTrack(), routePack, fluidHandlers, fluidStack, isSimulated);
+                need -= out.getAmount();
+                if (need == 0) {
+                    break;
                 }
             }
             if (need > 0) {
                 return false;
             }
-
+        }
+        if (!isSimulated) {
+            MinecraftForge.EVENT_BUS.post(new EventIO.Fluid(iControl.getPosTrack().getLevel(), routePack));
         }
         return true;
     }
@@ -237,7 +234,7 @@ public class ShapedOre extends ShapedMiddle {
                 List<List<FluidStack>> list = new ArrayList<>();
                 fluid.forEach((k, v) -> {
                     List<FluidStack> itemStackList = new ArrayList<>();
-                    for (Fluid fluid1 : ForgeRegistries.FLUIDS.tags().getTag(k)) {
+                    for (Fluid fluid1 : Dusk.instance.FLUID_TAG.getTag(k)) {
                         CompoundTag compoundTag = new CompoundTag();
                         AllNBTPack.MB.set(compoundTag, v);
                         itemStackList.add(new FluidStack(fluid1, v, compoundTag));

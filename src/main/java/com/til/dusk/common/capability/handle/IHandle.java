@@ -4,6 +4,7 @@ package com.til.dusk.common.capability.handle;
 import com.til.dusk.common.capability.*;
 import com.til.dusk.common.capability.clock.IClock;
 import com.til.dusk.common.capability.control.IControl;
+import com.til.dusk.common.capability.pos.IPosTrack;
 import com.til.dusk.common.capability.up.IUp;
 import com.til.dusk.common.register.shaped.shapeds.Shaped;
 import com.til.dusk.common.register.shaped.ShapedDrive;
@@ -14,7 +15,10 @@ import net.minecraftforge.common.util.INBTSerializable;
 import java.util.*;
 
 
-public interface IHandle extends IThis<BlockEntity>, INBTSerializable<CompoundTag>, ITooltipCapability {
+/**
+ * @author til
+ */
+public interface IHandle extends INBTSerializable<CompoundTag>, ITooltipCapability {
 
     /***
      * 获取所有的配方
@@ -35,4 +39,6 @@ public interface IHandle extends IThis<BlockEntity>, INBTSerializable<CompoundTa
     IClock getClockTime();
 
     IUp getUp();
+
+    IPosTrack getPosTrack();
 }

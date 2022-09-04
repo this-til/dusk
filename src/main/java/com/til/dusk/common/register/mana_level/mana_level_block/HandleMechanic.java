@@ -7,6 +7,8 @@ import com.til.dusk.common.capability.control.Control;
 import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.capability.handle.Handle;
 import com.til.dusk.common.capability.handle.IHandle;
+import com.til.dusk.common.capability.pos.IPosTrack;
+import com.til.dusk.common.capability.pos.PosTrack;
 import com.til.dusk.common.capability.tile_entity.DuskCapabilityProvider;
 import com.til.dusk.common.capability.up.IUp;
 import com.til.dusk.common.capability.up.Up;
@@ -44,20 +46,20 @@ public class HandleMechanic extends DefaultCapacityMechanic {
 
         return new ModBlock.MechanicBlock(manaLevel) {
             @Override
-            public void add(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability) {
-                addCapability(event, duskModCapability, manaLevel);
+            public void add(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability, IPosTrack iPosTrack) {
+                addCapability(event, duskModCapability, manaLevel, iPosTrack);
             }
         };
     }
 
     @Override
 
-    public void addCapability(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability, ManaLevel manaLevel) {
-        super.addCapability(event, duskModCapability, manaLevel);
-        IControl iControl = duskModCapability.addCapability(CapabilityRegister.iControl.capability, new Control(event.getObject(), List.of(BindType.manaIn, BindType.manaOut, BindType.itemIn, BindType.itemOut, BindType.fluidIn, BindType.fluidOut, BindType.modelStore), manaLevel));
+    public void addCapability(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability, ManaLevel manaLevel, IPosTrack iPosTrack) {
+        super.addCapability(event, duskModCapability, manaLevel, iPosTrack);
+        IControl iControl = duskModCapability.addCapability(CapabilityRegister.iControl.capability, new Control(iPosTrack, List.of(BindType.manaIn, BindType.manaOut, BindType.itemIn, BindType.itemOut, BindType.fluidIn, BindType.fluidOut, BindType.modelStore), manaLevel));
         IUp iUp = duskModCapability.addCapability(CapabilityRegister.iUp.capability, new Up());
         IClock iClock = duskModCapability.addCapability(CapabilityRegister.iClock.capability, new Clock(iUp, manaLevel));
-        IHandle iHandle = duskModCapability.addCapability(CapabilityRegister.iHandle.capability, new Handle(event.getObject(), getShapedTypeList.get(), iControl, iClock, iUp, manaLevel));
+        IHandle iHandle = duskModCapability.addCapability(CapabilityRegister.iHandle.capability, new Handle(iPosTrack, getShapedTypeList.get(), iControl, iClock, iUp, manaLevel));
     }
 
 }

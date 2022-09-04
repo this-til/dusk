@@ -5,6 +5,8 @@ import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.register.mana_level.mana_level_block.ManaLevelBlock;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 
 import java.util.Map;
 
@@ -23,7 +25,7 @@ public class FrostyManaShapedType extends ShapedType {
                 this,
                 ShapedDrive.get(0),
                 ManaLevel.t1,
-                Map.of(ItemTag.ICE.d1(), 1),
+                Map.of(ItemTag.ICES.d1(), 1),
                 null,
                 128,
                 0,
@@ -34,17 +36,6 @@ public class FrostyManaShapedType extends ShapedType {
                 this,
                 ShapedDrive.get(1),
                 ManaLevel.t1,
-                Map.of(ItemTag.PACKED_ICE.d1(), 1),
-                null,
-                128,
-                0,
-                512,
-                null,
-                null);
-        new ShapedOre(
-                this,
-                ShapedDrive.get(2),
-                ManaLevel.t1,
                 Map.of(ItemTag.SNOW_BLOCK.d1(), 1),
                 null,
                 128,
@@ -54,7 +45,7 @@ public class FrostyManaShapedType extends ShapedType {
                 null);
         new ShapedOre(
                 this,
-                ShapedDrive.get(3),
+                ShapedDrive.get(2),
                 ManaLevel.t1,
                 Map.of(ItemTag.SNOWBALL, 1),
                 null,
@@ -65,14 +56,14 @@ public class FrostyManaShapedType extends ShapedType {
                 null);
         new ShapedOre(
                 this,
-                ShapedDrive.get(4),
+                ShapedDrive.get(3),
                 ManaLevel.t1,
                 Map.of(ItemTag.POWDER_SNOW_BUCKET, 1),
                 null,
                 128,
                 0,
                 8192,
-                null,
+                Map.of(new ItemStack(Items.BUCKET), 1d),
                 null);
     }
 }

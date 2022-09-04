@@ -4,6 +4,7 @@ import com.til.dusk.Dusk;
 import com.til.dusk.common.capability.fluid_handler.VoidTankFluidHandler;
 import com.til.dusk.common.capability.item_handler.VoidCaseItemHandler;
 import com.til.dusk.common.capability.mana_handle.ManaHandle;
+import com.til.dusk.common.capability.pos.IPosTrack;
 import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.register.mana_level.ManaLevel;
@@ -24,6 +25,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegistryBuilder;
 
+import java.awt.*;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -77,52 +79,52 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
     /***
      * 解咒转灵晶体
      */
-    public static HandleMechanic dischantmentMana;
+    public static ExtractManaMechanic dischantmentMana;
 
     /***
-     * 解咒转灵晶体
+     *  末影转灵晶体
      */
-    public static HandleMechanic enderMana;
+    public static ExtractManaMechanic enderMana;
 
     /***
      * 药水转灵晶体
      */
-    public static HandleMechanic potionMana;
+    public static ExtractManaMechanic potionMana;
 
     /***
      * 爆破转灵晶体
      */
-    public static HandleMechanic explosiveMana;
+    public static ExtractManaMechanic explosiveMana;
 
     /***
      * 寒霜转灵晶体
      */
-    public static HandleMechanic frostyMana;
+    public static ExtractManaMechanic frostyMana;
 
     /***
      * 粘液转灵晶体
      */
-    public static HandleMechanic slimeyMana;
+    public static ExtractManaMechanic slimeyMana;
 
     /***
      * 口臭转灵晶体
      */
-    public static HandleMechanic halitosisMana;
+    public static ExtractManaMechanic halitosisMana;
 
     /***
      * 烈焰转灵晶体
      */
-    public static HandleMechanic flameMana;
+    public static ExtractManaMechanic flameMana;
 
     /***
      * 植物转灵晶体
      */
-    public static HandleMechanic botanyMana;
+    public static ExtractManaMechanic botanyMana;
 
     /***
      * 食物转灵晶体
      */
-    public static HandleMechanic foodMana;
+    public static ExtractManaMechanic foodMana;
 
     //处理
 
@@ -270,6 +272,11 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
      */
     public static CollectMechanic collect;
 
+    /***
+     * 回旋升压
+     */
+    public static WhirlBoostMechanic whirlBoost;
+
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
         LEVEL_BLOCK = event.create(new RegistryBuilder<ManaLevelBlock>().setName(new ResourceLocation(Dusk.MOD_ID, "mana_level_block")));
@@ -279,16 +286,16 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
         moonlight = new SimilarSolarEnergyMechanic("moonlight", 1, level -> level.isNight() && !level.isRaining(), ColorPrefab.MOONLIGHT_COLOR);
         rain = new SimilarSolarEnergyMechanic("rain", 4, Level::isRaining, ColorPrefab.RAIN_COLOR);
         extractMana = new HandleMechanic("extract_mana", () -> List.of(ShapedType.extractMana));
-        dischantmentMana = new HandleMechanic("dischantment_mana",  () ->List.of(ShapedType.dischantmentMana));
-        enderMana = new HandleMechanic("ender_mana", () -> List.of(ShapedType.enderMana));
-        potionMana = new HandleMechanic("potion_mana",  () ->List.of(ShapedType.potionMana));
-        explosiveMana = new HandleMechanic("explosive_mana",  () ->List.of(ShapedType.explosiveMana));
-        frostyMana = new HandleMechanic("frosty_mana", () -> List.of(ShapedType.frostyMana));
-        slimeyMana = new HandleMechanic("slimey_mana",  () ->List.of(ShapedType.slimeyMana));
-        halitosisMana = new HandleMechanic("halitosis_mana", () -> List.of(ShapedType.halitosisMana));
-        flameMana = new HandleMechanic("flame_mana",() ->List.of( ShapedType.flameMana));
-        botanyMana = new HandleMechanic("botany_mana",() ->List.of( ShapedType.botanyMana));
-        foodMana = new HandleMechanic("food_mana",() ->List.of( ShapedType.foodMana));
+        dischantmentMana = new ExtractManaMechanic("dischantment_mana", () -> List.of(ShapedType.dischantmentMana), new Color(135, 60, 168, 255));
+        enderMana = new ExtractManaMechanic("ender_mana", () -> List.of(ShapedType.enderMana), new Color(96, 22, 96));
+        potionMana = new ExtractManaMechanic("potion_mana", () -> List.of(ShapedType.potionMana), new Color(243, 138, 255));
+        explosiveMana = new ExtractManaMechanic("explosive_mana", () -> List.of(ShapedType.explosiveMana), new Color(178, 25, 25));
+        frostyMana = new ExtractManaMechanic("frosty_mana", () -> List.of(ShapedType.frostyMana), new Color(29, 237, 255));
+        slimeyMana = new ExtractManaMechanic("slimey_mana", () -> List.of(ShapedType.slimeyMana), new Color(43, 255, 33));
+        halitosisMana = new ExtractManaMechanic("halitosis_mana", () -> List.of(ShapedType.halitosisMana), new Color(229, 45, 136));
+        flameMana = new ExtractManaMechanic("flame_mana", () -> List.of(ShapedType.flameMana), new Color(255, 0, 0));
+        botanyMana = new ExtractManaMechanic("botany_mana", () -> List.of(ShapedType.botanyMana), new Color(7, 140, 0));
+        foodMana = new ExtractManaMechanic("food_mana", () -> List.of(ShapedType.foodMana), new Color(255, 184, 66));
         grind = new HandleMechanic("grind", () -> List.of(ShapedType.grind));
         wash = new HandleMechanic("wash", () -> List.of(ShapedType.wash));
         centrifugal = new HandleMechanic("centrifugal", () -> List.of(ShapedType.centrifugal));
@@ -312,30 +319,31 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
         manaCoagulation = new HandleMechanic("mana_coagulation", () -> List.of(ShapedType.manaCoagulation));
         voidCase = new DefaultCapacityMechanic("void_case") {
             @Override
-            public void addCapability(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability, ManaLevel manaLevel) {
-                super.addCapability(event, duskModCapability, manaLevel);
+            public void addCapability(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability, ManaLevel manaLevel, IPosTrack iPosTrack) {
+                super.addCapability(event, duskModCapability, manaLevel, iPosTrack);
                 duskModCapability.addCapability(ForgeCapabilities.ITEM_HANDLER, new VoidCaseItemHandler(1280L * manaLevel.level));
             }
         };
         voidTank = new DefaultCapacityMechanic("void_tank") {
             @Override
-            public void addCapability(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability, ManaLevel manaLevel) {
-                super.addCapability(event, duskModCapability, manaLevel);
+            public void addCapability(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability, ManaLevel manaLevel, IPosTrack iPosTrack) {
+                super.addCapability(event, duskModCapability, manaLevel, iPosTrack);
                 duskModCapability.addCapability(ForgeCapabilities.FLUID_HANDLER, new VoidTankFluidHandler(1280000 * manaLevel.level));
             }
         };
         gatherMana = new DefaultCapacityMechanic("gather_mana") {
             @Override
-            public void addCapability(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability, ManaLevel manaLevel) {
-                super.addCapability(event, duskModCapability, manaLevel);
+            public void addCapability(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability, ManaLevel manaLevel, IPosTrack iPosTrack) {
+                super.addCapability(event, duskModCapability, manaLevel, iPosTrack);
                 IUp iUp = duskModCapability.addCapability(CapabilityRegister.iUp.capability, new Up());
-                duskModCapability.addCapability(CapabilityRegister.iManaHandle.capability, new ManaHandle(5120000L * manaLevel.level, 32L * manaLevel.level, iUp));
+                duskModCapability.addCapability(CapabilityRegister.iManaHandle.capability, new ManaHandle( 32L * manaLevel.level, iUp, 5120000L * manaLevel.level));
             }
         };
         manaIO = new IOMechanic.ManaIO("mana_io", ColorPrefab.MANA_IO);
         itemIO = new IOMechanic.ItemIO("item_io", ColorPrefab.ITEM_IO);
         fluidIO = new IOMechanic.FluidIO("fluid_io", ColorPrefab.FLUID_IO);
         collect = new CollectMechanic("collect");
+        whirlBoost = new WhirlBoostMechanic("whirl_boost");
     }
 
     public ManaLevelBlock(ResourceLocation name) {

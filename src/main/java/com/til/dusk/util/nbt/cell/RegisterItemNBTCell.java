@@ -1,5 +1,7 @@
 package com.til.dusk.util.nbt.cell;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
@@ -35,6 +37,26 @@ public class RegisterItemNBTCell<E> extends NBTCell<E> {
     public E from(Tag tag) {
         try {
             E e = registrySupplier.get().getValue(new ResourceLocation(tag.getAsString()));
+            assert e != null;
+            return e;
+        } catch (Exception exception) {
+            return defaultItem.get();
+        }
+    }
+
+    @Override
+    public JsonElement asJson(E e) {
+        try {
+            return new JsonPrimitive(Objects.requireNonNull(registrySupplier.get().getKey(e)).toString());
+        } catch (Exception exception) {
+            return new JsonPrimitive(defaultItem.get().toString());
+        }
+    }
+
+    @Override
+    public E fromJson(JsonElement json) {
+        try {
+            E e = registrySupplier.get().getValue(new ResourceLocation(json.getAsString()));
             assert e != null;
             return e;
         } catch (Exception exception) {

@@ -1,36 +1,68 @@
 package com.til.dusk.common.data;
 
+import com.mojang.datafixers.util.Pair;
 import com.til.dusk.Dusk;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.register.ore.Ore;
 import com.til.dusk.util.pack.BlockPack;
+import net.minecraft.data.DataGenerator;
 import net.minecraft.data.loot.BlockLoot;
+import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.LootTables;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSet;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 /***
  * 战利品列表反射
  * @author til
  */
-@Mod.EventBusSubscriber(modid = Dusk.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
-public class LootTableAdd {
+public class LootTableAdd extends BlockLoot {
+    @Override
+    protected void addTables() {
+    }
 
-    public static Method createOreDrop;
+    @Override
+    public void accept(BiConsumer<ResourceLocation, LootTable.Builder> biConsumer) {
+        for (Ore o : Ore.ORE.get()) {
+            for (BlockPack b : o.blockMap.values()) {
+                ResourceLocation resourceLocation = ForgeRegistries.BLOCKS.getKey(b.block());
+                if (resourceLocation == null) {
+                    continue;
+                }
+                biConsumer.accept(resourceLocation, BlockLoot.createOreDrop(b.block(),b.blockItem()));
+            }
+        }
+        for (ManaLevel manaLevel : ManaLevel.LEVEL.get()) {
+            for (BlockPack b : manaLevel.blockMap.values()) {
+                ResourceLocation resourceLocation = ForgeRegistries.BLOCKS.getKey(b.block());
+                if (resourceLocation == null) {
+                    continue;
+                }
+                biConsumer.accept(resourceLocation, BlockLoot.createOreDrop(b.block(),b.blockItem()));
+            }
+        }
+    }
+/*  public static Method createOreDrop;
     public static Field lootTables_tables;
     public static Map<ResourceLocation, Supplier<LootTable.Builder>> lootTableMap = new HashMap<>();
 
@@ -81,7 +113,7 @@ public class LootTableAdd {
         } catch (IllegalAccessException | RuntimeException | InvocationTargetException e) {
             Dusk.instance.logger.error("", e);
         }
-    }
+    }*/
 
 
 }

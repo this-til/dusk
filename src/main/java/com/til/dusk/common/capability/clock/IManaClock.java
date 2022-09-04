@@ -1,6 +1,5 @@
 package com.til.dusk.common.capability.clock;
 
-import com.til.dusk.common.capability.IThis;
 import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.register.shaped.ShapedHandleProcess;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -8,7 +7,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 /**
  * @author til
  */
-public interface IManaClock extends IClock, IThis<BlockEntity> {
+public interface IManaClock extends IClock {
     /***
      * 需要控制器提供灵气输入
      * @return 控制器

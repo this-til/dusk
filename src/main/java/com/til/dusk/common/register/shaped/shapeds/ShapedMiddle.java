@@ -1,11 +1,11 @@
 package com.til.dusk.common.register.shaped.shapeds;
 
+import com.google.gson.JsonObject;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 import com.til.dusk.util.Lang;
 import com.til.dusk.util.nbt.pack.AllNBTPack;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
@@ -26,16 +26,15 @@ public abstract class ShapedMiddle extends Shaped {
         this.outMana = outMana;
     }
 
-    public ShapedMiddle(ResourceLocation name, CompoundTag compoundTag) throws Exception {
-        super(name, compoundTag);
-        surplusTime = AllNBTPack.SURPLUS_TIME.get(compoundTag);
-        consumeMana = AllNBTPack.CONSUME_MANA.get(compoundTag);
-        outMana = AllNBTPack.OUT_MANA.get(compoundTag);
+    public ShapedMiddle(ResourceLocation name, JsonObject jsonObject) throws Exception {
+        super(name, jsonObject);
+        surplusTime = AllNBTPack.SURPLUS_TIME.get(jsonObject);
+        consumeMana = AllNBTPack.CONSUME_MANA.get(jsonObject);
+        outMana = AllNBTPack.OUT_MANA.get(jsonObject);
     }
 
-    @org.jetbrains.annotations.Nullable
     @Override
-    public CompoundTag writ(CompoundTag compoundTag) {
+    public JsonObject writ(JsonObject compoundTag) {
         super.writ(compoundTag);
         AllNBTPack.CONSUME_MANA.set(compoundTag, consumeMana);
         AllNBTPack.SURPLUS_TIME.set(compoundTag, surplusTime);

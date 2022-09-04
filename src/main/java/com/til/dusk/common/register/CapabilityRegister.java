@@ -2,15 +2,23 @@ package com.til.dusk.common.register;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.common.capability.clock.IClock;
+import com.til.dusk.common.capability.control.EventControl;
 import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.capability.handle.IHandle;
 import com.til.dusk.common.capability.mana_handle.IManaHandle;
 import com.til.dusk.common.capability.mana_level.IManaLevel;
+import com.til.dusk.common.capability.pos.IPosTrack;
 import com.til.dusk.common.capability.shaped_drive.IShapedDrive;
 import com.til.dusk.common.capability.up.IUp;
+import com.til.dusk.common.event.EventIO;
+import com.til.dusk.util.Pos;
 import com.til.dusk.util.Util;
+import net.minecraft.core.SectionPos;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.*;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.common.Mod;
@@ -19,6 +27,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegistryBuilder;
 
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 @Mod.EventBusSubscriber(modid = Dusk.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -34,6 +43,7 @@ public class CapabilityRegister<C> extends RegisterBasics<CapabilityRegister<C>>
     public static CapabilityRegister<IManaHandle> iManaHandle;
     public static CapabilityRegister<IShapedDrive> iShapedDrive;
     public static CapabilityRegister<IHandle> iHandle;
+    public static CapabilityRegister<IPosTrack> iPosTrack;
 
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
@@ -53,6 +63,22 @@ public class CapabilityRegister<C> extends RegisterBasics<CapabilityRegister<C>>
         iShapedDrive = new CapabilityRegister<>("i_shaped_drive", IShapedDrive.class, () -> new CapabilityToken<IShapedDrive>() {
         });
         iHandle = new CapabilityRegister<>("i_handle", IHandle.class, () -> new CapabilityToken<IHandle>() {
+        });
+        iPosTrack = new CapabilityRegister<>("i_pos_track", IPosTrack.class, () -> new CapabilityToken<IPosTrack>() {
+        });
+        MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, (Consumer<EventControl>) e -> {
+            Level level = e.control.getPosTrack().getLevel();
+            if (level != null) {
+                Pos po = e.control.getPosTrack().getPos();
+                level.getChunk(SectionPos.blockToSectionCoord(po.x), SectionPos.blockToSectionCoord(po.y)).setUnsaved(true);
+            }
+        });
+        MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, (Consumer<EventIO<?>>) e -> {
+            if (e.level != null) {
+                for (Pos po : e.getPos()) {
+                    e.level.getChunk(SectionPos.blockToSectionCoord(po.x), SectionPos.blockToSectionCoord(po.y)).setUnsaved(true);
+                }
+            }
         });
     }
 

@@ -1,5 +1,6 @@
 package com.til.dusk.common.register.shaped.shapeds;
 
+import com.google.gson.JsonObject;
 import com.til.dusk.common.capability.handle.IHandle;
 import com.til.dusk.common.capability.handle.ShapedHandle;
 import com.til.dusk.common.register.mana_level.ManaLevel;
@@ -7,7 +8,6 @@ import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 import com.til.dusk.util.nbt.pack.AllNBTPack;
 import com.til.dusk.util.Lang;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -61,14 +61,14 @@ public abstract class Shaped {
      * 加载数据时调用
      * 此调用不会自动注册
      * @param name json文件限定名
-     * @param compoundTag json文件内容
+     * @param jsonObject json文件内容
      * @throws Exception 如果抛出将忽视该配方
      */
-    public Shaped(ResourceLocation name, CompoundTag compoundTag) throws Exception {
+    public Shaped(ResourceLocation name, JsonObject jsonObject) throws Exception {
         String[] strings = name.getPath().split("/");
         this.shapedType = ShapedType.SHAPED_TYPE.get().getValue(new ResourceLocation(name.getNamespace(), strings[0]));
         this.shapedDrive = ShapedDrive.get(Integer.parseInt(strings[1]));
-        manaLevel = AllNBTPack.MANA_LEVEL.get(compoundTag);
+        manaLevel = AllNBTPack.MANA_LEVEL.get(jsonObject);
         this.name = strings[2];
     }
 
@@ -79,7 +79,7 @@ public abstract class Shaped {
      * @param compoundTag nbt
      */
     @Nullable
-    public CompoundTag writ(CompoundTag compoundTag) {
+    public JsonObject writ(JsonObject compoundTag) {
         return compoundTag;
     }
 

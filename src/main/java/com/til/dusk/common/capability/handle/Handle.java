@@ -3,6 +3,7 @@ package com.til.dusk.common.capability.handle;
 import com.til.dusk.common.capability.clock.IClock;
 import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.capability.mana_handle.IManaHandle;
+import com.til.dusk.common.capability.pos.IPosTrack;
 import com.til.dusk.common.capability.up.IUp;
 import com.til.dusk.common.register.BindType;
 import com.til.dusk.common.register.CapabilityRegister;
@@ -34,17 +35,18 @@ import java.util.Map;
  */
 public class Handle implements IHandle {
 
+    public final IPosTrack posTrack;
+
     public final List<Shaped> shapedList;
-    public final BlockEntity tileEntity;
     public final IControl iControl;
     public final IClock iClock;
     public final IUp up;
     public final int maxParallel;
     public List<ShapedHandle> shapedHandles = new ArrayList<>();
 
-    public Handle(BlockEntity tileEntity, List<Shaped> shapedTypes, IControl iControl, IClock iClock, IUp up, int maxParallel) {
+    public Handle(IPosTrack iPosTrack, List<Shaped> shapedTypes, IControl iControl, IClock iClock, IUp up, int maxParallel) {
         this.shapedList = shapedTypes;
-        this.tileEntity = tileEntity;
+        this.posTrack = iPosTrack;
         this.iControl = iControl;
         this.iClock = iClock;
         this.up = up;
@@ -53,9 +55,9 @@ public class Handle implements IHandle {
         up.addUpBlack(this::up);
     }
 
-    public Handle(BlockEntity tileEntity, List<ShapedType> shapedTypes, IControl iControl, IClock iClock, IUp up, ManaLevel maxParallel) {
+    public Handle(IPosTrack iPosTrack, List<ShapedType> shapedTypes, IControl iControl, IClock iClock, IUp up, ManaLevel maxParallel) {
         this.shapedList = Shaped.get(shapedTypes.toArray(new ShapedType[0]));
-        this.tileEntity = tileEntity;
+        this.posTrack = iPosTrack;
         this.iControl = iControl;
         this.iClock = iClock;
         this.up = up;
@@ -190,8 +192,8 @@ public class Handle implements IHandle {
     }
 
     @Override
-    public BlockEntity getThis() {
-        return tileEntity;
+    public IPosTrack getPosTrack() {
+        return posTrack;
     }
 
     @Nullable

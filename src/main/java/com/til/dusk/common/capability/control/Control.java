@@ -1,5 +1,6 @@
 package com.til.dusk.common.capability.control;
 
+import com.til.dusk.common.capability.pos.IPosTrack;
 import com.til.dusk.common.register.BindType;
 import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.common.register.mana_level.ManaLevel;
@@ -13,7 +14,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
@@ -23,40 +23,35 @@ import java.util.*;
 
 public class Control implements IControl {
 
-    public final BlockEntity tileEntity;
+    public final IPosTrack posTrack;
     public final int maxBind;
     public final int maxRange;
     public final List<BindType> bindTypes;
     public Map<BindType, List<BlockPos>> tile = new HashMap<>();
 
-    public Control(BlockEntity tileEntity, List<BindType> bindTypes, int maxBind, int maxRange) {
-        this.tileEntity = tileEntity;
+    public Control(IPosTrack posTrack, List<BindType> bindTypes, int maxBind, int maxRange) {
+        this.posTrack = posTrack;
         this.bindTypes = bindTypes;
         this.maxBind = maxBind;
         this.maxRange = maxRange;
     }
 
-    public Control(BlockEntity tileEntity, List<BindType> bindTypes, ManaLevel iManaLevel) {
-        this(tileEntity, bindTypes, iManaLevel.maxBind, 16);
-    }
-
-    /***
-     * 返回自己
-     */
-    @Override
-    public BlockEntity getThis() {
-        return tileEntity;
+    public Control(IPosTrack posTrack, List<BindType> bindTypes, ManaLevel iManaLevel) {
+        this(posTrack, bindTypes, iManaLevel.maxBind, 16);
     }
 
     @Override
     public List<BlockEntity> getAllTileEntity(BindType iBindType) {
-        Level level = getThis().getLevel();
+        Level level = posTrack.getLevel();
         if (level == null) {
-            return new ArrayList<>();
+            return List.of();
         }
         List<BlockEntity> list = new ArrayList<>();
         List<BlockPos> rList = null;
         List<BlockPos> blockPosList = tile.computeIfAbsent(iBindType, k -> new ArrayList<>());
+        if (blockPosList.isEmpty()) {
+            return List.of();
+        }
         for (BlockPos blockPos : blockPosList) {
             BlockEntity tile = level.getBlockEntity(blockPos);
             if (tile == null) {
@@ -100,10 +95,6 @@ public class Control implements IControl {
         }
         list.add(tileEntity.getBlockPos());
         MinecraftForge.EVENT_BUS.post(new EventControl.Binding(this, tileEntity, iBindType));
-        Level level = getThis().getLevel();
-        if (level != null) {
-            level.getChunk(getThis().getBlockPos()).setUnsaved(true);
-        }
         return Lang.getLang(Lang.getKey("绑定成功"));
     }
 
@@ -127,11 +118,13 @@ public class Control implements IControl {
         }
         tile.computeIfAbsent(iBindType, k -> new ArrayList<>()).remove(tileEntity.getBlockPos());
         MinecraftForge.EVENT_BUS.post(new EventControl.UnBinding(this, tileEntity, iBindType));
-        Level level = getThis().getLevel();
-        if (level != null) {
-            level.getChunk(getThis().getBlockPos()).setUnsaved(true);
-        }
         return Lang.getLang(Lang.getKey("解绑成功"));
+    }
+
+
+    @Override
+    public IPosTrack getPosTrack() {
+        return posTrack;
     }
 
     @Override
@@ -142,7 +135,11 @@ public class Control implements IControl {
 
     @Override
     public <C> Map<BlockEntity, C> getCapability(Capability<C> capability, BindType iBindType) {
-        Map<BlockEntity, C> map = new HashMap<>();
+        List<BlockEntity> list = getAllTileEntity(iBindType);
+        if (list.isEmpty()) {
+            return Map.of();
+        }
+        Map<BlockEntity, C> map = new HashMap<>(list.size());
         for (BlockEntity entity : getAllTileEntity(iBindType)) {
             LazyOptional<C> c = entity.getCapability(capability, null);
             if (c.isPresent()) {
