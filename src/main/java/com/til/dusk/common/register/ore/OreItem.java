@@ -6,6 +6,7 @@ import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.util.Lang;
 import com.til.dusk.util.StaticTag;
 import com.til.dusk.util.pack.ItemPack;
+import com.til.dusk.util.prefab.ColorPrefab;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
@@ -44,6 +45,12 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
      * 板
      */
     public static OreItem plate;
+
+    public static OreItem plate_2;
+
+    public static OreItem plate_3;
+
+    public static OreItem plate_4;
 
     /***
      * 外壳
@@ -127,6 +134,39 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
         ORE_ITEM = event.create(new RegistryBuilder<OreItem>().setName(new ResourceLocation(Dusk.MOD_ID, "ore_item")));
         ingot = new OreItem("ingot", List.of(Ore.IS_METAL));
         plate = new OreItem("plate", List.of(Ore.IS_METAL));
+        plate_2 = new OreItem("plate_2", List.of(Ore.IS_METAL)){
+            @Override
+            public ResourceLocation getItemMoldMapping(Ore ore) {
+                return plate.name;
+            }
+
+            @Override
+            public void dyeBlack(Ore ore, ColorProxy.ItemColorPack itemColorPack) {
+                itemColorPack.addClock(0, itemStack -> ColorPrefab.blend(ore.color, ColorPrefab.GRAYSCALE_REDUCTION_1));
+            }
+        };
+        plate_3 = new OreItem("plate_3",List.of(Ore.IS_METAL)){
+            @Override
+            public ResourceLocation getItemMoldMapping(Ore ore) {
+                return plate.name;
+            }
+
+            @Override
+            public void dyeBlack(Ore ore, ColorProxy.ItemColorPack itemColorPack) {
+                itemColorPack.addClock(0, itemStack -> ColorPrefab.blend(ore.color, ColorPrefab.GRAYSCALE_REDUCTION_2));
+            }
+        };
+        plate_4 = new OreItem("plate_4",List.of(Ore.IS_METAL)){
+            @Override
+            public ResourceLocation getItemMoldMapping(Ore ore) {
+                return plate.name;
+            }
+
+            @Override
+            public void dyeBlack(Ore ore, ColorProxy.ItemColorPack itemColorPack) {
+                itemColorPack.addClock(0, itemStack -> ColorPrefab.blend(ore.color, ColorPrefab.GRAYSCALE_REDUCTION_3));
+            }
+        };
         foil = new OreItem("foil", List.of(Ore.IS_METAL));
         casing = new OreItem("casing", List.of(Ore.IS_METAL));
         stick = new OreItem("stick", List.of(Ore.IS_METAL));

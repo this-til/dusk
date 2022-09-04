@@ -31,6 +31,6 @@ public class WhirlBoostMechanic extends DefaultCapacityMechanic {
     public void addCapability(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability, ManaLevel manaLevel, IPosTrack iPosTrack) {
         super.addCapability(event, duskModCapability, manaLevel, iPosTrack);
         IControl iControl = duskModCapability.addCapability(CapabilityRegister.iControl.capability, new Control(iPosTrack, List.of(BindType.manaIn), manaLevel));
-        duskModCapability.addCapability(CapabilityRegister.iManaHandle.capability, new WhirlBoostManaHandle(iControl));
+        duskModCapability.addCapability(CapabilityRegister.iManaHandle.capability, new WhirlBoostManaHandle(iControl, manaLevel.manaLoss));
     }
 }

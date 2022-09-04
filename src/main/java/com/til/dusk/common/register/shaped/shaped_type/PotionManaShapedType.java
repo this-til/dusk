@@ -72,7 +72,7 @@ public class PotionManaShapedType extends ShapedType {
                 long outMana = 0;
                 for (MobEffectInstance effect : potion.getEffects()) {
                     long time = effect.getEffect().isInstantenous() ? 180 : effect.getDuration();
-                    outMana += time * effect.getAmplifier();
+                    outMana += time * (effect.getAmplifier() + 1);
                 }
                 ItemStack itemStack = outItemStack.copy();
                 PotionUtils.setPotion(itemStack, Potions.WATER);

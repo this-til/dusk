@@ -26,8 +26,14 @@ public class WhirlBoostManaHandle implements IManaHandle, RoutePack.ISupportRout
 
     public RoutePack<Long> routePackCache;
 
-    public WhirlBoostManaHandle(IControl control) {
+    /***
+     * 灵气损耗
+     */
+    public final double manaLoss;
+
+    public WhirlBoostManaHandle(IControl control, double manaLoss) {
         this.control = control;
+        this.manaLoss = manaLoss;
     }
 
     public long integration(Extension.Func_1I<IManaHandle, Long> func1I) {
@@ -89,9 +95,11 @@ public class WhirlBoostManaHandle implements IManaHandle, RoutePack.ISupportRout
             lock = false;
             return 0;
         }
-        long inMana = CapabilityHelp.addMana(control.getPosTrack(), routePackCache, map, mana, simulate);
+        long l = (long) (mana * manaLoss);
+        long inMana = CapabilityHelp.addMana(control.getPosTrack(), routePackCache, map, mana - l, simulate);
         this.routePackCache = null;
         lock = false;
+        inMana += l;
         return inMana;
     }
 
@@ -106,9 +114,11 @@ public class WhirlBoostManaHandle implements IManaHandle, RoutePack.ISupportRout
             lock = false;
             return 0;
         }
-        long mana = CapabilityHelp.extractMana(control.getPosTrack(), routePackCache, map, demand, simulate);
+        long l = (long) (demand * manaLoss);
+        long mana = CapabilityHelp.extractMana(control.getPosTrack(), routePackCache, map, demand + l,  simulate);
         this.routePackCache = null;
         lock = false;
+        mana = mana - l;
         return mana;
     }
 

@@ -179,6 +179,11 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
     public static CuttingShapedType cutting;
 
     /***
+     * 压杆机
+     */
+    public static PressureStickShapedType pressureStick;
+
+    /***
      * 灵气凝聚
      */
     public static ManaCoagulationShapedType manaCoagulation;
@@ -222,6 +227,7 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
         lathe = new LatheShapedType();
         tieWire = new TieWireShapedType();
         cutting = new CuttingShapedType();
+        pressureStick = new PressureStickShapedType();
         manaCoagulation = new ManaCoagulationShapedType();
     }
 

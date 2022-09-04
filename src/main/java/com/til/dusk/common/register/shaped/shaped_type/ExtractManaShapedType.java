@@ -1,6 +1,9 @@
 package com.til.dusk.common.register.shaped.shaped_type;
 
+import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.register.mana_level.mana_level_block.ManaLevelBlock;
+import com.til.dusk.common.register.shaped.ShapedDrive;
+import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.function.Supplier;
@@ -16,6 +19,17 @@ public class ExtractManaShapedType extends ShapedType {
 
     @Override
     public void registerSubsidiaryBlack() {
-
+        new ShapedOre(
+                this,
+                ShapedDrive.get(0),
+                ManaLevel.t1,
+                null,
+                null,
+                1024,
+                0,
+                30000,
+                null,
+                null
+        );
     }
 }

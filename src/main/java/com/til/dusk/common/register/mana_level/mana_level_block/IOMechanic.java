@@ -88,7 +88,7 @@ public class IOMechanic extends DefaultCapacityMechanic {
                 if (level == null) {
                     return;
                 }
-                CapabilityHelp.manaPointToPointTransmit(iControl.getPosTrack(), iControl.getCapability(BindType.manaIn),iControl.getCapability(BindType.manaOut), false);
+                CapabilityHelp.manaPointToPointTransmit(iControl.getPosTrack(), iControl.getCapability(BindType.manaIn),iControl.getCapability(BindType.manaOut), manaLevel.manaLoss,false);
             });
         }
 

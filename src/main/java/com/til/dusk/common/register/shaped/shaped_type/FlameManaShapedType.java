@@ -25,7 +25,7 @@ public class FlameManaShapedType extends ShapedType {
                 ShapedDrive.get(0),
                 ManaLevel.t1,
                 null,
-                Map.of(FluidTags.WATER, 10),
+                Map.of(FluidTags.LAVA, 10),
                 512,
                 0,
                 8192,

@@ -34,12 +34,12 @@ public abstract class ShapedMiddle extends Shaped {
     }
 
     @Override
-    public JsonObject writ(JsonObject compoundTag) {
-        super.writ(compoundTag);
-        AllNBTPack.CONSUME_MANA.set(compoundTag, consumeMana);
-        AllNBTPack.SURPLUS_TIME.set(compoundTag, surplusTime);
-        AllNBTPack.OUT_MANA.set(compoundTag, outMana);
-        return compoundTag;
+    public JsonObject writ(JsonObject jsonObject) {
+        super.writ(jsonObject);
+        AllNBTPack.CONSUME_MANA.set(jsonObject, consumeMana);
+        AllNBTPack.SURPLUS_TIME.set(jsonObject, surplusTime);
+        AllNBTPack.OUT_MANA.set(jsonObject, outMana);
+        return jsonObject;
     }
 
     @Override

@@ -78,21 +78,21 @@ public class ShapedOre extends ShapedMiddle {
     }
 
     @Override
-    public @Nullable JsonObject writ(JsonObject compoundTag) {
-        super.writ(compoundTag);
+    public @Nullable JsonObject writ(JsonObject jsonObject) {
+        super.writ(jsonObject);
         if (item != null) {
-            AllNBTPack.ITEM_IN_MAP.set(compoundTag, item);
+            AllNBTPack.ITEM_IN_MAP.set(jsonObject, item);
         }
         if (fluid != null) {
-            AllNBTPack.FLUID_IN_MAP.set(compoundTag, fluid);
+            AllNBTPack.FLUID_IN_MAP.set(jsonObject, fluid);
         }
         if (outItem != null) {
-            AllNBTPack.ITEM_OUT_MAP.set(compoundTag, outItem);
+            AllNBTPack.ITEM_OUT_MAP.set(jsonObject, outItem);
         }
         if (outFluid != null) {
-            AllNBTPack.FLUID_OUT_MAP.set(compoundTag, outFluid);
+            AllNBTPack.FLUID_OUT_MAP.set(jsonObject, outFluid);
         }
-        return compoundTag;
+        return jsonObject;
     }
 
     @Override

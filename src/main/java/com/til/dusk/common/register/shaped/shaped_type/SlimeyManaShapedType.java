@@ -42,7 +42,7 @@ public class SlimeyManaShapedType extends ShapedType {
                 8194,
                 null,
                 null);
-        new ShapedOre(
+/*        new ShapedOre(
                 this,
                 ShapedDrive.get(1),
                 ManaLevel.t1,
@@ -52,6 +52,6 @@ public class SlimeyManaShapedType extends ShapedType {
                 0,
                 16384,
                 null,
-                null);
+                null);*/
     }
 }

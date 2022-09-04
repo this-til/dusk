@@ -70,13 +70,13 @@ public class CapabilityRegister<C> extends RegisterBasics<CapabilityRegister<C>>
             Level level = e.control.getPosTrack().getLevel();
             if (level != null) {
                 Pos po = e.control.getPosTrack().getPos();
-                level.getChunk(SectionPos.blockToSectionCoord(po.x), SectionPos.blockToSectionCoord(po.y)).setUnsaved(true);
+                level.getChunk(SectionPos.blockToSectionCoord(po.x), SectionPos.blockToSectionCoord(po.z)).setUnsaved(true);
             }
         });
         MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, (Consumer<EventIO<?>>) e -> {
             if (e.level != null) {
                 for (Pos po : e.getPos()) {
-                    e.level.getChunk(SectionPos.blockToSectionCoord(po.x), SectionPos.blockToSectionCoord(po.y)).setUnsaved(true);
+                    e.level.getChunk(SectionPos.blockToSectionCoord(po.x), SectionPos.blockToSectionCoord(po.z)).setUnsaved(true);
                 }
             }
         });

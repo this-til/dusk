@@ -8,7 +8,7 @@ import com.til.dusk.common.register.mana_level.mana_level_block.ManaLevelBlock;
 public class FoodManaShapedType extends ShapedType{
 
     public FoodManaShapedType(){
-        super("food_mana", () -> ManaLevelBlock.flameMana);
+        super("food_mana", () -> ManaLevelBlock.foodMana);
     }
 
     @Override

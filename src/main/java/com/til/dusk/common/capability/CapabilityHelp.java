@@ -143,7 +143,7 @@ public class CapabilityHelp {
      */
     @Nullable
 
-    public static RoutePack<Long> manaPointToPointTransmit(IPosTrack iPosTrack, Map<BlockEntity, IManaHandle> inMap, Map<BlockEntity, IManaHandle> outMap, boolean isSimulate) {
+    public static RoutePack<Long> manaPointToPointTransmit(IPosTrack iPosTrack, Map<BlockEntity, IManaHandle> inMap, Map<BlockEntity, IManaHandle> outMap, double manaLoss,boolean isSimulate) {
         if (inMap.isEmpty()) {
             return null;
         }
@@ -175,6 +175,7 @@ public class CapabilityHelp {
                     continue;
                 }
                 long extractMana = extractMana(iPosTrack, thisRoutePack, new Pos(entry.getKey()), needTransferMana, entry.getValue(), isSimulate);
+                extractMana = (long) (extractMana * (1 - manaLoss));
                 long transferMana = addMana(iPosTrack, thisRoutePack, new Pos(_entry.getKey()), extractMana, _entry.getValue(), isSimulate);
                 if (transferMana == 0) {
                     continue;

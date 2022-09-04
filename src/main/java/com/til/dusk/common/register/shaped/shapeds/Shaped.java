@@ -76,11 +76,12 @@ public abstract class Shaped {
     /***
      * 将数据写入nbt，此nbt预先写入类等信息
      * 如果返回空间忽视
-     * @param compoundTag nbt
+     * @param jsonObject nbt
      */
     @Nullable
-    public JsonObject writ(JsonObject compoundTag) {
-        return compoundTag;
+    public JsonObject writ(JsonObject jsonObject) {
+        AllNBTPack.MANA_LEVEL.set(jsonObject, manaLevel);
+        return jsonObject;
     }
 
     @Nullable

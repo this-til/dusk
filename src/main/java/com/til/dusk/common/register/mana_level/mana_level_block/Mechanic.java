@@ -15,7 +15,7 @@ public abstract class Mechanic extends ManaLevelBlock {
     }
 
     public Mechanic(String name) {
-        super(new ResourceLocation(Dusk.MOD_ID, name));
+        this(new ResourceLocation(Dusk.MOD_ID, name));
     }
 
     @Override

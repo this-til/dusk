@@ -13,9 +13,9 @@ import java.util.Map;
 /**
  * @author til
  */
-public class StampingMachineShapedType extends ShapedType{
+public class StampingMachineShapedType extends ShapedType {
 
-    public StampingMachineShapedType(){
+    public StampingMachineShapedType() {
         super("stamping_machine", () -> ManaLevelBlock.stampingMachine);
     }
 
@@ -40,6 +40,48 @@ public class StampingMachineShapedType extends ShapedType{
                     this,
                     ShapedDrive.get(1),
                     ore.manaLevel,
+                    Map.of(ore.itemMap.get(OreItem.plate).itemTag(), 2),
+                    null,
+                    (long) (ore.strength * 1024L),
+                    (long) (ore.consume * 32L),
+                    0,
+                    Map.of(new ItemStack(ore.itemMap.get(OreItem.plate_2).item(), 1), 1D),
+                    null
+            );
+        }
+        for (Ore ore : Ore.screen(Ore.IS_METAL)) {
+            new ShapedOre(
+                    this,
+                    ShapedDrive.get(2),
+                    ore.manaLevel,
+                    Map.of(ore.itemMap.get(OreItem.plate_2).itemTag(), 2),
+                    null,
+                    (long) (ore.strength * 1024L),
+                    (long) (ore.consume * 64L),
+                    0,
+                    Map.of(new ItemStack(ore.itemMap.get(OreItem.plate_3).item(), 1), 1D),
+                    null
+            );
+        }
+        for (Ore ore : Ore.screen(Ore.IS_METAL)) {
+            new ShapedOre(
+                    this,
+                    ShapedDrive.get(3),
+                    ore.manaLevel,
+                    Map.of(ore.itemMap.get(OreItem.plate_3).itemTag(), 2),
+                    null,
+                    (long) (ore.strength * 1024L),
+                    (long) (ore.consume * 128L),
+                    0,
+                    Map.of(new ItemStack(ore.itemMap.get(OreItem.plate_4).item(), 1), 1D),
+                    null
+            );
+        }
+        for (Ore ore : Ore.screen(Ore.IS_METAL)) {
+            new ShapedOre(
+                    this,
+                    ShapedDrive.get(4),
+                    ore.manaLevel,
                     Map.of(ore.itemMap.get(OreItem.plate).itemTag(), 1),
                     null,
                     (long) (ore.strength * 512L),
@@ -52,7 +94,7 @@ public class StampingMachineShapedType extends ShapedType{
         for (Ore ore : Ore.screen(Ore.IS_METAL)) {
             new ShapedOre(
                     this,
-                    ShapedDrive.get(2),
+                    ShapedDrive.get(5),
                     ore.manaLevel,
                     Map.of(ore.itemMap.get(OreItem.plate).itemTag(), 1),
                     null,
@@ -60,6 +102,21 @@ public class StampingMachineShapedType extends ShapedType{
                     (long) (ore.consume * 12L),
                     0,
                     Map.of(new ItemStack(ore.itemMap.get(OreItem.foil).item(), 1), 1D),
+                    null
+            );
+        }
+
+        for (Ore ore : Ore.screen(Ore.IS_METAL)) {
+            new ShapedOre(
+                    this,
+                    ShapedDrive.get(6),
+                    ore.manaLevel,
+                    Map.of(ore.itemMap.get(OreItem.stick).itemTag(), 2),
+                    null,
+                    (long) (ore.strength * 512L),
+                    (long) (ore.consume * 8L),
+                    0,
+                    Map.of(new ItemStack(ore.itemMap.get(OreItem.stick_long).item(), 1), 1D),
                     null
             );
         }

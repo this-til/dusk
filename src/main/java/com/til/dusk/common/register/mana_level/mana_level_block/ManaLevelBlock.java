@@ -229,6 +229,11 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
     public static Mechanic cutting;
 
     /***
+     * 压杆
+     */
+    public static Mechanic pressureStick;
+
+    /***
      * 灵气凝结晶体
      */
     public static Mechanic manaCoagulation;
@@ -316,6 +321,7 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
         lathe = new HandleMechanic("lathe", () -> List.of(ShapedType.lathe));
         tieWire = new HandleMechanic("tie_wire", () -> List.of(ShapedType.tieWire));
         cutting = new HandleMechanic("cutting", () -> List.of(ShapedType.cutting));
+        pressureStick = new HandleMechanic("pressure_stick", () -> List.of(ShapedType.pressureStick));
         manaCoagulation = new HandleMechanic("mana_coagulation", () -> List.of(ShapedType.manaCoagulation));
         voidCase = new DefaultCapacityMechanic("void_case") {
             @Override
@@ -336,7 +342,7 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
             public void addCapability(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability, ManaLevel manaLevel, IPosTrack iPosTrack) {
                 super.addCapability(event, duskModCapability, manaLevel, iPosTrack);
                 IUp iUp = duskModCapability.addCapability(CapabilityRegister.iUp.capability, new Up());
-                duskModCapability.addCapability(CapabilityRegister.iManaHandle.capability, new ManaHandle( 32L * manaLevel.level, iUp, 5120000L * manaLevel.level));
+                duskModCapability.addCapability(CapabilityRegister.iManaHandle.capability, new ManaHandle(32L * manaLevel.level, iUp, 5120000L * manaLevel.level));
             }
         };
         manaIO = new IOMechanic.ManaIO("mana_io", ColorPrefab.MANA_IO);
