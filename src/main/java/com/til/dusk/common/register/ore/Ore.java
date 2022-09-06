@@ -183,6 +183,8 @@ public class Ore extends RegisterBasics.UnitRegister<Ore, OreItem, OreBlock, Ore
         aliceblue = new Ore("aliceblue", new Color(0xF0F8FF), ManaLevel.t2);
         darkGreen = new Ore("dark_green", new Color(0x3d3b4f), ManaLevel.t2);
 
+        starRiver = new Ore("star_river", new Color(0x6487FF), ManaLevel.t2);
+
         sunlight = new Ore("sunlight", ColorPrefab.SUNLIGHT_COLOR, ManaLevel.t2).setCrysta();
         moonlight = new Ore("moonlight", ColorPrefab.MOONLIGHT_COLOR, ManaLevel.t2).setCrysta();
         rain = new Ore("rain", ColorPrefab.RAIN_COLOR, ManaLevel.t2).setCrysta();

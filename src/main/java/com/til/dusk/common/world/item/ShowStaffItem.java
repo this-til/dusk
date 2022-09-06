@@ -86,7 +86,6 @@ public class ShowStaffItem extends ItemBasics implements ModItem.IHasCustomColor
         for (Map.Entry<BindType, List<BlockPos>> bindTypeListEntry : control.getAllBind().entrySet()) {
             for (BlockPos blockPos : bindTypeListEntry.getValue()) {
                 ParticleRegister.line.add(player, bindTypeListEntry.getKey().color, 10, control.getPosTrack().getPos(), new Pos(blockPos));
-                ParticleRegister.block.add(player, bindTypeListEntry.getKey().color, 10, new Pos(blockPos), new Pos());
             }
         }
     }
