@@ -9,7 +9,7 @@ import com.til.dusk.common.capability.up.IUp;
 import com.til.dusk.common.capability.up.Up;
 import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.common.register.mana_level.ManaLevel;
-import com.til.dusk.common.world.ModBlock;
+import com.til.dusk.common.world.block.MechanicBlock;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -29,7 +29,7 @@ public abstract class PassiveProductionMechanic extends Mechanic {
 
     @Override
     public Block createBlock(ManaLevel manaLevel) {
-        return new ModBlock.MechanicBlock(manaLevel) {
+        return new MechanicBlock(manaLevel) {
             @Override
             public void add(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability, IPosTrack iPosTrack) {
                 duskModCapability.addCapability(CapabilityRegister.iManaLevel.capability, () -> manaLevel);

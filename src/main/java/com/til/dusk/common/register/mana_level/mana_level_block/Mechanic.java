@@ -20,12 +20,12 @@ public abstract class Mechanic extends ManaLevelBlock {
 
     @Override
     public void dyeBlack(ManaLevel manaLevel, ColorProxy.ItemColorPack itemColorPack) {
-        itemColorPack.addClock(0, itemStack -> manaLevel.color);
+        itemColorPack.addColor(0, itemStack -> manaLevel.color);
     }
 
     @Override
     public void dyeBlack(ManaLevel manaLevel, ColorProxy.BlockColorPack blockColorPack) {
-        blockColorPack.addClock(0, (blockState, blockAndTintGetter, blockPos) -> manaLevel.color);
+        blockColorPack.addColor(0, (blockState, blockAndTintGetter, blockPos) -> manaLevel.color);
     }
 
 }

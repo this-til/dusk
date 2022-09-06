@@ -6,7 +6,7 @@ import com.til.dusk.common.capability.tile_entity.DuskCapabilityProvider;
 import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.register.mana_level.ManaLevel;
-import com.til.dusk.common.world.ModBlock;
+import com.til.dusk.common.world.block.MechanicBlock;
 import com.til.dusk.util.Lang;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -65,7 +65,7 @@ public class ShapedDrive extends RegisterBasics<ShapedDrive> {
 
     @Override
     public void registerSubsidiaryBlack() {
-        Block block = new ModBlock.MechanicBlock(ManaLevel.t1) {
+        Block block = new MechanicBlock(ManaLevel.t1) {
             @Override
             public void add(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability, IPosTrack iPosTrack) {
                 duskModCapability.addCapability(CapabilityRegister.iManaLevel.capability, () -> ManaLevel.t1);

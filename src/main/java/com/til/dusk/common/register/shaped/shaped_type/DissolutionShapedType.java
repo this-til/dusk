@@ -48,7 +48,7 @@ public class DissolutionShapedType extends ShapedType{
                     null,
                     Map.of(new FluidStack(ore.fluidMap.get(OreFluid.solution).source(), 144), 1d));
         }
-        for (Ore ore : Ore.screen(Ore.HAS_FLUID, Ore.HAS_DUST)) {
+        for (Ore ore : Ore.screen(Ore.HAS_FLUID)) {
             new ShapedOre(
                     this,
                     ShapedDrive.get(2),

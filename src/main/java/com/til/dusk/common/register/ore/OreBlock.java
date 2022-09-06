@@ -193,12 +193,12 @@ public abstract class OreBlock extends RegisterBasics.BlockUnitRegister<OreBlock
 
     @Override
     public void dyeBlack(Ore ore, ColorProxy.ItemColorPack itemColorPack) {
-        itemColorPack.addClock(1, itemStack -> ore.color);
+        itemColorPack.addColor(1, itemStack -> ore.color);
     }
 
     @Override
     public void dyeBlack(Ore ore, ColorProxy.BlockColorPack itemColorPack) {
-        itemColorPack.addClock(1, (blockState, blockAndTintGetter, blockPos) -> ore.color);
+        itemColorPack.addColor(1, (blockState, blockAndTintGetter, blockPos) -> ore.color);
     }
     /*   public static abstract class Mineral extends OreBlock {
         public Mineral(ResourceLocation name) {

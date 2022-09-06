@@ -3,7 +3,8 @@ package com.til.dusk.client.other_mod_interact;
 import com.til.dusk.Dusk;
 import com.til.dusk.common.capability.ITooltipCapability;
 import com.til.dusk.common.register.CapabilityRegister;
-import com.til.dusk.common.world.ModBlock;
+import com.til.dusk.common.world.block.MechanicBlock;
+import com.til.dusk.common.world.block.RepeaterBlock;
 import com.til.dusk.util.TooltipPack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -21,8 +22,8 @@ import snownee.jade.api.config.IPluginConfig;
 @OnlyIn(Dist.CLIENT)
 public class Jade_Interact {
     public static void registerClient(IWailaClientRegistration registration) {
-        registration.registerBlockComponent(BlockComponentProvider.getInstance(), ModBlock.MechanicBlock.class);
-        registration.registerBlockComponent(BlockComponentProvider.getInstance(), ModBlock.RepeaterBlock.class);
+        registration.registerBlockComponent(BlockComponentProvider.getInstance(), MechanicBlock.class);
+        registration.registerBlockComponent(BlockComponentProvider.getInstance(), RepeaterBlock.class);
     }
 
     public static class BlockComponentProvider implements IBlockComponentProvider {

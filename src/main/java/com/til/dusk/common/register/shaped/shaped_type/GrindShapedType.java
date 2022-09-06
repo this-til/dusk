@@ -23,7 +23,7 @@ public class GrindShapedType extends ShapedType{
 
     @Override
     public void registerSubsidiaryBlack() {
-        for (Ore ore : Ore.screen(Ore.HAS_MINERAL_BLOCK, Ore.HAS_CRUSHED)) {
+        for (Ore ore : Ore.screen(Ore.HAS_MINERAL_BLOCK)) {
             for (Map.Entry<OreBlock, BlockPack> entry : ore.blockMap.entrySet()) {
                 if (!entry.getKey().hasTag(OreBlock.IS_MINERAL)) {
                     continue;
@@ -42,7 +42,7 @@ public class GrindShapedType extends ShapedType{
             }
         }
 
-        for (Ore ore : Ore.screen(Ore.IS_METAL, Ore.HAS_DUST)) {
+        for (Ore ore : Ore.screen(Ore.IS_METAL)) {
             new ShapedOre(
                     this,
                     ShapedDrive.get(1),
@@ -57,7 +57,7 @@ public class GrindShapedType extends ShapedType{
             );
         }
 
-        for (Ore ore : Ore.screen(Ore.IS_CRYSTA, Ore.HAS_DUST)) {
+        for (Ore ore : Ore.screen(Ore.IS_CRYSTA)) {
             new ShapedOre(
                     this,
                     ShapedDrive.get(2),

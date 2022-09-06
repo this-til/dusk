@@ -173,6 +173,7 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
      * 扎线
      */
     public static TieWireShapedType tieWire;
+
     /***
      * 切割
      */
@@ -182,6 +183,11 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
      * 压杆机
      */
     public static PressureStickShapedType pressureStick;
+
+    /***
+     * 混合
+     */
+    public static BlendShapedType blend;
 
     /***
      * 灵气凝聚
@@ -228,6 +234,7 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
         tieWire = new TieWireShapedType();
         cutting = new CuttingShapedType();
         pressureStick = new PressureStickShapedType();
+        blend = new BlendShapedType();
         manaCoagulation = new ManaCoagulationShapedType();
     }
 

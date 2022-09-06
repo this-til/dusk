@@ -55,13 +55,13 @@ public class SimilarSolarEnergyMechanic extends PassiveProductionMechanic {
     @Override
     public void dyeBlack(ManaLevel manaLevel, ColorProxy.BlockColorPack blockColorPack) {
         super.dyeBlack(manaLevel, blockColorPack);
-        blockColorPack.addClock(1, (blockState, blockAndTintGetter, blockPos) -> color);
+        blockColorPack.addColor(1, (blockState, blockAndTintGetter, blockPos) -> color);
     }
 
     @Override
     public void dyeBlack(ManaLevel manaLevel, ColorProxy.ItemColorPack itemColorPack) {
         super.dyeBlack(manaLevel, itemColorPack);
-        itemColorPack.addClock(1, itemStack -> color);
+        itemColorPack.addColor(1, itemStack -> color);
     }
 
     @Override

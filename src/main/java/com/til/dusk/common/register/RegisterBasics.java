@@ -5,10 +5,7 @@ import com.til.dusk.client.ColorProxy;
 import com.til.dusk.common.data.tag.BlockTag;
 import com.til.dusk.common.data.tag.FluidTag;
 import com.til.dusk.common.data.tag.ItemTag;
-import com.til.dusk.util.Extension;
-import com.til.dusk.util.Lang;
-import com.til.dusk.util.StaticTag;
-import com.til.dusk.util.Util;
+import com.til.dusk.util.*;
 import com.til.dusk.util.pack.BlockPack;
 import com.til.dusk.util.pack.FluidPack;
 import com.til.dusk.util.pack.ItemPack;
@@ -29,10 +26,10 @@ import net.minecraft.world.level.material.*;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegisterEvent;
-import net.minecraftforge.registries.tags.ITagManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -45,8 +42,9 @@ import java.util.function.Supplier;
 public abstract class RegisterBasics<T extends RegisterBasics<?>> {
 
     public final ResourceLocation name;
-    public final Supplier<IForgeRegistry<T>> registrySupplier;
-    public List<StaticTag> staticTagList = new ArrayList<>();
+    protected final Supplier<IForgeRegistry<T>> registrySupplier;
+    protected final GenericMap setMap = new GenericMap();
+    protected List<StaticTag> staticTagList = new ArrayList<>();
 
     protected boolean isRegister;
     protected boolean isRegisterSubsidiary;
@@ -139,6 +137,19 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> {
         return true;
     }
 
+    public <V> T setSet(GenericMap.IKey<V> key, V v) {
+        setMap.set(key, v);
+        return Util.forcedConversion(this);
+    }
+
+    public <V> V getSet(GenericMap.IKey<V> key) {
+        return setMap.get(key);
+    }
+
+    public boolean hasSet(GenericMap.IKey<?> key) {
+        return setMap.containsKey(key);
+    }
+
     /***
      * 注册回调的触发事件
      */
@@ -208,6 +219,8 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> {
 
     public static abstract class ItemUnitRegister<T extends ItemUnitRegister<T, O>, O extends RegisterBasics<?>> extends RegisterBasics<T> {
 
+        protected TagKey<Item> itemTagKey;
+
         public ItemUnitRegister(ResourceLocation name, Supplier<IForgeRegistry<T>> iForgeRegistrySupplier) {
             super(name, iForgeRegistrySupplier);
         }
@@ -243,9 +256,20 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> {
          * 染色回调
          */
         public abstract void dyeBlack(O o, ColorProxy.ItemColorPack itemColorPack);
+
+        public TagKey<Item> getItemTagKey() {
+            if (itemTagKey == null) {
+                itemTagKey = Dusk.instance.ITEM_TAG.createTagKey(name);
+            }
+            return itemTagKey;
+        }
     }
 
     public static abstract class BlockUnitRegister<T extends BlockUnitRegister<T, O>, O extends RegisterBasics<?>> extends RegisterBasics<T> {
+        protected TagKey<Item> itemTagKey;
+
+        protected TagKey<Block> blockTagKey;
+
         public BlockUnitRegister(ResourceLocation name, Supplier<IForgeRegistry<T>> iForgeRegistrySupplier) {
             super(name, iForgeRegistrySupplier);
         }
@@ -319,6 +343,20 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> {
          * 染色回调
          */
         public abstract void dyeBlack(O o, ColorProxy.BlockColorPack itemColorPack);
+
+        public TagKey<Item> getItemTagKey() {
+            if (itemTagKey == null) {
+                itemTagKey = Dusk.instance.ITEM_TAG.createTagKey(name);
+            }
+            return itemTagKey;
+        }
+
+        public TagKey<Block> getBlockTagKey() {
+            if (blockTagKey == null) {
+                blockTagKey = Dusk.instance.BLOCK_TAG.createTagKey(name);
+            }
+            return blockTagKey;
+        }
     }
 
     public static abstract class FluidUnitRegister<T extends FluidUnitRegister<T, O>, O extends RegisterBasics<?>> extends RegisterBasics<T> {
@@ -326,6 +364,11 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> {
         public final Map<O, Fluid> sourceMap = new HashMap<>();
         public final Map<O, Fluid> flowingMap = new HashMap<>();
 
+        protected TagKey<Item> itemTagKey;
+
+        protected TagKey<Block> blockTagKey;
+
+        protected TagKey<Fluid> fluidTagKey;
 
         public FluidUnitRegister(ResourceLocation name, Supplier<IForgeRegistry<T>> iForgeRegistrySupplier) {
             super(name, iForgeRegistrySupplier);
@@ -404,6 +447,28 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> {
             };
             ForgeRegistries.BLOCKS.register(name, block);
         }
+
+        public TagKey<Item> getItemTagKey() {
+            if (itemTagKey == null) {
+                itemTagKey = Dusk.instance.ITEM_TAG.createTagKey(name);
+            }
+            return itemTagKey;
+        }
+
+        public TagKey<Block> getBlockTagKey() {
+            if (blockTagKey == null) {
+                blockTagKey = Dusk.instance.BLOCK_TAG.createTagKey(name);
+            }
+            return blockTagKey;
+        }
+
+        public TagKey<Fluid> getFluidTagKey() {
+            if (fluidTagKey == null) {
+                fluidTagKey = Dusk.instance.FLUID_TAG.createTagKey(name);
+            }
+            return fluidTagKey;
+        }
+
     }
 
     public static abstract class UnitRegister<T extends UnitRegister<T, ITEM, BLOCK, FLUID>,
@@ -415,9 +480,9 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> {
         public final Map<BLOCK, BlockPack> blockMap = new HashMap<>();
         public final Map<FLUID, FluidPack> fluidMap = new HashMap<>();
 
-        public TagKey<Item> itemTagKey;
-        public TagKey<Block> blockTagKey;
-        public TagKey<Fluid> fluidTagKey;
+        protected TagKey<Item> itemTagKey;
+        protected TagKey<Block> blockTagKey;
+        protected TagKey<Fluid> fluidTagKey;
 
         public UnitRegister(ResourceLocation name, Supplier<IForgeRegistry<T>> iForgeRegistrySupplier) {
             super(name, iForgeRegistrySupplier);
@@ -425,9 +490,6 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> {
 
         @Override
         public void registerSubsidiaryBlack() throws AssertionError {
-            itemTagKey = Dusk.instance.ITEM_TAG.createTagKey(name);
-            blockTagKey = Dusk.instance.BLOCK_TAG.createTagKey(name);
-            fluidTagKey = Dusk.instance.FLUID_TAG.createTagKey(name);
             for (ITEM item : itemRegistry().get()) {
                 ItemPack itemPack = item.create(Util.forcedConversion(this));
                 if (itemPack == null) {
@@ -437,7 +499,8 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> {
                 ForgeRegistries.ITEMS.register(fuseName(this, item), itemPack.item());
                 ItemTag.addTag(itemPack.itemTag(), itemPack.item());
                 ItemTag.addTag(Dusk.instance.MOD_ITEM, itemPack.item());
-                ItemTag.addTag(itemTagKey, itemPack.item());
+                ItemTag.addTag(getItemTagKey(), itemPack.item());
+                ItemTag.addTag(item.getItemTagKey(), itemPack.item());
             }
             for (BLOCK block : blockRegistry().get()) {
                 BlockPack blockPack = block.create(Util.forcedConversion(this));
@@ -448,11 +511,13 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> {
                 ForgeRegistries.BLOCKS.register(fuseName(this, block), blockPack.block());
                 BlockTag.addTag(blockPack.blockTag(), blockPack.block());
                 BlockTag.addTag(Dusk.instance.MOD_BLOCK, blockPack.block());
-                BlockTag.addTag(blockTagKey, blockPack.block());
+                BlockTag.addTag(getBlockTagKey(), blockPack.block());
+                BlockTag.addTag(block.getBlockTagKey(), blockPack.block());
                 ForgeRegistries.ITEMS.register(fuseName(this, block), blockPack.blockItem());
                 ItemTag.addTag(blockPack.blockItemTag(), blockPack.blockItem());
                 ItemTag.addTag(Dusk.instance.MOD_ITEM, blockPack.blockItem());
-                ItemTag.addTag(itemTagKey, blockPack.blockItem());
+                ItemTag.addTag(getItemTagKey(), blockPack.blockItem());
+                ItemTag.addTag(block.getItemTagKey(), blockPack.blockItem());
             }
             for (FLUID fluid : fluidRegistry().get()) {
                 FluidPack fluidPack = fluid.create(Util.forcedConversion(this));
@@ -466,14 +531,17 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> {
                 FluidTag.addTag(fluidPack.fluidTag(), fluidPack.flowing());
                 FluidTag.addTag(Dusk.instance.MOD_FLUID, fluidPack.source());
                 FluidTag.addTag(Dusk.instance.MOD_FLUID, fluidPack.flowing());
-                FluidTag.addTag(fluidTagKey, fluidPack.source());
-                FluidTag.addTag(fluidTagKey, fluidPack.flowing());
+                FluidTag.addTag(getFluidTagKey(), fluidPack.source());
+                FluidTag.addTag(getFluidTagKey(), fluidPack.flowing());
+                FluidTag.addTag(fluid.getFluidTagKey(), fluidPack.source());
+                FluidTag.addTag(fluid.getFluidTagKey(), fluidPack.flowing());
                 if (fluidPack.liquidBlock() != null) {
                     ForgeRegistries.BLOCKS.register(fuseName(this, fluid), fluidPack.liquidBlock());
                     if (fluidPack.liquidBlockTag() != null) {
                         BlockTag.addTag(fluidPack.liquidBlockTag(), fluidPack.liquidBlock());
                         BlockTag.addTag(Dusk.instance.MOD_BLOCK, fluidPack.liquidBlock());
-                        BlockTag.addTag(blockTagKey, fluidPack.liquidBlock());
+                        BlockTag.addTag(getBlockTagKey(), fluidPack.liquidBlock());
+                        BlockTag.addTag(fluid.getBlockTagKey(), fluidPack.liquidBlock());
                     }
                 }
                 if (fluidPack.bucketItem() != null) {
@@ -481,7 +549,8 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> {
                     if (fluidPack.bucketItemTag() != null) {
                         ItemTag.addTag(fluidPack.bucketItemTag(), fluidPack.bucketItem());
                         ItemTag.addTag(Dusk.instance.MOD_ITEM, fluidPack.bucketItem());
-                        ItemTag.addTag(itemTagKey, fluidPack.bucketItem());
+                        ItemTag.addTag(getItemTagKey(), fluidPack.bucketItem());
+                        ItemTag.addTag(fluid.getItemTagKey(), fluidPack.bucketItem());
                     }
                 }
 
@@ -493,6 +562,27 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> {
         public abstract Supplier<IForgeRegistry<BLOCK>> blockRegistry();
 
         public abstract Supplier<IForgeRegistry<FLUID>> fluidRegistry();
+
+        public TagKey<Item> getItemTagKey() {
+            if (itemTagKey == null) {
+                itemTagKey = Dusk.instance.ITEM_TAG.createTagKey(name);
+            }
+            return itemTagKey;
+        }
+
+        public TagKey<Block> getBlockTagKey() {
+            if (blockTagKey == null) {
+                blockTagKey = Dusk.instance.BLOCK_TAG.createTagKey(name);
+            }
+            return blockTagKey;
+        }
+
+        public TagKey<Fluid> getFluidTagKey() {
+            if (fluidTagKey == null) {
+                fluidTagKey = Dusk.instance.FLUID_TAG.createTagKey(name);
+            }
+            return fluidTagKey;
+        }
     }
 
 }

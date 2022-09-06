@@ -9,8 +9,8 @@ import com.til.dusk.common.register.ore.Ore;
 import com.til.dusk.common.register.ore.OreBlock;
 import com.til.dusk.common.register.ore.OreFluid;
 import com.til.dusk.common.register.ore.OreItem;
-import com.til.dusk.common.world.ModBlock;
-import com.til.dusk.common.world.ModItem;
+import com.til.dusk.common.world.block.ModBlock;
+import com.til.dusk.common.world.item.ModItem;
 import com.til.dusk.util.Extension;
 import com.til.dusk.util.pack.BlockPack;
 import com.til.dusk.util.pack.FluidPack;
@@ -88,21 +88,15 @@ public class ColorProxy {
             }
         }
         for (RegistryObject<Item> entry : ModItem.ITEMS.getEntries()) {
-            ITEM_COLOR_PACK_MAP.put(entry.get(), new ItemColorPack(entry.get()));
-        }
-        for (RegistryObject<Block> entry : ModBlock.BLOCKS.getEntries()) {
-            BLOCK_COLOR_PACK_MAP.put(entry.get(), new BlockColorPack(entry.get()));
+            ItemColorPack itemColorPack = new ItemColorPack(entry.get());
+            ITEM_COLOR_PACK_MAP.put(entry.get(), itemColorPack);
+            if (entry.get() instanceof ModItem.IHasCustomColor iHasCustomColor) {
+                iHasCustomColor.itemColorBlack(itemColorPack);
+            }
         }
         for (Map.Entry<Item, ItemColorPack> itemItemColorPackEntry : ITEM_COLOR_PACK_MAP.entrySet()) {
             event.register(itemItemColorPackEntry.getValue(), itemItemColorPackEntry.getKey());
         }
-        ITEM_COLOR_PACK_MAP.get(ModItem.BIND_STAFF.get()).addClock(0, itemStack -> {
-            CompoundTag compoundTag = itemStack.getTag();
-            if (compoundTag == null) {
-                return new Color(-1);
-            }
-            return new Color(AllNBTPack.COLOR.get(compoundTag));
-        });
     }
 
     @SubscribeEvent
@@ -133,6 +127,13 @@ public class ColorProxy {
                 }
             }
         }
+        for (RegistryObject<Block> entry : ModBlock.BLOCKS.getEntries()) {
+            BlockColorPack blockColorPack = new BlockColorPack(entry.get());
+            if (entry.get() instanceof ModBlock.IHasCustomColor iHasCustomColor) {
+                iHasCustomColor.blockColorBlack(blockColorPack);
+            }
+            BLOCK_COLOR_PACK_MAP.put(entry.get(), new BlockColorPack(entry.get()));
+        }
         for (Map.Entry<Block, BlockColorPack> blockBlockColorPackEntry : BLOCK_COLOR_PACK_MAP.entrySet()) {
             event.register(blockBlockColorPackEntry.getValue(), blockBlockColorPackEntry.getKey());
         }
@@ -146,7 +147,7 @@ public class ColorProxy {
             this.itemLike = itemLike;
         }
 
-        public ItemColorPack addClock(int layer, Extension.Func_1I<ItemStack, Color> color) {
+        public ItemColorPack addColor(int layer, Extension.Func_1I<ItemStack, Color> color) {
             layerColor.put(layer, color);
             return this;
         }
@@ -168,7 +169,7 @@ public class ColorProxy {
             this.block = block;
         }
 
-        public BlockColorPack addClock(int layer, Extension.Func_3I<BlockState, BlockAndTintGetter, BlockPos, Color> color) {
+        public BlockColorPack addColor(int layer, Extension.Func_3I<BlockState, BlockAndTintGetter, BlockPos, Color> color) {
             layerColor.put(layer, color);
             return this;
         }

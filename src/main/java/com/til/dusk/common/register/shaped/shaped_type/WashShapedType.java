@@ -6,8 +6,11 @@ import com.til.dusk.common.register.ore.OreItem;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -21,7 +24,14 @@ public class WashShapedType extends ShapedType {
 
     @Override
     public void registerSubsidiaryBlack() {
-        for (Ore ore : Ore.screen(Ore.HAS_CRUSHED)) {
+        for (Ore ore : Ore.screen(Ore.HAS_MINERAL_BLOCK)) {
+            HashMap<ItemStack, Double> outItem = new HashMap<>(1);
+            outItem.put(new ItemStack(ore.itemMap.get(OreItem.crushedPurified).item(), 1), 1d);
+            if (ore.hasSet(Ore.WASH_BYPRODUCT)) {
+                for (Ore ore1 : ore.getSet(Ore.WASH_BYPRODUCT).get()) {
+                    outItem.put(new ItemStack(ore1.itemMap.get(OreItem.dustTiny).item(), 1), 0.5);
+                }
+            }
             new ShapedOre(
                     this,
                     ShapedDrive.get(0),
@@ -31,7 +41,7 @@ public class WashShapedType extends ShapedType {
                     (long) (ore.strength * 1280L),
                     (long) (ore.consume * 12L),
                     0,
-                    Map.of(new ItemStack(ore.itemMap.get(OreItem.crushedPurified).item(), 1), 1d),
+                    outItem,
                     null);
         }
     }

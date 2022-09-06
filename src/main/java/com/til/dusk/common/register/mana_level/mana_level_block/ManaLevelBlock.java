@@ -234,6 +234,11 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
     public static Mechanic pressureStick;
 
     /***
+     * 混合
+     */
+    public static Mechanic blend;
+
+    /***
      * 灵气凝结晶体
      */
     public static Mechanic manaCoagulation;
@@ -322,6 +327,7 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
         tieWire = new HandleMechanic("tie_wire", () -> List.of(ShapedType.tieWire));
         cutting = new HandleMechanic("cutting", () -> List.of(ShapedType.cutting));
         pressureStick = new HandleMechanic("pressure_stick", () -> List.of(ShapedType.pressureStick));
+        blend = new HandleMechanic("blend", () -> List.of(ShapedType.blend));
         manaCoagulation = new HandleMechanic("mana_coagulation", () -> List.of(ShapedType.manaCoagulation));
         voidCase = new DefaultCapacityMechanic("void_case") {
             @Override

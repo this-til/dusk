@@ -2,7 +2,7 @@ package com.til.dusk.common.register.mana_level.mana_level_block;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.common.register.mana_level.ManaLevel;
-import com.til.dusk.common.world.ModBlock;
+import com.til.dusk.common.world.block.RepeaterBlock;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -24,7 +24,7 @@ public class RepeaterMechanic extends Mechanic{
 
     @Override
     public Block createBlock(ManaLevel manaLevel) {
-        return new ModBlock.RepeaterBlock(manaLevel);
+        return new RepeaterBlock(manaLevel);
     }
 
     @Override
@@ -32,7 +32,7 @@ public class RepeaterMechanic extends Mechanic{
         return new Block(BlockBehaviour.Properties.of(Material.AIR)) {
             @Override
             protected void createBlockStateDefinition(StateDefinition.@NotNull Builder<Block, BlockState> blockBlockStateBuilder) {
-                blockBlockStateBuilder.add(ModBlock.RepeaterBlock.FACING);
+                blockBlockStateBuilder.add(RepeaterBlock.FACING);
             }
         };
     }

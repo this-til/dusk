@@ -22,7 +22,7 @@ public class CrystallizingShapedType extends ShapedType {
     @Override
     public void registerSubsidiaryBlack() {
 
-        for (Ore ore : Ore.screen(Ore.CAN_PLANT, Ore.HAS_FLUID)) {
+        for (Ore ore : Ore.screen(Ore.IS_CRYSTA, Ore.HAS_FLUID)) {
             new ShapedOre(
                     this,
                     ShapedDrive.get(0),

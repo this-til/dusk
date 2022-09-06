@@ -19,16 +19,21 @@ public class ScreenShapedType extends ShapedType {
 
     @Override
     public void registerSubsidiaryBlack() {
-        for (Ore ore : Ore.screen(Ore.IS_CRYSTA, Ore.HAS_CRUSHED)) {
+        for (Ore ore : Ore.screen(Ore.IS_CRYSTA)) {
             Map<ItemStack, Double> out = new HashMap<>();
             out.put(new ItemStack(ore.itemMap.get(OreItem.damagedCrystal).item(), 1), 0.4);
             out.put(new ItemStack(ore.itemMap.get(OreItem.crystal).item(), 1), 0.2);
             out.put(new ItemStack(ore.itemMap.get(OreItem.delicateCrystal).item(), 1), 0.01);
             out.put(new ItemStack(ore.itemMap.get(OreItem.perfectCrystal).item(), 1), 0.005);
             out.put(new ItemStack(ore.itemMap.get(OreItem.crystalSeed).item(), 1), 0.3);
-            if (ore.hasTag(Ore.HAS_DUST)) {
-                out.put(new ItemStack(ore.itemMap.get(OreItem.dustTiny).item(), 1), 0.6);
-                out.put(new ItemStack(ore.itemMap.get(OreItem.dust).item(), 1), 0.2);
+
+            out.put(new ItemStack(ore.itemMap.get(OreItem.dustTiny).item(), 1), 0.6);
+            out.put(new ItemStack(ore.itemMap.get(OreItem.dust).item(), 1), 0.2);
+
+            if (ore.hasSet(Ore.SCREEN_BYPRODUCT)) {
+                for (Ore ore1 : ore.getSet(Ore.SCREEN_BYPRODUCT).get()) {
+                    out.put(new ItemStack(ore1.itemMap.get(OreItem.dustTiny).item(), 1), 0.5);
+                }
             }
             new ShapedOre(
                     this,

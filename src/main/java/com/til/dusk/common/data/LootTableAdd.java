@@ -49,7 +49,7 @@ public class LootTableAdd extends BlockLoot {
                 if (resourceLocation == null) {
                     continue;
                 }
-                biConsumer.accept(resourceLocation, BlockLoot.createOreDrop(b.block(),b.blockItem()));
+                biConsumer.accept(resourceLocation, createSingleItemTable(b.block()));
             }
         }
         for (ManaLevel manaLevel : ManaLevel.LEVEL.get()) {
@@ -58,7 +58,7 @@ public class LootTableAdd extends BlockLoot {
                 if (resourceLocation == null) {
                     continue;
                 }
-                biConsumer.accept(resourceLocation, BlockLoot.createOreDrop(b.block(),b.blockItem()));
+                biConsumer.accept(resourceLocation, createSingleItemTable(b.block()));
             }
         }
     }

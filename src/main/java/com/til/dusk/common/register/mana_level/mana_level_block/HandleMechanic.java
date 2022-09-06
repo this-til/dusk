@@ -8,7 +8,6 @@ import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.capability.handle.Handle;
 import com.til.dusk.common.capability.handle.IHandle;
 import com.til.dusk.common.capability.pos.IPosTrack;
-import com.til.dusk.common.capability.pos.PosTrack;
 import com.til.dusk.common.capability.tile_entity.DuskCapabilityProvider;
 import com.til.dusk.common.capability.up.IUp;
 import com.til.dusk.common.capability.up.Up;
@@ -16,7 +15,7 @@ import com.til.dusk.common.register.BindType;
 import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
-import com.til.dusk.common.world.ModBlock;
+import com.til.dusk.common.world.block.MechanicBlock;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -44,7 +43,7 @@ public class HandleMechanic extends DefaultCapacityMechanic {
     @Override
     public Block createBlock(ManaLevel manaLevel) {
 
-        return new ModBlock.MechanicBlock(manaLevel) {
+        return new MechanicBlock(manaLevel) {
             @Override
             public void add(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability, IPosTrack iPosTrack) {
                 addCapability(event, duskModCapability, manaLevel, iPosTrack);

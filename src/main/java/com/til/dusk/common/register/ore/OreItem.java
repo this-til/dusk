@@ -3,28 +3,18 @@ package com.til.dusk.common.register.ore;
 import com.til.dusk.Dusk;
 import com.til.dusk.client.ColorProxy;
 import com.til.dusk.common.register.RegisterBasics;
-import com.til.dusk.util.Lang;
 import com.til.dusk.util.StaticTag;
 import com.til.dusk.util.pack.ItemPack;
 import com.til.dusk.util.prefab.ColorPrefab;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.TagKey;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegistryBuilder;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.Set;
 import java.util.function.Supplier;
 
 /**
@@ -142,7 +132,7 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
 
             @Override
             public void dyeBlack(Ore ore, ColorProxy.ItemColorPack itemColorPack) {
-                itemColorPack.addClock(0, itemStack -> ColorPrefab.blend(ore.color, ColorPrefab.GRAYSCALE_REDUCTION_1));
+                itemColorPack.addColor(0, itemStack -> ColorPrefab.blend(ore.color, ColorPrefab.GRAYSCALE_REDUCTION_1));
             }
         };
         plate_3 = new OreItem("plate_3",List.of(Ore.IS_METAL)){
@@ -153,7 +143,7 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
 
             @Override
             public void dyeBlack(Ore ore, ColorProxy.ItemColorPack itemColorPack) {
-                itemColorPack.addClock(0, itemStack -> ColorPrefab.blend(ore.color, ColorPrefab.GRAYSCALE_REDUCTION_2));
+                itemColorPack.addColor(0, itemStack -> ColorPrefab.blend(ore.color, ColorPrefab.GRAYSCALE_REDUCTION_2));
             }
         };
         plate_4 = new OreItem("plate_4",List.of(Ore.IS_METAL)){
@@ -164,7 +154,7 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
 
             @Override
             public void dyeBlack(Ore ore, ColorProxy.ItemColorPack itemColorPack) {
-                itemColorPack.addClock(0, itemStack -> ColorPrefab.blend(ore.color, ColorPrefab.GRAYSCALE_REDUCTION_3));
+                itemColorPack.addColor(0, itemStack -> ColorPrefab.blend(ore.color, ColorPrefab.GRAYSCALE_REDUCTION_3));
             }
         };
         foil = new OreItem("foil", List.of(Ore.IS_METAL));
@@ -177,11 +167,11 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
         crystal = new OreItem("crystal", List.of(Ore.IS_CRYSTA));
         delicateCrystal = new OreItem("crystal_delicate", List.of(Ore.IS_CRYSTA));
         perfectCrystal = new OreItem("crystal_perfect", List.of(Ore.IS_CRYSTA));
-        crushed = new OreItem("crushed", List.of(Ore.HAS_CRUSHED));
-        crushedPurified = new OreItem("crushed_purified", List.of(Ore.HAS_CRUSHED));
-        crystalSeed = new OreItem("crystal_seed", List.of(Ore.CAN_PLANT));
-        dust = new OreItem("dust", List.of(Ore.HAS_DUST));
-        dustTiny = new OreItem("dust_tiny", List.of(Ore.HAS_DUST));
+        crystalSeed = new OreItem("crystal_seed", List.of(Ore.IS_CRYSTA));
+        crushed = new OreItem("crushed", List.of(Ore.HAS_MINERAL_BLOCK));
+        crushedPurified = new OreItem("crushed_purified", List.of(Ore.HAS_MINERAL_BLOCK));
+        dust = new OreItem("dust", List.of());
+        dustTiny = new OreItem("dust_tiny", List.of());
     }
 
     public final List<StaticTag> oreHasTag;
@@ -205,6 +195,6 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
 
     @Override
     public void dyeBlack(Ore ore, ColorProxy.ItemColorPack itemColorPack) {
-        itemColorPack.addClock(0, itemStack -> ore.color);
+        itemColorPack.addColor(0, itemStack -> ore.color);
     }
 }

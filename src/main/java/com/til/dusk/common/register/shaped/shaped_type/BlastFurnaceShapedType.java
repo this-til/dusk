@@ -20,7 +20,7 @@ public class BlastFurnaceShapedType extends ShapedType {
 
     @Override
     public void registerSubsidiaryBlack() {
-        for (Ore ore : Ore.screen(Ore.IS_METAL, Ore.HAS_DUST)) {
+        for (Ore ore : Ore.screen(Ore.IS_METAL)) {
             new ShapedOre(
                     this,
                     ShapedDrive.get(0),

@@ -2,7 +2,7 @@ package com.til.dusk.common.capability.tile_entity;
 
 
 import com.til.dusk.Dusk;
-import com.til.dusk.common.world.ModBlock;
+import com.til.dusk.common.world.block.RepeaterBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
@@ -50,7 +50,7 @@ public class RepeaterTileEntity extends BlockEntity {
                 return lazyOptional;
             }
             BlockState blockState = getBlockState();
-            Direction direction = blockState.getValue(ModBlock.RepeaterBlock.FACING);
+            Direction direction = blockState.getValue(RepeaterBlock.FACING);
             BlockPos blockPos = this.getBlockPos().offset(direction.getOpposite().getNormal());
             BlockEntity blockEntity = getLevel().getBlockEntity(blockPos);
             if (blockEntity instanceof RepeaterTileEntity) {

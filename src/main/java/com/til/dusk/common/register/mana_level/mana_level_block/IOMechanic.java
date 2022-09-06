@@ -9,11 +9,9 @@ import com.til.dusk.common.capability.control.Control;
 import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.capability.mana_handle.IManaHandle;
 import com.til.dusk.common.capability.pos.IPosTrack;
-import com.til.dusk.common.capability.pos.PosTrack;
 import com.til.dusk.common.capability.tile_entity.DuskCapabilityProvider;
 import com.til.dusk.common.capability.up.IUp;
 import com.til.dusk.common.capability.up.Up;
-import com.til.dusk.common.event.EventIO;
 import com.til.dusk.common.register.BindType;
 import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.common.register.mana_level.ManaLevel;
@@ -23,7 +21,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -59,13 +56,13 @@ public class IOMechanic extends DefaultCapacityMechanic {
     @Override
     public void dyeBlack(ManaLevel manaLevel, ColorProxy.ItemColorPack itemColorPack) {
         super.dyeBlack(manaLevel, itemColorPack);
-        itemColorPack.addClock(1, itemStack -> color);
+        itemColorPack.addColor(1, itemStack -> color);
     }
 
     @Override
     public void dyeBlack(ManaLevel manaLevel, ColorProxy.BlockColorPack blockColorPack) {
         super.dyeBlack(manaLevel, blockColorPack);
-        blockColorPack.addClock(1, (blockState, blockAndTintGetter, blockPos) -> color);
+        blockColorPack.addColor(1, (blockState, blockAndTintGetter, blockPos) -> color);
     }
 
     public static class ManaIO extends IOMechanic {

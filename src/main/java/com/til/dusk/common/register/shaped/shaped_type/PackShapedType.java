@@ -60,7 +60,7 @@ public class PackShapedType extends ShapedType{
                     null);
         }
 
-        for (Ore ore : Ore.screen(Ore.HAS_DUST)) {
+        for (Ore ore : Ore.ORE.get()) {
             new ShapedOre(
                     this,
                     ShapedDrive.get(3),

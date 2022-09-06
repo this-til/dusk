@@ -7,7 +7,7 @@ import com.til.dusk.common.capability.tile_entity.ITileEntityType;
 import com.til.dusk.common.capability.tile_entity.RepeaterTileEntity;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.register.shaped.ShapedDrive;
-import com.til.dusk.common.world.ModBlock;
+import com.til.dusk.common.world.block.RepeaterBlock;
 import com.til.dusk.util.Util;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.datafix.fixes.References;
@@ -71,7 +71,7 @@ public abstract class TileEntityRegister<T extends BlockEntity> extends Register
             @Override
             public void registerSubsidiaryBlack() {
                 ManaLevel.LEVEL.get().forEach(l -> l.blockMap.forEach((k, v) -> {
-                    if (v.block() instanceof ModBlock.RepeaterBlock repeaterBlock) {
+                    if (v.block() instanceof RepeaterBlock repeaterBlock) {
                         BlockEntityType.Builder<RepeaterTileEntity> builder = BlockEntityType.Builder.of((blockPos, blockState) ->
                                 new RepeaterTileEntity(blockBlockEntityTypeMap.get(v.block()), blockPos, blockState), v.block());
                         Type<?> type = net.minecraft.Util.fetchChoiceType(References.BLOCK_ENTITY, fuseName("_", this, l).toString());

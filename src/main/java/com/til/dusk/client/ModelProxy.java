@@ -12,6 +12,8 @@ import com.til.dusk.common.register.ore.OreBlock;
 import com.til.dusk.common.register.ore.OreFluid;
 import com.til.dusk.common.register.ore.OreItem;
 import com.til.dusk.common.register.shaped.ShapedDrive;
+import com.til.dusk.common.world.block.ModBlock;
+import com.til.dusk.common.world.item.ModItem;
 import com.til.dusk.util.pack.BlockPack;
 import com.til.dusk.util.pack.FluidPack;
 import com.til.dusk.util.pack.ItemPack;
@@ -23,6 +25,7 @@ import net.minecraft.client.resources.model.ModelManager;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -30,6 +33,7 @@ import net.minecraftforge.client.event.ModelEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.registries.RegistryObject;
 
 import java.util.*;
 
@@ -80,6 +84,12 @@ public class ModelProxy {
                 }
             }
         }
+        for (RegistryObject<Item> entry : ModItem.ITEMS.getEntries()) {
+            Item item = entry.get();
+            if (item instanceof ModItem.ICustomModel iCustomModel) {
+                ITEM_MODEL_MAP.put(item, new ModelResourceLocation(iCustomModel.itemModelName(), "inventory"));
+            }
+        }
 
         for (ManaLevel manaLevel : ManaLevel.LEVEL.get()) {
             for (Map.Entry<ManaLevelItem, ItemPack> entry : manaLevel.itemMap.entrySet()) {
@@ -110,6 +120,20 @@ public class ModelProxy {
                         }
                     }
                 }
+            }
+        }
+        for (RegistryObject<Block> entry : ModBlock.BLOCKS.getEntries()) {
+            Block block = entry.get();
+            if (block instanceof ModBlock.ICustomModel iCustomModel) {
+                ImmutableList<BlockState> definition = block.getStateDefinition().getPossibleStates();
+                if (definition.size() == 1) {
+                    BLOCK_STATE_MAP.put(definition.get(0), iCustomModel.blockModelName());
+                } else {
+                    for (BlockState blockState : definition) {
+                        BLOCK_STATE_MAP.put(blockState, new ModelResourceLocation(iCustomModel.blockModelName(), BlockModelShaper.statePropertiesToString(blockState.getValues())));
+                    }
+                }
+
             }
         }
 
