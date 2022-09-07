@@ -26,14 +26,4 @@ public class RepeaterMechanic extends Mechanic{
     public Block createBlock(ManaLevel manaLevel) {
         return new RepeaterBlock(manaLevel);
     }
-
-    @Override
-    public @NotNull Block createCamouflageBlock() {
-        return new Block(BlockBehaviour.Properties.of(Material.AIR)) {
-            @Override
-            protected void createBlockStateDefinition(StateDefinition.@NotNull Builder<Block, BlockState> blockBlockStateBuilder) {
-                blockBlockStateBuilder.add(RepeaterBlock.FACING);
-            }
-        };
-    }
 }

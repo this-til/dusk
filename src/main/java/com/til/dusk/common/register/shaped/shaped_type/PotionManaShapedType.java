@@ -12,6 +12,7 @@ import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.register.mana_level.mana_level_block.ManaLevelBlock;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shapeds.ShapedMiddle;
+import com.til.dusk.common.register.shaped.shapeds.ShapedMiddleExtend;
 import com.til.dusk.util.Lang;
 import com.til.dusk.util.Pos;
 import net.minecraft.nbt.CompoundTag;
@@ -49,10 +50,10 @@ public class PotionManaShapedType extends ShapedType {
 
     @Override
     public void registerSubsidiaryBlack() {
-        new ShapedPotionMana( this, ShapedDrive.get(0), ManaLevel.t1, 1024, 0, 20);
+        new ShapedPotionMana(this, ShapedDrive.get(0), ManaLevel.t1, 1024, 0, 20);
     }
 
-    public static class ShapedPotionMana extends ShapedMiddle {
+    public static class ShapedPotionMana extends ShapedMiddleExtend {
 
 
         public ShapedPotionMana(ShapedType shapedType, ShapedDrive shapedDrive, ManaLevel manaLevel, long surplusTime, long consumeMana, long outMana) {
@@ -63,48 +64,33 @@ public class PotionManaShapedType extends ShapedType {
             super(name, jsonObject);
         }
 
-        @Nullable
         @Override
-        public ShapedHandle get(IHandle iHandle, Map<BlockEntity, IItemHandler> items, Map<BlockEntity, IFluidHandler> fluids) {
-            if (!extractItem(iHandle, items, true).isEmpty()) {
-                ItemStack outItemStack = extractItem(iHandle, items, false);
-                Potion potion = PotionUtils.getPotion(outItemStack);
-                long outMana = 0;
-                for (MobEffectInstance effect : potion.getEffects()) {
-                    long time = effect.getEffect().isInstantenous() ? 180 : effect.getDuration();
-                    outMana += time * (effect.getAmplifier() + 1);
-                }
-                ItemStack itemStack = outItemStack.copy();
-                PotionUtils.setPotion(itemStack, Potions.WATER);
-                return new ShapedHandle(surplusTime, consumeMana, outMana * this.outMana, List.of(itemStack), null);
+        protected boolean isItem(ItemStack itemStack) {
+            if (!itemStack.is(ItemTag.POTIONS)) {
+                return false;
             }
-            return null;
+            Potion potion = PotionUtils.getPotion(itemStack);
+            Optional<IReverseTag<Potion>> optional = Dusk.instance.POTION_TAG.getReverseTag(potion);
+            if (optional.isEmpty()) {
+                return false;
+            }
+            if (optional.get().containsTag(PotionsTag.NO_EFFECT)) {
+                return false;
+            }
+            return true;
         }
 
-
-        protected ItemStack extractItem(IHandle iHandle, Map<BlockEntity, IItemHandler> items, boolean isSimulated) {
-            for (Map.Entry<BlockEntity, IItemHandler> entry : items.entrySet()) {
-                for (int i = 0; i < entry.getValue().getSlots(); i++) {
-                    ItemStack itemStack = entry.getValue().getStackInSlot(i);
-                    if (!itemStack.is(ItemTag.POTIONS)) {
-                        continue;
-                    }
-                    Potion potion = PotionUtils.getPotion(itemStack);
-                    Optional<IReverseTag<Potion>> optional = Dusk.instance.POTION_TAG.getReverseTag(potion);
-                    if (optional.isEmpty()) {
-                        continue;
-                    }
-                    if (optional.get().containsTag(PotionsTag.NO_EFFECT)) {
-                        continue;
-                    }
-                    ItemStack outItemStack = CapabilityHelp.extractItem(iHandle.getPosTrack(), null, entry.getValue(), new Pos(entry.getKey()), i, 1,isSimulated);
-                    if (outItemStack.isEmpty()) {
-                        continue;
-                    }
-                    return outItemStack;
-                }
+        @Override
+        protected ShapedHandle create(ItemStack outItemStack) {
+            Potion potion = PotionUtils.getPotion(outItemStack);
+            long outMana = 0;
+            for (MobEffectInstance effect : potion.getEffects()) {
+                long time = effect.getEffect().isInstantenous() ? 180 : effect.getDuration();
+                outMana += time * (effect.getAmplifier() + 1);
             }
-            return ItemStack.EMPTY;
+            ItemStack itemStack = outItemStack.copy();
+            PotionUtils.setPotion(itemStack, Potions.WATER);
+            return new ShapedHandle(surplusTime, consumeMana, outMana * this.outMana, List.of(itemStack), null);
         }
 
         @Override
@@ -145,13 +131,13 @@ public class PotionManaShapedType extends ShapedType {
         public List<Component> getComponent() {
             List<Component> componentList = new ArrayList<>();
             componentList.add(Component.literal("message"));
-            componentList.add(Lang.getLang(Lang.getKey("需要灵压等级"), Lang.getKey(manaLevel)));
-            componentList.add(Lang.getLang(Lang.getKey("需要配方集"), shapedDrive.getLangKey()));
+            componentList.add(Lang.getLang(Component.translatable(Lang.getKey("需要灵压等级")), Component.literal(Lang.getKey(manaLevel))));
+            componentList.add(Lang.getLang(Component.translatable(Lang.getKey("需要配方集")), Component.literal(shapedDrive.getLangKey())));
             if (consumeMana > 0) {
-                componentList.add(Lang.getLang(Lang.getKey("消耗灵气"), String.valueOf(consumeMana)));
+                componentList.add(Lang.getLang(Component.translatable(Lang.getKey("消耗灵气")), Component.literal(String.valueOf(consumeMana))));
             }
             if (surplusTime > 0) {
-                componentList.add(Lang.getLang(Lang.getKey("消耗时间"), String.valueOf(surplusTime)));
+                componentList.add(Lang.getLang(Component.translatable(Lang.getKey("消耗时间")), Component.literal(String.valueOf(surplusTime))));
             }
             if (outMana > 0) {
                 componentList.add(Lang.getLang(Component.translatable(Lang.getKey("输出灵气")),

@@ -98,8 +98,8 @@ public abstract class Shaped {
     public List<Component> getComponent() {
         List<Component> componentList = new ArrayList<>();
         componentList.add(Component.literal("message"));
-        componentList.add(Lang.getLang(Lang.getKey("需要灵压等级"), Lang.getKey(manaLevel)));
-        componentList.add(Lang.getLang(Lang.getKey("需要配方集"), shapedDrive.getLangKey()));
+        componentList.add(Lang.getLang(Component.translatable(Lang.getKey("需要灵压等级")), Component.translatable(Lang.getKey(manaLevel))));
+        componentList.add(Lang.getLang(Component.translatable(Lang.getKey("需要配方集")), Component.literal(shapedDrive.getLangKey())));
         return componentList;
     }
 

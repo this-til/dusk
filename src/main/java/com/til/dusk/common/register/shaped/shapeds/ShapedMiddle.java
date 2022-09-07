@@ -46,13 +46,13 @@ public abstract class ShapedMiddle extends Shaped {
     public List<Component> getComponent() {
         List<Component> componentList = super.getComponent();
         if (consumeMana > 0) {
-            componentList.add(Lang.getLang(Lang.getKey("消耗灵气"), String.valueOf(consumeMana)));
+            componentList.add(Lang.getLang(Component.translatable(Lang.getKey("消耗灵气")), Component.literal(String.valueOf(consumeMana))));
         }
         if (surplusTime > 0) {
-            componentList.add(Lang.getLang(Lang.getKey("消耗时间"), String.valueOf(surplusTime)));
+            componentList.add(Lang.getLang(Component.translatable(Lang.getKey("消耗时间")), Component.literal(String.valueOf(surplusTime))));
         }
         if (outMana > 0) {
-            componentList.add(Lang.getLang(Lang.getKey("输出灵气"), String.valueOf(outMana)));
+            componentList.add(Lang.getLang(Component.translatable(Lang.getKey("输出灵气")), Component.literal(String.valueOf(outMana))));
         }
         return componentList;
     }

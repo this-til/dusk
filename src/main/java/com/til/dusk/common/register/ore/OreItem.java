@@ -14,6 +14,7 @@ import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegistryBuilder;
 import org.jetbrains.annotations.Nullable;
 
+import java.awt.*;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -124,7 +125,7 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
         ORE_ITEM = event.create(new RegistryBuilder<OreItem>().setName(new ResourceLocation(Dusk.MOD_ID, "ore_item")));
         ingot = new OreItem("ingot", List.of(Ore.IS_METAL));
         plate = new OreItem("plate", List.of(Ore.IS_METAL));
-        plate_2 = new OreItem("plate_2", List.of(Ore.IS_METAL)){
+        plate_2 = new OreItem("plate_2", List.of(Ore.IS_METAL)) {
             @Override
             public ResourceLocation getItemMoldMapping(Ore ore) {
                 return plate.name;
@@ -132,10 +133,11 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
 
             @Override
             public void dyeBlack(Ore ore, ColorProxy.ItemColorPack itemColorPack) {
-                itemColorPack.addColor(0, itemStack -> ColorPrefab.blend(ore.color, ColorPrefab.GRAYSCALE_REDUCTION_1));
+                Color color = ColorPrefab.blend(ore.color, ColorPrefab.GRAYSCALE_REDUCTION_1);
+                itemColorPack.addColor(0, itemStack -> color);
             }
         };
-        plate_3 = new OreItem("plate_3",List.of(Ore.IS_METAL)){
+        plate_3 = new OreItem("plate_3", List.of(Ore.IS_METAL)) {
             @Override
             public ResourceLocation getItemMoldMapping(Ore ore) {
                 return plate.name;
@@ -143,10 +145,11 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
 
             @Override
             public void dyeBlack(Ore ore, ColorProxy.ItemColorPack itemColorPack) {
-                itemColorPack.addColor(0, itemStack -> ColorPrefab.blend(ore.color, ColorPrefab.GRAYSCALE_REDUCTION_2));
+                Color color = ColorPrefab.blend(ore.color, ColorPrefab.GRAYSCALE_REDUCTION_2);
+                itemColorPack.addColor(0, itemStack -> color);
             }
         };
-        plate_4 = new OreItem("plate_4",List.of(Ore.IS_METAL)){
+        plate_4 = new OreItem("plate_4", List.of(Ore.IS_METAL)) {
             @Override
             public ResourceLocation getItemMoldMapping(Ore ore) {
                 return plate.name;
@@ -154,7 +157,8 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
 
             @Override
             public void dyeBlack(Ore ore, ColorProxy.ItemColorPack itemColorPack) {
-                itemColorPack.addColor(0, itemStack -> ColorPrefab.blend(ore.color, ColorPrefab.GRAYSCALE_REDUCTION_3));
+                Color color = ColorPrefab.blend(ore.color, ColorPrefab.GRAYSCALE_REDUCTION_3);
+                itemColorPack.addColor(0, itemStack -> color);
             }
         };
         foil = new OreItem("foil", List.of(Ore.IS_METAL));

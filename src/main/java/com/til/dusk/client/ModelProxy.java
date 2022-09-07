@@ -41,7 +41,8 @@ import java.util.*;
  * @author til
  */
 @OnlyIn(Dist.CLIENT)
-@Mod.EventBusSubscriber(modid = Dusk.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@Deprecated
+//@Mod.EventBusSubscriber(modid = Dusk.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ModelProxy {
 
     public final static String ITEM = "item";

@@ -172,6 +172,7 @@
   "dusk.i_shaped_drive.name": "提供配方集:",
   "dusk.i_item_handler.name": "物品存储：",
   "dusk.i_fluid_handler.name": "流体存储：",
+  "dusk.food.name": "饱食度",
   "?CapabilityName": "",
   "dusk.capability.item_handler.name": "物品处理",
   "dusk.capability.mana_handler.name": "灵气处理",

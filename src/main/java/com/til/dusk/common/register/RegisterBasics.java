@@ -9,6 +9,7 @@ import com.til.dusk.util.*;
 import com.til.dusk.util.pack.BlockPack;
 import com.til.dusk.util.pack.FluidPack;
 import com.til.dusk.util.pack.ItemPack;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
@@ -23,6 +24,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.*;
+import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
@@ -34,6 +36,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 /**
@@ -274,14 +277,6 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> {
             super(name, iForgeRegistrySupplier);
         }
 
-        @Override
-        public void registerSubsidiaryBlack() {
-            Block block = createCamouflageBlock();
-            if (block != null) {
-                ForgeRegistries.BLOCKS.register(name, block);
-            }
-        }
-
         @Nullable
         public BlockPack create(O o) {
             Block block = createBlock(o);
@@ -312,13 +307,6 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> {
             return ItemTags.create(fuseName("/", o, this));
         }
 
-        /***
-         * 创建一个假方块并且注册，用去欺骗mc去加载模型
-         */
-        @Nullable
-        public Block createCamouflageBlock() {
-            return null;
-        }
 
         /***
          * 获取模型映射
@@ -392,9 +380,7 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> {
             return new FluidPack(fluidType, source, flowing, createFluidTag(o), liquidBlock, createBlockTag(o), item, createBlockItemTag(o));
         }
 
-        public FluidType createFluidType(O ore) {
-            return new FluidType(FluidType.Properties.create());
-        }
+        public abstract FluidType createFluidType(O ore);
 
         public ForgeFlowingFluid.Properties createProperties(O ore, FluidType fluidType) {
             return new ForgeFlowingFluid.Properties(() -> fluidType, () -> sourceMap.get(ore), () -> flowingMap.get(ore));
@@ -414,7 +400,7 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> {
 
         @Nullable
         public LiquidBlock createLiquidBlock(O o, FlowingFluid source) {
-            return new LiquidBlock(() -> source, BlockBehaviour.Properties.of(Material.WATER).noCollission());
+            return new LiquidBlock(() -> source, BlockBehaviour.Properties.of(Material.WATER).noCollission().strength(100.0F).noLootTable());
         }
 
         @Nullable
@@ -445,7 +431,7 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> {
                     blockBlockStateBuilder.add(BlockStateProperties.LEVEL);
                 }
             };
-            ForgeRegistries.BLOCKS.register(name, block);
+            ForgeRegistries.BLOCKS.register(fuseName("_", new String[]{name.getPath(), "source"}), block);
         }
 
         public TagKey<Item> getItemTagKey() {
@@ -524,6 +510,7 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> {
                 if (fluidPack == null) {
                     continue;
                 }
+                ForgeRegistries.FLUID_TYPES.get().register(fuseName(this, fluid), fluidPack.fluidType());
                 fluidMap.put(fluid, fluidPack);
                 ForgeRegistries.FLUIDS.register(fuseName("_", new String[]{name.getPath(), fluid.name.getPath(), "source"}), fluidPack.source());
                 ForgeRegistries.FLUIDS.register(fuseName("_", new String[]{name.getPath(), fluid.name.getPath(), "flowing"}), fluidPack.flowing());

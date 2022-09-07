@@ -1,6 +1,7 @@
 {
   "parent": "dusk:block/cube_ore_all",
   "textures": {
+    "all0": "dusk:block/black",
     "all1": "minecraft:block/iron_block",
     "particle": "minecraft:block/iron_block"
   }
