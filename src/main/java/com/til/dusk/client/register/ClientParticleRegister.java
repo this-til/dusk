@@ -10,8 +10,11 @@ import net.minecraft.client.particle.Particle;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegistryBuilder;
@@ -64,7 +67,7 @@ public abstract class ClientParticleRegister extends RegisterBasics<ClientPartic
         };
         manaTransfer = new ClientParticleRegister("mana_transfer") {
             @Override
-            public Extension.Data_2<Float, List<Particle>> run(ClientLevel world, Pos start, Pos end, Color color, double density) {
+            public Extension.Data_2<Float, List<Particle>> run(ClientLevel world, Pos start, Pos end, Color color, double density, @Nullable ResourceLocation resourceLocation) {
                 List<Particle> list = new ArrayList<>();
                 for (int i = 0; i < density; i++) {
                     Pos _end = end.move(Pos.randomPos());
@@ -76,7 +79,7 @@ public abstract class ClientParticleRegister extends RegisterBasics<ClientPartic
         };
         itemTransfer = new ClientParticleRegister("item_transfer") {
             @Override
-            public Extension.Data_2<Float, List<Particle>> run(ClientLevel world, Pos start, Pos end, Color color, double density) {
+            public Extension.Data_2<Float, List<Particle>> run(ClientLevel world, Pos start, Pos end, Color color, double density, @Nullable ResourceLocation resourceLocation) {
                 List<Particle> list = new ArrayList<>();
                 for (int i = 0; i < density; i++) {
                     {
@@ -95,7 +98,14 @@ public abstract class ClientParticleRegister extends RegisterBasics<ClientPartic
         };
         fluidTransfer = new ClientParticleRegister("fluid_transfer") {
             @Override
-            public Extension.Data_2<Float, List<Particle>> run(ClientLevel world, Pos start, Pos end, Color color, double density) {
+            public Extension.Data_2<Float, List<Particle>> run(ClientLevel world, Pos start, Pos end, Color color, double density, @Nullable ResourceLocation resourceLocation) {
+                if (resourceLocation != null) {
+                    FluidType fluidType = ForgeRegistries.FLUID_TYPES.get().getValue(resourceLocation);
+                    if (fluidType != null) {
+                        IClientFluidTypeExtensions clientFluidTypeExtensions = IClientFluidTypeExtensions.of(fluidType);
+                        color = new Color(clientFluidTypeExtensions.getTintColor());
+                    }
+                }
                 List<Particle> list = new ArrayList<>();
                 for (int i = 0; i < density; i++) {
                     Pos _end = end.move(Pos.randomPos());
@@ -107,7 +117,7 @@ public abstract class ClientParticleRegister extends RegisterBasics<ClientPartic
         };
         line = new ClientParticleRegister("line") {
             @Override
-            public Extension.Data_2<Float, List<Particle>> run(ClientLevel world, Pos start, Pos end, Color color, double density) {
+            public Extension.Data_2<Float, List<Particle>> run(ClientLevel world, Pos start, Pos end, Color color, double density, @Nullable ResourceLocation resourceLocation) {
                 List<Particle> list = new ArrayList<>();
                 Pos _start = new Pos(start);
                 int dis = (int) (start.distance(end) * density);
@@ -122,7 +132,7 @@ public abstract class ClientParticleRegister extends RegisterBasics<ClientPartic
         block = new ClientParticleRegister("block") {
 
             @Override
-            public Extension.Data_2<Float, List<Particle>> run(ClientLevel world, Pos pos, Color color, double density) {
+            public Extension.Data_2<Float, List<Particle>> run(ClientLevel world, Pos pos, Color color, double density, @Nullable ResourceLocation resourceLocation) {
                 List<Particle> list = new ArrayList<>();
                 Pos p1 = pos.move(-0.5, -0.5, -0.5);
                 Pos p2 = p1.addX(1);
@@ -147,7 +157,7 @@ public abstract class ClientParticleRegister extends RegisterBasics<ClientPartic
                         new Extension.Data_2<>(p4, p8),
                 };
                 for (Extension.Data_2 posPosData_2 : l) {
-                    Extension.Data_2<Float, List<Particle>> data_2 = line.run(world, (Pos) posPosData_2.d1(), (Pos) posPosData_2.d2(), color, density);
+                    Extension.Data_2<Float, List<Particle>> data_2 = line.run(world, (Pos) posPosData_2.d1(), (Pos) posPosData_2.d2(), color, density, resourceLocation);
                     if (data_2 != null) {
                         list.addAll(data_2.d2());
                     }
@@ -183,12 +193,12 @@ public abstract class ClientParticleRegister extends RegisterBasics<ClientPartic
      * @return 返回粒子是生命用于拼接
      */
     @Nullable
-    public Extension.Data_2<Float, List<Particle>> run(ClientLevel world, Pos start, Pos end, Color color, double density) {
+    public Extension.Data_2<Float, List<Particle>> run(ClientLevel world, Pos start, Pos end, Color color, double density, @Nullable ResourceLocation resourceLocation) {
         return null;
     }
 
     @Nullable
-    public Extension.Data_2<Float, List<Particle>> run(ClientLevel world, Pos pos, Color color, double density) {
+    public Extension.Data_2<Float, List<Particle>> run(ClientLevel world, Pos pos, Color color, double density, @Nullable ResourceLocation resourceLocation) {
         return null;
     }
 

@@ -323,6 +323,13 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> {
         }
 
         /***
+         * 用于具有不同方块状态的自定义的blockState
+         */
+        public String getBlockStateJson() {
+            return "";
+        }
+
+        /***
          * 染色回调
          */
         public abstract void dyeBlack(O o, ColorProxy.ItemColorPack itemColorPack);

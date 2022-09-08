@@ -82,10 +82,10 @@ public class ShowStaffItem extends ItemBasics implements ModItem.IHasCustomColor
     }
 
     public static void showControl(Player player, IControl control) {
-        ParticleRegister.block.add(player, ColorPrefab.CONTROL_TAG, 10, control.getPosTrack().getPos());
+        ParticleRegister.block.add(player, ColorPrefab.CONTROL_TAG, 10, null, control.getPosTrack().getPos());
         for (Map.Entry<BindType, List<BlockPos>> bindTypeListEntry : control.getAllBind().entrySet()) {
             for (BlockPos blockPos : bindTypeListEntry.getValue()) {
-                ParticleRegister.line.add(player, bindTypeListEntry.getKey().color, 10, control.getPosTrack().getPos(), new Pos(blockPos));
+                ParticleRegister.line.add(player, bindTypeListEntry.getKey().color, 10, null, control.getPosTrack().getPos(), new Pos(blockPos));
             }
         }
     }

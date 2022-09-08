@@ -12,16 +12,20 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegistryBuilder;
+import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
 import java.util.*;
@@ -76,12 +80,12 @@ public class ParticleRegister extends RegisterBasics<ParticleRegister> {
                 List<ServerPlayer> serverPlayerList = k.getPlayers(p -> true);
                 v.forEach(d -> serverPlayerList.forEach(player -> MessageRegister.particleRegisterMessage.sendToPlayerClient(d, player)));
             });
-            ROUTE_DATA.forEach((k,v) -> {
+            ROUTE_DATA.forEach((k, v) -> {
                 List<ServerPlayer> serverPlayerList = k.getPlayers(p -> true);
                 v.forEach(d -> serverPlayerList.forEach(player -> MessageRegister.particleRouteRegisterMessage.sendToPlayerClient(d, player)));
             });
             PLAYER_MAP.forEach((k, v) -> v.forEach(d -> MessageRegister.particleRegisterMessage.sendToPlayerClient(d, k)));
-            PLAYER_ROUTE_DATA.forEach((k,v) -> v.forEach(d -> MessageRegister.particleRouteRegisterMessage.sendToPlayerClient(d, k) ));
+            PLAYER_ROUTE_DATA.forEach((k, v) -> v.forEach(d -> MessageRegister.particleRouteRegisterMessage.sendToPlayerClient(d, k)));
             MAP.clear();
             ROUTE_DATA.clear();
             PLAYER_MAP.clear();
@@ -112,7 +116,7 @@ public class ParticleRegister extends RegisterBasics<ParticleRegister> {
                             route.add(cells);
                         }
                     }
-                    this.add(event.level, route, ColorPrefab.MANA_IO);
+                    this.add(event.level, route, ColorPrefab.MANA_IO, null);
                 });
             }
         };
@@ -134,7 +138,7 @@ public class ParticleRegister extends RegisterBasics<ParticleRegister> {
                             route.add(cells);
                         }
                     }
-                    this.add(event.level, route, ColorPrefab.ITEM_IO);
+                    this.add(event.level, route, ColorPrefab.ITEM_IO, null);
                 });
             }
         };
@@ -143,6 +147,7 @@ public class ParticleRegister extends RegisterBasics<ParticleRegister> {
             @Override
             public void registerSubsidiaryBlack() {
                 MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, (Consumer<EventIO.Fluid>) event -> {
+                    FluidType fluidType = null;
                     List<RoutePack<FluidStack>> list = event.routePack.getAll();
                     List<List<RoutePack.RouteCell<Double>>> route = new ArrayList<>(list.size());
                     for (RoutePack<FluidStack> fluidStackRoutePack : list) {
@@ -151,13 +156,16 @@ public class ParticleRegister extends RegisterBasics<ParticleRegister> {
                             if (fluidStackRouteCell.data().isEmpty()) {
                                 continue;
                             }
+                            if (fluidType == null) {
+                                fluidType = fluidStackRouteCell.data().getFluid().getFluidType();
+                            }
                             cells.add(new RoutePack.RouteCell<>(fluidStackRouteCell.start(), fluidStackRouteCell.end(), fluidStackRouteCell.data().getAmount() / 128D));
                         }
                         if (!cells.isEmpty()) {
                             route.add(cells);
                         }
                     }
-                    this.add(event.level, route, ColorPrefab.ITEM_IO);
+                    this.add(event.level, route, ColorPrefab.FLUID_IO, ForgeRegistries.FLUID_TYPES.get().getKey(fluidType));
                 });
             }
         };
@@ -174,7 +182,7 @@ public class ParticleRegister extends RegisterBasics<ParticleRegister> {
         this(new ResourceLocation(Dusk.MOD_ID, name));
     }
 
-    public void add(Level world, Color color, double density, Pos... pos) {
+    public void add(Level world, Color color, double density, ResourceLocation resourceLocation, Pos... pos) {
         if (world instanceof ServerLevel serverLevel) {
             List<Data> list;
             if (MAP.containsKey(serverLevel)) {
@@ -183,13 +191,13 @@ public class ParticleRegister extends RegisterBasics<ParticleRegister> {
                 list = new ArrayList<>();
                 MAP.put(serverLevel, list);
             }
-            list.add(new Data(name.toString(), color, density, pos));
+            list.add(new Data(name, color, density, resourceLocation, pos));
             return;
         }
         throw new RuntimeException("在服务端了粒子创建中出现了非服务端的世界");
     }
 
-    public void add(Level world, List<List<RoutePack.RouteCell<Double>>> route, Color color) {
+    public void add(Level world, List<List<RoutePack.RouteCell<Double>>> route, Color color, @Nullable ResourceLocation resourceLocation) {
         if (world instanceof ServerLevel serverLevel) {
             List<RouteData> list;
             if (ROUTE_DATA.containsKey(serverLevel)) {
@@ -198,13 +206,13 @@ public class ParticleRegister extends RegisterBasics<ParticleRegister> {
                 list = new ArrayList<>();
                 ROUTE_DATA.put(serverLevel, list);
             }
-            list.add(new RouteData(route, name.toString(), color));
+            list.add(new RouteData(route, name, color, resourceLocation));
             return;
         }
         throw new RuntimeException("在服务端了粒子创建中出现了非服务端的世界");
     }
 
-    public void add(Player player, Color color, double density, Pos... pos) {
+    public void add(Player player, Color color, double density, @Nullable ResourceLocation resourceLocation, Pos... pos) {
         if (player instanceof ServerPlayer serverPlayer) {
             List<Data> list;
             if (PLAYER_MAP.containsKey(serverPlayer)) {
@@ -213,13 +221,13 @@ public class ParticleRegister extends RegisterBasics<ParticleRegister> {
                 list = new ArrayList<>();
                 PLAYER_MAP.put(serverPlayer, list);
             }
-            list.add(new Data(name.toString(), color, density, pos));
+            list.add(new Data(name, color, density, resourceLocation, pos));
             return;
         }
         throw new RuntimeException("在服务端了粒子创建中出现了非服务端的玩家");
     }
 
-    public void add(Player player, List<List<RoutePack.RouteCell<Double>>> route, Color color) {
+    public void add(Player player, List<List<RoutePack.RouteCell<Double>>> route, Color color, @Nullable ResourceLocation resourceLocation) {
         if (player instanceof ServerPlayer serverPlayer) {
             List<RouteData> list;
             if (PLAYER_ROUTE_DATA.containsKey(serverPlayer)) {
@@ -228,7 +236,7 @@ public class ParticleRegister extends RegisterBasics<ParticleRegister> {
                 list = new ArrayList<>();
                 PLAYER_ROUTE_DATA.put(serverPlayer, list);
             }
-            list.add(new RouteData(route, name.toString(), color));
+            list.add(new RouteData(route, name, color, resourceLocation));
             return;
         }
         throw new RuntimeException("在服务端了粒子创建中出现了非服务端的玩家");
@@ -238,7 +246,7 @@ public class ParticleRegister extends RegisterBasics<ParticleRegister> {
         /***
          * 粒子类型
          */
-        public String type;
+        public ResourceLocation type;
 
         public Pos[] pos;
 
@@ -250,8 +258,10 @@ public class ParticleRegister extends RegisterBasics<ParticleRegister> {
          * 密度
          */
         public double density;
+        @Nullable
+        public ResourceLocation resourceLocation;
 
-        public Data(String type, Color color, double density, Pos... pos) {
+        public Data(ResourceLocation type, Color color, double density, @Nullable ResourceLocation resourceLocation, Pos... pos) {
             this.type = type;
             this.color = color;
             this.density = density;
@@ -259,18 +269,22 @@ public class ParticleRegister extends RegisterBasics<ParticleRegister> {
             if (this.pos == null) {
                 this.pos = new Pos[0];
             }
+            this.resourceLocation = resourceLocation;
         }
     }
 
     public static class RouteData {
         public List<List<RoutePack.RouteCell<Double>>> route;
-        public String type;
+        public ResourceLocation type;
         public Color color;
+        @Nullable
+        public ResourceLocation resourceLocation;
 
-        public RouteData(List<List<RoutePack.RouteCell<Double>>> route, String type, Color color) {
+        public RouteData(List<List<RoutePack.RouteCell<Double>>> route, ResourceLocation type, Color color, @Nullable ResourceLocation resourceLocation) {
             this.route = route;
             this.type = type;
             this.color = color;
+            this.resourceLocation = resourceLocation;
         }
     }
 

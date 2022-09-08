@@ -4,12 +4,14 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.til.dusk.Dusk;
+import com.til.dusk.common.capability.entity_skill.ISkill;
 import com.til.dusk.common.capability.handle.ShapedHandle;
 import com.til.dusk.common.register.BindType;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.ShapedHandleProcess;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
+import com.til.dusk.common.register.skill.Skill;
 import com.til.dusk.util.nbt.NBTUtil;
 import com.til.dusk.util.nbt.pack.AllNBTPack;
 import net.minecraft.core.BlockPos;
@@ -218,6 +220,27 @@ public class AllNBTCell {
             }
         }
     };
+    public static final NBTCell<CompoundTag> NBT = new NBTCell<>() {
+        @Override
+        public Tag as(CompoundTag compoundTag) {
+            return compoundTag;
+        }
+
+        @Override
+        public CompoundTag from(Tag t) {
+            return getAsCompoundTag(t);
+        }
+
+        @Override
+        public JsonElement asJson(CompoundTag compoundTag) {
+            return NBTUtil.toJson(compoundTag);
+        }
+
+        @Override
+        public CompoundTag fromJson(JsonElement json) {
+            return getAsCompoundTag(NBTUtil.toTag(json));
+        }
+    };
 
     public static final RegisterItemNBTCell<Item> ITEM = new RegisterItemNBTCell<>(() -> ForgeRegistries.ITEMS, () -> Items.AIR);
     public static final RegisterItemNBTCell<Block> BLOCK = new RegisterItemNBTCell<>(() -> ForgeRegistries.BLOCKS, () -> Blocks.AIR);
@@ -228,6 +251,7 @@ public class AllNBTCell {
     public static final RegisterItemNBTCell<ShapedDrive> SHAPED_DRIVE = new RegisterItemNBTCell<>(() -> ShapedDrive.SHAPED_DRIVE.get(), () -> ShapedDrive.get(0));
     public static final RegisterItemNBTCell<BindType> BIND_TYPE = new RegisterItemNBTCell<>(() -> BindType.BIND_TYPE.get(), () -> BindType.itemOut);
     public static final RegisterItemNBTCell<ShapedHandleProcess> SHAPED_HANDLE_PROCESS = new RegisterItemNBTCell<>(() -> ShapedHandleProcess.SHAPED_TYPE_PROCESS.get(), () -> ShapedHandleProcess.trippingOperation);
+    public static final RegisterItemNBTCell<Skill> SKILL = new RegisterItemNBTCell<>(() -> Skill.SKILL.get(), () -> Skill.empty);
 
     public static final TagKeyNBTCell<Item> ITEM_TAG = new TagKeyNBTCell<>(ForgeRegistries.ITEMS::tags);
     public static final TagKeyNBTCell<Block> BLOCK_TAG = new TagKeyNBTCell<>(ForgeRegistries.BLOCKS::tags);
@@ -409,11 +433,51 @@ public class AllNBTCell {
             return shapedHandle;
         }
     };
+    public static final NBTCell<ISkill.SkillCell> SKILL_DATA = new NBTCell<>() {
+        @Override
+        public Tag as(ISkill.SkillCell skillCell) {
+            CompoundTag compoundTag = new CompoundTag();
+            AllNBTPack.ORIGINAL_LEVEL.set(compoundTag, skillCell.originalLevel);
+            AllNBTPack.CD.set(compoundTag, skillCell.cd);
+            AllNBTPack.NBT.set(compoundTag, skillCell.nbt);
+            return compoundTag;
+        }
+
+        @Override
+        public ISkill.SkillCell from(Tag t) {
+            CompoundTag compoundTag = getAsCompoundTag(t);
+            ISkill.SkillCell skillCell = new ISkill.SkillCell();
+            skillCell.originalLevel = AllNBTPack.ORIGINAL_LEVEL.get(compoundTag);
+            skillCell.cd = AllNBTPack.CD.get(compoundTag);
+            skillCell.nbt = AllNBTPack.NBT.get(compoundTag);
+            return skillCell;
+        }
+
+        @Override
+        public JsonElement asJson(ISkill.SkillCell skillCell) {
+            JsonObject jsonObject = new JsonObject();
+            AllNBTPack.ORIGINAL_LEVEL.set(jsonObject, skillCell.originalLevel);
+            AllNBTPack.CD.set(jsonObject, skillCell.cd);
+            AllNBTPack.NBT.set(jsonObject, skillCell.nbt);
+            return jsonObject;
+        }
+
+        @Override
+        public ISkill.SkillCell fromJson(JsonElement json) {
+            JsonObject jsonObject = json.getAsJsonObject();
+            ISkill.SkillCell skillCell = new ISkill.SkillCell();
+            skillCell.originalLevel = AllNBTPack.ORIGINAL_LEVEL.get(jsonObject);
+            skillCell.cd = AllNBTPack.CD.get(jsonObject);
+            skillCell.nbt = AllNBTPack.NBT.get(jsonObject);
+            return skillCell;
+        }
+    };
 
     public static final NBTMapCell<BindType, List<BlockPos>> BIND_TYPE_LIST = new NBTMapCell<>(BIND_TYPE, BLOCK_POS.getListNBTCell());
     public static final NBTMapCell<TagKey<Item>, Integer> ITEM_TAG_INT_MAP = new NBTMapCell<>(ITEM_TAG, INT);
     public static final NBTMapCell<TagKey<Fluid>, Integer> FLUID_TAG_INT_MAP = new NBTMapCell<>(FLUID_TAG, INT);
     public static final NBTMapCell<ItemStack, Double> ITEM_STACK_DOUBLE_MAP = new NBTMapCell<>(ITEM_STACK, DOUBLE);
     public static final NBTMapCell<FluidStack, Double> FLUID_STACK_DOUBLE_MAP = new NBTMapCell<>(FLUID_STATE, DOUBLE);
+    public static final NBTMapCell<Skill, ISkill.SkillCell> SKILL_SKILL_CELL_MAP = new NBTMapCell<>(SKILL, SKILL_DATA);
 
 }

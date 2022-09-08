@@ -3,15 +3,19 @@ package com.til.dusk.common.register.shaped;
 import com.til.dusk.Dusk;
 import com.til.dusk.common.capability.pos.IPosTrack;
 import com.til.dusk.common.capability.tile_entity.DuskCapabilityProvider;
+import com.til.dusk.common.data.tag.BlockTag;
+import com.til.dusk.common.data.tag.ItemTag;
 import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.world.block.MechanicBlock;
 import com.til.dusk.util.Lang;
+import com.til.dusk.util.pack.BlockPack;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -35,6 +39,7 @@ import java.util.function.Supplier;
 @Mod.EventBusSubscriber(modid = Dusk.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ShapedDrive extends RegisterBasics<ShapedDrive> {
 
+    public static final ResourceLocation RESOURCE_LOCATION = new ResourceLocation(Dusk.MOD_ID, "shaped_drive");
     public static Supplier<IForgeRegistry<ShapedDrive>> SHAPED_DRIVE;
     public final static Map<Integer, ShapedDrive> SHAPED_DRIVE_MAP = new HashMap<>();
 
@@ -53,7 +58,7 @@ public class ShapedDrive extends RegisterBasics<ShapedDrive> {
         return SHAPED_DRIVE_MAP.get(0);
     }
 
-    public BlockItem blockItem;
+    public BlockPack blockPack;
     public final List<ShapedDrive> thisShapedDriveList;
 
     protected ShapedDrive(int id) {
@@ -72,18 +77,21 @@ public class ShapedDrive extends RegisterBasics<ShapedDrive> {
                 duskModCapability.addCapability(CapabilityRegister.iShapedDrive.capability, () -> thisShapedDriveList);
             }
         };
-        Objects.requireNonNull(ForgeRegistries.BLOCKS.tags()).addOptionalTagDefaults(BlockTags.create(SHAPED_DRIVE.get().getRegistryName()), Set.of(() -> block));
-        Objects.requireNonNull(ForgeRegistries.BLOCKS.tags()).addOptionalTagDefaults(BlockTags.create(name), Set.of(() -> block));
+        TagKey<Block> blockTag = BlockTags.create(name);
+        BlockTag.addTag(blockTag, block);
+        BlockTag.addTag(BlockTags.create(SHAPED_DRIVE.get().getRegistryName()), block);
         ForgeRegistries.BLOCKS.register(name, block);
 
-        blockItem = new BlockItem(block, new Item.Properties().tab(Dusk.TAB)) {
+        BlockItem blockItem = new BlockItem(block, new Item.Properties().tab(Dusk.TAB)) {
             @Override
             public @NotNull Component getName(@NotNull ItemStack itemStack) {
                 return Component.translatable(Lang.getKey("shaped_drive"), Component.literal(name.getPath()));
             }
         };
-        Objects.requireNonNull(ForgeRegistries.ITEMS.tags()).addOptionalTagDefaults(ItemTags.create(SHAPED_DRIVE.get().getRegistryName()), Set.of(() -> blockItem));
-        Objects.requireNonNull(ForgeRegistries.ITEMS.tags()).addOptionalTagDefaults(ItemTags.create(name), Set.of(() -> blockItem));
+        TagKey<Item> itemTag = ItemTags.create(name);
+        ItemTag.addTag(itemTag, blockItem);
+        ItemTag.addTag(ItemTags.create(SHAPED_DRIVE.get().getRegistryName()), blockItem);
         ForgeRegistries.ITEMS.register(name, blockItem);
+        blockPack = new BlockPack(block, blockTag, blockItem, itemTag);
     }
 }

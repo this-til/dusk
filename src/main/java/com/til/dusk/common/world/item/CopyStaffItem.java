@@ -69,7 +69,7 @@ public class CopyStaffItem extends ItemBasics implements ModItem.IHasCustomColor
                     serverPlayer.sendSystemMessage(Component.translatable(Lang.getKey("错误，原绑定控制器丢失")));
                 }
                 Pos sPos = new Pos(controlBlockPos);
-                ParticleRegister.block.add(serverPlayer, ColorPrefab.CONTROL_TAG, 10, sPos);
+                ParticleRegister.block.add(serverPlayer, ColorPrefab.CONTROL_TAG, 10, null, sPos);
             });
         });
     }

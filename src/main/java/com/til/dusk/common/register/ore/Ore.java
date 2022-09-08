@@ -12,6 +12,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.*;
 
 
+import javax.annotation.Nullable;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
@@ -183,7 +184,7 @@ public class Ore extends RegisterBasics.UnitRegister<Ore, OreItem, OreBlock, Ore
         aliceblue = new Ore("aliceblue", new Color(0xF0F8FF), ManaLevel.t2);
         darkGreen = new Ore("dark_green", new Color(0x3d3b4f), ManaLevel.t2);
 
-        starRiver = new Ore("star_river", new Color(0x6487FF), ManaLevel.t2);
+        starRiver = new Ore("star_river", new Color(0x6487FF), ManaLevel.t2).setArmorData(new OreItem.OreItemArmor.ArmorData(() -> starRiver, 125, 6, 3, 0.2f));
 
         sunlight = new Ore("sunlight", ColorPrefab.SUNLIGHT_COLOR, ManaLevel.t2).setCrysta();
         moonlight = new Ore("moonlight", ColorPrefab.MOONLIGHT_COLOR, ManaLevel.t2).setCrysta();
@@ -219,6 +220,12 @@ public class Ore extends RegisterBasics.UnitRegister<Ore, OreItem, OreBlock, Ore
      */
     public double consume = 1f;
 
+    /***
+     * 有装备
+     */
+    @Nullable
+    public OreItem.OreItemArmor.ArmorData armorData;
+
 
     public Ore(String name, Color color, ManaLevel manaLevel) {
         this(new ResourceLocation(Dusk.MOD_ID, name), color, manaLevel);
@@ -239,6 +246,12 @@ public class Ore extends RegisterBasics.UnitRegister<Ore, OreItem, OreBlock, Ore
 
     public Ore setConsume(double consume) {
         this.consume = consume;
+        return this;
+    }
+
+    public Ore setArmorData(OreItem.OreItemArmor.ArmorData armorData) {
+        this.armorData = armorData;
+        addTag(HAS_ARMOR);
         return this;
     }
 
@@ -321,5 +334,9 @@ public class Ore extends RegisterBasics.UnitRegister<Ore, OreItem, OreBlock, Ore
      */
     public static final StaticTag IS_CRYSTA = new StaticTag("IS_CRYSTA", List.of());
 
+    /***
+     * 有装备
+     */
+    public static final StaticTag HAS_ARMOR = new StaticTag("HAS_ARMOR", List.of(IS_METAL));
 
 }

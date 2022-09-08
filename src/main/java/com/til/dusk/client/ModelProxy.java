@@ -31,7 +31,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ModelEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.registries.RegistryObject;
 
@@ -136,13 +135,6 @@ public class ModelProxy {
                 }
 
             }
-        }
-
-        ResourceLocation shapedDriveName = new ResourceLocation(Dusk.MOD_ID, "shaped_drive");
-        for (ShapedDrive shapedDrive : ShapedDrive.SHAPED_DRIVE.get()) {
-            ITEM_MODEL_MAP.put(shapedDrive.blockItem, new ModelResourceLocation(shapedDriveName, "inventory"));
-            BlockState blockState = shapedDrive.blockItem.getBlock().defaultBlockState();
-            BLOCK_STATE_MAP.put(blockState, makeModelName(shapedDriveName, BLOCK));
         }
     }
 

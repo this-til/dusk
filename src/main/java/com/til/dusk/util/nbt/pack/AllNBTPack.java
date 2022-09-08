@@ -1,13 +1,16 @@
 package com.til.dusk.util.nbt.pack;
 
+import com.til.dusk.common.capability.entity_skill.ISkill;
 import com.til.dusk.common.capability.handle.ShapedHandle;
 import com.til.dusk.common.register.BindType;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.ShapedHandleProcess;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
+import com.til.dusk.common.register.skill.Skill;
 import com.til.dusk.util.nbt.cell.AllNBTCell;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -79,6 +82,9 @@ public class AllNBTPack {
     public static final NBTPack<Map<TagKey<Fluid>, Integer>> FLUID_IN_MAP = new NBTPack<>("fluid_in_map", AllNBTCell.FLUID_TAG_INT_MAP);
     public static final NBTPack<Map<ItemStack, Double>> ITEM_OUT_MAP = new NBTPack<>("item_out_map", AllNBTCell.ITEM_STACK_DOUBLE_MAP);
     public static final NBTPack<Map<FluidStack, Double>> FLUID_OUT_MAP = new NBTPack<>("fluid_out_map", AllNBTCell.FLUID_STACK_DOUBLE_MAP);
+    public static final NBTPack<Map<Skill, ISkill.SkillCell>> SKILL_SKILL_CELL_MAP = new NBTPack<>("skill_skill_cell", AllNBTCell.SKILL_SKILL_CELL_MAP);
 
-
+    public static final IntPack ORIGINAL_LEVEL = new IntPack("originalLevel");
+    public static final IntPack CD = new IntPack("CD");
+    public static final NBTPack<CompoundTag> NBT = new NBTPack<>("nbt", AllNBTCell.NBT);
 }

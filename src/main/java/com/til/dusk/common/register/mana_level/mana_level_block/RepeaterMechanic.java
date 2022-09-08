@@ -26,4 +26,43 @@ public class RepeaterMechanic extends Mechanic{
     public Block createBlock(ManaLevel manaLevel) {
         return new RepeaterBlock(manaLevel);
     }
+
+    @Override
+    public String getBlockStateJson() {
+        return BLOCK_STATE_JSON;
+    }
+
+    public static final String BLOCK_STATE_JSON =
+            """
+                    {
+                      "variants": {
+                        "facing=down": {
+                          "model": "dusk:block/repeater",
+                          "x": 180
+                        },
+                        "facing=east": {
+                          "model": "dusk:block/repeater",
+                          "x": 90,
+                          "y": 90
+                        },
+                        "facing=north": {
+                          "model": "dusk:block/repeater",
+                          "x": 90
+                        },
+                        "facing=south": {
+                          "model": "dusk:block/repeater",
+                          "x": 90,
+                          "y": 180
+                        },
+                        "facing=up": {
+                          "model": "dusk:block/repeater"
+                        },
+                        "facing=west": {
+                          "model": "dusk:block/repeater",
+                          "x": 90,
+                          "y": 270
+                        }
+                      }
+                    }
+                    """;
 }

@@ -4,6 +4,8 @@ import com.til.dusk.Dusk;
 import com.til.dusk.common.capability.clock.IClock;
 import com.til.dusk.common.capability.control.EventControl;
 import com.til.dusk.common.capability.control.IControl;
+import com.til.dusk.common.capability.entity_skill.ISkill;
+import com.til.dusk.common.capability.handle.EventHandle;
 import com.til.dusk.common.capability.handle.IHandle;
 import com.til.dusk.common.capability.mana_handle.IManaHandle;
 import com.til.dusk.common.capability.mana_level.IManaLevel;
@@ -44,6 +46,7 @@ public class CapabilityRegister<C> extends RegisterBasics<CapabilityRegister<C>>
     public static CapabilityRegister<IShapedDrive> iShapedDrive;
     public static CapabilityRegister<IHandle> iHandle;
     public static CapabilityRegister<IPosTrack> iPosTrack;
+    public static CapabilityRegister<ISkill> iSkill;
 
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
@@ -66,11 +69,13 @@ public class CapabilityRegister<C> extends RegisterBasics<CapabilityRegister<C>>
         });
         iPosTrack = new CapabilityRegister<>("i_pos_track", IPosTrack.class, () -> new CapabilityToken<IPosTrack>() {
         });
+        iSkill = new CapabilityRegister<ISkill>("i_skill", ISkill.class, () -> new CapabilityToken<ISkill>() {
+        });
         MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, (Consumer<EventControl>) e -> {
             Level level = e.control.getPosTrack().getLevel();
             if (level != null) {
-                Pos po = e.control.getPosTrack().getPos();
-                level.getChunk(SectionPos.blockToSectionCoord(po.x), SectionPos.blockToSectionCoord(po.z)).setUnsaved(true);
+                Pos pos = e.control.getPosTrack().getPos();
+                level.getChunk(SectionPos.blockToSectionCoord(pos.x), SectionPos.blockToSectionCoord(pos.z)).setUnsaved(true);
             }
         });
         MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, (Consumer<EventIO<?>>) e -> {
@@ -78,6 +83,13 @@ public class CapabilityRegister<C> extends RegisterBasics<CapabilityRegister<C>>
                 for (Pos po : e.getPos()) {
                     e.level.getChunk(SectionPos.blockToSectionCoord(po.x), SectionPos.blockToSectionCoord(po.z)).setUnsaved(true);
                 }
+            }
+        });
+        MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGHEST, (Consumer<EventHandle>) e -> {
+            Level level = e.iHandle.getPosTrack().getLevel();
+            if (level != null) {
+                Pos pos = e.iHandle.getPosTrack().getPos();
+                level.getChunk(SectionPos.blockToSectionCoord(pos.x), SectionPos.blockToSectionCoord(pos.z)).setUnsaved(true);
             }
         });
     }

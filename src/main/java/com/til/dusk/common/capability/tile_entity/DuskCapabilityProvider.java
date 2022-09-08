@@ -1,14 +1,19 @@
 package com.til.dusk.common.capability.tile_entity;
 
 import com.til.dusk.Dusk;
+import com.til.dusk.common.capability.entity_skill.ISkill;
+import com.til.dusk.common.capability.entity_skill.LivingEntitySkill;
 import com.til.dusk.common.capability.pos.IPosTrack;
 import com.til.dusk.common.capability.pos.PosTrack;
+import com.til.dusk.common.capability.up.IUp;
+import com.til.dusk.common.capability.up.Up;
 import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.util.Util;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.Capability;
@@ -100,6 +105,14 @@ public class DuskCapabilityProvider implements ICapabilityProvider, INBTSerializ
 
     @SubscribeEvent
     public static void addEntityCapability(AttachCapabilitiesEvent<Entity> event) {
+        if (event.getObject() instanceof LivingEntity livingEntity) {
+            Map<Capability<?>, Object> map = new HashMap<>();
+            DuskCapabilityProvider duskModCapability = new DuskCapabilityProvider(map);
+            ISkill iSkill = duskModCapability.addCapability(CapabilityRegister.iSkill.capability, new LivingEntitySkill(livingEntity));
+            IUp up = duskModCapability.addCapability(CapabilityRegister.iUp.capability, new Up());
+            up.addUpBlack(iSkill::up);
+            event.addCapability(new ResourceLocation(Dusk.MOD_ID, "dusk_capability_provider"), duskModCapability);
+        }
     }
 
     public interface IDeposit {

@@ -7,6 +7,9 @@ import com.til.dusk.Dusk;
 import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.register.ore.Ore;
+import com.til.dusk.common.register.shaped.ShapedDrive;
+import com.til.dusk.common.world.block.ModBlock;
+import com.til.dusk.common.world.item.ModItem;
 import com.til.dusk.util.Util;
 import com.til.dusk.util.pack.BlockPack;
 import com.til.dusk.util.pack.FluidPack;
@@ -15,6 +18,9 @@ import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.data.event.GatherDataEvent;
@@ -22,6 +28,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -107,7 +114,7 @@ public class ClientModData {
                             if (definition.size() == 1) {
                                 asBlock(ForgeRegistries.BLOCKS.getKey(entry.getValue().block()), entry.getKey().getBlockModelMapping(Util.forcedConversion(unitRegister)), cachedOutput);
                             } else {
-                                asBlockFather(ForgeRegistries.BLOCKS.getKey(entry.getValue().block()), entry.getKey().getBlockModelMapping(Util.forcedConversion(unitRegister)), cachedOutput);
+                                asBlockCustomJson(ForgeRegistries.BLOCKS.getKey(entry.getValue().block()), entry.getKey().getBlockStateJson(), cachedOutput);
                             }
                         }
                         for (Object o : unitRegister.fluidMap.entrySet()) {
@@ -115,6 +122,30 @@ public class ClientModData {
                             if (entry.getValue().liquidBlock() != null) {
                                 asFluid(ForgeRegistries.BLOCKS.getKey(entry.getValue().liquidBlock()), cachedOutput);
                             }
+                        }
+                    }
+                }
+                for (ShapedDrive shapedDrive : ShapedDrive.SHAPED_DRIVE.get()) {
+                    asItemBlockFather(shapedDrive.name, ShapedDrive.RESOURCE_LOCATION, cachedOutput);
+                    asBlock(shapedDrive.name, ShapedDrive.RESOURCE_LOCATION, cachedOutput);
+
+                }
+                for (RegistryObject<Item> entry : ModItem.ITEMS.getEntries()) {
+                    if (entry.get() instanceof ModItem.ICustomModel customModel) {
+                        asItemFather(entry.getId(), customModel.itemModelName(), cachedOutput);
+                    }
+                }
+                for (RegistryObject<Block> entry : ModBlock.BLOCKS.getEntries()) {
+                    if (entry.get() instanceof ModBlock.ICustomModel customModel) {
+                        Item blockItem = entry.get().asItem();
+                        if (blockItem != null) {
+                            asItemBlockFather(ForgeRegistries.ITEMS.getKey(blockItem), customModel.itemModelName(), cachedOutput);
+                        }
+                        ImmutableList<BlockState> definition = entry.get().getStateDefinition().getPossibleStates();
+                        if (definition.size() == 1) {
+                            asBlock(ForgeRegistries.BLOCKS.getKey(entry.get()), customModel.blockModelName(), cachedOutput);
+                        } else {
+                            asBlockCustomJson(ForgeRegistries.BLOCKS.getKey(entry.get()), customModel.blockStateJson(), cachedOutput);
                         }
                     }
                 }
@@ -146,14 +177,7 @@ public class ClientModData {
                 cachedOutput.writeIfNeeded(outputPath, bytearrayoutputstream.toByteArray(), hashingoutputstream.hash());
             }
 
-            public void asBlockFather(@Nullable ResourceLocation name, @Nullable ResourceLocation father, CachedOutput cachedOutput) throws IOException {
-                if (name == null) {
-                    return;
-                }
-                if (father == null) {
-                    return;
-                }
-                String json = String.format(BLOCK_STATE_FATHER, father.getNamespace(), father.getPath());
+            public void asBlockCustomJson(@Nullable ResourceLocation name, String json, CachedOutput cachedOutput) throws IOException {
                 ByteArrayOutputStream bytearrayoutputstream = new ByteArrayOutputStream();
                 HashingOutputStream hashingoutputstream = new HashingOutputStream(Hashing.sha256(), bytearrayoutputstream);
                 Writer writer = new OutputStreamWriter(hashingoutputstream, StandardCharsets.UTF_8);

@@ -63,18 +63,22 @@ public abstract class MessageRegister<MSG> extends RegisterBasics<MessageRegiste
 
             @Override
             public void encoder(ParticleRegister.Data data, FriendlyByteBuf friendlyByteBuf) {
-                friendlyByteBuf.writeUtf(data.type);
+                friendlyByteBuf.writeUtf(data.type.toString());
                 friendlyByteBuf.writeInt(data.color.getRGB());
                 friendlyByteBuf.writeDouble(data.density);
                 friendlyByteBuf.writeInt(data.pos.length);
                 for (Pos po : data.pos) {
                     po.write(friendlyByteBuf);
                 }
+                friendlyByteBuf.writeBoolean(data.resourceLocation != null);
+                if (data.resourceLocation != null) {
+                    friendlyByteBuf.writeUtf(data.resourceLocation.toString());
+                }
             }
 
             @Override
             public ParticleRegister.Data decoder(FriendlyByteBuf friendlyByteBuf) {
-                String type = friendlyByteBuf.readUtf();
+                ResourceLocation type = new ResourceLocation(friendlyByteBuf.readUtf());
                 Color color = new Color(friendlyByteBuf.readInt());
                 double density = friendlyByteBuf.readDouble();
                 int l = friendlyByteBuf.readInt();
@@ -82,14 +86,18 @@ public abstract class MessageRegister<MSG> extends RegisterBasics<MessageRegiste
                 for (int i = 0; i < l; i++) {
                     pos[i] = new Pos(friendlyByteBuf);
                 }
-                return new ParticleRegister.Data(type, color, density, pos);
+                ResourceLocation resourceLocation = null;
+                if (friendlyByteBuf.readBoolean()) {
+                    resourceLocation = new ResourceLocation(friendlyByteBuf.readUtf());
+                }
+                return new ParticleRegister.Data(type, color, density, resourceLocation, pos);
             }
         };
         particleRouteRegisterMessage = new MessageRegister<>("particle_route_register_message", ParticleRegister.RouteData.class) {
 
             @Override
             public void encoder(ParticleRegister.RouteData data, FriendlyByteBuf friendlyByteBuf) {
-                friendlyByteBuf.writeUtf(data.type);
+                friendlyByteBuf.writeUtf(data.type.toString());
                 friendlyByteBuf.writeInt(data.color.getRGB());
                 friendlyByteBuf.writeInt(data.route.size());
                 for (List<RoutePack.RouteCell<Double>> routeCells : data.route) {
@@ -100,11 +108,15 @@ public abstract class MessageRegister<MSG> extends RegisterBasics<MessageRegiste
                         friendlyByteBuf.writeDouble(routeCell.data());
                     }
                 }
+                friendlyByteBuf.writeBoolean(data.resourceLocation != null);
+                if (data.resourceLocation != null) {
+                    friendlyByteBuf.writeUtf(data.resourceLocation.toString());
+                }
             }
 
             @Override
             public ParticleRegister.RouteData decoder(FriendlyByteBuf friendlyByteBuf) {
-                String type = friendlyByteBuf.readUtf();
+                ResourceLocation type = new ResourceLocation(friendlyByteBuf.readUtf());
                 Color color = new Color(friendlyByteBuf.readInt());
                 int l = friendlyByteBuf.readInt();
                 List<List<RoutePack.RouteCell<Double>>> pack = new ArrayList<>(l);
@@ -116,7 +128,11 @@ public abstract class MessageRegister<MSG> extends RegisterBasics<MessageRegiste
                     }
                     pack.add(data);
                 }
-                return new ParticleRegister.RouteData(pack, type, color);
+                ResourceLocation resourceLocation = null;
+                if (friendlyByteBuf.readBoolean()) {
+                    resourceLocation = new ResourceLocation(friendlyByteBuf.readUtf());
+                }
+                return new ParticleRegister.RouteData(pack, type, color, resourceLocation);
             }
 
             @Override

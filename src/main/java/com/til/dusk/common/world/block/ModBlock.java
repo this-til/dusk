@@ -34,12 +34,16 @@ public class ModBlock {
 
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Dusk.MOD_ID);
 
-    public interface IHasCustomColor  {
+    public interface IHasCustomColor {
         void blockColorBlack(ColorProxy.BlockColorPack blockColorPack);
     }
 
-    public interface ICustomModel  {
+    public interface ICustomModel extends ModItem.ICustomModel {
         ResourceLocation blockModelName();
+
+        default String blockStateJson() {
+            return "";
+        }
     }
 
 }

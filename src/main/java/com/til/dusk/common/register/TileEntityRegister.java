@@ -55,13 +55,13 @@ public abstract class TileEntityRegister<T extends BlockEntity> extends Register
                     }
                 }));
                 ShapedDrive.SHAPED_DRIVE.get().forEach(s -> {
-                    if (s.blockItem.getBlock() instanceof ITileEntityType iTileEntityType) {
+                    if (s.blockPack.block() instanceof ITileEntityType iTileEntityType) {
                         BlockEntityType.Builder<DefaultTileEntity> builder = BlockEntityType.Builder.of((blockPos, blockState) ->
-                                new DefaultTileEntity(tileEntityTypeBlockEntityTypeMap.get(iTileEntityType), blockPos, blockState), s.blockItem.getBlock());
+                                new DefaultTileEntity(tileEntityTypeBlockEntityTypeMap.get(iTileEntityType), blockPos, blockState), s.blockPack.block());
                         Type<?> type = net.minecraft.Util.fetchChoiceType(References.BLOCK_ENTITY, fuseName("_", this, s).toString());
                         BlockEntityType<DefaultTileEntity> blockEntityType = builder.build(type);
                         tileEntityTypeBlockEntityTypeMap.put(iTileEntityType, blockEntityType);
-                        blockBlockEntityTypeMap.put(s.blockItem.getBlock(), blockEntityType);
+                        blockBlockEntityTypeMap.put(s.blockPack.block(), blockEntityType);
                         ForgeRegistries.BLOCK_ENTITY_TYPES.register(fuseName("_", this, s), blockEntityType);
                     }
                 });
