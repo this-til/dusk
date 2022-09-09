@@ -9,6 +9,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.Random;
 
@@ -66,6 +67,10 @@ public class Pos {
         x = friendlyByteBuf.readDouble();
         y = friendlyByteBuf.readDouble();
         z = friendlyByteBuf.readDouble();
+    }
+
+    public static AABB asAABB(Pos posMax, Pos posMin) {
+        return new AABB(posMax.vec3d(), posMin.vec3d());
     }
 
     public void write(FriendlyByteBuf friendlyByteBuf) {
@@ -188,8 +193,8 @@ public class Pos {
         return new BlockPos(x, y, z);
     }
 
-    public Vec3i vec3d() {
-        return new Vec3i(x, y, z);
+    public Vec3 vec3d() {
+        return new Vec3(x, y, z);
     }
 
     public static final Random rand = new Random();

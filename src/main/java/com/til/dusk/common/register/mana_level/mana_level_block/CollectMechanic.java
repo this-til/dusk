@@ -15,7 +15,6 @@ import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.util.Pos;
 import com.til.dusk.util.RoutePack;
-import mezz.jei.api.recipe.RecipeType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -24,7 +23,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 
@@ -49,15 +47,15 @@ public class CollectMechanic extends DefaultCapacityMechanic {
     @Override
     public void addCapability(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability, ManaLevel manaLevel, IPosTrack iPosTrack) {
         super.addCapability(event, duskModCapability, manaLevel, iPosTrack);
-        IControl iControl = duskModCapability.addCapability(CapabilityRegister.iControl.capability, new Control(iPosTrack, List.of(BindType.manaIn, BindType.itemOut), manaLevel));
+        IControl iControl = duskModCapability.addCapability(CapabilityRegister.iControl.capability, new Control(iPosTrack, List.of(BindType.manaIn, BindType.itemOut, BindType.posTrack), manaLevel));
         IUp iUp = duskModCapability.addCapability(CapabilityRegister.iUp.capability, new Up());
-        IClock iClock = duskModCapability.addCapability(CapabilityRegister.iClock.capability, new ManaClock(iUp, manaLevel.clock / 5, event.getObject(), iControl, 12L * manaLevel.level));
+        IClock iClock = duskModCapability.addCapability(CapabilityRegister.iClock.capability, new ManaClock(iUp, manaLevel.clock / 5, iControl, 12L * manaLevel.level));
         iClock.addBlock(() -> {
             Level level = event.getObject().getLevel();
             if (level == null) {
                 return;
             }
-            List<ItemEntity> itemEntityList = level.getEntities(EntityType.ITEM, new Pos(event.getObject().getBlockPos()).axisAlignedBB(16 + (4 * manaLevel.level)), Objects::nonNull);
+            List<ItemEntity> itemEntityList = level.getEntities(EntityType.ITEM, CapabilityHelp.getAABB(iControl, iControl.getMaxRange()), Objects::nonNull);
             if (itemEntityList.isEmpty()) {
                 return;
             }

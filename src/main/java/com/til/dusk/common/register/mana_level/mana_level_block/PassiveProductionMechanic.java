@@ -34,7 +34,7 @@ public abstract class PassiveProductionMechanic extends Mechanic {
             public void add(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability, IPosTrack iPosTrack) {
                 duskModCapability.addCapability(CapabilityRegister.iManaLevel.capability, () -> manaLevel);
                 IUp iUp = duskModCapability.addCapability(CapabilityRegister.iUp.capability, new Up());
-                IManaHandle iManaHandle = duskModCapability.addCapability(CapabilityRegister.iManaHandle.capability, new ManaHandle( 2L * manaLevel.level, iUp, 2560L * manaLevel.level));
+                IManaHandle iManaHandle = duskModCapability.addCapability(CapabilityRegister.iManaHandle.capability, new ManaHandle(2560L * manaLevel.level, 2L * manaLevel.level, iUp));
                 BlockEntity blockEntity = event.getObject();
                 iUp.addUpBlack(() -> up(blockEntity, iManaHandle, manaLevel));
             }

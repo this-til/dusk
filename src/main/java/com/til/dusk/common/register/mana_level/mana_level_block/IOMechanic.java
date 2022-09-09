@@ -85,7 +85,7 @@ public class IOMechanic extends DefaultCapacityMechanic {
                 if (level == null) {
                     return;
                 }
-                CapabilityHelp.manaPointToPointTransmit(iControl.getPosTrack(), iControl.getCapability(BindType.manaIn),iControl.getCapability(BindType.manaOut), manaLevel.manaLoss,false);
+                CapabilityHelp.manaPointToPointTransmit(iControl.getPosTrack(), iControl.getCapability(BindType.manaIn), iControl.getCapability(BindType.manaOut), manaLevel.manaLoss, false);
             });
         }
 
@@ -106,7 +106,7 @@ public class IOMechanic extends DefaultCapacityMechanic {
             super.addCapability(event, duskModCapability, manaLevel, iPosTrack);
             IControl iControl = duskModCapability.addCapability(CapabilityRegister.iControl.capability, new Control(iPosTrack, List.of(BindType.itemIn, BindType.itemOut, BindType.manaIn), manaLevel));
             IUp iUp = duskModCapability.addCapability(CapabilityRegister.iUp.capability, new Up());
-            IClock iClock = duskModCapability.addCapability(CapabilityRegister.iClock.capability, new ManaClock(iUp, manaLevel.clock / 20, event.getObject(), iControl, 4L * manaLevel.level));
+            IClock iClock = duskModCapability.addCapability(CapabilityRegister.iClock.capability, new ManaClock(iUp, manaLevel.clock / 10, iControl, 4L * manaLevel.level));
             iClock.addBlock(() -> {
                 Level level = event.getObject().getLevel();
                 if (level == null) {
@@ -179,7 +179,7 @@ public class IOMechanic extends DefaultCapacityMechanic {
             super.addCapability(event, duskModCapability, manaLevel, iPosTrack);
             IControl iControl = duskModCapability.addCapability(CapabilityRegister.iControl.capability, new Control(iPosTrack, List.of(BindType.fluidIn, BindType.fluidOut, BindType.manaIn), manaLevel));
             IUp iUp = duskModCapability.addCapability(CapabilityRegister.iUp.capability, new Up());
-            IClock iClock = duskModCapability.addCapability(CapabilityRegister.iClock.capability, new ManaClock(iUp, manaLevel.clock / 20, event.getObject(), iControl, 4L * manaLevel.level));
+            IClock iClock = duskModCapability.addCapability(CapabilityRegister.iClock.capability, new ManaClock(iUp, manaLevel.clock / 10, iControl, 4L * manaLevel.level));
             iClock.addBlock(() -> {
                 Level level = event.getObject().getLevel();
                 if (level == null) {
@@ -232,7 +232,7 @@ public class IOMechanic extends DefaultCapacityMechanic {
                 if (!outSimulate.isEmpty()) {
                     return;
                 }
-                CapabilityHelp.drainAndFillFluid(iPosTrack, outData.d2(), new Pos(outData.d1()), outData.d3(), outMap, false );
+                CapabilityHelp.drainAndFillFluid(iPosTrack, outData.d2(), new Pos(outData.d1()), outData.d3(), outMap, false);
             });
         }
     }

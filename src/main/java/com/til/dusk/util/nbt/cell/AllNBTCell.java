@@ -12,12 +12,16 @@ import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.ShapedHandleProcess;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 import com.til.dusk.common.register.skill.Skill;
+import com.til.dusk.common.world.ModAttribute;
 import com.til.dusk.util.nbt.NBTUtil;
 import com.til.dusk.util.nbt.pack.AllNBTPack;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -252,6 +256,7 @@ public class AllNBTCell {
     public static final RegisterItemNBTCell<BindType> BIND_TYPE = new RegisterItemNBTCell<>(() -> BindType.BIND_TYPE.get(), () -> BindType.itemOut);
     public static final RegisterItemNBTCell<ShapedHandleProcess> SHAPED_HANDLE_PROCESS = new RegisterItemNBTCell<>(() -> ShapedHandleProcess.SHAPED_TYPE_PROCESS.get(), () -> ShapedHandleProcess.trippingOperation);
     public static final RegisterItemNBTCell<Skill> SKILL = new RegisterItemNBTCell<>(() -> Skill.SKILL.get(), () -> Skill.empty);
+    public static final RegisterItemNBTCell<Attribute> ATTRIBUTE = new RegisterItemNBTCell<>(() -> ForgeRegistries.ATTRIBUTES, ModAttribute.EMPTY);
 
     public static final TagKeyNBTCell<Item> ITEM_TAG = new TagKeyNBTCell<>(ForgeRegistries.ITEMS::tags);
     public static final TagKeyNBTCell<Block> BLOCK_TAG = new TagKeyNBTCell<>(ForgeRegistries.BLOCKS::tags);
@@ -450,6 +455,7 @@ public class AllNBTCell {
             skillCell.originalLevel = AllNBTPack.ORIGINAL_LEVEL.get(compoundTag);
             skillCell.cd = AllNBTPack.CD.get(compoundTag);
             skillCell.nbt = AllNBTPack.NBT.get(compoundTag);
+            skillCell.level = skillCell.originalLevel;
             return skillCell;
         }
 
@@ -472,6 +478,27 @@ public class AllNBTCell {
             return skillCell;
         }
     };
+    public static final NBTCell<AttributeModifier> ATTRIBUTE_MODIFIER = new NBTCell<>() {
+        @Override
+        public Tag as(AttributeModifier attributeModifier) {
+            return attributeModifier.save();
+        }
+
+        @Override
+        public AttributeModifier from(Tag t) {
+            return AttributeModifier.load(getAsCompoundTag(t));
+        }
+
+        @Override
+        public JsonElement asJson(AttributeModifier attributeModifier) {
+            return NBTUtil.toJson(as(attributeModifier));
+        }
+
+        @Override
+        public AttributeModifier fromJson(JsonElement json) {
+            return from(NBTUtil.toTag(json));
+        }
+    };
 
     public static final NBTMapCell<BindType, List<BlockPos>> BIND_TYPE_LIST = new NBTMapCell<>(BIND_TYPE, BLOCK_POS.getListNBTCell());
     public static final NBTMapCell<TagKey<Item>, Integer> ITEM_TAG_INT_MAP = new NBTMapCell<>(ITEM_TAG, INT);
@@ -479,5 +506,6 @@ public class AllNBTCell {
     public static final NBTMapCell<ItemStack, Double> ITEM_STACK_DOUBLE_MAP = new NBTMapCell<>(ITEM_STACK, DOUBLE);
     public static final NBTMapCell<FluidStack, Double> FLUID_STACK_DOUBLE_MAP = new NBTMapCell<>(FLUID_STATE, DOUBLE);
     public static final NBTMapCell<Skill, ISkill.SkillCell> SKILL_SKILL_CELL_MAP = new NBTMapCell<>(SKILL, SKILL_DATA);
+    public static final NBTMapCell<Attribute, List<AttributeModifier>> ATTRIBUTE_LIST_NBT_MAP = new NBTMapCell<>(ATTRIBUTE, ATTRIBUTE_MODIFIER.getListNBTCell());
 
 }

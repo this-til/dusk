@@ -1,9 +1,17 @@
 package com.til.dusk.common.register.ore;
 
-import com.google.common.collect.Multimap;
 import com.til.dusk.Dusk;
 import com.til.dusk.client.ColorProxy;
+import com.til.dusk.common.capability.entity_skill.ISkill;
+import com.til.dusk.common.capability.entity_skill.ItemStackSkill;
+import com.til.dusk.common.capability.mana_handle.VariableManaHandle;
+import com.til.dusk.common.capability.tile_entity.DuskCapabilityProvider;
+import com.til.dusk.common.capability.tile_entity.IItemDefaultCapability;
+import com.til.dusk.common.capability.up.IUp;
+import com.til.dusk.common.capability.up.Up;
+import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.common.register.RegisterBasics;
+import com.til.dusk.common.register.skill.Skill;
 import com.til.dusk.util.StaticTag;
 import com.til.dusk.util.pack.ItemPack;
 import com.til.dusk.util.prefab.ColorPrefab;
@@ -11,10 +19,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -25,6 +32,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Supplier;
@@ -242,115 +250,199 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
         @Override
         public Item createItem(Ore ore) {
             if (ore.hasTag(Ore.HAS_ARMOR) && ore.armorData != null) {
-                return new DyeableArmorItem(ore.armorData, equipmentSlot, new Item.Properties().stacksTo(1).tab(Dusk.TAB)) {
-                    public static final String OVERLAY = "overlay";
-
-                    @Override
-                    public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
-                        if (OVERLAY.equals(type)) {
-                            return Dusk.MOD_ID + ":textures/air.png";
-                        }
-                        return switch (slot) {
-                            case HEAD, CHEST, FEET -> Dusk.MOD_ID + ":textures/armor/model_layer_1.png";
-                            case LEGS -> Dusk.MOD_ID + ":textures/armor/model_layer_2.png";
-                            default -> null;
-                        };
-                    }
-
-                    @Override
-                    public boolean hasCustomColor(@NotNull ItemStack itemStack) {
-                        return true;
-                    }
-
-                    @Override
-                    public int getColor(@NotNull ItemStack itemStack) {
-                        return ore.color.getRGB();
-                    }
-
-                    @Override
-                    public void clearColor(@NotNull ItemStack itemStack) {
-                    }
-
-                    @Override
-                    public void setColor(@NotNull ItemStack itemStack, int color) {
-                    }
-
-                    @Override
-                    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
-                        return super.getAttributeModifiers(slot, stack);
-                    }
-                };
+                return new OreItem.CapabilityArmorItem(ore.armorData, equipmentSlot, new Item.Properties().stacksTo(1).tab(Dusk.TAB), ore);
             }
             return null;
         }
 
 
-        public static class ArmorData implements ArmorMaterial {
+    }
 
-            public final Supplier<Ore> ore;
-            public final int[] durability;
-            public final int[] defense;
-            public final float toughness;
-            public final float knockBackResistance;
+    public static class ArmorData implements ArmorMaterial, IItemDefaultCapability {
 
-            public ArmorData(Supplier<Ore> ore, int durability, int defenseBasics, float toughness, float knockBackResistance) {
-                this.ore = ore;
-                this.durability = new int[]{
-                        300 * durability,
-                        400 * durability,
-                        400 * durability,
-                        300 * durability
-                };
-                this.defense = new int[]{
-                        2 * defenseBasics,
-                        6 * defenseBasics,
-                        5 * defenseBasics,
-                        2 * defenseBasics
-                };
-                this.toughness = toughness;
-                this.knockBackResistance = knockBackResistance;
-            }
+        public static final int[] DEFAULT_DURABILITY = new int[]{
+                300,
+                400,
+                400,
+                300,
+        };
+        public static final int[] DEFAULT_DEFENSE = new int[]{
+                2,
+                6,
+                5,
+                2,
+        };
 
-            @Override
-            public int getDurabilityForSlot(EquipmentSlot equipmentSlot) {
-                return durability[equipmentSlot.getIndex()];
-            }
+        public final Supplier<Ore> ore;
+        public int[] durability = Arrays.copyOf(DEFAULT_DURABILITY, DEFAULT_DURABILITY.length);
+        public int[] defense = Arrays.copyOf(DEFAULT_DURABILITY, DEFAULT_DURABILITY.length);
+        public float toughness = 3;
+        public float knockBackResistance = 0.25f;
 
-            @Override
-            public int getDefenseForSlot(EquipmentSlot equipmentSlot) {
-                return defense[equipmentSlot.getIndex()];
-            }
+        /***
+         * 附魔值
+         */
+        public int enchantmentValue;
 
-            @Override
-            public int getEnchantmentValue() {
-                return 0;
-            }
+        /***
+         * 基础灵气
+         * 如果为0物品将没有灵气处理的能力
+         */
+        public long manaBasics;
 
-            @Override
-            public @NotNull SoundEvent getEquipSound() {
-                return Objects.requireNonNull(ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("item.armor.equip_diamond")));
-            }
+        /***
+         * 流速基础
+         */
+        public long rateBasics;
 
-            @Override
-            public @NotNull Ingredient getRepairIngredient() {
-                return Ingredient.of(ore.get().itemMap.get(OreItem.ingot).itemTag());
-            }
+        /***
+         * 默认技能
+         */
+        public Supplier<List<Skill>> defaultSkill = List::of;
 
-            @Override
-            public @NotNull String getName() {
-                return ore.get().name.toString();
-            }
-
-            @Override
-            public float getToughness() {
-                return toughness;
-            }
-
-            @Override
-            public float getKnockbackResistance() {
-                return knockBackResistance;
-            }
+        public ArmorData(Supplier<Ore> ore) {
+            this.ore = ore;
+            setDefense(1);
+            setDurability(1);
         }
 
+        public ArmorData setDurability(int durability) {
+            for (int i = 0; i < DEFAULT_DURABILITY.length; i++) {
+                this.durability[i] = DEFAULT_DURABILITY[i] * durability;
+            }
+            return this;
+        }
+
+        public ArmorData setDefense(int defense) {
+            for (int i = 0; i < DEFAULT_DEFENSE.length; i++) {
+                this.defense[i] = DEFAULT_DEFENSE[i] * defense;
+            }
+            return this;
+        }
+
+        public ArmorData setToughness(float toughness) {
+            this.toughness = toughness;
+            return this;
+        }
+
+        public ArmorData setKnockBackResistance(float knockBackResistance) {
+            this.knockBackResistance = knockBackResistance;
+            return this;
+        }
+
+        public ArmorData setDefaultSkill(Supplier<List<Skill>> defaultSkill) {
+            this.defaultSkill = defaultSkill;
+            return this;
+        }
+
+        public ArmorData setMane(long mana, long rate) {
+            manaBasics = mana;
+            rateBasics = rate;
+            return this;
+        }
+
+        @Override
+        public int getDurabilityForSlot(EquipmentSlot equipmentSlot) {
+            return durability[equipmentSlot.getIndex()];
+        }
+
+        @Override
+        public int getDefenseForSlot(EquipmentSlot equipmentSlot) {
+            return defense[equipmentSlot.getIndex()];
+        }
+
+        @Override
+        public int getEnchantmentValue() {
+            return enchantmentValue;
+        }
+
+        @Override
+        public @NotNull SoundEvent getEquipSound() {
+            return Objects.requireNonNull(ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("item.armor.equip_diamond")));
+        }
+
+        @Override
+        public @NotNull Ingredient getRepairIngredient() {
+            return Ingredient.of(ore.get().itemMap.get(OreItem.ingot).itemTag());
+        }
+
+        @Override
+        public @NotNull String getName() {
+            return ore.get().name.toString();
+        }
+
+        @Override
+        public float getToughness() {
+            return toughness;
+        }
+
+        @Override
+        public float getKnockbackResistance() {
+            return knockBackResistance;
+        }
+
+        @Override
+        public void initCapability(AttachCapabilitiesEvent<ItemStack> event, DuskCapabilityProvider duskCapabilityProvider) {
+            IUp iUp = duskCapabilityProvider.addCapability(CapabilityRegister.iUp.capability, new Up());
+            ISkill iSkill = duskCapabilityProvider.addCapability(CapabilityRegister.iSkill.capability, new ItemStackSkill());
+            List<Skill> skills = defaultSkill.get();
+            if (!skills.isEmpty()) {
+                for (Skill skill : skills) {
+                    iSkill.getSkill(skill).originalLevel++;
+                }
+            }
+            if (manaBasics > 0) {
+                duskCapabilityProvider.addCapability(CapabilityRegister.iManaHandle.capability, new VariableManaHandle(manaBasics, rateBasics, iUp,
+                        () -> iSkill.getSkill(Skill.maxManaDilatation).level * 0.2, () -> iSkill.getSkill(Skill.rateDilatation).level * 0.2));
+            }
+        }
+    }
+
+    public static class CapabilityArmorItem extends DyeableArmorItem implements IItemDefaultCapability {
+        public final Ore ore;
+        public final ArmorData armorData;
+
+        public CapabilityArmorItem(ArmorData armorMaterial, EquipmentSlot equipmentSlot, Properties properties, Ore ore) {
+            super(armorMaterial, equipmentSlot, properties);
+            this.ore = ore;
+            this.armorData = armorMaterial;
+        }
+
+        public static final String OVERLAY = "overlay";
+
+        @Override
+        public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
+            if (OVERLAY.equals(type)) {
+                return Dusk.MOD_ID + ":textures/air.png";
+            }
+            return switch (slot) {
+                case HEAD, CHEST, FEET -> Dusk.MOD_ID + ":textures/armor/model_layer_1.png";
+                case LEGS -> Dusk.MOD_ID + ":textures/armor/model_layer_2.png";
+                default -> null;
+            };
+        }
+
+        @Override
+        public boolean hasCustomColor(@NotNull ItemStack itemStack) {
+            return true;
+        }
+
+        @Override
+        public int getColor(@NotNull ItemStack itemStack) {
+            return ore.color.getRGB();
+        }
+
+        @Override
+        public void clearColor(@NotNull ItemStack itemStack) {
+        }
+
+        @Override
+        public void setColor(@NotNull ItemStack itemStack, int color) {
+        }
+
+        @Override
+        public void initCapability(AttachCapabilitiesEvent<ItemStack> event, DuskCapabilityProvider duskCapabilityProvider) {
+            armorData.initCapability(event, duskCapabilityProvider);
+        }
     }
 }

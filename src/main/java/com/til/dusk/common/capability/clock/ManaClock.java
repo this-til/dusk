@@ -2,6 +2,7 @@ package com.til.dusk.common.capability.clock;
 
 import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.capability.CapabilityHelp;
+import com.til.dusk.common.capability.pos.IPosTrack;
 import com.til.dusk.common.capability.up.IUp;
 import com.til.dusk.common.register.BindType;
 import com.til.dusk.common.register.CapabilityRegister;
@@ -22,14 +23,12 @@ import org.jetbrains.annotations.Nullable;
  */
 public class ManaClock extends Clock implements IManaClock {
 
-    public final BlockEntity blockEntity;
     public final IControl control;
     public final long consumeMana;
     public ShapedHandleProcess process = ShapedHandleProcess.production;
 
-    public ManaClock(IUp up, int clock, BlockEntity blockEntity, IControl iControl, long consumeMana) {
+    public ManaClock(IUp up, int clock, IControl iControl, long consumeMana) {
         super(up, clock);
-        this.blockEntity = blockEntity;
         this.control = iControl;
         this.consumeMana = consumeMana;
     }

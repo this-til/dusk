@@ -9,10 +9,13 @@ import com.til.dusk.common.register.shaped.ShapedHandleProcess;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 import com.til.dusk.common.register.skill.Skill;
 import com.til.dusk.util.nbt.cell.AllNBTCell;
+import com.til.dusk.util.nbt.cell.NBTCell;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
@@ -87,4 +90,7 @@ public class AllNBTPack {
     public static final IntPack ORIGINAL_LEVEL = new IntPack("originalLevel");
     public static final IntPack CD = new IntPack("CD");
     public static final NBTPack<CompoundTag> NBT = new NBTPack<>("nbt", AllNBTCell.NBT);
+
+    public static final NBTPack<AttributeModifier> ATTRIBUTE_MODIFIER = new NBTPack<>("attribute_modifier", AllNBTCell.ATTRIBUTE_MODIFIER);
+    public static final NBTPack<Map<Attribute, List<AttributeModifier>>> ATTRIBUTE_ATTRIBUTE_MODIFIER_LIST_MAP = new NBTPack<>("attribute_attribute_modifier_list_map", AllNBTCell.ATTRIBUTE_LIST_NBT_MAP);
 }

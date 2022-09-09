@@ -3,11 +3,8 @@ package com.til.dusk.common.capability.mana_handle;
 import com.til.dusk.common.capability.up.IUp;
 import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.util.Lang;
-import com.til.dusk.util.Pos;
-import com.til.dusk.util.RoutePack;
 import com.til.dusk.util.TooltipPack;
 import com.til.dusk.util.nbt.pack.AllNBTPack;
-import mezz.jei.api.recipe.RecipeType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -15,8 +12,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.MinecraftForge;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.function.Supplier;
 
 /**
  * @author til
@@ -29,7 +24,7 @@ public class ManaHandle implements IManaHandle {
     public long outRate;
     public long mana;
 
-    public ManaHandle(long maxRate, IUp iUp, long maxMana) {
+    public ManaHandle(long maxMana, long maxRate, IUp iUp) {
         this.maxMana = maxMana;
         this.maxRate = maxRate;
         iUp.addUpBlack(this::up);

@@ -238,6 +238,8 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
      */
     public static Mechanic blend;
 
+    public static Mechanic decompose;
+
     /***
      * 灵气凝结晶体
      */
@@ -287,6 +289,16 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
      */
     public static WhirlBoostMechanic whirlBoost;
 
+    /***
+     * 充能晶体
+     */
+    public static ChargeMechanic charge;
+
+    /***
+     * 泵晶体
+     */
+    public static PumpMechanic pumpMechanic;
+
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
         LEVEL_BLOCK = event.create(new RegistryBuilder<ManaLevelBlock>().setName(new ResourceLocation(Dusk.MOD_ID, "mana_level_block")));
@@ -328,6 +340,7 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
         cutting = new HandleMechanic("cutting", () -> List.of(ShapedType.cutting));
         pressureStick = new HandleMechanic("pressure_stick", () -> List.of(ShapedType.pressureStick));
         blend = new HandleMechanic("blend", () -> List.of(ShapedType.blend));
+        decompose = new HandleMechanic("decompose", () -> List.of(ShapedType.decompose));
         manaCoagulation = new HandleMechanic("mana_coagulation", () -> List.of(ShapedType.manaCoagulation));
         voidCase = new DefaultCapacityMechanic("void_case") {
             @Override
@@ -348,7 +361,7 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
             public void addCapability(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability, ManaLevel manaLevel, IPosTrack iPosTrack) {
                 super.addCapability(event, duskModCapability, manaLevel, iPosTrack);
                 IUp iUp = duskModCapability.addCapability(CapabilityRegister.iUp.capability, new Up());
-                duskModCapability.addCapability(CapabilityRegister.iManaHandle.capability, new ManaHandle(32L * manaLevel.level, iUp, 5120000L * manaLevel.level));
+                duskModCapability.addCapability(CapabilityRegister.iManaHandle.capability, new ManaHandle(5120000L * manaLevel.level, 32L * manaLevel.level, iUp));
             }
         };
         manaIO = new IOMechanic.ManaIO("mana_io", ColorPrefab.MANA_IO);
@@ -356,6 +369,8 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
         fluidIO = new IOMechanic.FluidIO("fluid_io", ColorPrefab.FLUID_IO);
         collect = new CollectMechanic("collect");
         whirlBoost = new WhirlBoostMechanic("whirl_boost");
+        charge = new ChargeMechanic("charge");
+        pumpMechanic = new PumpMechanic("pump_mechanic");
     }
 
     public ManaLevelBlock(ResourceLocation name) {

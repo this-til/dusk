@@ -32,6 +32,8 @@ public interface ISkill extends INBTSerializable<CompoundTag> {
     @NotNull
     SkillCell getSkill(Skill skill) ;
 
+    void reset();
+
     class SkillCell {
 
         /***

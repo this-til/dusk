@@ -34,6 +34,7 @@ public abstract class SkillBasics implements ISkill {
     /***
      * 重置
      */
+    @Override
     public void reset() {
         map.values().forEach(SkillCell::reset);
     }

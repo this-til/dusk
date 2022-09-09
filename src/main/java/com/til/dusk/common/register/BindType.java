@@ -3,6 +3,7 @@ package com.til.dusk.common.register;
 import com.til.dusk.Dusk;
 import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.capability.mana_handle.IManaHandle;
+import com.til.dusk.common.capability.pos.IPosTrack;
 import com.til.dusk.common.capability.shaped_drive.IShapedDrive;
 import com.til.dusk.util.Lang;
 import net.minecraft.network.chat.Component;
@@ -43,6 +44,7 @@ public class BindType extends RegisterBasics<BindType> {
     public static BindTypeBindCapability<IFluidHandler> fluidIn;
     public static BindTypeBindCapability<IFluidHandler> fluidOut;
     public static BindTypeBindCapability<IShapedDrive> modelStore;
+    public static BindTypeBindCapability<IPosTrack> posTrack;
     public static BindType relayIn;
     public static BindType relayOut;
 
@@ -57,6 +59,7 @@ public class BindType extends RegisterBasics<BindType> {
         fluidIn = new BindTypeBindCapability<>("fluid_in", new Color(29, 237, 255), Lang.getKey("capability.fluid_handler"), () -> ForgeCapabilities.FLUID_HANDLER);
         fluidOut = new BindTypeBindCapability<>("fluid_out", new Color(68, 124, 129), Lang.getKey("capability.fluid_handler"), () -> ForgeCapabilities.FLUID_HANDLER);
         modelStore = new BindTypeBindCapability<>("model_store", new Color(204, 147, 255), Lang.getKey("capability.shaped_drive "), () -> CapabilityRegister.iShapedDrive.capability);
+        posTrack = new BindTypeBindCapability<>("pos_track", new Color(69, 187, 178, 255), Lang.getKey("capability.pos_track"), () -> CapabilityRegister.iPosTrack.capability);
         relayIn = new BindType("relay_in", new Color(255, 0, 0));
         relayOut = new BindType("relay_out", new Color(141, 74, 74));
 

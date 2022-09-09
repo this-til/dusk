@@ -107,7 +107,7 @@ public class ShapedOre extends ShapedMiddle {
             if (item != null) {
                 for (Map.Entry<BlockEntity, IItemHandler> entry : iItemHandlers.entrySet()) {
                     if (extractItem(iControl, entry, true)) {
-                        extractFluid(iControl, fluidHandlers, true);
+                        extractFluid(iControl, fluidHandlers, false);
                         extractItem(iControl, entry, false);
                         return new ShapedHandle(surplusTime, consumeMana, outMana, makeOutItem(), makeOutFluid());
                     }
@@ -115,7 +115,6 @@ public class ShapedOre extends ShapedMiddle {
             } else {
                 extractFluid(iControl, fluidHandlers, false);
                 return new ShapedHandle(surplusTime, consumeMana, outMana, makeOutItem(), makeOutFluid());
-
             }
         }
         return null;

@@ -1,15 +1,23 @@
 package com.til.dusk.common.capability;
 
+import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.capability.mana_handle.IManaHandle;
 import com.til.dusk.common.capability.pos.IPosTrack;
 import com.til.dusk.common.event.EventIO;
+import com.til.dusk.common.register.BindType;
 import com.til.dusk.util.Pos;
 import com.til.dusk.util.RoutePack;
 import com.til.dusk.util.Util;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.levelgen.structure.templatesystem.AxisAlignedLinearPosTest;
+import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.IItemHandler;
@@ -143,7 +151,7 @@ public class CapabilityHelp {
      */
     @Nullable
 
-    public static RoutePack<Long> manaPointToPointTransmit(IPosTrack iPosTrack, Map<BlockEntity, IManaHandle> inMap, Map<BlockEntity, IManaHandle> outMap, double manaLoss,boolean isSimulate) {
+    public static RoutePack<Long> manaPointToPointTransmit(IPosTrack iPosTrack, Map<BlockEntity, IManaHandle> inMap, Map<BlockEntity, IManaHandle> outMap, double manaLoss, boolean isSimulate) {
         if (inMap.isEmpty()) {
             return null;
         }
@@ -339,6 +347,9 @@ public class CapabilityHelp {
             fluidStack = fluidStack.copy();
             fluidStack.setAmount(fluidStack.getAmount() - in);
             allIn += in;
+            if (fluidStack.isEmpty()) {
+                break;
+            }
         }
         if (!isSimulate && isOriginal) {
             MinecraftForge.EVENT_BUS.post(new EventIO.Fluid(iPosTrack.getLevel(), routePack));
@@ -441,5 +452,73 @@ public class CapabilityHelp {
 
     public static IFluidHandler.FluidAction asFluidAction(boolean isSimulate) {
         return isSimulate ? IFluidHandler.FluidAction.SIMULATE : IFluidHandler.FluidAction.EXECUTE;
+    }
+
+    /***
+     * 返回实体携带的物品
+     * @return
+     */
+    public static List<IItemHandler> getLivingEntityIItemHandlers(LivingEntity livingEntity) {
+        List<IItemHandler> iManaHandles = new ArrayList<>();
+        for (Direction direction : DIRECTIONS) {
+            LazyOptional<IItemHandler> iItemHandlerLazyOptional = livingEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, direction);
+            if (iItemHandlerLazyOptional.isPresent()) {
+                iManaHandles.add(iItemHandlerLazyOptional.orElse(null));
+            }
+        }
+        return iManaHandles;
+    }
+
+    public static final Direction[] DIRECTIONS = new Direction[]{
+            null,
+            Direction.UP,
+            Direction.NORTH
+    };
+
+    public static AABB getAABB(IControl iControl, double defaultRange) {
+        Pos pos = iControl.getPosTrack().getPos();
+        double xMax = pos.x;
+        double yMax = pos.y;
+        double zMax = pos.z;
+        double xMin = pos.x;
+        double yMin = pos.y;
+        double zMin = pos.z;
+        Map<BlockEntity, IPosTrack> map = iControl.getCapability(BindType.posTrack);
+        if (!map.isEmpty()) {
+            for (Map.Entry<BlockEntity, IPosTrack> entry : map.entrySet()) {
+                Pos blockPos = entry.getValue().getPos();
+                if (blockPos.x > xMax) {
+                    xMax = blockPos.x;
+                }
+
+                if (blockPos.y > yMax) {
+                    yMax = blockPos.y;
+                }
+
+                if (blockPos.z > yMax) {
+                    zMax = blockPos.z;
+                }
+
+                if (blockPos.x < xMin) {
+                    xMin = blockPos.x;
+                }
+
+                if (blockPos.y < yMin) {
+                    yMin = blockPos.y;
+                }
+
+                if (blockPos.z < zMin) {
+                    zMin = blockPos.z;
+                }
+            }
+        } else {
+            xMax += defaultRange;
+            yMax += defaultRange;
+            zMax += defaultRange;
+            xMin -= defaultRange;
+            yMin -= defaultRange;
+            zMin -= defaultRange;
+        }
+        return Pos.asAABB(new Pos(xMax, yMax, zMax).move(0.5, 0.5, 0.5), new Pos(xMin, yMin, zMin).move(-0.5, -0.5, -0.5));
     }
 }

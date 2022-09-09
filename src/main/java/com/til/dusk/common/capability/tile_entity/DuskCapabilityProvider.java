@@ -1,8 +1,8 @@
 package com.til.dusk.common.capability.tile_entity;
 
 import com.til.dusk.Dusk;
-import com.til.dusk.common.capability.entity_skill.ISkill;
 import com.til.dusk.common.capability.entity_skill.LivingEntitySkill;
+import com.til.dusk.common.capability.mana_handle.LivingEntityManaHandle;
 import com.til.dusk.common.capability.pos.IPosTrack;
 import com.til.dusk.common.capability.pos.PosTrack;
 import com.til.dusk.common.capability.up.IUp;
@@ -14,6 +14,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.Capability;
@@ -108,9 +109,18 @@ public class DuskCapabilityProvider implements ICapabilityProvider, INBTSerializ
         if (event.getObject() instanceof LivingEntity livingEntity) {
             Map<Capability<?>, Object> map = new HashMap<>();
             DuskCapabilityProvider duskModCapability = new DuskCapabilityProvider(map);
-            ISkill iSkill = duskModCapability.addCapability(CapabilityRegister.iSkill.capability, new LivingEntitySkill(livingEntity));
-            IUp up = duskModCapability.addCapability(CapabilityRegister.iUp.capability, new Up());
-            up.addUpBlack(iSkill::up);
+            duskModCapability.addCapability(CapabilityRegister.iSkill.capability, new LivingEntitySkill(livingEntity));
+            duskModCapability.addCapability(CapabilityRegister.iManaHandle.capability, new LivingEntityManaHandle(livingEntity));
+            event.addCapability(new ResourceLocation(Dusk.MOD_ID, "dusk_capability_provider"), duskModCapability);
+        }
+    }
+
+    @SubscribeEvent
+    public static void addItemStackCapability(AttachCapabilitiesEvent<ItemStack> event) {
+        if (event.getObject().getItem() instanceof IItemDefaultCapability iItemDefaultCapability) {
+            Map<Capability<?>, Object> map = new HashMap<>();
+            DuskCapabilityProvider duskModCapability = new DuskCapabilityProvider(map);
+            iItemDefaultCapability.initCapability(event, duskModCapability);
             event.addCapability(new ResourceLocation(Dusk.MOD_ID, "dusk_capability_provider"), duskModCapability);
         }
     }

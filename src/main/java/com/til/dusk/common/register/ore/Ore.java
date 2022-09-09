@@ -3,6 +3,7 @@ package com.til.dusk.common.register.ore;
 import com.til.dusk.Dusk;
 import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.register.mana_level.ManaLevel;
+import com.til.dusk.common.register.skill.Skill;
 import com.til.dusk.util.GenericMap;
 import com.til.dusk.util.StaticTag;
 import com.til.dusk.util.prefab.ColorPrefab;
@@ -184,7 +185,11 @@ public class Ore extends RegisterBasics.UnitRegister<Ore, OreItem, OreBlock, Ore
         aliceblue = new Ore("aliceblue", new Color(0xF0F8FF), ManaLevel.t2);
         darkGreen = new Ore("dark_green", new Color(0x3d3b4f), ManaLevel.t2);
 
-        starRiver = new Ore("star_river", new Color(0x6487FF), ManaLevel.t2).setArmorData(new OreItem.OreItemArmor.ArmorData(() -> starRiver, 125, 6, 3, 0.2f));
+        starRiver = new Ore("star_river", new Color(0x6487FF), ManaLevel.t2).setArmorData(new OreItem.OreItemArmor.ArmorData(() -> starRiver)
+                .setDefense(3)
+                .setDurability(10)
+                .setMane(128000, 1024)
+                .setDefaultSkill(() -> List.of(Skill.life)));
 
         sunlight = new Ore("sunlight", ColorPrefab.SUNLIGHT_COLOR, ManaLevel.t2).setCrysta();
         moonlight = new Ore("moonlight", ColorPrefab.MOONLIGHT_COLOR, ManaLevel.t2).setCrysta();

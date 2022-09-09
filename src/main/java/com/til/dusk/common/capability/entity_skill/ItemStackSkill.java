@@ -6,6 +6,6 @@ package com.til.dusk.common.capability.entity_skill;
 public class ItemStackSkill extends SkillBasics {
     @Override
     public void up() {
-
+        reset();
     }
 }
