@@ -156,7 +156,7 @@ dependencies {
     implementation fg.deobf("curse.maven:jade-324717:3903693")
 
     //JEI
-    implementation fg.deobf("curse.maven:jade-238222:3944627")
+    implementation fg.deobf("curse.maven:jei-238222:3944627")
 
     //WTHIT
     //implementation fg.deobf("curse.maven:jade-440979:3944309")

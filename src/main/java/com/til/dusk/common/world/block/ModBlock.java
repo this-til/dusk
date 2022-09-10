@@ -9,6 +9,7 @@ import com.til.dusk.common.capability.tile_entity.RepeaterTileEntity;
 import com.til.dusk.common.register.TileEntityRegister;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.world.item.ModItem;
+import com.til.dusk.util.prefab.JsonPrefab;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
@@ -42,7 +43,7 @@ public class ModBlock {
         ResourceLocation blockModelName();
 
         default String blockStateJson() {
-            return "";
+            return JsonPrefab.BLOCK_STATE_MODEL;
         }
     }
 

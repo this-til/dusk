@@ -41,18 +41,6 @@ public class HandleMechanic extends DefaultCapacityMechanic {
     }
 
     @Override
-    public Block createBlock(ManaLevel manaLevel) {
-
-        return new MechanicBlock(manaLevel) {
-            @Override
-            public void add(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability, IPosTrack iPosTrack) {
-                addCapability(event, duskModCapability, manaLevel, iPosTrack);
-            }
-        };
-    }
-
-    @Override
-
     public void addCapability(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability, ManaLevel manaLevel, IPosTrack iPosTrack) {
         super.addCapability(event, duskModCapability, manaLevel, iPosTrack);
         IControl iControl = duskModCapability.addCapability(CapabilityRegister.iControl.capability, new Control(iPosTrack, List.of(BindType.manaIn, BindType.manaOut, BindType.itemIn, BindType.itemOut, BindType.fluidIn, BindType.fluidOut, BindType.modelStore), manaLevel));

@@ -413,6 +413,12 @@ public class Pos {
         }
     }
 
+    public boolean isIn(AABB aabb) {
+        return aabb.maxX > x && aabb.minX < x &&
+                aabb.maxY > y && aabb.minY < y &&
+                aabb.maxZ > z && aabb.minZ < z;
+    }
+
     @Override
     public String toString() {
         return "[" + x + "," + y + "," + z + "]";

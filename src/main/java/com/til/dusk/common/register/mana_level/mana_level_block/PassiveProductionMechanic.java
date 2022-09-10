@@ -18,7 +18,7 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 /**
  * @author til
  */
-public abstract class PassiveProductionMechanic extends Mechanic {
+public abstract class PassiveProductionMechanic extends DefaultCapacityMechanic {
     public PassiveProductionMechanic(ResourceLocation name) {
         super(name);
     }
@@ -27,18 +27,14 @@ public abstract class PassiveProductionMechanic extends Mechanic {
         this(new ResourceLocation(Dusk.MOD_ID, name));
     }
 
+
     @Override
-    public Block createBlock(ManaLevel manaLevel) {
-        return new MechanicBlock(manaLevel) {
-            @Override
-            public void add(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability, IPosTrack iPosTrack) {
-                duskModCapability.addCapability(CapabilityRegister.iManaLevel.capability, () -> manaLevel);
-                IUp iUp = duskModCapability.addCapability(CapabilityRegister.iUp.capability, new Up());
-                IManaHandle iManaHandle = duskModCapability.addCapability(CapabilityRegister.iManaHandle.capability, new ManaHandle(2560L * manaLevel.level, 2L * manaLevel.level, iUp));
-                BlockEntity blockEntity = event.getObject();
-                iUp.addUpBlack(() -> up(blockEntity, iManaHandle, manaLevel));
-            }
-        };
+    public void addCapability(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability, ManaLevel manaLevel, IPosTrack iPosTrack) {
+        super.addCapability(event, duskModCapability, manaLevel, iPosTrack);
+        IUp iUp = duskModCapability.addCapability(CapabilityRegister.iUp.capability, new Up());
+        IManaHandle iManaHandle = duskModCapability.addCapability(CapabilityRegister.iManaHandle.capability, new ManaHandle(2560L * manaLevel.level, 2L * manaLevel.level, iUp));
+        BlockEntity blockEntity = event.getObject();
+        iUp.addUpBlack(() -> up(blockEntity, iManaHandle, manaLevel));
     }
 
     /***

@@ -14,6 +14,7 @@ import com.til.dusk.util.Util;
 import com.til.dusk.util.pack.BlockPack;
 import com.til.dusk.util.pack.FluidPack;
 import com.til.dusk.util.pack.ItemPack;
+import com.til.dusk.util.prefab.JsonPrefab;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
@@ -38,6 +39,7 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
+import java.text.MessageFormat;
 import java.util.Map;
 
 /**
@@ -46,49 +48,6 @@ import java.util.Map;
 @Mod.EventBusSubscriber(modid = Dusk.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientModData {
     public static DataGenerator dataGenerator;
-
-    public static final String BLOCK_STATE_MODEL =
-            """        
-                    {
-                      "variants": {
-                        "": {
-                          "model": "%s:block/%s"
-                        }
-                      }
-                    }
-                    """;
-
-    public static final String BLOCK_STATE_FATHER =
-            """
-                    {
-                      "parent": "%s:blockstates/%s"
-                    }
-                    """;
-
-    public static final String ITEM_FATHER =
-            """
-                    {
-                      "parent": "%s:item/%s"
-                    }
-                    """;
-
-    public static final String ITEM_BLOCk_FATHER =
-            """
-                    {
-                      "parent": "%s:block/%s"
-                    }
-                    """;
-
-    public static final String FLUID_BLOCK_STATE =
-            """
-                    {
-                      "variants": {
-                        "": {
-                          "model": "minecraft:block/water"
-                        }
-                      }
-                    }
-                    """;
 
 
     @SubscribeEvent
@@ -110,12 +69,8 @@ public class ClientModData {
                         for (Object o : unitRegister.blockMap.entrySet()) {
                             Map.Entry<RegisterBasics.BlockUnitRegister<?, ?>, BlockPack> entry = Util.forcedConversion(o);
                             asItemBlockFather(ForgeRegistries.ITEMS.getKey(entry.getValue().blockItem()), entry.getKey().getBlockItemMoldMapping(Util.forcedConversion(unitRegister)), cachedOutput);
-                            ImmutableList<BlockState> definition = entry.getValue().block().getStateDefinition().getPossibleStates();
-                            if (definition.size() == 1) {
-                                asBlock(ForgeRegistries.BLOCKS.getKey(entry.getValue().block()), entry.getKey().getBlockModelMapping(Util.forcedConversion(unitRegister)), cachedOutput);
-                            } else {
-                                asBlockCustomJson(ForgeRegistries.BLOCKS.getKey(entry.getValue().block()), entry.getKey().getBlockStateJson(), cachedOutput);
-                            }
+                            ResourceLocation modelName = entry.getKey().getBlockModelMapping(Util.forcedConversion(unitRegister));
+                            asBlockCustomJson(ForgeRegistries.BLOCKS.getKey(entry.getValue().block()), MessageFormat.format(entry.getKey().getBlockStateJson(), modelName.getNamespace(), modelName.getPath()), cachedOutput);
                         }
                         for (Object o : unitRegister.fluidMap.entrySet()) {
                             Map.Entry<RegisterBasics.FluidUnitRegister<?, ?>, FluidPack> entry = Util.forcedConversion(o);
@@ -141,12 +96,8 @@ public class ClientModData {
                         if (blockItem != null) {
                             asItemBlockFather(ForgeRegistries.ITEMS.getKey(blockItem), customModel.itemModelName(), cachedOutput);
                         }
-                        ImmutableList<BlockState> definition = entry.get().getStateDefinition().getPossibleStates();
-                        if (definition.size() == 1) {
-                            asBlock(ForgeRegistries.BLOCKS.getKey(entry.get()), customModel.blockModelName(), cachedOutput);
-                        } else {
-                            asBlockCustomJson(ForgeRegistries.BLOCKS.getKey(entry.get()), customModel.blockStateJson(), cachedOutput);
-                        }
+                        ResourceLocation modelName = customModel.blockModelName();
+                        asBlockCustomJson(ForgeRegistries.BLOCKS.getKey(entry.get()), MessageFormat.format(customModel.blockStateJson(), modelName.getNamespace(), modelName.getPath()), cachedOutput);
                     }
                 }
             }
@@ -156,6 +107,7 @@ public class ClientModData {
                 return "default_block_state";
             }
 
+            @Deprecated
             public void asBlock(@Nullable ResourceLocation name, @Nullable ResourceLocation model, CachedOutput cachedOutput) throws IOException {
                 if (name == null) {
                     return;
@@ -163,7 +115,7 @@ public class ClientModData {
                 if (model == null) {
                     return;
                 }
-                String json = String.format(BLOCK_STATE_MODEL, model.getNamespace(), model.getPath());
+                String json = MessageFormat.format(JsonPrefab.BLOCK_STATE_MODEL, model.getNamespace(), model.getPath());
                 ByteArrayOutputStream bytearrayoutputstream = new ByteArrayOutputStream();
                 HashingOutputStream hashingoutputstream = new HashingOutputStream(Hashing.sha256(), bytearrayoutputstream);
                 Writer writer = new OutputStreamWriter(hashingoutputstream, StandardCharsets.UTF_8);
@@ -220,7 +172,7 @@ public class ClientModData {
                 if (father == null) {
                     return;
                 }
-                String json = String.format(ITEM_BLOCk_FATHER, father.getNamespace(), father.getPath());
+                String json = MessageFormat.format(JsonPrefab.ITEM_BLOCK_FATHER, father.getNamespace(), father.getPath());
                 ByteArrayOutputStream bytearrayoutputstream = new ByteArrayOutputStream();
                 HashingOutputStream hashingoutputstream = new HashingOutputStream(Hashing.sha256(), bytearrayoutputstream);
                 Writer writer = new OutputStreamWriter(hashingoutputstream, StandardCharsets.UTF_8);
@@ -241,7 +193,7 @@ public class ClientModData {
                 if (father == null) {
                     return;
                 }
-                String json = String.format(ITEM_FATHER, father.getNamespace(), father.getPath());
+                String json = MessageFormat.format(JsonPrefab.ITEM_FATHER, father.getNamespace(), father.getPath());
                 ByteArrayOutputStream bytearrayoutputstream = new ByteArrayOutputStream();
                 HashingOutputStream hashingoutputstream = new HashingOutputStream(Hashing.sha256(), bytearrayoutputstream);
                 Writer writer = new OutputStreamWriter(hashingoutputstream, StandardCharsets.UTF_8);
@@ -262,7 +214,7 @@ public class ClientModData {
                 ByteArrayOutputStream bytearrayoutputstream = new ByteArrayOutputStream();
                 HashingOutputStream hashingoutputstream = new HashingOutputStream(Hashing.sha256(), bytearrayoutputstream);
                 Writer writer = new OutputStreamWriter(hashingoutputstream, StandardCharsets.UTF_8);
-                writer.write(FLUID_BLOCK_STATE.toCharArray());
+                writer.write(JsonPrefab.FLUID_BLOCK_STATE.toCharArray());
                 writer.close();
 
                 Path mainOutput = dataGenerator.getOutputFolder();

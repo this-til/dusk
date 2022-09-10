@@ -49,6 +49,7 @@ public class LootTableAdd extends BlockLoot {
                 if (resourceLocation == null) {
                     continue;
                 }
+                resourceLocation = new ResourceLocation(resourceLocation.getNamespace(), "blocks/" + resourceLocation.getPath());
                 biConsumer.accept(resourceLocation, createSingleItemTable(b.block()));
             }
         }
@@ -58,6 +59,7 @@ public class LootTableAdd extends BlockLoot {
                 if (resourceLocation == null) {
                     continue;
                 }
+                resourceLocation = new ResourceLocation(resourceLocation.getNamespace(), "blocks/" + resourceLocation.getPath());
                 biConsumer.accept(resourceLocation, createSingleItemTable(b.block()));
             }
         }

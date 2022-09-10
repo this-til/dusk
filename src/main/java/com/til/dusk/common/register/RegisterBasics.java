@@ -9,7 +9,7 @@ import com.til.dusk.util.*;
 import com.til.dusk.util.pack.BlockPack;
 import com.til.dusk.util.pack.FluidPack;
 import com.til.dusk.util.pack.ItemPack;
-import net.minecraft.client.Minecraft;
+import com.til.dusk.util.prefab.JsonPrefab;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
@@ -38,6 +38,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+
 
 /**
  * @author til
@@ -326,7 +327,7 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> {
          * 用于具有不同方块状态的自定义的blockState
          */
         public String getBlockStateJson() {
-            return "";
+            return JsonPrefab.BLOCK_STATE_MODEL;
         }
 
         /***

@@ -14,6 +14,7 @@ import com.til.dusk.common.event.EventIO;
 import com.til.dusk.common.register.BindType;
 import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.common.register.mana_level.ManaLevel;
+import com.til.dusk.util.Extension;
 import com.til.dusk.util.Pos;
 import com.til.dusk.util.RoutePack;
 import net.minecraft.core.BlockPos;
@@ -24,6 +25,8 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.AABB;
@@ -36,7 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class PumpMechanic extends DefaultCapacityMechanic {
+public class PumpMechanic extends PosImplementMechanic {
 
     public PumpMechanic(ResourceLocation name) {
         super(name);
@@ -47,52 +50,48 @@ public class PumpMechanic extends DefaultCapacityMechanic {
     }
 
     @Override
-    public void addCapability(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability, ManaLevel manaLevel, IPosTrack iPosTrack) {
-        super.addCapability(event, duskModCapability, manaLevel, iPosTrack);
-        IUp iUp = duskModCapability.addCapability(CapabilityRegister.iUp.capability, new Up());
-        IControl iControl = duskModCapability.addCapability(CapabilityRegister.iControl.capability, new Control(iPosTrack, List.of(BindType.manaIn, BindType.fluidOut, BindType.posTrack), manaLevel));
-        IClock iClock = duskModCapability.addCapability(CapabilityRegister.iClock.capability, new ManaClock(iUp, manaLevel.clock, iControl, 8L * manaLevel.level));
-        iClock.addBlock(() -> {
+    public IControl createControl(ManaLevel manaLevel, IPosTrack iPosTrack) {
+        return new Control(iPosTrack, List.of(BindType.manaIn, BindType.fluidOut, BindType.posTrack), manaLevel);
+    }
+
+    @Override
+    public IClock createClock(ManaLevel manaLevel, IUp iup, IControl iControl, IPosTrack iPosTrack) {
+        return new ManaClock(iup, manaLevel.clock / 5, iControl, 8L * manaLevel.level);
+    }
+
+    @Override
+    public Extension.Action_3V<BlockPos, IControl, IPosTrack> createBlockBlack() {
+        return (blockPos, iControl, iPosTrack) -> {
             Level level = iPosTrack.getLevel();
-            if (level == null) {
-                return;
-            }
             Map<BlockEntity, IFluidHandler> outFluid = iControl.getCapability(BindType.fluidOut);
             if (outFluid.isEmpty()) {
                 return;
             }
-            AABB aabb = CapabilityHelp.getAABB(iControl, iControl.getMaxRange());
-            for (double ix = aabb.minX; ix < aabb.maxX; ix++) {
-                for (double iy = aabb.minY; iy < aabb.maxY; iy++) {
-                    for (double iz = aabb.minZ; iz < aabb.maxZ; iz++) {
-                        BlockPos blockPos = new BlockPos(ix, iy, iz);
-                        BlockState blockState = level.getBlockState(blockPos);
-                        if (blockState.isAir()) {
-                            continue;
-                        }
-                        Block block = blockState.getBlock();
-                        if (block instanceof LiquidBlock liquidBlock) {
-                            FluidState fluidState = liquidBlock.getFluidState(blockState);
-                            if (fluidState.isEmpty() || !fluidState.isSource()) {
-                                continue;
-                            }
-                            Fluid fluid = fluidState.getType();
-                            FluidStack fluidStack = new FluidStack(fluid, fluid.getFluidType().getDensity());
-                            if (fluidStack.isEmpty()) {
-                                return;
-                            }
-                            if (CapabilityHelp.fill(iPosTrack, null, outFluid, fluidStack, true) >= fluidStack.getAmount()) {
-                                RoutePack<FluidStack> routePack = new RoutePack<>();
-                                CapabilityHelp.fill(iPosTrack, routePack, outFluid, fluidStack, false);
-                                level.setBlock(blockPos, Blocks.AIR.defaultBlockState(), 3);
-                                routePack.getUp().add(new RoutePack.RouteCell<>(new Pos(blockPos), iPosTrack.getPos(), fluidStack));
-                                MinecraftForge.EVENT_BUS.post(new EventIO.Fluid(iPosTrack.getLevel(), routePack));
-                                return;
-                            }
-                        }
-                    }
-                }
+            BlockState blockState = level.getBlockState(blockPos);
+            if (blockState.isAir()) {
+                return;
             }
-        });
+            boolean isWaterlogged = blockState.hasProperty(BlockStateProperties.WATERLOGGED);
+            if (isWaterlogged && !blockState.getValue(BlockStateProperties.WATERLOGGED)) {
+                return;
+            }
+            FluidState fluidState = level.getFluidState(blockPos);
+            if (fluidState.isEmpty() || !fluidState.isSource()) {
+                return;
+            }
+            Fluid fluid = fluidState.getType();
+            FluidStack fluidStack = new FluidStack(fluid, fluid.getFluidType().getDensity());
+            if (fluidStack.isEmpty()) {
+                return;
+            }
+            if (CapabilityHelp.fill(iPosTrack, null, outFluid, fluidStack, true) < fluidStack.getAmount()) {
+                return;
+            }
+            RoutePack<FluidStack> routePack = new RoutePack<>();
+            CapabilityHelp.fill(iPosTrack, routePack, outFluid, fluidStack, false);
+            level.setBlock(blockPos,isWaterlogged ? blockState.setValue(BlockStateProperties.WATERLOGGED, false) : Blocks.AIR.defaultBlockState(), 3);
+            routePack.getUp().add(new RoutePack.RouteCell<>(new Pos(blockPos), iPosTrack.getPos(), fluidStack));
+            MinecraftForge.EVENT_BUS.post(new EventIO.Fluid(iPosTrack.getLevel(), routePack));
+        };
     }
 }

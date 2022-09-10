@@ -3,8 +3,10 @@ package com.til.dusk.common.capability;
 import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.capability.mana_handle.IManaHandle;
 import com.til.dusk.common.capability.pos.IPosTrack;
+import com.til.dusk.common.capability.shaped_drive.IShapedDrive;
 import com.til.dusk.common.event.EventIO;
 import com.til.dusk.common.register.BindType;
+import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.util.Pos;
 import com.til.dusk.util.RoutePack;
 import com.til.dusk.util.Util;
@@ -260,7 +262,6 @@ public class CapabilityHelp {
         return stack;
     }
 
-    @Nullable
     public static List<ItemStack> insertItem(IPosTrack iPosTrack, @Nullable RoutePack<ItemStack> routePack, Map<BlockEntity, IItemHandler> map, List<ItemStack> itemStackList, boolean isSimulate) {
         boolean isOriginal = routePack == null;
         if (isOriginal) {
@@ -276,10 +277,7 @@ public class CapabilityHelp {
         if (!isSimulate && isOriginal) {
             MinecraftForge.EVENT_BUS.post(new EventIO.Item(iPosTrack.getLevel(), routePack));
         }
-        if (itemStacks.isEmpty()) {
-            return null;
-        }
-        return itemStackList;
+        return itemStacks;
     }
 
     /***
@@ -477,16 +475,35 @@ public class CapabilityHelp {
 
     public static AABB getAABB(IControl iControl, double defaultRange) {
         Pos pos = iControl.getPosTrack().getPos();
-        double xMax = pos.x;
-        double yMax = pos.y;
-        double zMax = pos.z;
-        double xMin = pos.x;
-        double yMin = pos.y;
-        double zMin = pos.z;
+        double xMax = 0;
+        double yMax = 0;
+        double zMax = 0;
+        double xMin = 0;
+        double yMin = 0;
+        double zMin = 0;
         Map<BlockEntity, IPosTrack> map = iControl.getCapability(BindType.posTrack);
+        if (map.size() < 2) {
+            xMax = pos.x;
+            yMax = pos.y;
+            zMax = pos.z;
+            xMin = pos.x;
+            yMin = pos.y;
+            zMin = pos.z;
+        }
         if (!map.isEmpty()) {
+            boolean isOne = true;
             for (Map.Entry<BlockEntity, IPosTrack> entry : map.entrySet()) {
                 Pos blockPos = entry.getValue().getPos();
+                if (isOne) {
+                    xMax = blockPos.x;
+                    yMax = blockPos.y;
+                    zMax = blockPos.z;
+                    xMin = blockPos.x;
+                    yMin = blockPos.y;
+                    zMin = blockPos.z;
+                    isOne = false;
+                    continue;
+                }
                 if (blockPos.x > xMax) {
                     xMax = blockPos.x;
                 }
@@ -495,7 +512,7 @@ public class CapabilityHelp {
                     yMax = blockPos.y;
                 }
 
-                if (blockPos.z > yMax) {
+                if (blockPos.z > zMax) {
                     zMax = blockPos.z;
                 }
 
@@ -520,5 +537,28 @@ public class CapabilityHelp {
             zMin -= defaultRange;
         }
         return Pos.asAABB(new Pos(xMax, yMax, zMax).move(0.5, 0.5, 0.5), new Pos(xMin, yMin, zMin).move(-0.5, -0.5, -0.5));
+    }
+
+    public static boolean isInAABB(AABB aabb, BlockPos blockPos) {
+        return aabb.maxX > blockPos.getX() && aabb.minX <= blockPos.getX() &&
+               aabb.maxY > blockPos.getY() && aabb.minY <= blockPos.getY() &&
+               aabb.maxZ > blockPos.getZ() && aabb.minZ <= blockPos.getZ();
+    }
+
+    public static List<ShapedDrive> getShapedDrive(IControl iControl) {
+        Map<BlockEntity, IShapedDrive> map = iControl.getCapability(BindType.modelStore);
+        if (map.isEmpty()) {
+            return List.of();
+        }
+        List<ShapedDrive> shapedDriveList = new ArrayList<>();
+        for (Map.Entry<BlockEntity, IShapedDrive> entry : map.entrySet()) {
+            for (ShapedDrive shapedDrive : entry.getValue().get()) {
+                if (shapedDriveList.contains(shapedDrive)) {
+                    continue;
+                }
+                shapedDriveList.add(shapedDrive);
+            }
+        }
+        return shapedDriveList;
     }
 }

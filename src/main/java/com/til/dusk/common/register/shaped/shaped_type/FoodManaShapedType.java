@@ -96,7 +96,7 @@ public class FoodManaShapedType extends ShapedType {
             }
             if (outMana > 0) {
                 componentList.add(Lang.getLang(Component.translatable(Lang.getKey("输出灵气")),
-                        Component.translatable("food"),
+                        Component.translatable(Lang.getKey("food")),
                         Component.literal("x"),
                         Component.literal(String.valueOf(outMana))));
             }
