@@ -304,6 +304,11 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
      */
     public static MiningMechanic mining;
 
+    /***
+     * 屠杀晶体
+     */
+    public static MassacreMechanic massacre;
+
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
         LEVEL_BLOCK = event.create(new RegistryBuilder<ManaLevelBlock>().setName(new ResourceLocation(Dusk.MOD_ID, "mana_level_block")));
@@ -377,6 +382,7 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
         charge = new ChargeMechanic("charge");
         pumpMechanic = new PumpMechanic("pump_mechanic");
         mining = new MiningMechanic("mining");
+        massacre = new MassacreMechanic("massacre");
     }
 
     public ManaLevelBlock(ResourceLocation name) {

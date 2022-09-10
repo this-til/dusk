@@ -25,7 +25,7 @@ public class ManaClock extends Clock implements IManaClock {
 
     public final IControl control;
     public final long consumeMana;
-    public ShapedHandleProcess process = ShapedHandleProcess.production;
+    public ShapedHandleProcess process = ShapedHandleProcess.trippingOperation;
 
     public ManaClock(IUp up, int clock, IControl iControl, long consumeMana) {
         super(up, clock);

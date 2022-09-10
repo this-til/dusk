@@ -77,6 +77,9 @@ public class MiningMechanic extends PosImplementMechanic {
             if (blockState.isAir()) {
                 return;
             }
+            if (blockState.getBlock().defaultDestroyTime() < 0) {
+                return;
+            }
             if (shapedDriveList.contains(ShapedDrive.get(1)) && !blockState.is(Tags.Blocks.ORES)) {
                 return;
             }
