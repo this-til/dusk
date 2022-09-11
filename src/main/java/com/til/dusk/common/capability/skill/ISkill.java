@@ -1,4 +1,4 @@
-package com.til.dusk.common.capability.entity_skill;
+package com.til.dusk.common.capability.skill;
 
 import com.til.dusk.common.register.skill.Skill;
 import net.minecraft.nbt.CompoundTag;

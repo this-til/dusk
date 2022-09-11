@@ -28,7 +28,6 @@ public class OreFluid extends RegisterBasics.FluidUnitRegister<OreFluid, Ore> {
     public static final ResourceLocation FLOWING_TEXTURE = new ResourceLocation("block/water_flow");
     public static final ResourceLocation OVERLAY_TEXTURE = new ResourceLocation("block/water_overlay");
     public static final ResourceLocation RENDER_OVERLAY_TEXTURE = new ResourceLocation("textures/misc/underwater.png");
-    ;
 
     public static Supplier<IForgeRegistry<OreFluid>> ORE_FLUID;
 

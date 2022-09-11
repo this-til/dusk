@@ -1,6 +1,6 @@
 package com.til.dusk.common.capability.clock;
 
-import com.til.dusk.common.capability.up.IUp;
+import com.til.dusk.common.capability.black.IBack;
 import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.util.Lang;
@@ -28,14 +28,14 @@ public class Clock implements IClock {
 
     public int time;
 
-    public Clock(IUp up, int clock) {
+    public Clock(IBack back, int clock) {
         addBlock(() -> MinecraftForge.EVENT_BUS.post(new EventClock.Clock(this)));
         this.clock = clock;
-        up.addUpBlack(this::up);
+        back.add(IBack.UP, v -> up());
     }
 
-    public Clock(IUp up, ManaLevel iManaLevel) {
-        this(up, iManaLevel.clock);
+    public Clock(IBack back, ManaLevel iManaLevel) {
+        this(back, iManaLevel.clock);
     }
 
     @Override
@@ -76,7 +76,7 @@ public class Clock implements IClock {
     @Nullable
     @Override
     public CompoundTag appendServerData(ServerPlayer serverPlayer, Level level, BlockEntity blockEntity, boolean detailed) {
-        CompoundTag compoundTag =  serializeNBT();
+        CompoundTag compoundTag = serializeNBT();
         AllNBTPack.CYCLE_TIME.set(compoundTag, getCycleTime());
         return compoundTag;
     }

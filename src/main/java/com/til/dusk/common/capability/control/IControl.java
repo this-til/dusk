@@ -28,31 +28,31 @@ public interface IControl extends INBTSerializable<CompoundTag>, ITooltipCapabil
     /***
      * 绑定
      */
-    Component bind(BlockEntity tileEntity, BindType iBindType);
+    Component bind(IPosTrack tileEntity, BindType iBindType);
 
     /***
      * 解绑
      */
-    Component unBind(BlockEntity tileEntity, BindType iBindType);
+    Component unBind(IPosTrack tileEntity, BindType iBindType);
 
     /***
      * 有没有绑定实体
      */
-    boolean hasBind(BlockEntity tileEntity, BindType bindType);
+    boolean hasBind(IPosTrack tileEntity, BindType bindType);
 
     /***
      * 获取所有绑定的实体
      */
-    List<BlockEntity> getAllTileEntity(BindType iBindType);
+    List<IPosTrack> getAllTileEntity(BindType iBindType);
 
     /***
-     * 获取所有绑定的方块信息
+     * 获取所有绑定的信息
      */
-    Map<BindType, List<BlockPos>> getAllBind();
+    Map<BindType, List<IPosTrack>> getAllBind();
 
-    <C> Map<BlockEntity, C> getCapability(Capability<C> capability, BindType iBindType);
+    <C> Map<IPosTrack, C> getCapability(Capability<C> capability, BindType iBindType);
 
-    <C> Map<BlockEntity, C> getCapability(BindType.BindTypeBindCapability<C> bundTypeBindCapability);
+    <C> Map<IPosTrack, C> getCapability(BindType.BindTypeBindCapability<C> bundTypeBindCapability);
 
     /***
      * 获取可以绑定实体方块的最大范围

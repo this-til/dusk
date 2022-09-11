@@ -2,6 +2,7 @@ package com.til.dusk.common.capability.mana_handle;
 
 import com.til.dusk.common.capability.CapabilityHelp;
 import com.til.dusk.common.capability.control.IControl;
+import com.til.dusk.common.capability.pos.IPosTrack;
 import com.til.dusk.common.register.BindType;
 import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.util.Extension;
@@ -41,7 +42,7 @@ public class WhirlBoostManaHandle implements IManaHandle, RoutePack.ISupportRout
             return 0;
         }
         lock = true;
-        Map<BlockEntity, IManaHandle> map = control.getCapability(BindType.manaIn);
+        Map<IPosTrack, IManaHandle> map = control.getCapability(BindType.manaIn);
         if (map.isEmpty()) {
             lock = false;
             return 0;
@@ -90,7 +91,7 @@ public class WhirlBoostManaHandle implements IManaHandle, RoutePack.ISupportRout
             return 0;
         }
         lock = true;
-        Map<BlockEntity, IManaHandle> map = control.getCapability(BindType.manaIn);
+        Map<IPosTrack, IManaHandle> map = control.getCapability(BindType.manaIn);
         if (map.isEmpty()) {
             lock = false;
             return 0;
@@ -109,7 +110,7 @@ public class WhirlBoostManaHandle implements IManaHandle, RoutePack.ISupportRout
             return 0;
         }
         lock = true;
-        Map<BlockEntity, IManaHandle> map = control.getCapability(BindType.manaIn);
+        Map<IPosTrack, IManaHandle> map = control.getCapability(BindType.manaIn);
         if (map.isEmpty()) {
             lock = false;
             return 0;

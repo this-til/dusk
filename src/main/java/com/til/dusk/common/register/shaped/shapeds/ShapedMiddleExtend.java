@@ -5,6 +5,7 @@ import com.til.dusk.Dusk;
 import com.til.dusk.common.capability.CapabilityHelp;
 import com.til.dusk.common.capability.handle.IHandle;
 import com.til.dusk.common.capability.handle.ShapedHandle;
+import com.til.dusk.common.capability.pos.IPosTrack;
 import com.til.dusk.common.data.tag.ItemTag;
 import com.til.dusk.common.data.tag.PotionsTag;
 import com.til.dusk.common.register.mana_level.ManaLevel;
@@ -42,7 +43,7 @@ public abstract class ShapedMiddleExtend extends ShapedMiddle {
 
     @Nullable
     @Override
-    public ShapedHandle get(IHandle iHandle, Map<BlockEntity, IItemHandler> items, Map<BlockEntity, IFluidHandler> fluids) {
+    public ShapedHandle get(IHandle iHandle, Map<IPosTrack, IItemHandler> items, Map<IPosTrack, IFluidHandler> fluids) {
         if (!extractItem(iHandle, items, true).isEmpty()) {
             ItemStack outItemStack = extractItem(iHandle, items, false);
             create(outItemStack);
@@ -51,14 +52,14 @@ public abstract class ShapedMiddleExtend extends ShapedMiddle {
     }
 
 
-    protected ItemStack extractItem(IHandle iHandle, Map<BlockEntity, IItemHandler> items, boolean isSimulated) {
-        for (Map.Entry<BlockEntity, IItemHandler> entry : items.entrySet()) {
+    protected ItemStack extractItem(IHandle iHandle, Map<IPosTrack, IItemHandler> items, boolean isSimulated) {
+        for (Map.Entry<IPosTrack, IItemHandler> entry : items.entrySet()) {
             for (int i = 0; i < entry.getValue().getSlots(); i++) {
                 ItemStack itemStack = entry.getValue().getStackInSlot(i);
                 if (!isItem(itemStack)) {
                     continue;
                 }
-                ItemStack outItemStack = CapabilityHelp.extractItem(iHandle.getPosTrack(), null, entry.getValue(), new Pos(entry.getKey()), i, 1, isSimulated);
+                ItemStack outItemStack = CapabilityHelp.extractItem(iHandle.getPosTrack(), null, entry.getValue(), entry.getKey().getPos(), i, 1, isSimulated);
                 if (outItemStack.isEmpty()) {
                     continue;
                 }

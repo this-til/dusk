@@ -2,7 +2,7 @@ package com.til.dusk.common.register.shaped;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.common.capability.pos.IPosTrack;
-import com.til.dusk.common.capability.tile_entity.DuskCapabilityProvider;
+import com.til.dusk.common.capability.DuskCapabilityProvider;
 import com.til.dusk.common.data.tag.BlockTag;
 import com.til.dusk.common.data.tag.ItemTag;
 import com.til.dusk.common.register.CapabilityRegister;

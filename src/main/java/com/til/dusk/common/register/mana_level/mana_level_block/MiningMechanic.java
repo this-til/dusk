@@ -2,13 +2,12 @@ package com.til.dusk.common.register.mana_level.mana_level_block;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.common.capability.CapabilityHelp;
+import com.til.dusk.common.capability.black.IBack;
 import com.til.dusk.common.capability.clock.IClock;
 import com.til.dusk.common.capability.clock.ManaClock;
 import com.til.dusk.common.capability.control.Control;
 import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.capability.pos.IPosTrack;
-import com.til.dusk.common.capability.tile_entity.DuskCapabilityProvider;
-import com.til.dusk.common.capability.up.IUp;
 import com.til.dusk.common.event.EventIO;
 import com.til.dusk.common.register.BindType;
 import com.til.dusk.common.register.mana_level.ManaLevel;
@@ -26,7 +25,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.Tags;
-import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.items.IItemHandler;
 
 import java.util.List;
@@ -45,17 +43,13 @@ public class MiningMechanic extends PosImplementMechanic {
     }
 
     @Override
-    public void addCapability(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability, ManaLevel manaLevel, IPosTrack iPosTrack) {
-    }
-
-    @Override
     public IControl createControl(ManaLevel manaLevel, IPosTrack iPosTrack) {
         return new Control(iPosTrack, List.of(BindType.manaIn, BindType.itemOut, BindType.posTrack, BindType.modelStore), manaLevel);
     }
 
     @Override
-    public IClock createClock(ManaLevel manaLevel, IUp iup, IControl iControl, IPosTrack iPosTrack) {
-        return new ManaClock(iup, manaLevel.clock / 10, iControl, 32L * manaLevel.level);
+    public IClock createClock(ManaLevel manaLevel, IBack back, IControl iControl, IPosTrack iPosTrack) {
+        return new ManaClock(back, manaLevel.clock / 10, iControl, 32L * manaLevel.level);
     }
 
     @Override
@@ -65,7 +59,7 @@ public class MiningMechanic extends PosImplementMechanic {
             if (!(level instanceof ServerLevel serverLevel)) {
                 return;
             }
-            Map<BlockEntity, IItemHandler> outItemMap = iControl.getCapability(BindType.itemOut);
+            Map<IPosTrack, IItemHandler> outItemMap = iControl.getCapability(BindType.itemOut);
             if (outItemMap.isEmpty()) {
                 return;
             }
@@ -91,7 +85,7 @@ public class MiningMechanic extends PosImplementMechanic {
             if (outItem.isEmpty()) {
                 return;
             }
-            if (!CapabilityHelp.insertItem(iPosTrack, null, outItemMap, outItem, true).isEmpty()) {
+            if (CapabilityHelp.insertItem(iPosTrack, null, outItemMap, outItem, true).isEmpty()) {
                 RoutePack<ItemStack> routePack = new RoutePack<>();
                 CapabilityHelp.insertItem(iPosTrack, routePack, outItemMap, outItem, false);
                 level.removeBlock(blockPos, false);

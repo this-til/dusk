@@ -17,28 +17,54 @@ public class JsonPrefab {
             """
                     '{'
                       "variants": '{'
-                        "facing=down": '{'
+                        "facing=down,waterlogged=true": '{'
                           "model": "{0}:block/{1}",
                           "x": 180
                         '}',
-                        "facing=east": '{'
+                        "facing=east,waterlogged=true": '{'
                           "model": "{0}:block/{1}",
                           "x": 90,
                           "y": 90
                         '}',
-                        "facing=north": '{'
+                        "facing=north,waterlogged=true": '{'
                           "model": "{0}:block/{1}",
                           "x": 90
                         '}',
-                        "facing=south": '{'
+                        "facing=south,waterlogged=true": '{'
                           "model": "{0}:block/{1}",
                           "x": 90,
                           "y": 180
                         '}',
-                        "facing=up": '{'
-                          "model": "{0}:block/{1}",
+                        "facing=up,waterlogged=true": '{'
+                          "model": "{0}:block/{1}"
                         '}',
-                        "facing=west": '{'
+                        "facing=west,waterlogged=true": '{'
+                          "model": "{0}:block/{1}",
+                          "x": 90,
+                          "y": 270
+                       '}',
+                       "facing=down,waterlogged=false": '{'
+                          "model": "{0}:block/{1}",
+                          "x": 180
+                        '}',
+                        "facing=east,waterlogged=false": '{'
+                          "model": "{0}:block/{1}",
+                          "x": 90,
+                          "y": 90
+                        '}',
+                        "facing=north,waterlogged=false": '{'
+                          "model": "{0}:block/{1}",
+                          "x": 90
+                        '}',
+                        "facing=south,waterlogged=false": '{'
+                          "model": "{0}:block/{1}",
+                          "x": 90,
+                          "y": 180
+                        '}',
+                        "facing=up,waterlogged=false": '{'
+                          "model": "{0}:block/{1}"
+                        '}',
+                        "facing=west,waterlogged=false": '{'
                           "model": "{0}:block/{1}",
                           "x": 90,
                           "y": 270

@@ -30,17 +30,18 @@ public class ManaLevel extends RegisterBasics.UnitRegister<ManaLevel, ManaLevelI
     public static ManaLevel t7;
     public static ManaLevel t8;
 
+
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void onEvent(NewRegistryEvent event) {
         LEVEL = event.create(new RegistryBuilder<ManaLevel>().setName(new ResourceLocation(Dusk.MOD_ID, "mana_level")));
-        t1 = new ManaLevel(1, 2560, 1, 2, 0.1, new Color(50, 255, 255), null, () -> t2);
-        t2 = new ManaLevel(2, 1280, 2, 2, 0.09, new Color(100, 200, 225), () -> t1, () -> t3);
-        t3 = new ManaLevel(3, 640, 3, 4, 0.08, new Color(125, 150, 200), () -> t2, () -> t4);
-        t4 = new ManaLevel(4, 320, 4, 4, 0.07, new Color(150, 100, 175), () -> t3, () -> t5);
-        t5 = new ManaLevel(5, 160, 5, 8, 0.06, new Color(175, 100, 150), () -> t4, () -> t6);
-        t6 = new ManaLevel(6, 80, 6, 8, 0.05, new Color(200, 150, 120), () -> t5, () -> t7);
-        t7 = new ManaLevel(7, 40, 7, 16, 0.04, new Color(225, 200, 100), () -> t6, () -> t8);
-        t8 = new ManaLevel(8, 20, 8, 16, 0.03, new Color(255, 255, 50), () -> t7, null);
+        t1 = new ManaLevel(1, 2560, 1, 2, 0.1, 16, new Color(50, 255, 255), null, () -> t2);
+        t2 = new ManaLevel(2, 1280, 2, 2, 0.09, 17, new Color(100, 200, 225), () -> t1, () -> t3);
+        t3 = new ManaLevel(3, 640, 3, 4, 0.08, 18, new Color(125, 150, 200), () -> t2, () -> t4);
+        t4 = new ManaLevel(4, 320, 4, 4, 0.07, 19, new Color(150, 100, 175), () -> t3, () -> t5);
+        t5 = new ManaLevel(5, 160, 5, 8, 0.06, 20, new Color(175, 100, 150), () -> t4, () -> t6);
+        t6 = new ManaLevel(6, 80, 6, 8, 0.05, 21, new Color(200, 150, 120), () -> t5, () -> t7);
+        t7 = new ManaLevel(7, 40, 7, 16, 0.04, 22, new Color(225, 200, 100), () -> t6, () -> t8);
+        t8 = new ManaLevel(8, 20, 8, 16, 0.03, 23, new Color(255, 255, 50), () -> t7, null);
     }
 
     /***
@@ -68,6 +69,8 @@ public class ManaLevel extends RegisterBasics.UnitRegister<ManaLevel, ManaLevelI
      */
     public final double manaLoss;
 
+    public final int maxRange;
+
     /***
      * 机器颜色
      */
@@ -85,17 +88,18 @@ public class ManaLevel extends RegisterBasics.UnitRegister<ManaLevel, ManaLevelI
     @Nullable
     public final Supplier<ManaLevel> next;
 
-    public ManaLevel(int level, int clock, int parallel, int maxBind, double manaLoss, Color color, @Nullable Supplier<ManaLevel> up, @Nullable Supplier<ManaLevel> next) {
-        this(new ResourceLocation(Dusk.MOD_ID, "t" + level), level, clock, parallel, maxBind, manaLoss, color, up, next);
+    public ManaLevel(int level, int clock, int parallel, int maxBind, double manaLoss, int maxRange, Color color, @Nullable Supplier<ManaLevel> up, @Nullable Supplier<ManaLevel> next) {
+        this(new ResourceLocation(Dusk.MOD_ID, "t" + level), level, clock, parallel, maxBind, manaLoss, maxRange, color, up, next);
     }
 
-    public ManaLevel(ResourceLocation name, int level, int clock, int parallel, int maxBind, double manaLoss, Color color, @Nullable Supplier<ManaLevel> up, @Nullable Supplier<ManaLevel> next) {
+    public ManaLevel(ResourceLocation name, int level, int clock, int parallel, int maxBind, double manaLoss, int maxRange, Color color, @Nullable Supplier<ManaLevel> up, @Nullable Supplier<ManaLevel> next) {
         super(name, LEVEL);
         this.level = level;
         this.clock = clock;
         this.parallel = parallel;
         this.maxBind = maxBind;
         this.manaLoss = manaLoss;
+        this.maxRange = maxRange;
         this.color = color;
         this.up = up;
         this.next = next;

@@ -1,6 +1,8 @@
 package com.til.dusk.common.register.mana_level.mana_level_block;
 
 import com.til.dusk.Dusk;
+import com.til.dusk.common.capability.black.Back;
+import com.til.dusk.common.capability.black.IBack;
 import com.til.dusk.common.capability.fluid_handler.VoidTankFluidHandler;
 import com.til.dusk.common.capability.item_handler.VoidCaseItemHandler;
 import com.til.dusk.common.capability.mana_handle.ManaHandle;
@@ -8,9 +10,7 @@ import com.til.dusk.common.capability.pos.IPosTrack;
 import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.register.mana_level.ManaLevel;
-import com.til.dusk.common.capability.tile_entity.DuskCapabilityProvider;
-import com.til.dusk.common.capability.up.IUp;
-import com.til.dusk.common.capability.up.Up;
+import com.til.dusk.common.capability.DuskCapabilityProvider;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 import com.til.dusk.util.StaticTag;
 import com.til.dusk.util.prefab.ColorPrefab;
@@ -240,6 +240,8 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
 
     public static Mechanic decompose;
 
+    public static Mechanic recovery;
+
     /***
      * 灵气凝结晶体
      */
@@ -351,6 +353,7 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
         pressureStick = new HandleMechanic("pressure_stick", () -> List.of(ShapedType.pressureStick));
         blend = new HandleMechanic("blend", () -> List.of(ShapedType.blend));
         decompose = new HandleMechanic("decompose", () -> List.of(ShapedType.decompose));
+        recovery = new HandleMechanic("recovery", () -> List.of(ShapedType.recovery));
         manaCoagulation = new HandleMechanic("mana_coagulation", () -> List.of(ShapedType.manaCoagulation));
         voidCase = new DefaultCapacityMechanic("void_case") {
             @Override
@@ -370,8 +373,8 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
             @Override
             public void addCapability(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability, ManaLevel manaLevel, IPosTrack iPosTrack) {
                 super.addCapability(event, duskModCapability, manaLevel, iPosTrack);
-                IUp iUp = duskModCapability.addCapability(CapabilityRegister.iUp.capability, new Up());
-                duskModCapability.addCapability(CapabilityRegister.iManaHandle.capability, new ManaHandle(5120000L * manaLevel.level, 32L * manaLevel.level, iUp));
+                IBack iBack = duskModCapability.addCapability(CapabilityRegister.iBlack.capability, new Back());
+                duskModCapability.addCapability(CapabilityRegister.iManaHandle.capability, new ManaHandle(5120000L * manaLevel.level, 32L * manaLevel.level, iBack));
             }
         };
         manaIO = new IOMechanic.ManaIO("mana_io", ColorPrefab.MANA_IO);

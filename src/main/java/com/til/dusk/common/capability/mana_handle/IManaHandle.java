@@ -1,12 +1,10 @@
 package com.til.dusk.common.capability.mana_handle;
 
 import com.til.dusk.common.capability.ITooltipCapability;
-import com.til.dusk.util.RoutePack;
-import mezz.jei.api.recipe.RecipeType;
+import com.til.dusk.common.capability.black.IBack;
+import com.til.dusk.util.Extension;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.common.util.INBTSerializable;
-
-import javax.annotation.Nullable;
 
 /**
  * @author til
@@ -56,5 +54,7 @@ public interface IManaHandle extends INBTSerializable<CompoundTag>, ITooltipCapa
      *  返回提取了多少
      */
     long extractMana(long demand, boolean isSimulate);
+
+
 
 }

@@ -1,6 +1,7 @@
 package com.til.dusk.common.world.item;
 
 import com.til.dusk.common.capability.control.IControl;
+import com.til.dusk.common.capability.pos.IPosTrack;
 import com.til.dusk.common.register.BindType;
 import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.common.register.ParticleRegister;
@@ -124,7 +125,7 @@ public class CopyStaffItem extends ItemBasics implements ModItem.IHasCustomColor
                         if (!bindTypeList.contains(bindType)) {
                             continue;
                         }
-                        for (BlockEntity entity : original.getAllTileEntity(bindType)) {
+                        for (IPosTrack entity : original.getAllTileEntity(bindType)) {
                             target.bind(entity, bindType);
                         }
                     }

@@ -6,6 +6,7 @@ import com.til.dusk.common.capability.pos.IPosTrack;
 import com.til.dusk.common.capability.shaped_drive.IShapedDrive;
 import com.til.dusk.common.event.EventIO;
 import com.til.dusk.common.register.BindType;
+import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.util.Pos;
 import com.til.dusk.util.RoutePack;
@@ -14,17 +15,15 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.levelgen.structure.templatesystem.AxisAlignedLinearPosTest;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -88,7 +87,7 @@ public class CapabilityHelp {
      * @param mana 要添加的灵气
      * @return 加入了多少
      */
-    public static long addMana(IPosTrack iPosTrack, @Nullable RoutePack<Long> routePack, Map<BlockEntity, IManaHandle> map, long mana, boolean isSimulate) {
+    public static long addMana(IPosTrack iPosTrack, @Nullable RoutePack<Long> routePack, Map<IPosTrack, IManaHandle> map, long mana, boolean isSimulate) {
         boolean isOriginal = routePack == null;
         if (mana <= 0) {
             return 0;
@@ -100,8 +99,8 @@ public class CapabilityHelp {
         if (isOriginal) {
             routePack = new RoutePack<>();
         }
-        for (Map.Entry<BlockEntity, IManaHandle> entry : map.entrySet()) {
-            long in = addMana(iPosTrack, routePack, new Pos(entry.getKey().getBlockPos()), mana, entry.getValue(), isSimulate);
+        for (Map.Entry<IPosTrack, IManaHandle> entry : map.entrySet()) {
+            long in = addMana(iPosTrack, routePack, entry.getKey().getPos(), mana, entry.getValue(), isSimulate);
             inMana += in;
             mana -= in;
             if (mana <= 0) {
@@ -122,7 +121,7 @@ public class CapabilityHelp {
      * @param mana 要抽取的灵气
      * @return 抽取了多少
      */
-    public static long extractMana(IPosTrack iPosTrack, @Nullable RoutePack<Long> routePack, Map<BlockEntity, IManaHandle> map, long mana, boolean isSimulate) {
+    public static long extractMana(IPosTrack iPosTrack, @Nullable RoutePack<Long> routePack, Map<IPosTrack, IManaHandle> map, long mana, boolean isSimulate) {
         boolean isOriginal = routePack == null;
         if (mana <= 0) {
             return 0;
@@ -134,11 +133,11 @@ public class CapabilityHelp {
         if (isOriginal) {
             routePack = new RoutePack<>();
         }
-        for (Map.Entry<BlockEntity, IManaHandle> entry : map.entrySet()) {
-            long out = extractMana(iPosTrack, routePack, new Pos(entry.getKey().getBlockPos()), mana, entry.getValue(), isSimulate);
+        for (Map.Entry<IPosTrack, IManaHandle> entry : map.entrySet()) {
+            long out = extractMana(iPosTrack, routePack, entry.getKey().getPos(), mana, entry.getValue(), isSimulate);
             outMana += out;
             mana -= out;
-            if (mana < 0) {
+            if (mana <= 0) {
                 break;
             }
         }
@@ -152,16 +151,18 @@ public class CapabilityHelp {
      * 点对点传递
      */
     @Nullable
-
-    public static RoutePack<Long> manaPointToPointTransmit(IPosTrack iPosTrack, Map<BlockEntity, IManaHandle> inMap, Map<BlockEntity, IManaHandle> outMap, double manaLoss, boolean isSimulate) {
+    public static RoutePack<Long> manaPointToPointTransmit(IPosTrack iPosTrack, Map<IPosTrack, IManaHandle> inMap, Map<IPosTrack, IManaHandle> outMap, long max, double manaLoss, boolean isSimulate) {
         if (inMap.isEmpty()) {
             return null;
         }
         if (outMap.isEmpty()) {
             return null;
         }
-        Map<BlockEntity, IManaHandle> _outMap = new HashMap<>();
-        for (Map.Entry<BlockEntity, IManaHandle> entry : outMap.entrySet()) {
+        if (max == 0) {
+            return null;
+        }
+        Map<IPosTrack, IManaHandle> _outMap = new HashMap<>();
+        for (Map.Entry<IPosTrack, IManaHandle> entry : outMap.entrySet()) {
             if (!inMap.containsKey(entry.getKey())) {
                 _outMap.put(entry.getKey(), entry.getValue());
             }
@@ -171,29 +172,36 @@ public class CapabilityHelp {
         }
         outMap = _outMap;
         RoutePack<Long> thisRoutePack = new RoutePack<>();
-        for (Map.Entry<BlockEntity, IManaHandle> entry : inMap.entrySet()) {
+        for (Map.Entry<IPosTrack, IManaHandle> entry : inMap.entrySet()) {
             long needOutName = entry.getValue().getOutCurrentRate();
             if (needOutName == 0) {
                 break;
             }
-            for (Map.Entry<BlockEntity, IManaHandle> _entry : outMap.entrySet()) {
+            for (Map.Entry<IPosTrack, IManaHandle> _entry : outMap.entrySet()) {
                 if (needOutName == 0) {
                     break;
                 }
-                long needTransferMana = Math.min(needOutName, _entry.getValue().getInCurrentRate());
+                long needTransferMana = Math.min(Math.min(needOutName, max), _entry.getValue().getInCurrentRate());
                 if (needTransferMana == 0) {
                     continue;
                 }
-                long extractMana = extractMana(iPosTrack, thisRoutePack, new Pos(entry.getKey()), needTransferMana, entry.getValue(), isSimulate);
+                long extractMana = extractMana(iPosTrack, thisRoutePack, entry.getKey().getPos(), needTransferMana, entry.getValue(), isSimulate);
                 extractMana = (long) (extractMana * (1 - manaLoss));
-                long transferMana = addMana(iPosTrack, thisRoutePack, new Pos(_entry.getKey()), extractMana, _entry.getValue(), isSimulate);
+                long transferMana = addMana(iPosTrack, thisRoutePack, _entry.getKey().getPos(), extractMana, _entry.getValue(), isSimulate);
                 if (transferMana == 0) {
                     continue;
                 }
                 needOutName -= needTransferMana;
+                max -= needTransferMana;
+                if (max <= 0) {
+                    break;
+                }
                 if (needOutName < 0) {
                     break;
                 }
+            }
+            if (max <= 0) {
+                break;
             }
         }
         if (!isSimulate) {
@@ -245,13 +253,13 @@ public class CapabilityHelp {
     /***
      * 使用路径粒子插入物品
      */
-    public static ItemStack insertItem(IPosTrack iPosTrack, @Nullable RoutePack<ItemStack> routePack, Map<BlockEntity, IItemHandler> map, ItemStack stack, boolean isSimulate) {
+    public static ItemStack insertItem(IPosTrack iPosTrack, @Nullable RoutePack<ItemStack> routePack, Map<IPosTrack, IItemHandler> map, ItemStack stack, boolean isSimulate) {
         boolean isOriginal = routePack == null;
         if (isOriginal) {
             routePack = new RoutePack<>();
         }
-        for (Map.Entry<BlockEntity, IItemHandler> entry : map.entrySet()) {
-            stack = insertItem(iPosTrack, routePack, entry.getValue(), new Pos(entry.getKey()), stack, isSimulate);
+        for (Map.Entry<IPosTrack, IItemHandler> entry : map.entrySet()) {
+            stack = insertItem(iPosTrack, routePack, entry.getValue(), entry.getKey().getPos(), stack, isSimulate);
             if (stack.isEmpty()) {
                 break;
             }
@@ -262,7 +270,7 @@ public class CapabilityHelp {
         return stack;
     }
 
-    public static List<ItemStack> insertItem(IPosTrack iPosTrack, @Nullable RoutePack<ItemStack> routePack, Map<BlockEntity, IItemHandler> map, List<ItemStack> itemStackList, boolean isSimulate) {
+    public static List<ItemStack> insertItem(IPosTrack iPosTrack, @Nullable RoutePack<ItemStack> routePack, Map<IPosTrack, IItemHandler> map, List<ItemStack> itemStackList, boolean isSimulate) {
         boolean isOriginal = routePack == null;
         if (isOriginal) {
             routePack = new RoutePack<>();
@@ -303,7 +311,7 @@ public class CapabilityHelp {
     /***
      * 取出物品并放入
      */
-    public static void extractAndInsertItem(IPosTrack iPosTrack, IItemHandler iItemHandler, Pos itemHandlerPos, int slot, int amount, Map<BlockEntity, IItemHandler> out, boolean isSimulate) {
+    public static void extractAndInsertItem(IPosTrack iPosTrack, IItemHandler iItemHandler, Pos itemHandlerPos, int slot, int amount, Map<IPosTrack, IItemHandler> out, boolean isSimulate) {
         RoutePack<ItemStack> routePack = new RoutePack<>();
         ItemStack itemStack = extractItem(iPosTrack, routePack, iItemHandler, itemHandlerPos, slot, amount, isSimulate);
         insertItem(iPosTrack, routePack, out, itemStack, isSimulate);
@@ -334,14 +342,14 @@ public class CapabilityHelp {
     /***
      * 填充
      */
-    public static int fill(IPosTrack iPosTrack, @Nullable RoutePack<FluidStack> routePack, Map<BlockEntity, IFluidHandler> map, FluidStack fluidStack, boolean isSimulate) {
+    public static int fill(IPosTrack iPosTrack, @Nullable RoutePack<FluidStack> routePack, Map<IPosTrack, IFluidHandler> map, FluidStack fluidStack, boolean isSimulate) {
         boolean isOriginal = routePack == null;
         if (isOriginal) {
             routePack = new RoutePack<>();
         }
         int allIn = 0;
-        for (Map.Entry<BlockEntity, IFluidHandler> entry : map.entrySet()) {
-            int in = fill(iPosTrack, routePack, entry.getValue(), new Pos(entry.getKey()), fluidStack, isSimulate);
+        for (Map.Entry<IPosTrack, IFluidHandler> entry : map.entrySet()) {
+            int in = fill(iPosTrack, routePack, entry.getValue(), entry.getKey().getPos(), fluidStack, isSimulate);
             fluidStack = fluidStack.copy();
             fluidStack.setAmount(fluidStack.getAmount() - in);
             allIn += in;
@@ -356,7 +364,7 @@ public class CapabilityHelp {
     }
 
     @Nullable
-    public static List<FluidStack> fill(IPosTrack iPosTrack, @Nullable RoutePack<FluidStack> routePack, Map<BlockEntity, IFluidHandler> map, List<FluidStack> fluidStack, boolean isSimulate) {
+    public static List<FluidStack> fill(IPosTrack iPosTrack, @Nullable RoutePack<FluidStack> routePack, Map<IPosTrack, IFluidHandler> map, List<FluidStack> fluidStack, boolean isSimulate) {
         boolean isOriginal = routePack == null;
         if (isOriginal) {
             routePack = new RoutePack<>();
@@ -399,15 +407,15 @@ public class CapabilityHelp {
     /***
      * 排出
      */
-    public static FluidStack drain(IPosTrack iPosTrack, @Nullable RoutePack<FluidStack> routePack, Map<BlockEntity, IFluidHandler> out, FluidStack fluidStack, boolean isSimulate) {
+    public static FluidStack drain(IPosTrack iPosTrack, @Nullable RoutePack<FluidStack> routePack, Map<IPosTrack, IFluidHandler> out, FluidStack fluidStack, boolean isSimulate) {
         boolean isOriginal = routePack == null;
         if (isOriginal) {
             routePack = new RoutePack<>();
         }
         int need = fluidStack.getAmount();
         int outA = 0;
-        for (Map.Entry<BlockEntity, IFluidHandler> entry : out.entrySet()) {
-            FluidStack fluidStack1 = drain(iPosTrack, routePack, entry.getValue(), new Pos(entry.getKey()), new FluidStack(fluidStack, need), isSimulate);
+        for (Map.Entry<IPosTrack, IFluidHandler> entry : out.entrySet()) {
+            FluidStack fluidStack1 = drain(iPosTrack, routePack, entry.getValue(), entry.getKey().getPos(), new FluidStack(fluidStack, need), isSimulate);
             outA += fluidStack1.getAmount();
             need -= fluidStack1.getAmount();
             if (need <= 0) {
@@ -439,7 +447,7 @@ public class CapabilityHelp {
         return d;
     }
 
-    public static void drainAndFillFluid(IPosTrack iPosTrack, IFluidHandler fluidHandler, Pos itemHandlerPos, FluidStack fluidStack, Map<BlockEntity, IFluidHandler> out, boolean isSimulate) {
+    public static void drainAndFillFluid(IPosTrack iPosTrack, IFluidHandler fluidHandler, Pos itemHandlerPos, FluidStack fluidStack, Map<IPosTrack, IFluidHandler> out, boolean isSimulate) {
         RoutePack<FluidStack> routePack = new RoutePack<>();
         FluidStack itemStack = drain(iPosTrack, routePack, fluidHandler, itemHandlerPos, fluidStack, isSimulate);
         fill(iPosTrack, routePack, out, itemStack, isSimulate);
@@ -456,10 +464,10 @@ public class CapabilityHelp {
      * 返回实体携带的物品
      * @return
      */
-    public static List<IItemHandler> getLivingEntityIItemHandlers(LivingEntity livingEntity) {
-        List<IItemHandler> iManaHandles = new ArrayList<>();
+    public static <C> List<C> getLivingEntityCapability(Capability<C> c, LivingEntity livingEntity) {
+        List<C> iManaHandles = new ArrayList<>();
         for (Direction direction : DIRECTIONS) {
-            LazyOptional<IItemHandler> iItemHandlerLazyOptional = livingEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, direction);
+            LazyOptional<C> iItemHandlerLazyOptional = livingEntity.getCapability(c, direction);
             if (iItemHandlerLazyOptional.isPresent()) {
                 iManaHandles.add(iItemHandlerLazyOptional.orElse(null));
             }
@@ -481,7 +489,7 @@ public class CapabilityHelp {
         double xMin = 0;
         double yMin = 0;
         double zMin = 0;
-        Map<BlockEntity, IPosTrack> map = iControl.getCapability(BindType.posTrack);
+        Map<IPosTrack, IPosTrack> map = iControl.getCapability(BindType.posTrack);
         if (map.size() < 2) {
             xMax = pos.x;
             yMax = pos.y;
@@ -491,8 +499,8 @@ public class CapabilityHelp {
             zMin = pos.z;
         }
         if (!map.isEmpty()) {
-            boolean isOne = true;
-            for (Map.Entry<BlockEntity, IPosTrack> entry : map.entrySet()) {
+            boolean isOne = map.size() > 1;
+            for (Map.Entry<IPosTrack, IPosTrack> entry : map.entrySet()) {
                 Pos blockPos = entry.getValue().getPos();
                 if (isOne) {
                     xMax = blockPos.x;
@@ -546,12 +554,12 @@ public class CapabilityHelp {
     }
 
     public static List<ShapedDrive> getShapedDrive(IControl iControl) {
-        Map<BlockEntity, IShapedDrive> map = iControl.getCapability(BindType.modelStore);
+        Map<IPosTrack, IShapedDrive> map = iControl.getCapability(BindType.modelStore);
         if (map.isEmpty()) {
             return List.of();
         }
         List<ShapedDrive> shapedDriveList = new ArrayList<>();
-        for (Map.Entry<BlockEntity, IShapedDrive> entry : map.entrySet()) {
+        for (Map.Entry<IPosTrack, IShapedDrive> entry : map.entrySet()) {
             for (ShapedDrive shapedDrive : entry.getValue().get()) {
                 if (shapedDriveList.contains(shapedDrive)) {
                     continue;

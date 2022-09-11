@@ -1,5 +1,6 @@
 package com.til.dusk.common.capability.control;
 
+import com.til.dusk.common.capability.pos.IPosTrack;
 import com.til.dusk.common.register.BindType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -31,10 +32,10 @@ public class EventControl extends Event {
      * 绑定成功
      */
     public static class Binding extends EventControl {
-        public final BlockEntity blockPos;
+        public final IPosTrack blockPos;
         public final BindType bindType;
 
-        public Binding(IControl control, BlockEntity blockPos, BindType bindType) {
+        public Binding(IControl control, IPosTrack blockPos, BindType bindType) {
             super(control);
             this.blockPos = blockPos;
             this.bindType = bindType;
@@ -45,10 +46,10 @@ public class EventControl extends Event {
      * 解绑成功
      */
     public static class UnBinding extends EventControl {
-        public final BlockEntity blockPos;
+        public final IPosTrack blockPos;
         public final BindType bindType;
 
-        public UnBinding(IControl control, BlockEntity blockPos, BindType bindType) {
+        public UnBinding(IControl control, IPosTrack blockPos, BindType bindType) {
             super(control);
             this.blockPos = blockPos;
             this.bindType = bindType;

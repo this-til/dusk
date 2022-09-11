@@ -2,6 +2,7 @@ package com.til.dusk.common.world.item;
 
 import com.til.dusk.client.ColorProxy;
 import com.til.dusk.common.capability.control.IControl;
+import com.til.dusk.common.capability.pos.IPosTrack;
 import com.til.dusk.common.register.BindType;
 import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.common.register.ParticleRegister;
@@ -190,10 +191,11 @@ public class BindStaffItem extends ItemBasics implements ModItem.IHasCustomColor
                 if (bindType == null) {
                     bindType = BindType.itemIn;
                 }
-                if (iControl.hasBind(blockEntity, bindType)) {
-                    player.sendSystemMessage(iControl.unBind(blockEntity, bindType));
+                IPosTrack posTrack = blockEntity.getCapability(CapabilityRegister.iPosTrack.capability).orElse(null);
+                if (iControl.hasBind(posTrack, bindType)) {
+                    player.sendSystemMessage(iControl.unBind(posTrack, bindType));
                 } else {
-                    player.sendSystemMessage(iControl.bind(blockEntity, bindType));
+                    player.sendSystemMessage(iControl.bind(posTrack, bindType));
                 }
                 return InteractionResult.SUCCESS;
             }

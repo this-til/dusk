@@ -3,6 +3,7 @@ package com.til.dusk.common.register.shaped.shapeds;
 import com.google.gson.JsonObject;
 import com.til.dusk.common.capability.handle.IHandle;
 import com.til.dusk.common.capability.handle.ShapedHandle;
+import com.til.dusk.common.capability.pos.IPosTrack;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
@@ -85,7 +86,7 @@ public abstract class Shaped {
     }
 
     @Nullable
-    public abstract ShapedHandle get(IHandle iControl, Map<BlockEntity, IItemHandler> items, Map<BlockEntity, IFluidHandler> fluids);
+    public abstract ShapedHandle get(IHandle iControl, Map<IPosTrack, IItemHandler> items, Map<IPosTrack, IFluidHandler> fluids);
 
     /***
      * 获取JEI配方

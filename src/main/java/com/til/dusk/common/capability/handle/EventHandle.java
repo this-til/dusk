@@ -1,6 +1,7 @@
 package com.til.dusk.common.capability.handle;
 
 import com.til.dusk.common.capability.mana_handle.IManaHandle;
+import com.til.dusk.common.capability.pos.IPosTrack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -25,10 +26,10 @@ public class EventHandle extends Event {
      * 刷新时
      */
     public static class Up extends EventHandle {
-        public final Map<BlockEntity, IManaHandle> manaIn;
-        public final Map<BlockEntity, IManaHandle> manaOut;
+        public final Map<IPosTrack, IManaHandle> manaIn;
+        public final Map<IPosTrack, IManaHandle> manaOut;
 
-        public Up(IHandle iHandle, Map<BlockEntity, IManaHandle> manaIn, Map<BlockEntity, IManaHandle> manaOut) {
+        public Up(IHandle iHandle, Map<IPosTrack, IManaHandle> manaIn, Map<IPosTrack, IManaHandle> manaOut) {
             super(iHandle);
             this.manaIn = manaIn;
             this.manaOut = manaOut;
@@ -39,12 +40,12 @@ public class EventHandle extends Event {
      * 进入时钟触发
      */
     public static class Clock extends EventHandle {
-        public final Map<BlockEntity, IItemHandler> itemIn;
-        public final Map<BlockEntity, IItemHandler> itemOut;
-        public final Map<BlockEntity, IFluidHandler> fluidIn;
-        public final Map<BlockEntity, IFluidHandler> fluidOut;
+        public final Map<IPosTrack, IItemHandler> itemIn;
+        public final Map<IPosTrack, IItemHandler> itemOut;
+        public final Map<IPosTrack, IFluidHandler> fluidIn;
+        public final Map<IPosTrack, IFluidHandler> fluidOut;
 
-        public Clock(IHandle iHandle, Map<BlockEntity, IItemHandler> itemIn, Map<BlockEntity, IItemHandler> itemOut, Map<BlockEntity, IFluidHandler> fluidIn, Map<BlockEntity, IFluidHandler> fluidOut) {
+        public Clock(IHandle iHandle, Map<IPosTrack, IItemHandler> itemIn, Map<IPosTrack, IItemHandler> itemOut, Map<IPosTrack, IFluidHandler> fluidIn, Map<IPosTrack, IFluidHandler> fluidOut) {
             super(iHandle);
             this.itemIn = itemIn;
             this.itemOut = itemOut;
@@ -86,10 +87,10 @@ public class EventHandle extends Event {
          * 配方刷新时
          */
         public static class Up extends EventShapedHandle {
-            public final Map<BlockEntity, IManaHandle> manaIn;
-            public final Map<BlockEntity, IManaHandle> manaOut;
+            public final Map<IPosTrack, IManaHandle> manaIn;
+            public final Map<IPosTrack, IManaHandle> manaOut;
 
-            public Up(IHandle iHandle, ShapedHandle shapedHandle, Map<BlockEntity, IManaHandle> manaIn, Map<BlockEntity, IManaHandle> manaOut) {
+            public Up(IHandle iHandle, ShapedHandle shapedHandle, Map<IPosTrack, IManaHandle> manaIn, Map<IPosTrack, IManaHandle> manaOut) {
                 super(iHandle, shapedHandle);
                 this.manaIn = manaIn;
                 this.manaOut = manaOut;
@@ -100,12 +101,12 @@ public class EventHandle extends Event {
          * 配方进入时钟触发
          */
         public static class Clock extends EventShapedHandle {
-            public final Map<BlockEntity, IItemHandler> itemIn;
-            public final Map<BlockEntity, IItemHandler> itemOut;
-            public final Map<BlockEntity, IFluidHandler> fluidIn;
-            public final Map<BlockEntity, IFluidHandler> fluidOut;
+            public final Map<IPosTrack, IItemHandler> itemIn;
+            public final Map<IPosTrack, IItemHandler> itemOut;
+            public final Map<IPosTrack, IFluidHandler> fluidIn;
+            public final Map<IPosTrack, IFluidHandler> fluidOut;
 
-            public Clock(IHandle iHandle, ShapedHandle shapedHandle, Map<BlockEntity, IItemHandler> itemIn, Map<BlockEntity, IItemHandler> itemOut, Map<BlockEntity, IFluidHandler> fluidIn, Map<BlockEntity, IFluidHandler> fluidOut) {
+            public Clock(IHandle iHandle, ShapedHandle shapedHandle, Map<IPosTrack, IItemHandler> itemIn, Map<IPosTrack, IItemHandler> itemOut, Map<IPosTrack, IFluidHandler> fluidIn, Map<IPosTrack, IFluidHandler> fluidOut) {
                 super(iHandle, shapedHandle);
                 this.itemIn = itemIn;
                 this.itemOut = itemOut;

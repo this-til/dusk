@@ -1,19 +1,13 @@
 package com.til.dusk.common.register.mana_level.mana_level_block;
 
 import com.til.dusk.common.capability.pos.IPosTrack;
-import com.til.dusk.common.capability.tile_entity.DuskCapabilityProvider;
+import com.til.dusk.common.capability.DuskCapabilityProvider;
 import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.world.block.MechanicBlock;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.material.FluidState;
-import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.level.material.PushReaction;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 
 /**

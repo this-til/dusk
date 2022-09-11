@@ -55,7 +55,6 @@ public class PotionManaShapedType extends ShapedType {
 
     public static class ShapedPotionMana extends ShapedMiddleExtend {
 
-
         public ShapedPotionMana(ShapedType shapedType, ShapedDrive shapedDrive, ManaLevel manaLevel, long surplusTime, long consumeMana, long outMana) {
             super(shapedType, shapedDrive, manaLevel, surplusTime, consumeMana, outMana);
         }

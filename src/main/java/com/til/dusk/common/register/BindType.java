@@ -80,11 +80,11 @@ public class BindType extends RegisterBasics<BindType> {
     /***
      * 过滤绑定
      * @param iControl 控制器
-     * @param blockEntity 要绑定的方块
+     * @param iPosTrack 要绑定的方块
      * @return 如果通过返回NULL，如果不通过返回结果信息
      */
     @Nullable
-    public Component filter(IControl iControl, BlockEntity blockEntity) {
+    public Component filter(IControl iControl, IPosTrack iPosTrack) {
         return null;
     }
 
@@ -118,8 +118,8 @@ public class BindType extends RegisterBasics<BindType> {
 
         @Nullable
         @Override
-        public Component filter(IControl iControl, BlockEntity blockEntity) {
-            LazyOptional<C> lazyOptional = blockEntity.getCapability(capability);
+        public Component filter(IControl iControl, IPosTrack blockEntity) {
+            LazyOptional<C> lazyOptional = blockEntity.getAsCapabilityProvider().getCapability(capability);
             if (lazyOptional.isPresent()) {
                 return null;
             }

@@ -1,10 +1,10 @@
-package com.til.dusk.common.capability.tile_entity;
+package com.til.dusk.common.capability;
 
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 
 /***
- * 物品默认拥有的能力，用于构建DefaultTileEntity
+ * 物品默认拥有的能力，用于构建DuskCapabilityProvider
  * @author til
  */
 public interface IItemDefaultCapability {

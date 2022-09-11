@@ -1,4 +1,4 @@
-package com.til.dusk.common.capability.entity_skill;
+package com.til.dusk.common.capability.skill;
 
 /**
  * @author til

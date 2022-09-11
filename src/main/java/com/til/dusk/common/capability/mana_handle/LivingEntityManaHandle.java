@@ -1,15 +1,13 @@
 package com.til.dusk.common.capability.mana_handle;
 
 import com.til.dusk.common.capability.CapabilityHelp;
-import com.til.dusk.common.capability.mana_handle.IManaHandle;
-import com.til.dusk.common.capability.up.IUp;
-import com.til.dusk.common.register.BindType;
+import com.til.dusk.common.capability.black.IBack;
 import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.util.Extension;
-import com.til.dusk.util.RoutePack;
 import com.til.dusk.util.TooltipPack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -21,30 +19,29 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class LivingEntityManaHandle implements IManaHandle {
 
     public final LivingEntity livingEntity;
+    public List<IManaHandle> allManaHandles = new ArrayList<>();
 
     public boolean lock;
 
-    public LivingEntityManaHandle(LivingEntity livingEntity) {
-        this.livingEntity = livingEntity;
-    }
+    public final IBack iBack;
 
-    public List<IManaHandle> getAllItemManaHandle() {
-        List<IManaHandle> iManaHandles = new ArrayList<>();
-        for (IItemHandler livingEntityIItemHandler : CapabilityHelp.getLivingEntityIItemHandlers(livingEntity)) {
-            for (int i = 0; i < livingEntityIItemHandler.getSlots(); i++) {
-                ItemStack itemStack = livingEntityIItemHandler.getStackInSlot(i);
-                LazyOptional<IManaHandle> iManaHandleLazyOptional = itemStack.getCapability(CapabilityRegister.iManaHandle.capability);
-                if (iManaHandleLazyOptional.isPresent()) {
-                    iManaHandles.add(iManaHandleLazyOptional.orElse(null));
-                }
+    public LivingEntityManaHandle(LivingEntity livingEntity, IBack iBack) {
+        this.livingEntity = livingEntity;
+        this.iBack = iBack;
+        iBack.add(IBack.LIVING_EQUIPMENT_CHANGE_EVENT, event -> {
+            LazyOptional<IManaHandle> lazyOptional = event.getFrom().getCapability(CapabilityRegister.iManaHandle.capability);
+            if (lazyOptional.isPresent()) {
+                allManaHandles.remove(lazyOptional.orElse(null));
             }
-        }
-        return iManaHandles;
+            lazyOptional = event.getTo().getCapability(CapabilityRegister.iManaHandle.capability);
+            if (lazyOptional.isPresent()) {
+                allManaHandles.add(lazyOptional.orElse(null));
+            }
+        });
     }
 
 
@@ -53,7 +50,7 @@ public class LivingEntityManaHandle implements IManaHandle {
             return 0;
         }
         lock = true;
-        List<IManaHandle> allItemManaHandle = getAllItemManaHandle();
+        List<IManaHandle> allItemManaHandle = allManaHandles;
         if (allItemManaHandle.isEmpty()) {
             lock = false;
             return 0;
@@ -97,7 +94,7 @@ public class LivingEntityManaHandle implements IManaHandle {
             return 0;
         }
         lock = true;
-        List<IManaHandle> allItemManaHandle = getAllItemManaHandle();
+        List<IManaHandle> allItemManaHandle = allManaHandles;
         if (allItemManaHandle.isEmpty()) {
             lock = false;
             return 0;
@@ -121,7 +118,7 @@ public class LivingEntityManaHandle implements IManaHandle {
             return 0;
         }
         lock = true;
-        List<IManaHandle> allItemManaHandle = getAllItemManaHandle();
+        List<IManaHandle> allItemManaHandle = allManaHandles;
         if (allItemManaHandle.isEmpty()) {
             lock = false;
             return 0;

@@ -2,13 +2,12 @@ package com.til.dusk.common.register.mana_level.mana_level_block;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.common.capability.CapabilityHelp;
+import com.til.dusk.common.capability.black.Back;
+import com.til.dusk.common.capability.black.IBack;
 import com.til.dusk.common.capability.clock.IClock;
-import com.til.dusk.common.capability.clock.IManaClock;
 import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.capability.pos.IPosTrack;
-import com.til.dusk.common.capability.tile_entity.DuskCapabilityProvider;
-import com.til.dusk.common.capability.up.IUp;
-import com.til.dusk.common.capability.up.Up;
+import com.til.dusk.common.capability.DuskCapabilityProvider;
 import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.util.Extension;
@@ -42,8 +41,8 @@ public abstract class PosImplementMechanic extends DefaultCapacityMechanic {
     public void addCapability(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability, ManaLevel manaLevel, IPosTrack iPosTrack) {
         super.addCapability(event, duskModCapability, manaLevel, iPosTrack);
         IControl iControl = duskModCapability.addCapability(CapabilityRegister.iControl.capability, createControl(manaLevel, iPosTrack));
-        IUp iUp = duskModCapability.addCapability(CapabilityRegister.iUp.capability, new Up());
-        IClock iClock = duskModCapability.addCapability(CapabilityRegister.iClock.capability, createClock(manaLevel, iUp, iControl, iPosTrack));
+        IBack iBack = duskModCapability.addCapability(CapabilityRegister.iBlack.capability, new Back());
+        IClock iClock = duskModCapability.addCapability(CapabilityRegister.iClock.capability, createClock(manaLevel, iBack, iControl, iPosTrack));
         Extension.Action_3V<BlockPos, IControl, IPosTrack> run = createBlockBlack();
         iClock.addBlock(() -> {
             Level level = iPosTrack.getLevel();
@@ -79,7 +78,7 @@ public abstract class PosImplementMechanic extends DefaultCapacityMechanic {
 
     public abstract IControl createControl(ManaLevel manaLevel, IPosTrack iPosTrack);
 
-    public abstract IClock createClock(ManaLevel manaLevel, IUp iup, IControl iControl, IPosTrack iPosTrack);
+    public abstract IClock createClock(ManaLevel manaLevel, IBack back, IControl iControl, IPosTrack iPosTrack);
 
     public abstract Extension.Action_3V<BlockPos, IControl, IPosTrack> createBlockBlack();
 }

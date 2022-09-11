@@ -13,6 +13,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
@@ -37,16 +38,16 @@ public class Control implements IControl {
     }
 
     public Control(IPosTrack posTrack, List<BindType> bindTypes, ManaLevel iManaLevel) {
-        this(posTrack, bindTypes, iManaLevel.maxBind, 16);
+        this(posTrack, bindTypes, iManaLevel.maxBind, iManaLevel.maxRange);
     }
 
     @Override
-    public List<BlockEntity> getAllTileEntity(BindType iBindType) {
+    public List<IPosTrack> getAllTileEntity(BindType iBindType) {
         Level level = posTrack.getLevel();
         if (level == null) {
             return List.of();
         }
-        List<BlockEntity> list = new ArrayList<>();
+        List<IPosTrack> list = new ArrayList<>();
         List<BlockPos> rList = null;
         List<BlockPos> blockPosList = tile.computeIfAbsent(iBindType, k -> new ArrayList<>());
         if (blockPosList.isEmpty()) {
@@ -60,7 +61,7 @@ public class Control implements IControl {
                 }
                 rList.add(blockPos);
             } else {
-                list.add(tile);
+                list.add(tile.getCapability(CapabilityRegister.iPosTrack.capability).orElse(null));
             }
         }
         if (rList != null) {
@@ -72,51 +73,58 @@ public class Control implements IControl {
     }
 
     @Override
-    public Component bind(BlockEntity tileEntity, BindType iBindType) {
+    public Component bind(IPosTrack iPosTrack, BindType iBindType) {
         List<BlockPos> list = tile.computeIfAbsent(iBindType, k -> new ArrayList<>());
-        if (tileEntity.getLevel() != tileEntity.getLevel()) {
+        if (!iPosTrack.isTileEntity()) {
+            return Lang.getLang(Lang.getKey("错误，绑定项不是实体方块"));
+        }
+        if (iPosTrack.getLevel() != iPosTrack.getLevel()) {
             return Lang.getLang(Lang.getKey("错误，方块不属于同一个世界"));
         }
         if (!getCanBindType().contains(iBindType)) {
             return Component.translatable(Lang.getKey("绑定失败，不支持类型为[%s]的绑定"), Lang.getLang(iBindType));
         }
-        if (new Pos(tileEntity.getBlockPos()).distance(new Pos(tileEntity.getBlockPos())) > getMaxRange()) {
+        if (posTrack.getPos().distance(iPosTrack.getPos()) > getMaxRange()) {
             return Lang.getLang(Lang.getKey("绑定失败，方块距离超过限制"));
         }
         if (list.size() >= getMaxBind()) {
             return Component.translatable(Lang.getKey("绑定失败，已达到绑定类型[%s]的最大绑定数量"), Lang.getLang(iBindType));
         }
-        if (this.getAllTileEntity(iBindType).contains(tileEntity)) {
+        if (this.getAllTileEntity(iBindType).contains(iPosTrack)) {
             return Lang.getLang(Lang.getKey("绑定失败，该方块已经被绑定过了"));
         }
-        Component component = iBindType.filter(this, tileEntity);
+        Component component = iBindType.filter(this, iPosTrack);
         if (component != null) {
             return component;
         }
-        list.add(tileEntity.getBlockPos());
-        MinecraftForge.EVENT_BUS.post(new EventControl.Binding(this, tileEntity, iBindType));
+        list.add(iPosTrack.getAsBlockPos());
+        MinecraftForge.EVENT_BUS.post(new EventControl.Binding(this, iPosTrack, iBindType));
         return Lang.getLang(Lang.getKey("绑定成功"));
     }
 
     @Override
-    public Map<BindType, List<BlockPos>> getAllBind() {
-        return tile;
+    public Map<BindType, List<IPosTrack>> getAllBind() {
+        Map<BindType, List<IPosTrack>> map = new HashMap<>(getCanBindType().size());
+        for (BindType bindType : getCanBindType()) {
+            map.put(bindType, getAllTileEntity(bindType));
+        }
+        return map;
     }
 
     @Override
-    public boolean hasBind(BlockEntity tileEntity, BindType bindType) {
-        return tile.computeIfAbsent(bindType, k -> new ArrayList<>()).contains(tileEntity.getBlockPos());
+    public boolean hasBind(IPosTrack iPosTrack, BindType bindType) {
+        return tile.computeIfAbsent(bindType, k -> new ArrayList<>()).contains(iPosTrack.getPos().blockPos());
     }
 
     @Override
-    public Component unBind(BlockEntity tileEntity, BindType iBindType) {
+    public Component unBind(IPosTrack tileEntity, BindType iBindType) {
         if (tileEntity.getLevel() != tileEntity.getLevel()) {
             return Lang.getLang(Lang.getKey("错误，方块不属于同一个世界"));
         }
         if (!this.getAllTileEntity(iBindType).contains(tileEntity)) {
             return Lang.getLang(Lang.getKey("解绑失败，方块没有被绑定"));
         }
-        tile.computeIfAbsent(iBindType, k -> new ArrayList<>()).remove(tileEntity.getBlockPos());
+        tile.computeIfAbsent(iBindType, k -> new ArrayList<>()).remove(tileEntity.getAsBlockPos());
         MinecraftForge.EVENT_BUS.post(new EventControl.UnBinding(this, tileEntity, iBindType));
         return Lang.getLang(Lang.getKey("解绑成功"));
     }
@@ -134,23 +142,27 @@ public class Control implements IControl {
     }
 
     @Override
-    public <C> Map<BlockEntity, C> getCapability(Capability<C> capability, BindType iBindType) {
-        List<BlockEntity> list = getAllTileEntity(iBindType);
+    public <C> Map<IPosTrack, C> getCapability(Capability<C> capability, BindType iBindType) {
+        List<IPosTrack> list = getAllTileEntity(iBindType);
         if (list.isEmpty()) {
             return Map.of();
         }
-        Map<BlockEntity, C> map = new HashMap<>(list.size());
-        for (BlockEntity entity : getAllTileEntity(iBindType)) {
-            LazyOptional<C> c = entity.getCapability(capability, null);
+        Map<IPosTrack, C> map = new HashMap<>(list.size());
+        for (IPosTrack entity : getAllTileEntity(iBindType)) {
+            if (!entity.isTileEntity()) {
+                continue;
+            }
+            BlockEntity blockEntity = entity.getAsTileEntity();
+            LazyOptional<C> c = blockEntity.getCapability(capability, null);
             if (c.isPresent()) {
-                map.put(entity, c.orElse(null));
+                map.put(blockEntity.getCapability(CapabilityRegister.iPosTrack.capability).orElse(null), c.orElse(null));
             }
         }
         return map;
     }
 
     @Override
-    public <C> Map<BlockEntity, C> getCapability(BindType.BindTypeBindCapability<C> bundTypeBindCapability) {
+    public <C> Map<IPosTrack, C> getCapability(BindType.BindTypeBindCapability<C> bundTypeBindCapability) {
         return getCapability(bundTypeBindCapability.getCapability(), bundTypeBindCapability);
     }
 

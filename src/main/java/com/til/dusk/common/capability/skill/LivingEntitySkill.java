@@ -1,8 +1,8 @@
-package com.til.dusk.common.capability.entity_skill;
+package com.til.dusk.common.capability.skill;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-import com.til.dusk.common.capability.up.IUp;
+import com.til.dusk.common.capability.black.IBack;
 import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.common.register.skill.Skill;
 import com.til.dusk.util.nbt.pack.AllNBTPack;
@@ -27,8 +27,9 @@ public class LivingEntitySkill extends SkillBasics {
     @Nullable
     public Multimap<Attribute, AttributeModifier> oldAttribute;
 
-    public LivingEntitySkill(LivingEntity livingEntity) {
+    public LivingEntitySkill(LivingEntity livingEntity, IBack iBack) {
         this.livingEntity = livingEntity;
+        iBack.add(IBack.LIVING_EQUIPMENT_CHANGE_EVENT, event -> up());
     }
 
     @Override
@@ -52,15 +53,16 @@ public class LivingEntitySkill extends SkillBasics {
                 SkillCell skillCell = getSkill(entry.getKey());
                 skillCell.level += entry.getValue().level;
             }
-
         }
+    }
+
+    public void upAttribute() {
         if (oldAttribute != null) {
             livingEntity.getAttributes().removeAttributeModifiers(oldAttribute);
         }
         oldAttribute = getAttribute();
         if (oldAttribute != null) {
             livingEntity.getAttributes().addTransientAttributeModifiers(oldAttribute);
-
         }
     }
 

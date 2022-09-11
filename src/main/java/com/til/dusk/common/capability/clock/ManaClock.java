@@ -1,9 +1,8 @@
 package com.til.dusk.common.capability.clock;
 
+import com.til.dusk.common.capability.black.IBack;
 import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.capability.CapabilityHelp;
-import com.til.dusk.common.capability.pos.IPosTrack;
-import com.til.dusk.common.capability.up.IUp;
 import com.til.dusk.common.register.BindType;
 import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.common.register.shaped.ShapedHandleProcess;
@@ -27,8 +26,8 @@ public class ManaClock extends Clock implements IManaClock {
     public final long consumeMana;
     public ShapedHandleProcess process = ShapedHandleProcess.trippingOperation;
 
-    public ManaClock(IUp up, int clock, IControl iControl, long consumeMana) {
-        super(up, clock);
+    public ManaClock(IBack back, int clock, IControl iControl, long consumeMana) {
+        super(back, clock);
         this.control = iControl;
         this.consumeMana = consumeMana;
     }

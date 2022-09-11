@@ -1,6 +1,6 @@
 package com.til.dusk.common.capability.mana_handle;
 
-import com.til.dusk.common.capability.up.IUp;
+import com.til.dusk.common.capability.black.IBack;
 import com.til.dusk.util.Extension;
 
 /***
@@ -14,8 +14,8 @@ public class VariableManaHandle extends ManaHandle {
     public final Extension.Func<Double> rateMultiple;
 
 
-    public VariableManaHandle(long maxMana, long maxRate, IUp iUp, Extension.Func<Double> manaMultiple, Extension.Func<Double> rateMultiple) {
-        super(maxMana, maxRate, iUp);
+    public VariableManaHandle(long maxMana, long maxRate, IBack back, Extension.Func<Double> manaMultiple, Extension.Func<Double> rateMultiple) {
+        super(maxMana, maxRate, back);
         this.manaMultiple = manaMultiple;
         this.rateMultiple = rateMultiple;
     }

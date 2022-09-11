@@ -1,6 +1,6 @@
 package com.til.dusk.util.nbt.pack;
 
-import com.til.dusk.common.capability.entity_skill.ISkill;
+import com.til.dusk.common.capability.skill.ISkill;
 import com.til.dusk.common.capability.handle.ShapedHandle;
 import com.til.dusk.common.register.BindType;
 import com.til.dusk.common.register.mana_level.ManaLevel;
@@ -9,7 +9,6 @@ import com.til.dusk.common.register.shaped.ShapedHandleProcess;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 import com.til.dusk.common.register.skill.Skill;
 import com.til.dusk.util.nbt.cell.AllNBTCell;
-import com.til.dusk.util.nbt.cell.NBTCell;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;

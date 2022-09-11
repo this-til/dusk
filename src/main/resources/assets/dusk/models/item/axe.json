@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "dusk:item/stick",
+    "layer1": "dusk:item/axe"
+  }
+}

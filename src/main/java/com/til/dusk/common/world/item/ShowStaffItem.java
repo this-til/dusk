@@ -1,6 +1,7 @@
 package com.til.dusk.common.world.item;
 
 import com.til.dusk.common.capability.control.IControl;
+import com.til.dusk.common.capability.pos.IPosTrack;
 import com.til.dusk.common.register.BindType;
 import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.common.register.ParticleRegister;
@@ -83,9 +84,9 @@ public class ShowStaffItem extends ItemBasics implements ModItem.IHasCustomColor
 
     public static void showControl(Player player, IControl control) {
         ParticleRegister.block.add(player, ColorPrefab.CONTROL_TAG, 10, null, control.getPosTrack().getPos());
-        for (Map.Entry<BindType, List<BlockPos>> bindTypeListEntry : control.getAllBind().entrySet()) {
-            for (BlockPos blockPos : bindTypeListEntry.getValue()) {
-                ParticleRegister.line.add(player, bindTypeListEntry.getKey().color, 10, null, control.getPosTrack().getPos(), new Pos(blockPos));
+        for (Map.Entry<BindType, List<IPosTrack>> bindTypeListEntry : control.getAllBind().entrySet()) {
+            for (IPosTrack blockPos : bindTypeListEntry.getValue()) {
+                ParticleRegister.line.add(player, bindTypeListEntry.getKey().color, 10, null, control.getPosTrack().getPos(), blockPos.getPos());
             }
         }
     }

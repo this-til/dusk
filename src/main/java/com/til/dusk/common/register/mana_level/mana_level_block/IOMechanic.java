@@ -3,20 +3,19 @@ package com.til.dusk.common.register.mana_level.mana_level_block;
 import com.til.dusk.Dusk;
 import com.til.dusk.client.ColorProxy;
 import com.til.dusk.common.capability.CapabilityHelp;
+import com.til.dusk.common.capability.black.Back;
+import com.til.dusk.common.capability.black.IBack;
 import com.til.dusk.common.capability.clock.IClock;
 import com.til.dusk.common.capability.clock.ManaClock;
 import com.til.dusk.common.capability.control.Control;
 import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.capability.mana_handle.IManaHandle;
 import com.til.dusk.common.capability.pos.IPosTrack;
-import com.til.dusk.common.capability.tile_entity.DuskCapabilityProvider;
-import com.til.dusk.common.capability.up.IUp;
-import com.til.dusk.common.capability.up.Up;
+import com.til.dusk.common.capability.DuskCapabilityProvider;
 import com.til.dusk.common.register.BindType;
 import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.util.Extension;
-import com.til.dusk.util.Pos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -79,13 +78,13 @@ public class IOMechanic extends DefaultCapacityMechanic {
         public void addCapability(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability, ManaLevel manaLevel, IPosTrack iPosTrack) {
             super.addCapability(event, duskModCapability, manaLevel, iPosTrack);
             IControl iControl = duskModCapability.addCapability(CapabilityRegister.iControl.capability, new Control(iPosTrack, List.of(BindType.manaIn, BindType.manaOut), manaLevel));
-            IUp iUp = duskModCapability.addCapability(CapabilityRegister.iUp.capability, new Up());
-            iUp.addUpBlack(() -> {
+            IBack iUp = duskModCapability.addCapability(CapabilityRegister.iBlack.capability, new Back());
+            iUp.add(IBack.UP, v -> {
                 Level level = event.getObject().getLevel();
                 if (level == null) {
                     return;
                 }
-                CapabilityHelp.manaPointToPointTransmit(iControl.getPosTrack(), iControl.getCapability(BindType.manaIn), iControl.getCapability(BindType.manaOut), manaLevel.manaLoss, false);
+                CapabilityHelp.manaPointToPointTransmit(iControl.getPosTrack(), iControl.getCapability(BindType.manaIn), iControl.getCapability(BindType.manaOut), 1024L * manaLevel.level,manaLevel.manaLoss, false);
             });
         }
 
@@ -105,34 +104,34 @@ public class IOMechanic extends DefaultCapacityMechanic {
         public void addCapability(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability, ManaLevel manaLevel, IPosTrack iPosTrack) {
             super.addCapability(event, duskModCapability, manaLevel, iPosTrack);
             IControl iControl = duskModCapability.addCapability(CapabilityRegister.iControl.capability, new Control(iPosTrack, List.of(BindType.itemIn, BindType.itemOut, BindType.manaIn), manaLevel));
-            IUp iUp = duskModCapability.addCapability(CapabilityRegister.iUp.capability, new Up());
+            IBack iUp = duskModCapability.addCapability(CapabilityRegister.iBlack.capability, new Back());
             IClock iClock = duskModCapability.addCapability(CapabilityRegister.iClock.capability, new ManaClock(iUp, manaLevel.clock / 10, iControl, 4L * manaLevel.level));
             iClock.addBlock(() -> {
                 Level level = event.getObject().getLevel();
                 if (level == null) {
                     return;
                 }
-                Map<BlockEntity, IItemHandler> inMap = iControl.getCapability(BindType.itemIn);
+                Map<IPosTrack, IItemHandler> inMap = iControl.getCapability(BindType.itemIn);
                 if (inMap.isEmpty()) {
                     return;
                 }
-                Map<BlockEntity, IManaHandle> inMana = iControl.getCapability(BindType.manaIn);
+                Map<IPosTrack, IManaHandle> inMana = iControl.getCapability(BindType.manaIn);
                 if (inMana.isEmpty()) {
                     return;
                 }
-                Map<BlockEntity, IItemHandler> _outMap = iControl.getCapability(BindType.itemOut);
+                Map<IPosTrack, IItemHandler> _outMap = iControl.getCapability(BindType.itemOut);
                 if (_outMap.isEmpty()) {
                     return;
                 }
-                Map<BlockEntity, IItemHandler> outMap = new HashMap<>();
-                for (Map.Entry<BlockEntity, IItemHandler> entry : _outMap.entrySet()) {
+                Map<IPosTrack, IItemHandler> outMap = new HashMap<>();
+                for (Map.Entry<IPosTrack, IItemHandler> entry : _outMap.entrySet()) {
                     if (!inMap.containsKey(entry.getKey())) {
                         outMap.put(entry.getKey(), entry.getValue());
                     }
                 }
                 ItemStack outSimulate = null;
-                Extension.Data_4<BlockEntity, IItemHandler, ItemStack, Integer> outData = null;
-                for (Map.Entry<BlockEntity, IItemHandler> entry : inMap.entrySet()) {
+                Extension.Data_4<IPosTrack, IItemHandler, ItemStack, Integer> outData = null;
+                for (Map.Entry<IPosTrack, IItemHandler> entry : inMap.entrySet()) {
                     for (int i = 0; i < entry.getValue().getSlots(); i++) {
                         ItemStack itemStack = entry.getValue().getStackInSlot(i);
                         if (!itemStack.isEmpty()) {
@@ -160,7 +159,7 @@ public class IOMechanic extends DefaultCapacityMechanic {
                 if (!outSimulate.isEmpty()) {
                     return;
                 }
-                CapabilityHelp.extractAndInsertItem(iPosTrack, outData.d2(), new Pos(outData.d1()), outData.d4(), outData.d3().getCount(), outMap, false);
+                CapabilityHelp.extractAndInsertItem(iPosTrack, outData.d2(), outData.d1().getPos(), outData.d4(), outData.d3().getCount(), outMap, false);
             });
         }
     }
@@ -178,31 +177,31 @@ public class IOMechanic extends DefaultCapacityMechanic {
         public void addCapability(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability, ManaLevel manaLevel, IPosTrack iPosTrack) {
             super.addCapability(event, duskModCapability, manaLevel, iPosTrack);
             IControl iControl = duskModCapability.addCapability(CapabilityRegister.iControl.capability, new Control(iPosTrack, List.of(BindType.fluidIn, BindType.fluidOut, BindType.manaIn), manaLevel));
-            IUp iUp = duskModCapability.addCapability(CapabilityRegister.iUp.capability, new Up());
-            IClock iClock = duskModCapability.addCapability(CapabilityRegister.iClock.capability, new ManaClock(iUp, manaLevel.clock / 10, iControl, 4L * manaLevel.level));
+            IBack iBack = duskModCapability.addCapability(CapabilityRegister.iBlack.capability, new Back());
+            IClock iClock = duskModCapability.addCapability(CapabilityRegister.iClock.capability, new ManaClock(iBack, manaLevel.clock / 10, iControl, 4L * manaLevel.level));
             iClock.addBlock(() -> {
                 Level level = event.getObject().getLevel();
                 if (level == null) {
                     return;
                 }
-                Map<BlockEntity, IFluidHandler> inMap = iControl.getCapability(BindType.fluidIn);
+                Map<IPosTrack, IFluidHandler> inMap = iControl.getCapability(BindType.fluidIn);
                 if (inMap.isEmpty()) {
                     return;
                 }
-                Map<BlockEntity, IFluidHandler> _outMap = iControl.getCapability(BindType.fluidOut);
+                Map<IPosTrack, IFluidHandler> _outMap = iControl.getCapability(BindType.fluidOut);
                 if (_outMap.isEmpty()) {
                     return;
                 }
-                Map<BlockEntity, IFluidHandler> outMap = new HashMap<>();
-                for (Map.Entry<BlockEntity, IFluidHandler> entry : _outMap.entrySet()) {
+                Map<IPosTrack, IFluidHandler> outMap = new HashMap<>();
+                for (Map.Entry<IPosTrack, IFluidHandler> entry : _outMap.entrySet()) {
                     if (!inMap.containsKey(entry.getKey())) {
                         outMap.put(entry.getKey(), entry.getValue());
                     }
                 }
                 int maxRate = 1000 * manaLevel.level;
                 FluidStack outSimulate = null;
-                Extension.Data_3<BlockEntity, IFluidHandler, FluidStack> outData = null;
-                for (Map.Entry<BlockEntity, IFluidHandler> entry : inMap.entrySet()) {
+                Extension.Data_3<IPosTrack, IFluidHandler, FluidStack> outData = null;
+                for (Map.Entry<IPosTrack, IFluidHandler> entry : inMap.entrySet()) {
                     for (int i = 0; i < entry.getValue().getTanks(); i++) {
                         FluidStack fluidStack = entry.getValue().getFluidInTank(i);
                         if (!fluidStack.isEmpty()) {
@@ -232,7 +231,7 @@ public class IOMechanic extends DefaultCapacityMechanic {
                 if (!outSimulate.isEmpty()) {
                     return;
                 }
-                CapabilityHelp.drainAndFillFluid(iPosTrack, outData.d2(), new Pos(outData.d1()), outData.d3(), outMap, false);
+                CapabilityHelp.drainAndFillFluid(iPosTrack, outData.d2(), outData.d1().getPos(), outData.d3(), outMap, false);
             });
         }
     }

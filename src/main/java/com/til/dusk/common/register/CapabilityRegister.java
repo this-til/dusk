@@ -1,17 +1,17 @@
 package com.til.dusk.common.register;
 
 import com.til.dusk.Dusk;
+import com.til.dusk.common.capability.black.IBack;
 import com.til.dusk.common.capability.clock.IClock;
 import com.til.dusk.common.capability.control.EventControl;
 import com.til.dusk.common.capability.control.IControl;
-import com.til.dusk.common.capability.entity_skill.ISkill;
+import com.til.dusk.common.capability.skill.ISkill;
 import com.til.dusk.common.capability.handle.EventHandle;
 import com.til.dusk.common.capability.handle.IHandle;
 import com.til.dusk.common.capability.mana_handle.IManaHandle;
 import com.til.dusk.common.capability.mana_level.IManaLevel;
 import com.til.dusk.common.capability.pos.IPosTrack;
 import com.til.dusk.common.capability.shaped_drive.IShapedDrive;
-import com.til.dusk.common.capability.up.IUp;
 import com.til.dusk.common.event.EventIO;
 import com.til.dusk.util.Pos;
 import com.til.dusk.util.Util;
@@ -41,12 +41,12 @@ public class CapabilityRegister<C> extends RegisterBasics<CapabilityRegister<C>>
     public static CapabilityRegister<IFluidHandler> iFluidHandler;
     public static CapabilityRegister<IClock> iClock;
     public static CapabilityRegister<IControl> iControl;
-    public static CapabilityRegister<IUp> iUp;
     public static CapabilityRegister<IManaHandle> iManaHandle;
     public static CapabilityRegister<IShapedDrive> iShapedDrive;
     public static CapabilityRegister<IHandle> iHandle;
     public static CapabilityRegister<IPosTrack> iPosTrack;
     public static CapabilityRegister<ISkill> iSkill;
+    public static CapabilityRegister<IBack> iBlack;
 
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
@@ -59,8 +59,6 @@ public class CapabilityRegister<C> extends RegisterBasics<CapabilityRegister<C>>
         });
         iControl = new CapabilityRegister<>("i_control", IControl.class, () -> new CapabilityToken<IControl>() {
         });
-        iUp = new CapabilityRegister<>("i_up", IUp.class, () -> new CapabilityToken<IUp>() {
-        });
         iManaHandle = new CapabilityRegister<>("i_mana_handle", IManaHandle.class, () -> new CapabilityToken<IManaHandle>() {
         });
         iShapedDrive = new CapabilityRegister<>("i_shaped_drive", IShapedDrive.class, () -> new CapabilityToken<IShapedDrive>() {
@@ -70,6 +68,8 @@ public class CapabilityRegister<C> extends RegisterBasics<CapabilityRegister<C>>
         iPosTrack = new CapabilityRegister<>("i_pos_track", IPosTrack.class, () -> new CapabilityToken<IPosTrack>() {
         });
         iSkill = new CapabilityRegister<ISkill>("i_skill", ISkill.class, () -> new CapabilityToken<ISkill>() {
+        });
+        iBlack = new CapabilityRegister<IBack>("i_black", IBack.class, () -> new CapabilityToken<IBack>() {
         });
         MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, (Consumer<EventControl>) e -> {
             Level level = e.control.getPosTrack().getLevel();

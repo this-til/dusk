@@ -158,11 +158,8 @@ dependencies {
     //JEI
     implementation fg.deobf("curse.maven:jei-238222:3944627")
 
-    //WTHIT
-    //implementation fg.deobf("curse.maven:jade-440979:3944309")
-
     //mek
-    //implementation fg.deobf("curse.maven:jade-268560:3922056")
+    runtimeOnly fg.deobf("curse.maven:mek-268560:3922056")
 
     //植物魔法
     //implementation fg.deobf("curse.maven:jade-225643:3922056")

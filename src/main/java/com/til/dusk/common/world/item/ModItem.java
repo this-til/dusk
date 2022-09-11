@@ -3,41 +3,19 @@ package com.til.dusk.common.world.item;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.client.ColorProxy;
-import com.til.dusk.common.capability.control.IControl;
-import com.til.dusk.common.register.BindType;
-import com.til.dusk.common.register.CapabilityRegister;
-import com.til.dusk.common.register.ParticleRegister;
-import com.til.dusk.common.register.key.EventKey;
-import com.til.dusk.common.register.key.KeyRegister;
+import com.til.dusk.common.data.tag.ItemTag;
 import com.til.dusk.util.nbt.pack.AllNBTPack;
-import com.til.dusk.util.Lang;
-import com.til.dusk.util.Pos;
-import com.til.dusk.util.prefab.ColorPrefab;
-import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.BoneMealItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.context.UseOnContext;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.registries.*;
-import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Consumer;
 
 /**
  * @author til
@@ -52,9 +30,25 @@ public class ModItem {
     public static final RegistryObject<ShowStaffItem> SHOW_STAFF = ITEMS.register("show_staff", ShowStaffItem::new);
     public static final RegistryObject<ClearStaffItem> CLEAR_STAFF = ITEMS.register("clear_staff", ClearStaffItem::new);
 
+    /***
+     * 废料
+     */
+    public static final RegistryObject<Item> WASTE = ITEMS.register("waste", () -> new BoneMealItem(new Item.Properties().tab(Dusk.TAB)));
+
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
         ITEMS.register(Dusk.instance.modEventBus);
+    }
+
+    @SubscribeEvent
+    public static void onEvent(FMLCommonSetupEvent event) {
+        for (RegistryObject<Item> entry : ITEMS.getEntries()) {
+            ResourceLocation resourceLocation = ForgeRegistries.ITEMS.getKey(entry.get());
+            if (resourceLocation == null) {
+                continue;
+            }
+            ItemTag.addTag(ItemTags.create(resourceLocation), entry.get());
+        }
     }
 
     /***

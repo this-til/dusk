@@ -1,17 +1,15 @@
 package com.til.dusk.common.register.mana_level.mana_level_block;
 
 import com.til.dusk.Dusk;
+import com.til.dusk.common.capability.black.Back;
+import com.til.dusk.common.capability.black.IBack;
 import com.til.dusk.common.capability.mana_handle.IManaHandle;
 import com.til.dusk.common.capability.mana_handle.ManaHandle;
 import com.til.dusk.common.capability.pos.IPosTrack;
-import com.til.dusk.common.capability.tile_entity.DuskCapabilityProvider;
-import com.til.dusk.common.capability.up.IUp;
-import com.til.dusk.common.capability.up.Up;
+import com.til.dusk.common.capability.DuskCapabilityProvider;
 import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.common.register.mana_level.ManaLevel;
-import com.til.dusk.common.world.block.MechanicBlock;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 
@@ -31,10 +29,10 @@ public abstract class PassiveProductionMechanic extends DefaultCapacityMechanic 
     @Override
     public void addCapability(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability, ManaLevel manaLevel, IPosTrack iPosTrack) {
         super.addCapability(event, duskModCapability, manaLevel, iPosTrack);
-        IUp iUp = duskModCapability.addCapability(CapabilityRegister.iUp.capability, new Up());
-        IManaHandle iManaHandle = duskModCapability.addCapability(CapabilityRegister.iManaHandle.capability, new ManaHandle(2560L * manaLevel.level, 2L * manaLevel.level, iUp));
+        IBack iBack = duskModCapability.addCapability(CapabilityRegister.iBlack.capability, new Back());
+        IManaHandle iManaHandle = duskModCapability.addCapability(CapabilityRegister.iManaHandle.capability, new ManaHandle(2560L * manaLevel.level, 2L * manaLevel.level, iBack));
         BlockEntity blockEntity = event.getObject();
-        iUp.addUpBlack(() -> up(blockEntity, iManaHandle, manaLevel));
+        iBack.add(IBack.VOID, v -> up(blockEntity, iManaHandle, manaLevel));
     }
 
     /***

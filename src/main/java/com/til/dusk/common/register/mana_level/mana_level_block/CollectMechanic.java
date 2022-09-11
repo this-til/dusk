@@ -1,14 +1,14 @@
 package com.til.dusk.common.register.mana_level.mana_level_block;
 
 import com.til.dusk.common.capability.CapabilityHelp;
+import com.til.dusk.common.capability.black.Back;
+import com.til.dusk.common.capability.black.IBack;
 import com.til.dusk.common.capability.clock.IClock;
 import com.til.dusk.common.capability.clock.ManaClock;
 import com.til.dusk.common.capability.control.Control;
 import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.capability.pos.IPosTrack;
-import com.til.dusk.common.capability.tile_entity.DuskCapabilityProvider;
-import com.til.dusk.common.capability.up.IUp;
-import com.til.dusk.common.capability.up.Up;
+import com.til.dusk.common.capability.DuskCapabilityProvider;
 import com.til.dusk.common.event.EventIO;
 import com.til.dusk.common.register.BindType;
 import com.til.dusk.common.register.CapabilityRegister;
@@ -48,8 +48,8 @@ public class CollectMechanic extends DefaultCapacityMechanic {
     public void addCapability(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability, ManaLevel manaLevel, IPosTrack iPosTrack) {
         super.addCapability(event, duskModCapability, manaLevel, iPosTrack);
         IControl iControl = duskModCapability.addCapability(CapabilityRegister.iControl.capability, new Control(iPosTrack, List.of(BindType.manaIn, BindType.itemOut, BindType.posTrack), manaLevel));
-        IUp iUp = duskModCapability.addCapability(CapabilityRegister.iUp.capability, new Up());
-        IClock iClock = duskModCapability.addCapability(CapabilityRegister.iClock.capability, new ManaClock(iUp, manaLevel.clock / 5, iControl, 12L * manaLevel.level));
+        IBack iBack = duskModCapability.addCapability(CapabilityRegister.iBlack.capability, new Back());
+        IClock iClock = duskModCapability.addCapability(CapabilityRegister.iClock.capability, new ManaClock(iBack, manaLevel.clock / 5, iControl, 12L * manaLevel.level));
         iClock.addBlock(() -> {
             Level level = event.getObject().getLevel();
             if (level == null) {
@@ -59,7 +59,7 @@ public class CollectMechanic extends DefaultCapacityMechanic {
             if (itemEntityList.isEmpty()) {
                 return;
             }
-            Map<BlockEntity, IItemHandler> outItem = iControl.getCapability(BindType.itemOut);
+            Map<IPosTrack, IItemHandler> outItem = iControl.getCapability(BindType.itemOut);
             if (outItem.isEmpty()) {
                 return;
             }

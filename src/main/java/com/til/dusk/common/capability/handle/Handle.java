@@ -1,10 +1,10 @@
 package com.til.dusk.common.capability.handle;
 
+import com.til.dusk.common.capability.black.IBack;
 import com.til.dusk.common.capability.clock.IClock;
 import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.capability.mana_handle.IManaHandle;
 import com.til.dusk.common.capability.pos.IPosTrack;
-import com.til.dusk.common.capability.up.IUp;
 import com.til.dusk.common.register.BindType;
 import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.common.register.mana_level.ManaLevel;
@@ -40,30 +40,30 @@ public class Handle implements IHandle {
     public final List<Shaped> shapedList;
     public final IControl iControl;
     public final IClock iClock;
-    public final IUp up;
+    public final IBack iBack;
     public final int maxParallel;
     public List<ShapedHandle> shapedHandles = new ArrayList<>();
 
-    public Handle(IPosTrack iPosTrack, List<Shaped> shapedTypes, IControl iControl, IClock iClock, IUp up, int maxParallel) {
+    public Handle(IPosTrack iPosTrack, List<Shaped> shapedTypes, IControl iControl, IClock iClock, IBack iBack, int maxParallel) {
         this.shapedList = shapedTypes;
         this.posTrack = iPosTrack;
         this.iControl = iControl;
         this.iClock = iClock;
-        this.up = up;
+        this.iBack = iBack;
         this.maxParallel = maxParallel;
         iClock.addBlock(this::clockTriggerRun);
-        up.addUpBlack(this::up);
+        iBack.add(IBack.UP, v -> up());
     }
 
-    public Handle(IPosTrack iPosTrack, List<ShapedType> shapedTypes, IControl iControl, IClock iClock, IUp up, ManaLevel maxParallel) {
+    public Handle(IPosTrack iPosTrack, List<ShapedType> shapedTypes, IControl iControl, IClock iClock, IBack iBack, ManaLevel maxParallel) {
         this.shapedList = Shaped.get(shapedTypes.toArray(new ShapedType[0]));
         this.posTrack = iPosTrack;
         this.iControl = iControl;
         this.iClock = iClock;
-        this.up = up;
+        this.iBack = iBack;
         this.maxParallel = maxParallel.parallel;
         iClock.addBlock(this::clockTriggerRun);
-        up.addUpBlack(this::up);
+        iBack.add(IBack.UP, v -> up());
     }
 
     @Override
@@ -102,13 +102,13 @@ public class Handle implements IHandle {
     }
 
     @Override
-    public IUp getUp() {
-        return up;
+    public IBack getBack() {
+        return iBack;
     }
 
     public void up() {
-        Map<BlockEntity, IManaHandle> manaIn = iControl.getCapability(BindType.manaIn);
-        Map<BlockEntity, IManaHandle> manaOut = iControl.getCapability(BindType.manaOut);
+        Map<IPosTrack, IManaHandle> manaIn = iControl.getCapability(BindType.manaIn);
+        Map<IPosTrack, IManaHandle> manaOut = iControl.getCapability(BindType.manaOut);
         MinecraftForge.EVENT_BUS.post(new EventHandle.Up(this, manaIn, manaOut));
         shapedHandles.forEach(h -> {
             EventHandle.EventShapedHandle.Up up = new EventHandle.EventShapedHandle.Up(this, h, manaIn, manaOut);
@@ -121,10 +121,10 @@ public class Handle implements IHandle {
      * 回调
      */
     public void clockTriggerRun() {
-        Map<BlockEntity, IItemHandler> itemIn = iControl.getCapability(BindType.itemIn);
-        Map<BlockEntity, IItemHandler> itemOut = iControl.getCapability(BindType.itemOut);
-        Map<BlockEntity, IFluidHandler> fluidIn = iControl.getCapability(BindType.fluidIn);
-        Map<BlockEntity, IFluidHandler> fluidOut = iControl.getCapability(BindType.fluidOut);
+        Map<IPosTrack, IItemHandler> itemIn = iControl.getCapability(BindType.itemIn);
+        Map<IPosTrack, IItemHandler> itemOut = iControl.getCapability(BindType.itemOut);
+        Map<IPosTrack, IFluidHandler> fluidIn = iControl.getCapability(BindType.fluidIn);
+        Map<IPosTrack, IFluidHandler> fluidOut = iControl.getCapability(BindType.fluidOut);
 
         MinecraftForge.EVENT_BUS.post(new EventHandle.Clock(this, itemIn, itemOut, fluidIn, fluidOut));
         shapedHandles.forEach(h -> {

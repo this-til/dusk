@@ -1,12 +1,12 @@
-package com.til.dusk.common.capability.tile_entity;
+package com.til.dusk.common.capability;
 
 import com.til.dusk.Dusk;
-import com.til.dusk.common.capability.entity_skill.LivingEntitySkill;
+import com.til.dusk.common.capability.black.Back;
+import com.til.dusk.common.capability.black.IBack;
+import com.til.dusk.common.capability.skill.LivingEntitySkill;
 import com.til.dusk.common.capability.mana_handle.LivingEntityManaHandle;
 import com.til.dusk.common.capability.pos.IPosTrack;
-import com.til.dusk.common.capability.pos.PosTrack;
-import com.til.dusk.common.capability.up.IUp;
-import com.til.dusk.common.capability.up.Up;
+import com.til.dusk.common.capability.tile_entity.ITileEntityType;
 import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.util.Util;
 import net.minecraft.core.Direction;
@@ -94,7 +94,7 @@ public class DuskCapabilityProvider implements ICapabilityProvider, INBTSerializ
         DuskCapabilityProvider duskModCapability = new DuskCapabilityProvider(map);
         BlockEntity blockEntity = event.getObject();
         Block block = blockEntity.getBlockState().getBlock();
-        IPosTrack iPosTrack = duskModCapability.addCapability(CapabilityRegister.iPosTrack.capability, PosTrack.of(event.getObject()));
+        IPosTrack iPosTrack = duskModCapability.addCapability(CapabilityRegister.iPosTrack.capability, IPosTrack.of(event.getObject()));
         if (block instanceof ITileEntityType iTileEntityType) {
             iTileEntityType.add(event, duskModCapability, iPosTrack);
         }
@@ -106,13 +106,26 @@ public class DuskCapabilityProvider implements ICapabilityProvider, INBTSerializ
 
     @SubscribeEvent
     public static void addEntityCapability(AttachCapabilitiesEvent<Entity> event) {
+        Map<Capability<?>, Object> map = new HashMap<>();
+        DuskCapabilityProvider duskModCapability = new DuskCapabilityProvider(map);
+        IBack iBack = duskModCapability.addCapability(CapabilityRegister.iBlack.capability, new Back());
+        duskModCapability.addCapability(CapabilityRegister.iPosTrack.capability, IPosTrack.of(event.getObject()));
         if (event.getObject() instanceof LivingEntity livingEntity) {
-            Map<Capability<?>, Object> map = new HashMap<>();
-            DuskCapabilityProvider duskModCapability = new DuskCapabilityProvider(map);
-            duskModCapability.addCapability(CapabilityRegister.iSkill.capability, new LivingEntitySkill(livingEntity));
-            duskModCapability.addCapability(CapabilityRegister.iManaHandle.capability, new LivingEntityManaHandle(livingEntity));
-            event.addCapability(new ResourceLocation(Dusk.MOD_ID, "dusk_capability_provider"), duskModCapability);
+            duskModCapability.addCapability(CapabilityRegister.iSkill.capability, new LivingEntitySkill(livingEntity, iBack));
+            duskModCapability.addCapability(CapabilityRegister.iManaHandle.capability, new LivingEntityManaHandle(livingEntity, iBack));
+            iBack.add(IBack.LIVING_EQUIPMENT_CHANGE_EVENT, e -> {
+                LazyOptional<IBack> backLazyOptional = e.getFrom().getCapability(CapabilityRegister.iBlack.capability);
+                if (backLazyOptional.isPresent()) {
+                    iBack.remove(backLazyOptional.orElse(null));
+                }
+                backLazyOptional = e.getTo().getCapability(CapabilityRegister.iBlack.capability);
+                if (backLazyOptional.isPresent()) {
+                    iBack.add(backLazyOptional.orElse(null));
+                }
+            });
+
         }
+        event.addCapability(new ResourceLocation(Dusk.MOD_ID, "dusk_capability_provider"), duskModCapability);
     }
 
     @SubscribeEvent

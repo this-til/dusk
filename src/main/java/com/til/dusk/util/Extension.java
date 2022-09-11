@@ -58,17 +58,20 @@ public class Extension {
     }
 
 
-
     public record Data_2<D1, D2>(D1 d1, D2 d2) {
     }
 
-    public record Data_3<D1,D2,D3>(D1 d1, D2 d2, D3 d3) {}
+    public record Data_3<D1, D2, D3>(D1 d1, D2 d2, D3 d3) {
+    }
 
-    public record Data_4<D1,D2,D3,D4>(D1 d1, D2 d2, D3 d3, D4 d4) {}
+    public record Data_4<D1, D2, D3, D4>(D1 d1, D2 d2, D3 d3, D4 d4) {
+    }
 
-    public record Data_5<D1,D2,D3,D4,D5>(D1 d1, D2 d2, D3 d3, D4 d4, D5 d5) {}
+    public record Data_5<D1, D2, D3, D4, D5>(D1 d1, D2 d2, D3 d3, D4 d4, D5 d5) {
+    }
 
-    public record Data_6<D1,D2,D3,D4,D5,D6>(D1 d1, D2 d2, D3 d3, D4 d4, D5 d5, D6 d6) {}
+    public record Data_6<D1, D2, D3, D4, D5, D6>(D1 d1, D2 d2, D3 d3, D4 d4, D5 d5, D6 d6) {
+    }
 
     public static class VariableData<D> {
         public D d1;
@@ -87,6 +90,18 @@ public class Extension {
             this.d2 = d2;
         }
     }
+
+    public class VariableData_3<D1, D2, D3> {
+        public D1 d1;
+        public D2 d2;
+        public D3 d3;
+
+        public VariableData_3(D1 d1, D2 d2) {
+            this.d1 = d1;
+            this.d2 = d2;
+        }
+    }
+
     public static int recursionDivision(int basic, int r) {
         for (int i = 0; i < r; i++) {
             basic /= 2;

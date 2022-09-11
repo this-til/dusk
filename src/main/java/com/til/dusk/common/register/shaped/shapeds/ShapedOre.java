@@ -6,6 +6,7 @@ import com.til.dusk.Dusk;
 import com.til.dusk.common.capability.CapabilityHelp;
 import com.til.dusk.common.capability.handle.IHandle;
 import com.til.dusk.common.capability.handle.ShapedHandle;
+import com.til.dusk.common.capability.pos.IPosTrack;
 import com.til.dusk.common.event.EventIO;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.register.shaped.ShapedDrive;
@@ -96,7 +97,7 @@ public class ShapedOre extends ShapedMiddle {
     }
 
     @Override
-    public ShapedHandle get(IHandle iControl, Map<BlockEntity, IItemHandler> iItemHandlers, Map<BlockEntity, IFluidHandler> fluidHandlers) {
+    public ShapedHandle get(IHandle iControl, Map<IPosTrack, IItemHandler> iItemHandlers, Map<IPosTrack, IFluidHandler> fluidHandlers) {
         if (item != null && iItemHandlers.isEmpty()) {
             return null;
         }
@@ -105,7 +106,7 @@ public class ShapedOre extends ShapedMiddle {
         }
         if (extractFluid(iControl, fluidHandlers, true)) {
             if (item != null) {
-                for (Map.Entry<BlockEntity, IItemHandler> entry : iItemHandlers.entrySet()) {
+                for (Map.Entry<IPosTrack, IItemHandler> entry : iItemHandlers.entrySet()) {
                     if (extractItem(iControl, entry, true)) {
                         extractFluid(iControl, fluidHandlers, false);
                         extractItem(iControl, entry, false);
@@ -148,7 +149,7 @@ public class ShapedOre extends ShapedMiddle {
         return itemStackList;
     }
 
-    protected boolean extractItem(IHandle iControl, Map.Entry<BlockEntity, IItemHandler> entry, boolean isSimulated) {
+    protected boolean extractItem(IHandle iControl, Map.Entry<IPosTrack, IItemHandler> entry, boolean isSimulated) {
         if (item == null) {
             return true;
         }
@@ -161,7 +162,7 @@ public class ShapedOre extends ShapedMiddle {
                     continue;
                 }
                 if (oldItemStack.is(tagKeyIntegerEntry.getKey())) {
-                    ItemStack outItemStack = CapabilityHelp.extractItem(iControl.getPosTrack(), routePack, entry.getValue(), new Pos(entry.getKey()), i, needItem, isSimulated);
+                    ItemStack outItemStack = CapabilityHelp.extractItem(iControl.getPosTrack(), routePack, entry.getValue(), entry.getKey().getPos(), i, needItem, isSimulated);
                     needItem = needItem - outItemStack.getCount();
                 }
                 if (needItem == 0) {
@@ -178,7 +179,7 @@ public class ShapedOre extends ShapedMiddle {
         return true;
     }
 
-    protected boolean extractFluid(IHandle iControl, Map<BlockEntity, IFluidHandler> fluidHandlers, boolean isSimulated) {
+    protected boolean extractFluid(IHandle iControl, Map<IPosTrack, IFluidHandler> fluidHandlers, boolean isSimulated) {
         if (fluid == null) {
             return true;
         }

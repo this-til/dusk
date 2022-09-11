@@ -1,7 +1,8 @@
 package com.til.dusk.common.capability.tile_entity;
 
+import com.til.dusk.common.capability.DuskCapabilityProvider;
+import com.til.dusk.common.capability.black.IBack;
 import com.til.dusk.common.capability.pos.IPosTrack;
-import com.til.dusk.common.capability.up.IUp;
 import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.common.register.TileEntityRegister;
 import net.minecraft.core.BlockPos;
@@ -56,16 +57,16 @@ public interface ITileEntityType extends EntityBlock {
             if (tilEntity instanceof DuskCapabilityProvider.IDeposit deposit) {
                 DuskCapabilityProvider duskCapabilityProvider = deposit.getDuskCapabilityProvider();
                 if (duskCapabilityProvider != null) {
-                    Object Oup = duskCapabilityProvider.map.get(CapabilityRegister.iUp.capability);
-                    if (Oup instanceof IUp up) {
-                        up.up();
+                    Object Oup = duskCapabilityProvider.map.get(CapabilityRegister.iBlack.capability);
+                    if (Oup instanceof IBack up) {
+                        up.run(IBack.UP, null);
                         return;
                     }
                 }
             }
-            LazyOptional<IUp> up = tilEntity.getCapability(CapabilityRegister.iUp.capability);
+            LazyOptional<IBack> up = tilEntity.getCapability(CapabilityRegister.iBlack.capability);
             if (up.isPresent()) {
-                up.orElse(null).up();
+                up.orElse(null).run(IBack.UP, null);
             }
         };
     }
