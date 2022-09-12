@@ -87,9 +87,14 @@ public class AllNBTPack {
     public static final NBTPack<Map<Skill, ISkill.SkillCell>> SKILL_SKILL_CELL_MAP = new NBTPack<>("skill_skill_cell", AllNBTCell.SKILL_SKILL_CELL_MAP);
 
     public static final IntPack ORIGINAL_LEVEL = new IntPack("originalLevel");
+    public static final IntPack LEVEL = new IntPack("level");
     public static final IntPack CD = new IntPack("CD");
     public static final NBTPack<CompoundTag> NBT = new NBTPack<>("nbt", AllNBTCell.NBT);
 
     public static final NBTPack<AttributeModifier> ATTRIBUTE_MODIFIER = new NBTPack<>("attribute_modifier", AllNBTCell.ATTRIBUTE_MODIFIER);
     public static final NBTPack<Map<Attribute, List<AttributeModifier>>> ATTRIBUTE_ATTRIBUTE_MODIFIER_LIST_MAP = new NBTPack<>("attribute_attribute_modifier_list_map", AllNBTCell.ATTRIBUTE_LIST_NBT_MAP);
+    public static final IntPack ENERGY = new IntPack("energy");
+    public static final IntPack MAX_ENERGY = new IntPack("max_energy");
+    public static final IntPack RATE_ENERGY = new IntPack("rate_energy");
+
 }

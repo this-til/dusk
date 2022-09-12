@@ -73,6 +73,10 @@ public class RoutePack<T> {
         return routePackList;
     }
 
+    public boolean isEmpty() {
+        return routeCellList.isEmpty() && up == null  && next == null ;
+    }
+
     public record RouteCell<T>(Pos start, Pos end, T data) {
     }
 

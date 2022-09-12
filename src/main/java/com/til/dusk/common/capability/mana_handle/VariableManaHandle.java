@@ -22,11 +22,17 @@ public class VariableManaHandle extends ManaHandle {
 
     @Override
     public long getMaxMana() {
+        if (manaMultiple == null) {
+            return super.getMaxMana();
+        }
         return (long) (maxMana * manaMultiple.func());
     }
 
     @Override
     public long getMaxRate() {
+        if (rateMultiple == null) {
+            return super.getMaxRate();
+        }
         return (long) (maxRate * rateMultiple.func());
     }
 }

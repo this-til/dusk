@@ -34,13 +34,10 @@ import java.util.Map;
  * 挖掘
  */
 public class MiningMechanic extends PosImplementMechanic {
-    public MiningMechanic(ResourceLocation name) {
-        super(name);
+    public MiningMechanic() {
+        super("mining");
     }
 
-    public MiningMechanic(String name) {
-        this(new ResourceLocation(Dusk.MOD_ID, name));
-    }
 
     @Override
     public IControl createControl(ManaLevel manaLevel, IPosTrack iPosTrack) {

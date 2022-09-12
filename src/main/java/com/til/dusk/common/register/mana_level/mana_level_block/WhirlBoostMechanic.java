@@ -19,13 +19,10 @@ import java.util.List;
  */
 public class WhirlBoostMechanic extends DefaultCapacityMechanic {
 
-    public WhirlBoostMechanic(ResourceLocation name) {
-        super(name);
+    public WhirlBoostMechanic() {
+        super("whirl_boost");
     }
 
-    public WhirlBoostMechanic(String name) {
-        super(name);
-    }
 
     @Override
     public void addCapability(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability, ManaLevel manaLevel, IPosTrack iPosTrack) {

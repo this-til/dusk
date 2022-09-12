@@ -31,12 +31,8 @@ import java.util.Map;
 
 public class PumpMechanic extends PosImplementMechanic {
 
-    public PumpMechanic(ResourceLocation name) {
-        super(name);
-    }
-
-    public PumpMechanic(String name) {
-        this(new ResourceLocation(Dusk.MOD_ID, name));
+    public PumpMechanic() {
+        super("pump_mechanic");
     }
 
     @Override

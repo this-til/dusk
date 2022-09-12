@@ -8,13 +8,10 @@ import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.common.register.shaped.ShapedHandleProcess;
 import com.til.dusk.util.Extension;
 import com.til.dusk.util.Lang;
-import com.til.dusk.util.TooltipPack;
+import com.til.dusk.util.tooltip_pack.IComponentPack;
 import com.til.dusk.util.nbt.pack.AllNBTPack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import org.jetbrains.annotations.Nullable;
 
 /***
@@ -90,7 +87,7 @@ public class ManaClock extends Clock implements IManaClock {
 
     @Nullable
     @Override
-    public CompoundTag appendServerData(ServerPlayer serverPlayer, Level level, BlockEntity blockEntity, boolean detailed) {
+    public CompoundTag appendServerData() {
         CompoundTag compoundTag = serializeNBT();
         AllNBTPack.CYCLE_TIME.set(compoundTag, getCycleTime());
         AllNBTPack.CONSUME_MANA.set(compoundTag, getConsumeMana());
@@ -99,7 +96,7 @@ public class ManaClock extends Clock implements IManaClock {
     }
 
     @Override
-    public void appendTooltip(TooltipPack iTooltip, CompoundTag compoundTag) {
+    public void appendTooltip(IComponentPack iTooltip, CompoundTag compoundTag) {
         iTooltip.add(Lang.getLang(Lang.getLang(CapabilityRegister.iClock), Component.literal(AllNBTPack.TIME.get(compoundTag) + "/" + AllNBTPack.CYCLE_TIME.get(compoundTag))));
         iTooltip.indent();
         iTooltip.add(Lang.getLang(Component.translatable(Lang.getKey("状态")), Lang.getLang(AllNBTPack.PROCESS.get(compoundTag))));

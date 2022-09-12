@@ -311,6 +311,11 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
      */
     public static MassacreMechanic massacre;
 
+    /***
+     * FE转换晶体
+     */
+    public static TransformationFEMechanic transformationFEMechanic;
+
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
         LEVEL_BLOCK = event.create(new RegistryBuilder<ManaLevelBlock>().setName(new ResourceLocation(Dusk.MOD_ID, "mana_level_block")));
@@ -377,15 +382,16 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
                 duskModCapability.addCapability(CapabilityRegister.iManaHandle.capability, new ManaHandle(5120000L * manaLevel.level, 32L * manaLevel.level, iBack));
             }
         };
-        manaIO = new IOMechanic.ManaIO("mana_io", ColorPrefab.MANA_IO);
-        itemIO = new IOMechanic.ItemIO("item_io", ColorPrefab.ITEM_IO);
-        fluidIO = new IOMechanic.FluidIO("fluid_io", ColorPrefab.FLUID_IO);
-        collect = new CollectMechanic("collect");
-        whirlBoost = new WhirlBoostMechanic("whirl_boost");
-        charge = new ChargeMechanic("charge");
-        pumpMechanic = new PumpMechanic("pump_mechanic");
-        mining = new MiningMechanic("mining");
-        massacre = new MassacreMechanic("massacre");
+        manaIO = new IOMechanic.ManaIO();
+        itemIO = new IOMechanic.ItemIO();
+        fluidIO = new IOMechanic.FluidIO();
+        collect = new CollectMechanic();
+        whirlBoost = new WhirlBoostMechanic();
+        charge = new ChargeMechanic();
+        pumpMechanic = new PumpMechanic();
+        mining = new MiningMechanic();
+        massacre = new MassacreMechanic();
+        transformationFEMechanic = new TransformationFEMechanic();
     }
 
     public ManaLevelBlock(ResourceLocation name) {

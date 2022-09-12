@@ -8,13 +8,10 @@ import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.util.Extension;
 import com.til.dusk.util.Lang;
 import com.til.dusk.util.RoutePack;
-import com.til.dusk.util.TooltipPack;
+import com.til.dusk.util.tooltip_pack.IComponentPack;
 import com.til.dusk.util.nbt.pack.AllNBTPack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
@@ -135,7 +132,7 @@ public class WhirlBoostManaHandle implements IManaHandle, RoutePack.ISupportRout
 
     @Nullable
     @Override
-    public CompoundTag appendServerData(ServerPlayer serverPlayer, Level level, BlockEntity blockEntity, boolean detailed) {
+    public CompoundTag appendServerData() {
         CompoundTag compoundTag = new CompoundTag();
         AllNBTPack.MANA.set(compoundTag, getMana());
         AllNBTPack.MAX_MANA.set(compoundTag, getMaxMana());
@@ -144,7 +141,7 @@ public class WhirlBoostManaHandle implements IManaHandle, RoutePack.ISupportRout
     }
 
     @Override
-    public void appendTooltip(TooltipPack iTooltip, CompoundTag compoundTag) {
+    public void appendTooltip(IComponentPack iTooltip, CompoundTag compoundTag) {
         iTooltip.add(Lang.getLang(CapabilityRegister.iManaHandle));
         iTooltip.indent();
         long mana = AllNBTPack.MANA.get(compoundTag);

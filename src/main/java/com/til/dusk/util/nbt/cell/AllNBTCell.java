@@ -442,6 +442,7 @@ public class AllNBTCell {
         public Tag as(ISkill.SkillCell skillCell) {
             CompoundTag compoundTag = new CompoundTag();
             AllNBTPack.ORIGINAL_LEVEL.set(compoundTag, skillCell.originalLevel);
+            AllNBTPack.LEVEL.set(compoundTag, skillCell.level);
             AllNBTPack.CD.set(compoundTag, skillCell.cd);
             AllNBTPack.NBT.set(compoundTag, skillCell.nbt);
             return compoundTag;
@@ -454,7 +455,7 @@ public class AllNBTCell {
             skillCell.originalLevel = AllNBTPack.ORIGINAL_LEVEL.get(compoundTag);
             skillCell.cd = AllNBTPack.CD.get(compoundTag);
             skillCell.nbt = AllNBTPack.NBT.get(compoundTag);
-            skillCell.level = skillCell.originalLevel;
+            skillCell.level = AllNBTPack.LEVEL.get(compoundTag);
             return skillCell;
         }
 

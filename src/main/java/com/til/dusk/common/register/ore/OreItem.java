@@ -215,31 +215,31 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
         sword = new OreItemArms("sword", IS_SWORD) {
             @Override
             public Item createArmsItem(Ore ore, ArmsData armsData) {
-                return new CapabilitySwordItem(ore, armsData);
+                return new CapabilitySwordItem(ore, this, armsData);
             }
         };
         shovel = new OreItemArms("shovel", IS_SHOVEL) {
             @Override
             public Item createArmsItem(Ore ore, ArmsData armsData) {
-                return new CapabilityShovelItem(ore, armsData);
+                return new CapabilityShovelItem(ore, this, armsData);
             }
         };
         pickaxe = new OreItemArms("pickaxe", IS_PICKAXE) {
             @Override
             public Item createArmsItem(Ore ore, ArmsData armsData) {
-                return new CapabilityPickaxeItem(ore, armsData);
+                return new CapabilityPickaxeItem(ore, this, armsData);
             }
         };
         axe = new OreItemArms("axe", IS_AXE) {
             @Override
             public Item createArmsItem(Ore ore, ArmsData armsData) {
-                return new CapabilityAxeItem(ore, armsData);
+                return new CapabilityAxeItem(ore, this, armsData);
             }
         };
         hoe = new OreItemArms("hoe", IS_HOE) {
             @Override
             public Item createArmsItem(Ore ore, ArmsData armsData) {
-                return new CapabilityHoeItem(ore, armsData);
+                return new CapabilityHoeItem(ore, this, armsData);
             }
         };
 
@@ -300,7 +300,7 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
 
         @Override
         public Item createItem(Ore ore) {
-            return new CapabilityArmorItem(ore.getSet(Ore.ARMOR_DATA), equipmentSlot, new Item.Properties().stacksTo(1).tab(Dusk.TAB), ore);
+            return new CapabilityArmorItem(ore.getSet(Ore.ARMOR_DATA), equipmentSlot, new Item.Properties().stacksTo(1).tab(Dusk.TAB), ore, this);
         }
     }
 

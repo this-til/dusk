@@ -99,17 +99,18 @@ public class ParticleRegister extends RegisterBasics<ParticleRegister> {
             @Override
             public void registerSubsidiaryBlack() {
                 MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, (Consumer<EventIO.Mana>) event -> {
+                    if (event.routePack.isEmpty()) {
+                        return;
+                    }
                     List<RoutePack<Long>> list = event.routePack.getAll();
                     List<List<RoutePack.RouteCell<Double>>> route = new ArrayList<>(list.size());
                     for (RoutePack<Long> longRoutePack : list) {
                         List<RoutePack.RouteCell<Double>> cells = new ArrayList<>();
                         for (RoutePack.RouteCell<Long> longRouteCell : longRoutePack.routeCellList) {
-                            double n = Math.floor(longRouteCell.data() / manaThreshold);
-                            if (random.nextDouble() < (longRouteCell.data() % manaThreshold) / manaThreshold) {
-                                n++;
-                            }
-                            if (n > 0) {
-                                cells.add(new RoutePack.RouteCell<>(longRouteCell.start(), longRouteCell.end(), n));
+                            if (random.nextDouble() < longRouteCell.data() / manaThreshold) {
+                                cells.add(new RoutePack.RouteCell<>(longRouteCell.start(), longRouteCell.end(), 1d));
+                            } else {
+                                cells.add(new RoutePack.RouteCell<>(longRouteCell.start(), longRouteCell.end(), 0d));
                             }
                         }
                         if (!cells.isEmpty()) {
@@ -124,6 +125,9 @@ public class ParticleRegister extends RegisterBasics<ParticleRegister> {
             @Override
             public void registerSubsidiaryBlack() {
                 MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, (Consumer<EventIO.Item>) event -> {
+                    if (event.routePack.isEmpty()) {
+                        return;
+                    }
                     List<RoutePack<ItemStack>> list = event.routePack.getAll();
                     List<List<RoutePack.RouteCell<Double>>> route = new ArrayList<>(list.size());
                     for (RoutePack<ItemStack> itemStackRoutePack : list) {
@@ -147,6 +151,9 @@ public class ParticleRegister extends RegisterBasics<ParticleRegister> {
             @Override
             public void registerSubsidiaryBlack() {
                 MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, (Consumer<EventIO.Fluid>) event -> {
+                    if (event.routePack.isEmpty()) {
+                        return;
+                    }
                     FluidType fluidType = null;
                     List<RoutePack<FluidStack>> list = event.routePack.getAll();
                     List<List<RoutePack.RouteCell<Double>>> route = new ArrayList<>(list.size());

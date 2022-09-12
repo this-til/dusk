@@ -54,6 +54,7 @@ public class LivingEntitySkill extends SkillBasics {
                 skillCell.level += entry.getValue().level;
             }
         }
+        upAttribute();
     }
 
     public void upAttribute() {
@@ -91,7 +92,6 @@ public class LivingEntitySkill extends SkillBasics {
             }
             AllNBTPack.ATTRIBUTE_ATTRIBUTE_MODIFIER_LIST_MAP.set(compoundTag, map);
         }
-
         return compoundTag;
     }
 

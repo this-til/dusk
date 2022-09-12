@@ -3,14 +3,11 @@ package com.til.dusk.common.capability.item_handler;
 import com.til.dusk.common.capability.ITooltipCapability;
 import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.util.Lang;
-import com.til.dusk.util.TooltipPack;
+import com.til.dusk.util.tooltip_pack.IComponentPack;
 import com.til.dusk.util.nbt.pack.AllNBTPack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.items.IItemHandler;
 import org.jetbrains.annotations.NotNull;
@@ -135,12 +132,12 @@ public class VoidCaseItemHandler implements IItemHandler, INBTSerializable<Compo
 
     @org.jetbrains.annotations.Nullable
     @Override
-    public CompoundTag appendServerData(ServerPlayer serverPlayer, Level level, BlockEntity blockEntity, boolean detailed) {
+    public CompoundTag appendServerData() {
         return serializeNBT();
     }
 
     @Override
-    public void appendTooltip(TooltipPack iTooltip, CompoundTag compoundTag) {
+    public void appendTooltip(IComponentPack iTooltip, CompoundTag compoundTag) {
         ItemStack itemStack = AllNBTPack.ITEM_STACK.get(compoundTag);
         long c = AllNBTPack.COUNT.get(compoundTag);
         if (!itemStack.isEmpty() && c > 0) {

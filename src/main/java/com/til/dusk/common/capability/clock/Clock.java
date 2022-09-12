@@ -4,14 +4,11 @@ import com.til.dusk.common.capability.black.IBack;
 import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.util.Lang;
-import com.til.dusk.util.TooltipPack;
+import com.til.dusk.util.tooltip_pack.IComponentPack;
 import com.til.dusk.util.nbt.pack.AllNBTPack;
 import com.til.dusk.util.Extension;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.MinecraftForge;
 import org.jetbrains.annotations.Nullable;
 
@@ -75,14 +72,14 @@ public class Clock implements IClock {
 
     @Nullable
     @Override
-    public CompoundTag appendServerData(ServerPlayer serverPlayer, Level level, BlockEntity blockEntity, boolean detailed) {
+    public CompoundTag appendServerData() {
         CompoundTag compoundTag = serializeNBT();
         AllNBTPack.CYCLE_TIME.set(compoundTag, getCycleTime());
         return compoundTag;
     }
 
     @Override
-    public void appendTooltip(TooltipPack iTooltip, CompoundTag compoundTag) {
+    public void appendTooltip(IComponentPack iTooltip, CompoundTag compoundTag) {
         iTooltip.add(Lang.getLang(Lang.getLang(CapabilityRegister.iClock), Component.literal(AllNBTPack.TIME.get(compoundTag) + "/" + AllNBTPack.CYCLE_TIME.get(compoundTag))));
     }
 }

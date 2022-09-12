@@ -181,7 +181,7 @@ public class CapabilityHelp {
                 if (needOutName == 0) {
                     break;
                 }
-                long needTransferMana = Math.min(Math.min(needOutName, max), _entry.getValue().getInCurrentRate());
+                long needTransferMana = Math.min(Math.min(needOutName, max), Math.min(_entry.getValue().getInCurrentRate(),_entry.getValue().getRemainMana()));
                 if (needTransferMana == 0) {
                     continue;
                 }
@@ -393,11 +393,12 @@ public class CapabilityHelp {
         if (isOriginal) {
             routePack = new RoutePack<>();
         }
+        RoutePack<FluidStack> up = routePack.getUp();
         if (fluidHandler instanceof RoutePack.ISupportRoutePack<?> supportRoutePack) {
-            supportRoutePack.set(Util.forcedConversion(routePack.getNext()));
+            supportRoutePack.set(Util.forcedConversion(up));
         }
         FluidStack d = fluidHandler.drain(fluidStack, asFluidAction(isSimulate));
-        routePack.add(new RoutePack.RouteCell<>(itemHandlerPos, iPosTrack.getPos(), d));
+        up.add(new RoutePack.RouteCell<>(itemHandlerPos, iPosTrack.getPos(), d));
         if (!isSimulate && isOriginal) {
             MinecraftForge.EVENT_BUS.post(new EventIO.Fluid(iPosTrack.getLevel(), routePack));
         }

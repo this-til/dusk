@@ -118,11 +118,13 @@ public class ClientTransfer {
                     Extension.Data_2<Float, List<Particle>> data_2 = clientParticleRegister.run(Minecraft.getInstance().level, routeCell.start(), routeCell.end(), data.color, routeCell.data(), data.resourceLocation);
                     if (data_2 != null) {
                         _time = Math.max(_time, data_2.d1());
-                        addRun(time, () -> {
-                            for (Particle particle : data_2.d2()) {
-                                Minecraft.getInstance().particleEngine.add(particle);
-                            }
-                        });
+                        if (data_2.d2() != null) {
+                            addRun(time, () -> {
+                                for (Particle particle : data_2.d2()) {
+                                    Minecraft.getInstance().particleEngine.add(particle);
+                                }
+                            });
+                        }
                     }
                 }
                 time += _time;

@@ -1,20 +1,14 @@
 package com.til.dusk.common.capability.mana_handle;
 
-import com.til.dusk.common.capability.CapabilityHelp;
 import com.til.dusk.common.capability.black.IBack;
 import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.util.Extension;
-import com.til.dusk.util.TooltipPack;
+import com.til.dusk.util.tooltip_pack.IComponentPack;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandler;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -23,7 +17,7 @@ import java.util.List;
 public class LivingEntityManaHandle implements IManaHandle {
 
     public final LivingEntity livingEntity;
-    public List<IManaHandle> allManaHandles = new ArrayList<>();
+    public List<IManaHandle> allManaHandles = new ArrayList<>(EquipmentSlot.values().length);
 
     public boolean lock;
 
@@ -33,13 +27,16 @@ public class LivingEntityManaHandle implements IManaHandle {
         this.livingEntity = livingEntity;
         this.iBack = iBack;
         iBack.add(IBack.LIVING_EQUIPMENT_CHANGE_EVENT, event -> {
-            LazyOptional<IManaHandle> lazyOptional = event.getFrom().getCapability(CapabilityRegister.iManaHandle.capability);
-            if (lazyOptional.isPresent()) {
-                allManaHandles.remove(lazyOptional.orElse(null));
-            }
-            lazyOptional = event.getTo().getCapability(CapabilityRegister.iManaHandle.capability);
-            if (lazyOptional.isPresent()) {
-                allManaHandles.add(lazyOptional.orElse(null));
+            allManaHandles.clear();
+            for (EquipmentSlot value : EquipmentSlot.values()) {
+                ItemStack itemStack = livingEntity.getItemBySlot(value);
+                if (itemStack.isEmpty()) {
+                    continue;
+                }
+                LazyOptional<IManaHandle> lazyOptional = itemStack.getCapability(CapabilityRegister.iManaHandle.capability);
+                if (lazyOptional.isPresent()) {
+                    allManaHandles.add(lazyOptional.orElse(null));
+                }
             }
         });
     }
@@ -148,12 +145,12 @@ public class LivingEntityManaHandle implements IManaHandle {
 
     @Nullable
     @Override
-    public CompoundTag appendServerData(ServerPlayer serverPlayer, Level level, BlockEntity blockEntity, boolean detailed) {
+    public CompoundTag appendServerData() {
         return new CompoundTag();
     }
 
     @Override
-    public void appendTooltip(TooltipPack iTooltip, CompoundTag compoundTag) {
+    public void appendTooltip(IComponentPack iTooltip, CompoundTag compoundTag) {
 
     }
 }

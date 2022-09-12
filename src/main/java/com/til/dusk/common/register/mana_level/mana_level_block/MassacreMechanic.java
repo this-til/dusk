@@ -31,12 +31,8 @@ import java.util.List;
  */
 public class MassacreMechanic extends DefaultCapacityMechanic {
 
-    public MassacreMechanic(ResourceLocation name) {
-        super(name);
-    }
-
-    public MassacreMechanic(String name) {
-        this(new ResourceLocation(Dusk.MOD_ID, name));
+    public MassacreMechanic() {
+        super("massacre");
     }
 
     @Override
@@ -81,6 +77,7 @@ public class MassacreMechanic extends DefaultCapacityMechanic {
                 }
             }
             if (attackEntity != null) {
+                attackEntity.invulnerableTime = 0;
                 attackEntity.hurt(new DamageSource("regression").setMagic(), 8 + (2 * manaLevel.level));
             }
         });

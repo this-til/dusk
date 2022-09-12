@@ -2,16 +2,11 @@ package com.til.dusk.common.capability.mana_handle;
 
 import com.til.dusk.common.capability.black.IBack;
 import com.til.dusk.common.register.CapabilityRegister;
-import com.til.dusk.util.Extension;
 import com.til.dusk.util.Lang;
-import com.til.dusk.util.TooltipPack;
+import com.til.dusk.util.tooltip_pack.IComponentPack;
 import com.til.dusk.util.nbt.pack.AllNBTPack;
-import mezz.jei.api.recipe.RecipeType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.MinecraftForge;
 import org.jetbrains.annotations.Nullable;
 
@@ -29,6 +24,7 @@ public class ManaHandle implements IManaHandle {
     public ManaHandle(long maxMana, long maxRate, IBack iBack) {
         this.maxMana = maxMana;
         this.maxRate = maxRate;
+        up();
         iBack.add(IBack.UP, v -> up());
     }
 
@@ -61,7 +57,6 @@ public class ManaHandle implements IManaHandle {
     public long getMaxRate() {
         return maxRate;
     }
-
 
 
     @Override
@@ -110,7 +105,7 @@ public class ManaHandle implements IManaHandle {
 
     @Nullable
     @Override
-    public CompoundTag appendServerData(ServerPlayer serverPlayer, Level level, BlockEntity blockEntity, boolean detailed) {
+    public CompoundTag appendServerData() {
         CompoundTag compoundTag = serializeNBT();
         AllNBTPack.MAX_MANA.set(compoundTag, getMaxMana());
         AllNBTPack.RATE.set(compoundTag, getMaxRate());
@@ -118,15 +113,13 @@ public class ManaHandle implements IManaHandle {
     }
 
     @Override
-    public void appendTooltip(TooltipPack iTooltip, CompoundTag compoundTag) {
+    public void appendTooltip(IComponentPack iTooltip, CompoundTag compoundTag) {
         iTooltip.add(Lang.getLang(CapabilityRegister.iManaHandle));
         iTooltip.indent();
         long mana = AllNBTPack.MANA.get(compoundTag);
         long maxMana = AllNBTPack.MAX_MANA.get(compoundTag);
         long rate = AllNBTPack.RATE.get(compoundTag);
-        if (mana > 0 && maxMana > 0) {
-            iTooltip.add(Lang.getLang(Component.translatable(Lang.getKey("现存灵气")), Component.literal(mana + "/" + maxMana)));
-        }
+        iTooltip.add(Lang.getLang(Component.translatable(Lang.getKey("现存灵气")), Component.literal(mana + "/" + maxMana)));
         iTooltip.add(Lang.getLang(Component.translatable(Lang.getKey("最大灵气流速")), Component.literal(String.valueOf(rate))));
 
     }

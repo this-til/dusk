@@ -1,24 +1,27 @@
-package com.til.dusk.util;
+package com.til.dusk.util.tooltip_pack;
 
 import net.minecraft.network.chat.Component;
-import snownee.jade.api.ITooltip;
+
+import java.util.List;
 
 /**
  * @author til
  */
-public class TooltipPack {
+public class ComponentPack implements IComponentPack {
 
-    public final ITooltip iTooltip;
+    public final List<Component> iTooltip;
     public int indent;
 
-    public TooltipPack(ITooltip iTooltip) {
+    public ComponentPack(List<Component> iTooltip) {
         this.iTooltip = iTooltip;
     }
 
+    @Override
     public void indent() {
         indent++;
     }
 
+    @Override
     public void returnIndent() {
         indent--;
         if (indent < 0) {
@@ -26,6 +29,12 @@ public class TooltipPack {
         }
     }
 
+    @Override
+    public void resetIndent() {
+        indent = 0;
+    }
+
+    @Override
     public void add(Component component) {
         iTooltip.add(Component.translatable("%s%s", Component.literal("  ".repeat(Math.max(0, indent))), component));
     }

@@ -1,19 +1,20 @@
 package com.til.dusk.client.other_mod_interact;
 
 import com.til.dusk.Dusk;
-import com.til.dusk.common.capability.ITooltipCapability;
 import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.common.world.block.MechanicBlock;
 import com.til.dusk.common.world.block.RepeaterBlock;
-import com.til.dusk.util.TooltipPack;
-import net.minecraft.nbt.CompoundTag;
+import com.til.dusk.util.tooltip_pack.ComponentPack;
+import com.til.dusk.util.tooltip_pack.IComponentPack;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.util.LazyOptional;
 import snownee.jade.api.*;
 import snownee.jade.api.config.IPluginConfig;
+
+import java.util.List;
 
 
 /***
@@ -39,26 +40,48 @@ public class Jade_Interact {
 
         @Override
         public void appendTooltip(ITooltip iTooltip, BlockAccessor blockAccessor, IPluginConfig iPluginConfig) {
-            CompoundTag compoundTag = blockAccessor.getServerData();
-            TooltipPack tooltipPack = new TooltipPack(iTooltip);
             BlockEntity blockEntity = blockAccessor.getBlockEntity();
             if (blockEntity == null) {
                 return;
             }
-            for (CapabilityRegister<?> capabilityRegister : CapabilityRegister.CAPABILITY_REGISTER.get()) {
-                LazyOptional<?> lazyOptional = blockEntity.getCapability(capabilityRegister.capability);
-                if (lazyOptional.isPresent()) {
-                    if (lazyOptional.orElse(null) instanceof ITooltipCapability iTooltipCapability) {
-                        iTooltipCapability.appendTooltip(tooltipPack, compoundTag.getCompound(capabilityRegister.capability.getName()));
-                        tooltipPack.indent = 0;
-                    }
-                }
-            }
+            CapabilityRegister.unPackCapabilityTooltip(blockAccessor.getServerData(), blockEntity, new TooltipPack(iTooltip));
         }
 
         @Override
         public ResourceLocation getUid() {
             return new ResourceLocation(Dusk.MOD_ID, "default");
+        }
+    }
+
+    public static class TooltipPack implements IComponentPack {
+        public final ITooltip iTooltip;
+        public int indent;
+
+        public TooltipPack(ITooltip iTooltip) {
+            this.iTooltip = iTooltip;
+        }
+
+        @Override
+        public void indent() {
+            indent++;
+        }
+
+        @Override
+        public void returnIndent() {
+            indent--;
+            if (indent < 0) {
+                indent = 0;
+            }
+        }
+
+        @Override
+        public void resetIndent() {
+            indent = 0;
+        }
+
+        @Override
+        public void add(Component component) {
+            iTooltip.add(Component.translatable("%s%s", Component.literal("  ".repeat(Math.max(0, indent))), component));
         }
     }
 

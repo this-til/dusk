@@ -4,16 +4,13 @@ import com.til.dusk.common.capability.pos.IPosTrack;
 import com.til.dusk.common.register.BindType;
 import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.common.register.mana_level.ManaLevel;
-import com.til.dusk.util.TooltipPack;
+import com.til.dusk.util.tooltip_pack.IComponentPack;
 import com.til.dusk.util.nbt.pack.AllNBTPack;
 import com.til.dusk.util.Lang;
-import com.til.dusk.util.Pos;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
@@ -121,7 +118,8 @@ public class Control implements IControl {
         if (tileEntity.getLevel() != tileEntity.getLevel()) {
             return Lang.getLang(Lang.getKey("错误，方块不属于同一个世界"));
         }
-        if (!this.getAllTileEntity(iBindType).contains(tileEntity)) {
+        List<BlockPos> list = tile.computeIfAbsent(iBindType, k -> new ArrayList<>());
+        if (!list.contains(tileEntity.getAsBlockPos())) {
             return Lang.getLang(Lang.getKey("解绑失败，方块没有被绑定"));
         }
         tile.computeIfAbsent(iBindType, k -> new ArrayList<>()).remove(tileEntity.getAsBlockPos());
@@ -205,7 +203,7 @@ public class Control implements IControl {
 
     @Nullable
     @Override
-    public CompoundTag appendServerData(ServerPlayer serverPlayer, Level level, BlockEntity blockEntity, boolean detailed) {
+    public CompoundTag appendServerData() {
         CompoundTag compoundTag = serializeNBT();
         AllNBTPack.MAX_BIND.set(compoundTag, getMaxBind());
         AllNBTPack.MAX_RANGE.set(compoundTag, getMaxRange());
@@ -214,7 +212,7 @@ public class Control implements IControl {
     }
 
     @Override
-    public void appendTooltip(TooltipPack iTooltip, CompoundTag compoundTag) {
+    public void appendTooltip(IComponentPack iTooltip, CompoundTag compoundTag) {
         iTooltip.add(Lang.getLang(CapabilityRegister.iControl));
         iTooltip.indent();
         iTooltip.add(Lang.getLang(Component.translatable(Lang.getKey("最大绑定数量")), Component.literal(String.valueOf(AllNBTPack.MAX_BIND.get(compoundTag)))));

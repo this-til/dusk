@@ -68,13 +68,13 @@ public abstract class ClientParticleRegister extends RegisterBasics<ClientPartic
         manaTransfer = new ClientParticleRegister("mana_transfer") {
             @Override
             public Extension.Data_2<Float, List<Particle>> run(ClientLevel world, Pos start, Pos end, Color color, double density, @Nullable ResourceLocation resourceLocation) {
-                List<Particle> list = new ArrayList<>();
-                for (int i = 0; i < density; i++) {
-                    Pos _end = end.move(Pos.randomPos());
-                    int dis = (int) start.distance(_end) * 3;
-                    list.add(new DefaultParticle(world, start, DEFAULT, color, Pos.movePos(start, _end, dis), 0.25f, dis));
+                if (density <= 0) {
+                    return new Extension.Data_2<>(start.distance(end) * 3, null);
                 }
-                return new Extension.Data_2<>(start.distance(end) * 3, list);
+                Pos _end = end.move(Pos.randomPos());
+                int dis = (int) start.distance(_end) * 3;
+                new DefaultParticle(world, start, DEFAULT, color, Pos.movePos(start, _end, dis), 0.25f, dis);
+                return new Extension.Data_2<>(start.distance(end) * 3, List.of(new DefaultParticle(world, start, DEFAULT, color, Pos.movePos(start, _end, dis), 0.25f, dis)));
             }
         };
         itemTransfer = new ClientParticleRegister("item_transfer") {

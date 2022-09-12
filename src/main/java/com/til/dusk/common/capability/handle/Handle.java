@@ -9,17 +9,14 @@ import com.til.dusk.common.register.BindType;
 import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.util.Lang;
-import com.til.dusk.util.TooltipPack;
+import com.til.dusk.util.tooltip_pack.IComponentPack;
 import com.til.dusk.util.nbt.pack.AllNBTPack;
 import com.til.dusk.common.register.shaped.shapeds.Shaped;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -198,7 +195,7 @@ public class Handle implements IHandle {
 
     @Nullable
     @Override
-    public CompoundTag appendServerData(ServerPlayer serverPlayer, Level level, BlockEntity blockEntity, boolean detailed) {
+    public CompoundTag appendServerData() {
         CompoundTag compoundTag = serializeNBT();
         AllNBTPack.MAX_PARALLEL.set(compoundTag, getParallelHandle());
         AllNBTPack.SHAPED_DRIVE_LIST.set(compoundTag, getShapedDrive());
@@ -206,7 +203,7 @@ public class Handle implements IHandle {
     }
 
     @Override
-    public void appendTooltip(TooltipPack iTooltip, CompoundTag compoundTag) {
+    public void appendTooltip(IComponentPack iTooltip, CompoundTag compoundTag) {
         iTooltip.add(Lang.getLang(CapabilityRegister.iControl));
         iTooltip.add(Lang.getLang(Component.translatable(Lang.getKey("最大并行配方")),
                 Component.literal(String.valueOf(AllNBTPack.MAX_PARALLEL.get(compoundTag)))));

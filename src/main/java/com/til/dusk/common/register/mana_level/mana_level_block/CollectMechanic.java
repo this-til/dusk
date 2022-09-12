@@ -36,12 +36,8 @@ import java.util.Objects;
  */
 public class CollectMechanic extends DefaultCapacityMechanic {
 
-    public CollectMechanic(String name) {
-        super(name);
-    }
-
-    public CollectMechanic(ResourceLocation name) {
-        super(name);
+    public CollectMechanic() {
+        super("collect");
     }
 
     @Override

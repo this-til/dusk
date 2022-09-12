@@ -3,17 +3,14 @@ package com.til.dusk.common.capability.item_handler;
 import com.til.dusk.common.capability.ITooltipCapability;
 import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.util.Lang;
-import com.til.dusk.util.TooltipPack;
+import com.til.dusk.util.tooltip_pack.IComponentPack;
 import com.til.dusk.util.nbt.pack.AllNBTPack;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.items.IItemHandler;
 import org.jetbrains.annotations.NotNull;
@@ -176,7 +173,7 @@ public class SingleItemManyStackItemHandler implements IItemHandler, INBTSeriali
 
     @Nullable
     @Override
-    public CompoundTag appendServerData(ServerPlayer serverPlayer, Level level, BlockEntity blockEntity, boolean detailed) {
+    public CompoundTag appendServerData() {
         CompoundTag compoundTag = new CompoundTag();
         List<ItemStack> itemStackList = new ArrayList<>(getSlots());
         for (int i1 = 0; i1 < getSlots(); i1++) {
@@ -187,7 +184,7 @@ public class SingleItemManyStackItemHandler implements IItemHandler, INBTSeriali
     }
 
     @Override
-    public void appendTooltip(TooltipPack iTooltip, CompoundTag compoundTag) {
+    public void appendTooltip(IComponentPack iTooltip, CompoundTag compoundTag) {
         iTooltip.add(Lang.getLang(CapabilityRegister.iItemHandler));
         iTooltip.indent();
         Map<Item, Integer> integerMap = new HashMap<>();

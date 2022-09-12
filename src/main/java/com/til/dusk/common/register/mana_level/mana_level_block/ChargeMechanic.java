@@ -29,12 +29,8 @@ import java.util.Objects;
  * @author til
  */
 public class ChargeMechanic extends DefaultCapacityMechanic {
-    public ChargeMechanic(ResourceLocation name) {
-        super(name);
-    }
-
-    public ChargeMechanic(String name) {
-        this(new ResourceLocation(Dusk.MOD_ID, name));
+    public ChargeMechanic() {
+        super("charge");
     }
 
     @Override

@@ -79,7 +79,6 @@ public class Skill extends RegisterBasics<Skill> {
 
     public Skill(ResourceLocation name) {
         super(name, SKILL);
-        MinecraftForge.EVENT_BUS.register(this);
     }
 
     public Skill setOnlineDelivery(boolean onlineDelivery) {

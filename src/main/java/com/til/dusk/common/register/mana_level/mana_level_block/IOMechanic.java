@@ -16,6 +16,7 @@ import com.til.dusk.common.register.BindType;
 import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.util.Extension;
+import com.til.dusk.util.prefab.ColorPrefab;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -66,12 +67,8 @@ public class IOMechanic extends DefaultCapacityMechanic {
 
     public static class ManaIO extends IOMechanic {
 
-        public ManaIO(ResourceLocation name, Color color) {
-            super(name, color);
-        }
-
-        public ManaIO(String name, Color color) {
-            super(name, color);
+        public ManaIO() {
+            super("mana_io", ColorPrefab.MANA_IO);
         }
 
         @Override
@@ -84,7 +81,7 @@ public class IOMechanic extends DefaultCapacityMechanic {
                 if (level == null) {
                     return;
                 }
-                CapabilityHelp.manaPointToPointTransmit(iControl.getPosTrack(), iControl.getCapability(BindType.manaIn), iControl.getCapability(BindType.manaOut), 1024L * manaLevel.level,manaLevel.manaLoss, false);
+                CapabilityHelp.manaPointToPointTransmit(iControl.getPosTrack(), iControl.getCapability(BindType.manaIn), iControl.getCapability(BindType.manaOut), 1024L * manaLevel.level, manaLevel.manaLoss, false);
             });
         }
 
@@ -92,12 +89,9 @@ public class IOMechanic extends DefaultCapacityMechanic {
     }
 
     public static class ItemIO extends IOMechanic {
-        public ItemIO(ResourceLocation name, Color color) {
-            super(name, color);
-        }
 
-        public ItemIO(String name, Color color) {
-            super(name, color);
+        public ItemIO() {
+            super("item_io", ColorPrefab.ITEM_IO);
         }
 
         @Override
@@ -165,12 +159,9 @@ public class IOMechanic extends DefaultCapacityMechanic {
     }
 
     public static class FluidIO extends IOMechanic {
-        public FluidIO(ResourceLocation name, Color color) {
-            super(name, color);
-        }
 
-        public FluidIO(String name, Color color) {
-            super(name, color);
+        public FluidIO() {
+            super("fluid_io", ColorPrefab.FLUID_IO);
         }
 
         @Override

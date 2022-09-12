@@ -25,10 +25,10 @@ public class FlameManaShapedType extends ShapedType {
                 ShapedDrive.get(0),
                 ManaLevel.t1,
                 null,
-                Map.of(FluidTags.LAVA, 10),
-                512,
+                Map.of(FluidTags.LAVA, 100),
+                258,
                 0,
-                8192,
+                2048,
                 null,
                 null);
         new ShapedOre(

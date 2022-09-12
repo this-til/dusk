@@ -5,6 +5,8 @@ import com.til.dusk.common.capability.DuskCapabilityProvider;
 import com.til.dusk.common.capability.IItemDefaultCapability;
 import com.til.dusk.common.register.ore.Ore;
 import com.til.dusk.common.register.ore.OreItem;
+import com.til.dusk.util.Lang;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.DyeableArmorItem;
@@ -14,12 +16,14 @@ import org.jetbrains.annotations.NotNull;
 
 public class CapabilityArmorItem extends DyeableArmorItem implements IItemDefaultCapability {
     public final Ore ore;
+    public final OreItem oreItem;
     public final OreItem.ArmorData armorData;
 
-    public CapabilityArmorItem(OreItem.ArmorData armorMaterial, EquipmentSlot equipmentSlot, Properties properties, Ore ore) {
+    public CapabilityArmorItem(OreItem.ArmorData armorMaterial, EquipmentSlot equipmentSlot, Properties properties, Ore ore, OreItem oreItem) {
         super(armorMaterial, equipmentSlot, properties);
         this.ore = ore;
         this.armorData = armorMaterial;
+        this.oreItem = oreItem;
     }
 
     public static final String OVERLAY = "overlay";
@@ -52,6 +56,11 @@ public class CapabilityArmorItem extends DyeableArmorItem implements IItemDefaul
 
     @Override
     public void setColor(@NotNull ItemStack itemStack, int color) {
+    }
+
+    @Override
+    public @NotNull Component getName(@NotNull ItemStack stack) {
+        return Lang.getLang(ore, oreItem);
     }
 
     @Override

@@ -3,13 +3,10 @@ package com.til.dusk.common.capability.fluid_handler;
 import com.til.dusk.common.capability.ITooltipCapability;
 import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.util.Lang;
-import com.til.dusk.util.TooltipPack;
+import com.til.dusk.util.tooltip_pack.IComponentPack;
 import com.til.dusk.util.nbt.pack.AllNBTPack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -135,12 +132,12 @@ public class VoidTankFluidHandler implements IFluidHandler, INBTSerializable<Com
 
     @Nullable
     @Override
-    public CompoundTag appendServerData(ServerPlayer serverPlayer, Level level, BlockEntity blockEntity, boolean detailed) {
+    public CompoundTag appendServerData() {
         return serializeNBT();
     }
 
     @Override
-    public void appendTooltip(TooltipPack iTooltip, CompoundTag compoundTag) {
+    public void appendTooltip(IComponentPack iTooltip, CompoundTag compoundTag) {
         FluidStack fluidStack = AllNBTPack.FLUID_STACK.get(compoundTag);
         if (!fluidStack.isEmpty()) {
             iTooltip.add(Lang.getLang(Lang.getLang(CapabilityRegister.iFluidHandler),

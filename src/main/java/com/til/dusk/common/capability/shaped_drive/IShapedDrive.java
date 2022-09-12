@@ -4,13 +4,10 @@ import com.til.dusk.common.capability.ITooltipCapability;
 import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.util.Lang;
-import com.til.dusk.util.TooltipPack;
+import com.til.dusk.util.tooltip_pack.IComponentPack;
 import com.til.dusk.util.nbt.pack.AllNBTPack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -26,14 +23,14 @@ public interface IShapedDrive extends ITooltipCapability {
 
     @Nullable
     @Override
-    default CompoundTag appendServerData(ServerPlayer serverPlayer, Level level, BlockEntity blockEntity, boolean detailed) {
+    default CompoundTag appendServerData() {
         CompoundTag compoundTag = new CompoundTag();
         AllNBTPack.SHAPED_DRIVE_LIST.set(compoundTag, get());
         return compoundTag;
     }
 
     @Override
-    default void appendTooltip(TooltipPack iTooltip, CompoundTag compoundTag) {
+    default void appendTooltip(IComponentPack iTooltip, CompoundTag compoundTag) {
         List<ShapedDrive> shapedDriveList = AllNBTPack.SHAPED_DRIVE_LIST.get(compoundTag);
         if (shapedDriveList.isEmpty()) {
             return;
@@ -47,6 +44,5 @@ public interface IShapedDrive extends ITooltipCapability {
         stringBuilder.deleteCharAt(stringBuilder.length() - 1);
         stringBuilder.append(']');
         iTooltip.add(Lang.getLang(Lang.getLang(CapabilityRegister.iShapedDrive), Component.literal(stringBuilder.toString())));
-
     }
 }
