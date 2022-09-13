@@ -57,12 +57,12 @@ public class GenericMap extends HashMap<GenericMap.IKey<?>, Object> {
                 if (obj == null) {
                     return false;
                 }
-                return obj.equals(false);
+                return obj.equals(true);
             }
 
             @Override
             public boolean has(@Nullable Object obj) {
-                return Boolean.FALSE.equals(obj);
+                return as(obj);
             }
         }
     }
