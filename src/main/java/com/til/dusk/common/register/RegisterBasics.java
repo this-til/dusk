@@ -45,12 +45,29 @@ import java.util.function.Supplier;
  */
 public abstract class RegisterBasics<T extends RegisterBasics<?>> {
 
+    /***
+     * 注册项的名称
+     */
     public final ResourceLocation name;
-    protected final Supplier<IForgeRegistry<T>> registrySupplier;
-    protected final GenericMap setMap = new GenericMap();
-    protected List<StaticTag> staticTagList = new ArrayList<>();
 
+    /***
+     * 注册项的注册表
+     */
+    protected final Supplier<IForgeRegistry<T>> registrySupplier;
+
+    /***
+     * 注册项是数据表
+     */
+    protected final GenericMap setMap = new GenericMap();
+
+    /***
+     * 时候注册
+     */
     protected boolean isRegister;
+
+    /***
+     * 时候注册回调
+     */
     protected boolean isRegisterSubsidiary;
 
     public RegisterBasics(ResourceLocation name, Supplier<IForgeRegistry<T>> registrySupplier) {
@@ -75,70 +92,16 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> {
         if (!isRegisterSubsidiary) {
             isRegisterSubsidiary = true;
             try {
+                for (Object value : setMap.values()) {
+                    if (value instanceof IBackRun iBackRun) {
+                        iBackRun.backRun();
+                    }
+                }
                 registerSubsidiaryBlack();
-            } catch (AssertionError assertionError) {
+            } catch (Exception assertionError) {
                 Dusk.instance.logger.error(String.format("注册项目[%s]出错", name), assertionError);
             }
         }
-    }
-
-    public T setTag(Extension.Action_1V<List<StaticTag>> action) {
-        action.action(staticTagList);
-        return Util.forcedConversion(this);
-    }
-
-    public T removeTag(StaticTag staticTag) {
-        staticTagList.remove(staticTag);
-        return Util.forcedConversion(this);
-    }
-
-    public T removeTag(StaticTag... staticTags) {
-        for (StaticTag staticTag : staticTags) {
-            removeTag(staticTag);
-        }
-        return Util.forcedConversion(this);
-    }
-
-    public T addTag(StaticTag staticTag) {
-        if (!staticTagList.contains(staticTag)) {
-            staticTagList.add(staticTag);
-            for (StaticTag tag : staticTag.father) {
-                addTag(tag);
-            }
-        }
-        return Util.forcedConversion(this);
-    }
-
-    public T addTag(StaticTag... staticTags) {
-        for (StaticTag staticTag : staticTags) {
-            addTag(staticTag);
-        }
-        return Util.forcedConversion(this);
-    }
-
-    public boolean hasTag(StaticTag staticTag) {
-        if (staticTagList.contains(staticTag)) {
-            return hasTag(staticTag.father);
-        }
-        return false;
-    }
-
-    public boolean hasTag(List<StaticTag> staticTags) {
-        for (StaticTag staticTag : staticTags) {
-            if (!hasTag(staticTag)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public boolean hasTag(StaticTag... staticTags) {
-        for (StaticTag staticTag : staticTags) {
-            if (!hasTag(staticTag)) {
-                return false;
-            }
-        }
-        return true;
     }
 
     public <V> T setSet(GenericMap.IKey<V> key, V v) {
@@ -157,7 +120,7 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> {
     /***
      * 注册回调的触发事件
      */
-    public void registerSubsidiaryBlack() throws AssertionError {
+    public void registerSubsidiaryBlack() throws Exception {
     }
 
     /***

@@ -21,8 +21,8 @@ public class DissolutionShapedType extends ShapedType{
     }
 
     @Override
-    public void registerSubsidiaryBlack() {
-        for (Ore ore : Ore.screen(Ore.HAS_FLUID, Ore.IS_METAL)) {
+    public void registerShaped() {
+        for (Ore ore : Ore.screen(Ore.FLUID_DATA, Ore.IS_METAL)) {
             new ShapedOre(
                     this,
                     ShapedDrive.get(0),
@@ -35,7 +35,7 @@ public class DissolutionShapedType extends ShapedType{
                     null,
                     Map.of(new FluidStack(ore.fluidMap.get(OreFluid.solution).source(), 144), 1d));
         }
-        for (Ore ore : Ore.screen(Ore.HAS_FLUID, Ore.IS_CRYSTA)) {
+        for (Ore ore : Ore.screen(Ore.FLUID_DATA, Ore.IS_CRYSTA)) {
             new ShapedOre(
                     this,
                     ShapedDrive.get(1),
@@ -48,7 +48,7 @@ public class DissolutionShapedType extends ShapedType{
                     null,
                     Map.of(new FluidStack(ore.fluidMap.get(OreFluid.solution).source(), 144), 1d));
         }
-        for (Ore ore : Ore.screen(Ore.HAS_FLUID)) {
+        for (Ore ore : Ore.screen(Ore.FLUID_DATA)) {
             new ShapedOre(
                     this,
                     ShapedDrive.get(2),

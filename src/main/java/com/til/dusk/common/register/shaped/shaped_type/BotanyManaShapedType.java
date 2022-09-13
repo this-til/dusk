@@ -14,6 +14,6 @@ public class BotanyManaShapedType extends ShapedType{
     }
 
     @Override
-    public void registerSubsidiaryBlack() {
+    public void registerShaped() {
     }
 }

@@ -15,7 +15,7 @@ public class HighPressureFuseShapedType extends ShapedType{
     }
 
     @Override
-    public void registerSubsidiaryBlack() {
+    public void registerShaped() {
 
     }
 }

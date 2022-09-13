@@ -3,6 +3,7 @@ package com.til.dusk.common.register.shaped.shaped_type;
 import com.til.dusk.Dusk;
 import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.register.mana_level.mana_level_block.ManaLevelBlock;
+import net.minecraft.SharedConstants;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -209,7 +210,8 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
         SHAPED_TYPE = event.create(new RegistryBuilder<ShapedType>().setName(new ResourceLocation(Dusk.MOD_ID, "shaped_type")));
         empty = new ShapedType("empty", () -> ManaLevelBlock.frameBasic) {
             @Override
-            public void registerSubsidiaryBlack() {
+            public void registerShaped() {
+
             }
         };
         extractMana = new ExtractManaShapedType();
@@ -267,5 +269,9 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
     }
 
     @Override
-    public abstract void registerSubsidiaryBlack();
+    public final void registerSubsidiaryBlack() {
+        registerShaped();
+    }
+
+    public abstract void registerShaped();
 }

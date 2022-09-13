@@ -1,8 +1,8 @@
 package com.til.dusk.common.register;
 
 import com.til.dusk.Dusk;
-import com.til.dusk.client.register.ClientParticleRegister;
 import com.til.dusk.common.event.EventIO;
+import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.Pos;
 import com.til.dusk.util.RoutePack;
 import com.til.dusk.util.prefab.ColorPrefab;
@@ -12,8 +12,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -27,7 +25,6 @@ import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegistryBuilder;
 import org.jetbrains.annotations.Nullable;
 
-import java.awt.*;
 import java.util.*;
 import java.util.List;
 import java.util.function.Consumer;
@@ -189,7 +186,7 @@ public class ParticleRegister extends RegisterBasics<ParticleRegister> {
         this(new ResourceLocation(Dusk.MOD_ID, name));
     }
 
-    public void add(Level world, Color color, double density, ResourceLocation resourceLocation, Pos... pos) {
+    public void add(Level world, DuskColor color, double density, ResourceLocation resourceLocation, Pos... pos) {
         if (world instanceof ServerLevel serverLevel) {
             List<Data> list;
             if (MAP.containsKey(serverLevel)) {
@@ -204,7 +201,7 @@ public class ParticleRegister extends RegisterBasics<ParticleRegister> {
         throw new RuntimeException("在服务端了粒子创建中出现了非服务端的世界");
     }
 
-    public void add(Level world, List<List<RoutePack.RouteCell<Double>>> route, Color color, @Nullable ResourceLocation resourceLocation) {
+    public void add(Level world, List<List<RoutePack.RouteCell<Double>>> route, DuskColor color, @Nullable ResourceLocation resourceLocation) {
         if (world instanceof ServerLevel serverLevel) {
             List<RouteData> list;
             if (ROUTE_DATA.containsKey(serverLevel)) {
@@ -219,7 +216,7 @@ public class ParticleRegister extends RegisterBasics<ParticleRegister> {
         throw new RuntimeException("在服务端了粒子创建中出现了非服务端的世界");
     }
 
-    public void add(Player player, Color color, double density, @Nullable ResourceLocation resourceLocation, Pos... pos) {
+    public void add(Player player, DuskColor color, double density, @Nullable ResourceLocation resourceLocation, Pos... pos) {
         if (player instanceof ServerPlayer serverPlayer) {
             List<Data> list;
             if (PLAYER_MAP.containsKey(serverPlayer)) {
@@ -234,7 +231,7 @@ public class ParticleRegister extends RegisterBasics<ParticleRegister> {
         throw new RuntimeException("在服务端了粒子创建中出现了非服务端的玩家");
     }
 
-    public void add(Player player, List<List<RoutePack.RouteCell<Double>>> route, Color color, @Nullable ResourceLocation resourceLocation) {
+    public void add(Player player, List<List<RoutePack.RouteCell<Double>>> route, DuskColor color, @Nullable ResourceLocation resourceLocation) {
         if (player instanceof ServerPlayer serverPlayer) {
             List<RouteData> list;
             if (PLAYER_ROUTE_DATA.containsKey(serverPlayer)) {
@@ -260,7 +257,7 @@ public class ParticleRegister extends RegisterBasics<ParticleRegister> {
         /***
          * 颜色
          */
-        public Color color;
+        public DuskColor color;
         /***
          * 密度
          */
@@ -268,7 +265,7 @@ public class ParticleRegister extends RegisterBasics<ParticleRegister> {
         @Nullable
         public ResourceLocation resourceLocation;
 
-        public Data(ResourceLocation type, Color color, double density, @Nullable ResourceLocation resourceLocation, Pos... pos) {
+        public Data(ResourceLocation type, DuskColor color, double density, @Nullable ResourceLocation resourceLocation, Pos... pos) {
             this.type = type;
             this.color = color;
             this.density = density;
@@ -283,11 +280,11 @@ public class ParticleRegister extends RegisterBasics<ParticleRegister> {
     public static class RouteData {
         public List<List<RoutePack.RouteCell<Double>>> route;
         public ResourceLocation type;
-        public Color color;
+        public DuskColor color;
         @Nullable
         public ResourceLocation resourceLocation;
 
-        public RouteData(List<List<RoutePack.RouteCell<Double>>> route, ResourceLocation type, Color color, @Nullable ResourceLocation resourceLocation) {
+        public RouteData(List<List<RoutePack.RouteCell<Double>>> route, ResourceLocation type, DuskColor color, @Nullable ResourceLocation resourceLocation) {
             this.route = route;
             this.type = type;
             this.color = color;

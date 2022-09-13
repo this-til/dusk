@@ -11,6 +11,7 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Supplier;
 
 /**
  * @author til
@@ -22,12 +23,13 @@ public class CentrifugalShapedType extends ShapedType {
     }
 
     @Override
-    public void registerSubsidiaryBlack() {
-        for (Ore ore : Ore.screen(Ore.HAS_MINERAL_BLOCK)) {
+    public void registerShaped() {
+        for (Ore ore : Ore.screen(Ore.MINERAL_BLOCK_DATA)) {
             HashMap<ItemStack, Double> outItem = new HashMap<>(1);
             outItem.put(new ItemStack(ore.itemMap.get(OreItem.dust).item(), 1), 1d);
-            if (ore.hasSet(Ore.CENTRIFUGE_BYPRODUCT)) {
-                for (Ore ore1 : ore.getSet(Ore.CENTRIFUGE_BYPRODUCT).get()) {
+            Supplier<Ore[]> centrifugeByproduct = ore.getSet(Ore.CENTRIFUGE_BYPRODUCT);
+            if (centrifugeByproduct != null) {
+                for (Ore ore1 : centrifugeByproduct.get()) {
                     outItem.put(new ItemStack(ore1.itemMap.get(OreItem.dustTiny).item(), 1), 0.5);
                 }
             }

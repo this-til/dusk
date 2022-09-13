@@ -3,8 +3,8 @@ package com.til.dusk.common.register;
 import com.google.gson.Gson;
 import com.til.dusk.Dusk;
 import com.til.dusk.client.ClientTransfer;
-import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.register.key.KeyRegister;
+import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.Pos;
 import com.til.dusk.util.RoutePack;
 import com.til.dusk.util.Util;
@@ -79,7 +79,7 @@ public abstract class MessageRegister<MSG> extends RegisterBasics<MessageRegiste
             @Override
             public ParticleRegister.Data decoder(FriendlyByteBuf friendlyByteBuf) {
                 ResourceLocation type = new ResourceLocation(friendlyByteBuf.readUtf());
-                Color color = new Color(friendlyByteBuf.readInt());
+                DuskColor color = new DuskColor(friendlyByteBuf.readInt());
                 double density = friendlyByteBuf.readDouble();
                 int l = friendlyByteBuf.readInt();
                 Pos[] pos = new Pos[l];
@@ -117,7 +117,7 @@ public abstract class MessageRegister<MSG> extends RegisterBasics<MessageRegiste
             @Override
             public ParticleRegister.RouteData decoder(FriendlyByteBuf friendlyByteBuf) {
                 ResourceLocation type = new ResourceLocation(friendlyByteBuf.readUtf());
-                Color color = new Color(friendlyByteBuf.readInt());
+                DuskColor color = new DuskColor(friendlyByteBuf.readInt());
                 int l = friendlyByteBuf.readInt();
                 List<List<RoutePack.RouteCell<Double>>> pack = new ArrayList<>(l);
                 for (int i = 0; i < l; i++) {

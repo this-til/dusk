@@ -21,8 +21,8 @@ public class UnPackShapedType extends ShapedType {
     }
 
     @Override
-    public void registerSubsidiaryBlack() {
-        for (Ore ore : Ore.screen(Ore.HAS_BLOCK, Ore.IS_METAL)) {
+    public void registerShaped() {
+        for (Ore ore : Ore.screen(Ore.DECORATE_BLOCK_DATA, Ore.IS_METAL)) {
             new ShapedOre(
                     this,
                     ShapedDrive.get(0),
@@ -36,7 +36,7 @@ public class UnPackShapedType extends ShapedType {
                     null);
         }
 
-        for (Ore ore : Ore.screen(Ore.HAS_BLOCK, Ore.IS_CRYSTA)) {
+        for (Ore ore : Ore.screen(Ore.DECORATE_BLOCK_DATA, Ore.IS_CRYSTA)) {
             new ShapedOre(
                     this,
                     ShapedDrive.get(1),

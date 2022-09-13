@@ -15,7 +15,7 @@ public class DecomposeShapedType extends ShapedType{
     }
 
     @Override
-    public void registerSubsidiaryBlack() {
+    public void registerShaped() {
 
     }
 }

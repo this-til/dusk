@@ -21,7 +21,7 @@ public class HalitosisManaShapedType extends ShapedType {
     }
 
     @Override
-    public void registerSubsidiaryBlack() {
+    public void registerShaped() {
         new ShapedOre(
                 this,
                 ShapedDrive.get(0),

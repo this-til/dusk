@@ -15,7 +15,7 @@ public class FurnaceShapedType extends ShapedType {
     final RecipeManager.CachedCheck<Container, SmeltingRecipe> quickCheck = RecipeManager.createCheck(RecipeType.SMELTING);
 
     @Override
-    public void registerSubsidiaryBlack() {
+    public void registerShaped() {
         /*new Shaped(name, this, ShapedDrive.get(0), ManaLevel.t1) {
             @Override
             public ShapedHandle get(IHandle iControl, Map<BlockEntity, IItemHandler> items, Map<BlockEntity, IFluidHandler> fluids) {

@@ -12,7 +12,7 @@ public class RecoveryShapedType extends ShapedType{
     }
 
     @Override
-    public void registerSubsidiaryBlack() {
+    public void registerShaped() {
 
     }
 }

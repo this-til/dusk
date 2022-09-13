@@ -14,7 +14,6 @@ public class RepeaterMechanic extends Mechanic {
 
     public RepeaterMechanic(ResourceLocation name) {
         super(name);
-        removeTag(NEED_FRAME_UP);
     }
 
     public RepeaterMechanic(String name) {

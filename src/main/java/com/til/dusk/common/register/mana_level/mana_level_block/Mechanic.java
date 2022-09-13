@@ -11,7 +11,6 @@ import net.minecraft.resources.ResourceLocation;
 public abstract class Mechanic extends ManaLevelBlock {
     public Mechanic(ResourceLocation name) {
         super(name);
-        addTag(NEED_FRAME_UP);
     }
 
     public Mechanic(String name) {

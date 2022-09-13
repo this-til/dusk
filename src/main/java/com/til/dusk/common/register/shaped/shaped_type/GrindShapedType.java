@@ -9,7 +9,6 @@ import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
 import com.til.dusk.util.pack.BlockPack;
 import net.minecraft.world.item.ItemStack;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,10 +21,10 @@ public class GrindShapedType extends ShapedType{
     }
 
     @Override
-    public void registerSubsidiaryBlack() {
-        for (Ore ore : Ore.screen(Ore.HAS_MINERAL_BLOCK)) {
+    public void registerShaped() {
+        for (Ore ore : Ore.screen(Ore.MINERAL_BLOCK_DATA)) {
             for (Map.Entry<OreBlock, BlockPack> entry : ore.blockMap.entrySet()) {
-                if (!entry.getKey().hasTag(OreBlock.IS_MINERAL)) {
+                if (!(entry.getKey() instanceof OreBlock.MineralOreBlock)) {
                     continue;
                 }
                 new ShapedOre(

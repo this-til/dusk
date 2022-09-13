@@ -19,32 +19,7 @@ public class AssembleShapedType extends ShapedType {
     }
 
     @Override
-    public void registerSubsidiaryBlack() {
-        List<ManaLevelBlock> needUp = new ArrayList<>();
-        for (ManaLevelBlock manaLevelBlock : ManaLevelBlock.LEVEL_BLOCK.get()) {
-            if (manaLevelBlock.hasTag(ManaLevelBlock.NEED_FRAME_UP)) {
-                needUp.add(manaLevelBlock);
-            }
-        }
-        for (ManaLevel manaLevel : ManaLevel.LEVEL.get()) {
-            if (manaLevel.next == null) {
-                continue;
-            }
-            for (ManaLevelBlock manaLevelBlock : needUp) {
-                new ShapedOre(
-                        this,
-                        ShapedDrive.get(0),
-                        manaLevel,
-                        Map.of(manaLevel.blockMap.get(manaLevelBlock).blockItemTag(), 1, manaLevel.next.get().blockMap.get(ManaLevelBlock.frameBasic).blockItemTag(), 1),
-                        null,
-                        manaLevel.level * 1024L,
-                        manaLevel.level * 32L,
-                        0,
-                        Map.of(new ItemStack(manaLevel.next.get().blockMap.get(manaLevelBlock).blockItem()), 1d),
-                        null
-                );
-            }
+    public void registerShaped() {
 
-        }
     }
 }

@@ -5,7 +5,7 @@ import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Quaternion;
 import com.mojang.math.Vector3f;
 import com.til.dusk.Dusk;
-import com.til.dusk.util.Extension;
+import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.Pos;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
@@ -24,7 +24,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.opengl.GL11;
 
-import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,7 +53,7 @@ public class DefaultParticle extends Particle {
      */
     public float particleEveryTimeUpScale;
 
-    public DefaultParticle(ClientLevel clientLevel, Pos pos, @Nullable ResourceLocation textureName, Color color, Pos move, float size, int maxAge) {
+    public DefaultParticle(ClientLevel clientLevel, Pos pos, @Nullable ResourceLocation textureName, DuskColor color, Pos move, float size, int maxAge) {
         super(clientLevel, pos.x, pos.y, pos.z);
         this.textureName = textureName;
         setColor(color);
@@ -64,7 +63,7 @@ public class DefaultParticle extends Particle {
         hasPhysics = false;
     }
 
-    public void setColor(Color color) {
+    public void setColor(DuskColor color) {
         setColor(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f);
         setAlpha(color.getAlpha() / 255f);
     }

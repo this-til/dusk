@@ -12,7 +12,7 @@ public class CarvingShapedType extends ShapedType{
     }
 
     @Override
-    public void registerSubsidiaryBlack() {
+    public void registerShaped() {
 
     }
 }

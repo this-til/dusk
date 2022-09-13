@@ -37,7 +37,7 @@ public class FoodManaShapedType extends ShapedType {
     }
 
     @Override
-    public void registerSubsidiaryBlack() {
+    public void registerShaped() {
         new FoodShaped(this, ShapedDrive.get(0), ManaLevel.t1, 1024, 0, 512);
     }
 

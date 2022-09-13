@@ -4,6 +4,7 @@ import com.til.dusk.Dusk;
 import com.til.dusk.client.ColorProxy;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
+import com.til.dusk.util.DuskColor;
 import net.minecraft.resources.ResourceLocation;
 
 import java.awt.*;
@@ -17,14 +18,14 @@ public class ExtractManaMechanic extends HandleMechanic {
 
     public static final ResourceLocation MODEL_NAME = new ResourceLocation(Dusk.MOD_ID, "extract_mana");
 
-    public final Color color;
+    public final DuskColor color;
 
-    public ExtractManaMechanic(ResourceLocation name, Supplier<List<ShapedType>> getShapedTypeList, Color color) {
+    public ExtractManaMechanic(ResourceLocation name, Supplier<List<ShapedType>> getShapedTypeList, DuskColor color) {
         super(name, getShapedTypeList);
         this.color = color;
     }
 
-    public ExtractManaMechanic(String name, Supplier<List<ShapedType>> getShapedTypeList, Color color) {
+    public ExtractManaMechanic(String name, Supplier<List<ShapedType>> getShapedTypeList, DuskColor color) {
         this(new ResourceLocation(Dusk.MOD_ID, name), getShapedTypeList, color);
     }
 

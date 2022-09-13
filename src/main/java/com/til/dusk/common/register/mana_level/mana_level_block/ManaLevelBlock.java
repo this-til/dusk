@@ -12,7 +12,7 @@ import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.capability.DuskCapabilityProvider;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
-import com.til.dusk.util.StaticTag;
+import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.prefab.ColorPrefab;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
@@ -35,10 +35,6 @@ import java.util.function.Supplier;
 @Mod.EventBusSubscriber(modid = Dusk.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<ManaLevelBlock, ManaLevel> {
 
-    /***
-     * 需要框架升级
-     */
-    public static final StaticTag NEED_FRAME_UP = new StaticTag("NEED_FRAME_UP", List.of());
 
     public static Supplier<IForgeRegistry<ManaLevelBlock>> LEVEL_BLOCK;
 
@@ -238,6 +234,9 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
      */
     public static Mechanic blend;
 
+    /***
+     * 分解
+     */
     public static Mechanic decompose;
 
     public static Mechanic recovery;
@@ -320,21 +319,21 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
     public static void onEvent(NewRegistryEvent event) {
         LEVEL_BLOCK = event.create(new RegistryBuilder<ManaLevelBlock>().setName(new ResourceLocation(Dusk.MOD_ID, "mana_level_block")));
         repeater = new RepeaterMechanic("repeater");
-        frameBasic = (DefaultCapacityMechanic) new DefaultCapacityMechanic("frame_basic").removeTag(NEED_FRAME_UP);
+        frameBasic = new DefaultCapacityMechanic("frame_basic");
         sunlight = new SimilarSolarEnergyMechanic("sunlight", 1, level -> level.isDay() && !level.isRaining(), ColorPrefab.SUNLIGHT_COLOR);
         moonlight = new SimilarSolarEnergyMechanic("moonlight", 1, level -> level.isNight() && !level.isRaining(), ColorPrefab.MOONLIGHT_COLOR);
         rain = new SimilarSolarEnergyMechanic("rain", 4, Level::isRaining, ColorPrefab.RAIN_COLOR);
         extractMana = new HandleMechanic("extract_mana", () -> List.of(ShapedType.extractMana));
-        dischantmentMana = new ExtractManaMechanic("dischantment_mana", () -> List.of(ShapedType.dischantmentMana), new Color(135, 60, 168, 255));
-        enderMana = new ExtractManaMechanic("ender_mana", () -> List.of(ShapedType.enderMana), new Color(96, 22, 96));
-        potionMana = new ExtractManaMechanic("potion_mana", () -> List.of(ShapedType.potionMana), new Color(243, 138, 255));
-        explosiveMana = new ExtractManaMechanic("explosive_mana", () -> List.of(ShapedType.explosiveMana), new Color(178, 25, 25));
-        frostyMana = new ExtractManaMechanic("frosty_mana", () -> List.of(ShapedType.frostyMana), new Color(29, 237, 255));
-        slimeyMana = new ExtractManaMechanic("slimey_mana", () -> List.of(ShapedType.slimeyMana), new Color(43, 255, 33));
-        halitosisMana = new ExtractManaMechanic("halitosis_mana", () -> List.of(ShapedType.halitosisMana), new Color(229, 45, 136));
-        flameMana = new ExtractManaMechanic("flame_mana", () -> List.of(ShapedType.flameMana), new Color(255, 0, 0));
-        botanyMana = new ExtractManaMechanic("botany_mana", () -> List.of(ShapedType.botanyMana), new Color(7, 140, 0));
-        foodMana = new ExtractManaMechanic("food_mana", () -> List.of(ShapedType.foodMana), new Color(255, 184, 66));
+        dischantmentMana = new ExtractManaMechanic("dischantment_mana", () -> List.of(ShapedType.dischantmentMana), new DuskColor(135, 60, 168, 255));
+        enderMana = new ExtractManaMechanic("ender_mana", () -> List.of(ShapedType.enderMana), new DuskColor(96, 22, 96));
+        potionMana = new ExtractManaMechanic("potion_mana", () -> List.of(ShapedType.potionMana), new DuskColor(243, 138, 255));
+        explosiveMana = new ExtractManaMechanic("explosive_mana", () -> List.of(ShapedType.explosiveMana), new DuskColor(178, 25, 25));
+        frostyMana = new ExtractManaMechanic("frosty_mana", () -> List.of(ShapedType.frostyMana), new DuskColor(29, 237, 255));
+        slimeyMana = new ExtractManaMechanic("slimey_mana", () -> List.of(ShapedType.slimeyMana), new DuskColor(43, 255, 33));
+        halitosisMana = new ExtractManaMechanic("halitosis_mana", () -> List.of(ShapedType.halitosisMana), new DuskColor(229, 45, 136));
+        flameMana = new ExtractManaMechanic("flame_mana", () -> List.of(ShapedType.flameMana), new DuskColor(255, 0, 0));
+        botanyMana = new ExtractManaMechanic("botany_mana", () -> List.of(ShapedType.botanyMana), new DuskColor(7, 140, 0));
+        foodMana = new ExtractManaMechanic("food_mana", () -> List.of(ShapedType.foodMana), new DuskColor(255, 184, 66));
         grind = new HandleMechanic("grind", () -> List.of(ShapedType.grind));
         wash = new HandleMechanic("wash", () -> List.of(ShapedType.wash));
         centrifugal = new HandleMechanic("centrifugal", () -> List.of(ShapedType.centrifugal));

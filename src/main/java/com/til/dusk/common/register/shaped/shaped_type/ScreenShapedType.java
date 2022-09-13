@@ -18,15 +18,14 @@ public class ScreenShapedType extends ShapedType {
     }
 
     @Override
-    public void registerSubsidiaryBlack() {
+    public void registerShaped() {
         for (Ore ore : Ore.screen(Ore.IS_CRYSTA)) {
-            Map<ItemStack, Double> out = new HashMap<>();
+            Map<ItemStack, Double> out = new HashMap<>(7);
             out.put(new ItemStack(ore.itemMap.get(OreItem.damagedCrystal).item(), 1), 0.4);
             out.put(new ItemStack(ore.itemMap.get(OreItem.crystal).item(), 1), 0.2);
             out.put(new ItemStack(ore.itemMap.get(OreItem.delicateCrystal).item(), 1), 0.01);
             out.put(new ItemStack(ore.itemMap.get(OreItem.perfectCrystal).item(), 1), 0.005);
             out.put(new ItemStack(ore.itemMap.get(OreItem.crystalSeed).item(), 1), 0.3);
-
             out.put(new ItemStack(ore.itemMap.get(OreItem.dustTiny).item(), 1), 0.6);
             out.put(new ItemStack(ore.itemMap.get(OreItem.dust).item(), 1), 0.2);
 

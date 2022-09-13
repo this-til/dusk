@@ -23,8 +23,8 @@ public class WashShapedType extends ShapedType {
     }
 
     @Override
-    public void registerSubsidiaryBlack() {
-        for (Ore ore : Ore.screen(Ore.HAS_MINERAL_BLOCK)) {
+    public void registerShaped() {
+        for (Ore ore : Ore.screen(Ore.MINERAL_BLOCK_DATA)) {
             HashMap<ItemStack, Double> outItem = new HashMap<>(1);
             outItem.put(new ItemStack(ore.itemMap.get(OreItem.crushedPurified).item(), 1), 1d);
             if (ore.hasSet(Ore.WASH_BYPRODUCT)) {

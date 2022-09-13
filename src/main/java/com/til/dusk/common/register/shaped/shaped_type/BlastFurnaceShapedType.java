@@ -18,8 +18,9 @@ public class BlastFurnaceShapedType extends ShapedType {
         super("blast_furnace", () -> ManaLevelBlock.blastFurnace);
     }
 
+
     @Override
-    public void registerSubsidiaryBlack() {
+    public void registerShaped() {
         for (Ore ore : Ore.screen(Ore.IS_METAL)) {
             new ShapedOre(
                     this,
@@ -35,5 +36,4 @@ public class BlastFurnaceShapedType extends ShapedType {
             );
         }
     }
-
 }

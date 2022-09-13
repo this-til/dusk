@@ -15,6 +15,7 @@ import com.til.dusk.common.capability.DuskCapabilityProvider;
 import com.til.dusk.common.register.BindType;
 import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.common.register.mana_level.ManaLevel;
+import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.Extension;
 import com.til.dusk.util.prefab.ColorPrefab;
 import net.minecraft.resources.ResourceLocation;
@@ -37,14 +38,14 @@ import java.util.Map;
  */
 public class IOMechanic extends DefaultCapacityMechanic {
     public static final ResourceLocation MODEL_NAME = new ResourceLocation(Dusk.MOD_ID, "io");
-    public final Color color;
+    public final DuskColor color;
 
-    public IOMechanic(ResourceLocation name, Color color) {
+    public IOMechanic(ResourceLocation name, DuskColor color) {
         super(name);
         this.color = color;
     }
 
-    public IOMechanic(String name, Color color) {
+    public IOMechanic(String name, DuskColor color) {
         this(new ResourceLocation(Dusk.MOD_ID, name), color);
     }
 

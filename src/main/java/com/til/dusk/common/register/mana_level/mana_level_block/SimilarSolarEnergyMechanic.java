@@ -4,6 +4,7 @@ import com.til.dusk.Dusk;
 import com.til.dusk.client.ColorProxy;
 import com.til.dusk.common.capability.mana_handle.IManaHandle;
 import com.til.dusk.common.register.mana_level.ManaLevel;
+import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.Extension;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
@@ -21,16 +22,16 @@ public class SimilarSolarEnergyMechanic extends PassiveProductionMechanic {
     public static final ResourceLocation MODEL_NAME = new ResourceLocation(Dusk.MOD_ID, "solar_energy");
     public final long productionMultiple;
     public final Extension.Func_1I<Level, Boolean> isTimePass;
-    public final Color color;
+    public final DuskColor color;
 
-    public SimilarSolarEnergyMechanic(ResourceLocation name, long productionMultiple, Extension.Func_1I<Level, Boolean> isTimePass, Color color) {
+    public SimilarSolarEnergyMechanic(ResourceLocation name, long productionMultiple, Extension.Func_1I<Level, Boolean> isTimePass, DuskColor color) {
         super(name);
         this.productionMultiple = productionMultiple;
         this.isTimePass = isTimePass;
         this.color = color;
     }
 
-    public SimilarSolarEnergyMechanic(String name, long productionMultiple, Extension.Func_1I<Level, Boolean> isTimePass, Color color) {
+    public SimilarSolarEnergyMechanic(String name, long productionMultiple, Extension.Func_1I<Level, Boolean> isTimePass, DuskColor color) {
         this(new ResourceLocation(Dusk.MOD_ID, name), productionMultiple, isTimePass, color);
     }
 

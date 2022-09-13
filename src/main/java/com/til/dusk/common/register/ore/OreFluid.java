@@ -107,4 +107,8 @@ public class OreFluid extends RegisterBasics.FluidUnitRegister<OreFluid, Ore> {
             });
         }
     }
+
+    public static class FluidData{
+
+    }
 }

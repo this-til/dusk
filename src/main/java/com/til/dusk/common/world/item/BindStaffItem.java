@@ -1,17 +1,13 @@
 package com.til.dusk.common.world.item;
 
-import com.til.dusk.client.ColorProxy;
 import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.capability.pos.IPosTrack;
 import com.til.dusk.common.register.BindType;
 import com.til.dusk.common.register.CapabilityRegister;
-import com.til.dusk.common.register.ParticleRegister;
 import com.til.dusk.common.register.key.EventKey;
 import com.til.dusk.common.register.key.KeyRegister;
 import com.til.dusk.util.Lang;
-import com.til.dusk.util.Pos;
 import com.til.dusk.util.nbt.pack.AllNBTPack;
-import com.til.dusk.util.prefab.ColorPrefab;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -28,9 +24,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.eventbus.api.EventPriority;
 import org.jetbrains.annotations.NotNull;
 
-import java.awt.*;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Consumer;
 
 /***

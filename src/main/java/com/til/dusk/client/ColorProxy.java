@@ -11,6 +11,7 @@ import com.til.dusk.common.register.ore.OreFluid;
 import com.til.dusk.common.register.ore.OreItem;
 import com.til.dusk.common.world.block.ModBlock;
 import com.til.dusk.common.world.item.ModItem;
+import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.Extension;
 import com.til.dusk.util.pack.BlockPack;
 import com.til.dusk.util.pack.FluidPack;
@@ -141,13 +142,13 @@ public class ColorProxy {
 
     public static class ItemColorPack implements ItemColor {
         public final ItemLike itemLike;
-        public final Map<Integer, Extension.Func_1I<ItemStack, Color>> layerColor = new HashMap<>();
+        public final Map<Integer, Extension.Func_1I<ItemStack, DuskColor>> layerColor = new HashMap<>();
 
         public ItemColorPack(ItemLike itemLike) {
             this.itemLike = itemLike;
         }
 
-        public ItemColorPack addColor(int layer, Extension.Func_1I<ItemStack, Color> color) {
+        public ItemColorPack addColor(int layer, Extension.Func_1I<ItemStack, DuskColor> color) {
             layerColor.put(layer, color);
             return this;
         }
@@ -163,13 +164,13 @@ public class ColorProxy {
 
     public static class BlockColorPack implements BlockColor {
         public final Block block;
-        public final Map<Integer, Extension.Func_3I<BlockState, BlockAndTintGetter, BlockPos, Color>> layerColor = new HashMap<>();
+        public final Map<Integer, Extension.Func_3I<BlockState, BlockAndTintGetter, BlockPos, DuskColor>> layerColor = new HashMap<>();
 
         public BlockColorPack(Block block) {
             this.block = block;
         }
 
-        public BlockColorPack addColor(int layer, Extension.Func_3I<BlockState, BlockAndTintGetter, BlockPos, Color> color) {
+        public BlockColorPack addColor(int layer, Extension.Func_3I<BlockState, BlockAndTintGetter, BlockPos, DuskColor> color) {
             layerColor.put(layer, color);
             return this;
         }

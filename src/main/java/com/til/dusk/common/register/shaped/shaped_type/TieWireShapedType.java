@@ -17,7 +17,7 @@ public class TieWireShapedType extends ShapedType{
     }
 
     @Override
-    public void registerSubsidiaryBlack() {
+    public void registerShaped() {
         for (Ore ore : Ore.screen(Ore.IS_METAL)) {
             new ShapedOre(
                     this,

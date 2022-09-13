@@ -25,7 +25,7 @@ public class BlendShapedType extends ShapedType {
     }
 
     @Override
-    public void registerSubsidiaryBlack() {
+    public void registerShaped() {
         for (Ore ore : Ore.ORE.get()) {
             if (ore.hasSet(Ore.BLEND_BYPRODUCT)) {
                 HashMap<TagKey<Item>, Integer> inItem = new HashMap<>(1);

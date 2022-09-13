@@ -12,7 +12,7 @@ public class DistillationShapedType extends ShapedType{
     }
 
     @Override
-    public void registerSubsidiaryBlack() {
+    public void registerShaped() {
 
     }
 }

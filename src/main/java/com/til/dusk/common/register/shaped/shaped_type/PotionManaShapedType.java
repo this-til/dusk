@@ -49,7 +49,7 @@ public class PotionManaShapedType extends ShapedType {
     }
 
     @Override
-    public void registerSubsidiaryBlack() {
+    public void registerShaped() {
         new ShapedPotionMana(this, ShapedDrive.get(0), ManaLevel.t1, 1024, 0, 20);
     }
 

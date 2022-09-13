@@ -13,7 +13,9 @@ import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.register.skill.Skill;
 import com.til.dusk.common.world.item.*;
-import com.til.dusk.util.StaticTag;
+import com.til.dusk.util.DuskColor;
+import com.til.dusk.util.GenericMap;
+import com.til.dusk.util.IBackRun;
 import com.til.dusk.util.pack.ItemPack;
 import com.til.dusk.util.prefab.ColorPrefab;
 import net.minecraft.resources.ResourceLocation;
@@ -35,7 +37,6 @@ import net.minecraftforge.registries.RegistryBuilder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -158,9 +159,9 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
         ORE_ITEM = event.create(new RegistryBuilder<OreItem>().setName(new ResourceLocation(Dusk.MOD_ID, "ore_item")));
-        ingot = new OreItem("ingot", List.of(Ore.IS_METAL));
-        plate = new OreItem("plate", List.of(Ore.IS_METAL));
-        plate_2 = new OreItem("plate_2", List.of(Ore.IS_METAL)) {
+        ingot = new MetalOreItem("ingot");
+        plate = new MetalOreItem("plate");
+        plate_2 = new MetalOreItem("plate_2") {
             @Override
             public ResourceLocation getItemMoldMapping(Ore ore) {
                 return plate.name;
@@ -168,11 +169,11 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
 
             @Override
             public void dyeBlack(Ore ore, ColorProxy.ItemColorPack itemColorPack) {
-                Color color = ColorPrefab.blend(ore.color, ColorPrefab.GRAYSCALE_REDUCTION_1);
+                DuskColor color = ColorPrefab.GRAYSCALE_REDUCTION_1.blend(ore.color);
                 itemColorPack.addColor(0, itemStack -> color);
             }
         };
-        plate_3 = new OreItem("plate_3", List.of(Ore.IS_METAL)) {
+        plate_3 = new MetalOreItem("plate_3") {
             @Override
             public ResourceLocation getItemMoldMapping(Ore ore) {
                 return plate.name;
@@ -180,11 +181,11 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
 
             @Override
             public void dyeBlack(Ore ore, ColorProxy.ItemColorPack itemColorPack) {
-                Color color = ColorPrefab.blend(ore.color, ColorPrefab.GRAYSCALE_REDUCTION_2);
+                DuskColor color = ColorPrefab.GRAYSCALE_REDUCTION_2.blend(ore.color);
                 itemColorPack.addColor(0, itemStack -> color);
             }
         };
-        plate_4 = new OreItem("plate_4", List.of(Ore.IS_METAL)) {
+        plate_4 = new MetalOreItem("plate_4") {
             @Override
             public ResourceLocation getItemMoldMapping(Ore ore) {
                 return plate.name;
@@ -192,56 +193,56 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
 
             @Override
             public void dyeBlack(Ore ore, ColorProxy.ItemColorPack itemColorPack) {
-                Color color = ColorPrefab.blend(ore.color, ColorPrefab.GRAYSCALE_REDUCTION_3);
+                DuskColor color = ColorPrefab.GRAYSCALE_REDUCTION_3.blend(ore.color);
                 itemColorPack.addColor(0, itemStack -> color);
             }
         };
-        foil = new OreItem("foil", List.of(Ore.IS_METAL));
-        casing = new OreItem("casing", List.of(Ore.IS_METAL));
-        stick = new OreItem("stick", List.of(Ore.IS_METAL));
-        stick_long = new OreItem("stick_long", List.of(Ore.IS_METAL));
-        string = new OreItem("string", List.of(Ore.IS_METAL));
-        nuggets = new OreItem("nuggets", List.of(Ore.IS_METAL));
-        damagedCrystal = new OreItem("crystal_damaged", List.of(Ore.IS_CRYSTA));
-        crystal = new OreItem("crystal", List.of(Ore.IS_CRYSTA));
-        delicateCrystal = new OreItem("crystal_delicate", List.of(Ore.IS_CRYSTA));
-        perfectCrystal = new OreItem("crystal_perfect", List.of(Ore.IS_CRYSTA));
-        crystalSeed = new OreItem("crystal_seed", List.of(Ore.IS_CRYSTA));
-        crushed = new OreItem("crushed", List.of(Ore.HAS_MINERAL_BLOCK));
-        crushedPurified = new OreItem("crushed_purified", List.of(Ore.HAS_MINERAL_BLOCK));
-        dust = new OreItem("dust", List.of());
-        dustTiny = new OreItem("dust_tiny", List.of());
+        foil = new MetalOreItem("foil");
+        casing = new MetalOreItem("casing");
+        stick = new MetalOreItem("stick");
+        stick_long = new MetalOreItem("stick_long");
+        string = new MetalOreItem("string");
+        nuggets = new MetalOreItem("nuggets");
+        damagedCrystal = new CrystaOreItem("crystal_damaged");
+        crystal = new CrystaOreItem("crystal");
+        delicateCrystal = new CrystaOreItem("crystal_delicate");
+        perfectCrystal = new CrystaOreItem("crystal_perfect");
+        crystalSeed = new CrystaOreItem("crystal_seed");
+        crushed = new MineralBlockOreItem("crushed");
+        crushedPurified = new MineralBlockOreItem("crushed_purified");
+        dust = new OreItem("dust");
+        dustTiny = new OreItem("dust_tiny");
 
-        sword = new OreItemArms("sword", IS_SWORD) {
+        sword = (OreItemArms) new OreItemArms("sword") {
             @Override
             public Item createArmsItem(Ore ore, ArmsData armsData) {
                 return new CapabilitySwordItem(ore, this, armsData);
             }
-        };
-        shovel = new OreItemArms("shovel", IS_SHOVEL) {
+        }.setSet(IS_SWORD, true);
+        shovel = (OreItemArms) new OreItemArms("shovel") {
             @Override
             public Item createArmsItem(Ore ore, ArmsData armsData) {
                 return new CapabilityShovelItem(ore, this, armsData);
             }
-        };
-        pickaxe = new OreItemArms("pickaxe", IS_PICKAXE) {
+        }.setSet(IS_SHOVEL, true);
+        pickaxe = (OreItemArms) new OreItemArms("pickaxe") {
             @Override
             public Item createArmsItem(Ore ore, ArmsData armsData) {
                 return new CapabilityPickaxeItem(ore, this, armsData);
             }
-        };
-        axe = new OreItemArms("axe", IS_AXE) {
+        }.setSet(IS_PICKAXE, true);
+        axe = (OreItemArms) new OreItemArms("axe") {
             @Override
             public Item createArmsItem(Ore ore, ArmsData armsData) {
                 return new CapabilityAxeItem(ore, this, armsData);
             }
-        };
-        hoe = new OreItemArms("hoe", IS_HOE) {
+        }.setSet(IS_AXE, true);
+        hoe = (OreItemArms) new OreItemArms("hoe") {
             @Override
             public Item createArmsItem(Ore ore, ArmsData armsData) {
                 return new CapabilityHoeItem(ore, this, armsData);
             }
-        };
+        }.setSet(IS_HOE, true);
 
         head = new OreItemArmor("head", EquipmentSlot.HEAD);
         chest = new OreItemArmor("chest", EquipmentSlot.CHEST);
@@ -249,23 +250,13 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
         feet = new OreItemArmor("feet", EquipmentSlot.FEET);
     }
 
-    public final List<StaticTag> oreHasTag;
 
-    public OreItem(ResourceLocation name, List<StaticTag> oreHasTag) {
+    public OreItem(ResourceLocation name) {
         super(name, ORE_ITEM);
-        this.oreHasTag = oreHasTag;
     }
 
-    public OreItem(String name, List<StaticTag> staticTags) {
-        this(new ResourceLocation(Dusk.MOD_ID, name), staticTags);
-    }
-
-    @Override
-    public @Nullable ItemPack create(Ore ore) {
-        if (ore.hasTag(oreHasTag)) {
-            return super.create(ore);
-        }
-        return null;
+    public OreItem(String name) {
+        this(new ResourceLocation(Dusk.MOD_ID, name));
     }
 
     @Override
@@ -273,17 +264,69 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
         itemColorPack.addColor(0, itemStack -> ore.color);
     }
 
-    /**
-     * @author til
-     */
+    public static class MetalOreItem extends OreItem {
+        public MetalOreItem(ResourceLocation name) {
+            super(name);
+        }
+
+        public MetalOreItem(String name) {
+            this(new ResourceLocation(Dusk.MOD_ID, name));
+        }
+
+        @Override
+        public @Nullable ItemPack create(Ore ore) {
+            if (ore.hasSet(Ore.IS_METAL)) {
+                return super.create(ore);
+            }
+            return null;
+        }
+    }
+
+    public static class CrystaOreItem extends OreItem {
+        public CrystaOreItem(ResourceLocation name) {
+            super(name);
+        }
+
+        public CrystaOreItem(String name) {
+            this(new ResourceLocation(Dusk.MOD_ID, name));
+        }
+
+        @Override
+        public @Nullable ItemPack create(Ore ore) {
+            if (ore.hasSet(Ore.IS_CRYSTA)) {
+                return super.create(ore);
+            }
+            return null;
+        }
+    }
+
+    public static class MineralBlockOreItem extends  OreItem{
+        public MineralBlockOreItem(ResourceLocation name) {
+            super(name);
+        }
+
+        public MineralBlockOreItem(String name) {
+            this(new ResourceLocation(Dusk.MOD_ID, name));
+        }
+
+        @Override
+        public @Nullable ItemPack create(Ore ore) {
+            if (ore.getSet(Ore.MINERAL_BLOCK_DATA) != null) {
+                return super.create(ore);
+            }
+            return null;
+        }
+    }
+
     public static class OreItemArmor extends OreItem {
 
         public final EquipmentSlot equipmentSlot;
 
         public OreItemArmor(ResourceLocation name, EquipmentSlot equipmentSlot) {
-            super(name, List.of());
+            super(name);
             this.equipmentSlot = equipmentSlot;
-            addTag(as(equipmentSlot));
+            setSet(IS_ARMOR, true);
+            setSet(as(equipmentSlot), true);
         }
 
         public OreItemArmor(String name, EquipmentSlot equipmentSlot) {
@@ -305,14 +348,13 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
     }
 
     public abstract static class OreItemArms extends OreItem {
-        public OreItemArms(ResourceLocation name, StaticTag toolTag) {
-            super(name, List.of());
-            addTag(IS_ARMS);
-            addTag(toolTag);
+        public OreItemArms(ResourceLocation name) {
+            super(name);
+            setSet(IS_ARMOR, true);
         }
 
-        public OreItemArms(String name, StaticTag toolTag) {
-            this(new ResourceLocation(Dusk.MOD_ID, name), toolTag);
+        public OreItemArms(String name) {
+            this(new ResourceLocation(Dusk.MOD_ID, name));
 
         }
 
@@ -359,7 +401,7 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
                 2,
         };
 
-        public final Ore ore;
+        public final Supplier<Ore> ore;
         public int[] durability = Arrays.copyOf(DEFAULT_DURABILITY, DEFAULT_DURABILITY.length);
         public int[] defense = Arrays.copyOf(DEFAULT_DURABILITY, DEFAULT_DURABILITY.length);
         public float toughness = 3;
@@ -386,7 +428,7 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
          */
         public Supplier<List<Skill>> defaultSkill = List::of;
 
-        public ArmorData(Ore ore) {
+        public ArmorData(Supplier<Ore> ore) {
             this.ore = ore;
             setDefense(1);
             setDurability(1);
@@ -449,12 +491,12 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
 
         @Override
         public @NotNull Ingredient getRepairIngredient() {
-            return Ingredient.of(ore.itemMap.get(OreItem.ingot).itemTag());
+            return Ingredient.of(ore.get().itemMap.get(OreItem.ingot).itemTag());
         }
 
         @Override
         public @NotNull String getName() {
-            return ore.name.toString();
+            return ore.get().name.toString();
         }
 
         @Override
@@ -490,9 +532,9 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
     /***
      * 武器数据
      */
-    public static class ArmsData implements Tier, IItemDefaultCapability {
+    public static class ArmsData implements Tier, IItemDefaultCapability, IBackRun {
 
-        public final Ore ore;
+        public final Supplier<Ore> ore;
 
         public int level = 5;
         public int uses = 2400;
@@ -520,10 +562,15 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
          */
         public Supplier<List<Skill>> defaultSkill = List::of;
 
-        public ArmsData(Ore ore) {
+        public ArmsData(Supplier<Ore> ore) {
             this.ore = ore;
-            repairIngredient = () -> Ingredient.of(ore.itemMap.get(OreItem.ingot).itemTag());
-            ResourceLocation oreName = new ResourceLocation(ore.name.getNamespace(), "tier." + ore.name.getPath());
+
+        }
+
+        @Override
+        public void backRun() {
+            repairIngredient = () -> Ingredient.of(ore.get().itemMap.get(OreItem.ingot).itemTag());
+            ResourceLocation oreName = new ResourceLocation(ore.get().name.getNamespace(), "tier." + ore.get().name.getPath());
             tag = BlockTags.create(oreName);
             TierSortingRegistry.registerTier(this, oreName, List.of(Tiers.NETHERITE), List.of());
         }
@@ -624,14 +671,14 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
     /***
      * 是装备
      */
-    public static final StaticTag IS_ARMOR = new StaticTag("IS_ARMOR", List.of());
+    public static final GenericMap.IKey.BoolKey IS_ARMOR = new GenericMap.IKey.BoolKey();
 
-    public static final StaticTag IS_HEAD = new StaticTag("IS_HEAD", List.of(IS_ARMOR));
-    public static final StaticTag IS_CHEST = new StaticTag("IS_CHEST", List.of(IS_ARMOR));
-    public static final StaticTag IS_LEGS = new StaticTag("IS_LEGS", List.of(IS_ARMOR));
-    public static final StaticTag IS_FEET = new StaticTag("IS_FEET", List.of(IS_ARMOR));
+    public static final GenericMap.IKey.BoolKey IS_HEAD = new GenericMap.IKey.BoolKey();
+    public static final GenericMap.IKey.BoolKey IS_CHEST = new GenericMap.IKey.BoolKey();
+    public static final GenericMap.IKey.BoolKey IS_LEGS = new GenericMap.IKey.BoolKey();
+    public static final GenericMap.IKey.BoolKey IS_FEET = new GenericMap.IKey.BoolKey();
 
-    public static StaticTag as(EquipmentSlot equipmentSlot) {
+    public static GenericMap.IKey.BoolKey as(EquipmentSlot equipmentSlot) {
         return switch (equipmentSlot) {
             default -> IS_ARMOR;
             case HEAD -> IS_HEAD;
@@ -644,11 +691,11 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
     /***
      * 是武器
      */
-    public static final StaticTag IS_ARMS = new StaticTag("IS_ARMS", List.of());
+    public static final GenericMap.IKey.BoolKey IS_ARMS = new GenericMap.IKey.BoolKey();
 
-    public static final StaticTag IS_SWORD = new StaticTag("IS_SWORD", List.of(IS_ARMS));
-    public static final StaticTag IS_SHOVEL = new StaticTag("IS_SHOVEL", List.of(IS_ARMS));
-    public static final StaticTag IS_PICKAXE = new StaticTag("IS_PICKAXE", List.of(IS_ARMS));
-    public static final StaticTag IS_AXE = new StaticTag("IS_AXE", List.of(IS_ARMS));
-    public static final StaticTag IS_HOE = new StaticTag("IS_HOE", List.of(IS_ARMS));
+    public static final GenericMap.IKey.BoolKey IS_SWORD = new GenericMap.IKey.BoolKey();
+    public static final GenericMap.IKey.BoolKey IS_SHOVEL = new GenericMap.IKey.BoolKey();
+    public static final GenericMap.IKey.BoolKey IS_PICKAXE = new GenericMap.IKey.BoolKey();
+    public static final GenericMap.IKey.BoolKey IS_AXE = new GenericMap.IKey.BoolKey();
+    public static final GenericMap.IKey.BoolKey IS_HOE = new GenericMap.IKey.BoolKey();
 }

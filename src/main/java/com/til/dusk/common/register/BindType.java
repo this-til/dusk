@@ -5,19 +5,17 @@ import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.capability.mana_handle.IManaHandle;
 import com.til.dusk.common.capability.pos.IPosTrack;
 import com.til.dusk.common.capability.shaped_drive.IShapedDrive;
+import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.Lang;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.NewRegistryEvent;
@@ -25,7 +23,6 @@ import net.minecraftforge.registries.RegistryBuilder;
 
 import javax.annotation.Nullable;
 import java.awt.*;
-import java.awt.image.ColorConvertOp;
 import java.util.function.Supplier;
 
 /**
@@ -52,27 +49,27 @@ public class BindType extends RegisterBasics<BindType> {
     public static void onEvent(NewRegistryEvent event) {
         BIND_TYPE = event.create(new RegistryBuilder<BindType>().setName(new ResourceLocation(Dusk.MOD_ID, "bind_type")));
 
-        itemIn = new BindTypeBindCapability<>("item_in", new Color(43, 255, 33), Lang.getKey("capability.item_handler"), () -> ForgeCapabilities.ITEM_HANDLER);
-        itemOut = new BindTypeBindCapability<>("item_out", new Color(65, 112, 62), Lang.getKey("capability.item_handler"), () -> ForgeCapabilities.ITEM_HANDLER);
-        manaIn = new BindTypeBindCapability<>("mana_in", new Color(255, 255, 0), Lang.getKey("capability.mana_handler"), () -> CapabilityRegister.iManaHandle.capability);
-        manaOut = new BindTypeBindCapability<>("mana_out", new Color(129, 129, 72), Lang.getKey("capability.mana_handler"), () -> CapabilityRegister.iManaHandle.capability);
-        fluidIn = new BindTypeBindCapability<>("fluid_in", new Color(29, 237, 255), Lang.getKey("capability.fluid_handler"), () -> ForgeCapabilities.FLUID_HANDLER);
-        fluidOut = new BindTypeBindCapability<>("fluid_out", new Color(68, 124, 129), Lang.getKey("capability.fluid_handler"), () -> ForgeCapabilities.FLUID_HANDLER);
-        modelStore = new BindTypeBindCapability<>("model_store", new Color(204, 147, 255), Lang.getKey("capability.shaped_drive "), () -> CapabilityRegister.iShapedDrive.capability);
-        posTrack = new BindTypeBindCapability<>("pos_track", new Color(69, 187, 178, 255), Lang.getKey("capability.pos_track"), () -> CapabilityRegister.iPosTrack.capability);
-        relayIn = new BindType("relay_in", new Color(255, 0, 0));
-        relayOut = new BindType("relay_out", new Color(141, 74, 74));
+        itemIn = new BindTypeBindCapability<>("item_in", new DuskColor(43, 255, 33), Lang.getKey("capability.item_handler"), () -> ForgeCapabilities.ITEM_HANDLER);
+        itemOut = new BindTypeBindCapability<>("item_out", new DuskColor(65, 112, 62), Lang.getKey("capability.item_handler"), () -> ForgeCapabilities.ITEM_HANDLER);
+        manaIn = new BindTypeBindCapability<>("mana_in", new DuskColor(255, 255, 0), Lang.getKey("capability.mana_handler"), () -> CapabilityRegister.iManaHandle.capability);
+        manaOut = new BindTypeBindCapability<>("mana_out", new DuskColor(129, 129, 72), Lang.getKey("capability.mana_handler"), () -> CapabilityRegister.iManaHandle.capability);
+        fluidIn = new BindTypeBindCapability<>("fluid_in", new DuskColor(29, 237, 255), Lang.getKey("capability.fluid_handler"), () -> ForgeCapabilities.FLUID_HANDLER);
+        fluidOut = new BindTypeBindCapability<>("fluid_out", new DuskColor(68, 124, 129), Lang.getKey("capability.fluid_handler"), () -> ForgeCapabilities.FLUID_HANDLER);
+        modelStore = new BindTypeBindCapability<>("model_store", new DuskColor(204, 147, 255), Lang.getKey("capability.shaped_drive "), () -> CapabilityRegister.iShapedDrive.capability);
+        posTrack = new BindTypeBindCapability<>("pos_track", new DuskColor(69, 187, 178, 255), Lang.getKey("capability.pos_track"), () -> CapabilityRegister.iPosTrack.capability);
+        relayIn = new BindType("relay_in", new DuskColor(255, 0, 0));
+        relayOut = new BindType("relay_out", new DuskColor(141, 74, 74));
 
     }
 
-    public final Color color;
+    public final DuskColor color;
 
-    public BindType(ResourceLocation name, Color color) {
+    public BindType(ResourceLocation name, DuskColor color) {
         super(name, BIND_TYPE);
         this.color = color;
     }
 
-    public BindType(String name, Color color) {
+    public BindType(String name, DuskColor color) {
         this(new ResourceLocation(Dusk.MOD_ID, name), color);
     }
 
@@ -95,11 +92,11 @@ public class BindType extends RegisterBasics<BindType> {
 
         public final String capabilityName;
 
-        public BindTypeBindCapability(String name, Color color, String capabilityName, Supplier<Capability<C>> supplier) {
+        public BindTypeBindCapability(String name, DuskColor color, String capabilityName, Supplier<Capability<C>> supplier) {
             this(new ResourceLocation(Dusk.MOD_ID, name), color, capabilityName, supplier);
         }
 
-        public BindTypeBindCapability(ResourceLocation resourceLocation, Color color, String capabilityName, Supplier<Capability<C>> supplier) {
+        public BindTypeBindCapability(ResourceLocation resourceLocation, DuskColor color, String capabilityName, Supplier<Capability<C>> supplier) {
             super(resourceLocation, color);
             Dusk.instance.modEventBus.addListener(this::commonSetup);
             this.supplier = supplier;

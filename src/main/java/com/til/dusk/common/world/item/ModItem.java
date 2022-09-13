@@ -4,6 +4,7 @@ package com.til.dusk.common.world.item;
 import com.til.dusk.Dusk;
 import com.til.dusk.client.ColorProxy;
 import com.til.dusk.common.data.tag.ItemTag;
+import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.nbt.pack.AllNBTPack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -63,9 +64,9 @@ public class ModItem {
             itemColorPack.addColor(0, itemStack -> {
                 CompoundTag compoundTag = itemStack.getTag();
                 if (compoundTag == null) {
-                    return new Color(-1);
+                    return new DuskColor(-1);
                 }
-                return new Color(AllNBTPack.COLOR.get(compoundTag));
+                return new DuskColor(AllNBTPack.COLOR.get(compoundTag));
             });
         }
     }

@@ -20,8 +20,8 @@ public class FreezingShapedType extends ShapedType {
     }
 
     @Override
-    public void registerSubsidiaryBlack() {
-        for (Ore ore : Ore.screen(Ore.IS_METAL, Ore.HAS_FLUID)) {
+    public void registerShaped() {
+        for (Ore ore : Ore.screen(Ore.IS_METAL, Ore.FLUID_DATA)) {
             new ShapedOre(
                     this,
                     ShapedDrive.get(0),
