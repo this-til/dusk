@@ -1,0 +1,7 @@
+{
+  "parent": "dusk:block/wall/wall_inventory",
+  "textures": {
+    "wall0": "dusk:block/black",
+    "wall1": "minecraft:block/iron_block"
+  }
+}

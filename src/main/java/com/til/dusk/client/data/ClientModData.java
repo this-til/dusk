@@ -72,12 +72,12 @@ public class ClientModData {
                             ResourceLocation modelName = entry.getKey().getBlockModelMapping(Util.forcedConversion(unitRegister));
                             asBlockCustomJson(ForgeRegistries.BLOCKS.getKey(entry.getValue().block()), MessageFormat.format(entry.getKey().getBlockStateJson(), modelName.getNamespace(), modelName.getPath()), cachedOutput);
                         }
-                        for (Object o : unitRegister.fluidMap.entrySet()) {
+                        /*for (Object o : unitRegister.fluidMap.entrySet()) {
                             Map.Entry<RegisterBasics.FluidUnitRegister<?, ?>, FluidPack> entry = Util.forcedConversion(o);
                             if (entry.getValue().liquidBlock() != null) {
                                 asFluid(ForgeRegistries.BLOCKS.getKey(entry.getValue().liquidBlock()), cachedOutput);
                             }
-                        }
+                        }*/
                     }
                 }
                 for (ShapedDrive shapedDrive : ShapedDrive.SHAPED_DRIVE.get()) {

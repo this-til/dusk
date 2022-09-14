@@ -1,0 +1,7 @@
+{
+  "parent": "dusk:block/wall/template_wall_post",
+  "textures": {
+    "wall0": "dusk:block/black",
+    "wall1": "minecraft:block/iron_block"
+  }
+}

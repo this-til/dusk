@@ -25,7 +25,6 @@ import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegistryBuilder;
 
-import java.awt.*;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -239,6 +238,9 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
      */
     public static Mechanic decompose;
 
+    /***
+     * 回收
+     */
     public static Mechanic recovery;
 
     /***
@@ -363,14 +365,14 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
             @Override
             public void addCapability(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability, ManaLevel manaLevel, IPosTrack iPosTrack) {
                 super.addCapability(event, duskModCapability, manaLevel, iPosTrack);
-                duskModCapability.addCapability(ForgeCapabilities.ITEM_HANDLER, new VoidCaseItemHandler(1280L * manaLevel.level));
+                duskModCapability.addCapability(ForgeCapabilities.ITEM_HANDLER, new VoidCaseItemHandler(4096L * manaLevel.level));
             }
         };
         voidTank = new DefaultCapacityMechanic("void_tank") {
             @Override
             public void addCapability(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability, ManaLevel manaLevel, IPosTrack iPosTrack) {
                 super.addCapability(event, duskModCapability, manaLevel, iPosTrack);
-                duskModCapability.addCapability(ForgeCapabilities.FLUID_HANDLER, new VoidTankFluidHandler(1280000 * manaLevel.level));
+                duskModCapability.addCapability(ForgeCapabilities.FLUID_HANDLER, new VoidTankFluidHandler(12800000 * manaLevel.level));
             }
         };
         gatherMana = new DefaultCapacityMechanic("gather_mana") {

@@ -62,18 +62,9 @@ public class DuskColor {
     }
 
     public DuskColor blend(DuskColor baseColor) {
-        float sR = this.getRed() / 255f;
-        float sG = this.getGreen() / 255f;
-        float sB = this.getBlue() / 255f;
-        float sA = this.getAlpha() / 255f;
-        float dR = baseColor.getRed() / 255f;
-        float dG = baseColor.getGreen() / 255f;
-        float dB = baseColor.getBlue() / 255f;
-        float dA = baseColor.getAlpha() / 255f;
-        float rR = sR * sA + dR * (1.0f - sA);
-        float rG = sG * sA + dG * (1.0f - sA);
-        float rB = sB * sA + dB * (1.0f - sA);
-        float rA = dA + sA * (1.0f - dA);
-        return new DuskColor(rR, rG, rB, rA);
+        return new DuskColor(getRed() / 255.0f * baseColor.getRed() / 255.0f,
+                getGreen() / 255.0f * baseColor.getGreen() / 255.0f,
+                getBlue() / 255.0f * baseColor.getBlue() / 255.0f,
+                getAlpha() / 255.0f);
     }
 }

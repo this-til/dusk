@@ -6,14 +6,14 @@ import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.util.Lang;
 import com.til.dusk.common.data.tag.BlockTag;
 import com.til.dusk.util.pack.BlockPack;
+import com.til.dusk.util.prefab.JsonPrefab;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
@@ -25,7 +25,6 @@ import net.minecraftforge.registries.RegistryBuilder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
 import java.util.function.Supplier;
 
 /**
@@ -35,15 +34,29 @@ import java.util.function.Supplier;
 public abstract class OreBlock extends RegisterBasics.BlockUnitRegister<OreBlock, Ore> {
     public static Supplier<IForgeRegistry<OreBlock>> ORE_BLOCK;
 
-    public static OreBlock lordWorld;
-    public static OreBlock lordWorldDeepslate;
-    public static OreBlock lordWorldSand;
-    public static OreBlock lordWorldDirt;
-    public static OreBlock lordWorldGravel;
-    public static OreBlock netherWorldNetherrack;
-    public static OreBlock endWorldEndStone;
+    public static MineralOreBlock lordWorld;
+    public static MineralOreBlock lordWorldDeepslate;
+    public static MineralOreBlock lordWorldSand;
+    public static MineralOreBlock lordWorldDirt;
+    public static MineralOreBlock lordWorldGravel;
+    public static MineralOreBlock netherWorldNetherrack;
+    public static MineralOreBlock endWorldEndStone;
 
-    public static OreBlock block;
+    public static DecorateOreBlock block;
+
+    /***
+     * 半砖
+     */
+    public static DecorateOreBlock slab;
+
+    /***
+     * 楼梯
+     */
+    public static DecorateOreBlock stairs;
+    /***
+     * 墙
+     */
+    public static DecorateOreBlock wall;
 
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
@@ -144,6 +157,57 @@ public abstract class OreBlock extends RegisterBasics.BlockUnitRegister<OreBlock
                 BlockTag.addTag(BlockTags.MINEABLE_WITH_PICKAXE, block);
                 BlockTag.addTag(BlockTags.NEEDS_IRON_TOOL, block);
                 return block;
+            }
+        };
+        slab = new DecorateOreBlock("slab") {
+            @Override
+            public @Nullable Block createBlock(Ore ore) {
+                Block block = new SlabBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.METAL)
+                        .strength((float) (0.3f * ore.strength), (float) (0.6f * ore.strength))
+                        .requiresCorrectToolForDrops()
+                        .sound(SoundType.STONE));
+                BlockTag.addTag(BlockTags.MINEABLE_WITH_PICKAXE, block);
+                BlockTag.addTag(BlockTags.NEEDS_IRON_TOOL, block);
+                return block;
+            }
+
+            @Override
+            public String getBlockStateJson() {
+                return JsonPrefab.BRICK_SLAB;
+            }
+        };
+        stairs = new DecorateOreBlock("stairs") {
+            @Override
+            public @Nullable Block createBlock(Ore ore) {
+                StairBlock block = new StairBlock(() -> ore.blockMap.get(OreBlock.block).block().defaultBlockState(), BlockBehaviour.Properties.of(Material.METAL, MaterialColor.METAL)
+                        .strength((float) (0.3f * ore.strength), (float) (0.6f * ore.strength))
+                        .requiresCorrectToolForDrops()
+                        .sound(SoundType.STONE));
+                BlockTag.addTag(BlockTags.MINEABLE_WITH_PICKAXE, block);
+                BlockTag.addTag(BlockTags.NEEDS_IRON_TOOL, block);
+                return block;
+            }
+
+            @Override
+            public String getBlockStateJson() {
+                return JsonPrefab.BRICK_STAIRS;
+            }
+        };
+        wall = new DecorateOreBlock("wall") {
+            @Override
+            public @Nullable Block createBlock(Ore ore) {
+                WallBlock block = new WallBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.METAL)
+                        .strength((float) (0.3f * ore.strength), (float) (0.6f * ore.strength))
+                        .requiresCorrectToolForDrops()
+                        .sound(SoundType.STONE));
+                BlockTag.addTag(BlockTags.MINEABLE_WITH_PICKAXE, block);
+                BlockTag.addTag(BlockTags.NEEDS_IRON_TOOL, block);
+                return block;
+            }
+
+            @Override
+            public String getBlockStateJson() {
+                return JsonPrefab.WALL;
             }
         };
     }

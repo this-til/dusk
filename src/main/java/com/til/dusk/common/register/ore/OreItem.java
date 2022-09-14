@@ -218,31 +218,31 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
             public Item createArmsItem(Ore ore, ArmsData armsData) {
                 return new CapabilitySwordItem(ore, this, armsData);
             }
-        }.setSet(IS_SWORD, true);
+        }.setSet(IS_SWORD, null);
         shovel = (OreItemArms) new OreItemArms("shovel") {
             @Override
             public Item createArmsItem(Ore ore, ArmsData armsData) {
                 return new CapabilityShovelItem(ore, this, armsData);
             }
-        }.setSet(IS_SHOVEL, true);
+        }.setSet(IS_SHOVEL, null);
         pickaxe = (OreItemArms) new OreItemArms("pickaxe") {
             @Override
             public Item createArmsItem(Ore ore, ArmsData armsData) {
                 return new CapabilityPickaxeItem(ore, this, armsData);
             }
-        }.setSet(IS_PICKAXE, true);
+        }.setSet(IS_PICKAXE, null);
         axe = (OreItemArms) new OreItemArms("axe") {
             @Override
             public Item createArmsItem(Ore ore, ArmsData armsData) {
                 return new CapabilityAxeItem(ore, this, armsData);
             }
-        }.setSet(IS_AXE, true);
+        }.setSet(IS_AXE, null);
         hoe = (OreItemArms) new OreItemArms("hoe") {
             @Override
             public Item createArmsItem(Ore ore, ArmsData armsData) {
                 return new CapabilityHoeItem(ore, this, armsData);
             }
-        }.setSet(IS_HOE, true);
+        }.setSet(IS_HOE, null);
 
         head = new OreItemArmor("head", EquipmentSlot.HEAD);
         chest = new OreItemArmor("chest", EquipmentSlot.CHEST);
@@ -300,7 +300,7 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
         }
     }
 
-    public static class MineralBlockOreItem extends  OreItem{
+    public static class MineralBlockOreItem extends OreItem {
         public MineralBlockOreItem(ResourceLocation name) {
             super(name);
         }
@@ -325,8 +325,8 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
         public OreItemArmor(ResourceLocation name, EquipmentSlot equipmentSlot) {
             super(name);
             this.equipmentSlot = equipmentSlot;
-            setSet(IS_ARMOR, true);
-            setSet(as(equipmentSlot), true);
+            setSet(IS_ARMOR, null);
+            setSet(as(equipmentSlot), null);
         }
 
         public OreItemArmor(String name, EquipmentSlot equipmentSlot) {
@@ -350,7 +350,7 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
     public abstract static class OreItemArms extends OreItem {
         public OreItemArms(ResourceLocation name) {
             super(name);
-            setSet(IS_ARMOR, true);
+            setSet(IS_ARMOR, null);
         }
 
         public OreItemArms(String name) {
@@ -671,14 +671,14 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
     /***
      * 是装备
      */
-    public static final GenericMap.IKey.BoolKey IS_ARMOR = new GenericMap.IKey.BoolKey();
+    public static final GenericMap.IKey<Void> IS_ARMOR = new GenericMap.IKey.Key<>();
 
-    public static final GenericMap.IKey.BoolKey IS_HEAD = new GenericMap.IKey.BoolKey();
-    public static final GenericMap.IKey.BoolKey IS_CHEST = new GenericMap.IKey.BoolKey();
-    public static final GenericMap.IKey.BoolKey IS_LEGS = new GenericMap.IKey.BoolKey();
-    public static final GenericMap.IKey.BoolKey IS_FEET = new GenericMap.IKey.BoolKey();
+    public static final GenericMap.IKey<Void> IS_HEAD = new GenericMap.IKey.Key<>();
+    public static final GenericMap.IKey<Void> IS_CHEST = new GenericMap.IKey.Key<>();
+    public static final GenericMap.IKey<Void> IS_LEGS = new GenericMap.IKey.Key<>();
+    public static final GenericMap.IKey<Void> IS_FEET = new GenericMap.IKey.Key<>();
 
-    public static GenericMap.IKey.BoolKey as(EquipmentSlot equipmentSlot) {
+    public static GenericMap.IKey<Void> as(EquipmentSlot equipmentSlot) {
         return switch (equipmentSlot) {
             default -> IS_ARMOR;
             case HEAD -> IS_HEAD;
@@ -691,11 +691,11 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
     /***
      * 是武器
      */
-    public static final GenericMap.IKey.BoolKey IS_ARMS = new GenericMap.IKey.BoolKey();
+    public static final GenericMap.IKey<Void> IS_ARMS = new GenericMap.IKey.Key<>();
 
-    public static final GenericMap.IKey.BoolKey IS_SWORD = new GenericMap.IKey.BoolKey();
-    public static final GenericMap.IKey.BoolKey IS_SHOVEL = new GenericMap.IKey.BoolKey();
-    public static final GenericMap.IKey.BoolKey IS_PICKAXE = new GenericMap.IKey.BoolKey();
-    public static final GenericMap.IKey.BoolKey IS_AXE = new GenericMap.IKey.BoolKey();
-    public static final GenericMap.IKey.BoolKey IS_HOE = new GenericMap.IKey.BoolKey();
+    public static final GenericMap.IKey<Void> IS_SWORD = new GenericMap.IKey.Key<>();
+    public static final GenericMap.IKey<Void> IS_SHOVEL = new GenericMap.IKey.Key<>();
+    public static final GenericMap.IKey<Void> IS_PICKAXE = new GenericMap.IKey.Key<>();
+    public static final GenericMap.IKey<Void> IS_AXE = new GenericMap.IKey.Key<>();
+    public static final GenericMap.IKey<Void> IS_HOE = new GenericMap.IKey.Key<>();
 }

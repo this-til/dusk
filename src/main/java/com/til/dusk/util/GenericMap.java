@@ -14,17 +14,12 @@ public class GenericMap extends HashMap<GenericMap.IKey<?>, Object> {
         super();
     }
 
-    @Override
-    public boolean containsKey(Object key) {
-        if (!super.containsKey(key)) {
-            return false;
-        }
-        return this.get(key) != null;
-    }
-
     public <V> V get(IKey<V> key) {
         Object obj = this.get((Object) key);
-        return key.as(obj);
+        if (obj == null) {
+            return null;
+        }
+        return Util.forcedConversion(obj);
     }
 
     public <V> void set(IKey<V> key, V v) {
@@ -32,39 +27,10 @@ public class GenericMap extends HashMap<GenericMap.IKey<?>, Object> {
     }
 
     public interface IKey<V> {
-        V as(@Nullable Object obj);
-
-        boolean has(@Nullable Object obj);
 
         class Key<V> implements IKey<V> {
-            @Override
-            public V as(@Nullable Object obj) {
-                if (obj == null) {
-                    return null;
-                }
-                return Util.forcedConversion(obj);
-            }
-
-            @Override
-            public boolean has(@Nullable Object obj) {
-                return obj != null;
-            }
         }
 
-        class BoolKey implements IKey<Boolean> {
-            @Override
-            public Boolean as(@Nullable Object obj) {
-                if (obj == null) {
-                    return false;
-                }
-                return obj.equals(true);
-            }
-
-            @Override
-            public boolean has(@Nullable Object obj) {
-                return as(obj);
-            }
-        }
     }
 
 }
