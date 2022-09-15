@@ -202,6 +202,7 @@ public abstract class OreBlock extends RegisterBasics.BlockUnitRegister<OreBlock
                         .sound(SoundType.STONE));
                 BlockTag.addTag(BlockTags.MINEABLE_WITH_PICKAXE, block);
                 BlockTag.addTag(BlockTags.NEEDS_IRON_TOOL, block);
+                BlockTag.addTag(BlockTags.WALLS, block);
                 return block;
             }
 

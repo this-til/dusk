@@ -9,6 +9,7 @@ import com.til.dusk.common.capability.skill.ItemStackSkill;
 import com.til.dusk.common.capability.mana_handle.VariableManaHandle;
 import com.til.dusk.common.capability.DuskCapabilityProvider;
 import com.til.dusk.common.capability.IItemDefaultCapability;
+import com.til.dusk.common.data.tag.ItemTag;
 import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.register.skill.Skill;
@@ -26,6 +27,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.TierSortingRegistry;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -143,6 +145,12 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
      */
     public static OreItem dustTiny;
 
+    public static OreItemArmsBasics swordBasics;
+    public static OreItemArmsBasics shovelBasics;
+    public static OreItemArmsBasics pickaxeBasics;
+    public static OreItemArmsBasics axeBasics;
+    public static OreItemArmsBasics hoeBasics;
+
     public static OreItemArms sword;
     public static OreItemArms shovel;
     public static OreItemArms pickaxe;
@@ -212,35 +220,54 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
         crushedPurified = new MineralBlockOreItem("crushed_purified");
         dust = new OreItem("dust");
         dustTiny = new OreItem("dust_tiny");
-
+        swordBasics = new OreItemArmsBasics("sword_basics");
+        shovelBasics = new OreItemArmsBasics("shovel_basics");
+        pickaxeBasics = new OreItemArmsBasics("pickaxe_basics");
+        axeBasics = new OreItemArmsBasics("axe_basics");
+        hoeBasics = new OreItemArmsBasics("hoe_basics");
         sword = (OreItemArms) new OreItemArms("sword") {
             @Override
             public Item createArmsItem(Ore ore, ArmsData armsData) {
-                return new CapabilitySwordItem(ore, this, armsData);
+                CapabilitySwordItem item = new CapabilitySwordItem(ore, this, armsData);
+                ItemTag.addTag(Tags.Items.TOOLS, item);
+                ItemTag.addTag(Tags.Items.TOOLS_SWORDS, item);
+                return item;
             }
         }.setSet(IS_SWORD, null);
         shovel = (OreItemArms) new OreItemArms("shovel") {
             @Override
             public Item createArmsItem(Ore ore, ArmsData armsData) {
-                return new CapabilityShovelItem(ore, this, armsData);
+                CapabilityShovelItem item = new CapabilityShovelItem(ore, this, armsData);
+                ItemTag.addTag(Tags.Items.TOOLS, item);
+                ItemTag.addTag(Tags.Items.TOOLS_SHOVELS, item);
+                return item;
             }
         }.setSet(IS_SHOVEL, null);
         pickaxe = (OreItemArms) new OreItemArms("pickaxe") {
             @Override
             public Item createArmsItem(Ore ore, ArmsData armsData) {
-                return new CapabilityPickaxeItem(ore, this, armsData);
+                CapabilityPickaxeItem item = new CapabilityPickaxeItem(ore, this, armsData);
+                ItemTag.addTag(Tags.Items.TOOLS, item);
+                ItemTag.addTag(Tags.Items.TOOLS_PICKAXES, item);
+                return item;
             }
         }.setSet(IS_PICKAXE, null);
         axe = (OreItemArms) new OreItemArms("axe") {
             @Override
             public Item createArmsItem(Ore ore, ArmsData armsData) {
-                return new CapabilityAxeItem(ore, this, armsData);
+                CapabilityAxeItem item = new CapabilityAxeItem(ore, this, armsData);
+                ItemTag.addTag(Tags.Items.TOOLS, item);
+                ItemTag.addTag(Tags.Items.TOOLS_AXES, item);
+                return item;
             }
         }.setSet(IS_AXE, null);
         hoe = (OreItemArms) new OreItemArms("hoe") {
             @Override
             public Item createArmsItem(Ore ore, ArmsData armsData) {
-                return new CapabilityHoeItem(ore, this, armsData);
+                CapabilityHoeItem item = new CapabilityHoeItem(ore, this, armsData);
+                ItemTag.addTag(Tags.Items.TOOLS, item);
+                ItemTag.addTag(Tags.Items.TOOLS_HOES, item);
+                return item;
             }
         }.setSet(IS_HOE, null);
 
@@ -326,7 +353,7 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
             super(name);
             this.equipmentSlot = equipmentSlot;
             setSet(IS_ARMOR, null);
-            setSet(as(equipmentSlot), null);
+            setSet(asArmorKey(equipmentSlot), null);
         }
 
         public OreItemArmor(String name, EquipmentSlot equipmentSlot) {
@@ -343,8 +370,31 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
 
         @Override
         public Item createItem(Ore ore) {
-            return new CapabilityArmorItem(ore.getSet(Ore.ARMOR_DATA), equipmentSlot, new Item.Properties().stacksTo(1).tab(Dusk.TAB), ore, this);
+            CapabilityArmorItem item = new CapabilityArmorItem(ore.getSet(Ore.ARMOR_DATA), equipmentSlot, new Item.Properties().stacksTo(1).tab(Dusk.TAB), ore, this);
+            ItemTag.addTag(Tags.Items.ARMORS, item);
+            ItemTag.addTag(asTag(equipmentSlot), item);
+            return item;
         }
+    }
+
+    public static class OreItemArmsBasics extends OreItem {
+        public OreItemArmsBasics(ResourceLocation name) {
+            super(name);
+            setSet(IS_ARMOR, null);
+        }
+
+        public OreItemArmsBasics(String name) {
+            this(new ResourceLocation(Dusk.MOD_ID, name));
+        }
+
+        @Override
+        public @Nullable ItemPack create(Ore ore) {
+            if (ore.hasSet(Ore.ARMS_DATA)) {
+                return super.create(ore);
+            }
+            return null;
+        }
+
     }
 
     public abstract static class OreItemArms extends OreItem {
@@ -355,7 +405,6 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
 
         public OreItemArms(String name) {
             this(new ResourceLocation(Dusk.MOD_ID, name));
-
         }
 
         @Override
@@ -678,7 +727,7 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
     public static final GenericMap.IKey<Void> IS_LEGS = new GenericMap.IKey.Key<>();
     public static final GenericMap.IKey<Void> IS_FEET = new GenericMap.IKey.Key<>();
 
-    public static GenericMap.IKey<Void> as(EquipmentSlot equipmentSlot) {
+    public static GenericMap.IKey<Void> asArmorKey(EquipmentSlot equipmentSlot) {
         return switch (equipmentSlot) {
             default -> IS_ARMOR;
             case HEAD -> IS_HEAD;
@@ -687,6 +736,17 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
             case FEET -> IS_FEET;
         };
     }
+
+    public static TagKey<Item> asTag(EquipmentSlot equipmentSlot) {
+        return switch (equipmentSlot) {
+            default -> Tags.Items.ARMORS;
+            case HEAD -> Tags.Items.ARMORS_HELMETS;
+            case CHEST -> Tags.Items.ARMORS_CHESTPLATES;
+            case LEGS -> Tags.Items.ARMORS_LEGGINGS;
+            case FEET -> Tags.Items.ARMORS_BOOTS;
+        };
+    }
+
 
     /***
      * 是武器

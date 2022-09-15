@@ -201,6 +201,11 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
     public static RecoveryShapedType recovery;
 
     /***
+     * 成型
+     */
+    public static FormingShapedType forming;
+
+    /***
      * 灵气凝聚
      */
     public static ManaCoagulationShapedType manaCoagulation;
@@ -249,6 +254,7 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
         blend = new BlendShapedType();
         decompose = new DecomposeShapedType();
         recovery = new RecoveryShapedType();
+        forming = new FormingShapedType();
         manaCoagulation = new ManaCoagulationShapedType();
     }
 

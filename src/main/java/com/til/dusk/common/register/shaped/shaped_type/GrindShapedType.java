@@ -14,9 +14,9 @@ import java.util.Map;
 /**
  * @author til
  */
-public class GrindShapedType extends ShapedType{
+public class GrindShapedType extends ShapedType {
 
-    public GrindShapedType(){
+    public GrindShapedType() {
         super("grind", () -> ManaLevelBlock.grind);
     }
 
@@ -51,7 +51,7 @@ public class GrindShapedType extends ShapedType{
                     (long) (ore.strength * 320L),
                     (long) (ore.consume * 8L),
                     0,
-                    Map.of(new ItemStack(ore.itemMap.get(OreItem.dust).item(), 1),1d),
+                    Map.of(new ItemStack(ore.itemMap.get(OreItem.dust).item(), 1), 1d),
                     null
             );
         }
@@ -106,5 +106,57 @@ public class GrindShapedType extends ShapedType{
                     null
             );
         }
+
+        for (Ore ore : Ore.screen(Ore.DECORATE_BLOCK_DATA)) {
+            new ShapedOre(
+                    this,
+                    ShapedDrive.get(6),
+                    ore.manaLevel,
+                    Map.of(ore.blockMap.get(OreBlock.block).blockItemTag(), 1),
+                    null,
+                    (long) (ore.strength * 5000L),
+                    (long) (ore.consume * 16L),
+                    0,
+                    Map.of(new ItemStack(ore.itemMap.get(OreItem.dust).item(), 9), 1d),
+                    null
+            );
+            new ShapedOre(
+                    this,
+                    ShapedDrive.get(7),
+                    ore.manaLevel,
+                    Map.of(ore.blockMap.get(OreBlock.slab).blockItemTag(), 1),
+                    null,
+                    (long) (ore.strength * 2000L),
+                    (long) (ore.consume * 16L),
+                    0,
+                    Map.of(new ItemStack(ore.itemMap.get(OreItem.dust).item(), 4), 1d),
+                    null
+            );
+            new ShapedOre(
+                    this,
+                    ShapedDrive.get(8),
+                    ore.manaLevel,
+                    Map.of(ore.blockMap.get(OreBlock.stairs).blockItemTag(), 1),
+                    null,
+                    (long) (ore.strength * 2000L),
+                    (long) (ore.consume * 16L),
+                    0,
+                    Map.of(new ItemStack(ore.itemMap.get(OreItem.dust).item(), 7), 1d),
+                    null
+            );
+            new ShapedOre(
+                    this,
+                    ShapedDrive.get(9),
+                    ore.manaLevel,
+                    Map.of(ore.blockMap.get(OreBlock.wall).blockItemTag(), 1),
+                    null,
+                    (long) (ore.strength * 2000L),
+                    (long) (ore.consume * 16L),
+                    0,
+                    Map.of(new ItemStack(ore.itemMap.get(OreItem.dust).item(), 6), 1d),
+                    null
+            );
+        }
+
     }
 }

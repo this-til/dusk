@@ -1,0 +1,8 @@
+{
+  "parent": "dusk:custom/pump_mechanic/pump_mechanic",
+  "render_type": "translucent",
+  "textures": {
+    "missing": "dusk:block/white_0",
+    "particle": "dusk:block/white"
+  }
+}

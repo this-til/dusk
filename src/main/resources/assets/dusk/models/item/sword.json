@@ -1,6 +1,7 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "dusk:item/sword"
+    "layer0": "dusk:item/sword_0",
+    "layer1": "dusk:item/sword_1"
   }
 }

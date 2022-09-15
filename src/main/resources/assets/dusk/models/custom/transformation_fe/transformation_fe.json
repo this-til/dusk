@@ -1,0 +1,126 @@
+{
+	"credit": "Made with Blockbench",
+	"elements": [
+		{
+			"from": [7, 7, 7],
+			"to": [9, 9, 9],
+			"color": 1,
+			"faces": {
+				"north": { "texture": "#missing","tintindex": 0},
+				"east": {"texture": "#missing","tintindex": 0},
+				"south": {"texture": "#missing","tintindex": 0},
+				"west": { "texture": "#missing","tintindex": 0},
+				"up": { "texture": "#missing","tintindex": 0},
+				"down": { "texture": "#missing","tintindex": 0}
+			}
+		},
+		{
+			"from": [10, 5, 7],
+			"to": [11, 11, 9],
+			"color": 1,
+			"faces": {
+				"north": { "texture": "#missing","tintindex": 0},
+				"east": {"texture": "#missing","tintindex": 0},
+				"south": {"texture": "#missing","tintindex": 0},
+				"west": { "texture": "#missing","tintindex": 0},
+				"up": { "texture": "#missing","tintindex": 0},
+				"down": { "texture": "#missing","tintindex": 0}
+			}
+		},
+		{
+			"from": [5, 5, 7],
+			"to": [6, 11, 9],
+			"color": 1,
+			"faces": {
+				"north": { "texture": "#missing","tintindex": 0},
+				"east": {"texture": "#missing","tintindex": 0},
+				"south": {"texture": "#missing","tintindex": 0},
+				"west": { "texture": "#missing","tintindex": 0},
+				"up": { "texture": "#missing","tintindex": 0},
+				"down": { "texture": "#missing","tintindex": 0}
+			}
+		},
+		{
+			"from": [6, 10, 7],
+			"to": [10, 11, 9],
+			"color": 1,
+			"faces": {
+				"north": { "texture": "#missing","tintindex": 0},
+				"east": {"texture": "#missing","tintindex": 0},
+				"south": {"texture": "#missing","tintindex": 0},
+				"west": { "texture": "#missing","tintindex": 0},
+				"up": { "texture": "#missing","tintindex": 0},
+				"down": { "texture": "#missing","tintindex": 0}
+			}
+		},
+		{
+			"from": [6, 5, 7],
+			"to": [10, 6, 9],
+			"color": 1,
+			"faces": {
+				"north": { "texture": "#missing","tintindex": 0},
+				"east": {"texture": "#missing","tintindex": 0},
+				"south": {"texture": "#missing","tintindex": 0},
+				"west": { "texture": "#missing","tintindex": 0},
+				"up": { "texture": "#missing","tintindex": 0},
+				"down": { "texture": "#missing","tintindex": 0}
+			}
+		},
+		{
+			"from": [5.75, 2.25, 2.25],
+			"to": [10.25, 13.75, 3.5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+			"color": 1,
+			"faces": {
+				"north": { "texture": "#missing","tintindex": 0},
+				"east": {"texture": "#missing","tintindex": 0},
+				"south": {"texture": "#missing","tintindex": 0},
+				"west": { "texture": "#missing","tintindex": 0},
+				"up": { "texture": "#missing","tintindex": 0},
+				"down": { "texture": "#missing","tintindex": 0}
+			}
+		},
+		{
+			"from": [5.75, 2.25, 12.5],
+			"to": [10.25, 13.75, 13.75],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+			"color": 1,
+			"faces": {
+				"north": { "texture": "#missing","tintindex": 0},
+				"east": {"texture": "#missing","tintindex": 0},
+				"south": {"texture": "#missing","tintindex": 0},
+				"west": { "texture": "#missing","tintindex": 0},
+				"up": { "texture": "#missing","tintindex": 0},
+				"down": { "texture": "#missing","tintindex": 0}
+			}
+		},
+		{
+			"from": [5.75, 12.5, 3.5],
+			"to": [10.25, 13.75, 12.5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+			"color": 1,
+			"faces": {
+				"north": { "texture": "#missing","tintindex": 0},
+				"east": {"texture": "#missing","tintindex": 0},
+				"south": {"texture": "#missing","tintindex": 0},
+				"west": { "texture": "#missing","tintindex": 0},
+				"up": { "texture": "#missing","tintindex": 0},
+				"down": { "texture": "#missing","tintindex": 0}
+			}
+		},
+		{
+			"from": [5.75, 2.25, 3.5],
+			"to": [10.25, 3.5, 12.5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+			"color": 1,
+			"faces": {
+				"north": { "texture": "#missing","tintindex": 0},
+				"east": {"texture": "#missing","tintindex": 0},
+				"south": {"texture": "#missing","tintindex": 0},
+				"west": { "texture": "#missing","tintindex": 0},
+				"up": { "texture": "#missing","tintindex": 0},
+				"down": { "texture": "#missing","tintindex": 0}
+			}
+		}
+	]
+}

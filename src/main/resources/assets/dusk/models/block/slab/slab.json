@@ -4,8 +4,8 @@
     "bottom0": "dusk:block/black",
     "side0": "dusk:block/black",
     "top": "dusk:block/black",
-    "bottom1": "dusk:block/brick",
-    "side1": "dusk:block/brick",
-    "top1": "dusk:block/brick"
+    "bottom1": "minecraft:block/iron_block",
+    "side1": "minecraft:block/iron_block",
+    "top1": "minecraft:block/iron_block"
   }
 }
