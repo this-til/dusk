@@ -26,6 +26,10 @@ public class ManaLevelItem extends RegisterBasics.ItemUnitRegister<ManaLevelItem
 
     public static Supplier<IForgeRegistry<ManaLevelItem>> LEVEL_ITEM;
 
+    public static ManaLevelItem operationProcessorBasics;
+    public static ManaLevelItem operationCrystalBasics;
+    public static ManaLevelItem operationHostBasics;
+
     public static ManaLevelItem operationProcessor;
     public static ManaLevelItem operationCrystal;
     public static ManaLevelItem operationHost;
@@ -33,6 +37,41 @@ public class ManaLevelItem extends RegisterBasics.ItemUnitRegister<ManaLevelItem
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
         LEVEL_ITEM = event.create(new RegistryBuilder<ManaLevelItem>().setName(new ResourceLocation(Dusk.MOD_ID, "mana_level_item")));
+        operationProcessorBasics = new ManaLevelItem("operation_processor_basics") {
+            @Override
+            public @Nullable ItemPack create(ManaLevel manaLevel) {
+                if (manaLevel.up != null) {
+                    return super.create(manaLevel);
+                }
+                return null;
+            }
+
+            @Override
+            public Item createItem(ManaLevel manaLevel) {
+                Item item = super.createItem(manaLevel);
+                assert manaLevel.up != null;
+                ItemTag.addTag(ItemTags.create(fuseName("/", manaLevel.up.get(), operationCrystalBasics)), item);
+                return item;
+            }
+        };
+        operationCrystalBasics = new ManaLevelItem("operation_crystal_basics");
+        operationHostBasics = new ManaLevelItem("operation_host_basics") {
+            @Override
+            public @Nullable ItemPack create(ManaLevel manaLevel) {
+                if (manaLevel.next != null) {
+                    return super.create(manaLevel);
+                }
+                return null;
+            }
+
+            @Override
+            public Item createItem(ManaLevel manaLevel) {
+                Item item = super.createItem(manaLevel);
+                assert manaLevel.next != null;
+                ItemTag.addTag(ItemTags.create(fuseName("/", manaLevel.next.get(), operationCrystalBasics)), item);
+                return item;
+            }
+        };
         operationProcessor = new ManaLevelItem("operation_processor") {
 
             @Override
@@ -44,11 +83,11 @@ public class ManaLevelItem extends RegisterBasics.ItemUnitRegister<ManaLevelItem
             }
 
             @Override
-            public TagKey<Item> createItemTag(ManaLevel manaLevel) {
-                if (manaLevel.up != null) {
-                    return ItemTags.create(fuseName("/", manaLevel.up.get(), operationCrystal));
-                }
-                return null;
+            public Item createItem(ManaLevel manaLevel) {
+                Item item = super.createItem(manaLevel);
+                assert manaLevel.up != null;
+                ItemTag.addTag(ItemTags.create(fuseName("/", manaLevel.up.get(), operationCrystal)), item);
+                return item;
             }
 
         };
@@ -63,11 +102,11 @@ public class ManaLevelItem extends RegisterBasics.ItemUnitRegister<ManaLevelItem
             }
 
             @Override
-            public TagKey<Item> createItemTag(ManaLevel manaLevel) {
-                if (manaLevel.next != null) {
-                    return ItemTags.create(fuseName("/", manaLevel.next.get(), operationCrystal));
-                }
-                return null;
+            public Item createItem(ManaLevel manaLevel) {
+                Item item = super.createItem(manaLevel);
+                assert manaLevel.next != null;
+                ItemTag.addTag(ItemTags.create(fuseName("/", manaLevel.next.get(), operationCrystal)), item);
+                return item;
             }
 
         };

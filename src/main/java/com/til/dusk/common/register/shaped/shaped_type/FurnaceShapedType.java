@@ -6,6 +6,9 @@ import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.SmeltingRecipe;
 
+/**
+ * @author til
+ */
 public class FurnaceShapedType extends ShapedType {
 
     public FurnaceShapedType() {

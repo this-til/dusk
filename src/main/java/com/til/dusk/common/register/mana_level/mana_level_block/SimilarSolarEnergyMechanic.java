@@ -2,7 +2,11 @@ package com.til.dusk.common.register.mana_level.mana_level_block;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.client.ColorProxy;
+import com.til.dusk.common.capability.CapabilityHelp;
+import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.capability.mana_handle.IManaHandle;
+import com.til.dusk.common.capability.pos.IPosTrack;
+import com.til.dusk.common.register.BindType;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.Extension;
@@ -12,7 +16,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
-import java.awt.*;
+import java.util.Map;
 
 /**
  * @author til
@@ -36,12 +40,16 @@ public class SimilarSolarEnergyMechanic extends PassiveProductionMechanic {
     }
 
     @Override
-    public void up(BlockEntity blockEntity, IManaHandle iManaHandle, ManaLevel manaLevel) {
+    public void up(BlockEntity blockEntity, IControl iControl, ManaLevel manaLevel) {
         Level level = blockEntity.getLevel();
         if (level == null || level.isClientSide) {
             return;
         }
         if (!isTimePass.func(level)) {
+            return;
+        }
+        Map<IPosTrack, IManaHandle> outMana = iControl.getCapability(BindType.manaOut);
+        if (outMana.isEmpty()) {
             return;
         }
         BlockPos blockPos = blockEntity.getBlockPos();
@@ -50,7 +58,7 @@ public class SimilarSolarEnergyMechanic extends PassiveProductionMechanic {
                 return;
             }
         }
-        iManaHandle.addMana(manaLevel.level * productionMultiple,false);
+        CapabilityHelp.addMana(iControl.getPosTrack(), null, outMana, manaLevel.level * productionMultiple, false);
     }
 
     @Override

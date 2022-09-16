@@ -73,6 +73,7 @@ public class ItemTag {
     public static Extension.Data_2<TagKey<Item>, TagKey<Block>> ICES;
     public static Extension.Data_2<TagKey<Item>, TagKey<Block>> SNOW_BLOCK;
     public static Extension.Data_2<TagKey<Item>, TagKey<Block>> SLIME_BLOCK;
+    public static Extension.Data_2<TagKey<Item>, TagKey<Block>> GRASS;
 
     public static TagKey<Item> ENDER_EYE;
     public static TagKey<Item> SNOWBALL;
@@ -96,6 +97,7 @@ public class ItemTag {
         }
         SNOW_BLOCK = createBlockTag((BlockItem) Items.SNOW_BLOCK);
         SLIME_BLOCK = createBlockTag((BlockItem) Items.SLIME_BLOCK);
+        GRASS = createBlockTag((BlockItem) Items.GRASS);
         ENDER_EYE = createTag(Items.ENDER_EYE);
         SNOWBALL = createTag(Items.SNOWBALL);
         POWDER_SNOW_BUCKET = createTag(Items.POWDER_SNOW_BUCKET);

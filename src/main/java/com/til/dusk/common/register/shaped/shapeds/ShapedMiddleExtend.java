@@ -46,7 +46,7 @@ public abstract class ShapedMiddleExtend extends ShapedMiddle {
     public ShapedHandle get(IHandle iHandle, Map<IPosTrack, IItemHandler> items, Map<IPosTrack, IFluidHandler> fluids) {
         if (!extractItem(iHandle, items, true).isEmpty()) {
             ItemStack outItemStack = extractItem(iHandle, items, false);
-            create(outItemStack);
+           return create(outItemStack);
         }
         return null;
     }
@@ -56,6 +56,9 @@ public abstract class ShapedMiddleExtend extends ShapedMiddle {
         for (Map.Entry<IPosTrack, IItemHandler> entry : items.entrySet()) {
             for (int i = 0; i < entry.getValue().getSlots(); i++) {
                 ItemStack itemStack = entry.getValue().getStackInSlot(i);
+                if (itemStack.isEmpty()) {
+                    continue;
+                }
                 if (!isItem(itemStack)) {
                     continue;
                 }
@@ -74,5 +77,5 @@ public abstract class ShapedMiddleExtend extends ShapedMiddle {
      */
     protected abstract boolean isItem(ItemStack itemStack);
 
-    protected abstract ShapedHandle  create(ItemStack itemStack);
+    protected abstract ShapedHandle create(ItemStack itemStack);
 }

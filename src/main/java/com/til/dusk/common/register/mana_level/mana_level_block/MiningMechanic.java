@@ -75,7 +75,7 @@ public class MiningMechanic extends PosImplementMechanic {
                 return;
             }
             BlockEntity tileEntity = level.getBlockEntity(blockPos);
-            if (tileEntity != null && !shapedDriveList.contains(ShapedDrive.get(2))) {
+            if (tileEntity != null) {
                 return;
             }
             List<ItemStack> outItem = Block.getDrops(blockState, serverLevel, blockPos, tileEntity);
