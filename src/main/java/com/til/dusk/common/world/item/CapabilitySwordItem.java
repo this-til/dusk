@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 public class CapabilitySwordItem extends SwordItem implements IItemDefaultCapability {
     public final Ore ore;
     public final OreItem oreItem;
-    public OreItem.ArmsData armsData;
+    public final OreItem.ArmsData armsData;
 
     public CapabilitySwordItem(Ore ore, OreItem oreItem, OreItem.ArmsData armsData) {
         super(armsData, (int) (armsData.attackDamageBonus * 1.2f), armsData.speed, new Properties().stacksTo(1).tab(Dusk.TAB));

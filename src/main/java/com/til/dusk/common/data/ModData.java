@@ -6,12 +6,12 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
 import com.til.dusk.Dusk;
+import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 import com.til.dusk.common.register.shaped.shapeds.Shaped;
 import com.til.dusk.common.data.tag.BlockTag;
 import com.til.dusk.common.data.tag.FluidTag;
 import com.til.dusk.common.data.tag.ItemTag;
 import com.til.dusk.common.data.tag.PotionsTag;
-import com.til.dusk.util.nbt.NBTUtil;
 import com.til.dusk.util.nbt.pack.AllNBTPack;
 import net.minecraft.core.Registry;
 import net.minecraft.data.CachedOutput;
@@ -22,7 +22,6 @@ import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.data.tags.FluidTagsProvider;
 import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.data.tags.TagsProvider;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
@@ -45,7 +44,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import org.jetbrains.annotations.NotNull;
 
-import javax.json.Json;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -101,6 +99,9 @@ public class ModData {
         event.getGenerator().addProvider(true, new DataProvider() {
             @Override
             public void run(@NotNull CachedOutput cachedOutput) throws IOException {
+                for (ShapedType shapedType : ShapedType.SHAPED_TYPE.get()) {
+                    shapedType.registerShaped();
+                }
                 for (Map.Entry<String, Shaped> entry : Shaped.ID_MAP.entrySet()) {
                     Shaped shaped = entry.getValue();
                     JsonObject jsonObject = new JsonObject();
@@ -125,7 +126,7 @@ public class ModData {
             }
         });
 
-        event.getGenerator().addProvider(true, new LootTableProvider(event.getGenerator()){
+        event.getGenerator().addProvider(true, new LootTableProvider(event.getGenerator()) {
             @Override
             protected @NotNull List<Pair<Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>>, LootContextParamSet>> getTables() {
                 List<Pair<Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>>, LootContextParamSet>> list = new ArrayList<>();
@@ -146,7 +147,7 @@ public class ModData {
 
     @SubscribeEvent
     public static void onEvent(FMLCommonSetupEvent fmlCommonSetupEvent) {
-        MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, (Consumer<AddReloadListenerEvent>)event -> {
+        MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, (Consumer<AddReloadListenerEvent>) event -> {
             Shaped.MAP.clear();
             Shaped.ID_MAP.clear();
             event.addListener(new SimpleJsonResourceReloadListener(new Gson(), "shaped") {

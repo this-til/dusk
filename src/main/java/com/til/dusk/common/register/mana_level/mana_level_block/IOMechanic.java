@@ -15,6 +15,7 @@ import com.til.dusk.common.capability.DuskCapabilityProvider;
 import com.til.dusk.common.register.BindType;
 import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.common.register.mana_level.ManaLevel;
+import com.til.dusk.common.world.block.ModBlock;
 import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.Extension;
 import com.til.dusk.util.prefab.ColorPrefab;
@@ -28,7 +29,6 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 
-import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,8 +50,8 @@ public class IOMechanic extends DefaultCapacityMechanic {
     }
 
     @Override
-    public ResourceLocation getBlockModelMapping(ManaLevel manaLevel) {
-        return MODEL_NAME;
+    public ModBlock.ICustomModel getBlockModelMapping(ManaLevel manaLevel) {
+        return () -> MODEL_NAME;
     }
 
     @Override

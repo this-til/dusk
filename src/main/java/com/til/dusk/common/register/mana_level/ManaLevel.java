@@ -4,7 +4,8 @@ import com.til.dusk.Dusk;
 import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.register.mana_level.mana_level_block.ManaLevelBlock;
 import com.til.dusk.util.DuskColor;
-import com.til.dusk.util.GenericMap;
+import com.til.dusk.util.pack.RegistryPack;
+import com.til.dusk.util.pack.TagPack;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -12,15 +13,15 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.*;
 
 import javax.annotation.Nullable;
-import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Supplier;
 
 /**
  * @author til
  */
 @Mod.EventBusSubscriber(modid = Dusk.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class
-ManaLevel extends RegisterBasics.UnitRegister<ManaLevel, ManaLevelItem, ManaLevelBlock, ManaLevelFluid> {
+public class ManaLevel extends RegisterBasics.UnitRegister<ManaLevel, ManaLevelItem, ManaLevelBlock, ManaLevelFluid> {
 
     public static Supplier<IForgeRegistry<ManaLevel>> LEVEL;
 
@@ -38,13 +39,13 @@ ManaLevel extends RegisterBasics.UnitRegister<ManaLevel, ManaLevelItem, ManaLeve
     public static void onEvent(NewRegistryEvent event) {
         LEVEL = event.create(new RegistryBuilder<ManaLevel>().setName(new ResourceLocation(Dusk.MOD_ID, "mana_level")));
         t1 = new ManaLevel(1, 2560, 1, 2, 0.1, 16, new DuskColor(50, 255, 255), null, () -> t2);
-        t2 = new ManaLevel(2, 1280, 2, 2, 0.09, 17, new DuskColor(100, 200, 225), () -> t1, () -> t3);
-        t3 = new ManaLevel(3, 640, 3, 4, 0.08, 18, new DuskColor(125, 150, 200), () -> t2, () -> t4);
-        t4 = new ManaLevel(4, 320, 4, 4, 0.07, 19, new DuskColor(150, 100, 175), () -> t3, () -> t5);
-        t5 = new ManaLevel(5, 160, 5, 8, 0.06, 20, new DuskColor(175, 100, 150), () -> t4, () -> t6);
-        t6 = new ManaLevel(6, 80, 6, 8, 0.05, 21, new DuskColor(200, 150, 120), () -> t5, () -> t7);
-        t7 = new ManaLevel(7, 40, 7, 16, 0.04, 22, new DuskColor(225, 200, 100), () -> t6, () -> t8);
-        t8 = new ManaLevel(8, 20, 8, 16, 0.03, 23, new DuskColor(255, 255, 50), () -> t7, null);
+        t2 = new ManaLevel(2, 1280, 2, 2, 0.09, 18, new DuskColor(100, 200, 225), () -> t1, () -> t3);
+        t3 = new ManaLevel(3, 640, 3, 4, 0.08, 20, new DuskColor(125, 150, 200), () -> t2, () -> t4);
+        t4 = new ManaLevel(4, 320, 4, 4, 0.07, 22, new DuskColor(150, 100, 175), () -> t3, () -> t5);
+        t5 = new ManaLevel(5, 160, 5, 8, 0.06, 24, new DuskColor(175, 100, 150), () -> t4, () -> t6);
+        t6 = new ManaLevel(6, 80, 6, 8, 0.05, 26, new DuskColor(200, 150, 120), () -> t5, () -> t7);
+        t7 = new ManaLevel(7, 40, 7, 16, 0.04, 28, new DuskColor(225, 200, 100), () -> t6, () -> t8);
+        t8 = new ManaLevel(8, 20, 8, 16, 0.03, 30, new DuskColor(255, 255, 50), () -> t7, null);
     }
 
     /***
@@ -72,6 +73,9 @@ ManaLevel extends RegisterBasics.UnitRegister<ManaLevel, ManaLevelItem, ManaLeve
      */
     public final double manaLoss;
 
+    /***
+     * 机器的最大范围
+     */
     public final int maxRange;
 
     /***
@@ -91,6 +95,8 @@ ManaLevel extends RegisterBasics.UnitRegister<ManaLevel, ManaLevelItem, ManaLeve
     @Nullable
     public final Supplier<ManaLevel> next;
 
+    public final Map<RegisterBasics<?>, TagPack> relationTagMap = new HashMap<>();
+
     public ManaLevel(int level, int clock, int parallel, int maxBind, double manaLoss, int maxRange, DuskColor color, @Nullable Supplier<ManaLevel> up, @Nullable Supplier<ManaLevel> next) {
         this(new ResourceLocation(Dusk.MOD_ID, "t" + level), level, clock, parallel, maxBind, manaLoss, maxRange, color, up, next);
     }
@@ -108,19 +114,27 @@ ManaLevel extends RegisterBasics.UnitRegister<ManaLevel, ManaLevelItem, ManaLeve
         this.next = next;
     }
 
-
-    @Override
-    public Supplier<IForgeRegistry<ManaLevelItem>> itemRegistry() {
-        return ManaLevelItem.LEVEL_ITEM;
+    public TagPack getRelationTagMap(RegisterBasics<?> registerBasics) {
+        if (relationTagMap.containsKey(registerBasics)) {
+            return relationTagMap.get(registerBasics);
+        }
+        TagPack tagPack = new TagPack(
+                Dusk.instance.ITEM_TAG.createTagKey(fuseName("/", this, registerBasics)),
+                Dusk.instance.BLOCK_TAG.createTagKey(fuseName("/", this, registerBasics)),
+                Dusk.instance.FLUID_TAG.createTagKey(fuseName("/", this, registerBasics))
+        );
+        relationTagMap.put(registerBasics, tagPack);
+        return tagPack;
     }
 
     @Override
-    public Supplier<IForgeRegistry<ManaLevelBlock>> blockRegistry() {
-        return ManaLevelBlock.LEVEL_BLOCK;
+    public RegistryPack<ManaLevel, ManaLevelItem, ManaLevelBlock, ManaLevelFluid> getCellRegistry() {
+        if (cellRegistry == null) {
+            cellRegistry = new RegistryPack<>(ManaLevelItem.LEVEL_ITEM, ManaLevelBlock.LEVEL_BLOCK, ManaLevelFluid.LEVEL_FLUID);
+        }
+        return cellRegistry;
     }
 
-    @Override
-    public Supplier<IForgeRegistry<ManaLevelFluid>> fluidRegistry() {
-        return ManaLevelFluid.LEVEL_FLUID;
-    }
+    public static RegistryPack<ManaLevel, ManaLevelItem, ManaLevelBlock, ManaLevelFluid> cellRegistry;
+
 }

@@ -12,7 +12,6 @@ import com.til.dusk.util.Lang;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.IItemHandler;
@@ -63,9 +62,8 @@ public abstract class Shaped {
      * 此调用不会自动注册
      * @param name json文件限定名
      * @param jsonObject json文件内容
-     * @throws Exception 如果抛出将忽视该配方
      */
-    public Shaped(ResourceLocation name, JsonObject jsonObject) throws Exception {
+    public Shaped(ResourceLocation name, JsonObject jsonObject) {
         String[] strings = name.getPath().split("/");
         this.shapedType = ShapedType.SHAPED_TYPE.get().getValue(new ResourceLocation(name.getNamespace(), strings[0]));
         this.shapedDrive = ShapedDrive.get(Integer.parseInt(strings[1]));

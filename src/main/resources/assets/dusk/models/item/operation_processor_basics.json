@@ -1,7 +1,0 @@
-{
-  "parent": "item/generated",
-  "textures": {
-    "layer0": "dusk:item/crystal",
-    "layer1": "dusk:item/operation_processor_stroke"
-  }
-}

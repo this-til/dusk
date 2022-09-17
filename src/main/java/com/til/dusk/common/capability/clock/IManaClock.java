@@ -2,7 +2,6 @@ package com.til.dusk.common.capability.clock;
 
 import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.register.shaped.ShapedHandleProcess;
-import net.minecraft.world.level.block.entity.BlockEntity;
 
 /**
  * @author til

@@ -8,7 +8,6 @@ import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
 import net.minecraftforge.fluids.FluidStack;
 
-import java.util.List;
 import java.util.Map;
 
 /**

@@ -5,8 +5,6 @@ import com.til.dusk.common.register.ore.Ore;
 import com.til.dusk.common.register.ore.OreItem;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
-import net.minecraft.tags.TagKey;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.HashMap;

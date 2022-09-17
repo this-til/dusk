@@ -1,32 +1,20 @@
 package com.til.dusk.common.register.shaped.shapeds;
 
 import com.google.gson.JsonObject;
-import com.til.dusk.Dusk;
 import com.til.dusk.common.capability.CapabilityHelp;
 import com.til.dusk.common.capability.handle.IHandle;
 import com.til.dusk.common.capability.handle.ShapedHandle;
 import com.til.dusk.common.capability.pos.IPosTrack;
-import com.til.dusk.common.data.tag.ItemTag;
-import com.til.dusk.common.data.tag.PotionsTag;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
-import com.til.dusk.util.Pos;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.alchemy.Potion;
-import net.minecraft.world.item.alchemy.PotionUtils;
-import net.minecraft.world.item.alchemy.Potions;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.registries.tags.IReverseTag;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 /***
  * 对单一物品进行处理

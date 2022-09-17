@@ -1,6 +1,5 @@
 package com.til.dusk.common.register.mana_level.mana_level_block;
 
-import com.til.dusk.Dusk;
 import com.til.dusk.common.capability.CapabilityHelp;
 import com.til.dusk.common.capability.black.Back;
 import com.til.dusk.common.capability.black.IBack;
@@ -12,7 +11,6 @@ import com.til.dusk.common.capability.DuskCapabilityProvider;
 import com.til.dusk.common.register.BindType;
 import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.common.register.mana_level.ManaLevel;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;

@@ -6,7 +6,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fml.common.Mod;
 
 import java.util.List;
 
@@ -18,7 +17,7 @@ public class EventIO<T> extends Event {
 
     public final Level level;
 
-    public RoutePack<T> routePack;
+    public final RoutePack<T> routePack;
 
 
     public EventIO(Level level, RoutePack<T> routePack) {

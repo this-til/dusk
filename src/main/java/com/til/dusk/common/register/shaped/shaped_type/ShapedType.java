@@ -3,7 +3,6 @@ package com.til.dusk.common.register.shaped.shaped_type;
 import com.til.dusk.Dusk;
 import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.register.mana_level.mana_level_block.ManaLevelBlock;
-import net.minecraft.SharedConstants;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -272,11 +271,6 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
     @Override
     public EventPriority getRegisterBlackPriority() {
         return EventPriority.LOWEST;
-    }
-
-    @Override
-    public final void registerSubsidiaryBlack() {
-        registerShaped();
     }
 
     public abstract void registerShaped();

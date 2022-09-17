@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class FluidTag {
 
-    public static Map<TagKey<Fluid>, List<Fluid>> map = new HashMap<>();
+    public static final Map<TagKey<Fluid>, List<Fluid>> map = new HashMap<>();
 
     public static void addTag(TagKey<Fluid> tTagKey, Fluid t) {
         List<Fluid> tList;

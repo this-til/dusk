@@ -9,6 +9,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.text.MessageFormat;
+
 /**
  * @author til
  */
@@ -23,7 +25,22 @@ public class ModBlock {
     public interface ICustomModel extends ModItem.ICustomModel {
         ResourceLocation blockModelName();
 
+        @Override
+        default ResourceLocation itemModelName() {
+            return blockModelName();
+        }
+
         default String blockStateJson() {
+            ResourceLocation resourceLocation = blockModelName();
+            return MessageFormat.format(blockJsonBasics(), resourceLocation.getNamespace(), resourceLocation.getPath());
+        }
+
+        @Override
+        default String itemJsonBasics() {
+            return JsonPrefab.ITEM_BLOCK_FATHER;
+        }
+
+        default String blockJsonBasics() {
             return JsonPrefab.BLOCK_STATE_MODEL;
         }
     }

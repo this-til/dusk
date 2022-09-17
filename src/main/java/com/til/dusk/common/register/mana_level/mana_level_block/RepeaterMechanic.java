@@ -2,6 +2,8 @@ package com.til.dusk.common.register.mana_level.mana_level_block;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.common.register.mana_level.ManaLevel;
+import com.til.dusk.common.register.ore.Ore;
+import com.til.dusk.common.world.block.ModBlock;
 import com.til.dusk.common.world.block.RepeaterBlock;
 import com.til.dusk.util.prefab.JsonPrefab;
 import net.minecraft.resources.ResourceLocation;
@@ -26,8 +28,18 @@ public class RepeaterMechanic extends Mechanic {
     }
 
     @Override
-    public String getBlockStateJson() {
-        return JsonPrefab.FACING_BLOCK_STATE_JSON;
+    public ModBlock.ICustomModel getBlockModelMapping(ManaLevel manaLevel) {
+        return new ModBlock.ICustomModel() {
+            @Override
+            public ResourceLocation blockModelName() {
+                return name;
+            }
+
+            @Override
+            public String blockJsonBasics() {
+                return JsonPrefab.FACING_BLOCK_STATE_JSON;
+            }
+        };
     }
 
 

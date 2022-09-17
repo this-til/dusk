@@ -1,6 +1,5 @@
 package com.til.dusk.common.register.mana_level.mana_level_block;
 
-import com.til.dusk.Dusk;
 import com.til.dusk.common.capability.CapabilityHelp;
 import com.til.dusk.common.capability.black.IBack;
 import com.til.dusk.common.capability.clock.IClock;
@@ -15,7 +14,6 @@ import com.til.dusk.util.Extension;
 import com.til.dusk.util.Pos;
 import com.til.dusk.util.RoutePack;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;

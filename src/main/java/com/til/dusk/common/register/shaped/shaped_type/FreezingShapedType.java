@@ -1,6 +1,5 @@
 package com.til.dusk.common.register.shaped.shaped_type;
 
-import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.register.mana_level.mana_level_block.ManaLevelBlock;
 import com.til.dusk.common.register.ore.Ore;
 import com.til.dusk.common.register.ore.OreFluid;

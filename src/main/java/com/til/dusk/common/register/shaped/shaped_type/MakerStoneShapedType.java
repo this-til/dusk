@@ -8,9 +8,7 @@ import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.common.Tags;
 
-import java.util.List;
 import java.util.Map;
 
 /**

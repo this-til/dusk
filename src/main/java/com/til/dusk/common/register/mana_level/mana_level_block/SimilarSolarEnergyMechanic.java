@@ -8,6 +8,7 @@ import com.til.dusk.common.capability.mana_handle.IManaHandle;
 import com.til.dusk.common.capability.pos.IPosTrack;
 import com.til.dusk.common.register.BindType;
 import com.til.dusk.common.register.mana_level.ManaLevel;
+import com.til.dusk.common.world.block.ModBlock;
 import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.Extension;
 import net.minecraft.core.BlockPos;
@@ -74,7 +75,7 @@ public class SimilarSolarEnergyMechanic extends PassiveProductionMechanic {
     }
 
     @Override
-    public ResourceLocation getBlockModelMapping(ManaLevel manaLevel) {
-        return MODEL_NAME;
+    public ModBlock.ICustomModel getBlockModelMapping(ManaLevel manaLevel) {
+        return () -> MODEL_NAME;
     }
 }

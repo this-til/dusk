@@ -1,7 +1,6 @@
 package com.til.dusk.client;
 
 import com.google.common.collect.ImmutableList;
-import com.til.dusk.Dusk;
 import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.register.mana_level.mana_level_block.ManaLevelBlock;
@@ -11,7 +10,6 @@ import com.til.dusk.common.register.ore.Ore;
 import com.til.dusk.common.register.ore.OreBlock;
 import com.til.dusk.common.register.ore.OreFluid;
 import com.til.dusk.common.register.ore.OreItem;
-import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.world.block.ModBlock;
 import com.til.dusk.common.world.item.ModItem;
 import com.til.dusk.util.pack.BlockPack;
@@ -55,16 +53,16 @@ public class ModelProxy {
     public static void clientSetup(final FMLClientSetupEvent event) {
         for (Ore ore : Ore.ORE.get()) {
             for (Map.Entry<OreItem, ItemPack> entry : ore.itemMap.entrySet()) {
-                ITEM_MODEL_MAP.put(entry.getValue().item(), new ModelResourceLocation(entry.getKey().getItemMoldMapping(ore), "inventory"));
+                ITEM_MODEL_MAP.put(entry.getValue().item(), new ModelResourceLocation(entry.getKey().getItemMoldMapping(ore).itemJson(), "inventory"));
             }
             for (Map.Entry<OreBlock, BlockPack> entry : ore.blockMap.entrySet()) {
-                ITEM_MODEL_MAP.put(entry.getValue().blockItem(), new ModelResourceLocation(entry.getKey().getBlockItemMoldMapping(ore), "inventory"));
+                ITEM_MODEL_MAP.put(entry.getValue().blockItem(), new ModelResourceLocation(entry.getKey().getBlockModelMapping(ore).blockModelName(), "inventory"));
                 ImmutableList<BlockState> definition = entry.getValue().block().getStateDefinition().getPossibleStates();
                 if (definition.size() == 1) {
-                    BLOCK_STATE_MAP.put(definition.get(0), makeModelName(entry.getKey().getBlockModelMapping(ore), BLOCK));
+                    BLOCK_STATE_MAP.put(definition.get(0), makeModelName(entry.getKey().getBlockModelMapping(ore).blockModelName(), BLOCK));
                 } else {
                     for (BlockState blockState : definition) {
-                        BLOCK_STATE_MAP.put(blockState, new ModelResourceLocation(entry.getKey().getBlockItemMoldMapping(ore), BlockModelShaper.statePropertiesToString(blockState.getValues())));
+                        BLOCK_STATE_MAP.put(blockState, new ModelResourceLocation(entry.getKey().getBlockModelMapping(ore).blockModelName(), BlockModelShaper.statePropertiesToString(blockState.getValues())));
                     }
                 }
             }
@@ -93,16 +91,16 @@ public class ModelProxy {
 
         for (ManaLevel manaLevel : ManaLevel.LEVEL.get()) {
             for (Map.Entry<ManaLevelItem, ItemPack> entry : manaLevel.itemMap.entrySet()) {
-                ITEM_MODEL_MAP.put(entry.getValue().item(), new ModelResourceLocation(entry.getKey().getItemMoldMapping(manaLevel), "inventory"));
+                ITEM_MODEL_MAP.put(entry.getValue().item(), new ModelResourceLocation(entry.getKey().getItemMoldMapping(manaLevel).itemModelName(), "inventory"));
             }
             for (Map.Entry<ManaLevelBlock, BlockPack> entry : manaLevel.blockMap.entrySet()) {
-                ITEM_MODEL_MAP.put(entry.getValue().blockItem(), new ModelResourceLocation(entry.getKey().getBlockItemMoldMapping(manaLevel), "inventory"));
+                ITEM_MODEL_MAP.put(entry.getValue().blockItem(), new ModelResourceLocation(entry.getKey().getBlockModelMapping(manaLevel).blockModelName(), "inventory"));
                 ImmutableList<BlockState> definition = entry.getValue().block().getStateDefinition().getPossibleStates();
                 if (definition.size() == 1) {
-                    BLOCK_STATE_MAP.put(definition.get(0), makeModelName(entry.getKey().getBlockModelMapping(manaLevel), BLOCK));
+                    BLOCK_STATE_MAP.put(definition.get(0), makeModelName(entry.getKey().getBlockModelMapping(manaLevel).blockModelName(), BLOCK));
                 } else {
                     for (BlockState blockState : definition) {
-                        BLOCK_STATE_MAP.put(blockState, new ModelResourceLocation(entry.getKey().getBlockModelMapping(manaLevel), BlockModelShaper.statePropertiesToString(blockState.getValues())));
+                        BLOCK_STATE_MAP.put(blockState, new ModelResourceLocation(entry.getKey().getBlockModelMapping(manaLevel).blockModelName(), BlockModelShaper.statePropertiesToString(blockState.getValues())));
                     }
                 }
             }

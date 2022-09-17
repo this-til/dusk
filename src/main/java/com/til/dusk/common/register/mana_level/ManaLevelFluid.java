@@ -2,17 +2,13 @@ package com.til.dusk.common.register.mana_level;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.common.register.RegisterBasics;
-import com.til.dusk.common.register.ore.Ore;
-import com.til.dusk.util.Extension;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegistryBuilder;
 
-import javax.annotation.Nullable;
 import java.util.function.Supplier;
 
 /**

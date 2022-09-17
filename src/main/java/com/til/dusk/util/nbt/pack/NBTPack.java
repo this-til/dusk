@@ -2,7 +2,6 @@ package com.til.dusk.util.nbt.pack;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.til.dusk.util.Util;
 import com.til.dusk.util.nbt.cell.NBTCell;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.EndTag;

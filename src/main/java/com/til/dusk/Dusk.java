@@ -15,7 +15,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.tags.ITagManager;
 import org.jetbrains.annotations.NotNull;
@@ -29,7 +28,7 @@ import org.slf4j.Logger;
 public class Dusk {
     public static final String MOD_ID = "dusk";
     public static Dusk instance;
-    public static CreativeModeTab TAB = new CreativeModeTab(MOD_ID) {
+    public static final CreativeModeTab TAB = new CreativeModeTab(MOD_ID) {
         @Override
         public @NotNull ItemStack makeIcon() {
             return new ItemStack(Items.BOW);

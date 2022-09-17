@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 public class CapabilityPickaxeItem extends PickaxeItem implements IItemDefaultCapability {
     public final Ore ore;
     public final OreItem oreItem;
-    public OreItem.ArmsData armsData;
+    public final OreItem.ArmsData armsData;
 
     public CapabilityPickaxeItem(Ore ore, OreItem oreItem, OreItem.ArmsData armsData) {
         super(armsData, (int) (armsData.attackDamageBonus * 0.8f), armsData.speed, new Properties().stacksTo(1).tab(Dusk.TAB));

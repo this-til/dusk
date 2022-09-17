@@ -171,8 +171,8 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
         plate = new MetalOreItem("plate");
         plate_2 = new MetalOreItem("plate_2") {
             @Override
-            public ResourceLocation getItemMoldMapping(Ore ore) {
-                return plate.name;
+            public ModItem.ICustomModel getItemMoldMapping(Ore ore) {
+                return () -> plate.name;
             }
 
             @Override
@@ -183,8 +183,8 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
         };
         plate_3 = new MetalOreItem("plate_3") {
             @Override
-            public ResourceLocation getItemMoldMapping(Ore ore) {
-                return plate.name;
+            public ModItem.ICustomModel getItemMoldMapping(Ore ore) {
+                return () -> plate.name;
             }
 
             @Override
@@ -195,8 +195,8 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
         };
         plate_4 = new MetalOreItem("plate_4") {
             @Override
-            public ResourceLocation getItemMoldMapping(Ore ore) {
-                return plate.name;
+            public ModItem.ICustomModel getItemMoldMapping(Ore ore) {
+                return () -> plate.name;
             }
 
             @Override
@@ -590,7 +590,6 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
         public float speed = -3f;
         public int attackDamageBonus = 10;
         public int enchantmentValue = 23;
-        @NotNull
         public Supplier<Ingredient> repairIngredient;
 
         public TagKey<Block> tag;
@@ -613,7 +612,6 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
 
         public ArmsData(Supplier<Ore> ore) {
             this.ore = ore;
-
         }
 
         @Override

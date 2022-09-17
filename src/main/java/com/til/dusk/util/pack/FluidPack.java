@@ -1,6 +1,5 @@
 package com.til.dusk.util.pack;
 
-import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;

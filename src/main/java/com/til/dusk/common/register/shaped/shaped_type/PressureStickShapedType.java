@@ -5,11 +5,9 @@ import com.til.dusk.common.register.ore.Ore;
 import com.til.dusk.common.register.ore.OreItem;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.Map;
-import java.util.function.Supplier;
 
 /**
  * @author til

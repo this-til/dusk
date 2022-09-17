@@ -12,7 +12,7 @@ import java.util.*;
  */
 public class BlockTag {
 
-    public static Map<TagKey<Block>, List<Block>> map = new HashMap<>();
+    public static final Map<TagKey<Block>, List<Block>> map = new HashMap<>();
 
     public static void addTag(TagKey<Block> tTagKey, Block t) {
         List<Block> tList;

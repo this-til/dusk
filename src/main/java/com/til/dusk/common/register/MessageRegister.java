@@ -21,7 +21,6 @@ import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegistryBuilder;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
@@ -63,16 +62,16 @@ public abstract class MessageRegister<MSG> extends RegisterBasics<MessageRegiste
 
             @Override
             public void encoder(ParticleRegister.Data data, FriendlyByteBuf friendlyByteBuf) {
-                friendlyByteBuf.writeUtf(data.type.toString());
-                friendlyByteBuf.writeInt(data.color.getRGB());
-                friendlyByteBuf.writeDouble(data.density);
-                friendlyByteBuf.writeInt(data.pos.length);
-                for (Pos po : data.pos) {
+                friendlyByteBuf.writeUtf(data.type().toString());
+                friendlyByteBuf.writeInt(data.color().getRGB());
+                friendlyByteBuf.writeDouble(data.density());
+                friendlyByteBuf.writeInt(data.pos().length);
+                for (Pos po : data.pos()) {
                     po.write(friendlyByteBuf);
                 }
-                friendlyByteBuf.writeBoolean(data.resourceLocation != null);
-                if (data.resourceLocation != null) {
-                    friendlyByteBuf.writeUtf(data.resourceLocation.toString());
+                friendlyByteBuf.writeBoolean(data.resourceLocation() != null);
+                if (data.resourceLocation() != null) {
+                    friendlyByteBuf.writeUtf(data.resourceLocation().toString());
                 }
             }
 
@@ -97,10 +96,10 @@ public abstract class MessageRegister<MSG> extends RegisterBasics<MessageRegiste
 
             @Override
             public void encoder(ParticleRegister.RouteData data, FriendlyByteBuf friendlyByteBuf) {
-                friendlyByteBuf.writeUtf(data.type.toString());
-                friendlyByteBuf.writeInt(data.color.getRGB());
-                friendlyByteBuf.writeInt(data.route.size());
-                for (List<RoutePack.RouteCell<Double>> routeCells : data.route) {
+                friendlyByteBuf.writeUtf(data.type().toString());
+                friendlyByteBuf.writeInt(data.color().getRGB());
+                friendlyByteBuf.writeInt(data.route().size());
+                for (List<RoutePack.RouteCell<Double>> routeCells : data.route()) {
                     friendlyByteBuf.writeInt(routeCells.size());
                     for (RoutePack.RouteCell<Double> routeCell : routeCells) {
                         routeCell.start().write(friendlyByteBuf);
@@ -108,9 +107,9 @@ public abstract class MessageRegister<MSG> extends RegisterBasics<MessageRegiste
                         friendlyByteBuf.writeDouble(routeCell.data());
                     }
                 }
-                friendlyByteBuf.writeBoolean(data.resourceLocation != null);
-                if (data.resourceLocation != null) {
-                    friendlyByteBuf.writeUtf(data.resourceLocation.toString());
+                friendlyByteBuf.writeBoolean(data.resourceLocation() != null);
+                if (data.resourceLocation() != null) {
+                    friendlyByteBuf.writeUtf(data.resourceLocation().toString());
                 }
             }
 

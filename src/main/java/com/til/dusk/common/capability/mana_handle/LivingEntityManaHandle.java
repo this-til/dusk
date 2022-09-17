@@ -17,7 +17,7 @@ import java.util.List;
 public class LivingEntityManaHandle implements IManaHandle {
 
     public final LivingEntity livingEntity;
-    public List<IManaHandle> allManaHandles = new ArrayList<>(EquipmentSlot.values().length);
+    public final List<IManaHandle> allManaHandles = new ArrayList<>(EquipmentSlot.values().length);
 
     public boolean lock;
 

@@ -34,7 +34,7 @@ import java.util.Map;
 public class DefaultParticle extends Particle {
 
     @Nullable
-    public ResourceLocation textureName;
+    public final ResourceLocation textureName;
 
     public float particleHalfAge;
 
@@ -179,7 +179,7 @@ public class DefaultParticle extends Particle {
         }
     }
 
-    public static Map<ResourceLocation, ParticleRenderType> map = new HashMap<>();
+    public static final Map<ResourceLocation, ParticleRenderType> map = new HashMap<>();
 
     public static final ParticleRenderType NULL_TEXTURE = new ParticleRenderType() {
         @Override

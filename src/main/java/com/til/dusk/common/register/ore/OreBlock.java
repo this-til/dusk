@@ -3,6 +3,7 @@ package com.til.dusk.common.register.ore;
 import com.til.dusk.Dusk;
 import com.til.dusk.client.ColorProxy;
 import com.til.dusk.common.register.RegisterBasics;
+import com.til.dusk.common.world.block.ModBlock;
 import com.til.dusk.util.Lang;
 import com.til.dusk.common.data.tag.BlockTag;
 import com.til.dusk.util.pack.BlockPack;
@@ -172,8 +173,18 @@ public abstract class OreBlock extends RegisterBasics.BlockUnitRegister<OreBlock
             }
 
             @Override
-            public String getBlockStateJson() {
-                return JsonPrefab.BRICK_SLAB;
+            public ModBlock.ICustomModel getBlockModelMapping(Ore ore) {
+                return new ModBlock.ICustomModel() {
+                    @Override
+                    public ResourceLocation blockModelName() {
+                        return name;
+                    }
+
+                    @Override
+                    public String blockJsonBasics() {
+                        return JsonPrefab.BRICK_SLAB;
+                    }
+                };
             }
         };
         stairs = new DecorateOreBlock("stairs") {
@@ -189,8 +200,18 @@ public abstract class OreBlock extends RegisterBasics.BlockUnitRegister<OreBlock
             }
 
             @Override
-            public String getBlockStateJson() {
-                return JsonPrefab.BRICK_STAIRS;
+            public ModBlock.ICustomModel getBlockModelMapping(Ore ore) {
+                return new ModBlock.ICustomModel() {
+                    @Override
+                    public ResourceLocation blockModelName() {
+                        return name;
+                    }
+
+                    @Override
+                    public String blockJsonBasics() {
+                        return JsonPrefab.BRICK_STAIRS;
+                    }
+                };
             }
         };
         wall = new DecorateOreBlock("wall") {
@@ -207,8 +228,18 @@ public abstract class OreBlock extends RegisterBasics.BlockUnitRegister<OreBlock
             }
 
             @Override
-            public String getBlockStateJson() {
-                return JsonPrefab.WALL;
+            public ModBlock.ICustomModel getBlockModelMapping(Ore ore) {
+                return new ModBlock.ICustomModel() {
+                    @Override
+                    public ResourceLocation blockModelName() {
+                        return name;
+                    }
+
+                    @Override
+                    public String blockJsonBasics() {
+                        return JsonPrefab.WALL;
+                    }
+                };
             }
         };
     }

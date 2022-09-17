@@ -1,13 +1,10 @@
 package com.til.dusk.common.register.shaped.shaped_type;
 
 import com.google.gson.JsonObject;
-import com.til.dusk.common.capability.handle.IHandle;
 import com.til.dusk.common.capability.handle.ShapedHandle;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.register.mana_level.mana_level_block.ManaLevelBlock;
 import com.til.dusk.common.register.shaped.ShapedDrive;
-import com.til.dusk.common.register.shaped.shapeds.Shaped;
-import com.til.dusk.common.register.shaped.shapeds.ShapedMiddle;
 import com.til.dusk.common.register.shaped.shapeds.ShapedMiddleExtend;
 import com.til.dusk.util.Lang;
 import net.minecraft.network.chat.Component;
@@ -16,10 +13,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.common.extensions.IForgeItem;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 

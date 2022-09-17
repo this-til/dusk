@@ -22,7 +22,6 @@ import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegistryBuilder;
 
 import javax.annotation.Nullable;
-import java.awt.*;
 import java.util.function.Supplier;
 
 /**

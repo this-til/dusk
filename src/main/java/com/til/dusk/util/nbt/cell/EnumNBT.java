@@ -2,13 +2,8 @@ package com.til.dusk.util.nbt.cell;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
-import com.google.gson.JsonStreamParser;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NumericTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
-
-import javax.json.JsonNumber;
 
 public class EnumNBT<E extends Enum<E>> extends NBTCell<E> {
 

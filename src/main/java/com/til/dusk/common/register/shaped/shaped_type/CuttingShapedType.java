@@ -6,7 +6,6 @@ import com.til.dusk.common.register.ore.OreBlock;
 import com.til.dusk.common.register.ore.OreItem;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
-import com.til.dusk.util.pack.BlockPack;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.Map;

@@ -150,15 +150,13 @@ public class Pos {
     }
 
     public Pos xCrossProduct() {
-        double d = z;
         double d1 = -y;
-        return new Pos(0, d, d1);
+        return new Pos(0, z, d1);
     }
 
     public Pos zCrossProduct() {
-        double d = y;
         double d1 = -x;
-        return new Pos(d, d1, 0);
+        return new Pos(y, d1, 0);
     }
 
     public Pos normalize() {

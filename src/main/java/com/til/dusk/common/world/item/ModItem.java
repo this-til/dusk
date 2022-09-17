@@ -6,6 +6,7 @@ import com.til.dusk.client.ColorProxy;
 import com.til.dusk.common.data.tag.ItemTag;
 import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.nbt.pack.AllNBTPack;
+import com.til.dusk.util.prefab.JsonPrefab;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
@@ -16,7 +17,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.registries.*;
 
-import java.awt.*;
+import java.text.MessageFormat;
 
 /**
  * @author til
@@ -80,6 +81,15 @@ public class ModItem {
          * @R
          */
         ResourceLocation itemModelName();
+
+        default String itemJson() {
+            ResourceLocation resourceLocation = itemModelName();
+            return MessageFormat.format(itemJsonBasics(), resourceLocation.getNamespace(), resourceLocation.getPath());
+        }
+
+        default String itemJsonBasics() {
+            return JsonPrefab.ITEM_FATHER;
+        }
     }
 
 

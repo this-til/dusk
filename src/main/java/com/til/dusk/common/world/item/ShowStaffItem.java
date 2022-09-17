@@ -7,7 +7,6 @@ import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.common.register.ParticleRegister;
 import com.til.dusk.common.register.key.EventKey;
 import com.til.dusk.common.register.key.KeyRegister;
-import com.til.dusk.util.Pos;
 import com.til.dusk.util.prefab.ColorPrefab;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
@@ -25,7 +24,6 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.eventbus.api.EventPriority;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;

@@ -1,8 +1,0 @@
-{
-  "parent": "item/generated",
-  "textures": {
-    "layer0": "dusk:item/crystal_perfect",
-    "layer1": "dusk:item/operation",
-    "layer2": "dusk:item/operation_host_stroke"
-  }
-}

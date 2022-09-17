@@ -26,7 +26,7 @@ import java.util.Map;
 @Mod.EventBusSubscriber(modid = Dusk.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ItemTag {
 
-    public static Map<TagKey<Item>, List<Item>> map = new HashMap<>();
+    public static final Map<TagKey<Item>, List<Item>> map = new HashMap<>();
 
     public static void addTag(TagKey<Item> tTagKey, Item t) {
         List<Item> tList;
@@ -74,6 +74,10 @@ public class ItemTag {
     public static Extension.Data_2<TagKey<Item>, TagKey<Block>> SNOW_BLOCK;
     public static Extension.Data_2<TagKey<Item>, TagKey<Block>> SLIME_BLOCK;
     public static Extension.Data_2<TagKey<Item>, TagKey<Block>> GRASS;
+    public static Extension.Data_2<TagKey<Item>, TagKey<Block>> ENCHANTING_TABLE;
+    public static Extension.Data_2<TagKey<Item>, TagKey<Block>> BREWING_STAND;
+    public static Extension.Data_2<TagKey<Item>, TagKey<Block>> CRAFTING_TABLE;
+
 
     public static TagKey<Item> ENDER_EYE;
     public static TagKey<Item> SNOWBALL;
@@ -85,6 +89,10 @@ public class ItemTag {
     public static TagKey<Item> LINGERING_POTION;
     public static TagKey<Item> POTIONS;
     public static TagKey<Item> BLAZE_POWDER;
+    public static TagKey<Item> BUCKET;
+    public static TagKey<Item> ENCHANTING_BOOK;
+    public static TagKey<Item> BREAD;
+    public static TagKey<Item> DIAMOND;
 
     @SubscribeEvent
     public static void event(NewRegistryEvent event) {
@@ -98,6 +106,10 @@ public class ItemTag {
         SNOW_BLOCK = createBlockTag((BlockItem) Items.SNOW_BLOCK);
         SLIME_BLOCK = createBlockTag((BlockItem) Items.SLIME_BLOCK);
         GRASS = createBlockTag((BlockItem) Items.GRASS);
+        ENCHANTING_TABLE = createBlockTag((BlockItem) Items.ENCHANTING_TABLE);
+        BREWING_STAND = createBlockTag((BlockItem) Items.BREWING_STAND);
+        CRAFTING_TABLE = createBlockTag((BlockItem) Items.CRAFTING_TABLE);
+
         ENDER_EYE = createTag(Items.ENDER_EYE);
         SNOWBALL = createTag(Items.SNOWBALL);
         POWDER_SNOW_BUCKET = createTag(Items.POWDER_SNOW_BUCKET);
@@ -113,6 +125,9 @@ public class ItemTag {
             addTag(POTIONS, Items.LINGERING_POTION);
         }
         BLAZE_POWDER = createTag(Items.BLAZE_POWDER);
+        BUCKET = createTag(Items.BUCKET);
+        ENCHANTING_BOOK = createTag(Items.ENCHANTED_BOOK);
+        BREAD = createTag(Items.BREAD);
     }
 
 }

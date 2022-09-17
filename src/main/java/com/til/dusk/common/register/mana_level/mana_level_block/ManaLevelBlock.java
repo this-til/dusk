@@ -1,31 +1,31 @@
 package com.til.dusk.common.register.mana_level.mana_level_block;
 
 import com.til.dusk.Dusk;
-import com.til.dusk.common.capability.black.Back;
-import com.til.dusk.common.capability.black.IBack;
-import com.til.dusk.common.capability.fluid_handler.VoidTankFluidHandler;
-import com.til.dusk.common.capability.item_handler.VoidCaseItemHandler;
-import com.til.dusk.common.capability.mana_handle.ManaHandle;
-import com.til.dusk.common.capability.pos.IPosTrack;
-import com.til.dusk.common.register.CapabilityRegister;
+import com.til.dusk.common.data.tag.ItemTag;
 import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.register.mana_level.ManaLevel;
-import com.til.dusk.common.capability.DuskCapabilityProvider;
+import com.til.dusk.common.register.ore.Ore;
+import com.til.dusk.common.register.ore.OreItem;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
-import com.til.dusk.util.DuskColor;
+import com.til.dusk.util.*;
 import com.til.dusk.util.prefab.ColorPrefab;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegistryBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
 
 /**
@@ -259,18 +259,18 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
      * 虚空箱
      * 1280 * l
      */
-    public static DefaultCapacityMechanic voidCase;
+    public static VoidCaseMechanic voidCase;
 
     /***
      * 虚空缸
      * 1280000mb * l
      */
-    public static DefaultCapacityMechanic voidTank;
+    public static VoidTankMechanic voidTank;
 
     /***
      * 聚灵
      */
-    public static DefaultCapacityMechanic gatherMana;
+    public static GatherManaMechanic gatherMana;
 
     /***
      * 灵气传输
@@ -327,25 +327,77 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
         LEVEL_BLOCK = event.create(new RegistryBuilder<ManaLevelBlock>().setName(new ResourceLocation(Dusk.MOD_ID, "mana_level_block")));
         repeater = new RepeaterMechanic("repeater");
         frameBasic = new DefaultCapacityMechanic("frame_basic");
-        sunlight = new SimilarSolarEnergyMechanic("sunlight", 1, level -> level.isDay() && !level.isRaining(), ColorPrefab.SUNLIGHT_COLOR);
-        moonlight = new SimilarSolarEnergyMechanic("moonlight", 1, level -> level.isNight() && !level.isRaining(), ColorPrefab.MOONLIGHT_COLOR);
-        rain = new SimilarSolarEnergyMechanic("rain", 4, Level::isRaining, ColorPrefab.RAIN_COLOR);
-        extractMana = new HandleMechanic("extract_mana", () -> List.of(ShapedType.extractMana));
-        dischantmentMana = new ExtractManaMechanic("dischantment_mana", () -> List.of(ShapedType.dischantmentMana), new DuskColor(135, 60, 168, 255));
-        enderMana = new ExtractManaMechanic("ender_mana", () -> List.of(ShapedType.enderMana), new DuskColor(96, 22, 96));
-        potionMana = new ExtractManaMechanic("potion_mana", () -> List.of(ShapedType.potionMana), new DuskColor(243, 138, 255));
-        explosiveMana = new ExtractManaMechanic("explosive_mana", () -> List.of(ShapedType.explosiveMana), new DuskColor(178, 25, 25));
-        frostyMana = new ExtractManaMechanic("frosty_mana", () -> List.of(ShapedType.frostyMana), new DuskColor(29, 237, 255));
-        slimeyMana = new ExtractManaMechanic("slimey_mana", () -> List.of(ShapedType.slimeyMana), new DuskColor(43, 255, 33));
-        halitosisMana = new ExtractManaMechanic("halitosis_mana", () -> List.of(ShapedType.halitosisMana), new DuskColor(229, 45, 136));
-        flameMana = new ExtractManaMechanic("flame_mana", () -> List.of(ShapedType.flameMana), new DuskColor(255, 0, 0));
-        botanyMana = new ExtractManaMechanic("botany_mana", () -> List.of(ShapedType.botanyMana), new DuskColor(7, 140, 0));
-        foodMana = new ExtractManaMechanic("food_mana", () -> List.of(ShapedType.foodMana), new DuskColor(255, 184, 66));
-        grind = new HandleMechanic("grind", () -> List.of(ShapedType.grind));
+        sunlight = (SimilarSolarEnergyMechanic) new SimilarSolarEnergyMechanic("sunlight", 1, level -> level.isDay() && !level.isRaining(), ColorPrefab.SUNLIGHT_COLOR)
+                .setSet(MECHANIC_MAKE_DATA, () -> new MechanicMakeData()
+                        .addRun((inItem, inFluid, m) -> MapUtil.add(inItem, m.blockMap.get(extractMana).blockItemTag(), 1))
+                        .addItem(Ore.sunlight.itemMap.get(OreItem.perfectCrystal).itemTag(), 1));
+        moonlight = (SimilarSolarEnergyMechanic) new SimilarSolarEnergyMechanic("moonlight", 1, level -> level.isNight() && !level.isRaining(), ColorPrefab.MOONLIGHT_COLOR)
+                .setSet(MECHANIC_MAKE_DATA, () -> new MechanicMakeData()
+                        .addRun((inItem, inFluid, m) -> MapUtil.add(inItem, m.blockMap.get(extractMana).blockItemTag(), 1))
+                        .addItem(Ore.moonlight.itemMap.get(OreItem.perfectCrystal).itemTag(), 1));
+        rain = (SimilarSolarEnergyMechanic) new SimilarSolarEnergyMechanic("rain", 4, Level::isRaining, ColorPrefab.RAIN_COLOR)
+                .setSet(MECHANIC_MAKE_DATA, () -> new MechanicMakeData()
+                        .addRun((inItem, inFluid, m) -> MapUtil.add(inItem, m.blockMap.get(extractMana).blockItemTag(), 1))
+                        .addItem(Ore.rain.itemMap.get(OreItem.perfectCrystal).itemTag(), 1));
+        extractMana = (HandleMechanic) new HandleMechanic("extract_mana", () -> List.of(ShapedType.extractMana))
+                .setSet(MECHANIC_UP_DATA, () -> new MechanicUpData()
+                        .addItem(Ore.spiritSilver.itemMap.get(OreItem.plate).itemTag(), 3));
+        dischantmentMana = (ExtractManaMechanic) new ExtractManaMechanic("dischantment_mana", () -> List.of(ShapedType.dischantmentMana), new DuskColor(135, 60, 168, 255))
+                .setSet(MECHANIC_MAKE_DATA, () -> new MechanicMakeData()
+                        .addRun((inItem, inFluid, m) -> MapUtil.add(inItem, m.blockMap.get(extractMana).blockItemTag(), 1))
+                        .addItem(ItemTag.ENCHANTING_TABLE.d1(), 1)
+                        .addItem(ItemTag.ENCHANTING_BOOK, 3));
+        enderMana = (ExtractManaMechanic) new ExtractManaMechanic("ender_mana", () -> List.of(ShapedType.enderMana), new DuskColor(96, 22, 96))
+                .setSet(MECHANIC_MAKE_DATA, () -> new MechanicMakeData()
+                        .addRun((inItem, inFluid, m) -> MapUtil.add(inItem, m.blockMap.get(extractMana).blockItemTag(), 1))
+                        .addItem(Tags.Items.ENDER_PEARLS, 8)
+                        .addItem(ItemTag.ENDER_EYE, 8));
+        potionMana = (ExtractManaMechanic) new ExtractManaMechanic("potion_mana", () -> List.of(ShapedType.potionMana), new DuskColor(243, 138, 255))
+                .setSet(MECHANIC_MAKE_DATA, () -> new MechanicMakeData()
+                        .addRun((inItem, inFluid, m) -> MapUtil.add(inItem, m.blockMap.get(extractMana).blockItemTag(), 1))
+                        .addItem(ItemTag.BREWING_STAND.d1(), 1));
+        explosiveMana = (ExtractManaMechanic) new ExtractManaMechanic("explosive_mana", () -> List.of(ShapedType.explosiveMana), new DuskColor(178, 25, 25))
+                .setSet(MECHANIC_MAKE_DATA, () -> new MechanicMakeData()
+                        .addRun((inItem, inFluid, m) -> MapUtil.add(inItem, m.blockMap.get(extractMana).blockItemTag(), 1))
+                        .addItem(ItemTag.TNT.d1(), 4)
+                        .addItem(Tags.Items.GUNPOWDER, 16));
+        frostyMana = (ExtractManaMechanic) new ExtractManaMechanic("frosty_mana", () -> List.of(ShapedType.frostyMana), new DuskColor(29, 237, 255))
+                .setSet(MECHANIC_MAKE_DATA, () -> new MechanicMakeData()
+                        .addRun((inItem, inFluid, m) -> MapUtil.add(inItem, m.blockMap.get(extractMana).blockItemTag(), 1))
+                        .addItem(ItemTag.ICES.d1(), 32)
+                        .addItem(ItemTag.SNOW_BLOCK.d1(), 32));
+        slimeyMana = (ExtractManaMechanic) new ExtractManaMechanic("slimey_mana", () -> List.of(ShapedType.slimeyMana), new DuskColor(43, 255, 33))
+                .setSet(MECHANIC_MAKE_DATA, () -> new MechanicMakeData()
+                        .addRun((inItem, inFluid, m) -> MapUtil.add(inItem, m.blockMap.get(extractMana).blockItemTag(), 1))
+                        .addItem(ItemTag.SLIME_BALL, 32)
+                        .addItem(ItemTag.SLIME_BLOCK.d1(), 12));
+        halitosisMana = (ExtractManaMechanic) new ExtractManaMechanic("halitosis_mana", () -> List.of(ShapedType.halitosisMana), new DuskColor(229, 45, 136))
+                .setSet(MECHANIC_MAKE_DATA, () -> new MechanicMakeData()
+                        .addRun((inItem, inFluid, m) -> MapUtil.add(inItem, m.blockMap.get(extractMana).blockItemTag(), 1))
+                        .addItem(ItemTag.DRAGON_BREATH, 16));
+        flameMana = (ExtractManaMechanic) new ExtractManaMechanic("flame_mana", () -> List.of(ShapedType.flameMana), new DuskColor(255, 0, 0))
+                .setSet(MECHANIC_MAKE_DATA, () -> new MechanicMakeData()
+                        .addRun((inItem, inFluid, m) -> MapUtil.add(inItem, m.blockMap.get(extractMana).blockItemTag(), 1))
+                        .addFluid(FluidTags.LAVA, 32000));
+        botanyMana = (ExtractManaMechanic) new ExtractManaMechanic("botany_mana", () -> List.of(ShapedType.botanyMana), new DuskColor(7, 140, 0))
+                .setSet(MECHANIC_MAKE_DATA, () -> new MechanicMakeData()
+                        .addRun((inItem, inFluid, m) -> MapUtil.add(inItem, m.blockMap.get(extractMana).blockItemTag(), 1))
+                        .addItem(ItemTags.FLOWERS, 256));
+        foodMana = (ExtractManaMechanic) new ExtractManaMechanic("food_mana", () -> List.of(ShapedType.foodMana), new DuskColor(255, 184, 66))
+                .setSet(MECHANIC_MAKE_DATA, () -> new MechanicMakeData()
+                        .addRun((inItem, inFluid, m) -> MapUtil.add(inItem, m.blockMap.get(extractMana).blockItemTag(), 1))
+                        .addItem(ItemTag.BREAD, 64));
+        grind = (HandleMechanic) new HandleMechanic("grind", () -> List.of(ShapedType.grind))
+                .setSet(MECHANIC_UP_DATA, () -> new MechanicUpData()
+                        .addItem(Tags.Items.GEMS_DIAMOND, 2));
         wash = new HandleMechanic("wash", () -> List.of(ShapedType.wash));
         centrifugal = new HandleMechanic("centrifugal", () -> List.of(ShapedType.centrifugal));
-        pack = new HandleMechanic("pack", () -> List.of(ShapedType.pack));
-        unpack = new HandleMechanic("unpack", () -> List.of(ShapedType.unpack));
+        pack = (HandleMechanic) new HandleMechanic("pack", () -> List.of(ShapedType.pack))
+                .setSet(MECHANIC_UP_DATA, () -> new MechanicUpData()
+                        .addItem(ItemTag.CRAFTING_TABLE.d1(), 9));
+        unpack = (HandleMechanic) new HandleMechanic("unpack", () -> List.of(ShapedType.unpack))
+                .setSet(MECHANIC_UP_DATA, () -> new MechanicUpData()
+                        .addItem(ItemTag.CRAFTING_TABLE.d1(), 9));
         blastFurnace = new HandleMechanic("blast_furnace", () -> List.of(ShapedType.blastFurnace));
         crystallizing = new HandleMechanic("crystallizing", () -> List.of(ShapedType.crystallizing));
         assemble = new HandleMechanic("assemble", () -> List.of(ShapedType.assemble));
@@ -367,28 +419,19 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
         recovery = new HandleMechanic("recovery", () -> List.of(ShapedType.recovery));
         forming = new HandleMechanic("forming", () -> List.of(ShapedType.forming));
         manaCoagulation = new HandleMechanic("mana_coagulation", () -> List.of(ShapedType.manaCoagulation));
-        voidCase = new DefaultCapacityMechanic("void_case") {
-            @Override
-            public void addCapability(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability, ManaLevel manaLevel, IPosTrack iPosTrack) {
-                super.addCapability(event, duskModCapability, manaLevel, iPosTrack);
-                duskModCapability.addCapability(ForgeCapabilities.ITEM_HANDLER, new VoidCaseItemHandler(4096L * manaLevel.level));
-            }
-        };
-        voidTank = new DefaultCapacityMechanic("void_tank") {
-            @Override
-            public void addCapability(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability, ManaLevel manaLevel, IPosTrack iPosTrack) {
-                super.addCapability(event, duskModCapability, manaLevel, iPosTrack);
-                duskModCapability.addCapability(ForgeCapabilities.FLUID_HANDLER, new VoidTankFluidHandler(12800000 * manaLevel.level));
-            }
-        };
-        gatherMana = new DefaultCapacityMechanic("gather_mana") {
-            @Override
-            public void addCapability(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability, ManaLevel manaLevel, IPosTrack iPosTrack) {
-                super.addCapability(event, duskModCapability, manaLevel, iPosTrack);
-                IBack iBack = duskModCapability.addCapability(CapabilityRegister.iBlack.capability, new Back());
-                duskModCapability.addCapability(CapabilityRegister.iManaHandle.capability, new ManaHandle(5120000L * manaLevel.level, 32L * manaLevel.level, iBack));
-            }
-        };
+        voidCase = (VoidCaseMechanic) new VoidCaseMechanic()
+                .setSet(MECHANIC_UP_DATA, () -> new MechanicUpData()
+                        .addItem(Ore._void.itemMap.get(OreItem.plate).itemTag(), 3)
+                        .addItem(Ore._void.itemMap.get(OreItem.casing).itemTag(), 12)
+                        .addItem(Ore._void.itemMap.get(OreItem.foil).itemTag(), 12)
+                        .addItem(Tags.Items.CHESTS, 3));
+        voidTank = (VoidTankMechanic) new VoidTankMechanic()
+                .setSet(MECHANIC_UP_DATA, () -> new MechanicUpData()
+                        .addItem(Ore._void.itemMap.get(OreItem.plate).itemTag(), 3)
+                        .addItem(Ore._void.itemMap.get(OreItem.casing).itemTag(), 12)
+                        .addItem(Ore._void.itemMap.get(OreItem.foil).itemTag(), 12)
+                        .addItem(ItemTag.BUCKET, 3));
+        gatherMana = new GatherManaMechanic();
         manaIO = new IOMechanic.ManaIO();
         itemIO = new IOMechanic.ItemIO();
         fluidIO = new IOMechanic.FluidIO();
@@ -409,4 +452,57 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
         this(new ResourceLocation(Dusk.MOD_ID, name));
     }
 
+    public static final GenericMap.IKey<Supplier<MechanicUpData>> MECHANIC_UP_DATA = new GenericMap.IKey.Key<>();
+
+    public static final GenericMap.IKey<Supplier<MechanicMakeData>> MECHANIC_MAKE_DATA = new GenericMap.IKey.Key<>();
+
+    public static class DataPack<T extends DataPack<?>> {
+        /***
+         * 制作时间倍数
+         */
+        public long timeMultiple = 2048;
+
+        /***
+         * 消耗灵气倍数
+         */
+        public long consumeManaMultiple = 32;
+
+        public final List<Extension.Action_3V<Map<TagKey<Item>, Integer>, Map<TagKey<Fluid>, Integer>, ManaLevel>> run = new ArrayList<>();
+
+        public T addItem(TagKey<Item> itemTagKey, int i) {
+            run.add((inItem, inFluid, m) -> MapUtil.add(inItem, itemTagKey, m.level * i));
+            return Util.forcedConversion(this);
+        }
+
+        public T addFluid(TagKey<Fluid> fluidTagKey, int i) {
+            run.add((inItem, inFluid, m) -> MapUtil.add(inFluid, fluidTagKey, m.level * i));
+            return Util.forcedConversion(this);
+        }
+
+        public T addRun(Extension.Action_3V<Map<TagKey<Item>, Integer>, Map<TagKey<Fluid>, Integer>, ManaLevel> run) {
+            this.run.add(run);
+            return Util.forcedConversion(this);
+        }
+
+        public T addRepeater() {
+            this.run.add((inItem, inFluid, m) -> MapUtil.add(inItem, m.blockMap.get(ManaLevelBlock.repeater).blockItemTag(), m.level));
+            return Util.forcedConversion(this);
+        }
+
+        public T setTimeMultiple(long timeMultiple) {
+            this.timeMultiple = timeMultiple;
+            return Util.forcedConversion(this);
+        }
+
+        public T setConsumeManaMultiple(long consumeManaMultiple) {
+            this.consumeManaMultiple = consumeManaMultiple;
+            return Util.forcedConversion(this);
+        }
+    }
+
+    public static class MechanicUpData extends DataPack<MechanicUpData> {
+    }
+
+    public static class MechanicMakeData extends DataPack<MechanicMakeData> {
+    }
 }

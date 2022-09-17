@@ -135,39 +135,4 @@ public class NBTUtil {
             }
         }
     }
-
-/*    public static Tag get(byte id, String name, CompoundTag compoundTag) {
-        switch (id) {
-            case Tag.TAG_BYTE -> {
-                return compoundTag.getA
-            }
-            case Tag.TAG_SHORT -> {
-                return ShortTag.valueOf(numeric.shortValue());
-            }
-            case Tag.TAG_INT -> {
-                return IntTag.valueOf(numeric.intValue());
-            }
-            case Tag.TAG_LONG -> {
-                return LongTag.valueOf(numeric.longValue());
-            }
-            case Tag.TAG_FLOAT -> {
-                return FloatTag.valueOf(numeric.floatValue());
-            }
-            case Tag.TAG_DOUBLE -> {
-                return DoubleTag.valueOf(numeric.doubleValue());
-            }
-            case Tag.TAG_STRING -> {
-                return StringTag.valueOf(numeric.toString());
-            }
-            case Tag.TAG_LIST -> {
-                return new ListTag();
-            }
-            case Tag.TAG_COMPOUND -> {
-                return new CompoundTag()
-            }
-            default -> {
-                return EndTag.INSTANCE;
-            }
-        }
-    }*/
 }

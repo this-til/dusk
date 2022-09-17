@@ -2,20 +2,14 @@ package com.til.dusk.common.register.shaped.shaped_type;
 
 import com.google.gson.JsonObject;
 import com.til.dusk.Dusk;
-import com.til.dusk.common.capability.CapabilityHelp;
-import com.til.dusk.common.capability.handle.IHandle;
 import com.til.dusk.common.capability.handle.ShapedHandle;
 import com.til.dusk.common.data.tag.ItemTag;
 import com.til.dusk.common.data.tag.PotionsTag;
-import com.til.dusk.common.event.EventIO;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.register.mana_level.mana_level_block.ManaLevelBlock;
 import com.til.dusk.common.register.shaped.ShapedDrive;
-import com.til.dusk.common.register.shaped.shapeds.ShapedMiddle;
 import com.til.dusk.common.register.shaped.shapeds.ShapedMiddleExtend;
 import com.til.dusk.util.Lang;
-import com.til.dusk.util.Pos;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -25,18 +19,12 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.item.alchemy.Potions;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.tags.IReverseTag;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -73,10 +61,7 @@ public class PotionManaShapedType extends ShapedType {
             if (optional.isEmpty()) {
                 return false;
             }
-            if (optional.get().containsTag(PotionsTag.NO_EFFECT)) {
-                return false;
-            }
-            return true;
+            return !optional.get().containsTag(PotionsTag.NO_EFFECT);
         }
 
         @Override

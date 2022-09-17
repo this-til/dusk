@@ -26,7 +26,7 @@ public abstract class ShapedMiddle extends Shaped {
         this.outMana = outMana;
     }
 
-    public ShapedMiddle(ResourceLocation name, JsonObject jsonObject) throws Exception {
+    public ShapedMiddle(ResourceLocation name, JsonObject jsonObject) {
         super(name, jsonObject);
         surplusTime = AllNBTPack.SURPLUS_TIME.get(jsonObject);
         consumeMana = AllNBTPack.CONSUME_MANA.get(jsonObject);

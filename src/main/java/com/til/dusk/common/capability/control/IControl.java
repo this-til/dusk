@@ -5,10 +5,8 @@ import com.til.dusk.common.capability.ITooltipCapability;
 import com.til.dusk.common.capability.pos.IPosTrack;
 import com.til.dusk.common.register.BindType;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.INBTSerializable;
 

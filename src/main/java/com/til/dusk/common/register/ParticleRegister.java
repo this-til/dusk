@@ -26,7 +26,6 @@ import net.minecraftforge.registries.RegistryBuilder;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
-import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -246,44 +245,24 @@ public class ParticleRegister extends RegisterBasics<ParticleRegister> {
         throw new RuntimeException("在服务端了粒子创建中出现了非服务端的玩家");
     }
 
-    public static class Data {
-        /***
-         * 粒子类型
-         */
-        public ResourceLocation type;
-
-        public Pos[] pos;
-
-        /***
-         * 颜色
-         */
-        public DuskColor color;
-        /***
-         * 密度
-         */
-        public double density;
-        @Nullable
-        public ResourceLocation resourceLocation;
-
+    /**
+     * @param type    粒子类型
+     * @param color   颜色
+     * @param density 密度
+     */
+    public record Data(ResourceLocation type, DuskColor color, double density,
+                       @Nullable ResourceLocation resourceLocation, Pos... pos) {
         public Data(ResourceLocation type, DuskColor color, double density, @Nullable ResourceLocation resourceLocation, Pos... pos) {
             this.type = type;
             this.color = color;
             this.density = density;
-            this.pos = pos;
-            if (this.pos == null) {
-                this.pos = new Pos[0];
-            }
+            this.pos = pos == null ? new Pos[0] : pos;
             this.resourceLocation = resourceLocation;
         }
     }
 
-    public static class RouteData {
-        public List<List<RoutePack.RouteCell<Double>>> route;
-        public ResourceLocation type;
-        public DuskColor color;
-        @Nullable
-        public ResourceLocation resourceLocation;
-
+    public record RouteData(List<List<RoutePack.RouteCell<Double>>> route, ResourceLocation type, DuskColor color,
+                            @Nullable ResourceLocation resourceLocation) {
         public RouteData(List<List<RoutePack.RouteCell<Double>>> route, ResourceLocation type, DuskColor color, @Nullable ResourceLocation resourceLocation) {
             this.route = route;
             this.type = type;

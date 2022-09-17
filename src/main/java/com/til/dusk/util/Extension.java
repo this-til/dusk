@@ -91,7 +91,7 @@ public class Extension {
         }
     }
 
-    public class VariableData_3<D1, D2, D3> {
+    public static class VariableData_3<D1, D2, D3> {
         public D1 d1;
         public D2 d2;
         public D3 d3;

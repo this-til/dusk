@@ -1,6 +1,5 @@
 package com.til.dusk.common.register.mana_level.mana_level_block;
 
-import com.til.dusk.Dusk;
 import com.til.dusk.common.capability.CapabilityHelp;
 import com.til.dusk.common.capability.black.Back;
 import com.til.dusk.common.capability.black.IBack;
@@ -14,7 +13,6 @@ import com.til.dusk.common.register.BindType;
 import com.til.dusk.common.register.CapabilityRegister;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.register.shaped.ShapedDrive;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.Enemy;

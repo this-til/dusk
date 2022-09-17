@@ -6,10 +6,8 @@ import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
-import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.tags.ITagManager;
 
-import java.util.Objects;
 import java.util.function.Supplier;
 
 /**

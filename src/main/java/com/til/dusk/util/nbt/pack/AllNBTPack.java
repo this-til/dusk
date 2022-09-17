@@ -56,7 +56,7 @@ public class AllNBTPack {
     public static final IntPack TIME = new IntPack("time");
     public static final IntPack CYCLE_TIME = new IntPack("cycle_time");
     public static final NBTPack<List<BindType>> BIND_TYPE_LIST = new NBTPack<>("bind_type_list", AllNBTCell.BIND_TYPE.getListNBTCell());
-    public static final NBTPack<BindType> BIND_TYPE = new NBTPack<BindType>("bind_type", AllNBTCell.BIND_TYPE);
+    public static final NBTPack<BindType> BIND_TYPE = new NBTPack<>("bind_type", AllNBTCell.BIND_TYPE);
     public static final NBTPack<List<BlockPos>> BLOCK_POS_LIST = new NBTPack<>("block_pos_list", AllNBTCell.BLOCK_POS.getListNBTCell());
     public static final NBTPack<List<List<BlockPos>>> BLOCK_POS_LIST_LIST = new NBTPack<>("block_pos_list_list", AllNBTCell.BLOCK_POS.getListNBTCell().getListNBTCell());
     public static final IntPack MAX_BIND = new IntPack("max_bind_tag");

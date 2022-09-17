@@ -1,7 +1,6 @@
 package com.til.dusk.common.other_mod_interact;
 
 import com.til.dusk.Dusk;
-import com.til.dusk.common.capability.ITooltipCapability;
 import com.til.dusk.common.capability.tile_entity.DefaultTileEntity;
 import com.til.dusk.common.capability.tile_entity.RepeaterTileEntity;
 import com.til.dusk.common.register.CapabilityRegister;
@@ -10,7 +9,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.common.util.LazyOptional;
 import snownee.jade.api.*;
 
 /**

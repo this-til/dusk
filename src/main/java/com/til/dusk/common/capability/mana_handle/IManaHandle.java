@@ -1,8 +1,6 @@
 package com.til.dusk.common.capability.mana_handle;
 
 import com.til.dusk.common.capability.ITooltipCapability;
-import com.til.dusk.common.capability.black.IBack;
-import com.til.dusk.util.Extension;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.common.util.INBTSerializable;
 
