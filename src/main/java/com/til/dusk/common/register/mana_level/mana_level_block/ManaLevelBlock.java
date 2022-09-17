@@ -246,7 +246,7 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
     /***
      * 成型
      */
-    public static Mechanic forming;
+    public static Mechanic shaping;
 
     /***
      * 灵气凝结晶体
@@ -417,7 +417,7 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
         blend = new HandleMechanic("blend", () -> List.of(ShapedType.blend));
         decompose = new HandleMechanic("decompose", () -> List.of(ShapedType.decompose));
         recovery = new HandleMechanic("recovery", () -> List.of(ShapedType.recovery));
-        forming = new HandleMechanic("forming", () -> List.of(ShapedType.forming));
+        shaping = new HandleMechanic("shaping", () -> List.of(ShapedType.forming));
         manaCoagulation = new HandleMechanic("mana_coagulation", () -> List.of(ShapedType.manaCoagulation));
         voidCase = (VoidCaseMechanic) new VoidCaseMechanic()
                 .setSet(MECHANIC_UP_DATA, () -> new MechanicUpData()

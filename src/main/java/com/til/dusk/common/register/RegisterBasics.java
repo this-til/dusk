@@ -260,7 +260,7 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> {
         }
 
         public TagKey<Item> createBlockItemTag(O o) {
-            return ItemTags.create(fuseName("/", new String[]{"item", o.name.getPath(), name.getPath()}));
+            return ItemTags.create(fuseName("/", new String[]{"block", o.name.getPath(), name.getPath()}));
         }
 
 

@@ -12,7 +12,7 @@ import java.util.Map;
 public class FormingShapedType extends ShapedType {
 
     public FormingShapedType() {
-        super("forming", () -> ManaLevelBlock.forming);
+        super("forming", () -> ManaLevelBlock.shaping);
     }
 
     @Override

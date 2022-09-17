@@ -1,0 +1,8 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "dusk:item/crystal_delicate",
+    "layer1": "dusk:item/core",
+    "layer2": "dusk:item/processor_stroke"
+  }
+}
