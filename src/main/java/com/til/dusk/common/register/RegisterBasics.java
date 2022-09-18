@@ -9,7 +9,6 @@ import com.til.dusk.common.world.block.ModBlock;
 import com.til.dusk.common.world.item.ModItem;
 import com.til.dusk.util.*;
 import com.til.dusk.util.pack.*;
-import com.til.dusk.util.prefab.JsonPrefab;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
@@ -37,7 +36,7 @@ import java.util.function.Supplier;
 /**
  * @author til
  */
-public abstract class RegisterBasics<T extends RegisterBasics<?>> {
+public abstract class RegisterBasics<T extends RegisterBasics<?>> implements GenericMap.IGenericMapSupplier {
 
     /***
      * 注册项的名称
@@ -103,10 +102,12 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> {
         return Util.forcedConversion(this);
     }
 
+    @Override
     public <V> V getSet(GenericMap.IKey<V> key) {
         return setMap.get(key);
     }
 
+    @Override
     public boolean hasSet(GenericMap.IKey<?> key) {
         return setMap.containsKey(key);
     }

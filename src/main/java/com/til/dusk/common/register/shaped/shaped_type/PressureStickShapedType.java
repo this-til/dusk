@@ -21,17 +21,11 @@ public class PressureStickShapedType extends ShapedType {
     @Override
     public void registerShaped() {
         for (Ore ore : Ore.screen(Ore.IS_METAL)) {
-            new ShapedOre(
-                    this,
-                    ShapedDrive.get(0),
-                    ore.manaLevel,
-                    Map.of(ore.itemMap.get(OreItem.ingot).itemTag(), 1),
-                    null,
-                    (long) (ore.strength * 512),
-                    (long) (ore.consume * 32L),
-                    0,
-                    Map.of(new ItemStack(ore.itemMap.get(OreItem.stick).item()), 1d),
-                    null);
+            new ShapedOre(this, ShapedDrive.get(0), ore.manaLevel)
+                    .addInItem(ore.itemMap.get(OreItem.ingot).itemTag(), 1)
+                    .addOutItem(new ItemStack(ore.itemMap.get(OreItem.stick).item()), 1d)
+                    .addMultipleSurplusTime((long) (ore.strength * 512))
+                    .addMultipleConsumeMana((long) (ore.consume * 32L));
         }
     }
 }

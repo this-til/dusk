@@ -11,8 +11,12 @@ import com.til.dusk.common.event.EventIO;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
+import com.til.dusk.util.Extension;
+import com.til.dusk.util.GenericMap;
+import com.til.dusk.util.MapUtil;
 import com.til.dusk.util.RoutePack;
 import com.til.dusk.util.nbt.pack.AllNBTPack;
+import com.til.dusk.util.pack.DataPack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -27,29 +31,27 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 import java.util.*;
+import java.util.function.Supplier;
 
 public class ShapedOre extends ShapedMiddle {
 
     @Nullable
-    public final Map<TagKey<Item>, Integer> item;
+    public Map<TagKey<Item>, Integer> item;
     @Nullable
-    public final Map<TagKey<Fluid>, Integer> fluid;
+    public Map<TagKey<Fluid>, Integer> fluid;
     @Nullable
-    public final Map<ItemStack, Double> outItem;
+    public Map<ItemStack, Double> outItem;
     @Nullable
-    public final Map<FluidStack, Double> outFluid;
+    public Map<FluidStack, Double> outFluid;
 
     Random random = new Random();
 
-    public ShapedOre(ShapedType shapedType, ShapedDrive shapedDrive, ManaLevel manaLevel,
-                     @Nullable Map<TagKey<Item>, Integer> item, @Nullable Map<TagKey<Fluid>, Integer> fluid,
-                     long surplusTime, long consumeMana, long outMana,
-                     @Nullable Map<ItemStack, Double> outItem, @Nullable Map<FluidStack, Double> outFluid) {
-        super(shapedType, shapedDrive, manaLevel, surplusTime, consumeMana, outMana);
-        this.item = item;
-        this.fluid = fluid;
-        this.outItem = outItem;
-        this.outFluid = outFluid;
+    public ShapedOre(ShapedType shapedType, ShapedDrive shapedDrive, ManaLevel manaLevel) {
+        super(shapedType, shapedDrive, manaLevel);
+        this.item = new HashMap<>();
+        this.fluid = new HashMap<>();
+        this.outItem = new HashMap<>();
+        this.outFluid = new HashMap<>();
     }
 
     public ShapedOre(ResourceLocation name, JsonObject jsonObject) throws Exception {
@@ -79,16 +81,16 @@ public class ShapedOre extends ShapedMiddle {
     @Override
     public @Nullable JsonObject writ(JsonObject jsonObject) {
         super.writ(jsonObject);
-        if (item != null) {
+        if (item != null && !item.isEmpty()) {
             AllNBTPack.ITEM_IN_MAP.set(jsonObject, item);
         }
-        if (fluid != null) {
+        if (fluid != null && !fluid.isEmpty()) {
             AllNBTPack.FLUID_IN_MAP.set(jsonObject, fluid);
         }
-        if (outItem != null) {
+        if (outItem != null && !outItem.isEmpty()) {
             AllNBTPack.ITEM_OUT_MAP.set(jsonObject, outItem);
         }
-        if (outFluid != null) {
+        if (outFluid != null && !outFluid.isEmpty()) {
             AllNBTPack.FLUID_OUT_MAP.set(jsonObject, outFluid);
         }
         return jsonObject;
@@ -280,36 +282,39 @@ public class ShapedOre extends ShapedMiddle {
         };
     }
 
-/*    public boolean isEffective() {
-        if (item != null && !item.isEmpty()) {
-            for (Map.Entry<TagKey<Item>, Integer> e : item.entrySet()) {
-                if (Objects.requireNonNull(ForgeRegistries.ITEMS.tags()).isKnownTagName(e.getKey()) && e.getValue() > 0) {
-                    return true;
-                }
-            }
-        }
-        if (fluid != null && !fluid.isEmpty()) {
-            for (Map.Entry<TagKey<Fluid>, Integer> e : fluid.entrySet()) {
-                if (Objects.requireNonNull(ForgeRegistries.FLUIDS.tags()).isKnownTagName(e.getKey()) && e.getValue() > 0) {
-                    return true;
-                }
-            }
-        }
-        if (outItem != null && !outItem.isEmpty()) {
-            for (Map.Entry<ItemStack, Double> e : outItem.entrySet()) {
-                if (!e.getKey().isEmpty() && e.getValue() < 0) {
-                    return true;
-                }
-            }
-        }
-        if (outFluid != null && !outFluid.isEmpty()) {
-            for (Map.Entry<FluidStack, Double> e : outFluid.entrySet()) {
-                if (!e.getKey().isEmpty() && e.getValue() < 0) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }*/
+    public ShapedOre addInItem(TagKey<Item> item, Integer i) {
+        assert this.item != null;
+        MapUtil.add(this.item, item, i);
+        return this;
+    }
 
+    public ShapedOre addInFluid(TagKey<Fluid> fluid, Integer i) {
+        assert this.fluid != null;
+        MapUtil.add(this.fluid, fluid, i);
+        return this;
+    }
+
+    public ShapedOre addOutItem(ItemStack item, Double i) {
+        assert this.outItem != null;
+        this.outItem.put(item, i);
+        return this;
+    }
+
+    public ShapedOre addOutFluid(FluidStack fluid, Double i) {
+        assert this.outFluid != null;
+        this.outFluid.put(fluid, i);
+        return this;
+    }
+
+    public ShapedOre runThis(Extension.Action_1V<ShapedOre> run) {
+        run.action(this);
+        return this;
+    }
+
+    public <OTHER_DATA> ShapedOre runThis(GenericMap.IKey<? extends Supplier<? extends DataPack<?, OTHER_DATA>>> key, GenericMap.IGenericMapSupplier supplier, OTHER_DATA otherData) {
+        if (supplier.hasSet(key)) {
+            supplier.getSet(key).get().run(this, otherData);
+        }
+        return this;
+    }
 }

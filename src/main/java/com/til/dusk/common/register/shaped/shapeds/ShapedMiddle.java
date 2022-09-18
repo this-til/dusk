@@ -15,15 +15,12 @@ import java.util.List;
  * @author til
  */
 public abstract class ShapedMiddle extends Shaped {
-    public final long surplusTime;
-    public final long consumeMana;
-    public final long outMana;
+    public long surplusTime;
+    public long consumeMana;
+    public long outMana;
 
-    public ShapedMiddle(ShapedType shapedType, ShapedDrive shapedDrive, ManaLevel manaLevel, long surplusTime, long consumeMana, long outMana) {
+    public ShapedMiddle(ShapedType shapedType, ShapedDrive shapedDrive, ManaLevel manaLevel) {
         super(shapedType, shapedDrive, manaLevel);
-        this.surplusTime = surplusTime;
-        this.consumeMana = consumeMana;
-        this.outMana = outMana;
     }
 
     public ShapedMiddle(ResourceLocation name, JsonObject jsonObject) {
@@ -55,5 +52,21 @@ public abstract class ShapedMiddle extends Shaped {
             componentList.add(Lang.getLang(Component.translatable(Lang.getKey("输出灵气")), Component.literal(String.valueOf(outMana))));
         }
         return componentList;
+    }
+
+    public ShapedMiddle addMultipleSurplusTime(long surplusTime) {
+        this.surplusTime = this.surplusTime == 0 ? surplusTime : this.surplusTime * surplusTime;
+        return this;
+    }
+
+    public ShapedMiddle addMultipleConsumeMana(long consumeMana) {
+        this.consumeMana = this.consumeMana == 0 ? consumeMana : this.consumeMana * consumeMana;
+        return this;
+    }
+
+    public ShapedMiddle addMultipleOutMana(long outMana) {
+        this.outMana = this.outMana == 0 ? outMana : this.outMana * outMana;
+        this.outMana = outMana;
+        return this;
     }
 }

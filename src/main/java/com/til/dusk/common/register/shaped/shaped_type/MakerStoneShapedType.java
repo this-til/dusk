@@ -22,40 +22,25 @@ public class MakerStoneShapedType extends ShapedType {
 
     @Override
     public void registerShaped() {
-        new ShapedOre(
-                this,
-                ShapedDrive.get(0),
-                ManaLevel.t1,
-                null,
-                Map.of(FluidTags.WATER, 10, FluidTags.LAVA, 1),
-                128,
-                4L,
-                0,
-                Map.of(new ItemStack(Blocks.STONE), 1d),
-                null);
+        new ShapedOre(this, ShapedDrive.get(0), ManaLevel.t1)
+                .addInFluid(FluidTags.WATER, 10)
+                .addInFluid(FluidTags.LAVA, 1)
+                .addOutItem(new ItemStack(Blocks.STONE), 1d)
+                .addMultipleSurplusTime(128)
+                .addMultipleConsumeMana(4);
 
-        new ShapedOre(
-                this,
-                ShapedDrive.get(1),
-                ManaLevel.t1,
-                null,
-                Map.of(FluidTags.WATER, 10, FluidTags.LAVA, 1),
-                128,
-                4L,
-                0,
-                Map.of(new ItemStack(Blocks.COBBLESTONE), 1d),
-                null);
+        new ShapedOre(this, ShapedDrive.get(1), ManaLevel.t1)
+                .addInFluid(FluidTags.WATER, 10)
+                .addInFluid(FluidTags.LAVA, 1)
+                .addOutItem(new ItemStack(Blocks.COBBLESTONE), 1d)
+                .addMultipleSurplusTime(128)
+                .addMultipleConsumeMana(4);
 
-        new ShapedOre(
-                this,
-                ShapedDrive.get(1),
-                ManaLevel.t1,
-                null,
-                Map.of(FluidTags.WATER, 1000, FluidTags.LAVA, 1000),
-                512L,
-                4L,
-                0,
-                Map.of(new ItemStack(Blocks.OBSIDIAN), 1d),
-                null);
+        new ShapedOre(this, ShapedDrive.get(1), ManaLevel.t1)
+                .addInFluid(FluidTags.WATER, 1000)
+                .addInFluid(FluidTags.LAVA, 1000)
+                .addOutItem(new ItemStack(Blocks.OBSIDIAN), 1d)
+                .addMultipleSurplusTime(512)
+                .addMultipleConsumeMana(4);
     }
 }

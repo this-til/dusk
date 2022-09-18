@@ -7,8 +7,6 @@ import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
 import net.minecraftforge.common.Tags;
 
-import java.util.Map;
-
 /**
  * @author til
  */
@@ -20,38 +18,17 @@ public class EnderManaShapedType extends ShapedType {
 
     @Override
     public void registerShaped() {
-        new ShapedOre(
-                this,
-                ShapedDrive.get(0),
-                ManaLevel.t1,
-                Map.of(Tags.Items.END_STONES, 1),
-                null,
-                512,
-                0,
-                2048,
-                null,
-                null);
-        new ShapedOre(
-                this,
-                ShapedDrive.get(1),
-                ManaLevel.t1,
-                Map.of(Tags.Items.ENDER_PEARLS, 1),
-                null,
-                1024,
-                0,
-                16384,
-                null,
-                null);
-        new ShapedOre(
-                this,
-                ShapedDrive.get(2),
-                ManaLevel.t1,
-                Map.of(ItemTag.ENDER_EYE, 1),
-                null,
-                1024,
-                0,
-                16384,
-                null,
-                null);
+        new ShapedOre(this, ShapedDrive.get(0), ManaLevel.t1)
+                .addInItem(Tags.Items.END_STONES, 1)
+                .addMultipleSurplusTime(512)
+                .addMultipleOutMana(2048);
+        new ShapedOre(this, ShapedDrive.get(1), ManaLevel.t1)
+                .addInItem(Tags.Items.ENDER_PEARLS, 1)
+                .addMultipleSurplusTime(1024)
+                .addMultipleOutMana(16384);
+        new ShapedOre(this, ShapedDrive.get(2), ManaLevel.t1)
+                .addInItem(ItemTag.ENDER_EYE, 1)
+                .addMultipleSurplusTime(1024)
+                .addMultipleOutMana(16384);
     }
 }

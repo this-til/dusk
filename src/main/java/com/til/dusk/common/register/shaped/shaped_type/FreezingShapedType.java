@@ -21,17 +21,11 @@ public class FreezingShapedType extends ShapedType {
     @Override
     public void registerShaped() {
         for (Ore ore : Ore.screen(Ore.IS_METAL, Ore.FLUID_DATA)) {
-            new ShapedOre(
-                    this,
-                    ShapedDrive.get(0),
-                    ore.manaLevel,
-                    null,
-                    Map.of(ore.fluidMap.get(OreFluid.solution).fluidTag(), 144),
-                    (long) (ore.strength * 724L),
-                    (long) (ore.consume * 32L),
-                    0,
-                    Map.of(new ItemStack(ore.itemMap.get(OreItem.ingot).item(), 1), 1D),
-                    null);
+            new ShapedOre(this, ShapedDrive.get(0), ore.manaLevel)
+                    .addInFluid(ore.fluidMap.get(OreFluid.solution).fluidTag(), 144)
+                    .addOutItem(new ItemStack(ore.itemMap.get(OreItem.ingot).item(), 1), 1D)
+                    .addMultipleSurplusTime((long) (ore.strength * 724L))
+                    .addMultipleConsumeMana((long) (ore.consume * 32L));
         }
     }
 }

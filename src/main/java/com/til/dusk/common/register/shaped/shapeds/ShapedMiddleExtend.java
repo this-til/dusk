@@ -21,8 +21,8 @@ import java.util.Map;
  */
 public abstract class ShapedMiddleExtend extends ShapedMiddle {
 
-    public ShapedMiddleExtend(ShapedType shapedType, ShapedDrive shapedDrive, ManaLevel manaLevel, long surplusTime, long consumeMana, long outMana) {
-        super(shapedType, shapedDrive, manaLevel, surplusTime, consumeMana, outMana);
+    public ShapedMiddleExtend(ShapedType shapedType, ShapedDrive shapedDrive, ManaLevel manaLevel) {
+        super(shapedType, shapedDrive, manaLevel);
     }
 
     public ShapedMiddleExtend(ResourceLocation name, JsonObject jsonObject) throws Exception {

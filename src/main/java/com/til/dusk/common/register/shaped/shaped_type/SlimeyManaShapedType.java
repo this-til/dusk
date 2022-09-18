@@ -6,8 +6,6 @@ import com.til.dusk.common.register.mana_level.mana_level_block.ManaLevelBlock;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
 
-import java.util.Map;
-
 /**
  * @author til
  */
@@ -19,38 +17,13 @@ public class SlimeyManaShapedType extends ShapedType {
 
     @Override
     public void registerShaped() {
-        new ShapedOre(
-                this,
-                ShapedDrive.get(0),
-                ManaLevel.t1,
-                Map.of(ItemTag.SLIME_BALL, 1),
-                null,
-                512,
-                0,
-                2048,
-                null,
-                null);
-        new ShapedOre(
-                this,
-                ShapedDrive.get(1),
-                ManaLevel.t1,
-                Map.of(ItemTag.SLIME_BLOCK.d1(), 1),
-                null,
-                512,
-                0,
-                8194,
-                null,
-                null);
-/*        new ShapedOre(
-                this,
-                ShapedDrive.get(1),
-                ManaLevel.t1,
-                null,
-                Map.of(Tags.Fluids.MILK, 100),
-                2048,
-                0,
-                16384,
-                null,
-                null);*/
+        new ShapedOre(this, ShapedDrive.get(0), ManaLevel.t1)
+                .addInItem(ItemTag.SLIME_BALL, 1)
+                .addMultipleSurplusTime(512)
+                .addMultipleOutMana(2048);
+        new ShapedOre(this, ShapedDrive.get(1), ManaLevel.t1)
+                .addInItem(ItemTag.SLIME_BLOCK.d1(), 1)
+                .addMultipleSurplusTime(512)
+                .addMultipleOutMana(2048);
     }
 }

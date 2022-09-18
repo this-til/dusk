@@ -31,13 +31,15 @@ public class FoodManaShapedType extends ShapedType {
 
     @Override
     public void registerShaped() {
-        new FoodShaped(this, ShapedDrive.get(0), ManaLevel.t1, 1024, 0, 512);
+        new FoodShaped(this, ShapedDrive.get(0), ManaLevel.t1)
+                .addMultipleSurplusTime(1024)
+                .addMultipleOutMana(512);
     }
 
     public static class FoodShaped extends ShapedMiddleExtend {
 
-        public FoodShaped(ShapedType shapedType, ShapedDrive shapedDrive, ManaLevel manaLevel, long surplusTime, long consumeMana, long outMana) {
-            super(shapedType, shapedDrive, manaLevel, surplusTime, consumeMana, outMana);
+        public FoodShaped(ShapedType shapedType, ShapedDrive shapedDrive, ManaLevel manaLevel) {
+            super(shapedType, shapedDrive, manaLevel);
         }
 
         public FoodShaped(ResourceLocation name, JsonObject jsonObject) throws Exception {

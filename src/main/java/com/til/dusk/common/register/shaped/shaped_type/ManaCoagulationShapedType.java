@@ -20,18 +20,9 @@ public class ManaCoagulationShapedType extends ShapedType {
 
     @Override
     public void registerShaped() {
-        new ShapedOre(
-                this,
-                ShapedDrive.get(0),
-                ManaLevel.t1,
-                null,
-                null,
-                1024L,
-                32L,
-                0,
-                null,
-                Map.of(new FluidStack(Ore.mana.fluidMap.get(OreFluid.solution).source(), 1), 1D)
-        );
+        new ShapedOre(this, ShapedDrive.get(0), ManaLevel.t1)
+                .addOutFluid(new FluidStack(Ore.mana.fluidMap.get(OreFluid.solution).source(), 1), 1D)
+                .addMultipleSurplusTime(1024L).addMultipleConsumeMana(32L);
     }
 
 }

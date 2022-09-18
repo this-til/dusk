@@ -31,15 +31,17 @@ public class RecoveryShapedType extends ShapedType {
 
     @Override
     public void registerShaped() {
-        new RecoveryShaped(this, ShapedDrive.get(0), ManaLevel.t1, 128L, 8L, 0, 0.2f);
+        new RecoveryShaped(this, ShapedDrive.get(0), ManaLevel.t1, 0.2f)
+                .addMultipleConsumeMana(128L)
+                .addMultipleConsumeMana(8L);
     }
 
     public static class RecoveryShaped extends ShapedMiddleExtend {
         public final Random random = new Random();
         public final double probability;
 
-        public RecoveryShaped(ShapedType shapedType, ShapedDrive shapedDrive, ManaLevel manaLevel, long surplusTime, long consumeMana, long outMana, double probability) {
-            super(shapedType, shapedDrive, manaLevel, surplusTime, consumeMana, outMana);
+        public RecoveryShaped(ShapedType shapedType, ShapedDrive shapedDrive, ManaLevel manaLevel, double probability) {
+            super(shapedType, shapedDrive, manaLevel);
             this.probability = probability;
         }
 

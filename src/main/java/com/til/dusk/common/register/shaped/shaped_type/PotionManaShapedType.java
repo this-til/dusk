@@ -38,13 +38,15 @@ public class PotionManaShapedType extends ShapedType {
 
     @Override
     public void registerShaped() {
-        new ShapedPotionMana(this, ShapedDrive.get(0), ManaLevel.t1, 1024, 0, 20);
+        new ShapedPotionMana(this, ShapedDrive.get(0), ManaLevel.t1)
+                .addMultipleSurplusTime(1024L)
+                .addMultipleOutMana(20L);
     }
 
     public static class ShapedPotionMana extends ShapedMiddleExtend {
 
-        public ShapedPotionMana(ShapedType shapedType, ShapedDrive shapedDrive, ManaLevel manaLevel, long surplusTime, long consumeMana, long outMana) {
-            super(shapedType, shapedDrive, manaLevel, surplusTime, consumeMana, outMana);
+        public ShapedPotionMana(ShapedType shapedType, ShapedDrive shapedDrive, ManaLevel manaLevel) {
+            super(shapedType, shapedDrive, manaLevel);
         }
 
         public ShapedPotionMana(ResourceLocation name, JsonObject jsonObject) throws Exception {

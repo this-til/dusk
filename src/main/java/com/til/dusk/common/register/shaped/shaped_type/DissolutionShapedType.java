@@ -13,52 +13,34 @@ import java.util.Map;
 /**
  * @author til
  */
-public class DissolutionShapedType extends ShapedType{
+public class DissolutionShapedType extends ShapedType {
 
-    public DissolutionShapedType(){
-        super("dissolution", () ->ManaLevelBlock.dissolution);
+    public DissolutionShapedType() {
+        super("dissolution", () -> ManaLevelBlock.dissolution);
     }
 
     @Override
     public void registerShaped() {
         for (Ore ore : Ore.screen(Ore.FLUID_DATA, Ore.IS_METAL)) {
-            new ShapedOre(
-                    this,
-                    ShapedDrive.get(0),
-                    ore.manaLevel,
-                    Map.of(ore.itemMap.get(OreItem.ingot).itemTag(), 1),
-                    null,
-                    (long) (ore.strength * 512),
-                    (long) (ore.consume * 128L),
-                    0,
-                    null,
-                    Map.of(new FluidStack(ore.fluidMap.get(OreFluid.solution).source(), 144), 1d));
+            new ShapedOre(this, ShapedDrive.get(0), ore.manaLevel)
+                    .addInItem(ore.itemMap.get(OreItem.ingot).itemTag(), 1)
+                    .addOutFluid(new FluidStack(ore.fluidMap.get(OreFluid.solution).source(), 144), 1d)
+                    .addMultipleSurplusTime((long) (ore.strength * 512))
+                    .addMultipleConsumeMana((long) (ore.consume * 128L));
         }
         for (Ore ore : Ore.screen(Ore.FLUID_DATA, Ore.IS_CRYSTA)) {
-            new ShapedOre(
-                    this,
-                    ShapedDrive.get(1),
-                    ore.manaLevel,
-                    Map.of(ore.itemMap.get(OreItem.crystal).itemTag(), 1),
-                    null,
-                    (long) (ore.strength * 512),
-                    (long) (ore.consume * 128L),
-                    0,
-                    null,
-                    Map.of(new FluidStack(ore.fluidMap.get(OreFluid.solution).source(), 144), 1d));
+            new ShapedOre(this, ShapedDrive.get(0), ore.manaLevel)
+                    .addInItem(ore.itemMap.get(OreItem.crystal).itemTag(), 1)
+                    .addOutFluid(new FluidStack(ore.fluidMap.get(OreFluid.solution).source(), 144), 1d)
+                    .addMultipleSurplusTime((long) (ore.strength * 512))
+                    .addMultipleConsumeMana((long) (ore.consume * 128L));
         }
         for (Ore ore : Ore.screen(Ore.FLUID_DATA)) {
-            new ShapedOre(
-                    this,
-                    ShapedDrive.get(2),
-                    ore.manaLevel,
-                    Map.of(ore.itemMap.get(OreItem.dust).itemTag(), 1),
-                    null,
-                    (long) (ore.strength * 512),
-                    (long) (ore.consume * 128L),
-                    0,
-                    null,
-                    Map.of(new FluidStack(ore.fluidMap.get(OreFluid.solution).source(), 144), 1d));
+            new ShapedOre(this, ShapedDrive.get(0), ore.manaLevel)
+                    .addInItem(ore.itemMap.get(OreItem.dust).itemTag(), 1)
+                    .addOutFluid(new FluidStack(ore.fluidMap.get(OreFluid.solution).source(), 144), 1d)
+                    .addMultipleSurplusTime((long) (ore.strength * 512))
+                    .addMultipleConsumeMana((long) (ore.consume * 128L));
         }
     }
 

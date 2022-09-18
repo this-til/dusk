@@ -30,13 +30,15 @@ public class DischantmentManaShapedType extends ShapedType {
 
     @Override
     public void registerShaped() {
-        new DischantmentManaShaped(this, ShapedDrive.get(0), ManaLevel.t1, 1024L, 0, 4096L);
+        new DischantmentManaShaped(this, ShapedDrive.get(0), ManaLevel.t1)
+                .addMultipleSurplusTime(1024L)
+                .addMultipleConsumeMana(4096L);
     }
 
     public static class DischantmentManaShaped extends ShapedMiddleExtend {
 
-        public DischantmentManaShaped(ShapedType shapedType, ShapedDrive shapedDrive, ManaLevel manaLevel, long surplusTime, long consumeMana, long outMana) {
-            super(shapedType, shapedDrive, manaLevel, surplusTime, consumeMana, outMana);
+        public DischantmentManaShaped(ShapedType shapedType, ShapedDrive shapedDrive, ManaLevel manaLevel) {
+            super(shapedType, shapedDrive, manaLevel);
         }
 
         public DischantmentManaShaped(ResourceLocation name, JsonObject jsonObject) throws Exception {

@@ -7,8 +7,6 @@ import com.til.dusk.common.register.mana_level.mana_level_block.ManaLevelBlock;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
 
-import java.util.Map;
-
 /**
  * @author til
  */
@@ -20,16 +18,9 @@ public class HalitosisManaShapedType extends ShapedType {
 
     @Override
     public void registerShaped() {
-        new ShapedOre(
-                this,
-                ShapedDrive.get(0),
-                ManaLevel.t1,
-                Map.of(ItemTag.DRAGON_BREATH, 1),
-                null,
-                2049,
-                0,
-                65536,
-                null,
-                null);
+        new ShapedOre(this, ShapedDrive.get(0), ManaLevel.t1)
+                .addInItem(ItemTag.DRAGON_BREATH, 1)
+                .addMultipleSurplusTime(2049)
+                .addMultipleOutMana(65536);
     }
 }

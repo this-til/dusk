@@ -1,5 +1,7 @@
 package com.til.dusk.util;
 
+import com.til.dusk.common.register.RegisterBasics;
+
 import java.util.HashMap;
 
 /**
@@ -30,6 +32,12 @@ public class GenericMap extends HashMap<GenericMap.IKey<?>, Object> {
         class Key<V> implements IKey<V> {
         }
 
+    }
+
+    public interface IGenericMapSupplier{
+        <V> V getSet(IKey<V> key);
+
+        boolean hasSet(IKey<?> key);
     }
 
 }

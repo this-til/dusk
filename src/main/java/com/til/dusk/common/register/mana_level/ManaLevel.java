@@ -4,6 +4,8 @@ import com.til.dusk.Dusk;
 import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.register.mana_level.mana_level_block.ManaLevelBlock;
 import com.til.dusk.util.DuskColor;
+import com.til.dusk.util.GenericMap;
+import com.til.dusk.util.pack.DataPack;
 import com.til.dusk.util.pack.RegistryPack;
 import com.til.dusk.util.pack.TagPack;
 import net.minecraft.resources.ResourceLocation;
@@ -136,5 +138,14 @@ public class ManaLevel extends RegisterBasics.UnitRegister<ManaLevel, ManaLevelI
     }
 
     public static RegistryPack<ManaLevel, ManaLevelItem, ManaLevelBlock, ManaLevelFluid> cellRegistry;
+
+    public static final GenericMap.IKey<DataPack.ManaLevelDataPack> OPERATION_BASICS = new GenericMap.IKey.Key<>();
+    public static final GenericMap.IKey<DataPack.ManaLevelDataPack> OPERATION = new GenericMap.IKey.Key<>();
+    public static final GenericMap.IKey<DataPack.ManaLevelDataPack> FORMING = new GenericMap.IKey.Key<>();
+    public static final GenericMap.IKey<DataPack.ManaLevelDataPack> DESTRUCTION = new GenericMap.IKey.Key<>();
+    public static final GenericMap.IKey<DataPack.ManaLevelDataPack> GATHER = new GenericMap.IKey.Key<>();
+    public static final GenericMap.IKey<DataPack.ManaLevelDataPack> SPREAD = new GenericMap.IKey.Key<>();
+    public static final GenericMap.IKey<DataPack.ManaLevelDataPack> POWER = new GenericMap.IKey.Key<>();
+    public static final GenericMap.IKey<DataPack.ManaLevelDataPack> INSTRUCTIONS = new GenericMap.IKey.Key<>();
 
 }
