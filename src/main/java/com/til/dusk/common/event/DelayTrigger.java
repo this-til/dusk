@@ -16,10 +16,14 @@ import java.util.List;
 @Mod.EventBusSubscriber(modid = Dusk.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class DelayTrigger {
 
-    public static List<Runnable> setupEventRun = new ArrayList<>();
+    protected static List<Runnable> setupEventRun = new ArrayList<>();
+
+    public static void addSetupRun(Runnable run) {
+        setupEventRun.add(run);
+    }
 
     @SubscribeEvent
-    public static void setupEvent(FMLCommonSetupEvent event) {
+    public static void addSetupRun(FMLCommonSetupEvent event) {
         for (Runnable runnable : setupEventRun) {
             runnable.run();
         }

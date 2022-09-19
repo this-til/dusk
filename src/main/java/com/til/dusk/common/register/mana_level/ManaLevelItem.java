@@ -12,7 +12,6 @@ import com.til.dusk.util.pack.ItemPack;
 import com.til.dusk.util.prefab.ColorPrefab;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -33,39 +32,39 @@ public class ManaLevelItem extends RegisterBasics.ItemUnitRegister<ManaLevelItem
 
     public static Supplier<IForgeRegistry<ManaLevelItem>> LEVEL_ITEM;
 
-    public static ManaLevelItem operationBasics;
+    public static ManaLevelItemPack operationBasics;
 
-    public static ManaLevelItem operation;
+    public static ManaLevelItemPack operation;
 
     /***
      * 成型核心
      */
-    public static ManaLevelItem forming;
+    public static ManaLevelItemPack forming;
 
     /***
      * 破坏核心
      */
-    public static ManaLevelItem destruction;
+    public static ManaLevelItemPack destruction;
 
     /***
      * 聚集核心
      */
-    public static ManaLevelItem gather;
+    public static ManaLevelItemPack gather;
 
     /***
      * 扩散核心
      */
-    public static ManaLevelItem spread;
+    public static ManaLevelItemPack spread;
 
     /***
      * 动力核心
      */
-    public static ManaLevelItem power;
+    public static ManaLevelItemPack power;
 
     /***
      * 指令核心
      */
-    public static ManaLevelItem instructions;
+    public static ManaLevelItemPack instructions;
 
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
@@ -131,7 +130,7 @@ public class ManaLevelItem extends RegisterBasics.ItemUnitRegister<ManaLevelItem
                         }
                     };
                     assert manaLevel.up != null;
-                    DelayTrigger.setupEventRun.add(() -> ItemTag.addTag(manaLevel.up.get().itemMap.get(ManaLevelItemPack.this).itemTag(), item));
+                    DelayTrigger.addSetupRun(() -> ItemTag.addTag(manaLevel.up.get().itemMap.get(ManaLevelItemPack.this).itemTag(), item));
                     return item;
                 }
 
@@ -165,7 +164,7 @@ public class ManaLevelItem extends RegisterBasics.ItemUnitRegister<ManaLevelItem
                         }
                     };
                     assert manaLevel.next != null;
-                    DelayTrigger.setupEventRun.add(() -> ItemTag.addTag(manaLevel.next.get().itemMap.get(ManaLevelItemPack.this).itemTag(), item));
+                    DelayTrigger.addSetupRun(() -> ItemTag.addTag(manaLevel.next.get().itemMap.get(ManaLevelItemPack.this).itemTag(), item));
                     return item;
                 }
 

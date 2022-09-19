@@ -12,6 +12,7 @@ import com.til.dusk.common.data.tag.BlockTag;
 import com.til.dusk.common.data.tag.FluidTag;
 import com.til.dusk.common.data.tag.ItemTag;
 import com.til.dusk.common.data.tag.PotionsTag;
+import com.til.dusk.util.Extension;
 import com.til.dusk.util.nbt.pack.AllNBTPack;
 import net.minecraft.core.Registry;
 import net.minecraft.data.CachedOutput;
@@ -60,6 +61,8 @@ import java.util.function.Supplier;
 public class ModData {
     public static DataGenerator dataGenerator;
 
+    public static List<Extension.Func<Shaped>> shapedSupply = new ArrayList<>();
+
     @SubscribeEvent
     public static void onEvent(GatherDataEvent event) {
         dataGenerator = event.getGenerator();
@@ -101,6 +104,9 @@ public class ModData {
             public void run(@NotNull CachedOutput cachedOutput) throws IOException {
                 for (ShapedType shapedType : ShapedType.SHAPED_TYPE.get()) {
                     shapedType.registerShaped();
+                }
+                for (Extension.Func<Shaped> shapedFunc : shapedSupply) {
+                    shapedFunc.func();
                 }
                 for (Map.Entry<String, Shaped> entry : Shaped.ID_MAP.entrySet()) {
                     Shaped shaped = entry.getValue();

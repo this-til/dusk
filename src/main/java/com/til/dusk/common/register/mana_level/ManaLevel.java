@@ -1,14 +1,19 @@
 package com.til.dusk.common.register.mana_level;
 
 import com.til.dusk.Dusk;
+import com.til.dusk.common.data.tag.ItemTag;
 import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.register.mana_level.mana_level_block.ManaLevelBlock;
+import com.til.dusk.common.register.ore.Ore;
+import com.til.dusk.common.register.ore.OreFluid;
+import com.til.dusk.common.register.ore.OreItem;
 import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.GenericMap;
 import com.til.dusk.util.pack.DataPack;
 import com.til.dusk.util.pack.RegistryPack;
 import com.til.dusk.util.pack.TagPack;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -40,7 +45,32 @@ public class ManaLevel extends RegisterBasics.UnitRegister<ManaLevel, ManaLevelI
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void onEvent(NewRegistryEvent event) {
         LEVEL = event.create(new RegistryBuilder<ManaLevel>().setName(new ResourceLocation(Dusk.MOD_ID, "mana_level")));
-        t1 = new ManaLevel(1, 2560, 1, 2, 0.1, 16, new DuskColor(50, 255, 255), null, () -> t2);
+        t1 = new ManaLevel(1, 2560, 1, 2, 0.1, 16, new DuskColor(50, 255, 255), null, () -> t2)
+                .setSet(OPERATION_BASICS, () -> new DataPack.ManaLevelDataPack()
+                        .addInFluid(Ore.highEnergyRedStone.fluidMap.get(OreFluid.solution).fluidTag(), 16))
+                .setSet(OPERATION, () -> new DataPack.ManaLevelDataPack()
+                        .addInItem(ItemTag.REPEATER.d1(), 1)
+                        .addInItem(ItemTag.COMPARATOR.d1(), 1)
+                        .addInItem(Ore.ultramarine.itemMap.get(OreItem.foil).itemTag(), 4)
+                        .addInItem(Ore.crimson.itemMap.get(OreItem.string).itemTag(), 8))
+                .setSet(FORMING, () -> new DataPack.ManaLevelDataPack()
+                        .addInItem(Ore.ultramarine.itemMap.get(OreItem.foil).itemTag(), 2)
+                        .addInItem(Ore.ultramarine.itemMap.get(OreItem.string).itemTag(), 4))
+                .setSet(DESTRUCTION, () -> new DataPack.ManaLevelDataPack()
+                        .addInItem(Ore.indigo.itemMap.get(OreItem.foil).itemTag(), 2)
+                        .addInItem(Ore.indigo.itemMap.get(OreItem.string).itemTag(), 4))
+                .setSet(GATHER, () -> new DataPack.ManaLevelDataPack()
+                        .addInItem(Ore.violet.itemMap.get(OreItem.foil).itemTag(), 2)
+                        .addInItem(Ore.violet.itemMap.get(OreItem.string).itemTag(), 4))
+                .setSet(SPREAD, () -> new DataPack.ManaLevelDataPack()
+                        .addInItem(Ore.thistle.itemMap.get(OreItem.foil).itemTag(), 2)
+                        .addInItem(Ore.thistle.itemMap.get(OreItem.string).itemTag(), 4))
+                .setSet(POWER, () -> new DataPack.ManaLevelDataPack()
+                        .addInItem(Ore.peru.itemMap.get(OreItem.foil).itemTag(), 2)
+                        .addInItem(Ore.peru.itemMap.get(OreItem.string).itemTag(), 4))
+                .setSet(INSTRUCTIONS, () -> new DataPack.ManaLevelDataPack()
+                        .addInItem(Ore.goldenrod.itemMap.get(OreItem.foil).itemTag(), 2)
+                        .addInItem(Ore.goldenrod.itemMap.get(OreItem.string).itemTag(), 4));
         t2 = new ManaLevel(2, 1280, 2, 2, 0.09, 18, new DuskColor(100, 200, 225), () -> t1, () -> t3);
         t3 = new ManaLevel(3, 640, 3, 4, 0.08, 20, new DuskColor(125, 150, 200), () -> t2, () -> t4);
         t4 = new ManaLevel(4, 320, 4, 4, 0.07, 22, new DuskColor(150, 100, 175), () -> t3, () -> t5);
@@ -116,7 +146,7 @@ public class ManaLevel extends RegisterBasics.UnitRegister<ManaLevel, ManaLevelI
         this.next = next;
     }
 
-    public TagPack getRelationTagMap(RegisterBasics<?> registerBasics) {
+    public TagPack getRelationTagPack(RegisterBasics<?> registerBasics) {
         if (relationTagMap.containsKey(registerBasics)) {
             return relationTagMap.get(registerBasics);
         }
@@ -139,13 +169,13 @@ public class ManaLevel extends RegisterBasics.UnitRegister<ManaLevel, ManaLevelI
 
     public static RegistryPack<ManaLevel, ManaLevelItem, ManaLevelBlock, ManaLevelFluid> cellRegistry;
 
-    public static final GenericMap.IKey<DataPack.ManaLevelDataPack> OPERATION_BASICS = new GenericMap.IKey.Key<>();
-    public static final GenericMap.IKey<DataPack.ManaLevelDataPack> OPERATION = new GenericMap.IKey.Key<>();
-    public static final GenericMap.IKey<DataPack.ManaLevelDataPack> FORMING = new GenericMap.IKey.Key<>();
-    public static final GenericMap.IKey<DataPack.ManaLevelDataPack> DESTRUCTION = new GenericMap.IKey.Key<>();
-    public static final GenericMap.IKey<DataPack.ManaLevelDataPack> GATHER = new GenericMap.IKey.Key<>();
-    public static final GenericMap.IKey<DataPack.ManaLevelDataPack> SPREAD = new GenericMap.IKey.Key<>();
-    public static final GenericMap.IKey<DataPack.ManaLevelDataPack> POWER = new GenericMap.IKey.Key<>();
-    public static final GenericMap.IKey<DataPack.ManaLevelDataPack> INSTRUCTIONS = new GenericMap.IKey.Key<>();
+    public static final GenericMap.IKey<Supplier<DataPack.ManaLevelDataPack>> OPERATION_BASICS = new GenericMap.IKey.Key<>();
+    public static final GenericMap.IKey<Supplier<DataPack.ManaLevelDataPack>> OPERATION = new GenericMap.IKey.Key<>();
+    public static final GenericMap.IKey<Supplier<DataPack.ManaLevelDataPack>> FORMING = new GenericMap.IKey.Key<>();
+    public static final GenericMap.IKey<Supplier<DataPack.ManaLevelDataPack>> DESTRUCTION = new GenericMap.IKey.Key<>();
+    public static final GenericMap.IKey<Supplier<DataPack.ManaLevelDataPack>> GATHER = new GenericMap.IKey.Key<>();
+    public static final GenericMap.IKey<Supplier<DataPack.ManaLevelDataPack>> SPREAD = new GenericMap.IKey.Key<>();
+    public static final GenericMap.IKey<Supplier<DataPack.ManaLevelDataPack>> POWER = new GenericMap.IKey.Key<>();
+    public static final GenericMap.IKey<Supplier<DataPack.ManaLevelDataPack>> INSTRUCTIONS = new GenericMap.IKey.Key<>();
 
 }

@@ -43,6 +43,11 @@ public abstract class OreBlock extends RegisterBasics.BlockUnitRegister<OreBlock
     public static MineralOreBlock netherWorldNetherrack;
     public static MineralOreBlock endWorldEndStone;
 
+    /***
+     * 支架
+     */
+    public static OreBlock bracket;
+
     public static DecorateOreBlock block;
 
     /***
@@ -146,6 +151,39 @@ public abstract class OreBlock extends RegisterBasics.BlockUnitRegister<OreBlock
                 BlockTag.addTag(BlockTags.MINEABLE_WITH_PICKAXE, block);
                 BlockTag.addTag(BlockTags.NEEDS_STONE_TOOL, block);
                 return block;
+            }
+        };
+        bracket = new OreBlock("bracket") {
+
+            @Override
+            public @Nullable BlockPack create(Ore ore) {
+                if (ore.hasSet(Ore.IS_METAL)) {
+                    return super.create(ore);
+                }
+                return null;
+            }
+
+            @Override
+            public @Nullable Block createBlock(Ore ore) {
+                Block block = new Block(BlockBehaviour.Properties.of(Material.GLASS)
+                        .strength((float) (1.2f * ore.strength), (float) (2.4f * ore.strength))
+                        .requiresCorrectToolForDrops()
+                        .sound(SoundType.GLASS)
+                        .noCollission()
+                        .noOcclusion());
+                BlockTag.addTag(BlockTags.MINEABLE_WITH_PICKAXE, block);
+                BlockTag.addTag(BlockTags.NEEDS_STONE_TOOL, block);
+                return block;
+            }
+
+            @Override
+            public void dyeBlack(Ore ore, ColorProxy.ItemColorPack itemColorPack) {
+                itemColorPack.addColor(0, itemStack -> ore.color);
+            }
+
+            @Override
+            public void dyeBlack(Ore ore, ColorProxy.BlockColorPack itemColorPack) {
+                itemColorPack.addColor(0, (blockState, blockAndTintGetter, blockPos) -> ore.color);
             }
         };
         block = new DecorateOreBlock("block") {

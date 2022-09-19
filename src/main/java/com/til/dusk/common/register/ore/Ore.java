@@ -6,13 +6,18 @@ import com.til.dusk.common.data.tag.FluidTag;
 import com.til.dusk.common.data.tag.ItemTag;
 import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.register.mana_level.ManaLevel;
+import com.til.dusk.common.register.shaped.ShapedDrive;
+import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
+import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
 import com.til.dusk.common.register.skill.Skill;
 import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.GenericMap;
 import com.til.dusk.util.pack.*;
 import com.til.dusk.util.prefab.ColorPrefab;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.*;
 
@@ -268,16 +273,19 @@ public class Ore extends RegisterBasics.UnitRegister<Ore, OreItem, OreBlock, Ore
 
         sunlight = new Ore("sunlight", ColorPrefab.SUNLIGHT_COLOR, ManaLevel.t1)
                 .setSet(IS_CRYSTA, null)
+                .setSet(IS_LEVEL_CURRENCY, null)
                 .setSet(MINERAL_BLOCK_DATA, new OreBlock.MineralBlockData())
                 .setSet(DECORATE_BLOCK_DATA, new OreBlock.DecorateBlockData())
                 .setSet(FLUID_DATA, new OreFluid.FluidData());
         moonlight = new Ore("moonlight", ColorPrefab.MOONLIGHT_COLOR, ManaLevel.t1)
                 .setSet(IS_CRYSTA, null)
+                .setSet(IS_LEVEL_CURRENCY, null)
                 .setSet(MINERAL_BLOCK_DATA, new OreBlock.MineralBlockData())
                 .setSet(DECORATE_BLOCK_DATA, new OreBlock.DecorateBlockData())
                 .setSet(FLUID_DATA, new OreFluid.FluidData());
         rain = new Ore("rain", ColorPrefab.RAIN_COLOR, ManaLevel.t1)
                 .setSet(IS_CRYSTA, null)
+                .setSet(IS_LEVEL_CURRENCY, null)
                 .setSet(MINERAL_BLOCK_DATA, new OreBlock.MineralBlockData())
                 .setSet(DECORATE_BLOCK_DATA, new OreBlock.DecorateBlockData())
                 .setSet(FLUID_DATA, new OreFluid.FluidData());
@@ -330,7 +338,14 @@ public class Ore extends RegisterBasics.UnitRegister<Ore, OreItem, OreBlock, Ore
         mana = new Ore("mana", ColorPrefab.MANA_IO, ManaLevel.t1)
                 .setSet(FLUID_DATA, new OreFluid.FluidData());
         highEnergyRedStone = new Ore("high_energy_red_stone", new DuskColor(245, 35, 35), ManaLevel.t1)
-                .setSet(FLUID_DATA, new OreFluid.FluidData());
+                .setSet(FLUID_DATA, new OreFluid.FluidData())
+                .addShaped(() -> new ShapedOre(ShapedType.highPressureFuse, ShapedDrive.get(0), highEnergyRedStone.manaLevel)
+                        .addInItem(Tags.Items.DUSTS_REDSTONE, 1)
+                        .addInItem(Tags.Items.DUSTS_GLOWSTONE, 1)
+                        .addInFluid(crimson.fluidMap.get(OreFluid.solution).fluidTag(), 144)
+                        .addOutFluid(new FluidStack(highEnergyRedStone.fluidMap.get(OreFluid.solution).source(), 144), 1d)
+                        .addMultipleSurplusTime((long) (1024L * highEnergyRedStone.strength))
+                        .addMultipleConsumeMana((long) (22L * highEnergyRedStone.consume)));
     }
 
     /***
@@ -377,7 +392,7 @@ public class Ore extends RegisterBasics.UnitRegister<Ore, OreItem, OreBlock, Ore
     public void registerItem(OreItem oreItem, ItemPack itemPack) {
         super.registerItem(oreItem, itemPack);
         if (hasSet(IS_LEVEL_CURRENCY)) {
-            ItemTag.addTag(manaLevel.getRelationTagMap(oreItem).itemTagKey(), itemPack.item());
+            ItemTag.addTag(manaLevel.getRelationTagPack(oreItem).itemTagKey(), itemPack.item());
         }
     }
 
@@ -385,8 +400,8 @@ public class Ore extends RegisterBasics.UnitRegister<Ore, OreItem, OreBlock, Ore
     public void registerBlock(OreBlock oreBlock, BlockPack blockPack) {
         super.registerBlock(oreBlock, blockPack);
         if (hasSet(IS_LEVEL_CURRENCY)) {
-            ItemTag.addTag(manaLevel.getRelationTagMap(oreBlock).itemTagKey(), blockPack.blockItem());
-            BlockTag.addTag(manaLevel.getRelationTagMap(oreBlock).blockTagKey(), blockPack.block());
+            ItemTag.addTag(manaLevel.getRelationTagPack(oreBlock).itemTagKey(), blockPack.blockItem());
+            BlockTag.addTag(manaLevel.getRelationTagPack(oreBlock).blockTagKey(), blockPack.block());
         }
     }
 
@@ -394,13 +409,13 @@ public class Ore extends RegisterBasics.UnitRegister<Ore, OreItem, OreBlock, Ore
     public void registerFluid(OreFluid oreFluid, FluidPack fluidPack) {
         super.registerFluid(oreFluid, fluidPack);
         if (hasSet(IS_LEVEL_CURRENCY)) {
-            FluidTag.addTag(manaLevel.getRelationTagMap(oreFluid).fluidTagKey(), fluidPack.source());
-            FluidTag.addTag(manaLevel.getRelationTagMap(oreFluid).fluidTagKey(), fluidPack.flowing());
+            FluidTag.addTag(manaLevel.getRelationTagPack(oreFluid).fluidTagKey(), fluidPack.source());
+            FluidTag.addTag(manaLevel.getRelationTagPack(oreFluid).fluidTagKey(), fluidPack.flowing());
             if (fluidPack.bucketItem() != null) {
-                ItemTag.addTag(manaLevel.getRelationTagMap(oreFluid).itemTagKey(), fluidPack.bucketItem());
+                ItemTag.addTag(manaLevel.getRelationTagPack(oreFluid).itemTagKey(), fluidPack.bucketItem());
             }
             if (fluidPack.liquidBlock() != null) {
-                BlockTag.addTag(manaLevel.getRelationTagMap(oreFluid).blockTagKey(), fluidPack.liquidBlock());
+                BlockTag.addTag(manaLevel.getRelationTagPack(oreFluid).blockTagKey(), fluidPack.liquidBlock());
             }
         }
     }
@@ -447,16 +462,6 @@ public class Ore extends RegisterBasics.UnitRegister<Ore, OreItem, OreBlock, Ore
      * 筛选副产物
      */
     public static final GenericMap.IKey<Supplier<DataPack.OreDataPack>> SCREEN_BYPRODUCT = new GenericMap.IKey.Key<>();
-
-    /***
-     * 混合配方
-     */
-    public static final GenericMap.IKey<Supplier<DataPack.OreDataPack>> BLEND_BYPRODUCT = new GenericMap.IKey.Key<>();
-
-    /***
-     * 高压融合配方
-     */
-    public static final GenericMap.IKey<Supplier<DataPack.OreDataPack>> HIGH_PRESSURE_FUSE_BYPRODUCT = new GenericMap.IKey.Key<>();
 
     /***
      * 盔甲数据

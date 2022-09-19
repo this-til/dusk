@@ -2,9 +2,12 @@ package com.til.dusk.common.register;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.client.ColorProxy;
+import com.til.dusk.common.data.ModData;
 import com.til.dusk.common.data.tag.BlockTag;
 import com.til.dusk.common.data.tag.FluidTag;
 import com.til.dusk.common.data.tag.ItemTag;
+import com.til.dusk.common.event.DelayTrigger;
+import com.til.dusk.common.register.shaped.shapeds.Shaped;
 import com.til.dusk.common.world.block.ModBlock;
 import com.til.dusk.common.world.item.ModItem;
 import com.til.dusk.util.*;
@@ -149,6 +152,16 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> implements Gen
     @Override
     public String toString() {
         return name.toString();
+    }
+
+    public T addDelayRun(Runnable run) {
+        DelayTrigger.addSetupRun(run);
+        return Util.forcedConversion(this);
+    }
+
+    public T addShaped(Extension.Func<Shaped> func) {
+        ModData.shapedSupply.add(func);
+        return Util.forcedConversion(this);
     }
 
     public static ResourceLocation fuseName(String splicing, String[] strings) {

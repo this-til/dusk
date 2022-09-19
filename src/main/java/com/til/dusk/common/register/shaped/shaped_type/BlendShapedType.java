@@ -25,16 +25,5 @@ public class BlendShapedType extends ShapedType {
 
     @Override
     public void registerShaped() {
-        for (Ore ore : Ore.ORE.get()) {
-            if (ore.hasSet(Ore.BLEND_BYPRODUCT)) {
-                DataPack.OreDataPack dataPack = ore.getSet(Ore.BLEND_BYPRODUCT).get();
-                new ShapedOre(this, ShapedDrive.get(0), ore.manaLevel)
-                        .addOutItem(new ItemStack(ore.itemMap.get(OreItem.dust).item(), dataPack.getSet(DataPack.AMOUNT) == 0 ? 1 : dataPack.getSet(DataPack.AMOUNT)), 1d)
-                        .runThis(s -> dataPack.run(s, null))
-                        .addMultipleSurplusTime((long) (ore.strength * 512L))
-                        .addMultipleOutMana((long) (ore.consume * 24L));
-            }
-
-        }
     }
 }
