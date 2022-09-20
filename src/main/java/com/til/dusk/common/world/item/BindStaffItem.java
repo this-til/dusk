@@ -15,6 +15,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
@@ -32,8 +33,8 @@ import java.util.function.Consumer;
  * @author til
  */
 public class BindStaffItem extends ItemBasics implements ModItem.IHasCustomColor {
-    public BindStaffItem() {
-        super(new Properties().stacksTo(1));
+    public BindStaffItem(Properties properties) {
+        super(properties);
         MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, (Consumer<EventKey>) event -> {
             if (!event.keyRegister.equals(KeyRegister.switchBindType)) {
                 return;

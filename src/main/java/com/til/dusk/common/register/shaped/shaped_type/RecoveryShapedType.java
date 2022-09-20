@@ -66,7 +66,7 @@ public class RecoveryShapedType extends ShapedType {
         protected ShapedHandle create(ItemStack itemStack) {
             List<ItemStack> itemStackList = new ArrayList<>();
             if (random.nextDouble() < probability) {
-                itemStackList.add(new ItemStack(ModItem.WASTE.get()));
+                itemStackList.add(new ItemStack(ModItem.waste.get()));
             }
             return new ShapedHandle(surplusTime, consumeMana, outMana, itemStackList, null);
         }
@@ -81,7 +81,7 @@ public class RecoveryShapedType extends ShapedType {
 
                 @Override
                 public @NotNull List<List<ItemStack>> getItemOut() {
-                    ItemStack itemStack = new ItemStack(ModItem.WASTE.get());
+                    ItemStack itemStack = new ItemStack(ModItem.waste.get());
                     CompoundTag compoundTag = new CompoundTag();
                     AllNBTPack.PROBABILITY.set(compoundTag, 0.2);
                     itemStack.setTag(compoundTag);

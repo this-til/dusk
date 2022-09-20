@@ -7,6 +7,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -16,8 +17,8 @@ import net.minecraftforge.common.util.LazyOptional;
  * @author til
  */
 public class ClearStaffItem extends ItemBasics implements ModItem.IHasCustomColor {
-    public ClearStaffItem() {
-        super(new Properties().stacksTo(1));
+    public ClearStaffItem(Properties properties) {
+        super(properties);
     }
 
     @Override

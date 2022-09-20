@@ -35,7 +35,7 @@ public class GrindShapedType extends ShapedType {
             }
         }
 
-        for (Ore ore : Ore.screen(Ore.IS_METAL)) {
+        for (Ore ore : Ore.screen(Ore.IS_METAL, Ore.HAS_DUST)) {
             new ShapedOre(this, ShapedDrive.get(1), ore.manaLevel)
                     .addInItem(ore.itemMap.get(OreItem.ingot).itemTag(), 1)
                     .addOutItem(new ItemStack(ore.itemMap.get(OreItem.dust).item(), 1), 1d)
@@ -43,7 +43,7 @@ public class GrindShapedType extends ShapedType {
                     .addMultipleConsumeMana((long) (8 * ore.consume));
         }
 
-        for (Ore ore : Ore.screen(Ore.IS_CRYSTA)) {
+        for (Ore ore : Ore.screen(Ore.IS_CRYSTA, Ore.HAS_DUST)) {
             new ShapedOre(this, ShapedDrive.get(2), ore.manaLevel).addInItem(ore.itemMap.get(OreItem.crystal).itemTag(), 1)
                     .addOutItem(new ItemStack(ore.itemMap.get(OreItem.dust).item(), 1), 1d)
                     .addMultipleSurplusTime((long) (320 * ore.strength))
@@ -63,7 +63,7 @@ public class GrindShapedType extends ShapedType {
                     .addMultipleConsumeMana((long) (24 * ore.consume));
         }
 
-        for (Ore ore : Ore.screen(Ore.DECORATE_BLOCK_DATA)) {
+        for (Ore ore : Ore.screen(Ore.DECORATE_BLOCK_DATA, Ore.HAS_DUST)) {
             new ShapedOre(this, ShapedDrive.get(6), ore.manaLevel)
                     .addInItem(ore.blockMap.get(OreBlock.block).blockItemTag(), 1)
                     .addOutItem(new ItemStack(ore.itemMap.get(OreItem.dust).item(), 9), 1d)

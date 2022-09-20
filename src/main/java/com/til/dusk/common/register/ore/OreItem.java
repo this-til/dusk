@@ -56,94 +56,94 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
     /***
      * 矿物锭
      */
-    public static OreItem ingot;
+    public static MetalOreItem ingot;
 
     /***
      * 板
      */
-    public static OreItem plate;
+    public static MetalOreItem plate;
 
-    public static OreItem plate_2;
+    public static MetalOreItem plate_2;
 
-    public static OreItem plate_3;
+    public static MetalOreItem plate_3;
 
-    public static OreItem plate_4;
+    public static MetalOreItem plate_4;
 
     /***
      * 外壳
      */
-    public static OreItem casing;
+    public static MetalOreItem casing;
 
     /***
      * 箔
      */
-    public static OreItem foil;
+    public static MetalOreItem foil;
 
     /***
      * 杆
      */
-    public static OreItem stick;
+    public static MetalOreItem stick;
 
     /***
      * 长杆
      */
-    public static OreItem stick_long;
+    public static MetalOreItem stick_long;
 
     /***
      * 线
      */
-    public static OreItem string;
+    public static MetalOreItem string;
 
     /***
      * 粒
      */
-    public static OreItem nuggets;
+    public static MetalOreItem nuggets;
 
     /***
      * 破损的晶体
      */
-    public static OreItem damagedCrystal;
+    public static CrystaOreItem damagedCrystal;
 
     /***
      * 晶体
      */
-    public static OreItem crystal;
+    public static CrystaOreItem crystal;
 
     /***
      * 精致的晶体
      */
-    public static OreItem delicateCrystal;
+    public static CrystaOreItem delicateCrystal;
 
     /***
      * 完美的晶体
      */
-    public static OreItem perfectCrystal;
+    public static CrystaOreItem perfectCrystal;
 
     /***
      * 晶体种子
      */
-    public static OreItem crystalSeed;
+    public static CrystaOreItem crystalSeed;
 
     /***
      * 粉碎矿物
      */
-    public static OreItem crushed;
+    public static MineralBlockOreItem crushed;
 
     /***
      * 纯净矿物
      * 由粉碎矿物洗涤而得到
      */
-    public static OreItem crushedPurified;
+    public static MineralBlockOreItem crushedPurified;
 
     /***
      * 矿粉
      */
-    public static OreItem dust;
+    public static DustOreItem dust;
 
     /***
      * 小撮粉
      */
-    public static OreItem dustTiny;
+    public static DustOreItem dustTiny;
 
     public static OreItemArmsBasics swordBasics;
     public static OreItemArmsBasics shovelBasics;
@@ -218,8 +218,8 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
         crystalSeed = new CrystaOreItem("crystal_seed");
         crushed = new MineralBlockOreItem("crushed");
         crushedPurified = new MineralBlockOreItem("crushed_purified");
-        dust = new OreItem("dust");
-        dustTiny = new OreItem("dust_tiny");
+        dust = new DustOreItem("dust");
+        dustTiny = new DustOreItem("dust_tiny");
         swordBasics = new OreItemArmsBasics("sword_basics");
         shovelBasics = new OreItemArmsBasics("shovel_basics");
         pickaxeBasics = new OreItemArmsBasics("pickaxe_basics");
@@ -289,6 +289,24 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
     @Override
     public void dyeBlack(Ore ore, ColorProxy.ItemColorPack itemColorPack) {
         itemColorPack.addColor(0, itemStack -> ore.color);
+    }
+
+    public static class DustOreItem extends OreItem {
+        public DustOreItem(ResourceLocation name) {
+            super(name);
+        }
+
+        public DustOreItem(String name) {
+            this(new ResourceLocation(Dusk.MOD_ID, name));
+        }
+
+        @Override
+        public @Nullable ItemPack create(Ore ore) {
+            if (ore.hasSet(Ore.HAS_DUST)) {
+                return super.create(ore);
+            }
+            return null;
+        }
     }
 
     public static class MetalOreItem extends OreItem {

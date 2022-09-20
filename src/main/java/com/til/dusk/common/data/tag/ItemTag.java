@@ -77,8 +77,9 @@ public class ItemTag {
     public static Extension.Data_2<TagKey<Item>, TagKey<Block>> ENCHANTING_TABLE;
     public static Extension.Data_2<TagKey<Item>, TagKey<Block>> BREWING_STAND;
     public static Extension.Data_2<TagKey<Item>, TagKey<Block>> CRAFTING_TABLE;
-    public static Extension.Data_2<TagKey<Item>, TagKey<Block>>  REPEATER;
+    public static Extension.Data_2<TagKey<Item>, TagKey<Block>> REPEATER;
     public static Extension.Data_2<TagKey<Item>, TagKey<Block>> COMPARATOR;
+    public static Extension.Data_2<TagKey<Item>, TagKey<Block>> PISTON;
 
 
     public static TagKey<Item> ENDER_EYE;
@@ -113,6 +114,7 @@ public class ItemTag {
         CRAFTING_TABLE = createBlockTag((BlockItem) Items.CRAFTING_TABLE);
         REPEATER = createBlockTag((BlockItem) Items.REPEATER);
         COMPARATOR = createBlockTag((BlockItem) Items.COMPARATOR);
+        PISTON = createBlockTag((BlockItem) Items.PISTON);
 
         ENDER_EYE = createTag(Items.ENDER_EYE);
         SNOWBALL = createTag(Items.SNOWBALL);

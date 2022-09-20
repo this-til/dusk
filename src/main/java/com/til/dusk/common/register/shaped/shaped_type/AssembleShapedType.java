@@ -33,7 +33,7 @@ public class AssembleShapedType extends ShapedType {
         for (Ore ore : Ore.screen(Ore.IS_METAL)) {
             new ShapedOre(this, ShapedDrive.get(0), ore.manaLevel)
                     .addInItem(ore.itemMap.get(OreItem.plate).itemTag(), 2)
-                    .addInItem(ore.itemMap.get(OreItem.stick).itemTag(), 4)
+                    .addInItem(ore.itemMap.get(OreItem.stick).itemTag(), 2)
                     .addOutItem(new ItemStack(ore.blockMap.get(OreBlock.bracket).blockItem(), 1), 1d)
                     .addMultipleSurplusTime(4096L)
                     .addMultipleConsumeMana(12L);

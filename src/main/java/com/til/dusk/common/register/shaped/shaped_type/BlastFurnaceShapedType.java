@@ -21,7 +21,7 @@ public class BlastFurnaceShapedType extends ShapedType {
 
     @Override
     public void registerShaped() {
-        for (Ore ore : Ore.screen(Ore.IS_METAL)) {
+        for (Ore ore : Ore.screen(Ore.IS_METAL, Ore.HAS_DUST)) {
             new ShapedOre(this, ShapedDrive.get(0), ore.manaLevel).addInItem(ore.itemMap.get(OreItem.dust).itemTag(), 1)
                     .addOutItem(new ItemStack(ore.itemMap.get(OreItem.ingot).item(), 1), 1d)
                     .addMultipleSurplusTime((long) (1024L * ore.strength))

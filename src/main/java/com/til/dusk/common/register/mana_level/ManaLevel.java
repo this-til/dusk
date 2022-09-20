@@ -47,32 +47,16 @@ public class ManaLevel extends RegisterBasics.UnitRegister<ManaLevel, ManaLevelI
         LEVEL = event.create(new RegistryBuilder<ManaLevel>().setName(new ResourceLocation(Dusk.MOD_ID, "mana_level")));
         t1 = new ManaLevel(1, 2560, 1, 2, 0.1, 16, new DuskColor(50, 255, 255), null, () -> t2)
                 .setSet(OPERATION_BASICS, () -> new DataPack.ManaLevelDataPack()
-                        .addInFluid(Ore.highEnergyRedStone.fluidMap.get(OreFluid.solution).fluidTag(), 16))
-                .setSet(OPERATION, () -> new DataPack.ManaLevelDataPack()
-                        .addInItem(ItemTag.REPEATER.d1(), 1)
-                        .addInItem(ItemTag.COMPARATOR.d1(), 1)
-                        .addInItem(Ore.ultramarine.itemMap.get(OreItem.foil).itemTag(), 4)
-                        .addInItem(Ore.crimson.itemMap.get(OreItem.string).itemTag(), 8))
-                .setSet(FORMING, () -> new DataPack.ManaLevelDataPack()
-                        .addInItem(Ore.ultramarine.itemMap.get(OreItem.foil).itemTag(), 2)
-                        .addInItem(Ore.ultramarine.itemMap.get(OreItem.string).itemTag(), 4))
-                .setSet(DESTRUCTION, () -> new DataPack.ManaLevelDataPack()
-                        .addInItem(Ore.indigo.itemMap.get(OreItem.foil).itemTag(), 2)
-                        .addInItem(Ore.indigo.itemMap.get(OreItem.string).itemTag(), 4))
-                .setSet(GATHER, () -> new DataPack.ManaLevelDataPack()
-                        .addInItem(Ore.violet.itemMap.get(OreItem.foil).itemTag(), 2)
-                        .addInItem(Ore.violet.itemMap.get(OreItem.string).itemTag(), 4))
-                .setSet(SPREAD, () -> new DataPack.ManaLevelDataPack()
-                        .addInItem(Ore.thistle.itemMap.get(OreItem.foil).itemTag(), 2)
-                        .addInItem(Ore.thistle.itemMap.get(OreItem.string).itemTag(), 4))
-                .setSet(POWER, () -> new DataPack.ManaLevelDataPack()
-                        .addInItem(Ore.peru.itemMap.get(OreItem.foil).itemTag(), 2)
-                        .addInItem(Ore.peru.itemMap.get(OreItem.string).itemTag(), 4))
-                .setSet(INSTRUCTIONS, () -> new DataPack.ManaLevelDataPack()
-                        .addInItem(Ore.goldenrod.itemMap.get(OreItem.foil).itemTag(), 2)
-                        .addInItem(Ore.goldenrod.itemMap.get(OreItem.string).itemTag(), 4));
-        t2 = new ManaLevel(2, 1280, 2, 2, 0.09, 18, new DuskColor(100, 200, 225), () -> t1, () -> t3);
-        t3 = new ManaLevel(3, 640, 3, 4, 0.08, 20, new DuskColor(125, 150, 200), () -> t2, () -> t4);
+                        .addInFluid(Ore.highEnergyRedStone.fluidMap.get(OreFluid.solution).fluidTag(), 72));
+        t2 = new ManaLevel(2, 1280, 2, 2, 0.09, 18, new DuskColor(100, 200, 225), () -> t1, () -> t3)
+                .setSet(OPERATION_BASICS, () -> new DataPack.ManaLevelDataPack()
+                        .addInFluid(Ore.highEnergyRedStone.fluidMap.get(OreFluid.solution).fluidTag(), 72)
+                        .addInFluid(Ore.coolant.fluidMap.get(OreFluid.solution).fluidTag(), 32));
+        t3 = new ManaLevel(3, 640, 3, 4, 0.08, 20, new DuskColor(125, 150, 200), () -> t2, () -> t4)
+                .setSet(OPERATION_BASICS, () -> new DataPack.ManaLevelDataPack()
+                        .addInFluid(Ore.highEnergyRedStone.fluidMap.get(OreFluid.solution).fluidTag(), 72)
+                        .addInFluid(Ore.coolant.fluidMap.get(OreFluid.solution).fluidTag(), 32)
+                        .addInFluid(Ore.dissolutionMana.fluidMap.get(OreFluid.solution).fluidTag(), 24));
         t4 = new ManaLevel(4, 320, 4, 4, 0.07, 22, new DuskColor(150, 100, 175), () -> t3, () -> t5);
         t5 = new ManaLevel(5, 160, 5, 8, 0.06, 24, new DuskColor(175, 100, 150), () -> t4, () -> t6);
         t6 = new ManaLevel(6, 80, 6, 8, 0.05, 26, new DuskColor(200, 150, 120), () -> t5, () -> t7);

@@ -29,8 +29,8 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 public class ShowStaffItem extends ItemBasics implements ModItem.IHasCustomColor {
-    public ShowStaffItem() {
-        super(new Item.Properties().stacksTo(1));
+    public ShowStaffItem(Properties properties) {
+        super(properties);
         MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, (Consumer<EventKey>) event -> {
             if (!event.keyRegister.equals(KeyRegister.showBindState)) {
                 return;

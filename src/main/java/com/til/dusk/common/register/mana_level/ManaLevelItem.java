@@ -130,7 +130,7 @@ public class ManaLevelItem extends RegisterBasics.ItemUnitRegister<ManaLevelItem
                         }
                     };
                     assert manaLevel.up != null;
-                    DelayTrigger.addSetupRun(() -> ItemTag.addTag(manaLevel.up.get().itemMap.get(ManaLevelItemPack.this).itemTag(), item));
+                    DelayTrigger.addRun(DelayTrigger.TAG, () -> ItemTag.addTag(manaLevel.up.get().itemMap.get(ManaLevelItemPack.this).itemTag(), item));
                     return item;
                 }
 
@@ -164,7 +164,7 @@ public class ManaLevelItem extends RegisterBasics.ItemUnitRegister<ManaLevelItem
                         }
                     };
                     assert manaLevel.next != null;
-                    DelayTrigger.addSetupRun(() -> ItemTag.addTag(manaLevel.next.get().itemMap.get(ManaLevelItemPack.this).itemTag(), item));
+                    DelayTrigger.addRun(DelayTrigger.TAG,() -> ItemTag.addTag(manaLevel.next.get().itemMap.get(ManaLevelItemPack.this).itemTag(), item));
                     return item;
                 }
 

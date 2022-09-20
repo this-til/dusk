@@ -155,12 +155,12 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> implements Gen
     }
 
     public T addDelayRun(Runnable run) {
-        DelayTrigger.addSetupRun(run);
+        DelayTrigger.addRun(DelayTrigger.COMMON_SETUP, run);
         return Util.forcedConversion(this);
     }
 
     public T addShaped(Extension.Func<Shaped> func) {
-        ModData.shapedSupply.add(func);
+        DelayTrigger.addRun(DelayTrigger.SHAPED, func);
         return Util.forcedConversion(this);
     }
 

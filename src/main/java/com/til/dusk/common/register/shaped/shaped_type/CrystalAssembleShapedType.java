@@ -4,7 +4,6 @@ import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.register.mana_level.ManaLevelItem;
 import com.til.dusk.common.register.mana_level.mana_level_block.ManaLevelBlock;
 import com.til.dusk.common.register.ore.OreBlock;
-import com.til.dusk.common.register.ore.OreItem;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
 import com.til.dusk.util.pack.DataPack;

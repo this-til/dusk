@@ -45,7 +45,7 @@ public class UnPackShapedType extends ShapedType {
                     .addMultipleConsumeMana((long) (4 * ore.consume));
         }
 
-        for (Ore ore : Ore.ORE.get()) {
+        for (Ore ore : Ore.screen(Ore.HAS_DUST)) {
             new ShapedOre(this, ShapedDrive.get(2), ore.manaLevel)
                     .addInItem(ore.itemMap.get(OreItem.dust).itemTag(), 1)
                     .addOutItem(new ItemStack(ore.itemMap.get(OreItem.dustTiny).item(), 9), 1d)

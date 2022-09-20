@@ -34,6 +34,9 @@ public class ColorPrefab {
      */
     public static final DuskColor MOONLIGHT_COLOR = new DuskColor(0, 125, 255, 255);
 
+    /***
+     * 雨淋晶体染色
+     */
     public static final DuskColor RAIN_COLOR = new DuskColor(110, 174, 255, 255);
 
     public static final DuskColor GRAYSCALE_REDUCTION_1 = new DuskColor(200, 200, 200, 255);
@@ -41,8 +44,5 @@ public class ColorPrefab {
     public static final DuskColor GRAYSCALE_REDUCTION_2 = new DuskColor(175, 175, 175, 255);
 
     public static final DuskColor GRAYSCALE_REDUCTION_3 = new DuskColor(150, 150, 150, 255);
-
-
-
 
 }

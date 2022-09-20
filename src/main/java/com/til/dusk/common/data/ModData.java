@@ -6,6 +6,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
 import com.til.dusk.Dusk;
+import com.til.dusk.common.event.DelayTrigger;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 import com.til.dusk.common.register.shaped.shapeds.Shaped;
 import com.til.dusk.common.data.tag.BlockTag;
@@ -14,11 +15,17 @@ import com.til.dusk.common.data.tag.ItemTag;
 import com.til.dusk.common.data.tag.PotionsTag;
 import com.til.dusk.util.Extension;
 import com.til.dusk.util.nbt.pack.AllNBTPack;
+import net.minecraft.advancements.critereon.EntityPredicate;
+import net.minecraft.advancements.critereon.InventoryChangeTrigger;
+import net.minecraft.advancements.critereon.ItemPredicate;
+import net.minecraft.advancements.critereon.MinMaxBounds;
 import net.minecraft.core.Registry;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.loot.LootTableProvider;
+import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.data.tags.FluidTagsProvider;
 import net.minecraft.data.tags.ItemTagsProvider;
@@ -61,11 +68,10 @@ import java.util.function.Supplier;
 public class ModData {
     public static DataGenerator dataGenerator;
 
-    public static List<Extension.Func<Shaped>> shapedSupply = new ArrayList<>();
-
     @SubscribeEvent
     public static void onEvent(GatherDataEvent event) {
         dataGenerator = event.getGenerator();
+        DelayTrigger.run(DelayTrigger.TAG, Runnable::run);
         BlockTagsProvider blockTagsProvider = new BlockTagsProvider(event.getGenerator(), Dusk.MOD_ID, event.getExistingFileHelper()) {
             @Override
             protected void addTags() {
@@ -105,9 +111,7 @@ public class ModData {
                 for (ShapedType shapedType : ShapedType.SHAPED_TYPE.get()) {
                     shapedType.registerShaped();
                 }
-                for (Extension.Func<Shaped> shapedFunc : shapedSupply) {
-                    shapedFunc.func();
-                }
+                DelayTrigger.run(DelayTrigger.SHAPED, Extension.Func::func);
                 for (Map.Entry<String, Shaped> entry : Shaped.ID_MAP.entrySet()) {
                     Shaped shaped = entry.getValue();
                     JsonObject jsonObject = new JsonObject();
@@ -131,7 +135,7 @@ public class ModData {
                 return "shaped";
             }
         });
-
+        event.getGenerator().addProvider(true, new ModRecipeProvider(event.getGenerator()));
         event.getGenerator().addProvider(true, new LootTableProvider(event.getGenerator()) {
             @Override
             protected @NotNull List<Pair<Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>>, LootContextParamSet>> getTables() {
@@ -171,5 +175,25 @@ public class ModData {
                 }
             });
         });
+    }
+
+    public static class ModRecipeProvider extends RecipeProvider {
+        public ModRecipeProvider(DataGenerator dataGenerator) {
+            super(dataGenerator);
+        }
+
+        @Override
+        protected void buildCraftingRecipes(@NotNull Consumer<FinishedRecipe> consumer) {
+            DelayTrigger.run(DelayTrigger.RECIPE, s -> s.action(consumer));
+        }
+
+        public static InventoryChangeTrigger.TriggerInstance has(TagKey<Item> key) {
+            return RecipeProvider.has(key);
+        }
+
+        public static InventoryChangeTrigger.TriggerInstance inventoryTrigger(ItemPredicate... itemPredicates) {
+            return RecipeProvider.inventoryTrigger(itemPredicates);
+        }
+
     }
 }

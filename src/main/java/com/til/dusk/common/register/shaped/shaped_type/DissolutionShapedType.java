@@ -35,7 +35,7 @@ public class DissolutionShapedType extends ShapedType {
                     .addMultipleSurplusTime((long) (ore.strength * 512))
                     .addMultipleConsumeMana((long) (ore.consume * 128L));
         }
-        for (Ore ore : Ore.screen(Ore.FLUID_DATA)) {
+        for (Ore ore : Ore.screen(Ore.FLUID_DATA, Ore.HAS_DUST)) {
             new ShapedOre(this, ShapedDrive.get(0), ore.manaLevel)
                     .addInItem(ore.itemMap.get(OreItem.dust).itemTag(), 1)
                     .addOutFluid(new FluidStack(ore.fluidMap.get(OreFluid.solution).source(), 144), 1d)

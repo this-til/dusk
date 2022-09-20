@@ -2,12 +2,15 @@ package com.til.dusk.common.register.ore;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.common.register.RegisterBasics;
+import com.til.dusk.util.Lang;
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -101,6 +104,16 @@ public class OreFluid extends RegisterBasics.FluidUnitRegister<OreFluid, Ore> {
                 }
             });
         }
+
+        @Override
+        public Component getDescription() {
+            return Lang.getLang(Lang.getLang(ore), Lang.getLang(oreFluid));
+        }
+
+        @Override
+        public Component getDescription(FluidStack stack) {
+            return getDescription();
+        }
     }
 
     public static final ResourceLocation STILL_TEXTURE = new ResourceLocation("block/water_still");
@@ -108,6 +121,6 @@ public class OreFluid extends RegisterBasics.FluidUnitRegister<OreFluid, Ore> {
     public static final ResourceLocation OVERLAY_TEXTURE = new ResourceLocation("block/water_overlay");
     public static final ResourceLocation RENDER_OVERLAY_TEXTURE = new ResourceLocation("textures/misc/underwater.png");
 
-    public static class FluidData{
+    public static class FluidData {
     }
 }
