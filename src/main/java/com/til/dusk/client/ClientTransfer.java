@@ -40,6 +40,9 @@ public class ClientTransfer {
         supplier.get().enqueueWork(() -> {
             List<Extension.Data_2<Float, List<Particle>>> list = new ArrayList<>();
             switch (clientParticleRegister.parsingMode) {
+                default -> {
+                    return;
+                }
                 case PAIR -> {
                     Pos s = null;
                     Pos e = null;
@@ -83,9 +86,6 @@ public class ClientTransfer {
                             list.add(data_2);
                         }
                     }
-                }
-                default -> {
-
                 }
             }
 

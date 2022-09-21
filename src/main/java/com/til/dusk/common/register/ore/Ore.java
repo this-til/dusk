@@ -15,7 +15,9 @@ import com.til.dusk.util.GenericMap;
 import com.til.dusk.util.pack.*;
 import com.til.dusk.util.prefab.ColorPrefab;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.FluidStack;
@@ -179,6 +181,11 @@ Ore extends RegisterBasics.UnitRegister<Ore, OreItem, OreBlock, OreFluid> {
     public static Ore mana;
 
     /***
+     * 营养液
+     */
+    public static Ore nutrient;
+
+    /***
      * 高能红石
      */
     public static Ore highEnergyRedStone;
@@ -193,6 +200,36 @@ Ore extends RegisterBasics.UnitRegister<Ore, OreItem, OreBlock, OreFluid> {
      */
     public static Ore dissolutionMana;
 
+    /***
+     * 培养液
+     */
+    public static Ore culture;
+
+    /***
+     * 干细胞
+     */
+    public static Ore stemCell;
+
+    /***
+     * 神经元细胞
+     */
+    public static Ore neuronCell;
+
+    /***
+     * 供养细胞
+     */
+    public static Ore supportCell;
+
+    /***
+     * 感知细胞
+     */
+    public static Ore perceptionCell;
+
+    /***
+     * 肌联蛋白
+     */
+    public static Ore sarconectin;
+
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
         ORE = event.create(new RegistryBuilder<Ore>().setName(new ResourceLocation(Dusk.MOD_ID, "ore")));
@@ -206,78 +243,91 @@ Ore extends RegisterBasics.UnitRegister<Ore, OreItem, OreBlock, OreFluid> {
         crimson = new Ore("crimson", new DuskColor(224, 49, 49), ManaLevel.t1)
                 .setSet(IS_METAL, null)
                 .setSet(HAS_DUST, null)
+                .setSet(IS_LEVEL_CURRENCY, null)
                 .setSet(MINERAL_BLOCK_DATA, new OreBlock.MineralBlockData())
                 .setSet(DECORATE_BLOCK_DATA, new OreBlock.DecorateBlockData())
                 .setSet(FLUID_DATA, new OreFluid.FluidData());
         ultramarine = new Ore("ultramarine", new DuskColor(0, 61, 153), ManaLevel.t1)
                 .setSet(IS_METAL, null)
                 .setSet(HAS_DUST, null)
+                .setSet(IS_LEVEL_CURRENCY, null)
                 .setSet(MINERAL_BLOCK_DATA, new OreBlock.MineralBlockData())
                 .setSet(DECORATE_BLOCK_DATA, new OreBlock.DecorateBlockData())
                 .setSet(FLUID_DATA, new OreFluid.FluidData());
         indigo = new Ore("indigo", new DuskColor(75, 0, 130), ManaLevel.t1)
                 .setSet(IS_METAL, null)
                 .setSet(HAS_DUST, null)
+                .setSet(IS_LEVEL_CURRENCY, null)
                 .setSet(MINERAL_BLOCK_DATA, new OreBlock.MineralBlockData())
                 .setSet(DECORATE_BLOCK_DATA, new OreBlock.DecorateBlockData())
                 .setSet(FLUID_DATA, new OreFluid.FluidData());
         violet = new Ore("violet", new DuskColor(238, 130, 238), ManaLevel.t1)
                 .setSet(IS_METAL, null)
                 .setSet(HAS_DUST, null)
+                .setSet(IS_LEVEL_CURRENCY, null)
                 .setSet(MINERAL_BLOCK_DATA, new OreBlock.MineralBlockData())
                 .setSet(DECORATE_BLOCK_DATA, new OreBlock.DecorateBlockData())
                 .setSet(FLUID_DATA, new OreFluid.FluidData());
         thistle = new Ore("thistle", new DuskColor(216, 191, 216), ManaLevel.t1)
                 .setSet(IS_METAL, null)
                 .setSet(HAS_DUST, null)
+                .setSet(IS_LEVEL_CURRENCY, null)
                 .setSet(MINERAL_BLOCK_DATA, new OreBlock.MineralBlockData())
                 .setSet(DECORATE_BLOCK_DATA, new OreBlock.DecorateBlockData())
                 .setSet(FLUID_DATA, new OreFluid.FluidData());
         peru = new Ore("peru", new DuskColor(205, 133, 63), ManaLevel.t1)
                 .setSet(IS_METAL, null)
                 .setSet(HAS_DUST, null)
+                .setSet(IS_LEVEL_CURRENCY, null)
                 .setSet(MINERAL_BLOCK_DATA, new OreBlock.MineralBlockData())
                 .setSet(DECORATE_BLOCK_DATA, new OreBlock.DecorateBlockData())
                 .setSet(FLUID_DATA, new OreFluid.FluidData());
         goldenrod = new Ore("goldenrod", new DuskColor(218, 165, 32), ManaLevel.t1)
                 .setSet(IS_METAL, null)
                 .setSet(HAS_DUST, null)
+                .setSet(IS_LEVEL_CURRENCY, null)
                 .setSet(MINERAL_BLOCK_DATA, new OreBlock.MineralBlockData())
                 .setSet(DECORATE_BLOCK_DATA, new OreBlock.DecorateBlockData())
                 .setSet(FLUID_DATA, new OreFluid.FluidData());
         greenTeal = new Ore("green_teal", new DuskColor(0, 128, 128), ManaLevel.t1)
                 .setSet(IS_METAL, null)
                 .setSet(HAS_DUST, null)
+                .setSet(IS_LEVEL_CURRENCY, null)
                 .setSet(MINERAL_BLOCK_DATA, new OreBlock.MineralBlockData())
                 .setSet(DECORATE_BLOCK_DATA, new OreBlock.DecorateBlockData())
                 .setSet(FLUID_DATA, new OreFluid.FluidData());
         mediumspringgreen = new Ore("mediumspringgreen", new DuskColor(0, 250, 154), ManaLevel.t1)
                 .setSet(IS_METAL, null)
                 .setSet(HAS_DUST, null)
+                .setSet(IS_LEVEL_CURRENCY, null)
                 .setSet(MINERAL_BLOCK_DATA, new OreBlock.MineralBlockData())
                 .setSet(DECORATE_BLOCK_DATA, new OreBlock.DecorateBlockData())
                 .setSet(FLUID_DATA, new OreFluid.FluidData());
         cornflowerblue = new Ore("cornflowerblue", new DuskColor(100, 149, 237), ManaLevel.t1)
                 .setSet(IS_METAL, null)
                 .setSet(HAS_DUST, null)
+                .setSet(IS_LEVEL_CURRENCY, null)
                 .setSet(MINERAL_BLOCK_DATA, new OreBlock.MineralBlockData())
                 .setSet(DECORATE_BLOCK_DATA, new OreBlock.DecorateBlockData())
                 .setSet(FLUID_DATA, new OreFluid.FluidData());
         aliceblue = new Ore("aliceblue", new DuskColor(240, 248, 255), ManaLevel.t1)
                 .setSet(IS_METAL, null)
                 .setSet(HAS_DUST, null)
+                .setSet(IS_LEVEL_CURRENCY, null)
                 .setSet(MINERAL_BLOCK_DATA, new OreBlock.MineralBlockData())
                 .setSet(DECORATE_BLOCK_DATA, new OreBlock.DecorateBlockData())
                 .setSet(FLUID_DATA, new OreFluid.FluidData());
         darkGreen = new Ore("dark_green", new DuskColor(61, 59, 79), ManaLevel.t1)
                 .setSet(IS_METAL, null)
                 .setSet(HAS_DUST, null)
+                .setSet(IS_LEVEL_CURRENCY, null)
                 .setSet(MINERAL_BLOCK_DATA, new OreBlock.MineralBlockData())
                 .setSet(DECORATE_BLOCK_DATA, new OreBlock.DecorateBlockData())
                 .setSet(FLUID_DATA, new OreFluid.FluidData());
         _void = new Ore("void", new DuskColor(35, 35, 35), ManaLevel.t1)
                 .setSet(IS_METAL, null)
                 .setSet(HAS_DUST, null)
+                .setSet(IS_LEVEL_CURRENCY, null)
                 .setSet(MINERAL_BLOCK_DATA, new OreBlock.MineralBlockData())
                 .setSet(DECORATE_BLOCK_DATA, new OreBlock.DecorateBlockData())
                 .setSet(FLUID_DATA, new OreFluid.FluidData());
@@ -321,59 +371,70 @@ Ore extends RegisterBasics.UnitRegister<Ore, OreItem, OreBlock, OreFluid> {
         willowYellow = new Ore("willow_yellow", new DuskColor(201, 221, 34), ManaLevel.t1)
                 .setSet(IS_CRYSTA, null)
                 .setSet(HAS_DUST, null)
+                .setSet(IS_LEVEL_CURRENCY, null)
                 .setSet(MINERAL_BLOCK_DATA, new OreBlock.MineralBlockData())
                 .setSet(DECORATE_BLOCK_DATA, new OreBlock.DecorateBlockData())
                 .setSet(FLUID_DATA, new OreFluid.FluidData());
         cinnabar = new Ore("cinnabar", new DuskColor(255, 70, 31), ManaLevel.t1)
                 .setSet(IS_CRYSTA, null)
                 .setSet(HAS_DUST, null)
+                .setSet(IS_LEVEL_CURRENCY, null)
                 .setSet(MINERAL_BLOCK_DATA, new OreBlock.MineralBlockData())
                 .setSet(DECORATE_BLOCK_DATA, new OreBlock.DecorateBlockData())
                 .setSet(FLUID_DATA, new OreFluid.FluidData());
         pink = new Ore("pink", new DuskColor(244, 121, 131), ManaLevel.t1)
                 .setSet(IS_CRYSTA, null)
                 .setSet(HAS_DUST, null)
+                .setSet(IS_LEVEL_CURRENCY, null)
                 .setSet(MINERAL_BLOCK_DATA, new OreBlock.MineralBlockData())
                 .setSet(DECORATE_BLOCK_DATA, new OreBlock.DecorateBlockData())
                 .setSet(FLUID_DATA, new OreFluid.FluidData());
         tibetanBlue = new Ore("tibetan_blue", new DuskColor(59, 46, 126), ManaLevel.t1)
                 .setSet(IS_CRYSTA, null)
                 .setSet(HAS_DUST, null)
+                .setSet(IS_LEVEL_CURRENCY, null)
                 .setSet(MINERAL_BLOCK_DATA, new OreBlock.MineralBlockData())
                 .setSet(DECORATE_BLOCK_DATA, new OreBlock.DecorateBlockData())
                 .setSet(FLUID_DATA, new OreFluid.FluidData());
         pineCypress = new Ore("pine_cypress", new DuskColor(5, 119, 72), ManaLevel.t1)
                 .setSet(IS_CRYSTA, null)
                 .setSet(HAS_DUST, null)
+                .setSet(IS_LEVEL_CURRENCY, null)
                 .setSet(MINERAL_BLOCK_DATA, new OreBlock.MineralBlockData())
                 .setSet(DECORATE_BLOCK_DATA, new OreBlock.DecorateBlockData())
                 .setSet(FLUID_DATA, new OreFluid.FluidData());
         cotinusCoggygria = new Ore("cotinus_coggygria", new DuskColor(226, 156, 69), ManaLevel.t1)
                 .setSet(IS_CRYSTA, null)
                 .setSet(HAS_DUST, null)
+                .setSet(IS_LEVEL_CURRENCY, null)
                 .setSet(MINERAL_BLOCK_DATA, new OreBlock.MineralBlockData())
                 .setSet(DECORATE_BLOCK_DATA, new OreBlock.DecorateBlockData())
                 .setSet(FLUID_DATA, new OreFluid.FluidData());
         clove = new Ore("clove", new DuskColor(204, 164, 227), ManaLevel.t1)
                 .setSet(IS_CRYSTA, null)
                 .setSet(HAS_DUST, null)
+                .setSet(IS_LEVEL_CURRENCY, null)
                 .setSet(MINERAL_BLOCK_DATA, new OreBlock.MineralBlockData())
                 .setSet(DECORATE_BLOCK_DATA, new OreBlock.DecorateBlockData())
                 .setSet(FLUID_DATA, new OreFluid.FluidData());
         lotusRoot = new Ore("lotus_root", new DuskColor(228, 198, 208), ManaLevel.t1)
                 .setSet(IS_CRYSTA, null)
                 .setSet(HAS_DUST, null)
+                .setSet(IS_LEVEL_CURRENCY, null)
                 .setSet(MINERAL_BLOCK_DATA, new OreBlock.MineralBlockData())
                 .setSet(DECORATE_BLOCK_DATA, new OreBlock.DecorateBlockData())
                 .setSet(FLUID_DATA, new OreFluid.FluidData());
         crow = new Ore("crow", new DuskColor(114, 94, 130), ManaLevel.t1)
                 .setSet(IS_CRYSTA, null)
                 .setSet(HAS_DUST, null)
+                .setSet(IS_LEVEL_CURRENCY, null)
                 .setSet(MINERAL_BLOCK_DATA, new OreBlock.MineralBlockData())
                 .setSet(DECORATE_BLOCK_DATA, new OreBlock.DecorateBlockData())
                 .setSet(FLUID_DATA, new OreFluid.FluidData());
 
         mana = new Ore("mana", ColorPrefab.MANA_IO, ManaLevel.t1)
+                .setSet(FLUID_DATA, new OreFluid.FluidData());
+        nutrient = new Ore("nutrient", new DuskColor(245, 190, 110), ManaLevel.t1)
                 .setSet(FLUID_DATA, new OreFluid.FluidData());
         highEnergyRedStone = new Ore("high_energy_red_stone", new DuskColor(245, 35, 35), ManaLevel.t1)
                 .setSet(FLUID_DATA, new OreFluid.FluidData())
@@ -386,22 +447,42 @@ Ore extends RegisterBasics.UnitRegister<Ore, OreItem, OreBlock, OreFluid> {
                         .addMultipleConsumeMana((long) (22L * highEnergyRedStone.consume)));
         coolant = new Ore("coolant", new DuskColor(69, 173, 206), ManaLevel.t2)
                 .setSet(FLUID_DATA, new OreFluid.FluidData())
-                .addShaped(() -> new ShapedOre(ShapedType.highPressureFuse, ShapedDrive.get(0), highEnergyRedStone.manaLevel)
+                .addShaped(() -> new ShapedOre(ShapedType.highPressureFuse, ShapedDrive.get(0), coolant.manaLevel)
                         .addInItem(spiritSilver.itemMap.get(OreItem.dust).itemTag(), 1)
                         .addInFluid(ultramarine.fluidMap.get(OreFluid.solution).fluidTag(), 144)
                         .addOutFluid(new FluidStack(coolant.fluidMap.get(OreFluid.solution).source(), 144), 1d)
-                        .addMultipleSurplusTime((long) (2046L * highEnergyRedStone.strength))
-                        .addMultipleConsumeMana((long) (18L * highEnergyRedStone.consume)));
+                        .addMultipleSurplusTime((long) (2046L * coolant.strength))
+                        .addMultipleConsumeMana((long) (18L * coolant.consume)));
         dissolutionMana = new Ore("dissolution_mana", new DuskColor(242, 225, 149), ManaLevel.t3)
                 .setSet(FLUID_DATA, new OreFluid.FluidData())
-                .addShaped(() -> new ShapedOre(ShapedType.highPressureFuse, ShapedDrive.get(0), highEnergyRedStone.manaLevel)
+                .addShaped(() -> new ShapedOre(ShapedType.highPressureFuse, ShapedDrive.get(0), dissolutionMana.manaLevel)
                         .addInItem(spiritSilver.itemMap.get(OreItem.dust).itemTag(), 1)
                         .addInItem(indigo.itemMap.get(OreItem.dust).itemTag(), 1)
                         .addInItem(willowYellow.itemMap.get(OreItem.dust).itemTag(), 1)
                         .addInFluid(mana.fluidMap.get(OreFluid.solution).fluidTag(), 32)
                         .addOutFluid(new FluidStack(dissolutionMana.fluidMap.get(OreFluid.solution).source(), 32), 1d)
-                        .addMultipleSurplusTime((long) (4096L * highEnergyRedStone.strength))
-                        .addMultipleConsumeMana((long) (18L * highEnergyRedStone.consume)));
+                        .addMultipleSurplusTime((long) (4096L * dissolutionMana.strength))
+                        .addMultipleConsumeMana((long) (18L * dissolutionMana.consume)));
+        culture = new Ore("culture", new DuskColor(199, 107, 87), ManaLevel.t4)
+                .setSet(FLUID_DATA, new OreFluid.FluidData())
+                .addShaped(() -> new ShapedOre(ShapedType.highPressureFuse, ShapedDrive.get(0), culture.manaLevel)
+                        .addInFluid(nutrient.fluidMap.get(OreFluid.solution).fluidTag(), 1024)
+                        .addInItem(ItemTag.SUGAR, 5)
+                        .addInItem(clove.itemMap.get(OreItem.dust).itemTag(), 5)
+                        .addInItem(lotusRoot.itemMap.get(OreItem.dust).itemTag(), 5)
+                        .addOutFluid(new FluidStack(culture.fluidMap.get(OreFluid.solution).source(), 128), 1D)
+                        .addMultipleSurplusTime((long) (8192L * culture.strength))
+                        .addMultipleConsumeMana((long) (18L * culture.consume)));
+        stemCell = new Ore("stem_cell", new DuskColor(209, 149, 182), ManaLevel.t4)
+                .addShaped(() -> new ShapedOre(ShapedType.stemCellExtract, ShapedDrive.get(0), stemCell.manaLevel)
+                        .addInItem(ItemTag.CAN_EXTRACT_STEM_CELL, 1)
+                        .addOutFluid(new FluidStack(stemCell.fluidMap.get(OreFluid.solution).source(), 10), 0.1)
+                        .addMultipleSurplusTime((long) (512L * stemCell.strength))
+                        .addMultipleConsumeMana((long) (128L * stemCell.consume)));
+        neuronCell = new Ore("neuron_cell", new DuskColor(176, 221, 227), ManaLevel.t4);
+        supportCell = new Ore("support_cell", new DuskColor(136, 209, 142), ManaLevel.t4);
+        perceptionCell = new Ore("perception_cell", new DuskColor(159, 105, 156), ManaLevel.t4);
+        sarconectin = new Ore("sarconectin", new DuskColor(148, 73, 56), ManaLevel.t4);
     }
 
     /***

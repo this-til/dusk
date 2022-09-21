@@ -25,7 +25,7 @@ public abstract class ShapedMiddleExtend extends ShapedMiddle {
         super(shapedType, shapedDrive, manaLevel);
     }
 
-    public ShapedMiddleExtend(ResourceLocation name, JsonObject jsonObject) throws Exception {
+    public ShapedMiddleExtend(ResourceLocation name, JsonObject jsonObject) {
         super(name, jsonObject);
     }
 

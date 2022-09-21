@@ -20,7 +20,7 @@ public class TieWireShapedType extends ShapedType {
         for (Ore ore : Ore.screen(Ore.IS_METAL)) {
             new ShapedOre(this, ShapedDrive.get(1), ore.manaLevel)
                     .addInItem(ore.itemMap.get(OreItem.stick).itemTag(), 1)
-                    .addOutItem(new ItemStack(ore.itemMap.get(OreItem.string).item(), 1), 1D)
+                    .addOutItem(new ItemStack(ore.itemMap.get(OreItem.string).item(), 3), 1D)
                     .addMultipleSurplusTime((long) (ore.strength * 1024L))
                     .addMultipleConsumeMana((long) (ore.consume * 12L));
         }

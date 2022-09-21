@@ -96,5 +96,6 @@ public class AllNBTPack {
     public static final IntPack ENERGY = new IntPack("energy");
     public static final IntPack MAX_ENERGY = new IntPack("max_energy");
     public static final IntPack RATE_ENERGY = new IntPack("rate_energy");
+    public static final IntPack BASICS_OUT = new IntPack("basics_out");
 
 }

@@ -33,7 +33,7 @@ public class CarvingShapedType extends ShapedType {
                 }
                 new ShapedOre(this, ShapedDrive.get(0), manaLevel)
                         .addInItem(manaLevel.getRelationTagPack(OreItem.delicateCrystal).itemTagKey(), 1)
-                        .addOutItem(new ItemStack(manaLevel.itemMap.get(ManaLevelItem.operationBasics).item(), 1), 1d)
+                        .addOutItem(new ItemStack(manaLevel.itemMap.get(ManaLevelItem.operationBasics.processor).item(), 1), 1d)
                         .runThis(s -> {
                             manaLevelDataPack.run(s, manaLevel);
                             manaLevelDataPack.run(s, manaLevel);

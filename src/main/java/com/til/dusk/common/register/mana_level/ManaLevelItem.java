@@ -9,9 +9,11 @@ import com.til.dusk.common.world.item.ModItem;
 import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.Lang;
 import com.til.dusk.util.pack.ItemPack;
+import com.til.dusk.util.pack.TagPack;
 import com.til.dusk.util.prefab.ColorPrefab;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -22,6 +24,8 @@ import net.minecraftforge.registries.RegistryBuilder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Supplier;
 
 /**
@@ -92,7 +96,7 @@ public class ManaLevelItem extends RegisterBasics.ItemUnitRegister<ManaLevelItem
         itemColorPack.addColor(0, itemStack -> manaLevel.color);
     }
 
-    public static class ManaLevelItemPack extends ManaLevelItem {
+    public static class ManaLevelItemPack {
 
         public static final String INTEGRATE = "integrate";
         public static final String PROCESSOR = "processor";
@@ -102,14 +106,19 @@ public class ManaLevelItem extends RegisterBasics.ItemUnitRegister<ManaLevelItem
         public static final ResourceLocation PROCESSOR_MODEL = new ResourceLocation(Dusk.MOD_ID, "processor");
         public static final ResourceLocation HOST_MODEL = new ResourceLocation(Dusk.MOD_ID, "host");
 
+        public final ResourceLocation name;
+
         public ManaLevelItem integrate;
+        public ManaLevelItem processor;
         public ManaLevelItem host;
 
         public final DuskColor strokeColor;
         public final DuskColor coreColor;
 
+        public Map<ManaLevel, TagKey<Item>> itemTag = new HashMap<>();
+
         public ManaLevelItemPack(ResourceLocation name, DuskColor strokeColor, DuskColor coreColor) {
-            super(name);
+            this.name = name;
             this.strokeColor = strokeColor;
             this.coreColor = coreColor;
             integrate = new ManaLevelItem(new ResourceLocation(name.getNamespace(), name.getPath() + "_" + INTEGRATE)) {
@@ -126,11 +135,11 @@ public class ManaLevelItem extends RegisterBasics.ItemUnitRegister<ManaLevelItem
                     Item item = new Item(new Item.Properties().tab(Dusk.TAB)) {
                         @Override
                         public @NotNull Component getName(@NotNull ItemStack stack) {
-                            return Lang.getLang(Lang.getLang(manaLevel), Lang.getLang(ManaLevelItemPack.this), Lang.getLang(Lang.getKey(INTEGRATE)));
+                            return Lang.getLang(Lang.getLang(manaLevel), Component.translatable(Lang.getKey(name)), Lang.getLang(Lang.getKey(INTEGRATE)));
                         }
                     };
                     assert manaLevel.up != null;
-                    DelayTrigger.addRun(DelayTrigger.TAG, () -> ItemTag.addTag(manaLevel.up.get().itemMap.get(ManaLevelItemPack.this).itemTag(), item));
+                    DelayTrigger.addRun(DelayTrigger.TAG, () -> ItemTag.addTag(getTag(manaLevel.up.get()), item));
                     return item;
                 }
 
@@ -144,6 +153,31 @@ public class ManaLevelItem extends RegisterBasics.ItemUnitRegister<ManaLevelItem
                 @Override
                 public ModItem.ICustomModel getItemMoldMapping(ManaLevel manaLevel) {
                     return () -> INTEGRATE_MODEL;
+                }
+            };
+            processor = new ManaLevelItem(new ResourceLocation(name.getNamespace(), name.getPath() + "_" + PROCESSOR)) {
+                @Override
+                public Item createItem(ManaLevel manaLevel) {
+                    Item item = new Item(new Item.Properties().tab(Dusk.TAB)) {
+                        @Override
+                        public @NotNull Component getName(@NotNull ItemStack stack) {
+                            return Lang.getLang(Lang.getLang(manaLevel), Component.translatable(Lang.getKey(name)), Lang.getLang(Lang.getKey(PROCESSOR)));
+                        }
+                    };
+                    DelayTrigger.addRun(DelayTrigger.TAG, () -> ItemTag.addTag(getTag(manaLevel), item));
+                    return item;
+                }
+
+                @Override
+                public ModItem.ICustomModel getItemMoldMapping(ManaLevel manaLevel) {
+                    return () -> PROCESSOR_MODEL;
+                }
+
+                @Override
+                public void dyeBlack(ManaLevel manaLevel, ColorProxy.ItemColorPack itemColorPack) {
+                    super.dyeBlack(manaLevel, itemColorPack);
+                    itemColorPack.addColor(1, itemStack -> coreColor);
+                    itemColorPack.addColor(2, itemStack -> strokeColor);
                 }
             };
             host = new ManaLevelItem(new ResourceLocation(name.getNamespace(), name.getPath() + "_" + HOST)) {
@@ -160,11 +194,11 @@ public class ManaLevelItem extends RegisterBasics.ItemUnitRegister<ManaLevelItem
                     Item item = new Item(new Item.Properties().tab(Dusk.TAB)) {
                         @Override
                         public @NotNull Component getName(@NotNull ItemStack stack) {
-                            return Lang.getLang(Lang.getLang(manaLevel), Lang.getLang(ManaLevelItemPack.this), Lang.getLang(Lang.getKey(HOST)));
+                            return Lang.getLang(Lang.getLang(manaLevel), Component.translatable(Lang.getKey(name)), Lang.getLang(Lang.getKey(HOST)));
                         }
                     };
                     assert manaLevel.next != null;
-                    DelayTrigger.addRun(DelayTrigger.TAG,() -> ItemTag.addTag(manaLevel.next.get().itemMap.get(ManaLevelItemPack.this).itemTag(), item));
+                    DelayTrigger.addRun(DelayTrigger.TAG, () -> ItemTag.addTag(getTag(manaLevel.next.get()), item));
                     return item;
                 }
 
@@ -186,26 +220,13 @@ public class ManaLevelItem extends RegisterBasics.ItemUnitRegister<ManaLevelItem
             this(new ResourceLocation(Dusk.MOD_ID, name), strokeColor, coreColor);
         }
 
-        @Override
-        public Item createItem(ManaLevel manaLevel) {
-            return new Item(new Item.Properties().tab(Dusk.TAB)) {
-                @Override
-                public @NotNull Component getName(@NotNull ItemStack stack) {
-                    return Lang.getLang(Lang.getLang(manaLevel), Lang.getLang(ManaLevelItemPack.this), Lang.getLang(Lang.getKey(PROCESSOR)));
-                }
-            };
-        }
-
-        @Override
-        public ModItem.ICustomModel getItemMoldMapping(ManaLevel manaLevel) {
-            return () -> PROCESSOR_MODEL;
-        }
-
-        @Override
-        public void dyeBlack(ManaLevel manaLevel, ColorProxy.ItemColorPack itemColorPack) {
-            super.dyeBlack(manaLevel, itemColorPack);
-            itemColorPack.addColor(1, itemStack -> coreColor);
-            itemColorPack.addColor(2, itemStack -> strokeColor);
+        public TagKey<Item> getTag(ManaLevel manaLevel) {
+            if (itemTag.containsKey(manaLevel)) {
+                return itemTag.get(manaLevel);
+            }
+            TagKey<Item> tag = Dusk.instance.ITEM_TAG.createTagKey(fuseName(manaLevel.name, name));
+            itemTag.put(manaLevel, tag);
+            return tag;
         }
     }
 }

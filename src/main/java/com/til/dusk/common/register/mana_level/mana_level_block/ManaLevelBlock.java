@@ -7,7 +7,9 @@ import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.register.mana_level.ManaLevelItem;
 import com.til.dusk.common.register.ore.Ore;
 import com.til.dusk.common.register.ore.OreItem;
+import com.til.dusk.common.register.shaped.shaped_type.CellCultureShapedType;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
+import com.til.dusk.common.register.shaped.shaped_type.StemCellExtractShapedType;
 import com.til.dusk.util.*;
 import com.til.dusk.util.pack.DataPack;
 import com.til.dusk.util.prefab.ColorPrefab;
@@ -255,6 +257,16 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
      */
     public static Mechanic manaCoagulation;
 
+    /***
+     * 干细胞提晶体
+     */
+    public static Mechanic stemCellExtract;
+
+    /***
+     * 细胞培养晶体
+     */
+    public static Mechanic cellCulture;
+
     //功能
 
     /***
@@ -330,100 +342,100 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
         repeater = new RepeaterMechanic("repeater");
         frameBasic = new DefaultCapacityMechanic("frame_basic");
         sunlight = (SimilarSolarEnergyMechanic) new SimilarSolarEnergyMechanic("sunlight", 1, level -> level.isDay() && !level.isRaining(), ColorPrefab.SUNLIGHT_COLOR)
-                .setSet(MECHANIC_MAKE_DATA, () -> new DataPack.MultipleManaLevelDataPack()
+                .setSet(MECHANIC_MAKE_DATA, () -> new DataPack.ManaLevelDataPack()
                         .addRun((s, m) -> s.addInItem(m.blockMap.get(extractMana).blockItemTag(), 1))
                         .addInItem(Ore.sunlight.itemMap.get(OreItem.perfectCrystal).itemTag(), 1));
         moonlight = (SimilarSolarEnergyMechanic) new SimilarSolarEnergyMechanic("moonlight", 1, level -> level.isNight() && !level.isRaining(), ColorPrefab.MOONLIGHT_COLOR)
-                .setSet(MECHANIC_MAKE_DATA, () -> new DataPack.MultipleManaLevelDataPack()
+                .setSet(MECHANIC_MAKE_DATA, () -> new DataPack.ManaLevelDataPack()
                         .addRun((s, m) -> s.addInItem(m.blockMap.get(extractMana).blockItemTag(), 1))
                         .addInItem(Ore.moonlight.itemMap.get(OreItem.perfectCrystal).itemTag(), 1));
         rain = (SimilarSolarEnergyMechanic) new SimilarSolarEnergyMechanic("rain", 4, Level::isRaining, ColorPrefab.RAIN_COLOR)
-                .setSet(MECHANIC_MAKE_DATA, () -> new DataPack.MultipleManaLevelDataPack()
+                .setSet(MECHANIC_MAKE_DATA, () -> new DataPack.ManaLevelDataPack()
                         .addRun((s, m) -> s.addInItem(m.blockMap.get(extractMana).blockItemTag(), 1))
                         .addInItem(Ore.rain.itemMap.get(OreItem.perfectCrystal).itemTag(), 1));
         extractMana = (HandleMechanic) new HandleMechanic("extract_mana", () -> List.of(ShapedType.extractMana))
-                .setSet(MECHANIC_UP_DATA, () -> new DataPack.MultipleManaLevelDataPack()
+                .setSet(MECHANIC_UP_DATA, () -> new DataPack.ManaLevelDataPack()
                         .addInItem(Ore.spiritSilver.itemMap.get(OreItem.plate).itemTag(), 3));
         dischantmentMana = (ExtractManaMechanic) new ExtractManaMechanic("dischantment_mana", () -> List.of(ShapedType.dischantmentMana), new DuskColor(135, 60, 168, 255))
-                .setSet(MECHANIC_MAKE_DATA, () -> new DataPack.MultipleManaLevelDataPack()
+                .setSet(MECHANIC_MAKE_DATA, () -> new DataPack.ManaLevelDataPack()
                         .addRun((s, m) -> s.addInItem(m.blockMap.get(extractMana).blockItemTag(), 1))
                         .addInItem(ItemTag.ENCHANTING_TABLE.d1(), 1)
                         .addInItem(ItemTag.ENCHANTING_BOOK, 3));
         enderMana = (ExtractManaMechanic) new ExtractManaMechanic("ender_mana", () -> List.of(ShapedType.enderMana), new DuskColor(96, 22, 96))
-                .setSet(MECHANIC_MAKE_DATA, () -> new DataPack.MultipleManaLevelDataPack()
+                .setSet(MECHANIC_MAKE_DATA, () -> new DataPack.ManaLevelDataPack()
                         .addRun((s, m) -> s.addInItem(m.blockMap.get(extractMana).blockItemTag(), 1))
                         .addInItem(Tags.Items.ENDER_PEARLS, 8)
                         .addInItem(ItemTag.ENDER_EYE, 8));
         potionMana = (ExtractManaMechanic) new ExtractManaMechanic("potion_mana", () -> List.of(ShapedType.potionMana), new DuskColor(243, 138, 255))
-                .setSet(MECHANIC_MAKE_DATA, () -> new DataPack.MultipleManaLevelDataPack()
+                .setSet(MECHANIC_MAKE_DATA, () -> new DataPack.ManaLevelDataPack()
                         .addRun((s, m) -> s.addInItem(m.blockMap.get(extractMana).blockItemTag(), 1))
                         .addInItem(ItemTag.BREWING_STAND.d1(), 1));
         explosiveMana = (ExtractManaMechanic) new ExtractManaMechanic("explosive_mana", () -> List.of(ShapedType.explosiveMana), new DuskColor(178, 25, 25))
-                .setSet(MECHANIC_MAKE_DATA, () -> new DataPack.MultipleManaLevelDataPack()
+                .setSet(MECHANIC_MAKE_DATA, () -> new DataPack.ManaLevelDataPack()
                         .addRun((s, m) -> s.addInItem(m.blockMap.get(extractMana).blockItemTag(), 1))
                         .addInItem(ItemTag.TNT.d1(), 4)
                         .addInItem(Tags.Items.GUNPOWDER, 16));
         frostyMana = (ExtractManaMechanic) new ExtractManaMechanic("frosty_mana", () -> List.of(ShapedType.frostyMana), new DuskColor(29, 237, 255))
-                .setSet(MECHANIC_MAKE_DATA, () -> new DataPack.MultipleManaLevelDataPack()
+                .setSet(MECHANIC_MAKE_DATA, () -> new DataPack.ManaLevelDataPack()
                         .addRun((s, m) -> s.addInItem(m.blockMap.get(extractMana).blockItemTag(), 1))
                         .addInItem(ItemTag.ICES.d1(), 32)
                         .addInItem(ItemTag.SNOW_BLOCK.d1(), 32));
         slimeyMana = (ExtractManaMechanic) new ExtractManaMechanic("slimey_mana", () -> List.of(ShapedType.slimeyMana), new DuskColor(43, 255, 33))
-                .setSet(MECHANIC_MAKE_DATA, () -> new DataPack.MultipleManaLevelDataPack()
+                .setSet(MECHANIC_MAKE_DATA, () -> new DataPack.ManaLevelDataPack()
                         .addRun((s, m) -> s.addInItem(m.blockMap.get(extractMana).blockItemTag(), 1))
                         .addInItem(ItemTag.SLIME_BALL, 32)
                         .addInItem(ItemTag.SLIME_BLOCK.d1(), 12));
         halitosisMana = (ExtractManaMechanic) new ExtractManaMechanic("halitosis_mana", () -> List.of(ShapedType.halitosisMana), new DuskColor(229, 45, 136))
-                .setSet(MECHANIC_MAKE_DATA, () -> new DataPack.MultipleManaLevelDataPack()
+                .setSet(MECHANIC_MAKE_DATA, () -> new DataPack.ManaLevelDataPack()
                         .addRun((s, m) -> s.addInItem(m.blockMap.get(extractMana).blockItemTag(), 1))
                         .addInItem(ItemTag.DRAGON_BREATH, 16));
         flameMana = (ExtractManaMechanic) new ExtractManaMechanic("flame_mana", () -> List.of(ShapedType.flameMana), new DuskColor(255, 0, 0))
-                .setSet(MECHANIC_MAKE_DATA, () -> new DataPack.MultipleManaLevelDataPack()
+                .setSet(MECHANIC_MAKE_DATA, () -> new DataPack.ManaLevelDataPack()
                         .addRun((s, m) -> s.addInItem(m.blockMap.get(extractMana).blockItemTag(), 1))
                         .addInFluid(FluidTags.LAVA, 32000));
         botanyMana = (ExtractManaMechanic) new ExtractManaMechanic("botany_mana", () -> List.of(ShapedType.botanyMana), new DuskColor(7, 140, 0))
-                .setSet(MECHANIC_MAKE_DATA, () -> new DataPack.MultipleManaLevelDataPack()
+                .setSet(MECHANIC_MAKE_DATA, () -> new DataPack.ManaLevelDataPack()
                         .addRun((s, m) -> s.addInItem(m.blockMap.get(extractMana).blockItemTag(), 1))
                         .addInItem(ItemTags.FLOWERS, 256));
         foodMana = (ExtractManaMechanic) new ExtractManaMechanic("food_mana", () -> List.of(ShapedType.foodMana), new DuskColor(255, 184, 66))
-                .setSet(MECHANIC_MAKE_DATA, () -> new DataPack.MultipleManaLevelDataPack()
+                .setSet(MECHANIC_MAKE_DATA, () -> new DataPack.ManaLevelDataPack()
                         .addRun((s, m) -> s.addInItem(m.blockMap.get(extractMana).blockItemTag(), 1))
                         .addInItem(ItemTag.BREAD, 64));
         grind = (HandleMechanic) new HandleMechanic("grind", () -> List.of(ShapedType.grind))
-                .setSet(MECHANIC_UP_DATA, () -> new DataPack.MultipleManaLevelDataPack()
+                .setSet(MECHANIC_UP_DATA, () -> new DataPack.ManaLevelDataPack()
                         .addInItem(Tags.Items.GEMS_DIAMOND, 2)
-                        .addRun((s, m) -> s.addInItem(m.itemMap.get(ManaLevelItem.destruction).itemTag(), m.level))
-                        .addRun((s, m) -> s.addInItem(m.itemMap.get(ManaLevelItem.power).itemTag(), m.level)));
+                        .addRun((s, m) -> s.addInItem(ManaLevelItem.destruction.getTag(m), m.level))
+                        .addRun((s, m) -> s.addInItem(ManaLevelItem.power.getTag(m), m.level)));
         wash = (HandleMechanic) new HandleMechanic("wash", () -> List.of(ShapedType.wash))
-                .setSet(MECHANIC_UP_DATA, () -> new DataPack.MultipleManaLevelDataPack()
-                        .addRun((s, m) -> s.addInItem(m.itemMap.get(ManaLevelItem.forming).itemTag(), m.level))
-                        .addRun((s, m) -> s.addInItem(m.itemMap.get(ManaLevelItem.destruction).itemTag(), m.level))
-                        .addRun((s, m) -> s.addInItem(m.itemMap.get(ManaLevelItem.power).itemTag(), m.level)));
+                .setSet(MECHANIC_UP_DATA, () -> new DataPack.ManaLevelDataPack()
+                        .addRun((s, m) -> s.addInItem(ManaLevelItem.forming.getTag(m), m.level))
+                        .addRun((s, m) -> s.addInItem(ManaLevelItem.destruction.getTag(m), m.level))
+                        .addRun((s, m) -> s.addInItem(ManaLevelItem.power.getTag(m), m.level)));
         centrifugal = (HandleMechanic) new HandleMechanic("centrifugal", () -> List.of(ShapedType.centrifugal))
-                .setSet(MECHANIC_UP_DATA, () -> new DataPack.MultipleManaLevelDataPack()
-                        .addRun((s, m) -> s.addInItem(m.itemMap.get(ManaLevelItem.forming).itemTag(), m.level))
-                        .addRun((s, m) -> s.addInItem(m.itemMap.get(ManaLevelItem.destruction).itemTag(), m.level))
-                        .addRun((s, m) -> s.addInItem(m.itemMap.get(ManaLevelItem.power).itemTag(), m.level)));
+                .setSet(MECHANIC_UP_DATA, () -> new DataPack.ManaLevelDataPack()
+                        .addRun((s, m) -> s.addInItem(ManaLevelItem.forming.getTag(m), m.level))
+                        .addRun((s, m) -> s.addInItem(ManaLevelItem.destruction.getTag(m), m.level))
+                        .addRun((s, m) -> s.addInItem(ManaLevelItem.power.getTag(m), m.level)));
         pack = (HandleMechanic) new HandleMechanic("pack", () -> List.of(ShapedType.pack))
-                .setSet(MECHANIC_UP_DATA, () -> new DataPack.MultipleManaLevelDataPack()
+                .setSet(MECHANIC_UP_DATA, () -> new DataPack.ManaLevelDataPack()
                         .addInItem(ItemTag.CRAFTING_TABLE.d1(), 9)
-                        .addRun((s, m) -> s.addInItem(m.itemMap.get(ManaLevelItem.forming).itemTag(), m.level)));
+                        .addRun((s, m) -> s.addInItem(ManaLevelItem.forming.getTag(m), m.level)));
         unpack = (HandleMechanic) new HandleMechanic("unpack", () -> List.of(ShapedType.unpack))
-                .setSet(MECHANIC_UP_DATA, () -> new DataPack.MultipleManaLevelDataPack()
+                .setSet(MECHANIC_UP_DATA, () -> new DataPack.ManaLevelDataPack()
                         .addInItem(ItemTag.CRAFTING_TABLE.d1(), 9)
-                        .addRun((s, m) -> s.addInItem(m.itemMap.get(ManaLevelItem.forming).itemTag(), m.level)));
+                        .addRun((s, m) -> s.addInItem(ManaLevelItem.forming.getTag(m), m.level)));
         blastFurnace = (HandleMechanic) new HandleMechanic("blast_furnace", () -> List.of(ShapedType.blastFurnace))
-                .setSet(MECHANIC_UP_DATA, () -> new DataPack.MultipleManaLevelDataPack()
-                        .addRun((s, m) -> s.addInItem(m.itemMap.get(ManaLevelItem.forming).itemTag(), m.level))
-                        .addRun((s, m) -> s.addInItem(m.itemMap.get(ManaLevelItem.power).itemTag(), m.level * 2)));
+                .setSet(MECHANIC_UP_DATA, () -> new DataPack.ManaLevelDataPack()
+                        .addRun((s, m) -> s.addInItem(ManaLevelItem.forming.getTag(m), m.level))
+                        .addRun((s, m) -> s.addInItem(ManaLevelItem.power.getTag(m), m.level * 2)));
         crystallizing = (HandleMechanic) new HandleMechanic("crystallizing", () -> List.of(ShapedType.crystallizing))
-                .setSet(MECHANIC_UP_DATA, () -> new DataPack.MultipleManaLevelDataPack()
-                        .addRun((s, m) -> s.addInItem(m.itemMap.get(ManaLevelItem.forming).itemTag(), m.level * 4))
-                        .addRun((s, m) -> s.addInItem(m.itemMap.get(ManaLevelItem.power).itemTag(), m.level)));
+                .setSet(MECHANIC_UP_DATA, () -> new DataPack.ManaLevelDataPack()
+                        .addRun((s, m) -> s.addInItem(ManaLevelItem.forming.getTag(m), m.level * 4))
+                        .addRun((s, m) -> s.addInItem(ManaLevelItem.power.getTag(m), m.level)));
         assemble = (HandleMechanic) new HandleMechanic("assemble", () -> List.of(ShapedType.assemble))
-                .setSet(MECHANIC_UP_DATA, () -> new DataPack.MultipleManaLevelDataPack()
-                        .addRun((s, m) -> s.addInItem(m.itemMap.get(ManaLevelItem.forming).itemTag(), m.level * 4))
-                        .addRun((s, m) -> s.addInItem(m.itemMap.get(ManaLevelItem.instructions).itemTag(), m.level * 2)));
+                .setSet(MECHANIC_UP_DATA, () -> new DataPack.ManaLevelDataPack()
+                        .addRun((s, m) -> s.addInItem(ManaLevelItem.forming.getTag(m), m.level * 4))
+                        .addRun((s, m) -> s.addInItem(ManaLevelItem.instructions.getTag(m), m.level * 2)));
         crystalAssemble = new HandleMechanic("crystal_assemble", () -> List.of(ShapedType.crystalAssemble));
         distillation = new HandleMechanic("distillation", () -> List.of(ShapedType.distillation));
         dissolution = new HandleMechanic("dissolution", () -> List.of(ShapedType.dissolution));
@@ -443,14 +455,16 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
         recovery = new HandleMechanic("recovery", () -> List.of(ShapedType.recovery));
         shaping = new HandleMechanic("shaping", () -> List.of(ShapedType.forming));
         manaCoagulation = new HandleMechanic("mana_coagulation", () -> List.of(ShapedType.manaCoagulation));
+        stemCellExtract = new HandleMechanic("stem_cell_extract", () -> List.of(ShapedType.stemCellExtract));
+        cellCulture = new HandleMechanic("cell_culture", () -> List.of(ShapedType.cellCulture));
         voidCase = (VoidCaseMechanic) new VoidCaseMechanic()
-                .setSet(MECHANIC_UP_DATA, () -> new DataPack.MultipleManaLevelDataPack()
+                .setSet(MECHANIC_UP_DATA, () -> new DataPack.ManaLevelDataPack()
                         .addInItem(Ore._void.itemMap.get(OreItem.plate).itemTag(), 3)
                         .addInItem(Ore._void.itemMap.get(OreItem.casing).itemTag(), 12)
                         .addInItem(Ore._void.itemMap.get(OreItem.foil).itemTag(), 12)
                         .addInItem(Tags.Items.CHESTS, 3));
         voidTank = (VoidTankMechanic) new VoidTankMechanic()
-                .setSet(MECHANIC_UP_DATA, () -> new DataPack.MultipleManaLevelDataPack()
+                .setSet(MECHANIC_UP_DATA, () -> new DataPack.ManaLevelDataPack()
                         .addInItem(Ore._void.itemMap.get(OreItem.plate).itemTag(), 3)
                         .addInItem(Ore._void.itemMap.get(OreItem.casing).itemTag(), 12)
                         .addInItem(Ore._void.itemMap.get(OreItem.foil).itemTag(), 12)
@@ -476,8 +490,8 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
         this(new ResourceLocation(Dusk.MOD_ID, name));
     }
 
-    public static final GenericMap.IKey<Supplier<DataPack.MultipleManaLevelDataPack>> MECHANIC_UP_DATA = new GenericMap.IKey.Key<>();
+    public static final GenericMap.IKey<Supplier<DataPack.ManaLevelDataPack>> MECHANIC_UP_DATA = new GenericMap.IKey.Key<>();
 
-    public static final GenericMap.IKey<Supplier<DataPack.MultipleManaLevelDataPack>> MECHANIC_MAKE_DATA = new GenericMap.IKey.Key<>();
+    public static final GenericMap.IKey<Supplier<DataPack.ManaLevelDataPack>> MECHANIC_MAKE_DATA = new GenericMap.IKey.Key<>();
 
 }

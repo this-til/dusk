@@ -6,14 +6,12 @@ import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.register.mana_level.mana_level_block.ManaLevelBlock;
 import com.til.dusk.common.register.ore.Ore;
 import com.til.dusk.common.register.ore.OreFluid;
-import com.til.dusk.common.register.ore.OreItem;
 import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.GenericMap;
 import com.til.dusk.util.pack.DataPack;
 import com.til.dusk.util.pack.RegistryPack;
 import com.til.dusk.util.pack.TagPack;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Items;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -47,19 +45,55 @@ public class ManaLevel extends RegisterBasics.UnitRegister<ManaLevel, ManaLevelI
         LEVEL = event.create(new RegistryBuilder<ManaLevel>().setName(new ResourceLocation(Dusk.MOD_ID, "mana_level")));
         t1 = new ManaLevel(1, 2560, 1, 2, 0.1, 16, new DuskColor(50, 255, 255), null, () -> t2)
                 .setSet(OPERATION_BASICS, () -> new DataPack.ManaLevelDataPack()
-                        .addInFluid(Ore.highEnergyRedStone.fluidMap.get(OreFluid.solution).fluidTag(), 72));
+                        .addInFluid(Ore.highEnergyRedStone.fluidMap.get(OreFluid.solution).fluidTag(), 72))
+                .setSet(OPERATION, () -> new DataPack.ManaLevelDataPack()
+                        .addInItem(ItemTag.resistanceTag, 4)
+                        .addInItem(ItemTag.capacitanceTag, 4)
+                        .addInItem(ItemTag.diodeTag, 4)
+                        .addInItem(ItemTag.triodeTag, 4));
         t2 = new ManaLevel(2, 1280, 2, 2, 0.09, 18, new DuskColor(100, 200, 225), () -> t1, () -> t3)
                 .setSet(OPERATION_BASICS, () -> new DataPack.ManaLevelDataPack()
                         .addInFluid(Ore.highEnergyRedStone.fluidMap.get(OreFluid.solution).fluidTag(), 72)
-                        .addInFluid(Ore.coolant.fluidMap.get(OreFluid.solution).fluidTag(), 32));
+                        .addInFluid(Ore.coolant.fluidMap.get(OreFluid.solution).fluidTag(), 32))
+                .setSet(OPERATION, () -> new DataPack.ManaLevelDataPack()
+                        .addInItem(ItemTag.resistanceTag, 8)
+                        .addInItem(ItemTag.capacitanceTag, 8)
+                        .addInItem(ItemTag.diodeTag, 8)
+                        .addInItem(ItemTag.triodeTag, 8));
         t3 = new ManaLevel(3, 640, 3, 4, 0.08, 20, new DuskColor(125, 150, 200), () -> t2, () -> t4)
                 .setSet(OPERATION_BASICS, () -> new DataPack.ManaLevelDataPack()
                         .addInFluid(Ore.highEnergyRedStone.fluidMap.get(OreFluid.solution).fluidTag(), 72)
                         .addInFluid(Ore.coolant.fluidMap.get(OreFluid.solution).fluidTag(), 32)
-                        .addInFluid(Ore.dissolutionMana.fluidMap.get(OreFluid.solution).fluidTag(), 24));
-        t4 = new ManaLevel(4, 320, 4, 4, 0.07, 22, new DuskColor(150, 100, 175), () -> t3, () -> t5);
-        t5 = new ManaLevel(5, 160, 5, 8, 0.06, 24, new DuskColor(175, 100, 150), () -> t4, () -> t6);
-        t6 = new ManaLevel(6, 80, 6, 8, 0.05, 26, new DuskColor(200, 150, 120), () -> t5, () -> t7);
+                        .addInFluid(Ore.dissolutionMana.fluidMap.get(OreFluid.solution).fluidTag(), 24))
+                .setSet(OPERATION, () -> new DataPack.ManaLevelDataPack()
+                        .addInItem(ItemTag.resistanceTag, 16)
+                        .addInItem(ItemTag.capacitanceTag, 16)
+                        .addInItem(ItemTag.diodeTag, 16)
+                        .addInItem(ItemTag.triodeTag, 16));
+        t4 = new ManaLevel(4, 320, 4, 4, 0.07, 22, new DuskColor(150, 100, 175), () -> t3, () -> t5)
+                .setSet(OPERATION_BASICS, () -> new DataPack.ManaLevelDataPack()
+                        .addInFluid(Ore.coolant.fluidMap.get(OreFluid.solution).fluidTag(), 128)
+                        .addInFluid(Ore.culture.fluidMap.get(OreFluid.solution).fluidTag(), 32)
+                        .addInFluid(Ore.nutrient.fluidMap.get(OreFluid.solution).fluidTag(), 256)
+                        .addInFluid(Ore.supportCell.fluidMap.get(OreFluid.solution).fluidTag(), 256))
+                .setSet(OPERATION, () -> new DataPack.ManaLevelDataPack()
+                        .addInFluid(Ore.neuronCell.fluidMap.get(OreFluid.solution).fluidTag(), 144));
+        t5 = new ManaLevel(5, 160, 5, 8, 0.06, 24, new DuskColor(175, 100, 150), () -> t4, () -> t6)
+                .setSet(OPERATION_BASICS, () -> new DataPack.ManaLevelDataPack()
+                        .addInFluid(Ore.coolant.fluidMap.get(OreFluid.solution).fluidTag(), 128)
+                        .addInFluid(Ore.culture.fluidMap.get(OreFluid.solution).fluidTag(), 32)
+                        .addInFluid(Ore.nutrient.fluidMap.get(OreFluid.solution).fluidTag(), 1024)
+                        .addInFluid(Ore.supportCell.fluidMap.get(OreFluid.solution).fluidTag(), 1024))
+                .setSet(OPERATION, () -> new DataPack.ManaLevelDataPack()
+                        .addInFluid(Ore.neuronCell.fluidMap.get(OreFluid.solution).fluidTag(), 144));
+        t6 = new ManaLevel(6, 80, 6, 8, 0.05, 26, new DuskColor(200, 150, 120), () -> t5, () -> t7)
+                .setSet(OPERATION_BASICS, () -> new DataPack.ManaLevelDataPack()
+                        .addInFluid(Ore.coolant.fluidMap.get(OreFluid.solution).fluidTag(), 128)
+                        .addInFluid(Ore.culture.fluidMap.get(OreFluid.solution).fluidTag(), 32)
+                        .addInFluid(Ore.nutrient.fluidMap.get(OreFluid.solution).fluidTag(), 2048)
+                        .addInFluid(Ore.supportCell.fluidMap.get(OreFluid.solution).fluidTag(), 2048))
+                .setSet(OPERATION, () -> new DataPack.ManaLevelDataPack()
+                        .addInFluid(Ore.neuronCell.fluidMap.get(OreFluid.solution).fluidTag(), 144));
         t7 = new ManaLevel(7, 40, 7, 16, 0.04, 28, new DuskColor(225, 200, 100), () -> t6, () -> t8);
         t8 = new ManaLevel(8, 20, 8, 16, 0.03, 30, new DuskColor(255, 255, 50), () -> t7, null);
     }

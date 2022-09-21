@@ -5,12 +5,11 @@ import com.til.dusk.common.data.tag.ItemTag;
 import com.til.dusk.common.event.DelayTrigger;
 import com.til.dusk.common.register.shaped.shapeds.Shaped;
 import com.til.dusk.util.Extension;
+import com.til.dusk.util.prefab.JsonPrefab;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
 
 /**
@@ -47,5 +46,21 @@ public class ItemBasics extends Item {
             ItemTag.addTag(tag, this);
         }
         return tag;
+    }
+
+    public static class ItemGenerateModel extends ItemBasics implements ModItem.ICustomModel {
+        public ItemGenerateModel(Properties properties) {
+            super(properties);
+        }
+
+        @Override
+        public ResourceLocation itemModelName() {
+            return ForgeRegistries.ITEMS.getKey(this);
+        }
+
+        @Override
+        public String itemJsonBasics() {
+            return JsonPrefab.CURRENCY_ITEM_MODEL;
+        }
     }
 }

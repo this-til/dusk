@@ -2,6 +2,16 @@ package com.til.dusk.util.prefab;
 
 public class JsonPrefab {
 
+    public static final String CURRENCY_ITEM_MODEL =
+            """
+                    '{'
+                      "parent": "item/generated",
+                      "textures": '{'
+                        "layer0": "{0}:item/{1}"
+                      '}'
+                    '}'
+                    """;
+
     public static final String BLOCK_STATE_MODEL =
             """
                     '{'

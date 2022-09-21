@@ -14,6 +14,7 @@ import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -48,7 +49,11 @@ public class FoodManaShapedType extends ShapedType {
 
         @Override
         protected boolean isItem(ItemStack itemStack) {
-            return itemStack.getItem().isEdible();
+            FoodProperties foodProperties = itemStack.getItem().getFoodProperties(itemStack, null);
+            if (foodProperties == null) {
+                return false;
+            }
+            return foodProperties.getNutrition() > 0;
         }
 
         @Override
@@ -57,18 +62,21 @@ public class FoodManaShapedType extends ShapedType {
             if (foodProperties == null) {
                 return null;
             }
-            return new ShapedHandle(surplusTime, consumeMana, (1 + foodProperties.getNutrition()) * outMana, null, null);
+            return new ShapedHandle(surplusTime, consumeMana, foodProperties.getNutrition() * outMana, null, null);
         }
 
         @Override
         public IJEIShaped getJEIShaped() {
             return new IJEIShaped() {
-                @Nullable
                 @Override
-                public List<List<ItemStack>> getItemIn() {
+                public @NotNull List<List<ItemStack>> getItemIn() {
                     List<ItemStack> itemStackList = new ArrayList<>();
                     for (Map.Entry<ResourceKey<Item>, Item> entry : ForgeRegistries.ITEMS.getEntries()) {
                         if (entry.getValue().isEdible()) {
+                            FoodProperties foodProperties = entry.getValue().getFoodProperties(null, null);
+                            if (foodProperties == null || foodProperties.getNutrition() <= 0) {
+                                continue;
+                            }
                             itemStackList.add(new ItemStack(entry.getValue()));
                         }
                     }

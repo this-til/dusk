@@ -19,8 +19,6 @@ import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.TagKey;
-import net.minecraft.world.item.BoneMealItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.Tags;
@@ -106,16 +104,10 @@ public class ModItem {
      */
     public static RegistryObject<ItemBasics> patchTriode;
 
-    public static TagKey<Item> resistanceTag;
-    public static TagKey<Item> capacitanceTag;
-    public static TagKey<Item> inductanceTag;
-    public static TagKey<Item> diodeTag;
-    public static TagKey<Item> triodeTag;
-
     /***
      * 废料
      */
-    public static RegistryObject<Item> waste;
+    public static RegistryObject<WasteItem> waste;
 
     static {
 
@@ -159,7 +151,7 @@ public class ModItem {
 
         diamondMakeOperationBasics = ITEMS.register("diamond_make_operation_basics",
                 () -> (DiamondMakeItem) new DiamondMakeItem(new Item.Properties().tab(Dusk.TAB), ManaLevelItem.operationBasics.strokeColor, ManaLevelItem.operationBasics.coreColor)
-                        .addTag(ManaLevel.t1.itemMap.get(ManaLevelItem.operationBasics).itemTag())
+                        .addTag(ManaLevelItem.operationBasics.getTag(ManaLevel.t1))
                         .addRecipe(() -> ShapedRecipeBuilder.shaped(diamondMakeOperationBasics.get())
                                 .define('A', Tags.Items.GEMS_DIAMOND)
                                 .define('B', ItemTag.REPEATER.d1())
@@ -171,9 +163,9 @@ public class ModItem {
                                 .unlockedBy("has_diamond", ModData.ModRecipeProvider.has(Tags.Items.GEMS_DIAMOND))));
         diamondMakeOperation = ITEMS.register("diamond_make_operation",
                 () -> (DiamondMakeItem) new DiamondMakeItem(new Item.Properties().tab(Dusk.TAB), ManaLevelItem.operation.strokeColor, ManaLevelItem.operation.coreColor)
-                        .addTag(ManaLevel.t1.itemMap.get(ManaLevelItem.operation).itemTag())
+                        .addTag(ManaLevelItem.operation.getTag(ManaLevel.t1))
                         .addRecipe(() -> ShapedRecipeBuilder.shaped(diamondMakeOperation.get())
-                                .define('A', diamondMakeOperation.get().tag())
+                                .define('A', diamondMakeOperationBasics.get().tag())
                                 .define('B', Tags.Items.DUSTS_REDSTONE)
                                 .define('C', Tags.Items.DUSTS_GLOWSTONE)
                                 .pattern("BCB")
@@ -182,113 +174,162 @@ public class ModItem {
                                 .unlockedBy("has_diamond_make_operation_basics", ModData.ModRecipeProvider.has(diamondMakeOperation.get().tag()))));
         diamondMakeForming = ITEMS.register("diamond_make_forming",
                 () -> (DiamondMakeItem) new DiamondMakeItem(new Item.Properties().tab(Dusk.TAB), ManaLevelItem.forming.strokeColor, ManaLevelItem.forming.coreColor)
-                        .addTag(ManaLevel.t1.itemMap.get(ManaLevelItem.forming).itemTag())
+                        .addTag(ManaLevelItem.forming.getTag(ManaLevel.t1))
                         .addRecipe(() -> ShapedRecipeBuilder.shaped(diamondMakeForming.get())
                                 .define('A', diamondMakeOperation.get().tag())
                                 .define('B', Tags.Items.GEMS_AMETHYST)
+                                .pattern(" B ")
                                 .pattern("BAB")
+                                .pattern(" B ")
                                 .unlockedBy("has_diamond_make_operation", ModData.ModRecipeProvider.has(diamondMakeOperation.get().tag()))));
         diamondMakeDestruction = ITEMS.register("diamond_make_destruction",
                 () -> (DiamondMakeItem) new DiamondMakeItem(new Item.Properties().tab(Dusk.TAB), ManaLevelItem.destruction.strokeColor, ManaLevelItem.destruction.coreColor)
-                        .addTag(ManaLevel.t1.itemMap.get(ManaLevelItem.destruction).itemTag())
+                        .addTag(ManaLevelItem.destruction.getTag(ManaLevel.t1))
                         .addRecipe(() -> ShapedRecipeBuilder.shaped(diamondMakeDestruction.get())
                                 .define('A', diamondMakeOperation.get().tag())
                                 .define('B', Tags.Items.GEMS_QUARTZ)
+                                .pattern(" B ")
                                 .pattern("BAB")
+                                .pattern(" B ")
                                 .unlockedBy("has_diamond_make_operation", ModData.ModRecipeProvider.has(diamondMakeOperation.get().tag()))));
         diamondMakeGather = ITEMS.register("diamond_make_gather",
                 () -> (DiamondMakeItem) new DiamondMakeItem(new Item.Properties().tab(Dusk.TAB), ManaLevelItem.gather.strokeColor, ManaLevelItem.gather.coreColor)
-                        .addTag(ManaLevel.t1.itemMap.get(ManaLevelItem.gather).itemTag())
+                        .addTag(ManaLevelItem.gather.getTag(ManaLevel.t1))
                         .addRecipe(() -> ShapedRecipeBuilder.shaped(diamondMakeGather.get())
                                 .define('A', diamondMakeOperation.get().tag())
                                 .define('B', Tags.Items.GEMS_LAPIS)
+                                .pattern(" B ")
                                 .pattern("BAB")
+                                .pattern(" B ")
                                 .unlockedBy("has_diamond_make_operation", ModData.ModRecipeProvider.has(diamondMakeOperation.get().tag()))));
         diamondMakeSpread = ITEMS.register("diamond_make_spread",
                 () -> (DiamondMakeItem) new DiamondMakeItem(new Item.Properties().tab(Dusk.TAB), ManaLevelItem.spread.strokeColor, ManaLevelItem.spread.coreColor)
-                        .addTag(ManaLevel.t1.itemMap.get(ManaLevelItem.spread).itemTag())
+                        .addTag(ManaLevelItem.spread.getTag(ManaLevel.t1))
                         .addRecipe(() -> ShapedRecipeBuilder.shaped(diamondMakeSpread.get())
                                 .define('A', diamondMakeOperation.get().tag())
                                 .define('B', Tags.Items.GEMS_PRISMARINE)
+                                .pattern(" B ")
                                 .pattern("BAB")
+                                .pattern(" B ")
                                 .unlockedBy("has_diamond_make_operation", ModData.ModRecipeProvider.has(diamondMakeOperation.get().tag()))));
         diamondMakePower = ITEMS.register("diamond_make_power",
                 () -> (DiamondMakeItem) new DiamondMakeItem(new Item.Properties().tab(Dusk.TAB), ManaLevelItem.power.strokeColor, ManaLevelItem.power.coreColor)
-                        .addTag(ManaLevel.t1.itemMap.get(ManaLevelItem.power).itemTag())
+                        .addTag(ManaLevelItem.power.getTag(ManaLevel.t1))
                         .addRecipe(() -> ShapedRecipeBuilder.shaped(diamondMakePower.get())
                                 .define('A', diamondMakeOperation.get().tag())
                                 .define('B', ItemTag.PISTON.d1())
+                                .pattern(" B ")
                                 .pattern("BAB")
-                                .unlockedBy("has_diamond_make_operation", ModData.ModRecipeProvider.has(ManaLevel.t1.itemMap.get(ManaLevelItem.operation).itemTag()))));
+                                .pattern(" B ")
+                                .unlockedBy("has_diamond_make_operation", ModData.ModRecipeProvider.has(diamondMakePower.get().tag()))));
         diamondMakeInstructions = ITEMS.register("diamond_make_instructions",
                 () -> (DiamondMakeItem) new DiamondMakeItem(new Item.Properties().tab(Dusk.TAB), ManaLevelItem.instructions.strokeColor, ManaLevelItem.instructions.coreColor)
-                        .addTag(ManaLevel.t1.itemMap.get(ManaLevelItem.instructions).itemTag())
+                        .addTag(ManaLevelItem.instructions.getTag(ManaLevel.t1))
                         .addRecipe(() -> ShapedRecipeBuilder.shaped(diamondMakeInstructions.get())
                                 .define('A', diamondMakeOperation.get().tag())
                                 .define('B', Tags.Items.BOOKSHELVES)
+                                .pattern(" B ")
                                 .pattern("BAB")
+                                .pattern(" B ")
                                 .unlockedBy("has_diamond_make_operation", ModData.ModRecipeProvider.has(diamondMakeOperation.get().tag()))));
-        resistance = ITEMS.register("resistance", () -> new ItemBasics(new Item.Properties().tab(Dusk.TAB))
-                .addTag(resistanceTag)
+        resistance = ITEMS.register("resistance", () -> new ItemBasics.ItemGenerateModel(new Item.Properties().tab(Dusk.TAB))
+                .addTag(ItemTag.resistanceTag)
                 .addShaped(() -> new ShapedOre(ShapedType.assemble, ShapedDrive.get(12), ManaLevel.t1)
-                        .addInItem(Ore.violet.itemMap.get(OreItem.foil).itemTag(), 1)
+                        .addInItem(Ore.spiritSilver.itemMap.get(OreItem.casing).itemTag(), 1)
+                        .addInItem(Ore.spiritSilver.itemMap.get(OreItem.string).itemTag(), 2)
                         .addInItem(Ore.cinnabar.itemMap.get(OreItem.dust).itemTag(), 1)
                         .addOutItem(new ItemStack(resistance.get(), 4), 1d)
                         .addMultipleSurplusTime(1024L)
                         .addMultipleConsumeMana(12L)));
-        capacitance = ITEMS.register("capacitance", () -> new ItemBasics(new Item.Properties().tab(Dusk.TAB))
-                .addTag(capacitanceTag)
+        capacitance = ITEMS.register("capacitance", () -> new ItemBasics.ItemGenerateModel(new Item.Properties().tab(Dusk.TAB))
+                .addTag(ItemTag.capacitanceTag)
                 .addShaped(() -> new ShapedOre(ShapedType.assemble, ShapedDrive.get(12), ManaLevel.t1)
-                        .addInItem(Ore.thistle.itemMap.get(OreItem.foil).itemTag(), 1)
-                        .addInItem(Ore.pink.itemMap.get(OreItem.stick).itemTag(), 1)
+                        .addInItem(Ore.spiritSilver.itemMap.get(OreItem.casing).itemTag(), 1)
+                        .addInItem(Ore.spiritSilver.itemMap.get(OreItem.string).itemTag(), 2)
+                        .addInItem(Ore.pink.itemMap.get(OreItem.dust).itemTag(), 1)
                         .addOutItem(new ItemStack(capacitance.get(), 4), 1d)
                         .addMultipleSurplusTime(1024L)
                         .addMultipleConsumeMana(12L)));
-        inductance = ITEMS.register("inductance", () -> new ItemBasics(new Item.Properties().tab(Dusk.TAB))
-                .addTag(inductanceTag)
+        inductance = ITEMS.register("inductance", () -> new ItemBasics.ItemGenerateModel(new Item.Properties().tab(Dusk.TAB))
+                .addTag(ItemTag.inductanceTag)
                 .addShaped(() -> new ShapedOre(ShapedType.assemble, ShapedDrive.get(12), ManaLevel.t1)
-                        .addInItem(Ore.peru.itemMap.get(OreItem.stick).itemTag(), 1)
-                        .addInItem(Ore.goldenrod.itemMap.get(OreItem.string).itemTag(), 8)
-                        .addOutItem(new ItemStack(capacitance.get(), 1), 1d)
+                        .addInItem(Ore.spiritSilver.itemMap.get(OreItem.dust).itemTag(), 1)
+                        .addInItem(Ore.spiritSilver.itemMap.get(OreItem.casing).itemTag(), 4)
+                        .addInItem(Ore.spiritSilver.itemMap.get(OreItem.string).itemTag(), 2)
+                        .addInItem(Ore.goldenrod.itemMap.get(OreItem.string).itemTag(), 16)
+                        .addOutItem(new ItemStack(inductance.get(), 1), 1d)
                         .addMultipleSurplusTime(1024L)
                         .addMultipleConsumeMana(22L)));
-        diode = ITEMS.register("diode", () -> new ItemBasics(new Item.Properties().tab(Dusk.TAB))
-                .addTag(diodeTag).addShaped(() -> new ShapedOre(ShapedType.assemble, ShapedDrive.get(12), ManaLevel.t1)
-                        .addInItem(Ore.tibetanBlue.itemMap.get(OreItem.dust).itemTag(), 2)
+        diode = ITEMS.register("diode", () -> new ItemBasics.ItemGenerateModel(new Item.Properties().tab(Dusk.TAB))
+                .addTag(ItemTag.diodeTag)
+                .addShaped(() -> new ShapedOre(ShapedType.assemble, ShapedDrive.get(12), ManaLevel.t1)
+                        .addInItem(Ore.spiritSilver.itemMap.get(OreItem.casing).itemTag(), 1)
                         .addInItem(Ore.spiritSilver.itemMap.get(OreItem.string).itemTag(), 2)
+                        .addInItem(Ore.tibetanBlue.itemMap.get(OreItem.dust).itemTag(), 1)
+                        .addInItem(Ore.pineCypress.itemMap.get(OreItem.dust).itemTag(), 1)
                         .addOutItem(new ItemStack(diode.get(), 4), 1d)
                         .addMultipleSurplusTime(1024L)
-                        .addMultipleConsumeMana(22L)));
-        triode = ITEMS.register("triode", () -> new ItemBasics(new Item.Properties().tab(Dusk.TAB))
-                .addTag(triodeTag).addShaped(() -> new ShapedOre(ShapedType.assemble, ShapedDrive.get(12), ManaLevel.t1)
-                        .addInItem(Ore.tibetanBlue.itemMap.get(OreItem.dust).itemTag(), 2)
-                        .addInItem(Ore.greenTeal.itemMap.get(OreItem.foil).itemTag(), 1)
+                        .addMultipleConsumeMana(12L)));
+        triode = ITEMS.register("triode", () -> new ItemBasics.ItemGenerateModel(new Item.Properties().tab(Dusk.TAB))
+                .addTag(ItemTag.triodeTag)
+                .addShaped(() -> new ShapedOre(ShapedType.assemble, ShapedDrive.get(12), ManaLevel.t1)
+                        .addInItem(Ore.spiritSilver.itemMap.get(OreItem.casing).itemTag(), 1)
                         .addInItem(Ore.spiritSilver.itemMap.get(OreItem.string).itemTag(), 3)
+                        .addInItem(Ore.pineCypress.itemMap.get(OreItem.dust).itemTag(), 1)
+                        .addInItem(Ore.cotinusCoggygria.itemMap.get(OreItem.dust).itemTag(), 2)
                         .addOutItem(new ItemStack(triode.get(), 4), 1d)
                         .addMultipleSurplusTime(1024L)
+                        .addMultipleConsumeMana(12L)));
+        patchResistance = ITEMS.register("patch_resistance", () -> new ItemBasics.ItemGenerateModel(new Item.Properties().tab(Dusk.TAB))
+                .addTag(ItemTag.resistanceTag)
+                .addShaped(() -> new ShapedOre(ShapedType.assemble, ShapedDrive.get(13), ManaLevel.t2)
+                        .addInItem(Ore.spiritSilver.itemMap.get(OreItem.foil).itemTag(), 1)
+                        .addInItem(Ore.cinnabar.itemMap.get(OreItem.dustTiny).itemTag(), 1)
+                        .addOutItem(new ItemStack(patchResistance.get(), 4), 1d)
+                        .addMultipleSurplusTime(512L)
+                        .addMultipleConsumeMana(12L)));
+        patchCapacitance = ITEMS.register("patch_capacitance", () -> new ItemBasics.ItemGenerateModel(new Item.Properties().tab(Dusk.TAB))
+                .addTag(ItemTag.capacitanceTag)
+                .addShaped(() -> new ShapedOre(ShapedType.assemble, ShapedDrive.get(13), ManaLevel.t2)
+                        .addInItem(Ore.spiritSilver.itemMap.get(OreItem.foil).itemTag(), 1)
+                        .addInItem(Ore.pink.itemMap.get(OreItem.dustTiny).itemTag(), 1)
+                        .addOutItem(new ItemStack(patchCapacitance.get(), 4), 1d)
+                        .addMultipleSurplusTime(512L)
+                        .addMultipleConsumeMana(12L)));
+        patchInductance = ITEMS.register("patch_inductance", () -> new ItemBasics.ItemGenerateModel(new Item.Properties().tab(Dusk.TAB))
+                .addTag(ItemTag.inductanceTag)
+                .addShaped(() -> new ShapedOre(ShapedType.assemble, ShapedDrive.get(13), ManaLevel.t2)
+                        .addInItem(Ore.spiritSilver.itemMap.get(OreItem.nuggets).itemTag(), 1)
+                        .addInItem(Ore.spiritSilver.itemMap.get(OreItem.foil).itemTag(), 4)
+                        .addInItem(Ore.goldenrod.itemMap.get(OreItem.string).itemTag(), 4)
+                        .addOutItem(new ItemStack(patchInductance.get(), 1), 1d)
+                        .addMultipleSurplusTime(512L)
                         .addMultipleConsumeMana(22L)));
-        patchInductance = ITEMS.register("patch_inductance", () -> new ItemBasics(new Item.Properties().tab(Dusk.TAB))
-                .addTag(resistanceTag));
-        patchResistance = ITEMS.register("patch_resistance", () -> new ItemBasics(new Item.Properties().tab(Dusk.TAB))
-                .addTag(capacitanceTag));
-        patchCapacitance = ITEMS.register("patch_capacitance", () -> new ItemBasics(new Item.Properties().tab(Dusk.TAB))
-                .addTag(inductanceTag));
-        patchDiode = ITEMS.register("patch_diode", () -> new ItemBasics(new Item.Properties().tab(Dusk.TAB))
-                .addTag(diodeTag));
-        patchTriode = ITEMS.register("patch_triode", () -> new ItemBasics(new Item.Properties().tab(Dusk.TAB))
-                .addTag(triodeTag));
+        patchDiode = ITEMS.register("patch_diode", () -> new ItemBasics.ItemGenerateModel(new Item.Properties().tab(Dusk.TAB))
+                .addTag(ItemTag.diodeTag)
+                .addShaped(() -> new ShapedOre(ShapedType.assemble, ShapedDrive.get(13), ManaLevel.t2)
+                        .addInItem(Ore.spiritSilver.itemMap.get(OreItem.foil).itemTag(), 1)
+                        .addInItem(Ore.tibetanBlue.itemMap.get(OreItem.dustTiny).itemTag(), 1)
+                        .addInItem(Ore.pineCypress.itemMap.get(OreItem.dustTiny).itemTag(), 1)
+                        .addOutItem(new ItemStack(patchDiode.get(), 4), 1d)
+                        .addMultipleSurplusTime(512L)
+                        .addMultipleConsumeMana(12L)));
+        patchTriode = ITEMS.register("patch_triode", () -> new ItemBasics.ItemGenerateModel(new Item.Properties().tab(Dusk.TAB))
+                .addTag(ItemTag.triodeTag)
+                .addShaped(() -> new ShapedOre(ShapedType.assemble, ShapedDrive.get(13), ManaLevel.t2)
+                        .addInItem(Ore.spiritSilver.itemMap.get(OreItem.foil).itemTag(), 2)
+                        .addInItem(Ore.pineCypress.itemMap.get(OreItem.dustTiny).itemTag(), 1)
+                        .addInItem(Ore.cotinusCoggygria.itemMap.get(OreItem.dustTiny).itemTag(), 2)
+                        .addOutItem(new ItemStack(patchTriode.get(), 4), 1d)
+                        .addMultipleSurplusTime(512L)
+                        .addMultipleConsumeMana(12L)));
 
-        waste = ITEMS.register("waste", () -> new BoneMealItem(new Item.Properties().tab(Dusk.TAB)));
+        waste = ITEMS.register("waste", () -> new WasteItem(new Item.Properties().tab(Dusk.TAB)));
     }
 
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
         ITEMS.register(Dusk.instance.modEventBus);
-        resistanceTag = Dusk.instance.ITEM_TAG.createTagKey(new ResourceLocation(Dusk.MOD_ID, "resistance"));
-        capacitanceTag = Dusk.instance.ITEM_TAG.createTagKey(new ResourceLocation(Dusk.MOD_ID, "capacitance"));
-        inductanceTag = Dusk.instance.ITEM_TAG.createTagKey(new ResourceLocation(Dusk.MOD_ID, "inductance"));
-        diodeTag = Dusk.instance.ITEM_TAG.createTagKey(new ResourceLocation(Dusk.MOD_ID, "diode"));
-        triodeTag = Dusk.instance.ITEM_TAG.createTagKey(new ResourceLocation(Dusk.MOD_ID, "triode"));
     }
 
     @SubscribeEvent

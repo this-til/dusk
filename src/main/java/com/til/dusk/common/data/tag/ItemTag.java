@@ -12,6 +12,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.NewRegistryEvent;
+import org.checkerframework.checker.units.qual.C;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -95,6 +96,15 @@ public class ItemTag {
     public static TagKey<Item> BUCKET;
     public static TagKey<Item> ENCHANTING_BOOK;
     public static TagKey<Item> BREAD;
+    public static TagKey<Item> SUGAR;
+    public static TagKey<Item> HONEYCOMB;
+    public static TagKey<Item> CAN_EXTRACT_STEM_CELL;
+
+    public static TagKey<Item> resistanceTag;
+    public static TagKey<Item> capacitanceTag;
+    public static TagKey<Item> inductanceTag;
+    public static TagKey<Item> diodeTag;
+    public static TagKey<Item> triodeTag;
 
 
     @SubscribeEvent
@@ -134,6 +144,22 @@ public class ItemTag {
         BUCKET = createTag(Items.BUCKET);
         ENCHANTING_BOOK = createTag(Items.ENCHANTED_BOOK);
         BREAD = createTag(Items.BREAD);
+        SUGAR = createTag(Items.SUGAR);
+        HONEYCOMB = createTag(Items.HONEYCOMB);
+        CAN_EXTRACT_STEM_CELL = Dusk.instance.ITEM_TAG.createTagKey(new ResourceLocation(Dusk.MOD_ID, "can_extract_stem_cell"));
+        {
+            addTag(CAN_EXTRACT_STEM_CELL, Items.CHICKEN);
+            addTag(CAN_EXTRACT_STEM_CELL, Items.BEEF);
+            addTag(CAN_EXTRACT_STEM_CELL, Items.RABBIT);
+            addTag(CAN_EXTRACT_STEM_CELL, Items.MUTTON);
+        }
+
+        resistanceTag = Dusk.instance.ITEM_TAG.createTagKey(new ResourceLocation(Dusk.MOD_ID, "resistance"));
+        capacitanceTag = Dusk.instance.ITEM_TAG.createTagKey(new ResourceLocation(Dusk.MOD_ID, "capacitance"));
+        inductanceTag = Dusk.instance.ITEM_TAG.createTagKey(new ResourceLocation(Dusk.MOD_ID, "inductance"));
+        diodeTag = Dusk.instance.ITEM_TAG.createTagKey(new ResourceLocation(Dusk.MOD_ID, "diode"));
+        triodeTag = Dusk.instance.ITEM_TAG.createTagKey(new ResourceLocation(Dusk.MOD_ID, "triode"));
+
     }
 
 }

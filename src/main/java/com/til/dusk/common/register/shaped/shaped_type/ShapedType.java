@@ -214,6 +214,18 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
      */
     public static ManaCoagulationShapedType manaCoagulation;
 
+
+    /***
+     * 干细胞提
+     */
+    public static StemCellExtractShapedType stemCellExtract;
+
+    /***
+     * 细胞培养
+     */
+    public static CellCultureShapedType cellCulture;
+
+
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
         SHAPED_TYPE = event.create(new RegistryBuilder<ShapedType>().setName(new ResourceLocation(Dusk.MOD_ID, "shaped_type")));
@@ -261,6 +273,8 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
         recovery = new RecoveryShapedType();
         forming = new FormingShapedType();
         manaCoagulation = new ManaCoagulationShapedType();
+        stemCellExtract = new StemCellExtractShapedType();
+        cellCulture = new CellCultureShapedType();
     }
 
     public final Supplier<ManaLevelBlock> manaLevelBlockSupplier;

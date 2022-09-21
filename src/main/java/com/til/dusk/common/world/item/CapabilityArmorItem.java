@@ -14,6 +14,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * @author til
+ */
 public class CapabilityArmorItem extends DyeableArmorItem implements IItemDefaultCapability {
     public final Ore ore;
     public final OreItem oreItem;

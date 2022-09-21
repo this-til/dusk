@@ -58,7 +58,7 @@ public class StampingMachineShapedType extends ShapedType {
         for (Ore ore : Ore.screen(Ore.IS_METAL)) {
             new ShapedOre(this, ShapedDrive.get(5), ore.manaLevel)
                     .addInItem(ore.itemMap.get(OreItem.plate).itemTag(), 1)
-                    .addOutItem(new ItemStack(ore.itemMap.get(OreItem.foil).item(), 1), 1D)
+                    .addOutItem(new ItemStack(ore.itemMap.get(OreItem.foil).item(), 4), 1D)
                     .addMultipleSurplusTime((long) (ore.strength * 512L))
                     .addMultipleConsumeMana((long) (ore.consume * 12L));
         }

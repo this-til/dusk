@@ -54,7 +54,7 @@ public class ShapedOre extends ShapedMiddle {
         this.outFluid = new HashMap<>();
     }
 
-    public ShapedOre(ResourceLocation name, JsonObject jsonObject) throws Exception {
+    public ShapedOre(ResourceLocation name, JsonObject jsonObject)  {
         super(name, jsonObject);
         if (AllNBTPack.ITEM_IN_MAP.contains(jsonObject)) {
             item = AllNBTPack.ITEM_IN_MAP.get(jsonObject);
