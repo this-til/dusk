@@ -33,24 +33,33 @@ public class AssembleShapedType extends ShapedType {
         for (Ore ore : Ore.screen(Ore.IS_METAL)) {
             new ShapedOre(this, ShapedDrive.get(0), ore.manaLevel)
                     .addInItem(ore.itemMap.get(OreItem.casing).itemTag(), 6)
-                    .addInItem(ore.itemMap.get(OreItem.stick).itemTag(), 12)
+                    .addInItem(ore.itemMap.get(OreItem.stick).itemTag(), 4)
                     .addOutItem(new ItemStack(ore.blockMap.get(OreBlock.bracket).blockItem(), 1), 1d)
                     .addMultipleSurplusTime(4096L)
                     .addMultipleConsumeMana(12L);
+            new ShapedOre(this, ShapedDrive.get(0), ore.manaLevel)
+                    .addInItem(ore.blockMap.get(OreBlock.bracket).blockItemTag(), 6)
+                    .addInItem(ore.itemMap.get(OreItem.casing).itemTag(), 6)
+                    .addInItem(ore.itemMap.get(OreItem.string).itemTag(), 128)
+                    .addOutItem(new ItemStack(ore.blockMap.get(OreBlock.coil).blockItem(), 1), 1d)
+                    .addMultipleSurplusTime(8192L)
+                    .addMultipleConsumeMana(22L);
         }
         for (ManaLevel manaLevel : ManaLevel.LEVEL.get()) {
             for (Map.Entry<ManaLevelBlock, BlockPack> entry : manaLevel.blockMap.entrySet()) {
-                if (entry.getKey().hasSet(ManaLevelBlock.MECHANIC_UP_DATA) && manaLevel.up != null) {
-                    new ShapedOre(this, ShapedDrive.get(1), manaLevel.up.get())
-                            .addInItem(manaLevel.up.get().blockMap.get(entry.getKey()).blockItemTag(), 1)
-                            .addInItem(manaLevel.blockMap.get(ManaLevelBlock.frameBasic).blockItemTag(), 1)
-                            .addOutItem(new ItemStack(entry.getValue().blockItem(), 1), 1d)
-                            .runThis(ManaLevelBlock.MECHANIC_UP_DATA, entry.getKey(), manaLevel)
-                            .addMultipleSurplusTime(4096L * manaLevel.level)
-                            .addMultipleConsumeMana(32L * manaLevel.level);
-                }
                 if (entry.getKey().hasSet(ManaLevelBlock.MECHANIC_MAKE_DATA)) {
-                    new ShapedOre(this, ShapedDrive.get(2), manaLevel)
+                    ManaLevelBlock.ManaLevelMakeData manaLevelMakeData = entry.getKey().getSet(ManaLevelBlock.MECHANIC_MAKE_DATA);
+                    ManaLevel level = switch (manaLevelMakeData.makeLevel) {
+                        case UP ->
+                                manaLevel.up != null ? manaLevel.up.get() : manaLevelMakeData.isMustRegister ? ManaLevel.t1 : null;
+                        case CURRENT -> manaLevel;
+                        case NEXT ->
+                                manaLevel.next != null ? manaLevel.next.get() : manaLevelMakeData.isMustRegister ? ManaLevel.t8 : null;
+                    };
+                    if (level == null) {
+                        continue;
+                    }
+                    new ShapedOre(this, ShapedDrive.get(2), level)
                             .addInItem(manaLevel.blockMap.get(ManaLevelBlock.frameBasic).blockItemTag(), 1)
                             .addOutItem(new ItemStack(entry.getValue().blockItem(), 1), 1d)
                             .runThis(ManaLevelBlock.MECHANIC_MAKE_DATA, entry.getKey(), manaLevel)

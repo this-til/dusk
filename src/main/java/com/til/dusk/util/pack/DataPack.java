@@ -12,6 +12,7 @@ import net.minecraft.world.level.material.Fluid;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class DataPack<T extends DataPack<?, OTHER_DATA>, OTHER_DATA> implements GenericMap.IGenericMapSupplier {
 
@@ -41,11 +42,19 @@ public class DataPack<T extends DataPack<?, OTHER_DATA>, OTHER_DATA> implements 
         }
     }
 
-    public <V> T setSet(GenericMap.IKey<V> key, V v) {
+    public <V> T setSet(GenericMap.IKey<V> key, Supplier<V> v) {
         if (genericMap == null) {
             genericMap = new GenericMap();
         }
-        genericMap.put(key, v);
+        genericMap.set(key, v);
+        return Util.forcedConversion(this);
+    }
+
+    public T setSet(GenericMap.IKey<Void> key) {
+        if (genericMap == null) {
+            genericMap = new GenericMap();
+        }
+        genericMap.set(key, (Void) null);
         return Util.forcedConversion(this);
     }
 

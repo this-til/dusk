@@ -95,6 +95,16 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
     public static MetalOreItem string;
 
     /***
+     * 齿轮
+     */
+    public static MetalOreItem gear;
+
+    /***
+     * 转子
+     */
+    public static MetalOreItem rotor;
+
+    /***
      * 粒
      */
     public static MetalOreItem nuggets;
@@ -210,6 +220,8 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
         stick = new MetalOreItem("stick");
         stick_long = new MetalOreItem("stick_long");
         string = new MetalOreItem("string");
+        gear = new MetalOreItem("gear");
+        rotor = new MetalOreItem("rotor");
         nuggets = new MetalOreItem("nuggets");
         damagedCrystal = new CrystaOreItem("crystal_damaged");
         crystal = new CrystaOreItem("crystal");

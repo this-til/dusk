@@ -48,6 +48,14 @@ public abstract class OreBlock extends RegisterBasics.BlockUnitRegister<OreBlock
      */
     public static OreBlock bracket;
 
+    /***
+     * 线圈
+     */
+    public static OreBlock coil;
+
+    /***
+     * 快
+     */
     public static DecorateOreBlock block;
 
     /***
@@ -184,6 +192,26 @@ public abstract class OreBlock extends RegisterBasics.BlockUnitRegister<OreBlock
             @Override
             public void dyeBlack(Ore ore, ColorProxy.BlockColorPack itemColorPack) {
                 itemColorPack.addColor(0, (blockState, blockAndTintGetter, blockPos) -> ore.color);
+            }
+        };
+        coil = new DecorateOreBlock("coil") {
+            @Override
+            public @Nullable BlockPack create(Ore ore) {
+                if (ore.hasSet(Ore.IS_METAL)) {
+                    return super.create(ore);
+                }
+                return null;
+            }
+
+            @Override
+            public @Nullable Block createBlock(Ore ore) {
+                Block block = new Block(BlockBehaviour.Properties.of(Material.STONE)
+                        .strength((float) (1.3f * ore.strength), (float) (2.6f * ore.strength))
+                        .requiresCorrectToolForDrops()
+                        .sound(SoundType.STONE));
+                BlockTag.addTag(BlockTags.MINEABLE_WITH_PICKAXE, block);
+                BlockTag.addTag(BlockTags.NEEDS_STONE_TOOL, block);
+                return block;
             }
         };
         block = new DecorateOreBlock("block") {

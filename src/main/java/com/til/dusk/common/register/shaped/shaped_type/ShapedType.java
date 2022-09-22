@@ -120,6 +120,11 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
     public static AssembleShapedType assemble;
 
     /***
+     * 封装
+     */
+    public static EncapsulationShapedType encapsulation;
+
+    /***
      * 晶体组装
      */
     public static CrystalAssembleShapedType crystalAssemble;
@@ -254,6 +259,7 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
         blastFurnace = new BlastFurnaceShapedType();
         crystallizing = new CrystallizingShapedType();
         assemble = new AssembleShapedType();
+        encapsulation = new EncapsulationShapedType();
         crystalAssemble = new CrystalAssembleShapedType();
         distillation = new DistillationShapedType();
         dissolution = new DissolutionShapedType();

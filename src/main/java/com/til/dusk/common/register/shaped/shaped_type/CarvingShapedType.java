@@ -22,7 +22,7 @@ public class CarvingShapedType extends ShapedType {
     public void registerShaped() {
         for (ManaLevel manaLevel : ManaLevel.LEVEL.get()) {
             if (manaLevel.hasSet(ManaLevel.OPERATION_BASICS)) {
-                DataPack.ManaLevelDataPack manaLevelDataPack = manaLevel.getSet(ManaLevel.OPERATION_BASICS).get();
+                DataPack.ManaLevelDataPack manaLevelDataPack = manaLevel.getSet(ManaLevel.OPERATION_BASICS);
                 if (manaLevel.up != null) {
                     new ShapedOre(this, ShapedDrive.get(0), manaLevel)
                             .addInItem(manaLevel.getRelationTagPack(OreItem.crystal).itemTagKey(), 1)

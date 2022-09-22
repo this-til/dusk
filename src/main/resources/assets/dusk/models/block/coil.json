@@ -1,0 +1,18 @@
+{
+  "parent": "dusk:block/cube_ore",
+  "textures": {
+    "down0": "dusk:block/black",
+    "up0": "dusk:block/black",
+    "north0": "dusk:block/black",
+    "east0": "dusk:block/black",
+    "south0": "dusk:block/black",
+    "west0": "dusk:block/black",
+    "down1": "dusk:block/coil_1",
+    "up1": "dusk:block/coil_1",
+    "north1": "dusk:block/coil_0",
+    "east1": "dusk:block/coil_0",
+    "south1": "dusk:block/coil_0",
+    "west1": "dusk:block/coil_0",
+    "particle": "dusk:block/coil_0"
+  }
+}

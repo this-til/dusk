@@ -100,8 +100,13 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> implements Gen
         }
     }
 
-    public <V> T setSet(GenericMap.IKey<V> key, V v) {
+    public <V> T setSet(GenericMap.IKey<V> key, Supplier<V> v) {
         setMap.set(key, v);
+        return Util.forcedConversion(this);
+    }
+
+    public T setSet(GenericMap.IKey<Void> key) {
+        setMap.set(key,(Void) null);
         return Util.forcedConversion(this);
     }
 

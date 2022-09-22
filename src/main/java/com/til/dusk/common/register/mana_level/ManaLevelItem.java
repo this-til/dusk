@@ -135,7 +135,7 @@ public class ManaLevelItem extends RegisterBasics.ItemUnitRegister<ManaLevelItem
                     Item item = new Item(new Item.Properties().tab(Dusk.TAB)) {
                         @Override
                         public @NotNull Component getName(@NotNull ItemStack stack) {
-                            return Lang.getLang(Lang.getLang(manaLevel), Component.translatable(Lang.getKey(name)), Lang.getLang(Lang.getKey(INTEGRATE)));
+                            return Lang.getLang(Lang.getLang(manaLevel), Component.translatable(Lang.getKey(ManaLevelItemPack.this.name)), Lang.getLang(Lang.getKey(INTEGRATE)));
                         }
                     };
                     assert manaLevel.up != null;
@@ -161,7 +161,7 @@ public class ManaLevelItem extends RegisterBasics.ItemUnitRegister<ManaLevelItem
                     Item item = new Item(new Item.Properties().tab(Dusk.TAB)) {
                         @Override
                         public @NotNull Component getName(@NotNull ItemStack stack) {
-                            return Lang.getLang(Lang.getLang(manaLevel), Component.translatable(Lang.getKey(name)), Lang.getLang(Lang.getKey(PROCESSOR)));
+                            return Lang.getLang(Lang.getLang(manaLevel), Component.translatable(Lang.getKey(ManaLevelItemPack.this.name)), Lang.getLang(Lang.getKey(PROCESSOR)));
                         }
                     };
                     DelayTrigger.addRun(DelayTrigger.TAG, () -> ItemTag.addTag(getTag(manaLevel), item));
@@ -194,7 +194,7 @@ public class ManaLevelItem extends RegisterBasics.ItemUnitRegister<ManaLevelItem
                     Item item = new Item(new Item.Properties().tab(Dusk.TAB)) {
                         @Override
                         public @NotNull Component getName(@NotNull ItemStack stack) {
-                            return Lang.getLang(Lang.getLang(manaLevel), Component.translatable(Lang.getKey(name)), Lang.getLang(Lang.getKey(HOST)));
+                            return Lang.getLang(Lang.getLang(manaLevel), Component.translatable(Lang.getKey(ManaLevelItemPack.this.name)), Lang.getLang(Lang.getKey(HOST)));
                         }
                     };
                     assert manaLevel.next != null;

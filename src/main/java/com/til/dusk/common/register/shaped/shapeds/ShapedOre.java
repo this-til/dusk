@@ -54,7 +54,7 @@ public class ShapedOre extends ShapedMiddle {
         this.outFluid = new HashMap<>();
     }
 
-    public ShapedOre(ResourceLocation name, JsonObject jsonObject)  {
+    public ShapedOre(ResourceLocation name, JsonObject jsonObject) {
         super(name, jsonObject);
         if (AllNBTPack.ITEM_IN_MAP.contains(jsonObject)) {
             item = AllNBTPack.ITEM_IN_MAP.get(jsonObject);
@@ -311,9 +311,9 @@ public class ShapedOre extends ShapedMiddle {
         return this;
     }
 
-    public <OTHER_DATA> ShapedOre runThis(GenericMap.IKey<? extends Supplier<? extends DataPack<?, OTHER_DATA>>> key, GenericMap.IGenericMapSupplier supplier, OTHER_DATA otherData) {
+    public <OTHER_DATA> ShapedOre runThis(GenericMap.IKey<? extends DataPack<?, OTHER_DATA>> key, GenericMap.IGenericMapSupplier supplier, OTHER_DATA otherData) {
         if (supplier.hasSet(key)) {
-            supplier.getSet(key).get().run(this, otherData);
+            supplier.getSet(key).run(this, otherData);
         }
         return this;
     }
