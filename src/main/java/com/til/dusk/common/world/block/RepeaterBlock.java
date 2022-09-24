@@ -1,7 +1,7 @@
 package com.til.dusk.common.world.block;
 
 import com.til.dusk.common.capability.tile_entity.RepeaterTileEntity;
-import com.til.dusk.common.register.TileEntityRegister;
+import com.til.dusk.common.register.other.TileEntityRegister;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

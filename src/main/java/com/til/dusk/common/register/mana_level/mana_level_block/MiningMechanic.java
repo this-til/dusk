@@ -8,7 +8,7 @@ import com.til.dusk.common.capability.control.Control;
 import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.capability.pos.IPosTrack;
 import com.til.dusk.common.event.EventIO;
-import com.til.dusk.common.register.BindType;
+import com.til.dusk.common.register.other.BindType;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.util.Extension;

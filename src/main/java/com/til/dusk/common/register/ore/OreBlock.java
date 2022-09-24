@@ -1,21 +1,28 @@
 package com.til.dusk.common.register.ore;
 
+import com.mojang.serialization.Codec;
 import com.til.dusk.Dusk;
 import com.til.dusk.client.ColorProxy;
 import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.world.block.ModBlock;
+import com.til.dusk.util.Extension;
 import com.til.dusk.util.Lang;
 import com.til.dusk.common.data.tag.BlockTag;
 import com.til.dusk.util.pack.BlockPack;
 import com.til.dusk.util.prefab.JsonPrefab;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -26,6 +33,8 @@ import net.minecraftforge.registries.RegistryBuilder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Supplier;
 
 /**
@@ -357,7 +366,167 @@ public abstract class OreBlock extends RegisterBasics.BlockUnitRegister<OreBlock
     }
 
     public static class MineralBlockData {
+        public final Ore ore;
 
+        public MineralBlockData(Ore ore) {
+            this.ore = ore;
+        }
+
+        @Nullable
+        public List<OreGenerateData> oreGenerateDataList;
+
+        public MineralBlockData addOreGenerateData(OreGenerateData oreGenerateData) {
+            if (oreGenerateDataList == null) {
+                oreGenerateDataList = new ArrayList<>();
+            }
+            oreGenerateDataList.add(oreGenerateData.setOre(ore).setId(oreGenerateData.amount));
+            return this;
+        }
+
+        /***
+         * 添加通用生成数据
+         */
+        public MineralBlockData addCurrencyGenerateData(int amount, int inChunkAmount) {
+            return addOreGenerateData(new OreGenerateData()
+                    .setAmount(amount)
+                    .setAmount(inChunkAmount)
+                    .setPlace((blockPos, level, blockState) -> {
+                        Block inBlock = blockState.getBlock();
+                        if (inBlock.equals(Blocks.STONE)) {
+                            return ore.blockMap.get(lordWorld).block().defaultBlockState();
+                        }
+                        if (inBlock.equals(Blocks.DEEPSLATE)) {
+                            return ore.blockMap.get(lordWorldDeepslate).block().defaultBlockState();
+                        }
+                        if (inBlock.equals(Blocks.DIRT)) {
+                            return ore.blockMap.get(lordWorldDirt).block().defaultBlockState();
+                        }
+                        if (inBlock.equals(Blocks.GRAVEL)) {
+                            return ore.blockMap.get(lordWorldGravel).block().defaultBlockState();
+                        }
+                        if (inBlock.equals(Blocks.NETHERITE_BLOCK)) {
+                            return ore.blockMap.get(netherWorldNetherrack).block().defaultBlockState();
+                        }
+                        if (inBlock.equals(Blocks.END_STONE)) {
+                            return ore.blockMap.get(endWorldEndStone).block().defaultBlockState();
+                        }
+                        return null;
+
+                    }));
+        }
+
+        @Nullable
+        public OreGenerateData getOreGenerateDataByID(int id) {
+            if (oreGenerateDataList == null) {
+                return null;
+            }
+            for (OreGenerateData oreGenerateData : oreGenerateDataList) {
+                if (oreGenerateData.id == id) {
+                    return oreGenerateData;
+                }
+            }
+            return null;
+        }
+
+    }
+
+    public static class OreGenerateData {
+
+        public Ore ore;
+        public int id = 0;
+
+        /***
+         * 数量，单次生成的数量
+         */
+        public int amount = 12;
+
+        /***
+         * 一区块中生产的数量
+         */
+        public int inChunkAmount = 4;
+
+        /***
+         * 最高高度
+         */
+        public int maxHeight = 128;
+
+        /***
+         * 最低高度
+         */
+        public int minHeight = -64;
+
+        /***
+         * 筛选世界
+         */
+        @Nullable
+        public Extension.Func_1I<Level, Boolean> canInLevel;
+
+        /***
+         * 可以在某生物群系生成
+         */
+        @Nullable
+        public Extension.Func_1I<Biome, Boolean> canInBiome;
+
+        /***
+         * 能够放置在某方块群中
+         */
+        @Nullable
+        public Extension.Func_1I<BlockState, Boolean> canPlace;
+
+        /***
+         * 获取放置方块
+         */
+        public Extension.Func_3I<BlockPos, Level, BlockState, BlockState> place = (blockPos, level, blockState) -> Blocks.AIR.defaultBlockState();
+
+        public OreGenerateData setAmount(int amount) {
+            this.amount = amount;
+            return this;
+        }
+
+        public OreGenerateData setInChunkAmount(int inChunkAmount) {
+            this.inChunkAmount = inChunkAmount;
+            return this;
+        }
+
+        public OreGenerateData setMaxHeight(int maxHeight) {
+            this.maxHeight = maxHeight;
+            return this;
+        }
+
+        public OreGenerateData setMinHeight(int minHeight) {
+            this.minHeight = minHeight;
+            return this;
+        }
+
+        public OreGenerateData setCanInLevel(Extension.Func_1I<Level, Boolean> canInLevel) {
+            this.canInLevel = canInLevel;
+            return this;
+        }
+
+        public OreGenerateData setCanInBiome(Extension.Func_1I<Biome, Boolean> canInBiome) {
+            this.canInBiome = canInBiome;
+            return this;
+        }
+
+        public OreGenerateData setCanPlace(Extension.Func_1I<BlockState, Boolean> canPlace) {
+            this.canPlace = canPlace;
+            return this;
+        }
+
+        public OreGenerateData setPlace(Extension.Func_3I<BlockPos, Level, BlockState, BlockState> place) {
+            this.place = place;
+            return this;
+        }
+
+        public OreGenerateData setOre(Ore ore) {
+            this.ore = ore;
+            return this;
+        }
+
+        public OreGenerateData setId(int id) {
+            this.id = id;
+            return this;
+        }
     }
 
     /***
@@ -382,7 +551,11 @@ public abstract class OreBlock extends RegisterBasics.BlockUnitRegister<OreBlock
     }
 
     public static class DecorateBlockData {
+        public final Ore ore;
 
+        public DecorateBlockData(Ore ore) {
+            this.ore = ore;
+        }
     }
 
 }

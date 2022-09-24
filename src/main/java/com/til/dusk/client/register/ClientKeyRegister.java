@@ -3,7 +3,7 @@ package com.til.dusk.client.register;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.til.dusk.Dusk;
 import com.til.dusk.common.register.key.KeyRegister;
-import com.til.dusk.common.register.MessageRegister;
+import com.til.dusk.common.register.other.MessageRegister;
 import com.til.dusk.common.register.RegisterBasics;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.resources.ResourceLocation;

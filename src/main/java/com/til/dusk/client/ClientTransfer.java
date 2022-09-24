@@ -2,7 +2,7 @@ package com.til.dusk.client;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.client.register.ClientParticleRegister;
-import com.til.dusk.common.register.ParticleRegister;
+import com.til.dusk.common.register.other.ParticleRegister;
 import com.til.dusk.util.Extension;
 import com.til.dusk.util.Pos;
 import com.til.dusk.util.RoutePack;

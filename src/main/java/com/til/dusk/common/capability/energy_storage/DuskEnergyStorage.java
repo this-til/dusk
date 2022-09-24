@@ -2,7 +2,7 @@ package com.til.dusk.common.capability.energy_storage;
 
 import com.til.dusk.common.capability.ITooltipCapability;
 import com.til.dusk.common.capability.black.IBack;
-import com.til.dusk.common.register.CapabilityRegister;
+import com.til.dusk.common.register.other.CapabilityRegister;
 import com.til.dusk.util.Lang;
 import com.til.dusk.util.nbt.pack.AllNBTPack;
 import com.til.dusk.util.tooltip_pack.IComponentPack;

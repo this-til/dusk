@@ -8,7 +8,7 @@ import com.til.dusk.common.capability.clock.IClock;
 import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.capability.pos.IPosTrack;
 import com.til.dusk.common.capability.DuskCapabilityProvider;
-import com.til.dusk.common.register.CapabilityRegister;
+import com.til.dusk.common.register.other.CapabilityRegister;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.util.Extension;
 import net.minecraft.core.BlockPos;

@@ -2,7 +2,6 @@ package com.til.dusk.common.register;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.client.ColorProxy;
-import com.til.dusk.common.data.ModData;
 import com.til.dusk.common.data.tag.BlockTag;
 import com.til.dusk.common.data.tag.FluidTag;
 import com.til.dusk.common.data.tag.ItemTag;
@@ -23,12 +22,10 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.*;
-import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
-import net.minecraftforge.registries.RegisterEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -56,48 +53,29 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> implements Gen
      */
     protected final GenericMap setMap = new GenericMap();
 
-    /***
-     * 时候注册
-     */
-    protected boolean isRegister;
-
-    /***
-     * 时候注册回调
-     */
-    protected boolean isRegisterSubsidiary;
 
     public RegisterBasics(ResourceLocation name, Supplier<IForgeRegistry<T>> registrySupplier) {
         this.name = name;
         this.registrySupplier = registrySupplier;
-        Dusk.instance.modEventBus.addListener(EventPriority.HIGH, this::registerEvent);
-        Dusk.instance.modEventBus.addListener(getRegisterBlackPriority(), this::registerSubsidiary);
+        RegisterManage.ALL_REGISTER_BASICS.add(this);
     }
 
-    public void registerEvent(RegisterEvent event) {
-        if (!isRegister) {
-            isRegister = true;
-            registrySupplier.get().register(name, Util.forcedConversion(this));
-        }
+    public void registerThis(){
+        registrySupplier.get().register(name, Util.forcedConversion(this));
     }
 
     /***
-     * 注册回调
-     * @param event 注册事件
+     * 注册回调的触发事件
      */
-    public void registerSubsidiary(RegisterEvent event) {
-        if (!isRegisterSubsidiary) {
-            isRegisterSubsidiary = true;
-            try {
-                for (Object value : setMap.values()) {
-                    if (value instanceof IBackRun iBackRun) {
-                        iBackRun.backRun();
-                    }
-                }
-                registerSubsidiaryBlack();
-            } catch (Exception assertionError) {
-                Dusk.instance.logger.error(String.format("注册项目[%s]出错", name), assertionError);
-            }
-        }
+    public void registerBack() {
+
+    }
+
+    /***
+     * 第二次回调
+     */
+    public void registerBlackToBack(){
+
     }
 
     public <V> T setSet(GenericMap.IKey<V> key, Supplier<V> v) {
@@ -106,7 +84,7 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> implements Gen
     }
 
     public T setSet(GenericMap.IKey<Void> key) {
-        setMap.set(key,(Void) null);
+        setMap.set(key, (Void) null);
         return Util.forcedConversion(this);
     }
 
@@ -120,19 +98,6 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> implements Gen
         return setMap.containsKey(key);
     }
 
-    /***
-     * 注册回调的触发事件
-     */
-    public void registerSubsidiaryBlack() {
-    }
-
-    /***
-     * 返回注册回调的触发时间
-     * @return 时间
-     */
-    public EventPriority getRegisterBlackPriority() {
-        return EventPriority.LOW;
-    }
 
     @Override
     public int hashCode() {
@@ -404,7 +369,7 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> implements Gen
         }
 
         @Override
-        public void registerSubsidiaryBlack() {
+        public void registerBack() {
             for (ITEM item : getCellRegistry().item().get()) {
                 ItemPack itemPack = item.create(Util.forcedConversion(this));
                 if (itemPack == null) {

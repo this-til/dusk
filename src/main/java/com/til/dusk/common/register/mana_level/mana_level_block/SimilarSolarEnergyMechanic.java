@@ -6,7 +6,7 @@ import com.til.dusk.common.capability.CapabilityHelp;
 import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.capability.mana_handle.IManaHandle;
 import com.til.dusk.common.capability.pos.IPosTrack;
-import com.til.dusk.common.register.BindType;
+import com.til.dusk.common.register.other.BindType;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.world.block.ModBlock;
 import com.til.dusk.util.DuskColor;

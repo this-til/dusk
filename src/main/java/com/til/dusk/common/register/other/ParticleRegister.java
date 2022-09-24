@@ -1,7 +1,8 @@
-package com.til.dusk.common.register;
+package com.til.dusk.common.register.other;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.common.event.EventIO;
+import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.Pos;
 import com.til.dusk.util.RoutePack;
@@ -93,7 +94,7 @@ public class ParticleRegister extends RegisterBasics<ParticleRegister> {
             final Random random = new Random();
 
             @Override
-            public void registerSubsidiaryBlack() {
+            public void registerBack() {
                 MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, (Consumer<EventIO.Mana>) event -> {
                     if (event.routePack.isEmpty()) {
                         return;
@@ -119,7 +120,7 @@ public class ParticleRegister extends RegisterBasics<ParticleRegister> {
         };
         itemTransfer = new ParticleRegister("item_transfer") {
             @Override
-            public void registerSubsidiaryBlack() {
+            public void registerBack() {
                 MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, (Consumer<EventIO.Item>) event -> {
                     if (event.routePack.isEmpty()) {
                         return;
@@ -145,7 +146,7 @@ public class ParticleRegister extends RegisterBasics<ParticleRegister> {
         fluidTransfer = new ParticleRegister("fluid_transfer") {
 
             @Override
-            public void registerSubsidiaryBlack() {
+            public void registerBack() {
                 MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, (Consumer<EventIO.Fluid>) event -> {
                     if (event.routePack.isEmpty()) {
                         return;

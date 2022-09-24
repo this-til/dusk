@@ -1,7 +1,7 @@
 package com.til.dusk.common.capability.shaped_drive;
 
 import com.til.dusk.common.capability.ITooltipCapability;
-import com.til.dusk.common.register.CapabilityRegister;
+import com.til.dusk.common.register.other.CapabilityRegister;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.util.Lang;
 import com.til.dusk.util.tooltip_pack.IComponentPack;

@@ -294,10 +294,10 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
         this(new ResourceLocation(Dusk.MOD_ID, name), manaLevelBlockSupplier);
     }
 
-    @Override
+    /*@Override
     public EventPriority getRegisterBlackPriority() {
         return EventPriority.LOWEST;
-    }
+    }*/
 
     public abstract void registerShaped();
 }

@@ -1,8 +1,9 @@
-package com.til.dusk.common.register;
+package com.til.dusk.common.register.other;
 
 import com.google.gson.Gson;
 import com.til.dusk.Dusk;
 import com.til.dusk.client.ClientTransfer;
+import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.register.key.KeyRegister;
 import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.Pos;
@@ -170,7 +171,7 @@ public abstract class MessageRegister<MSG> extends RegisterBasics<MessageRegiste
     }
 
     @Override
-    public void registerSubsidiaryBlack() {
+    public void registerBack() {
         INSTANCE.registerMessage(id, msgClass, this::encoder, this::decoder, this::messageConsumer);
     }
 

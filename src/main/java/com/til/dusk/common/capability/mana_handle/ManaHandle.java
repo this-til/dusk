@@ -1,7 +1,7 @@
 package com.til.dusk.common.capability.mana_handle;
 
 import com.til.dusk.common.capability.black.IBack;
-import com.til.dusk.common.register.CapabilityRegister;
+import com.til.dusk.common.register.other.CapabilityRegister;
 import com.til.dusk.util.Lang;
 import com.til.dusk.util.tooltip_pack.IComponentPack;
 import com.til.dusk.util.nbt.pack.AllNBTPack;

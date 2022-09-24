@@ -10,7 +10,7 @@ import com.til.dusk.common.capability.mana_handle.VariableManaHandle;
 import com.til.dusk.common.capability.DuskCapabilityProvider;
 import com.til.dusk.common.capability.IItemDefaultCapability;
 import com.til.dusk.common.data.tag.ItemTag;
-import com.til.dusk.common.register.CapabilityRegister;
+import com.til.dusk.common.register.other.CapabilityRegister;
 import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.register.skill.Skill;
 import com.til.dusk.common.world.item.*;

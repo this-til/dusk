@@ -6,7 +6,7 @@ import com.google.gson.JsonPrimitive;
 import com.til.dusk.Dusk;
 import com.til.dusk.common.capability.skill.ISkill;
 import com.til.dusk.common.capability.handle.ShapedHandle;
-import com.til.dusk.common.register.BindType;
+import com.til.dusk.common.register.other.BindType;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.ShapedHandleProcess;

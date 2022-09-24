@@ -1,4 +1,4 @@
-package com.til.dusk.common.register;
+package com.til.dusk.common.register.other;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.common.capability.ITooltipCapability;
@@ -14,6 +14,7 @@ import com.til.dusk.common.capability.mana_level.IManaLevel;
 import com.til.dusk.common.capability.pos.IPosTrack;
 import com.til.dusk.common.capability.shaped_drive.IShapedDrive;
 import com.til.dusk.common.event.EventIO;
+import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.util.Pos;
 import com.til.dusk.util.tooltip_pack.ComponentPack;
 import com.til.dusk.util.Util;

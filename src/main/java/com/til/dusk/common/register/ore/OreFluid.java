@@ -3,6 +3,7 @@ package com.til.dusk.common.register.ore;
 import com.til.dusk.Dusk;
 import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.util.Lang;
+import com.til.dusk.util.pack.FluidPack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -44,6 +45,14 @@ public class OreFluid extends RegisterBasics.FluidUnitRegister<OreFluid, Ore> {
     public ResourceLocation flowingTexture = FLOWING_TEXTURE;
     public ResourceLocation overlayTexture = OVERLAY_TEXTURE;
     public ResourceLocation renderOverlayTexture = RENDER_OVERLAY_TEXTURE;
+
+    @Override
+    public FluidPack create(Ore ore) {
+        if (ore.hasSet(Ore.FLUID_DATA)) {
+            return super.create(ore);
+        }
+        return null;
+    }
 
     @Override
     public FluidType createFluidType(Ore ore) {
@@ -122,5 +131,10 @@ public class OreFluid extends RegisterBasics.FluidUnitRegister<OreFluid, Ore> {
     public static final ResourceLocation RENDER_OVERLAY_TEXTURE = new ResourceLocation("textures/misc/underwater.png");
 
     public static class FluidData {
+        public final Ore ore;
+
+        public FluidData(Ore ore) {
+            this.ore = ore;
+        }
     }
 }

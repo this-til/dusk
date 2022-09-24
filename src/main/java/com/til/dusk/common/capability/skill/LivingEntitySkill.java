@@ -3,7 +3,7 @@ package com.til.dusk.common.capability.skill;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.til.dusk.common.capability.black.IBack;
-import com.til.dusk.common.register.CapabilityRegister;
+import com.til.dusk.common.register.other.CapabilityRegister;
 import com.til.dusk.common.register.skill.Skill;
 import com.til.dusk.util.nbt.pack.AllNBTPack;
 import net.minecraft.nbt.CompoundTag;

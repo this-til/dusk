@@ -2,9 +2,9 @@ package com.til.dusk.common.world.item;
 
 import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.capability.pos.IPosTrack;
-import com.til.dusk.common.register.BindType;
-import com.til.dusk.common.register.CapabilityRegister;
-import com.til.dusk.common.register.ParticleRegister;
+import com.til.dusk.common.register.other.BindType;
+import com.til.dusk.common.register.other.CapabilityRegister;
+import com.til.dusk.common.register.other.ParticleRegister;
 import com.til.dusk.common.register.key.EventKey;
 import com.til.dusk.common.register.key.KeyRegister;
 import com.til.dusk.util.Lang;

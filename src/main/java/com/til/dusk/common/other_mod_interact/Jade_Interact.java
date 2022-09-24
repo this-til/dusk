@@ -3,7 +3,7 @@ package com.til.dusk.common.other_mod_interact;
 import com.til.dusk.Dusk;
 import com.til.dusk.common.capability.tile_entity.DefaultTileEntity;
 import com.til.dusk.common.capability.tile_entity.RepeaterTileEntity;
-import com.til.dusk.common.register.CapabilityRegister;
+import com.til.dusk.common.register.other.CapabilityRegister;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;

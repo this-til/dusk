@@ -1,8 +1,8 @@
 package com.til.dusk.common.capability.control;
 
 import com.til.dusk.common.capability.pos.IPosTrack;
-import com.til.dusk.common.register.BindType;
-import com.til.dusk.common.register.CapabilityRegister;
+import com.til.dusk.common.register.other.BindType;
+import com.til.dusk.common.register.other.CapabilityRegister;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.util.tooltip_pack.IComponentPack;
 import com.til.dusk.util.nbt.pack.AllNBTPack;

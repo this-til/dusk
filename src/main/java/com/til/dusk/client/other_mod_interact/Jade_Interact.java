@@ -1,7 +1,7 @@
 package com.til.dusk.client.other_mod_interact;
 
 import com.til.dusk.Dusk;
-import com.til.dusk.common.register.CapabilityRegister;
+import com.til.dusk.common.register.other.CapabilityRegister;
 import com.til.dusk.common.world.block.MechanicBlock;
 import com.til.dusk.common.world.block.RepeaterBlock;
 import com.til.dusk.util.tooltip_pack.IComponentPack;

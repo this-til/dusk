@@ -2,7 +2,7 @@ package com.til.dusk.common.register.mana_level.mana_level_block;
 
 import com.til.dusk.common.capability.pos.IPosTrack;
 import com.til.dusk.common.capability.DuskCapabilityProvider;
-import com.til.dusk.common.register.CapabilityRegister;
+import com.til.dusk.common.register.other.CapabilityRegister;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.world.block.MechanicBlock;
 import net.minecraft.resources.ResourceLocation;

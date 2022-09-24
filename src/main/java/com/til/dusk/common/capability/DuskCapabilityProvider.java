@@ -7,7 +7,7 @@ import com.til.dusk.common.capability.skill.LivingEntitySkill;
 import com.til.dusk.common.capability.mana_handle.LivingEntityManaHandle;
 import com.til.dusk.common.capability.pos.IPosTrack;
 import com.til.dusk.common.capability.tile_entity.ITileEntityType;
-import com.til.dusk.common.register.CapabilityRegister;
+import com.til.dusk.common.register.other.CapabilityRegister;
 import com.til.dusk.util.Util;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;

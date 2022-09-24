@@ -5,7 +5,7 @@ import com.til.dusk.common.capability.pos.IPosTrack;
 import com.til.dusk.common.capability.DuskCapabilityProvider;
 import com.til.dusk.common.data.tag.BlockTag;
 import com.til.dusk.common.data.tag.ItemTag;
-import com.til.dusk.common.register.CapabilityRegister;
+import com.til.dusk.common.register.other.CapabilityRegister;
 import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.world.block.MechanicBlock;
@@ -70,7 +70,7 @@ public class ShapedDrive extends RegisterBasics<ShapedDrive> {
 
 
     @Override
-    public void registerSubsidiaryBlack() {
+    public void registerBack() {
         Block block = new MechanicBlock(ManaLevel.t1) {
             @Override
             public void add(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability, IPosTrack iPosTrack) {

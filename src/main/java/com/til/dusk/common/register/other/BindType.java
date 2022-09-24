@@ -1,10 +1,11 @@
-package com.til.dusk.common.register;
+package com.til.dusk.common.register.other;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.capability.mana_handle.IManaHandle;
 import com.til.dusk.common.capability.pos.IPosTrack;
 import com.til.dusk.common.capability.shaped_drive.IShapedDrive;
+import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.Lang;
 import net.minecraft.network.chat.Component;

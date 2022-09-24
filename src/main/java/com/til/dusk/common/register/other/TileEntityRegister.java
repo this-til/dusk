@@ -1,10 +1,11 @@
-package com.til.dusk.common.register;
+package com.til.dusk.common.register.other;
 
 import com.mojang.datafixers.types.Type;
 import com.til.dusk.Dusk;
 import com.til.dusk.common.capability.tile_entity.DefaultTileEntity;
 import com.til.dusk.common.capability.tile_entity.ITileEntityType;
 import com.til.dusk.common.capability.tile_entity.RepeaterTileEntity;
+import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.world.block.RepeaterBlock;
@@ -42,7 +43,7 @@ public abstract class TileEntityRegister<T extends BlockEntity> extends Register
         TILE_ENTITY_REGISTER = event.create(new RegistryBuilder<TileEntityRegister<?>>().setName(new ResourceLocation(Dusk.MOD_ID, "tile_entity_register")));
         defaultTileEntityRegister = new TileEntityRegister<>("default_tile_entity_register") {
             @Override
-            public void registerSubsidiaryBlack() {
+            public void registerBlackToBack() {
                 ManaLevel.LEVEL.get().forEach(l -> l.blockMap.forEach((k, v) -> {
                     if (v.block() instanceof ITileEntityType iTileEntityType) {
                         BlockEntityType.Builder<DefaultTileEntity> builder = BlockEntityType.Builder.of((blockPos, blockState) ->
@@ -69,7 +70,7 @@ public abstract class TileEntityRegister<T extends BlockEntity> extends Register
         };
         repeaterTileEntityRegister = new TileEntityRegister<>("repeater_tile_entity_register") {
             @Override
-            public void registerSubsidiaryBlack() {
+            public void registerBlackToBack() {
                 ManaLevel.LEVEL.get().forEach(l -> l.blockMap.forEach((k, v) -> {
                     if (v.block() instanceof RepeaterBlock repeaterBlock) {
                         BlockEntityType.Builder<RepeaterTileEntity> builder = BlockEntityType.Builder.of((blockPos, blockState) ->
@@ -99,10 +100,10 @@ public abstract class TileEntityRegister<T extends BlockEntity> extends Register
      * 在此注册实体方块类型
      */
     @Override
-    public abstract void registerSubsidiaryBlack();
+    public abstract void registerBlackToBack();
 
-    @Override
+    /*@Override
     public EventPriority getRegisterBlackPriority() {
         return EventPriority.LOWEST;
-    }
+    }*/
 }

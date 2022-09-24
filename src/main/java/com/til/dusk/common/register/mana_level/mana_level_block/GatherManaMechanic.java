@@ -5,7 +5,7 @@ import com.til.dusk.common.capability.black.Back;
 import com.til.dusk.common.capability.black.IBack;
 import com.til.dusk.common.capability.mana_handle.ManaHandle;
 import com.til.dusk.common.capability.pos.IPosTrack;
-import com.til.dusk.common.register.CapabilityRegister;
+import com.til.dusk.common.register.other.CapabilityRegister;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.event.AttachCapabilitiesEvent;

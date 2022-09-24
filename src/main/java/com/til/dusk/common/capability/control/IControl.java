@@ -3,7 +3,7 @@ package com.til.dusk.common.capability.control;
 
 import com.til.dusk.common.capability.ITooltipCapability;
 import com.til.dusk.common.capability.pos.IPosTrack;
-import com.til.dusk.common.register.BindType;
+import com.til.dusk.common.register.other.BindType;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
