@@ -18,6 +18,7 @@ import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.BulkSectionAccess;
+import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.chunk.LevelChunkSection;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
@@ -154,21 +155,19 @@ public class CurrencyOreFeature extends Feature<CurrencyOreFeatureConfiguration>
                                                         int sectionY = SectionPos.sectionRelative(y);
                                                         int sectionZ = SectionPos.sectionRelative(z);
                                                         BlockState state = section.getBlockState(sectionX, sectionY, sectionZ);
-                                                        for (CurrencyOreFeatureDataConfiguration configuration : config.list()) {
-                                                            OreBlock.OreGenerateData oreGenerateData = configuration.generateData();
-                                                            if (oreGenerateData.canInLevel != null && !oreGenerateData.canInLevel.func(level)) {
-                                                                break;
-                                                            }
-                                                            BlockPos blockPos = new BlockPos(sectionX, sectionY, sectionZ);
-                                                            if (oreGenerateData.canInBiome != null && !oreGenerateData.canInBiome.func(world.getBiome(blockPos).get())) {
-                                                                break;
-                                                            }
-                                                            BlockState pBlock = oreGenerateData.place.func(blockPos, level, state);
-                                                            if (pBlock != null) {
-                                                                section.setBlockState(sectionX, sectionY, sectionZ, pBlock, false);
-                                                                ++i;
-                                                                break;
-                                                            }
+                                                        OreBlock.OreGenerateData oreGenerateData = config.generateData();
+                                                        if (oreGenerateData.canInLevel != null && !oreGenerateData.canInLevel.func(level)) {
+                                                            continue;
+                                                        }
+                                                        BlockPos blockPos = new BlockPos(sectionX, sectionY, sectionZ);
+                                                        if (oreGenerateData.canPlace != null && !oreGenerateData.canPlace.func(state)) {
+                                                            continue;
+                                                        }
+                                                        BlockState pBlock = oreGenerateData.place.func(blockPos, level, state);
+                                                        if (pBlock != null) {
+                                                            section.setBlockState(sectionX, sectionY, sectionZ, pBlock, false);
+                                                            ++i;
+                                                            break;
                                                         }
                                                     }
                                                 }

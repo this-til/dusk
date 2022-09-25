@@ -219,7 +219,6 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
      */
     public static ManaCoagulationShapedType manaCoagulation;
 
-
     /***
      * 干细胞提
      */
@@ -230,6 +229,19 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
      */
     public static CellCultureShapedType cellCulture;
 
+    /***
+     * uu生成
+     */
+    public static UUGenerateShapedType uuGenerate;
+    /***
+     * 质量发生
+     */
+    public static QualityGenerateShapedType qualityGenerate;
+
+    /***
+     * 透析
+     */
+    public static DialysisShapedType dialysis;
 
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
@@ -281,6 +293,8 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
         manaCoagulation = new ManaCoagulationShapedType();
         stemCellExtract = new StemCellExtractShapedType();
         cellCulture = new CellCultureShapedType();
+        uuGenerate = new UUGenerateShapedType();
+        qualityGenerate = new QualityGenerateShapedType();
     }
 
     public final Supplier<ManaLevelBlock> manaLevelBlockSupplier;

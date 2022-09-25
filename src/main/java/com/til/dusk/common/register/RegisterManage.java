@@ -2,11 +2,12 @@ package com.til.dusk.common.register;
 
 import net.minecraft.core.MappedRegistry;
 import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fml.IModLoadingState;
 import net.minecraftforge.fml.IModStateProvider;
 import net.minecraftforge.fml.ModLoadingPhase;
 import net.minecraftforge.fml.ModLoadingState;
-import net.minecraftforge.registries.GameData;
+import net.minecraftforge.registries.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,8 +20,14 @@ import java.util.List;
 public class RegisterManage implements IModStateProvider {
 
     public static final List<RegisterBasics<?>> ALL_REGISTER_BASICS = new ArrayList<>(1024);
-    public static final ModLoadingState REGISTER_IN_MAP = ModLoadingState.withInline("REGISTER_IN_MAP", "CREATE_REGISTRIES", ModLoadingPhase.GATHER, ml -> {
-        Registry.REGISTRY.stream().filter(r -> r instanceof MappedRegistry).forEach(r -> ((MappedRegistry<?>)r).unfreeze());
+    public static final ModLoadingState REGISTER_IN_MAP = ModLoadingState.withInline("REGISTER_IN_MAP", "UNFREEZE_DATA", ModLoadingPhase.GATHER, ml -> {
+        GameData.unfreezeData();
+        for (ResourceLocation vanillaRegistryKey : RegistryManager.getRegistryNamesForSyncToClient()) {
+            ForgeRegistry<?> forgeRegistry = RegistryManager.ACTIVE.getRegistry(vanillaRegistryKey);
+            if (forgeRegistry != null) {
+                forgeRegistry.unfreeze();
+            }
+        }
         for (RegisterBasics<?> allRegisterBasic : ALL_REGISTER_BASICS) {
             allRegisterBasic.registerThis();
         }

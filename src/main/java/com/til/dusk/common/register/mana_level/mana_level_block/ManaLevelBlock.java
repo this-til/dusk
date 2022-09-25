@@ -267,6 +267,21 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
      */
     public static Mechanic cellCulture;
 
+    /***
+     * uu生成
+     */
+    public static Mechanic uuGenerate;
+
+    /***
+     * 质量生成
+     */
+    public static Mechanic qualityGenerate;
+
+    /***
+     * 透析晶体
+     */
+    public static Mechanic dialysis;
+
     //功能
 
     /***
@@ -479,6 +494,9 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
         manaCoagulation = new HandleMechanic("mana_coagulation", () -> List.of(ShapedType.manaCoagulation));
         stemCellExtract = new HandleMechanic("stem_cell_extract", () -> List.of(ShapedType.stemCellExtract));
         cellCulture = new HandleMechanic("cell_culture", () -> List.of(ShapedType.cellCulture));
+        uuGenerate = new HandleMechanic("uu_generate", () -> List.of(ShapedType.uuGenerate));
+        qualityGenerate = new HandleMechanic("quality_generate", () -> List.of(ShapedType.qualityGenerate));
+        dialysis = new HandleMechanic("dialysis", () -> List.of(ShapedType.dialysis));
         voidCase = (VoidCaseMechanic) new VoidCaseMechanic()
                 .setSet(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
                         .addRun((s, m) -> s.addInItem(m.blockMap.get(frameBasic).blockItemTag(), 1))

@@ -2,6 +2,7 @@ package com.til.dusk.common.register.ore;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.common.register.RegisterBasics;
+import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.Lang;
 import com.til.dusk.util.pack.FluidPack;
 import net.minecraft.client.Minecraft;
@@ -35,10 +36,42 @@ public class OreFluid extends RegisterBasics.FluidUnitRegister<OreFluid, Ore> {
      */
     public static OreFluid solution;
 
+    /***
+     * 加入uu的溶液
+     */
+    public static OreFluid joinUUSolution;
+
+    /***
+     * 日耀
+     */
+    public static OreFluidSplitting splittingSunlightSolution;
+
+    /***
+     * 月耀
+     */
+    public static OreFluidSplitting splittingMoonlightSolution;
+
+    /***
+     * 雨灵
+     */
+    public static OreFluidSplitting splittingRainSolution;
+
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
         ORE_FLUID = event.create(new RegistryBuilder<OreFluid>().setName(new ResourceLocation(Dusk.MOD_ID, "ore_fluid")));
         solution = new OreFluid("solution");
+        joinUUSolution = new OreFluid("join_uu_solution") {
+            @Override
+            public FluidPack create(Ore ore) {
+                if (ore.hasSet(Ore.FLUID_DATA) && ore.getSet(Ore.FLUID_DATA).canCopy) {
+                    return super.create(ore);
+                }
+                return null;
+            }
+        };
+        splittingSunlightSolution = new OreFluidSplitting("splitting_sunlight_solution", () -> Ore.sunlight.color);
+        splittingMoonlightSolution = new OreFluidSplitting("splitting_moonlight_solution", () -> Ore.moonlight.color);
+        splittingRainSolution = new OreFluidSplitting("splitting_rain_solution", () -> Ore.rain.color);
     }
 
     public ResourceLocation stillTexture = STILL_TEXTURE;
@@ -70,6 +103,37 @@ public class OreFluid extends RegisterBasics.FluidUnitRegister<OreFluid, Ore> {
     @Override
     public @Nullable BucketItem createBanner(Ore ore, FlowingFluid source) {
         return null;
+    }
+
+    public static class OreFluidSplitting extends OreFluid {
+        public final Supplier<DuskColor> color;
+
+        public OreFluidSplitting(ResourceLocation name, Supplier<DuskColor> color) {
+            super(name);
+            this.color = color;
+        }
+
+        public OreFluidSplitting(String name, Supplier<DuskColor> color) {
+            this(new ResourceLocation(Dusk.MOD_ID, name), color);
+        }
+
+        @Override
+        public FluidPack create(Ore ore) {
+            if (ore.hasSet(Ore.FLUID_DATA) && ore.getSet(Ore.FLUID_DATA).hasSplitting) {
+                return super.create(ore);
+            }
+            return null;
+        }
+
+        @Override
+        public FluidType createFluidType(Ore ore) {
+            return new OreFluidType(FluidType.Properties.create(), ore, this) {
+                @Override
+                public DuskColor getColor() {
+                    return ore.color.blend(color.get());
+                }
+            };
+        }
     }
 
     public static class OreFluidType extends FluidType {
@@ -109,9 +173,13 @@ public class OreFluid extends RegisterBasics.FluidUnitRegister<OreFluid, Ore> {
 
                 @Override
                 public int getTintColor() {
-                    return ore.color.getRGB();
+                    return getColor().getRGB();
                 }
             });
+        }
+
+        public DuskColor getColor() {
+            return ore.color;
         }
 
         @Override
@@ -133,8 +201,28 @@ public class OreFluid extends RegisterBasics.FluidUnitRegister<OreFluid, Ore> {
     public static class FluidData {
         public final Ore ore;
 
+        /***
+         * 能不能被uu复制
+         */
+        public boolean canCopy = false;
+
+        /***
+         * 能够裂解
+         */
+        public boolean hasSplitting = false;
+
         public FluidData(Ore ore) {
             this.ore = ore;
+        }
+
+        public FluidData setCanCopy(boolean canCopy) {
+            this.canCopy = canCopy;
+            return this;
+        }
+
+        public FluidData setHasSplitting(boolean hasSplitting) {
+            this.hasSplitting = hasSplitting;
+            return this;
         }
     }
 }

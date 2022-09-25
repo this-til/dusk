@@ -148,6 +148,25 @@ public class ModData {
             protected void validate(@NotNull Map<ResourceLocation, LootTable> map, @NotNull ValidationContext validationContext) {
             }
         });
+     /*   event.getGenerator().addProvider(true, new DataProvider() {
+            @Override
+            public void run(CachedOutput cachedOutput) throws IOException {
+                JsonObject jsonObject = new JsonObject();
+
+            }
+
+            @Override
+            public @NotNull String getName() {
+                return "biome_modifier";
+            }
+
+            private static String getPath(ResourceLocation rl) {
+                return "minecraft".equals(rl.getNamespace()) ? rl.getPath() : rl.getNamespace() + "/" + rl.getPath();
+            }
+
+            data\mekanism\forge\biome_modifier\mekanism\fluorite.json
+
+        });*/
         try {
             event.getGenerator().run();
         } catch (Exception e) {

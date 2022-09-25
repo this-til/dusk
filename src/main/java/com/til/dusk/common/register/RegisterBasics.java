@@ -25,6 +25,7 @@ import net.minecraft.world.level.material.*;
 import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.ForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -60,7 +61,7 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> implements Gen
         RegisterManage.ALL_REGISTER_BASICS.add(this);
     }
 
-    public void registerThis(){
+    public final void registerThis() {
         registrySupplier.get().register(name, Util.forcedConversion(this));
     }
 
@@ -74,7 +75,7 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> implements Gen
     /***
      * 第二次回调
      */
-    public void registerBlackToBack(){
+    public void registerBlackToBack() {
 
     }
 
@@ -422,13 +423,13 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> implements Gen
             ForgeRegistries.FLUIDS.register(fuseName("_", new String[]{name.getPath(), fluid.name.getPath(), "source"}), fluidPack.source());
             ForgeRegistries.FLUIDS.register(fuseName("_", new String[]{name.getPath(), fluid.name.getPath(), "flowing"}), fluidPack.flowing());
             FluidTag.addTag(fluidPack.fluidTag(), fluidPack.source());
-            FluidTag.addTag(fluidPack.fluidTag(), fluidPack.flowing());
+            //FluidTag.addTag(fluidPack.fluidTag(), fluidPack.flowing());
             FluidTag.addTag(Dusk.instance.MOD_FLUID, fluidPack.source());
-            FluidTag.addTag(Dusk.instance.MOD_FLUID, fluidPack.flowing());
+            //FluidTag.addTag(Dusk.instance.MOD_FLUID, fluidPack.flowing());
             FluidTag.addTag(getTagPack().fluidTagKey(), fluidPack.source());
-            FluidTag.addTag(getTagPack().fluidTagKey(), fluidPack.flowing());
+            //FluidTag.addTag(getTagPack().fluidTagKey(), fluidPack.flowing());
             FluidTag.addTag(fluid.getTagPack().fluidTagKey(), fluidPack.source());
-            FluidTag.addTag(fluid.getTagPack().fluidTagKey(), fluidPack.flowing());
+            //FluidTag.addTag(fluid.getTagPack().fluidTagKey(), fluidPack.flowing());
             if (fluidPack.liquidBlock() != null) {
                 ForgeRegistries.BLOCKS.register(fuseName("/", new String[]{"fluid", name.getPath(), fluid.name.getPath()}), fluidPack.liquidBlock());
                 if (fluidPack.liquidBlockTag() != null) {

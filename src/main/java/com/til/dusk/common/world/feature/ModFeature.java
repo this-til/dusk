@@ -1,5 +1,6 @@
 package com.til.dusk.common.world.feature;
 
+import com.mojang.serialization.Codec;
 import com.til.dusk.Dusk;
 import com.til.dusk.common.register.ore.Ore;
 import com.til.dusk.common.register.ore.OreBlock;
@@ -10,11 +11,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
-import net.minecraft.world.level.levelgen.placement.BiomeFilter;
-import net.minecraft.world.level.levelgen.placement.CountPlacement;
-import net.minecraft.world.level.levelgen.placement.HeightRangePlacement;
-import net.minecraft.world.level.levelgen.placement.InSquarePlacement;
+import net.minecraft.world.level.levelgen.placement.*;
+import net.minecraftforge.common.world.BiomeModifier;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -36,10 +34,14 @@ public class ModFeature {
     public static final List<OreBlock.OreGenerateData> CAN_FEATURE_ORE = new ArrayList<>();
     public static final RegistryObject<CurrencyOreFeature> CURRENCY_ORE_FEATURE = FEATURE.register("currency_ore_feature", CurrencyOreFeature::new);
 
+    public static final DeferredRegister<Codec<? extends BiomeModifier>> BIOME_MODIFIER_CODEC = DeferredRegister.create(ForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, Dusk.MOD_ID);
+    public static final RegistryObject<Codec<BiomeModifierProvider>> BIOME_MODIFIER_PROVIDER_CODEC = BIOME_MODIFIER_CODEC.register("all", () -> BiomeModifierProvider.CODEC);
+
 
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
         FEATURE.register(Dusk.instance.modEventBus);
+        BIOME_MODIFIER_CODEC.register(Dusk.instance.modEventBus);
     }
 
     @SubscribeEvent
@@ -51,13 +53,22 @@ public class ModFeature {
             }
             CAN_FEATURE_ORE.addAll(mineralBlockData.oreGenerateDataList);
         }
-        Holder<ConfiguredFeature<CurrencyOreFeatureConfiguration, ?>> currencyOreFeatureConfigurationHolder = FeatureUtils.register("configured", CURRENCY_ORE_FEATURE.get(),
-                new CurrencyOreFeatureConfiguration(new ArrayList<>(), 12));
         for (OreBlock.OreGenerateData oreGenerateData : CAN_FEATURE_ORE) {
             ResourceLocation oreName = oreGenerateData.ore.name;
-            PlacementUtils.register(new ResourceLocation(oreName.getNamespace(), oreName.getPath() + "_placed_" + oreGenerateData.id).toString(), currencyOreFeatureConfigurationHolder,
-                    List.of(CountPlacement.of(oreGenerateData.inChunkAmount), InSquarePlacement.spread(),
-                            HeightRangePlacement.uniform(VerticalAnchor.absolute(oreGenerateData.minHeight), VerticalAnchor.absolute(oreGenerateData.maxHeight)), BiomeFilter.biome()));
+            Holder<ConfiguredFeature<CurrencyOreFeatureConfiguration, ?>> currencyOreFeatureConfigurationHolder = FeatureUtils.register(
+                    new ResourceLocation(Dusk.MOD_ID, oreName.getPath() + "_configured_" + oreGenerateData.id).toString(),
+                    CURRENCY_ORE_FEATURE.get(),
+                    new CurrencyOreFeatureConfiguration(oreGenerateData, 12));
+            Holder<PlacedFeature> holder = PlacementUtils.register(new ResourceLocation(oreName.getNamespace(), oreName.getPath() + "_placed_" + oreGenerateData.id).toString(),
+                    currencyOreFeatureConfigurationHolder,
+                    List.of(CountPlacement.of(oreGenerateData.inChunkAmount),
+                            InSquarePlacement.spread(),
+                            HeightRangePlacement.uniform(
+                                    VerticalAnchor.absolute(oreGenerateData.minHeight),
+                                    VerticalAnchor.absolute(oreGenerateData.maxHeight)),
+                            BiomeFilter.biome()));
+            oreGenerateData.setConfiguredFeatureHolder(currencyOreFeatureConfigurationHolder);
+            oreGenerateData.setPlacedFeatureHolder(holder);
         }
     }
 }

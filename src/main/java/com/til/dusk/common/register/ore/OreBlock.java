@@ -5,12 +5,14 @@ import com.til.dusk.Dusk;
 import com.til.dusk.client.ColorProxy;
 import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.world.block.ModBlock;
+import com.til.dusk.common.world.feature.CurrencyOreFeatureConfiguration;
 import com.til.dusk.util.Extension;
 import com.til.dusk.util.Lang;
 import com.til.dusk.common.data.tag.BlockTag;
 import com.til.dusk.util.pack.BlockPack;
 import com.til.dusk.util.prefab.JsonPrefab;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -23,6 +25,8 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -389,7 +393,7 @@ public abstract class OreBlock extends RegisterBasics.BlockUnitRegister<OreBlock
         public MineralBlockData addCurrencyGenerateData(int amount, int inChunkAmount) {
             return addOreGenerateData(new OreGenerateData()
                     .setAmount(amount)
-                    .setAmount(inChunkAmount)
+                    .setInChunkAmount(inChunkAmount)
                     .setPlace((blockPos, level, blockState) -> {
                         Block inBlock = blockState.getBlock();
                         if (inBlock.equals(Blocks.STONE)) {
@@ -478,6 +482,11 @@ public abstract class OreBlock extends RegisterBasics.BlockUnitRegister<OreBlock
          */
         public Extension.Func_3I<BlockPos, Level, BlockState, BlockState> place = (blockPos, level, blockState) -> Blocks.AIR.defaultBlockState();
 
+        public Holder<ConfiguredFeature<CurrencyOreFeatureConfiguration, ?>> configuredFeatureHolder;
+
+        public Holder<PlacedFeature> placedFeatureHolder;
+
+
         public OreGenerateData setAmount(int amount) {
             this.amount = amount;
             return this;
@@ -525,6 +534,16 @@ public abstract class OreBlock extends RegisterBasics.BlockUnitRegister<OreBlock
 
         public OreGenerateData setId(int id) {
             this.id = id;
+            return this;
+        }
+
+        public OreGenerateData setConfiguredFeatureHolder(Holder<ConfiguredFeature<CurrencyOreFeatureConfiguration, ?>> configuredFeatureHolder) {
+            this.configuredFeatureHolder = configuredFeatureHolder;
+            return this;
+        }
+
+        public OreGenerateData setPlacedFeatureHolder(Holder<PlacedFeature> placedFeatureHolder) {
+            this.placedFeatureHolder = placedFeatureHolder;
             return this;
         }
     }
