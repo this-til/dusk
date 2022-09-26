@@ -160,6 +160,9 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
      */
     public static HandleMechanic assemble;
 
+    /***
+     * 封装
+     */
     public static HandleMechanic encapsulation;
 
     /***
@@ -281,6 +284,11 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
      * 透析晶体
      */
     public static Mechanic dialysis;
+
+    /***
+     * 裂解晶体
+     */
+    public static Mechanic splitting;
 
     //功能
 
@@ -497,6 +505,7 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
         uuGenerate = new HandleMechanic("uu_generate", () -> List.of(ShapedType.uuGenerate));
         qualityGenerate = new HandleMechanic("quality_generate", () -> List.of(ShapedType.qualityGenerate));
         dialysis = new HandleMechanic("dialysis", () -> List.of(ShapedType.dialysis));
+        splitting = new HandleMechanic("splitting", () -> List.of(ShapedType.splitting));
         voidCase = (VoidCaseMechanic) new VoidCaseMechanic()
                 .setSet(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
                         .addRun((s, m) -> s.addInItem(m.blockMap.get(frameBasic).blockItemTag(), 1))

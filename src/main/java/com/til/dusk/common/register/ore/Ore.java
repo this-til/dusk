@@ -507,13 +507,13 @@ Ore extends RegisterBasics.UnitRegister<Ore, OreItem, OreBlock, OreFluid> {
                 .setSet(FLUID_DATA, () -> new OreFluid.FluidData(nutrient));
         nature = new Ore("nature", new DuskColor(237, 133, 129), ManaLevel.t2)
                 .setSet(FLUID_DATA, () -> new OreFluid.FluidData(nutrient)
-                        .setHasSplitting(false));
+                        .setSplitting(new OreFluid.FluidData.SplittingData()));
         source = new Ore("source", new DuskColor(220, 46, 223), ManaLevel.t2)
                 .setSet(FLUID_DATA, () -> new OreFluid.FluidData(nutrient)
-                        .setHasSplitting(false));
+                        .setSplitting(new OreFluid.FluidData.SplittingData()));
         element = new Ore("element", new DuskColor(94, 191, 155), ManaLevel.t2)
                 .setSet(FLUID_DATA, () -> new OreFluid.FluidData(nutrient)
-                        .setHasSplitting(false));
+                        .setSplitting(new OreFluid.FluidData.SplittingData()));
         highEnergyRedStone = new Ore("high_energy_red_stone", new DuskColor(245, 35, 35), ManaLevel.t1)
                 .setSet(FLUID_DATA, () -> new OreFluid.FluidData(highEnergyRedStone))
                 .addShaped(() -> new ShapedOre(ShapedType.highPressureFuse, ShapedDrive.get(0), highEnergyRedStone.manaLevel)
@@ -561,7 +561,7 @@ Ore extends RegisterBasics.UnitRegister<Ore, OreItem, OreBlock, OreFluid> {
                 .addShaped(() -> new ShapedOre(ShapedType.cellCulture, ShapedDrive.get(0), ManaLevel.t4)
                         .addInFluid(stemCell.fluidMap.get(OreFluid.solution).fluidTag(), 1)
                         .addInFluid(culture.fluidMap.get(OreFluid.solution).fluidTag(), 128)
-                        .addOutFluid(new FluidStack(stemCell.fluidMap.get(OreFluid.solution).source(), 10), 1d));
+                        .addOutFluid(new FluidStack(stemCell.fluidMap.get(OreFluid.solution).source(), 1), 1d));
         neuronCell = new Ore("neuron_cell", new DuskColor(176, 221, 227), ManaLevel.t4)
                 .setSet(FLUID_DATA, () -> new OreFluid.FluidData(neuronCell));
         supportCell = new Ore("support_cell", new DuskColor(136, 209, 142), ManaLevel.t4)

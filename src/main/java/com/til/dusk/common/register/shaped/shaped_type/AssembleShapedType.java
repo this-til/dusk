@@ -60,7 +60,6 @@ public class AssembleShapedType extends ShapedType {
                         continue;
                     }
                     new ShapedOre(this, ShapedDrive.get(2), level)
-                            .addInItem(manaLevel.blockMap.get(ManaLevelBlock.frameBasic).blockItemTag(), 1)
                             .addOutItem(new ItemStack(entry.getValue().blockItem(), 1), 1d)
                             .runThis(ManaLevelBlock.MECHANIC_MAKE_DATA, entry.getKey(), manaLevel)
                             .addMultipleSurplusTime(4096L * manaLevel.level)

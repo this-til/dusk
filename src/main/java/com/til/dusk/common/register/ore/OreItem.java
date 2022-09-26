@@ -430,7 +430,7 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
     public abstract static class OreItemArms extends OreItem {
         public OreItemArms(ResourceLocation name) {
             super(name);
-            setSet(IS_ARMOR, null);
+            setSet(IS_ARMS, null);
         }
 
         public OreItemArms(String name) {

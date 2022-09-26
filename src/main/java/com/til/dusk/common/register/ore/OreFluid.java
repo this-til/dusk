@@ -4,6 +4,7 @@ import com.til.dusk.Dusk;
 import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.Lang;
+import com.til.dusk.util.pack.DataPack;
 import com.til.dusk.util.pack.FluidPack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
@@ -119,7 +120,7 @@ public class OreFluid extends RegisterBasics.FluidUnitRegister<OreFluid, Ore> {
 
         @Override
         public FluidPack create(Ore ore) {
-            if (ore.hasSet(Ore.FLUID_DATA) && ore.getSet(Ore.FLUID_DATA).hasSplitting) {
+            if (ore.hasSet(Ore.FLUID_DATA) && ore.getSet(Ore.FLUID_DATA).splitting != null) {
                 return super.create(ore);
             }
             return null;
@@ -209,7 +210,8 @@ public class OreFluid extends RegisterBasics.FluidUnitRegister<OreFluid, Ore> {
         /***
          * 能够裂解
          */
-        public boolean hasSplitting = false;
+        @Nullable
+        public SplittingData splitting;
 
         public FluidData(Ore ore) {
             this.ore = ore;
@@ -220,9 +222,33 @@ public class OreFluid extends RegisterBasics.FluidUnitRegister<OreFluid, Ore> {
             return this;
         }
 
-        public FluidData setHasSplitting(boolean hasSplitting) {
-            this.hasSplitting = hasSplitting;
+        public FluidData setSplitting(SplittingData splittingData) {
+            this.splitting = splittingData;
             return this;
+        }
+
+        public static class SplittingData {
+            @Nullable
+            public DataPack<DataPack<?, Void>, Void> sunlightSplitting;
+            @Nullable
+            public DataPack<DataPack<?, Void>, Void> moonlightSplitting;
+            @Nullable
+            public DataPack<DataPack<?,Void>, Void> rainSplitting;
+
+            public SplittingData setSunlightSplitting(DataPack<DataPack<?, Void>, Void> sunlightSplitting) {
+                this.sunlightSplitting = sunlightSplitting;
+                return this;
+            }
+
+            public SplittingData setMoonlightSplitting(DataPack<DataPack<?, Void>, Void> moonlightSplitting) {
+                this.moonlightSplitting = moonlightSplitting;
+                return this;
+            }
+
+            public SplittingData setRainSplitting(DataPack<DataPack<?, Void>, Void> rainSplitting) {
+                this.rainSplitting = rainSplitting;
+                return this;
+            }
         }
     }
 }
