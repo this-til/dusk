@@ -54,6 +54,7 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> implements Gen
      */
     protected final GenericMap setMap = new GenericMap();
 
+    protected Random random = new Random();
 
     public RegisterBasics(ResourceLocation name, Supplier<IForgeRegistry<T>> registrySupplier) {
         this.name = name;

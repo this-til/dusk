@@ -183,6 +183,20 @@ Ore extends RegisterBasics.UnitRegister<Ore, OreItem, OreBlock, OreFluid> {
     public static Ore nutrient;
 
     /***
+     * 质空
+     */
+    public static Ore natureAir;
+
+    /***
+     * 源空
+     */
+    public static Ore sourceAir;
+
+    /***
+     * 素空
+     */
+    public static Ore elementAir;
+    /***
      * 质
      */
     public static Ore nature;
@@ -505,15 +519,40 @@ Ore extends RegisterBasics.UnitRegister<Ore, OreItem, OreBlock, OreFluid> {
                 .setSet(FLUID_DATA, () -> new OreFluid.FluidData(mana));
         nutrient = new Ore("nutrient", new DuskColor(245, 190, 110), ManaLevel.t1)
                 .setSet(FLUID_DATA, () -> new OreFluid.FluidData(nutrient));
+        natureAir = new Ore("nature_air", new DuskColor(255, 153, 149), ManaLevel.t2)
+                .setSet(FLUID_DATA, () -> new OreFluid.FluidData(natureAir));
+        sourceAir = new Ore("source_air", new DuskColor(240, 66, 243), ManaLevel.t2)
+                .setSet(FLUID_DATA, () -> new OreFluid.FluidData(sourceAir));
+        elementAir = new Ore("element_air", new DuskColor(114, 211, 175), ManaLevel.t2)
+                .setSet(FLUID_DATA, () -> new OreFluid.FluidData(elementAir));
         nature = new Ore("nature", new DuskColor(237, 133, 129), ManaLevel.t2)
-                .setSet(FLUID_DATA, () -> new OreFluid.FluidData(nutrient)
-                        .setSplitting(new OreFluid.FluidData.SplittingData()));
+                .setSet(FLUID_DATA, () -> new OreFluid.FluidData(nature)
+                        .setSplitting(new OreFluid.FluidData.SplittingData()
+                                .setMoonlightSplitting(new OreFluid.FluidData.SplittingDataPack()
+                                        .addOutFluid(new FluidStack(natureAir.fluidMap.get(OreFluid.solution).source(), 72), 1d))
+                                .setSunlightSplitting(new OreFluid.FluidData.SplittingDataPack()
+                                        .addOutFluid(new FluidStack(natureAir.fluidMap.get(OreFluid.solution).source(), 72), 1d))
+                                .setRainSplitting(new OreFluid.FluidData.SplittingDataPack()
+                                        .addOutFluid(new FluidStack(natureAir.fluidMap.get(OreFluid.solution).source(), 72), 1d))));
         source = new Ore("source", new DuskColor(220, 46, 223), ManaLevel.t2)
-                .setSet(FLUID_DATA, () -> new OreFluid.FluidData(nutrient)
-                        .setSplitting(new OreFluid.FluidData.SplittingData()));
+                .setSet(FLUID_DATA, () -> new OreFluid.FluidData(source)
+                        .setSplitting(new OreFluid.FluidData.SplittingData()
+                                .setMoonlightSplitting(new OreFluid.FluidData.SplittingDataPack()
+                                        .addOutFluid(new FluidStack(sourceAir.fluidMap.get(OreFluid.solution).source(), 72), 1d))
+                                .setSunlightSplitting(new OreFluid.FluidData.SplittingDataPack()
+                                        .addOutFluid(new FluidStack(sourceAir.fluidMap.get(OreFluid.solution).source(), 72), 1d))
+                                .setRainSplitting(new OreFluid.FluidData.SplittingDataPack()
+                                        .addOutFluid(new FluidStack(sourceAir.fluidMap.get(OreFluid.solution).source(), 72), 1d))));
         element = new Ore("element", new DuskColor(94, 191, 155), ManaLevel.t2)
-                .setSet(FLUID_DATA, () -> new OreFluid.FluidData(nutrient)
-                        .setSplitting(new OreFluid.FluidData.SplittingData()));
+                .setSet(FLUID_DATA, () -> new OreFluid.FluidData(element)
+                        .setSplitting(new OreFluid.FluidData.SplittingData()
+                                .setMoonlightSplitting(new OreFluid.FluidData.SplittingDataPack()
+                                        .addOutFluid(new FluidStack(elementAir.fluidMap.get(OreFluid.solution).source(), 72), 1d))
+                                .setSunlightSplitting(new OreFluid.FluidData.SplittingDataPack()
+                                        .addOutFluid(new FluidStack(elementAir.fluidMap.get(OreFluid.solution).source(), 72), 1d))
+                                .setRainSplitting(new OreFluid.FluidData.SplittingDataPack()
+                                        .addOutFluid(new FluidStack(elementAir.fluidMap.get(OreFluid.solution).source(), 72), 1d))));
+
         highEnergyRedStone = new Ore("high_energy_red_stone", new DuskColor(245, 35, 35), ManaLevel.t1)
                 .setSet(FLUID_DATA, () -> new OreFluid.FluidData(highEnergyRedStone))
                 .addShaped(() -> new ShapedOre(ShapedType.highPressureFuse, ShapedDrive.get(0), highEnergyRedStone.manaLevel)

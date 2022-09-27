@@ -30,7 +30,6 @@ import java.util.Map;
 /**
  * @author til
  */
-@OnlyIn(Dist.CLIENT)
 public class DefaultParticle extends Particle {
 
     @Nullable

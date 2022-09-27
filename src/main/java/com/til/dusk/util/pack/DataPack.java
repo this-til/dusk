@@ -7,27 +7,38 @@ import com.til.dusk.util.GenericMap;
 import com.til.dusk.util.Util;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraftforge.fluids.FluidStack;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class DataPack<T extends DataPack<?, OTHER_DATA>, OTHER_DATA> implements GenericMap.IGenericMapSupplier {
+public class DataPack<T extends DataPack<?, OTHER_DATA>, OTHER_DATA> {
 
     public final List<Extension.Action_2V<ShapedOre, OTHER_DATA>> run = new ArrayList<>();
-    @Nullable
-    public GenericMap genericMap;
+    //@Nullable
+    //public GenericMap genericMap;
 
     public T addInItem(TagKey<Item> itemTagKey, int i) {
         run.add((s, m) -> s.addInItem(itemTagKey, i));
         return Util.forcedConversion(this);
     }
 
+    public T addOutItem(ItemStack itemStack, double d) {
+        run.add((s, m) -> s.addOutItem(itemStack, d));
+        return Util.forcedConversion(this);
+    }
 
     public T addInFluid(TagKey<Fluid> fluidTagKey, int i) {
         run.add((s, m) -> s.addInFluid(fluidTagKey, i));
+        return Util.forcedConversion(this);
+    }
+
+    public T addOutFluid(FluidStack fluidStack, double d) {
+        run.add((s, m) -> s.addOutFluid(fluidStack, d));
         return Util.forcedConversion(this);
     }
 
@@ -42,37 +53,37 @@ public class DataPack<T extends DataPack<?, OTHER_DATA>, OTHER_DATA> implements 
         }
     }
 
-    public <V> T setSet(GenericMap.IKey<V> key, Supplier<V> v) {
+    /*public <V> T setSet(GenericMap.IKey<V> key, Supplier<V> v) {
         if (genericMap == null) {
             genericMap = new GenericMap();
         }
         genericMap.set(key, v);
         return Util.forcedConversion(this);
-    }
+    }*/
 
-    public T setSet(GenericMap.IKey<Void> key) {
+    /*public T setSet(GenericMap.IKey<Void> key) {
         if (genericMap == null) {
             genericMap = new GenericMap();
         }
         genericMap.set(key, (Void) null);
         return Util.forcedConversion(this);
-    }
+    }*/
 
-    @Override
+    /*@Override
     public <V> V getSet(GenericMap.IKey<V> key) {
         if (genericMap == null) {
             return null;
         }
         return genericMap.get(key);
-    }
+    }*/
 
-    @Override
+    /*@Override
     public boolean hasSet(GenericMap.IKey<?> key) {
         if (genericMap == null) {
             return false;
         }
         return genericMap.containsKey(key);
-    }
+    }*/
 
     public static class ManaLevelDataPack extends DataPack<ManaLevelDataPack, ManaLevel> {
 

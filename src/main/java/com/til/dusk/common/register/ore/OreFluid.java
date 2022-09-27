@@ -229,26 +229,28 @@ public class OreFluid extends RegisterBasics.FluidUnitRegister<OreFluid, Ore> {
 
         public static class SplittingData {
             @Nullable
-            public DataPack<DataPack<?, Void>, Void> sunlightSplitting;
+            public SplittingDataPack sunlightSplitting;
             @Nullable
-            public DataPack<DataPack<?, Void>, Void> moonlightSplitting;
+            public SplittingDataPack moonlightSplitting;
             @Nullable
-            public DataPack<DataPack<?,Void>, Void> rainSplitting;
+            public SplittingDataPack rainSplitting;
 
-            public SplittingData setSunlightSplitting(DataPack<DataPack<?, Void>, Void> sunlightSplitting) {
+            public SplittingData setSunlightSplitting(SplittingDataPack sunlightSplitting) {
                 this.sunlightSplitting = sunlightSplitting;
                 return this;
             }
 
-            public SplittingData setMoonlightSplitting(DataPack<DataPack<?, Void>, Void> moonlightSplitting) {
+            public SplittingData setMoonlightSplitting(SplittingDataPack moonlightSplitting) {
                 this.moonlightSplitting = moonlightSplitting;
                 return this;
             }
 
-            public SplittingData setRainSplitting(DataPack<DataPack<?, Void>, Void> rainSplitting) {
+            public SplittingData setRainSplitting(SplittingDataPack rainSplitting) {
                 this.rainSplitting = rainSplitting;
                 return this;
             }
         }
+
+        public static class SplittingDataPack extends DataPack<SplittingDataPack, Void> {}
     }
 }

@@ -1,8 +1,9 @@
 package com.til.dusk.client;
 
 import com.til.dusk.Dusk;
-import com.til.dusk.client.register.ClientParticleRegister;
-import com.til.dusk.common.register.other.ParticleRegister;
+import com.til.dusk.common.register.particle_register.ParticleData;
+import com.til.dusk.common.register.particle_register.ParticleRegister;
+import com.til.dusk.common.register.particle_register.ParticleRouteData;
 import com.til.dusk.util.Extension;
 import com.til.dusk.util.Pos;
 import com.til.dusk.util.RoutePack;
@@ -30,19 +31,16 @@ import java.util.function.Supplier;
 @Mod.EventBusSubscriber(modid = Dusk.MOD_ID, value = Dist.CLIENT)
 public class ClientTransfer {
 
-    public static void messageConsumer(ParticleRegister.Data data, Supplier<NetworkEvent.Context> supplier) {
+    public static void messageConsumer(ParticleData data, Supplier<NetworkEvent.Context> supplier) {
         ResourceLocation name = data.type();
-        ClientParticleRegister clientParticleRegister = ClientParticleRegister.CLIENT_PARTICLE_REGISTER.get().getValue(name);
+        ParticleRegister clientParticleRegister = ParticleRegister.PARTICLE_REGISTER.get().getValue(name);
         if (clientParticleRegister == null) {
             Dusk.instance.logger.error("在客户端不存在粒子效果{}", data.type());
             return;
         }
         supplier.get().enqueueWork(() -> {
             List<Extension.Data_2<Float, List<Particle>>> list = new ArrayList<>();
-            switch (clientParticleRegister.parsingMode) {
-                default -> {
-                    return;
-                }
+            switch (clientParticleRegister.particleParsingMode) {
                 case PAIR -> {
                     Pos s = null;
                     Pos e = null;
@@ -53,7 +51,6 @@ public class ClientTransfer {
                         }
                         if (e == null) {
                             e = po;
-                            continue;
                         }
                         Extension.Data_2<Float, List<Particle>> data_2 = clientParticleRegister.run(Minecraft.getInstance().level, s, e, data.color(), data.density(), data.resourceLocation());
                         if (data_2 != null) {
@@ -87,6 +84,7 @@ public class ClientTransfer {
                         }
                     }
                 }
+                default -> {}
             }
 
             float time = 0;
@@ -102,9 +100,9 @@ public class ClientTransfer {
         supplier.get().setPacketHandled(true);
     }
 
-    public static void messageConsumer(ParticleRegister.RouteData data, Supplier<NetworkEvent.Context> supplier) {
+    public static void messageConsumer(ParticleRouteData data, Supplier<NetworkEvent.Context> supplier) {
         ResourceLocation name = data.type();
-        ClientParticleRegister clientParticleRegister = ClientParticleRegister.CLIENT_PARTICLE_REGISTER.get().getValue(name);
+        ParticleRegister clientParticleRegister = ParticleRegister.PARTICLE_REGISTER.get().getValue(name);
         if (clientParticleRegister == null) {
             Dusk.instance.logger.error("在客户端不存在粒子效果{}", data.type());
             return;

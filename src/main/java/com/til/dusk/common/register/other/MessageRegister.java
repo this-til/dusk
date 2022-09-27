@@ -5,6 +5,8 @@ import com.til.dusk.Dusk;
 import com.til.dusk.client.ClientTransfer;
 import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.register.key.KeyRegister;
+import com.til.dusk.common.register.particle_register.ParticleData;
+import com.til.dusk.common.register.particle_register.ParticleRouteData;
 import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.Pos;
 import com.til.dusk.util.RoutePack;
@@ -39,9 +41,9 @@ public abstract class MessageRegister<MSG> extends RegisterBasics<MessageRegiste
 
     public static int idSequence;
 
-    public static MessageRegister<ParticleRegister.Data> particleRegisterMessage;
+    public static MessageRegister<ParticleData> particleRegisterMessage;
 
-    public static MessageRegister<ParticleRegister.RouteData> particleRouteRegisterMessage;
+    public static MessageRegister<ParticleRouteData> particleRouteRegisterMessage;
 
     public static MessageRegister<KeyRegister.KeyData> keyMessage;
 
@@ -55,14 +57,14 @@ public abstract class MessageRegister<MSG> extends RegisterBasics<MessageRegiste
                 PROTOCOL_VERSION::equals
         );
 
-        particleRegisterMessage = new MessageRegister<>("particle_register_message", ParticleRegister.Data.class) {
+        particleRegisterMessage = new MessageRegister<>("particle_register_message", ParticleData.class) {
             @Override
-            public void messageConsumer(ParticleRegister.Data data, Supplier<NetworkEvent.Context> supplier) {
+            public void messageConsumer(ParticleData data, Supplier<NetworkEvent.Context> supplier) {
                 ClientTransfer.messageConsumer(data, supplier);
             }
 
             @Override
-            public void encoder(ParticleRegister.Data data, FriendlyByteBuf friendlyByteBuf) {
+            public void encoder(ParticleData data, FriendlyByteBuf friendlyByteBuf) {
                 friendlyByteBuf.writeUtf(data.type().toString());
                 friendlyByteBuf.writeInt(data.color().getRGB());
                 friendlyByteBuf.writeDouble(data.density());
@@ -77,7 +79,7 @@ public abstract class MessageRegister<MSG> extends RegisterBasics<MessageRegiste
             }
 
             @Override
-            public ParticleRegister.Data decoder(FriendlyByteBuf friendlyByteBuf) {
+            public ParticleData decoder(FriendlyByteBuf friendlyByteBuf) {
                 ResourceLocation type = new ResourceLocation(friendlyByteBuf.readUtf());
                 DuskColor color = new DuskColor(friendlyByteBuf.readInt());
                 double density = friendlyByteBuf.readDouble();
@@ -90,13 +92,13 @@ public abstract class MessageRegister<MSG> extends RegisterBasics<MessageRegiste
                 if (friendlyByteBuf.readBoolean()) {
                     resourceLocation = new ResourceLocation(friendlyByteBuf.readUtf());
                 }
-                return new ParticleRegister.Data(type, color, density, resourceLocation, pos);
+                return new ParticleData(type, color, density, resourceLocation, pos);
             }
         };
-        particleRouteRegisterMessage = new MessageRegister<>("particle_route_register_message", ParticleRegister.RouteData.class) {
+        particleRouteRegisterMessage = new MessageRegister<>("particle_route_register_message", ParticleRouteData.class) {
 
             @Override
-            public void encoder(ParticleRegister.RouteData data, FriendlyByteBuf friendlyByteBuf) {
+            public void encoder(ParticleRouteData data, FriendlyByteBuf friendlyByteBuf) {
                 friendlyByteBuf.writeUtf(data.type().toString());
                 friendlyByteBuf.writeInt(data.color().getRGB());
                 friendlyByteBuf.writeInt(data.route().size());
@@ -115,7 +117,7 @@ public abstract class MessageRegister<MSG> extends RegisterBasics<MessageRegiste
             }
 
             @Override
-            public ParticleRegister.RouteData decoder(FriendlyByteBuf friendlyByteBuf) {
+            public ParticleRouteData decoder(FriendlyByteBuf friendlyByteBuf) {
                 ResourceLocation type = new ResourceLocation(friendlyByteBuf.readUtf());
                 DuskColor color = new DuskColor(friendlyByteBuf.readInt());
                 int l = friendlyByteBuf.readInt();
@@ -132,11 +134,11 @@ public abstract class MessageRegister<MSG> extends RegisterBasics<MessageRegiste
                 if (friendlyByteBuf.readBoolean()) {
                     resourceLocation = new ResourceLocation(friendlyByteBuf.readUtf());
                 }
-                return new ParticleRegister.RouteData(pack, type, color, resourceLocation);
+                return new ParticleRouteData(pack, type, color, resourceLocation);
             }
 
             @Override
-            public void messageConsumer(ParticleRegister.RouteData routeData, Supplier<NetworkEvent.Context> supplier) {
+            public void messageConsumer(ParticleRouteData routeData, Supplier<NetworkEvent.Context> supplier) {
                 ClientTransfer.messageConsumer(routeData, supplier);
             }
         };

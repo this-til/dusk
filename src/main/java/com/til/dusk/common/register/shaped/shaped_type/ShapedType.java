@@ -248,6 +248,7 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
      */
     public static SplittingShapedType splitting;
 
+
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
         SHAPED_TYPE = event.create(new RegistryBuilder<ShapedType>().setName(new ResourceLocation(Dusk.MOD_ID, "shaped_type")));

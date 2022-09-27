@@ -1,6 +1,8 @@
 package com.til.dusk.client.other_mod_interact;
 
 import com.til.dusk.Dusk;
+import com.til.dusk.common.register.mana_level.mana_level_block.ManaLevelBlock;
+import com.til.dusk.common.register.ore.Ore;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.util.nbt.pack.AllNBTPack;
 import com.til.dusk.util.Lang;
@@ -20,8 +22,7 @@ import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
-import mezz.jei.api.registration.IRecipeCategoryRegistration;
-import mezz.jei.api.registration.IRecipeRegistration;
+import mezz.jei.api.registration.*;
 import mezz.jei.api.runtime.IJeiRuntime;
 import mezz.jei.common.Internal;
 import mezz.jei.common.runtime.JeiHelpers;
@@ -64,7 +65,6 @@ public class JEI_Interact implements IModPlugin {
                 registration.addRecipes(shapedRecipeType, shapedList);
             }
         }
-
     }
 
     @Override
@@ -73,6 +73,18 @@ public class JEI_Interact implements IModPlugin {
         IGuiHelper guiHelper = jeiHelpers.getGuiHelper();
         for (ShapedType shapedType : ShapedType.SHAPED_TYPE.get()) {
             registry.addRecipeCategories(new CurrencyCategory(guiHelper, shapedType));
+        }
+    }
+
+
+    @Override
+    public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
+        for (ShapedType shapedType : ShapedType.SHAPED_TYPE.get()) {
+            RecipeType<Shaped> shapedRecipeType = new RecipeType<>(shapedType.name, Shaped.class);
+            ManaLevelBlock manaLevelBlock = shapedType.manaLevelBlockSupplier.get();
+            for (ManaLevel manaLevel : ManaLevel.LEVEL.get()) {
+                registration.addRecipeCatalyst(new ItemStack(manaLevel.blockMap.get(manaLevelBlock).blockItem()), shapedRecipeType);
+            }
         }
     }
 
