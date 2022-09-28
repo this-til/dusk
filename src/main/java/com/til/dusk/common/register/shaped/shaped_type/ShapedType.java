@@ -3,8 +3,8 @@ package com.til.dusk.common.register.shaped.shaped_type;
 import com.til.dusk.Dusk;
 import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.register.mana_level.mana_level_block.ManaLevelBlock;
+import com.til.dusk.common.register.shaped.CrystalSeedMakeShapedType;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -113,6 +113,11 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
      * 结晶
      */
     public static CrystallizingShapedType crystallizing;
+
+    /***
+     * 晶体种子制造
+     */
+    public static CrystalSeedMakeShapedType crystalSeedMake;
 
     /***
      * 组装
@@ -276,6 +281,7 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
         unpack = new UnPackShapedType();
         blastFurnace = new BlastFurnaceShapedType();
         crystallizing = new CrystallizingShapedType();
+        crystalSeedMake = new CrystalSeedMakeShapedType();
         assemble = new AssembleShapedType();
         encapsulation = new EncapsulationShapedType();
         crystalAssemble = new CrystalAssembleShapedType();

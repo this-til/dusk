@@ -155,6 +155,8 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
      */
     public static HandleMechanic crystallizing;
 
+    public static HandleMechanic crystalSeedMake;
+
     /***
      * 组装机
      */
@@ -475,6 +477,7 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
                         .addRun((s, m) -> s.addInItem(m.blockMap.get(frameBasic).blockItemTag(), 1))
                         .addRun((s, m) -> s.addInItem(ManaLevelItem.forming.getTag(m), 4))
                         .addRun((s, m) -> s.addInItem(ManaLevelItem.power.getTag(m), 1)));
+        crystalSeedMake =  new HandleMechanic("crystal_seed_make", () -> List.of(ShapedType.crystalSeedMake));
         assemble = (HandleMechanic) new HandleMechanic("assemble", () -> List.of(ShapedType.assemble))
                 .setSet(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
                         .addRun((s, m) -> s.addInItem(m.blockMap.get(frameBasic).blockItemTag(), 1))

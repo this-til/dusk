@@ -317,4 +317,5 @@ public class ShapedOre extends ShapedMiddle {
         }
         return this;
     }
+
 }

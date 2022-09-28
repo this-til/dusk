@@ -6,6 +6,7 @@ import com.til.dusk.common.register.ore.OreFluid;
 import com.til.dusk.common.register.ore.OreItem;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.Map;
@@ -21,7 +22,6 @@ public class CrystallizingShapedType extends ShapedType {
 
     @Override
     public void registerShaped() {
-
         for (Ore ore : Ore.screen(Ore.IS_CRYSTA, Ore.FLUID_DATA)) {
             new ShapedOre(this, ShapedDrive.get(0), ore.manaLevel)
                     .addInItem(ore.itemMap.get(OreItem.crystalSeed).itemTag(), 1)

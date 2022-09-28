@@ -15,11 +15,13 @@ import com.til.dusk.util.GenericMap;
 import com.til.dusk.util.pack.*;
 import com.til.dusk.util.prefab.ColorPrefab;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.*;
+import org.stringtemplate.v4.ST;
 
 
 import java.util.ArrayList;
@@ -30,8 +32,7 @@ import java.util.function.Supplier;
  * @author til
  */
 @Mod.EventBusSubscriber(modid = Dusk.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class
-Ore extends RegisterBasics.UnitRegister<Ore, OreItem, OreBlock, OreFluid> {
+public class Ore extends RegisterBasics.UnitRegister<Ore, OreItem, OreBlock, OreFluid> {
 
     public static Supplier<IForgeRegistry<Ore>> ORE;
 
@@ -106,6 +107,26 @@ Ore extends RegisterBasics.UnitRegister<Ore, OreItem, OreBlock, OreFluid> {
     public static Ore _void;
 
     /***
+     * 秘银
+     */
+    public static Ore mithril;
+
+    /***
+     * 星云银
+     */
+    public static Ore starSilver;
+
+    /***
+     * 星云铁
+     */
+    public static Ore starIron;
+
+    /***
+     * 星云金
+     */
+    public static Ore starGold;
+
+    /***
      * 星河合金
      */
     public static Ore starRiver;
@@ -170,6 +191,18 @@ Ore extends RegisterBasics.UnitRegister<Ore, OreItem, OreBlock, OreFluid> {
      */
     public static Ore crow;
 
+    /***
+     * 晶体矿
+     */
+    public static Ore crystal;
+
+    /***
+     * 富集晶体矿
+     */
+    public static Ore enrichmentCrystal;
+
+    //other
+
     //fluid
 
     /***
@@ -196,6 +229,7 @@ Ore extends RegisterBasics.UnitRegister<Ore, OreItem, OreBlock, OreFluid> {
      * 素空
      */
     public static Ore elementAir;
+
     /***
      * 质
      */
@@ -391,21 +425,87 @@ Ore extends RegisterBasics.UnitRegister<Ore, OreItem, OreBlock, OreFluid> {
                 .setSet(DECORATE_BLOCK_DATA, () -> new OreBlock.DecorateBlockData(_void))
                 .setSet(FLUID_DATA, () -> new OreFluid.FluidData(_void));
 
+        mithril = new Ore("mithril", new DuskColor(205, 209, 229), ManaLevel.t1)
+                .setSet(IS_METAL)
+                .setSet(HAS_DUST)
+                .setSet(IS_LEVEL_ACCEPTABLE, () -> ManaLevel.t2)
+                .setSet(DECORATE_BLOCK_DATA, () -> new OreBlock.DecorateBlockData(mithril))
+                .setSet(FLUID_DATA, () -> new OreFluid.FluidData(mithril))
+                .setSet(ARMOR_DATA, () -> new OreItem.ArmorData(() -> mithril)
+                        .setDefense(3)
+                        .setDurability(10)
+                        .setMane(3200000, 12800)
+                        .setDefaultSkill(() -> List.of(Skill.life)))
+                .setSet(ARMS_DATA, () -> new OreItem.ArmsData(() -> mithril)
+                        .setMane(3200000, 12800))
+                .addShaped(() -> new ShapedOre(ShapedType.blend, ShapedDrive.get(0), mithril.manaLevel)
+                        .addInItem(spiritSilver.itemMap.get(OreItem.dust).itemTag(), 1)
+                        .addInItem(greenTeal.itemMap.get(OreItem.dust).itemTag(), 1)
+                        .addInItem(mediumspringgreen.itemMap.get(OreItem.dust).itemTag(), 1)
+                        .addOutItem(new ItemStack(mithril.itemMap.get(OreItem.dust).item(), 3), 1D)
+                        .addMultipleSurplusTime((long) (mithril.strength * 1024L))
+                        .addMultipleConsumeMana((long) (mithril.consume * 27L)));
+
+        starSilver = new Ore("star_silver", new DuskColor(216, 215, 234), ManaLevel.t2)
+                .setSet(IS_METAL)
+                .setSet(HAS_DUST)
+                .setSet(IS_LEVEL_ACCEPTABLE, () -> ManaLevel.t2)
+                .setSet(DECORATE_BLOCK_DATA, () -> new OreBlock.DecorateBlockData(starSilver))
+                .setSet(FLUID_DATA, () -> new OreFluid.FluidData(starSilver))
+                .addShaped(() -> new ShapedOre(ShapedType.blend, ShapedDrive.get(0), starSilver.manaLevel)
+                        .addInItem(mithril.itemMap.get(OreItem.dust).itemTag(), 1)
+                        .addInItem(mediumspringgreen.itemMap.get(OreItem.dust).itemTag(), 1)
+                        .addInItem(crow.itemMap.get(OreItem.dust).itemTag(), 1)
+                        .addOutItem(new ItemStack(starSilver.itemMap.get(OreItem.dust).item(), 3), 1D)
+                        .addMultipleSurplusTime((long) (2048L * starSilver.strength))
+                        .addMultipleConsumeMana((long) (32L * starSilver.consume)));
+        starIron = new Ore("star_iron", new DuskColor(177, 176, 192), ManaLevel.t2)
+                .setSet(IS_METAL)
+                .setSet(HAS_DUST)
+                .setSet(IS_LEVEL_ACCEPTABLE, () -> ManaLevel.t2)
+                .setSet(DECORATE_BLOCK_DATA, () -> new OreBlock.DecorateBlockData(starIron))
+                .setSet(FLUID_DATA, () -> new OreFluid.FluidData(starIron))
+                .addShaped(() -> new ShapedOre(ShapedType.blend, ShapedDrive.get(0), starSilver.manaLevel)
+                        .addInItem(_void.itemMap.get(OreItem.dust).itemTag(), 1)
+                        .addInItem(darkGreen.itemMap.get(OreItem.dust).itemTag(), 1)
+                        .addOutItem(new ItemStack(starIron.itemMap.get(OreItem.dust).item(), 2), 1D)
+                        .addMultipleSurplusTime((long) (2048L * starIron.strength))
+                        .addMultipleConsumeMana((long) (32L * starIron.consume)));
+        starGold = new Ore("star_gold", new DuskColor(255, 245, 46), ManaLevel.t2)
+                .setSet(IS_METAL)
+                .setSet(HAS_DUST)
+                .setSet(IS_LEVEL_ACCEPTABLE, () -> ManaLevel.t2)
+                .setSet(DECORATE_BLOCK_DATA, () -> new OreBlock.DecorateBlockData(starGold))
+                .setSet(FLUID_DATA, () -> new OreFluid.FluidData(starGold))
+                .addShaped(() -> new ShapedOre(ShapedType.blend, ShapedDrive.get(0), starSilver.manaLevel)
+                        .addInItem(goldenrod.itemMap.get(OreItem.dust).itemTag(), 1)
+                        .addInItem(aliceblue.itemMap.get(OreItem.dust).itemTag(), 1)
+                        .addInItem(cornflowerblue.itemMap.get(OreItem.dust).itemTag(), 1)
+                        .addOutItem(new ItemStack(starGold.itemMap.get(OreItem.dust).item(), 3), 1D)
+                        .addMultipleSurplusTime((long) (2048L * starGold.strength))
+                        .addMultipleConsumeMana((long) (32L * starGold.consume)));
+
         starRiver = new Ore("star_river", new DuskColor(100, 135, 255), ManaLevel.t2)
                 .setSet(IS_METAL)
                 .setSet(HAS_DUST)
-                .setSet(IS_LEVEL_ACCEPTABLE, () -> ManaLevel.t1)
-                .setSet(MINERAL_BLOCK_DATA, () -> new OreBlock.MineralBlockData(starRiver))
+                .setSet(IS_LEVEL_ACCEPTABLE, () -> ManaLevel.t3)
                 .setSet(DECORATE_BLOCK_DATA, () -> new OreBlock.DecorateBlockData(starRiver))
-                .setSet(FLUID_DATA, () -> new OreFluid.FluidData(starRiver)
-                        .setCanCopy(true))
+                .setSet(FLUID_DATA, () -> new OreFluid.FluidData(starRiver))
                 .setSet(ARMOR_DATA, () -> new OreItem.ArmorData(() -> starRiver)
-                        .setDefense(3)
-                        .setDurability(10)
-                        .setMane(128000, 1024)
+                        .setDefense(4)
+                        .setDurability(12)
+                        .setMane(12800000, 102400)
                         .setDefaultSkill(() -> List.of(Skill.life)))
                 .setSet(ARMS_DATA, () -> new OreItem.ArmsData(() -> starRiver)
-                        .setMane(128000, 1024));
+                        .setMane(12800000, 102400))
+                .addShaped(() -> new ShapedOre(ShapedType.highPressureFuse, ShapedDrive.get(0), starRiver.manaLevel)
+                        .addInFluid(starSilver.fluidMap.get(OreFluid.solution).fluidTag(), 32)
+                        .addInFluid(starIron.fluidMap.get(OreFluid.solution).fluidTag(), 32)
+                        .addInFluid(starGold.fluidMap.get(OreFluid.solution).fluidTag(), 32)
+                        .addInFluid(elementAir.fluidMap.get(OreFluid.solution).fluidTag(), 1200)
+                        .addOutFluid(new FluidStack(starRiver.fluidMap.get(OreFluid.solution).source(), 32 * 3), 1D)
+                        .addMultipleSurplusTime((long) (mithril.strength * 2048L))
+                        .addMultipleConsumeMana((long) (mithril.consume * 42L)));
 
         sunlight = new Ore("sunlight", ColorPrefab.SUNLIGHT_COLOR, ManaLevel.t1)
                 .setSet(IS_CRYSTA)
@@ -514,6 +614,29 @@ Ore extends RegisterBasics.UnitRegister<Ore, OreItem, OreBlock, OreFluid> {
                         .addCurrencyGenerateData(12, 4))
                 .setSet(DECORATE_BLOCK_DATA, () -> new OreBlock.DecorateBlockData(crow))
                 .setSet(FLUID_DATA, () -> new OreFluid.FluidData(crow));
+
+        crystal = new Ore("crystal", new DuskColor(131, 192, 229), ManaLevel.t1)
+                .setSet(IS_CRYSTA)
+                .setSet(HAS_DUST)
+                .setSet(IS_LEVEL_ACCEPTABLE, () -> ManaLevel.t1)
+                .setSet(MINERAL_BLOCK_DATA, () -> new OreBlock.MineralBlockData(crystal)
+                        .addCurrencyGenerateData(12, 4))
+                .setSet(DECORATE_BLOCK_DATA, () -> new OreBlock.DecorateBlockData(crystal))
+                .setSet(FLUID_DATA, () -> new OreFluid.FluidData(crystal));
+
+        enrichmentCrystal = new Ore("enrichment_crystal", new DuskColor(235, 225, 125), ManaLevel.t1)
+                .setSet(IS_CRYSTA)
+                .setSet(HAS_DUST)
+                .setSet(IS_LEVEL_ACCEPTABLE, () -> ManaLevel.t2)
+                .setSet(DECORATE_BLOCK_DATA, () -> new OreBlock.DecorateBlockData(crystal))
+                .setSet(FLUID_DATA, () -> new OreFluid.FluidData(crystal))
+                .addShaped(() -> new ShapedOre(ShapedType.blend, ShapedDrive.get(0), enrichmentCrystal.manaLevel)
+                        .addInItem(crystal.itemMap.get(OreItem.dust).itemTag(), 1)
+                        .addInItem(goldenrod.itemMap.get(OreItem.dust).itemTag(), 1)
+                        .addInItem(cotinusCoggygria.itemMap.get(OreItem.dust).itemTag(), 1)
+                        .addOutItem(new ItemStack(enrichmentCrystal.itemMap.get(OreItem.dust).item(), 3), 1d)
+                        .addMultipleSurplusTime((long) (751L * enrichmentCrystal.strength))
+                        .addMultipleConsumeMana((long) (15L * enrichmentCrystal.consume)));
 
         mana = new Ore("mana", ColorPrefab.MANA_IO, ManaLevel.t1)
                 .setSet(FLUID_DATA, () -> new OreFluid.FluidData(mana));
