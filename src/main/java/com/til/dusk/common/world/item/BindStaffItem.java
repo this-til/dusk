@@ -31,7 +31,7 @@ import java.util.function.Consumer;
  * 绑定法杖
  * @author til
  */
-public class BindStaffItem extends ItemBasics implements ModItem.IHasCustomColor {
+public class BindStaffItem extends ItemBasics implements DuskItem.IHasCustomColor {
     public BindStaffItem(Properties properties) {
         super(properties);
         MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, (Consumer<EventKey>) event -> {

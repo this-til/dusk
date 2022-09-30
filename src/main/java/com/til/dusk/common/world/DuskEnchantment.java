@@ -18,7 +18,7 @@ import net.minecraftforge.registries.RegistryObject;
  * @author til
  */
 @Mod.EventBusSubscriber(modid = Dusk.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class ModEnchantment {
+public class DuskEnchantment {
 
     public static final DeferredRegister<Enchantment> ENCHANTMENT = DeferredRegister.create(ForgeRegistries.ENCHANTMENTS, Dusk.MOD_ID);
 

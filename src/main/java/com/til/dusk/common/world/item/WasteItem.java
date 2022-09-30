@@ -7,7 +7,7 @@ import net.minecraft.world.item.BoneMealItem;
 /**
  * @author til
  */
-public class WasteItem extends BoneMealItem implements ModItem.IHasCustomColor {
+public class WasteItem extends BoneMealItem implements DuskItem.IHasCustomColor {
     public WasteItem(Properties properties) {
         super(properties);
     }

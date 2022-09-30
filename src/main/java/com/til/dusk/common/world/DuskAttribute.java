@@ -14,7 +14,7 @@ import net.minecraftforge.registries.RegistryObject;
  * @author til
  */
 @Mod.EventBusSubscriber(modid = Dusk.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class ModAttribute {
+public class DuskAttribute {
 
     public static final DeferredRegister<Attribute> ATTRIBUTE = DeferredRegister.create(ForgeRegistries.ATTRIBUTES, Dusk.MOD_ID);
 

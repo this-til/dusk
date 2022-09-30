@@ -4,12 +4,11 @@ import com.til.dusk.Dusk;
 import com.til.dusk.client.ColorProxy;
 import com.til.dusk.util.DuskColor;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
 
 /**
  * @author til
  */
-public class DiamondMakeItem extends ItemBasics implements ModItem.ICustomModel, ModItem.IHasCustomColor {
+public class DiamondMakeItem extends ItemBasics implements DuskItem.ICustomModel, DuskItem.IHasCustomColor {
 
     public static final ResourceLocation DIAMOND_MAKE = new ResourceLocation(Dusk.MOD_ID, "diamond_make");
 

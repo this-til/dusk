@@ -383,7 +383,8 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
                         .addInItem(Ore.rain.itemMap.get(OreItem.perfectCrystal).itemTag(), 1));
         extractMana = (HandleMechanic) new HandleMechanic("extract_mana", () -> List.of(ShapedType.extractMana))
                 .setSet(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
-                        .addInItem(Ore.spiritSilver.itemMap.get(OreItem.plate).itemTag(), 3));
+                        .addInItem(Ore.spiritSilver.itemMap.get(OreItem.plate).itemTag(), 3)
+                        .addRun((s, m) -> s.addInItem(m.blockMap.get(blastFurnace).blockItemTag(), 1)));
         dischantmentMana = (ExtractManaMechanic) new ExtractManaMechanic("dischantment_mana", () -> List.of(ShapedType.dischantmentMana), new DuskColor(135, 60, 168, 255))
                 .setSet(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
                         .setMakeLevel(ManaLevelMakeData.MakeLevel.CURRENT)

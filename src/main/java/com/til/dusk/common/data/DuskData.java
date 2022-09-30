@@ -15,10 +15,8 @@ import com.til.dusk.common.data.tag.ItemTag;
 import com.til.dusk.common.data.tag.PotionsTag;
 import com.til.dusk.util.Extension;
 import com.til.dusk.util.nbt.pack.AllNBTPack;
-import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.advancements.critereon.ItemPredicate;
-import net.minecraft.advancements.critereon.MinMaxBounds;
 import net.minecraft.core.Registry;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataGenerator;
@@ -65,7 +63,7 @@ import java.util.function.Supplier;
  * @author til
  */
 @Mod.EventBusSubscriber(modid = Dusk.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class ModData {
+public class DuskData {
     public static DataGenerator dataGenerator;
 
     @SubscribeEvent
@@ -117,7 +115,7 @@ public class ModData {
                     JsonObject jsonObject = new JsonObject();
                     AllNBTPack.CLASS.set(jsonObject, shaped.getClass());
                     entry.getValue().writ(jsonObject);
-                    Path mainOutput = ModData.dataGenerator.getOutputFolder();
+                    Path mainOutput = DuskData.dataGenerator.getOutputFolder();
                     assert shaped.shapedType != null;
                     String pathSuffix = String.format("data/%s/shaped/%s/%s/%s.json",
                             shaped.shapedType.name.getNamespace(),

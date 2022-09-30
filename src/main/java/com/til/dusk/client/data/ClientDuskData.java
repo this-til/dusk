@@ -8,7 +8,7 @@ import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.register.ore.Ore;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.world.block.ModBlock;
-import com.til.dusk.common.world.item.ModItem;
+import com.til.dusk.common.world.item.DuskItem;
 import com.til.dusk.util.Util;
 import com.til.dusk.util.pack.BlockPack;
 import com.til.dusk.util.pack.ItemPack;
@@ -38,7 +38,7 @@ import java.util.Map;
  * @author til
  */
 @Mod.EventBusSubscriber(modid = Dusk.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-public class ClientModData {
+public class ClientDuskData {
     public static DataGenerator dataGenerator;
 
 
@@ -76,8 +76,8 @@ public class ClientModData {
                     createItemJson(shapedDrive.name, ShapedDrive.RESOURCE_LOCATION, cachedOutput);
                     createBlockJson(shapedDrive.name, ShapedDrive.RESOURCE_LOCATION, cachedOutput);
                 }
-                for (RegistryObject<Item> entry : ModItem.ITEMS.getEntries()) {
-                    if (entry.get() instanceof ModItem.ICustomModel customModel) {
+                for (RegistryObject<Item> entry : DuskItem.ITEMS.getEntries()) {
+                    if (entry.get() instanceof DuskItem.ICustomModel customModel) {
                         createItemJson(ForgeRegistries.ITEMS.getKey(entry.get()), customModel, cachedOutput);
                     }
                 }
@@ -93,7 +93,7 @@ public class ClientModData {
                 return "default_block_state";
             }
 
-            public void createItemJson(ResourceLocation name, ModItem.ICustomModel iCustomModel, CachedOutput cachedOutput) throws IOException {
+            public void createItemJson(ResourceLocation name, DuskItem.ICustomModel iCustomModel, CachedOutput cachedOutput) throws IOException {
                 if (name == null) {
                     return;
                 }

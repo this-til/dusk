@@ -2,7 +2,7 @@ package com.til.dusk.common.world.block;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.client.ColorProxy;
-import com.til.dusk.common.world.item.ModItem;
+import com.til.dusk.common.world.item.DuskItem;
 import com.til.dusk.util.prefab.JsonPrefab;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
@@ -22,7 +22,7 @@ public class ModBlock {
         void blockColorBlack(ColorProxy.BlockColorPack blockColorPack);
     }
 
-    public interface ICustomModel extends ModItem.ICustomModel {
+    public interface ICustomModel extends DuskItem.ICustomModel {
         ResourceLocation blockModelName();
 
         @Override

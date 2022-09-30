@@ -8,7 +8,7 @@ import com.til.dusk.common.data.tag.ItemTag;
 import com.til.dusk.common.event.DelayTrigger;
 import com.til.dusk.common.register.shaped.shapeds.Shaped;
 import com.til.dusk.common.world.block.ModBlock;
-import com.til.dusk.common.world.item.ModItem;
+import com.til.dusk.common.world.item.DuskItem;
 import com.til.dusk.util.*;
 import com.til.dusk.util.pack.*;
 import net.minecraft.network.chat.Component;
@@ -25,7 +25,6 @@ import net.minecraft.world.level.material.*;
 import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.ForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -195,7 +194,7 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> implements Gen
         /***
          * 获取方块物品模型映射
          */
-        public ModItem.ICustomModel getItemMoldMapping(O o) {
+        public DuskItem.ICustomModel getItemMoldMapping(O o) {
             return () -> name;
         }
 

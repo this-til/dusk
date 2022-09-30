@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
-public class ShowStaffItem extends ItemBasics implements ModItem.IHasCustomColor {
+public class ShowStaffItem extends ItemBasics implements DuskItem.IHasCustomColor {
     public ShowStaffItem(Properties properties) {
         super(properties);
         MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, (Consumer<EventKey>) event -> {

@@ -22,7 +22,7 @@ public class ScreenShapedType extends ShapedType {
 
     @Override
     public void registerShaped() {
-        for (Ore ore : Ore.screen(Ore.IS_CRYSTA)) {
+        for (Ore ore : Ore.screen(Ore.IS_CRYSTA, Ore.MINERAL_BLOCK_DATA)) {
             new ShapedOre(this, ShapedDrive.get(0), ore.manaLevel)
                     .addInItem(ore.itemMap.get(OreItem.crushedPurified).itemTag(), 1)
                     .addOutItem(new ItemStack(ore.itemMap.get(OreItem.damagedCrystal).item(), 1), 0.4)

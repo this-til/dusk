@@ -11,7 +11,7 @@ import com.til.dusk.common.register.ore.OreBlock;
 import com.til.dusk.common.register.ore.OreFluid;
 import com.til.dusk.common.register.ore.OreItem;
 import com.til.dusk.common.world.block.ModBlock;
-import com.til.dusk.common.world.item.ModItem;
+import com.til.dusk.common.world.item.DuskItem;
 import com.til.dusk.util.pack.BlockPack;
 import com.til.dusk.util.pack.FluidPack;
 import com.til.dusk.util.pack.ItemPack;
@@ -82,9 +82,9 @@ public class ModelProxy {
                 }
             }
         }
-        for (RegistryObject<Item> entry : ModItem.ITEMS.getEntries()) {
+        for (RegistryObject<Item> entry : DuskItem.ITEMS.getEntries()) {
             Item item = entry.get();
-            if (item instanceof ModItem.ICustomModel iCustomModel) {
+            if (item instanceof DuskItem.ICustomModel iCustomModel) {
                 ITEM_MODEL_MAP.put(item, new ModelResourceLocation(iCustomModel.itemModelName(), "inventory"));
             }
         }

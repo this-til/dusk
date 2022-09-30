@@ -10,7 +10,7 @@ import com.til.dusk.common.register.ore.OreBlock;
 import com.til.dusk.common.register.ore.OreFluid;
 import com.til.dusk.common.register.ore.OreItem;
 import com.til.dusk.common.world.block.ModBlock;
-import com.til.dusk.common.world.item.ModItem;
+import com.til.dusk.common.world.item.DuskItem;
 import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.Extension;
 import com.til.dusk.util.pack.BlockPack;
@@ -85,10 +85,10 @@ public class ColorProxy {
                 }
             }
         }
-        for (RegistryObject<Item> entry : ModItem.ITEMS.getEntries()) {
+        for (RegistryObject<Item> entry : DuskItem.ITEMS.getEntries()) {
             ItemColorPack itemColorPack = new ItemColorPack(entry.get());
             ITEM_COLOR_PACK_MAP.put(entry.get(), itemColorPack);
-            if (entry.get() instanceof ModItem.IHasCustomColor iHasCustomColor) {
+            if (entry.get() instanceof DuskItem.IHasCustomColor iHasCustomColor) {
                 iHasCustomColor.itemColorBlack(itemColorPack);
             }
         }

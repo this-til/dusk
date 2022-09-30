@@ -15,7 +15,7 @@ import net.minecraftforge.common.util.LazyOptional;
 /**
  * @author til
  */
-public class ClearStaffItem extends ItemBasics implements ModItem.IHasCustomColor {
+public class ClearStaffItem extends ItemBasics implements DuskItem.IHasCustomColor {
     public ClearStaffItem(Properties properties) {
         super(properties);
     }

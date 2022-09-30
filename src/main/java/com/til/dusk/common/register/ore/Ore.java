@@ -201,6 +201,21 @@ public class Ore extends RegisterBasics.UnitRegister<Ore, OreItem, OreBlock, Ore
      */
     public static Ore enrichmentCrystal;
 
+    /***
+     * 猫
+     */
+    public static Ore cat;
+
+    /***
+     * 狗
+     */
+    public static Ore dog;
+
+    /***
+     * 虚空辉光
+     */
+    public static Ore voidGlow;
+
     //other
 
     //fluid
@@ -614,7 +629,6 @@ public class Ore extends RegisterBasics.UnitRegister<Ore, OreItem, OreBlock, Ore
                         .addCurrencyGenerateData(12, 4))
                 .setSet(DECORATE_BLOCK_DATA, () -> new OreBlock.DecorateBlockData(crow))
                 .setSet(FLUID_DATA, () -> new OreFluid.FluidData(crow));
-
         crystal = new Ore("crystal", new DuskColor(131, 192, 229), ManaLevel.t1)
                 .setSet(IS_CRYSTA)
                 .setSet(HAS_DUST)
@@ -623,7 +637,6 @@ public class Ore extends RegisterBasics.UnitRegister<Ore, OreItem, OreBlock, Ore
                         .addCurrencyGenerateData(12, 4))
                 .setSet(DECORATE_BLOCK_DATA, () -> new OreBlock.DecorateBlockData(crystal))
                 .setSet(FLUID_DATA, () -> new OreFluid.FluidData(crystal));
-
         enrichmentCrystal = new Ore("enrichment_crystal", new DuskColor(235, 225, 125), ManaLevel.t1)
                 .setSet(IS_CRYSTA)
                 .setSet(HAS_DUST)
@@ -637,6 +650,45 @@ public class Ore extends RegisterBasics.UnitRegister<Ore, OreItem, OreBlock, Ore
                         .addOutItem(new ItemStack(enrichmentCrystal.itemMap.get(OreItem.dust).item(), 3), 1d)
                         .addMultipleSurplusTime((long) (751L * enrichmentCrystal.strength))
                         .addMultipleConsumeMana((long) (15L * enrichmentCrystal.consume)));
+        cat = new Ore("cat", new DuskColor(239, 218, 217), ManaLevel.t2)
+                .setSet(IS_CRYSTA)
+                .setSet(HAS_DUST)
+                .setSet(IS_LEVEL_ACCEPTABLE, () -> ManaLevel.t2)
+                .setSet(DECORATE_BLOCK_DATA, () -> new OreBlock.DecorateBlockData(cat))
+                .setSet(FLUID_DATA, () -> new OreFluid.FluidData(cat))
+                .addShaped(() -> new ShapedOre(ShapedType.highPressureFuse, ShapedDrive.get(1), voidGlow.manaLevel)
+                        .addInFluid(crystal.fluidMap.get(OreFluid.solution).fluidTag(), 72)
+                        .addInFluid(cotinusCoggygria.fluidMap.get(OreFluid.solution).fluidTag(), 72)
+                        .addInFluid(sourceAir.fluidMap.get(OreFluid.solution).fluidTag(), 440)
+                        .addOutFluid(new FluidStack(cat.fluidMap.get(OreFluid.solution).source(), 144), 1D)
+                        .addMultipleSurplusTime((long) (855L * voidGlow.strength))
+                        .addMultipleConsumeMana((long) (17L * voidGlow.consume)));
+        dog = new Ore("dog", new DuskColor(235, 225, 125), ManaLevel.t2)
+                .setSet(IS_CRYSTA)
+                .setSet(HAS_DUST)
+                .setSet(IS_LEVEL_ACCEPTABLE, () -> ManaLevel.t2)
+                .setSet(DECORATE_BLOCK_DATA, () -> new OreBlock.DecorateBlockData(dog))
+                .setSet(FLUID_DATA, () -> new OreFluid.FluidData(dog))
+                .addShaped(() -> new ShapedOre(ShapedType.highPressureFuse, ShapedDrive.get(1), voidGlow.manaLevel)
+                        .addInFluid(crystal.fluidMap.get(OreFluid.solution).fluidTag(), 72)
+                        .addInFluid(tibetanBlue.fluidMap.get(OreFluid.solution).fluidTag(), 72)
+                        .addInFluid(sourceAir.fluidMap.get(OreFluid.solution).fluidTag(), 440)
+                        .addOutFluid(new FluidStack(dog.fluidMap.get(OreFluid.solution).source(), 144), 1D)
+                        .addMultipleSurplusTime((long) (855L * voidGlow.strength))
+                        .addMultipleConsumeMana((long) (17L * voidGlow.consume)));
+        voidGlow = new Ore("void_glow", new DuskColor(240, 239, 238), ManaLevel.t2)
+                .setSet(IS_CRYSTA)
+                .setSet(HAS_DUST)
+                .setSet(IS_LEVEL_ACCEPTABLE, () -> ManaLevel.t3)
+                .setSet(DECORATE_BLOCK_DATA, () -> new OreBlock.DecorateBlockData(voidGlow))
+                .setSet(FLUID_DATA, () -> new OreFluid.FluidData(voidGlow))
+                .addShaped(() -> new ShapedOre(ShapedType.highPressureFuse, ShapedDrive.get(1), voidGlow.manaLevel)
+                        .addInFluid(cat.fluidMap.get(OreFluid.solution).fluidTag(), 72)
+                        .addInFluid(dog.fluidMap.get(OreFluid.solution).fluidTag(), 72)
+                        .addInFluid(natureAir.fluidMap.get(OreFluid.solution).fluidTag(), 1200)
+                        .addOutFluid(new FluidStack(voidGlow.fluidMap.get(OreFluid.solution).source(), 144), 1D)
+                        .addMultipleSurplusTime((long) (1455L * voidGlow.strength))
+                        .addMultipleConsumeMana((long) (17L * voidGlow.consume)));
 
         mana = new Ore("mana", ColorPrefab.MANA_IO, ManaLevel.t1)
                 .setSet(FLUID_DATA, () -> new OreFluid.FluidData(mana));

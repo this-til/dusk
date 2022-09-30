@@ -5,11 +5,10 @@ import com.til.dusk.client.ColorProxy;
 import com.til.dusk.common.data.tag.ItemTag;
 import com.til.dusk.common.event.DelayTrigger;
 import com.til.dusk.common.register.RegisterBasics;
-import com.til.dusk.common.world.item.ModItem;
+import com.til.dusk.common.world.item.DuskItem;
 import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.Lang;
 import com.til.dusk.util.pack.ItemPack;
-import com.til.dusk.util.pack.TagPack;
 import com.til.dusk.util.prefab.ColorPrefab;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -151,7 +150,7 @@ public class ManaLevelItem extends RegisterBasics.ItemUnitRegister<ManaLevelItem
                 }
 
                 @Override
-                public ModItem.ICustomModel getItemMoldMapping(ManaLevel manaLevel) {
+                public DuskItem.ICustomModel getItemMoldMapping(ManaLevel manaLevel) {
                     return () -> INTEGRATE_MODEL;
                 }
             };
@@ -169,7 +168,7 @@ public class ManaLevelItem extends RegisterBasics.ItemUnitRegister<ManaLevelItem
                 }
 
                 @Override
-                public ModItem.ICustomModel getItemMoldMapping(ManaLevel manaLevel) {
+                public DuskItem.ICustomModel getItemMoldMapping(ManaLevel manaLevel) {
                     return () -> PROCESSOR_MODEL;
                 }
 
@@ -210,7 +209,7 @@ public class ManaLevelItem extends RegisterBasics.ItemUnitRegister<ManaLevelItem
                 }
 
                 @Override
-                public ModItem.ICustomModel getItemMoldMapping(ManaLevel manaLevel) {
+                public DuskItem.ICustomModel getItemMoldMapping(ManaLevel manaLevel) {
                     return () -> HOST_MODEL;
                 }
             };

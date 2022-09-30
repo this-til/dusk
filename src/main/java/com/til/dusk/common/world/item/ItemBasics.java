@@ -48,7 +48,7 @@ public class ItemBasics extends Item {
         return tag;
     }
 
-    public static class ItemGenerateModel extends ItemBasics implements ModItem.ICustomModel {
+    public static class ItemGenerateModel extends ItemBasics implements DuskItem.ICustomModel {
         public ItemGenerateModel(Properties properties) {
             super(properties);
         }

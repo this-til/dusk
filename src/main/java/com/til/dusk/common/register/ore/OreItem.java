@@ -181,7 +181,7 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
         plate = new MetalOreItem("plate");
         plate_2 = new MetalOreItem("plate_2") {
             @Override
-            public ModItem.ICustomModel getItemMoldMapping(Ore ore) {
+            public DuskItem.ICustomModel getItemMoldMapping(Ore ore) {
                 return () -> plate.name;
             }
 
@@ -193,7 +193,7 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
         };
         plate_3 = new MetalOreItem("plate_3") {
             @Override
-            public ModItem.ICustomModel getItemMoldMapping(Ore ore) {
+            public DuskItem.ICustomModel getItemMoldMapping(Ore ore) {
                 return () -> plate.name;
             }
 
@@ -205,7 +205,7 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
         };
         plate_4 = new MetalOreItem("plate_4") {
             @Override
-            public ModItem.ICustomModel getItemMoldMapping(Ore ore) {
+            public DuskItem.ICustomModel getItemMoldMapping(Ore ore) {
                 return () -> plate.name;
             }
 

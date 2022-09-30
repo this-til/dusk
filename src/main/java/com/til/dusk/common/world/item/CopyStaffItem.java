@@ -37,7 +37,7 @@ import java.util.function.Consumer;
  * 复制法杖
  * @author til
  */
-public class CopyStaffItem extends ItemBasics implements ModItem.IHasCustomColor {
+public class CopyStaffItem extends ItemBasics implements DuskItem.IHasCustomColor {
 
     public final Random random = new Random();
 

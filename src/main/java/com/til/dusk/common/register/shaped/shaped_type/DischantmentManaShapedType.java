@@ -6,7 +6,7 @@ import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.register.mana_level.mana_level_block.ManaLevelBlock;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shapeds.ShapedMiddleExtend;
-import com.til.dusk.common.world.ModEnchantment;
+import com.til.dusk.common.world.DuskEnchantment;
 import com.til.dusk.util.Lang;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -74,7 +74,7 @@ public class DischantmentManaShapedType extends ShapedType {
                 @Override
                 public @NotNull List<List<ItemStack>> getItemIn() {
                     ItemStack itemStack = new ItemStack(Items.ENCHANTED_BOOK);
-                    EnchantmentHelper.setEnchantments(Map.of(ModEnchantment.EMPTY.get(), 1), itemStack);
+                    EnchantmentHelper.setEnchantments(Map.of(DuskEnchantment.EMPTY.get(), 1), itemStack);
                     return List.of(List.of(itemStack));
                 }
 
