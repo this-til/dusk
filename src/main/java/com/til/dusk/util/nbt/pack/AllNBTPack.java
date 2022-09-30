@@ -76,8 +76,11 @@ public class AllNBTPack {
     public static final NBTPack<ResourceLocation> NAME = new NBTPack<>("name", AllNBTCell.RESOURCE_LOCATION);
     public static final NBTPack<ShapedType> SHAPED_TYPE = new NBTPack<>("shaped_type", AllNBTCell.SHAPED_TYPE);
     public static final NBTPack<ShapedDrive> SHAPED_DRIVE = new NBTPack<>("shaped_drive", AllNBTCell.SHAPED_DRIVE);
-    public static final NBTPack<List<TagKey<Item>>> ITEM_TAG = new NBTPack<>("item_tag", AllNBTCell.ITEM_TAG.getListNBTCell());
-    public static final NBTPack<List<TagKey<Fluid>>> FLUID_TAG = new NBTPack<>("fluid_tag", AllNBTCell.FLUID_TAG.getListNBTCell());
+    public static final NBTPack<TagKey<Item>> ITEM_TAG = new NBTPack<>("item_tag", AllNBTCell.ITEM_TAG);
+    public static final NBTPack<TagKey<Fluid>> FLUID_TAG = new NBTPack<>("fluid_tag", AllNBTCell.FLUID_TAG);
+    public static final NBTPack<List<TagKey<Item>>> ITEM_TAG_LIST = new NBTPack<>("item_tag_list", AllNBTCell.ITEM_TAG.getListNBTCell());
+    public static final NBTPack<List<TagKey<Fluid>>> FLUID_TAG_LIST = new NBTPack<>("fluid_tag_list", AllNBTCell.FLUID_TAG.getListNBTCell());
+    public static final NBTPack<Integer> AMOUNT= new NBTPack("amount", AllNBTCell.INT);
     public static final NBTPack<Integer> AMOUNT_LIST = new NBTPack("amount_list_tag", AllNBTCell.INT.getListNBTCell());
     public static final NBTPack<List<Double>> PROBABILITY_LIST = new NBTPack("probability_list", AllNBTCell.DOUBLE.getListNBTCell());
     public static final NBTPack<Map<TagKey<Item>, Integer>> ITEM_IN_MAP = new NBTPack<>("item_in_map", AllNBTCell.ITEM_TAG_INT_MAP);

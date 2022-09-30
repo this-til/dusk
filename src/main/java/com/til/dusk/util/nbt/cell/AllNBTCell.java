@@ -7,6 +7,8 @@ import com.google.gson.JsonPrimitive;
 import com.til.dusk.Dusk;
 import com.til.dusk.common.capability.skill.ISkill;
 import com.til.dusk.common.capability.handle.ShapedHandle;
+import com.til.dusk.common.config.ConfigMap;
+import com.til.dusk.common.config.IConfigKey;
 import com.til.dusk.common.register.other.BindType;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.register.shaped.ShapedDrive;
@@ -14,6 +16,8 @@ import com.til.dusk.common.register.shaped.ShapedHandleProcess;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 import com.til.dusk.common.register.skill.Skill;
 import com.til.dusk.common.world.DuskAttribute;
+import com.til.dusk.util.Util;
+import com.til.dusk.util.nbt.ISerialize;
 import com.til.dusk.util.nbt.NBTUtil;
 import com.til.dusk.util.nbt.pack.AllNBTPack;
 import net.minecraft.core.BlockPos;
@@ -33,16 +37,19 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.awt.*;
+import java.text.MessageFormat;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Supplier;
 
 /***
  * @author til
  */
 public class AllNBTCell {
-    public static final NBTCell<Object> EMPTY = new NBTCell<Object>() {
+    public static final NBTCell<Object> EMPTY = new NBTCell<>() {
         @Override
         public Tag as(Object v) {
-            return EndTag.INSTANCE;
+            return ByteTag.valueOf(true);
         }
 
         @Override
@@ -52,7 +59,7 @@ public class AllNBTCell {
 
         @Override
         public JsonElement asJson(Object v) {
-            return JsonNull.INSTANCE;
+            return new JsonPrimitive(true);
         }
 
         @Override
@@ -213,6 +220,49 @@ public class AllNBTCell {
             } catch (ClassNotFoundException e) {
                 return Object.class;
             }
+        }
+    };
+    public static final NBTCell<ISerialize> I_SERIALIZE = new NBTCell<>() {
+        @Override
+        public Tag as(ISerialize iSerialize) {
+            CompoundTag compoundTag = iSerialize.as();
+            AllNBTPack.CLASS.set(compoundTag, iSerialize.getClass());
+            return compoundTag;
+        }
+
+        @Override
+        public ISerialize from(Tag t) {
+            try {
+                CompoundTag compoundTag = getAsCompoundTag(t);
+                Class<?> c = AllNBTPack.CLASS.get(compoundTag);
+                Object o = c.getDeclaredConstructor().newInstance();
+                ISerialize serialize = (ISerialize) o;
+                serialize.init(compoundTag);
+            } catch (Exception e) {
+                Dusk.instance.logger.error(MessageFormat.format("反序列化{0}出错", t), e);
+            }
+            return null;
+        }
+
+        @Override
+        public JsonElement asJson(ISerialize iSerialize) {
+            JsonObject jsonObject = iSerialize.asJson();
+            AllNBTPack.CLASS.set(jsonObject, iSerialize.getClass());
+            return jsonObject;
+        }
+
+        @Override
+        public ISerialize fromJson(JsonElement json) {
+            try {
+                JsonObject jsonObject = json.getAsJsonObject();
+                Class<?> c = AllNBTPack.CLASS.get(jsonObject);
+                Object o = c.getDeclaredConstructor().newInstance();
+                ISerialize serialize = (ISerialize) o;
+                serialize.init(jsonObject);
+            } catch (Exception e) {
+                Dusk.instance.logger.error(MessageFormat.format("反序列化{0}出错", json), e);
+            }
+            return null;
         }
     };
     public static final NBTCell<ResourceLocation> RESOURCE_LOCATION = new NBTCell<>() {
@@ -527,7 +577,48 @@ public class AllNBTCell {
     public static final NBTMapCell<ItemStack, Double> ITEM_STACK_DOUBLE_MAP = new NBTMapCell<>(ITEM_STACK, DOUBLE);
     public static final NBTMapCell<FluidStack, Double> FLUID_STACK_DOUBLE_MAP = new NBTMapCell<>(FLUID_STATE, DOUBLE);
     public static final NBTMapCell<Skill, ISkill.SkillCell> SKILL_SKILL_CELL_MAP = new NBTMapCell<>(SKILL, SKILL_DATA);
+    public static final NBTMapCell<Skill, Integer> SKILL_INT_MAP = new NBTMapCell<>(SKILL, INT);
     public static final NBTMapCell<Attribute, List<AttributeModifier>> ATTRIBUTE_LIST_NBT_MAP = new NBTMapCell<>(ATTRIBUTE, ATTRIBUTE_MODIFIER.getListNBTCell());
-    public static final ConfigMapCell CONFIG_MAP = new ConfigMapCell();
+    public static final NBTCell<ConfigMap> CONFIG_MAP = new NBTCell<>() {
+        @Override
+        public Tag as(ConfigMap configMapCell) {
+            CompoundTag compoundTag = new CompoundTag();
+            for (Map.Entry<IConfigKey<?>, Supplier<?>> e : configMapCell.entrySet()) {
+                e.getKey().set(compoundTag, Util.forcedConversion(e.getValue()));
+            }
+            return compoundTag;
+        }
+
+        @Override
+        public ConfigMap from(Tag t) {
+            ConfigMap configMap = new ConfigMap();
+            CompoundTag compoundTag = getAsCompoundTag(t);
+            for (String s : compoundTag.getAllKeys()) {
+                IConfigKey<?> iConfigKey = IConfigKey.getKey(s);
+                configMap.put(iConfigKey, iConfigKey.get(compoundTag));
+            }
+            return configMap;
+        }
+
+        @Override
+        public JsonElement asJson(ConfigMap configMapCell) {
+            JsonObject jsonObject = new JsonObject();
+            for (Map.Entry<IConfigKey<?>, Supplier<?>> e : configMapCell.entrySet()) {
+                e.getKey().set(jsonObject, Util.forcedConversion(e.getValue()));
+            }
+            return jsonObject;
+        }
+
+        @Override
+        public ConfigMap fromJson(JsonElement json) {
+            ConfigMap configMap = new ConfigMap();
+            JsonObject jsonObject = json.getAsJsonObject();
+            for (String s : jsonObject.keySet()) {
+                IConfigKey<?> iConfigKey = IConfigKey.getKey(s);
+                configMap.put(iConfigKey, iConfigKey.get(jsonObject));
+            }
+            return configMap;
+        }
+    };
 
 }

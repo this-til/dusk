@@ -1,15 +1,15 @@
 package com.til.dusk.common.config;
 
 import com.google.gson.JsonElement;
-import com.google.gson.JsonNull;
 import com.til.dusk.Dusk;
 import com.til.dusk.util.Extension;
 import com.til.dusk.util.Util;
 import com.til.dusk.util.nbt.cell.AllNBTCell;
+import com.til.dusk.util.nbt.cell.ConfigMapCell;
 import com.til.dusk.util.nbt.cell.NBTCell;
 import com.til.dusk.util.nbt.pack.NBTPack;
-import net.minecraft.nbt.EndTag;
 import net.minecraft.nbt.Tag;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,7 +21,13 @@ import java.util.function.Supplier;
 public class IConfigKey<T> extends NBTPack<Supplier<T>> {
     protected static final Map<String, IConfigKey<?>> CONFIG_KEY_MAP = new HashMap<>(128);
 
-    public IConfigKey(String name, NBTCell<T> nbtCell) {
+    /***
+     * 如果为空表示必要的配置
+     */
+    @Nullable
+    public final Supplier<T> defaultValue;
+
+    public IConfigKey(String name, NBTCell<T> nbtCell, @Nullable Supplier<T> defaultValue) {
         super(name, new NBTCell<>() {
             @Override
             public Tag as(Supplier<T> tSupplier) {
@@ -34,6 +40,9 @@ public class IConfigKey<T> extends NBTPack<Supplier<T>> {
                 return () -> {
                     if (tPack.d1 == null) {
                         tPack.d1 = nbtCell.from(t);
+                        if (tPack.d1 instanceof INeedBack back) {
+                            back.back();
+                        }
                     }
                     return tPack.d1;
                 };
@@ -50,11 +59,15 @@ public class IConfigKey<T> extends NBTPack<Supplier<T>> {
                 return () -> {
                     if (tPack.d1 == null) {
                         tPack.d1 = nbtCell.fromJson(json);
+                        if (tPack.d1 instanceof INeedBack back) {
+                            back.back();
+                        }
                     }
                     return tPack.d1;
                 };
             }
         });
+        this.defaultValue = defaultValue;
         if (CONFIG_KEY_MAP.containsKey(name)) {
             Dusk.instance.logger.error("配置文件解析器出现重复的Key{},为确保程序正常运行已抛弃之前的值", name);
         }
@@ -82,14 +95,14 @@ public class IConfigKey<T> extends NBTPack<Supplier<T>> {
             return Util.forcedConversion(CONFIG_KEY_MAP.get(name));
         }
         Dusk.instance.logger.error("配置文件解析器出现未知的Key{},为确保程序正常运行已创建默认值", name);
-        IConfigKey<V> iConfigKey = new IConfigKey<>(null, Util.forcedConversion(AllNBTCell.EMPTY));
+        IConfigKey<V> iConfigKey = new IConfigKey<>(null, Util.forcedConversion(AllNBTCell.EMPTY), () -> null);
         CONFIG_KEY_MAP.put(name, iConfigKey);
         return iConfigKey;
     }
 
-    public static class VoidConfigKey extends IConfigKey<Void>{
+    public static class VoidConfigKey extends IConfigKey<Void> {
         public VoidConfigKey(String name) {
-            super(name, Util.forcedConversion(AllNBTCell.EMPTY));
+            super(name, Util.forcedConversion(AllNBTCell.EMPTY), () -> null);
         }
     }
 }
