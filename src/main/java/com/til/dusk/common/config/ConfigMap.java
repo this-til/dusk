@@ -8,6 +8,7 @@ import java.util.function.Supplier;
 /**
  * @author til
  */
+@Deprecated
 public class ConfigMap extends HashMap<IConfigKey<?>, Supplier<?>> {
 
     public ConfigMap() {

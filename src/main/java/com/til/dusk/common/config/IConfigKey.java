@@ -5,7 +5,6 @@ import com.til.dusk.Dusk;
 import com.til.dusk.util.Extension;
 import com.til.dusk.util.Util;
 import com.til.dusk.util.nbt.cell.AllNBTCell;
-import com.til.dusk.util.nbt.cell.ConfigMapCell;
 import com.til.dusk.util.nbt.cell.NBTCell;
 import com.til.dusk.util.nbt.pack.NBTPack;
 import net.minecraft.nbt.Tag;
@@ -18,6 +17,7 @@ import java.util.function.Supplier;
 /**
  * @author til
  */
+@Deprecated
 public class IConfigKey<T> extends NBTPack<Supplier<T>> {
     protected static final Map<String, IConfigKey<?>> CONFIG_KEY_MAP = new HashMap<>(128);
 

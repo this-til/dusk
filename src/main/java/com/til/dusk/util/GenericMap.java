@@ -23,6 +23,7 @@ public class GenericMap extends HashMap<GenericMap.IKey<?>, Extension.VariableDa
         Extension.VariableData_2<Supplier<V>, V> pack = Util.forcedConversion(this.get((Object) key));
         if (pack.d2 == null && pack.d1 != null) {
             pack.d2 = pack.d1.get();
+            pack.d1 = null;
             if (pack.d2 instanceof IBackRun backRun) {
                 backRun.backRun();
             }

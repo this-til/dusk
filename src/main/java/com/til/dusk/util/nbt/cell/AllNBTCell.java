@@ -579,6 +579,7 @@ public class AllNBTCell {
     public static final NBTMapCell<Skill, ISkill.SkillCell> SKILL_SKILL_CELL_MAP = new NBTMapCell<>(SKILL, SKILL_DATA);
     public static final NBTMapCell<Skill, Integer> SKILL_INT_MAP = new NBTMapCell<>(SKILL, INT);
     public static final NBTMapCell<Attribute, List<AttributeModifier>> ATTRIBUTE_LIST_NBT_MAP = new NBTMapCell<>(ATTRIBUTE, ATTRIBUTE_MODIFIER.getListNBTCell());
+    @Deprecated
     public static final NBTCell<ConfigMap> CONFIG_MAP = new NBTCell<>() {
         @Override
         public Tag as(ConfigMap configMapCell) {

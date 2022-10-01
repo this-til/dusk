@@ -371,29 +371,35 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> implements Gen
 
         @Override
         public void registerBack() {
-            for (ITEM item : getCellRegistry().item().get()) {
-                ItemPack itemPack = item.create(Util.forcedConversion(this));
-                if (itemPack == null) {
-                    continue;
+            if (getCellRegistry().item() != null) {
+                for (ITEM item : getCellRegistry().item().get()) {
+                    ItemPack itemPack = item.create(Util.forcedConversion(this));
+                    if (itemPack == null) {
+                        continue;
+                    }
+                    itemMap.put(item, itemPack);
+                    registerItem(item, itemPack);
                 }
-                itemMap.put(item, itemPack);
-                registerItem(item, itemPack);
             }
-            for (BLOCK block : getCellRegistry().block().get()) {
-                BlockPack blockPack = block.create(Util.forcedConversion(this));
-                if (blockPack == null) {
-                    continue;
+            if (getCellRegistry().block() != null) {
+                for (BLOCK block : getCellRegistry().block().get()) {
+                    BlockPack blockPack = block.create(Util.forcedConversion(this));
+                    if (blockPack == null) {
+                        continue;
+                    }
+                    blockMap.put(block, blockPack);
+                    registerBlock(block, blockPack);
                 }
-                blockMap.put(block, blockPack);
-                registerBlock(block, blockPack);
             }
-            for (FLUID fluid : getCellRegistry().fluid().get()) {
-                FluidPack fluidPack = fluid.create(Util.forcedConversion(this));
-                if (fluidPack == null) {
-                    continue;
+            if (getCellRegistry().fluid() != null) {
+                for (FLUID fluid : getCellRegistry().fluid().get()) {
+                    FluidPack fluidPack = fluid.create(Util.forcedConversion(this));
+                    if (fluidPack == null) {
+                        continue;
+                    }
+                    fluidMap.put(fluid, fluidPack);
+                    registerFluid(fluid, fluidPack);
                 }
-                fluidMap.put(fluid, fluidPack);
-                registerFluid(fluid, fluidPack);
             }
         }
 

@@ -6,6 +6,7 @@ import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.register.mana_level.ManaLevelItem;
 import com.til.dusk.common.register.ore.Ore;
+import com.til.dusk.common.register.ore.OreBlock;
 import com.til.dusk.common.register.ore.OreItem;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 import com.til.dusk.util.*;
@@ -451,13 +452,15 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
                         .addRun((s, m) -> s.addInItem(m.blockMap.get(frameBasic).blockItemTag(), 1))
                         .addRun((s, m) -> s.addInItem(ManaLevelItem.forming.getTag(m), 1))
                         .addRun((s, m) -> s.addInItem(ManaLevelItem.destruction.getTag(m), 1))
-                        .addRun((s, m) -> s.addInItem(ManaLevelItem.power.getTag(m), 1)));
+                        .addRun((s, m) -> s.addInItem(ManaLevelItem.power.getTag(m), 1))
+                        .addInItem(Tags.Items.BARRELS, 4));
         centrifugal = (HandleMechanic) new HandleMechanic("centrifugal", () -> List.of(ShapedType.centrifugal))
                 .setSet(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
                         .addRun((s, m) -> s.addInItem(m.blockMap.get(frameBasic).blockItemTag(), 1))
                         .addRun((s, m) -> s.addInItem(ManaLevelItem.forming.getTag(m), 1))
                         .addRun((s, m) -> s.addInItem(ManaLevelItem.destruction.getTag(m), 1))
-                        .addRun((s, m) -> s.addInItem(ManaLevelItem.power.getTag(m), 1)));
+                        .addRun((s, m) -> s.addInItem(ManaLevelItem.power.getTag(m), 1))
+                        .addRun((s, m) -> s.addInItem(m.getRelationTagPack(OreItem.rotor).itemTagKey(), 2)));
         pack = (HandleMechanic) new HandleMechanic("pack", () -> List.of(ShapedType.pack))
                 .setSet(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
                         .addRun((s, m) -> s.addInItem(m.blockMap.get(frameBasic).blockItemTag(), 1))
@@ -467,18 +470,24 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
                 .setSet(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
                         .addRun((s, m) -> s.addInItem(m.blockMap.get(frameBasic).blockItemTag(), 1))
                         .addInItem(ItemTag.CRAFTING_TABLE.d1(), 9)
-                        .addRun((s, m) -> s.addInItem(ManaLevelItem.forming.getTag(m), 1)));
+                        .addRun((s, m) -> s.addInItem(ManaLevelItem.destruction.getTag(m), 1)));
         blastFurnace = (HandleMechanic) new HandleMechanic("blast_furnace", () -> List.of(ShapedType.blastFurnace))
                 .setSet(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
                         .addRun((s, m) -> s.addInItem(m.blockMap.get(frameBasic).blockItemTag(), 1))
                         .addRun((s, m) -> s.addInItem(ManaLevelItem.forming.getTag(m), 1))
-                        .addRun((s, m) -> s.addInItem(ManaLevelItem.power.getTag(m), 2)));
+                        .addRun((s, m) -> s.addInItem(ManaLevelItem.power.getTag(m), 2))
+                        .addRun((s, m) -> s.addInItem(m.getRelationTagPack(OreBlock.coil).itemTagKey(), 2)));
         crystallizing = (HandleMechanic) new HandleMechanic("crystallizing", () -> List.of(ShapedType.crystallizing))
                 .setSet(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
                         .addRun((s, m) -> s.addInItem(m.blockMap.get(frameBasic).blockItemTag(), 1))
                         .addRun((s, m) -> s.addInItem(ManaLevelItem.forming.getTag(m), 4))
-                        .addRun((s, m) -> s.addInItem(ManaLevelItem.power.getTag(m), 1)));
-        crystalSeedMake =  new HandleMechanic("crystal_seed_make", () -> List.of(ShapedType.crystalSeedMake));
+                        .addRun((s, m) -> s.addInItem(ManaLevelItem.power.getTag(m), 1))
+                        .addRun((s, m) -> s.addInItem(OreItem.crystalSeed.getTagPack().itemTagKey(), 12)));
+        crystalSeedMake = (HandleMechanic) new HandleMechanic("crystal_seed_make", () -> List.of(ShapedType.crystalSeedMake))
+                .setSet(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
+                        .addRun((s, m) -> s.addInItem(ManaLevelItem.destruction.getTag(m), 1))
+                        .addRun((s, m) -> s.addInItem(ManaLevelItem.power.getTag(m), 1))
+                        .addRun((s, m) -> s.addInItem(OreItem.crystalSeed.getTagPack().itemTagKey(), 12)));
         assemble = (HandleMechanic) new HandleMechanic("assemble", () -> List.of(ShapedType.assemble))
                 .setSet(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
                         .addRun((s, m) -> s.addInItem(m.blockMap.get(frameBasic).blockItemTag(), 1))

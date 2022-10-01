@@ -1,6 +1,5 @@
 package com.til.dusk.common.register.ore;
 
-import com.mojang.serialization.Codec;
 import com.til.dusk.Dusk;
 import com.til.dusk.client.ColorProxy;
 import com.til.dusk.common.register.RegisterBasics;
@@ -10,11 +9,11 @@ import com.til.dusk.util.Extension;
 import com.til.dusk.util.Lang;
 import com.til.dusk.common.data.tag.BlockTag;
 import com.til.dusk.util.pack.BlockPack;
+import com.til.dusk.util.pack.DataPack;
 import com.til.dusk.util.prefab.JsonPrefab;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.BlockItem;
@@ -372,6 +371,24 @@ public abstract class OreBlock extends RegisterBasics.BlockUnitRegister<OreBlock
     public static class MineralBlockData {
         public final Ore ore;
 
+        /***
+         * 洗矿副产物
+         */
+        @Nullable
+        public DataPack.OreDataPack washByproduct;
+
+        /***
+         * 离心副产物
+         */
+        @Nullable
+        public DataPack.OreDataPack centrifugeByproduct;
+
+        /***
+         * 筛选副产物
+         */
+        @Nullable
+        public DataPack.OreDataPack screenByproduct;
+
         public MineralBlockData(Ore ore) {
             this.ore = ore;
         }
@@ -432,6 +449,20 @@ public abstract class OreBlock extends RegisterBasics.BlockUnitRegister<OreBlock
             return null;
         }
 
+        public MineralBlockData setWashByproduct(DataPack.OreDataPack washByproduct) {
+            this.washByproduct = washByproduct;
+            return this;
+        }
+
+        public MineralBlockData setCentrifugeByproduct(DataPack.OreDataPack centrifugeByproduct) {
+            this.centrifugeByproduct = centrifugeByproduct;
+            return this;
+        }
+
+        public MineralBlockData setScreenByproduct(DataPack.OreDataPack screenByproduct) {
+            this.screenByproduct = screenByproduct;
+            return this;
+        }
     }
 
     public static class OreGenerateData {

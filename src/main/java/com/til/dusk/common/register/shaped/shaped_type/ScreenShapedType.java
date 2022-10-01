@@ -6,6 +6,7 @@ import com.til.dusk.common.register.ore.Ore;
 import com.til.dusk.common.register.ore.OreItem;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
+import com.til.dusk.util.pack.DataPack;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.HashMap;
@@ -32,7 +33,12 @@ public class ScreenShapedType extends ShapedType {
                     .addOutItem(new ItemStack(ore.itemMap.get(OreItem.crystalSeed).item(), 1), 0.3)
                     .addOutItem(new ItemStack(ore.itemMap.get(OreItem.dustTiny).item(), 1), 0.6)
                     .addOutItem(new ItemStack(ore.itemMap.get(OreItem.dust).item(), 1), 0.2)
-                    .runThis(Ore.SCREEN_BYPRODUCT, ore, null)
+                    .runThis(s -> {
+                        DataPack.OreDataPack centrifugeByproduct = ore.getSet(Ore.MINERAL_BLOCK_DATA).screenByproduct;
+                        if (centrifugeByproduct != null) {
+                            centrifugeByproduct.run(s, null);
+                        }
+                    })
                     .addMultipleSurplusTime((long) (128 * ore.strength))
                     .addMultipleConsumeMana((long) (4 * ore.consume));
         }

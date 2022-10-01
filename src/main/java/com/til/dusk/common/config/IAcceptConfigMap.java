@@ -6,6 +6,7 @@ import com.til.dusk.util.GenericMap;
  * 此接口表示对象支持配置MAP
  * @author til
  */
+@Deprecated
 public interface IAcceptConfigMap {
     /***
      * 创建好之后调用传入配置表
