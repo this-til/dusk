@@ -9,8 +9,12 @@ import com.til.dusk.common.event.DelayTrigger;
 import com.til.dusk.common.register.shaped.shapeds.Shaped;
 import com.til.dusk.common.world.block.ModBlock;
 import com.til.dusk.common.world.item.DuskItem;
+import com.til.dusk.common.world.item.ItemBasics;
 import com.til.dusk.util.*;
 import com.til.dusk.util.pack.*;
+import net.minecraft.data.recipes.RecipeBuilder;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
@@ -99,6 +103,31 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> implements Gen
         return setMap.containsKey(key);
     }
 
+    public T addDelayRun(Runnable run) {
+        DelayTrigger.addRun(DelayTrigger.COMMON_SETUP, run);
+        return Util.forcedConversion(this);
+    }
+
+    public T addShaped(Extension.Func<Shaped> func) {
+        DelayTrigger.addRun(DelayTrigger.SHAPED, func);
+        return Util.forcedConversion(this);
+    }
+
+    public T addRecipe(Extension.Func<RecipeBuilder> func) {
+        DelayTrigger.addRun(DelayTrigger.RECIPE, c -> func.func().save(c));
+        return Util.forcedConversion(this);
+    }
+
+    public T addRecipes(Extension.Action_1V<List<RecipeBuilder>> func) {
+        DelayTrigger.addRun(DelayTrigger.RECIPE, c -> {
+            List<RecipeBuilder> stringBuffers = new ArrayList<>();
+            func.action(stringBuffers);
+            for (RecipeBuilder stringBuffer : stringBuffers) {
+                stringBuffer.save(c);
+            }
+        });
+        return Util.forcedConversion(this);
+    }
 
     @Override
     public int hashCode() {
@@ -125,15 +154,6 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> implements Gen
         return name.toString();
     }
 
-    public T addDelayRun(Runnable run) {
-        DelayTrigger.addRun(DelayTrigger.COMMON_SETUP, run);
-        return Util.forcedConversion(this);
-    }
-
-    public T addShaped(Extension.Func<Shaped> func) {
-        DelayTrigger.addRun(DelayTrigger.SHAPED, func);
-        return Util.forcedConversion(this);
-    }
 
     public static ResourceLocation fuseName(String splicing, String[] strings) {
         return new ResourceLocation(Dusk.MOD_ID, String.join(splicing, Arrays.asList(strings)));

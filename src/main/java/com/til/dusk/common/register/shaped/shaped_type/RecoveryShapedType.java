@@ -3,7 +3,7 @@ package com.til.dusk.common.register.shaped.shaped_type;
 import com.google.gson.JsonObject;
 import com.til.dusk.common.capability.handle.ShapedHandle;
 import com.til.dusk.common.register.mana_level.ManaLevel;
-import com.til.dusk.common.register.mana_level.mana_level_block.ManaLevelBlock;
+import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shapeds.ShapedMiddleExtend;
 import com.til.dusk.common.world.item.DuskItem;

@@ -1,6 +1,6 @@
 package com.til.dusk.common.register.shaped.shaped_type;
 
-import com.til.dusk.common.register.mana_level.mana_level_block.ManaLevelBlock;
+import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
 
 /**
  * @author til

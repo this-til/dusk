@@ -2,13 +2,13 @@ package com.til.dusk.client;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.common.register.mana_level.ManaLevel;
-import com.til.dusk.common.register.mana_level.mana_level_block.ManaLevelBlock;
+import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
 import com.til.dusk.common.register.mana_level.ManaLevelFluid;
 import com.til.dusk.common.register.mana_level.ManaLevelItem;
 import com.til.dusk.common.register.ore.Ore;
-import com.til.dusk.common.register.ore.OreBlock;
+import com.til.dusk.common.register.ore.block.OreBlock;
 import com.til.dusk.common.register.ore.OreFluid;
-import com.til.dusk.common.register.ore.OreItem;
+import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.world.block.ModBlock;
 import com.til.dusk.common.world.item.DuskItem;
 import com.til.dusk.util.DuskColor;

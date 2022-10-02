@@ -3,11 +3,11 @@ package com.til.dusk.common.register.mana_level;
 import com.til.dusk.Dusk;
 import com.til.dusk.common.data.tag.ItemTag;
 import com.til.dusk.common.register.RegisterBasics;
-import com.til.dusk.common.register.mana_level.mana_level_block.ManaLevelBlock;
+import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
 import com.til.dusk.common.register.ore.Ore;
-import com.til.dusk.common.register.ore.OreBlock;
+import com.til.dusk.common.register.ore.block.OreBlock;
 import com.til.dusk.common.register.ore.OreFluid;
-import com.til.dusk.common.register.ore.OreItem;
+import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.GenericMap;
 import com.til.dusk.util.pack.DataPack;
@@ -63,12 +63,14 @@ public class ManaLevel extends RegisterBasics.UnitRegister<ManaLevel, ManaLevelI
                 .setSet(SPREAD, () -> new DataPack.ManaLevelDataPack()
                         .addInItem(Tags.Items.GEMS_PRISMARINE, 1))
                 .setSet(POWER, () -> new DataPack.ManaLevelDataPack()
-                        .addRun((s, m) -> s.addInItem(m.getRelationTagPack(OreItem.rotor).itemTagKey(), 1))
-                        .addRun((s, m) -> s.addInItem(m.getRelationTagPack(OreBlock.coil).itemTagKey(), 1)))
+                        .addRun((s, m) -> s.addInItem(m.getAcceptableTagPack(OreItem.rotor).itemTagKey(), 1))
+                        .addRun((s, m) -> s.addInItem(m.getAcceptableTagPack(OreBlock.coil).itemTagKey(), 1)))
                 .setSet(INSTRUCTIONS, () -> new DataPack.ManaLevelDataPack()
                         .addInItem(ItemTag.inductanceTag, 2)
                         .addInItem(ItemTag.capacitanceTag, 4)
-                        .addRun((s, m) -> s.addInItem(m.getRelationTagPack(OreItem.foil).itemTagKey(), 16)));
+                        .addRun((s, m) -> s.addInItem(m.getAcceptableTagPack(OreItem.foil).itemTagKey(), 16)))
+                .setSet(CAN_UET_TOOL_MAKE)
+                .setSet(CAN_USE_RECIPE_MAKE);
         t2 = new ManaLevel(2, 1280, 2, 2, 0.09, 18, new DuskColor(100, 200, 225), () -> t1, () -> t3)
                 .setSet(OPERATION_BASICS, () -> new DataPack.ManaLevelDataPack()
                         .addInFluid(Ore.highEnergyRedStone.fluidMap.get(OreFluid.solution).fluidTag(), 72)
@@ -91,13 +93,13 @@ public class ManaLevel extends RegisterBasics.UnitRegister<ManaLevel, ManaLevelI
                         .addInItem(Tags.Items.GEMS_PRISMARINE, 2)
                         .addInFluid(Ore.sourceAir.fluidMap.get(OreFluid.solution).fluidTag(), 256))
                 .setSet(POWER, () -> new DataPack.ManaLevelDataPack()
-                        .addRun((s, m) -> s.addInItem(m.getRelationTagPack(OreItem.rotor).itemTagKey(), 2))
-                        .addRun((s, m) -> s.addInItem(m.getRelationTagPack(OreBlock.coil).itemTagKey(), 1))
+                        .addRun((s, m) -> s.addInItem(m.getAcceptableTagPack(OreItem.rotor).itemTagKey(), 2))
+                        .addRun((s, m) -> s.addInItem(m.getAcceptableTagPack(OreBlock.coil).itemTagKey(), 1))
                         .addInFluid(Ore.natureAir.fluidMap.get(OreFluid.solution).fluidTag(), 256))
                 .setSet(INSTRUCTIONS, () -> new DataPack.ManaLevelDataPack()
                         .addInItem(ItemTag.inductanceTag, 4)
                         .addInItem(ItemTag.capacitanceTag, 8)
-                        .addRun((s, m) -> s.addInItem(m.getRelationTagPack(OreItem.foil).itemTagKey(), 32))
+                        .addRun((s, m) -> s.addInItem(m.getAcceptableTagPack(OreItem.foil).itemTagKey(), 32))
                         .addInFluid(Ore.natureAir.fluidMap.get(OreFluid.solution).fluidTag(), 256));
         t3 = new ManaLevel(3, 640, 3, 4, 0.08, 20, new DuskColor(125, 150, 200), () -> t2, () -> t4)
                 .setSet(OPERATION_BASICS, () -> new DataPack.ManaLevelDataPack()
@@ -122,13 +124,13 @@ public class ManaLevel extends RegisterBasics.UnitRegister<ManaLevel, ManaLevelI
                         .addInItem(Tags.Items.GEMS_PRISMARINE, 4)
                         .addInFluid(Ore.sourceAir.fluidMap.get(OreFluid.solution).fluidTag(), 512))
                 .setSet(POWER, () -> new DataPack.ManaLevelDataPack()
-                        .addRun((s, m) -> s.addInItem(m.getRelationTagPack(OreItem.rotor).itemTagKey(), 4))
-                        .addRun((s, m) -> s.addInItem(m.getRelationTagPack(OreBlock.coil).itemTagKey(), 1))
+                        .addRun((s, m) -> s.addInItem(m.getAcceptableTagPack(OreItem.rotor).itemTagKey(), 4))
+                        .addRun((s, m) -> s.addInItem(m.getAcceptableTagPack(OreBlock.coil).itemTagKey(), 1))
                         .addInFluid(Ore.natureAir.fluidMap.get(OreFluid.solution).fluidTag(), 512))
                 .setSet(INSTRUCTIONS, () -> new DataPack.ManaLevelDataPack()
                         .addInItem(ItemTag.inductanceTag, 8)
                         .addInItem(ItemTag.capacitanceTag, 16)
-                        .addRun((s, m) -> s.addInItem(m.getRelationTagPack(OreItem.foil).itemTagKey(), 64))
+                        .addRun((s, m) -> s.addInItem(m.getAcceptableTagPack(OreItem.foil).itemTagKey(), 64))
                         .addInFluid(Ore.natureAir.fluidMap.get(OreFluid.solution).fluidTag(), 512));
         t4 = new ManaLevel(4, 320, 4, 4, 0.07, 22, new DuskColor(150, 100, 175), () -> t3, () -> t5)
                 .setSet(OPERATION_BASICS, () -> new DataPack.ManaLevelDataPack()
@@ -224,7 +226,7 @@ public class ManaLevel extends RegisterBasics.UnitRegister<ManaLevel, ManaLevelI
         this.next = next;
     }
 
-    public TagPack getRelationTagPack(RegisterBasics<?> registerBasics) {
+    public TagPack getAcceptableTagPack(RegisterBasics<?> registerBasics) {
         if (relationTagMap.containsKey(registerBasics)) {
             return relationTagMap.get(registerBasics);
         }
@@ -255,5 +257,15 @@ public class ManaLevel extends RegisterBasics.UnitRegister<ManaLevel, ManaLevelI
     public static final GenericMap.IKey<DataPack.ManaLevelDataPack> SPREAD = new GenericMap.IKey.Key<>();
     public static final GenericMap.IKey<DataPack.ManaLevelDataPack> POWER = new GenericMap.IKey.Key<>();
     public static final GenericMap.IKey<DataPack.ManaLevelDataPack> INSTRUCTIONS = new GenericMap.IKey.Key<>();
+
+    /***
+     * 能使用工具制造
+     */
+    public static final GenericMap.IKey<Void> CAN_UET_TOOL_MAKE = new GenericMap.IKey.Key<>();
+
+    /***
+     * 可以使用配方制造
+     */
+    public static final GenericMap.IKey<Void> CAN_USE_RECIPE_MAKE = new GenericMap.IKey.Key<>();
 
 }

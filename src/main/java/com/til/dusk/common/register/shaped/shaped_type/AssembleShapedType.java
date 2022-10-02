@@ -2,22 +2,18 @@ package com.til.dusk.common.register.shaped.shaped_type;
 
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.register.mana_level.ManaLevelItem;
-import com.til.dusk.common.register.mana_level.mana_level_block.ManaLevelBlock;
+import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
 import com.til.dusk.common.register.ore.Ore;
-import com.til.dusk.common.register.ore.OreBlock;
+import com.til.dusk.common.register.ore.block.OreBlock;
 import com.til.dusk.common.register.ore.OreFluid;
-import com.til.dusk.common.register.ore.OreItem;
+import com.til.dusk.common.register.ore.item.ArmorData;
+import com.til.dusk.common.register.ore.item.ArmsData;
+import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
-import com.til.dusk.util.Extension;
 import com.til.dusk.util.pack.BlockPack;
-import com.til.dusk.util.pack.DataPack;
-import net.minecraft.tags.TagKey;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.material.Fluid;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -38,9 +34,9 @@ public class AssembleShapedType extends ShapedType {
                     .addMultipleSurplusTime(4096L)
                     .addMultipleConsumeMana(12L);
             new ShapedOre(this, ShapedDrive.get(0), ore.manaLevel)
-                    .addInItem(ore.blockMap.get(OreBlock.bracket).blockItemTag(), 6)
+                    .addInItem(ore.blockMap.get(OreBlock.bracket).blockItemTag(), 1)
                     .addInItem(ore.itemMap.get(OreItem.casing).itemTag(), 6)
-                    .addInItem(ore.itemMap.get(OreItem.string).itemTag(), 128)
+                    .addInItem(ore.itemMap.get(OreItem.string).itemTag(), 32)
                     .addOutItem(new ItemStack(ore.blockMap.get(OreBlock.coil).blockItem(), 1), 1d)
                     .addMultipleSurplusTime(8192L)
                     .addMultipleConsumeMana(22L);
@@ -69,7 +65,7 @@ public class AssembleShapedType extends ShapedType {
         }
 
         for (Ore ore : Ore.screen(Ore.ARMOR_DATA)) {
-            OreItem.ArmorData armorData = ore.getSet(Ore.ARMOR_DATA);
+            ArmorData armorData = ore.getSet(Ore.ARMOR_DATA);
             new ShapedOre(this, ShapedDrive.get(3), ore.manaLevel)
                     .addInItem(ore.itemMap.get(OreItem.plate_4).itemTag(), 32 * ore.manaLevel.level)
                     .addInItem(ManaLevelItem.operation.getTag(ore.manaLevel), 24 * ore.manaLevel.level)
@@ -116,7 +112,7 @@ public class AssembleShapedType extends ShapedType {
                     .addMultipleConsumeMana(64L * ore.manaLevel.level);
         }
         for (Ore ore : Ore.screen(Ore.ARMS_DATA)) {
-            OreItem.ArmsData armorData = ore.getSet(Ore.ARMS_DATA);
+            ArmsData armorData = ore.getSet(Ore.ARMS_DATA);
             new ShapedOre(this, ShapedDrive.get(7), ore.manaLevel)
                     .addInItem(ore.itemMap.get(OreItem.swordBasics).itemTag(), 1)
                     .addInItem(ore.itemMap.get(OreItem.plate_4).itemTag(), 128 * ore.manaLevel.level)

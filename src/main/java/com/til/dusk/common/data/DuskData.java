@@ -207,6 +207,9 @@ public class DuskData {
         public static InventoryChangeTrigger.TriggerInstance has(TagKey<Item> key) {
             return RecipeProvider.has(key);
         }
+        public static InventoryChangeTrigger.TriggerInstance has(Item key) {
+            return RecipeProvider.has(key);
+        }
 
         public static InventoryChangeTrigger.TriggerInstance inventoryTrigger(ItemPredicate... itemPredicates) {
             return RecipeProvider.inventoryTrigger(itemPredicates);

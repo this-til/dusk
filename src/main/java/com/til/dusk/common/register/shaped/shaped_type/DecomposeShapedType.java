@@ -3,7 +3,7 @@ package com.til.dusk.common.register.shaped.shaped_type;
 import com.google.gson.JsonObject;
 import com.til.dusk.common.capability.handle.ShapedHandle;
 import com.til.dusk.common.register.mana_level.ManaLevel;
-import com.til.dusk.common.register.mana_level.mana_level_block.ManaLevelBlock;
+import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
 import com.til.dusk.common.register.ore.Ore;
 import com.til.dusk.common.register.ore.OreFluid;
 import com.til.dusk.common.register.shaped.ShapedDrive;
@@ -19,7 +19,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;

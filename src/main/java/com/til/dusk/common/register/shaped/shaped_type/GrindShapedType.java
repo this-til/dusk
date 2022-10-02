@@ -1,9 +1,10 @@
 package com.til.dusk.common.register.shaped.shaped_type;
 
-import com.til.dusk.common.register.mana_level.mana_level_block.ManaLevelBlock;
+import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
 import com.til.dusk.common.register.ore.Ore;
-import com.til.dusk.common.register.ore.OreBlock;
-import com.til.dusk.common.register.ore.OreItem;
+import com.til.dusk.common.register.ore.block.OreBlockMineral;
+import com.til.dusk.common.register.ore.block.OreBlock;
+import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
 import com.til.dusk.util.pack.BlockPack;
@@ -23,16 +24,11 @@ public class GrindShapedType extends ShapedType {
     @Override
     public void registerShaped() {
         for (Ore ore : Ore.screen(Ore.MINERAL_BLOCK_DATA)) {
-            for (Map.Entry<OreBlock, BlockPack> entry : ore.blockMap.entrySet()) {
-                if (!(entry.getKey() instanceof OreBlock.MineralOreBlock)) {
-                    continue;
-                }
-                new ShapedOre(this, ShapedDrive.get(0), ore.manaLevel)
-                        .addInItem(ore.blockMap.get(entry.getKey()).blockItemTag(), 1)
-                        .addOutItem(new ItemStack(ore.itemMap.get(OreItem.crushed).item(), 2), 1d)
-                        .addMultipleSurplusTime((long) (640 * ore.strength))
-                        .addMultipleConsumeMana((long) (16 * ore.consume));
-            }
+            new ShapedOre(this, ShapedDrive.get(0), ore.manaLevel)
+                    .addInItem(ore.getMineralBlockTag().itemTagKey(), 1)
+                    .addOutItem(new ItemStack(ore.itemMap.get(OreItem.crushed).item(), 2), 1d)
+                    .addMultipleSurplusTime((long) (640 * ore.strength))
+                    .addMultipleConsumeMana((long) (16 * ore.consume));
         }
 
         for (Ore ore : Ore.screen(Ore.IS_METAL, Ore.HAS_DUST)) {

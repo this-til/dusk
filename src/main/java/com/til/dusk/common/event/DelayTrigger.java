@@ -62,7 +62,6 @@ public class DelayTrigger {
     public static final ITriggerType<Runnable> TAG = new ITriggerType.TriggerType<>();
     public static final ITriggerType<Extension.Func<Shaped>> SHAPED = new ITriggerType.TriggerType<>();
     public static final ITriggerType<Extension.Action_1V<Consumer<FinishedRecipe>>> RECIPE = new ITriggerType.TriggerType<>();
-
     public interface ITriggerType<RUN_TYPE> {
         class TriggerType<RUN_TYPE> implements ITriggerType<RUN_TYPE> {
         }

@@ -12,7 +12,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.NewRegistryEvent;
-import org.checkerframework.checker.units.qual.C;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -81,7 +80,9 @@ public class ItemTag {
     public static Extension.Data_2<TagKey<Item>, TagKey<Block>> REPEATER;
     public static Extension.Data_2<TagKey<Item>, TagKey<Block>> COMPARATOR;
     public static Extension.Data_2<TagKey<Item>, TagKey<Block>> PISTON;
-
+    public static Extension.Data_2<TagKey<Item>, TagKey<Block>> FURNACE;
+    public static Extension.Data_2<TagKey<Item>, TagKey<Block>> ANVIL;
+    public static Extension.Data_2<TagKey<Item>, TagKey<Block>> CAULDRON;
 
     public static TagKey<Item> ENDER_EYE;
     public static TagKey<Item> SNOWBALL;
@@ -125,6 +126,9 @@ public class ItemTag {
         REPEATER = createBlockTag((BlockItem) Items.REPEATER);
         COMPARATOR = createBlockTag((BlockItem) Items.COMPARATOR);
         PISTON = createBlockTag((BlockItem) Items.PISTON);
+        FURNACE = createBlockTag((BlockItem) Items.FURNACE);
+        ANVIL = createBlockTag((BlockItem) Items.ANVIL);
+        CAULDRON = createBlockTag((BlockItem) Items.CAULDRON);
 
         ENDER_EYE = createTag(Items.ENDER_EYE);
         SNOWBALL = createTag(Items.SNOWBALL);

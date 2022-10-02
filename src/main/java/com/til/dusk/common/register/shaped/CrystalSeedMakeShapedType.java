@@ -1,8 +1,8 @@
 package com.til.dusk.common.register.shaped;
 
-import com.til.dusk.common.register.mana_level.mana_level_block.ManaLevelBlock;
+import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
 import com.til.dusk.common.register.ore.Ore;
-import com.til.dusk.common.register.ore.OreItem;
+import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
 import net.minecraft.tags.ItemTags;

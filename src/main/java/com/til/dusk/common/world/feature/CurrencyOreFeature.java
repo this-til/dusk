@@ -1,39 +1,21 @@
 package com.til.dusk.common.world.feature;
 
-import com.mojang.serialization.Codec;
-import com.til.dusk.Dusk;
-import com.til.dusk.common.register.ore.Ore;
-import com.til.dusk.common.register.ore.OreBlock;
+import com.til.dusk.common.register.ore.block.GenerateData;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
-import net.minecraft.core.Registry;
 import net.minecraft.core.SectionPos;
-import net.minecraft.data.worldgen.features.FeatureUtils;
-import net.minecraft.data.worldgen.placement.PlacementUtils;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.WorldGenLevel;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.BulkSectionAccess;
-import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.chunk.LevelChunkSection;
 import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraft.world.level.levelgen.VerticalAnchor;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
-import net.minecraft.world.level.levelgen.placement.*;
-import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
-import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTestType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
-import java.util.function.Function;
 
 /**
  * @author til
@@ -155,15 +137,15 @@ public class CurrencyOreFeature extends Feature<CurrencyOreFeatureConfiguration>
                                                         int sectionY = SectionPos.sectionRelative(y);
                                                         int sectionZ = SectionPos.sectionRelative(z);
                                                         BlockState state = section.getBlockState(sectionX, sectionY, sectionZ);
-                                                        OreBlock.OreGenerateData oreGenerateData = config.generateData();
-                                                        if (oreGenerateData.canInLevel != null && !oreGenerateData.canInLevel.func(level)) {
+                                                        GenerateData generateData = config.generateData();
+                                                        if (generateData.canInLevel != null && !generateData.canInLevel.func(level)) {
                                                             continue;
                                                         }
                                                         BlockPos blockPos = new BlockPos(sectionX, sectionY, sectionZ);
-                                                        if (oreGenerateData.canPlace != null && !oreGenerateData.canPlace.func(state)) {
+                                                        if (generateData.canPlace != null && !generateData.canPlace.func(state)) {
                                                             continue;
                                                         }
-                                                        BlockState pBlock = oreGenerateData.place.func(blockPos, level, state);
+                                                        BlockState pBlock = generateData.place.func(blockPos, level, state);
                                                         if (pBlock != null) {
                                                             section.setBlockState(sectionX, sectionY, sectionZ, pBlock, false);
                                                             ++i;

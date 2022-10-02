@@ -1,11 +1,8 @@
 package com.til.dusk.common.world.feature;
 
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.til.dusk.common.register.ore.Ore;
-import com.til.dusk.common.register.ore.OreBlock;
+import com.til.dusk.common.register.ore.block.GenerateData;
 import net.minecraft.core.Holder;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraftforge.common.world.BiomeGenerationSettingsBuilder;
@@ -25,7 +22,7 @@ public class BiomeModifierProvider implements BiomeModifier {
         if (phase != Phase.ADD) {
             return;
         }
-        for (OreBlock.OreGenerateData generateData : ModFeature.CAN_FEATURE_ORE) {
+        for (GenerateData generateData : ModFeature.CAN_FEATURE_ORE) {
             if (generateData.canInBiome != null && !generateData.canInBiome.func(biome.get())) {
                 return;
             }
