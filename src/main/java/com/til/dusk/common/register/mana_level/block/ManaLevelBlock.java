@@ -593,8 +593,17 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
                         .addRun((s, m) -> s.addInItem(m.getAcceptableTagPack(OreItem.hammer).itemTagKey(), 1))
                         .addRun((s, m) -> s.addInItem(ManaLevelItem.instructions.getTag(m), 1))
                         .addRun((s, m) -> s.addInItem(ItemTag.ANVIL.d1(), 1)));
-        lathe = (HandleMechanic) new HandleMechanic("lathe", () -> List.of(ShapedType.lathe));
-        tieWire = (HandleMechanic) new HandleMechanic("tie_wire", () -> List.of(ShapedType.tieWire));
+        lathe = (HandleMechanic) new HandleMechanic("lathe", () -> List.of(ShapedType.lathe))
+                .setSet(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
+                        .addRun((s, m) -> s.addInItem(m.blockMap.get(frameBasic).blockItemTag(), 1))
+                        .addRun((s, m) -> s.addInItem(m.getAcceptableTagPack(OreItem.file).itemTagKey(), 3))
+                        .addRun((s, m) -> s.addInItem(ManaLevelItem.power.getTag(m), 3))
+                        .addRun((s, m) -> s.addInItem(ManaLevelItem.instructions.getTag(m), 3))
+                        .addRun((s, m) -> s.addInItem(ItemTag.ANVIL.d1(), 1)));
+        tieWire = (HandleMechanic) new HandleMechanic("tie_wire", () -> List.of(ShapedType.tieWire))
+                .setSet(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
+                        .addRun((s, m) -> s.addInItem(m.blockMap.get(pressureStick).blockItemTag(), 1))
+                        .addRun((s, m) -> s.addInItem(ManaLevelItem.forming.getTag(m), 3)));
         cutting = (HandleMechanic) new HandleMechanic("cutting", () -> List.of(ShapedType.cutting))
                 .setSet(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
                         .addRun((s, m) -> s.addInItem(m.blockMap.get(frameBasic).blockItemTag(), 1))
@@ -626,7 +635,10 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
                         .addRun((s, m) -> s.addInItem(m.blockMap.get(assemble).blockItemTag(), 1))
                         .addRun((s, m) -> s.addInItem(ManaLevelItem.instructions.getTag(m), 1))
                         .addRun((s, m) -> s.addInItem(m.getAcceptableTagPack(OreItem.hammer).itemTagKey(), 1)));
-        manaCoagulation = (HandleMechanic) new HandleMechanic("mana_coagulation", () -> List.of(ShapedType.manaCoagulation));
+        manaCoagulation = (HandleMechanic) new HandleMechanic("mana_coagulation", () -> List.of(ShapedType.manaCoagulation))
+                .setSet(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
+                        .addRun((s, m) -> s.addInItem(m.blockMap.get(frameBasic).blockItemTag(), 1))
+                        .addRun((s, m) -> s.addInItem(Ore.mithril.blockMap.get(OreBlock.coil).blockItemTag(), 4)));
         stemCellExtract = (HandleMechanic) new HandleMechanic("stem_cell_extract", () -> List.of(ShapedType.stemCellExtract));
         cellCulture = (HandleMechanic) new HandleMechanic("cell_culture", () -> List.of(ShapedType.cellCulture));
         uuGenerate = (HandleMechanic) new HandleMechanic("uu_generate", () -> List.of(ShapedType.uuGenerate))

@@ -6,13 +6,10 @@ import com.til.dusk.common.data.DuskData;
 import com.til.dusk.common.data.tag.ItemTag;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.register.ore.Ore;
-import com.til.dusk.common.register.ore.block.OreBlockMineral;
-import com.til.dusk.common.register.ore.block.OreBlock;
 import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.world.item.*;
 import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.GenericMap;
-import com.til.dusk.util.pack.BlockPack;
 import com.til.dusk.util.prefab.ColorPrefab;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
@@ -28,7 +25,6 @@ import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegistryBuilder;
 
-import java.util.Map;
 import java.util.function.Supplier;
 
 /**
@@ -43,109 +39,109 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
     /***
      * 矿物锭
      */
-    public static MetalOreItem ingot;
+    public static OreItemMetal ingot;
 
     /***
      * 板
      */
-    public static MetalOreItem plate;
+    public static OreItemMetal plate;
 
-    public static MetalOreItem plate_2;
+    public static OreItemMetal plate_2;
 
-    public static MetalOreItem plate_3;
+    public static OreItemMetal plate_3;
 
-    public static MetalOreItem plate_4;
+    public static OreItemMetal plate_4;
 
     /***
      * 外壳
      */
-    public static MetalOreItem casing;
+    public static OreItemMetal casing;
 
     /***
      * 箔
      */
-    public static MetalOreItem foil;
+    public static OreItemMetal foil;
 
     /***
      * 杆
      */
-    public static MetalOreItem stick;
+    public static OreItemMetal stick;
 
     /***
      * 长杆
      */
-    public static MetalOreItem stick_long;
+    public static OreItemMetal stick_long;
 
     /***
      * 线
      */
-    public static MetalOreItem string;
+    public static OreItemMetal string;
 
     /***
      * 齿轮
      */
-    public static MetalOreItem gear;
+    public static OreItemMetal gear;
 
     /***
      * 转子
      */
-    public static MetalOreItem rotor;
+    public static OreItemMetal rotor;
 
     /***
      * 圆锯
      */
-    public static MetalOreItem circularSawBlade;
+    public static OreItemMetal circularSawBlade;
 
     /***
      * 粒
      */
-    public static MetalOreItem nuggets;
+    public static OreItemMetal nuggets;
 
     /***
      * 破损的晶体
      */
-    public static CrystaOreItem damagedCrystal;
+    public static OreItemCrysta damagedCrystal;
 
     /***
      * 晶体
      */
-    public static CrystaOreItem crystal;
+    public static OreItemCrysta crystal;
 
     /***
      * 精致的晶体
      */
-    public static CrystaOreItem delicateCrystal;
+    public static OreItemCrysta delicateCrystal;
 
     /***
      * 完美的晶体
      */
-    public static CrystaOreItem perfectCrystal;
+    public static OreItemCrysta perfectCrystal;
 
     /***
      * 晶体种子
      */
-    public static CrystaOreItem crystalSeed;
+    public static OreItemCrysta crystalSeed;
 
     /***
      * 粉碎矿物
      */
-    public static MineralBlockOreItem crushed;
+    public static OreItemMineralBlock crushed;
 
     /***
      * 纯净矿物
      * 由粉碎矿物洗涤而得到
      */
-    public static MineralBlockOreItem crushedPurified;
+    public static OreItemMineralBlock crushedPurified;
 
     /***
      * 矿粉
      */
-    public static DustOreItem dust;
+    public static OreItemDust dust;
 
     /***
      * 小撮粉
      */
-    public static DustOreItem dustTiny;
+    public static OreItemDust dustTiny;
 
     public static OreItemArmsBasics swordBasics;
     public static OreItemArmsBasics shovelBasics;
@@ -187,7 +183,7 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
         ORE_ITEM = event.create(new RegistryBuilder<OreItem>().setName(new ResourceLocation(Dusk.MOD_ID, "ore_item")));
-        ingot = (MetalOreItem) new MetalOreItem("ingot")
+        ingot = (OreItemMetal) new OreItemMetal("ingot")
                 .addRecipes(list -> {
                     for (Ore ore : Ore.screen(Ore.IS_METAL, Ore.MINERAL_BLOCK_DATA)) {
                         if (!ore.manaLevel.hasSet(ManaLevel.CAN_UET_TOOL_MAKE)) {
@@ -199,8 +195,8 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
 
                     }
                 });
-        plate = new MetalOreItem("plate");
-        plate_2 = new MetalOreItem("plate_2") {
+        plate = new OreItemMetal("plate");
+        plate_2 = new OreItemMetal("plate_2") {
             @Override
             public DuskItem.ICustomModel getItemMoldMapping(Ore ore) {
                 return () -> plate.name;
@@ -212,7 +208,7 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
                 itemColorPack.addColor(0, itemStack -> color);
             }
         };
-        plate_3 = new MetalOreItem("plate_3") {
+        plate_3 = new OreItemMetal("plate_3") {
             @Override
             public DuskItem.ICustomModel getItemMoldMapping(Ore ore) {
                 return () -> plate.name;
@@ -224,7 +220,7 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
                 itemColorPack.addColor(0, itemStack -> color);
             }
         };
-        plate_4 = new MetalOreItem("plate_4") {
+        plate_4 = new OreItemMetal("plate_4") {
             @Override
             public DuskItem.ICustomModel getItemMoldMapping(Ore ore) {
                 return () -> plate.name;
@@ -236,24 +232,24 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
                 itemColorPack.addColor(0, itemStack -> color);
             }
         };
-        foil = new MetalOreItem("foil");
-        casing = new MetalOreItem("casing");
-        stick = new MetalOreItem("stick");
-        stick_long = new MetalOreItem("stick_long");
-        string = new MetalOreItem("string");
-        gear = new MetalOreItem("gear");
-        rotor = new MetalOreItem("rotor");
-        circularSawBlade = new MetalOreItem("circular_saw_blade");
-        nuggets = new MetalOreItem("nuggets");
-        damagedCrystal = new CrystaOreItem("crystal_damaged");
-        crystal = new CrystaOreItem("crystal");
-        delicateCrystal = new CrystaOreItem("crystal_delicate");
-        perfectCrystal = new CrystaOreItem("crystal_perfect");
-        crystalSeed = new CrystaOreItem("crystal_seed");
-        crushed = new MineralBlockOreItem("crushed");
-        crushedPurified = new MineralBlockOreItem("crushed_purified");
-        dust = new DustOreItem("dust");
-        dustTiny = new DustOreItem("dust_tiny");
+        foil = new OreItemMetal("foil");
+        casing = new OreItemMetal("casing");
+        stick = new OreItemMetal("stick");
+        stick_long = new OreItemMetal("stick_long");
+        string = new OreItemMetal("string");
+        gear = new OreItemMetal("gear");
+        rotor = new OreItemMetal("rotor");
+        circularSawBlade = new OreItemMetal("circular_saw_blade");
+        nuggets = new OreItemMetal("nuggets");
+        damagedCrystal = new OreItemCrysta("crystal_damaged");
+        crystal = new OreItemCrysta("crystal");
+        delicateCrystal = new OreItemCrysta("crystal_delicate");
+        perfectCrystal = new OreItemCrysta("crystal_perfect");
+        crystalSeed = new OreItemCrysta("crystal_seed");
+        crushed = new OreItemMineralBlock("crushed");
+        crushedPurified = new OreItemMineralBlock("crushed_purified");
+        dust = new OreItemDust("dust");
+        dustTiny = new OreItemDust("dust_tiny");
         swordBasics = new OreItemArmsBasics("sword_basics");
         shovelBasics = new OreItemArmsBasics("shovel_basics");
         pickaxeBasics = new OreItemArmsBasics("pickaxe_basics");

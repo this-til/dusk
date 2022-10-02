@@ -13,6 +13,9 @@ import net.minecraftforge.fluids.capability.templates.FluidTank;
 
 import javax.annotation.Nullable;
 
+/**
+ * @author til
+ */
 public class VoidTankFluidHandler extends FluidTank implements INBTSerializable<CompoundTag>, ITooltipCapability {
     public VoidTankFluidHandler(int maxAmount) {
         super(maxAmount);

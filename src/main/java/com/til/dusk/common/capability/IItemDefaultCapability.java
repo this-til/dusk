@@ -1,5 +1,6 @@
 package com.til.dusk.common.capability;
 
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 
@@ -15,5 +16,15 @@ public interface IItemDefaultCapability {
      * @param duskCapabilityProvider 能力提供商
      */
     void initCapability(AttachCapabilitiesEvent<ItemStack> event, DuskCapabilityProvider duskCapabilityProvider);
+
+    abstract class CapabilityItem extends Item implements IItemDefaultCapability {
+        public CapabilityItem(Properties properties) {
+            super(properties);
+            init();
+        }
+
+        public void init() {
+        }
+    }
 
 }

@@ -6,18 +6,21 @@ import com.til.dusk.util.pack.ItemPack;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
 
-public class CrystaOreItem extends OreItem {
-    public CrystaOreItem(ResourceLocation name) {
+/**
+ * @author til
+ */
+public class OreItemMineralBlock extends OreItem {
+    public OreItemMineralBlock(ResourceLocation name) {
         super(name);
     }
 
-    public CrystaOreItem(String name) {
+    public OreItemMineralBlock(String name) {
         this(new ResourceLocation(Dusk.MOD_ID, name));
     }
 
     @Override
     public @Nullable ItemPack create(Ore ore) {
-        if (ore.hasSet(Ore.IS_CRYSTA)) {
+        if (ore.getSet(Ore.MINERAL_BLOCK_DATA) != null) {
             return super.create(ore);
         }
         return null;

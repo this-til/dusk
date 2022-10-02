@@ -45,4 +45,9 @@ public class ColorPrefab {
 
     public static final DuskColor GRAYSCALE_REDUCTION_3 = new DuskColor(150, 150, 150, 255);
 
+    /***
+     * 储罐空时的默认颜色
+     */
+    public static final DuskColor EMPTY_TANK = new DuskColor(102, 102, 102);
+
 }
