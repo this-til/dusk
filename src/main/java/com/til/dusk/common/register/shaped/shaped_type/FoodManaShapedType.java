@@ -42,7 +42,7 @@ public class FoodManaShapedType extends ShapedType {
             super(shapedType, shapedDrive, manaLevel);
         }
 
-        public FoodShaped(ResourceLocation name, JsonObject jsonObject) throws Exception {
+        public FoodShaped(ResourceLocation name, JsonObject jsonObject) {
             super(name, jsonObject);
         }
 

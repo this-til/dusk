@@ -36,7 +36,9 @@ public class VoidTankFluidHandler extends FluidTank implements INBTSerializable<
     @Nullable
     @Override
     public CompoundTag appendServerData() {
-        return serializeNBT();
+        CompoundTag compoundTag = serializeNBT();
+        AllNBTPack.MAX_AMOUNT.set(compoundTag, capacity);
+        return compoundTag;
     }
 
     @Override
@@ -44,7 +46,11 @@ public class VoidTankFluidHandler extends FluidTank implements INBTSerializable<
         FluidStack fluidStack = AllNBTPack.FLUID_STACK.get(compoundTag);
         if (!fluidStack.isEmpty()) {
             iTooltip.add(Lang.getLang(Lang.getLang(CapabilityRegister.iFluidHandler),
-                    fluidStack.getDisplayName(), Component.literal("x"), Component.literal(fluidStack.getAmount() + "mb")));
+                    fluidStack.getDisplayName(),
+                    Component.literal("x"),
+                    Component.literal(fluidStack.getAmount() + "mb"),
+                    Component.literal("/"),
+                    Component.translatable(AllNBTPack.MAX_AMOUNT.get(compoundTag) + "mb")));
         } else {
             iTooltip.add(Lang.getLang(CapabilityRegister.iFluidHandler));
         }

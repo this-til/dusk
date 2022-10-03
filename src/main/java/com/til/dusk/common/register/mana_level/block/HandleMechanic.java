@@ -20,6 +20,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 
 import java.util.List;
+import java.util.Set;
 import java.util.function.Supplier;
 
 /**
@@ -27,14 +28,14 @@ import java.util.function.Supplier;
  */
 public class HandleMechanic extends DefaultCapacityMechanic {
 
-    public final Supplier<List<ShapedType>> getShapedTypeList;
+    public final Supplier<Set<ShapedType>> getShapedTypeList;
 
-    public HandleMechanic(ResourceLocation name, Supplier<List<ShapedType>> getShapedTypeList) {
+    public HandleMechanic(ResourceLocation name, Supplier<Set<ShapedType>> getShapedTypeList) {
         super(name);
         this.getShapedTypeList = getShapedTypeList;
     }
 
-    public HandleMechanic(String name, Supplier<List<ShapedType>> getShapedTypeList) {
+    public HandleMechanic(String name, Supplier<Set<ShapedType>> getShapedTypeList) {
         this(new ResourceLocation(Dusk.MOD_ID, name), getShapedTypeList);
     }
 

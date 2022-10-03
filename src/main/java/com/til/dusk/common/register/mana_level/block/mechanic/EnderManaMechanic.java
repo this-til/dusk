@@ -7,6 +7,7 @@ import com.til.dusk.util.DuskColor;
 import net.minecraftforge.common.Tags;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author til
@@ -14,7 +15,7 @@ import java.util.List;
 public class EnderManaMechanic extends ExtractManaMechanic {
 
     public EnderManaMechanic(){
-        super("ender_mana", () -> List.of(ShapedType.enderMana), new DuskColor(96, 22, 96));
+        super("ender_mana", () -> Set.of(ShapedType.enderMana), new DuskColor(96, 22, 96));
         setSet(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
                 .addRun((s, m) -> s.addInItem(m.blockMap.get(extractMana).blockItemTag(), 1))
                 .addInItem(Tags.Items.ENDER_PEARLS, 8)

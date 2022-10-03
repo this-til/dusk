@@ -68,6 +68,7 @@ public class AllNBTPack {
     public static final IntPack MAX_PARALLEL = new IntPack("max_parallel");
     public static final DoublePack PROBABILITY = new DoublePack("probability");
     public static final IntPack MB = new IntPack("mb");
+    public static final IntPack MAX_AMOUNT = new IntPack("max_amount");
     public static final NBTPack<List<ItemStack>> ITEM_STACK_LIST_TAG = new NBTPack<>("item_stack_list", AllNBTCell.ITEM_STACK.getListNBTCell());
     public static final NBTPack<List<FluidStack>> FLUID_STACK_LIST_TAG = new NBTPack<>("fluid_stack_list", AllNBTCell.FLUID_STATE.getListNBTCell());
     public static final LongPack COUNT = new LongPack("count");
@@ -87,6 +88,8 @@ public class AllNBTPack {
     public static final NBTPack<Map<TagKey<Fluid>, Integer>> FLUID_IN_MAP = new NBTPack<>("fluid_in_map", AllNBTCell.FLUID_TAG_INT_MAP);
     public static final NBTPack<Map<ItemStack, Double>> ITEM_OUT_MAP = new NBTPack<>("item_out_map", AllNBTCell.ITEM_STACK_DOUBLE_MAP);
     public static final NBTPack<Map<FluidStack, Double>> FLUID_OUT_MAP = new NBTPack<>("fluid_out_map", AllNBTCell.FLUID_STACK_DOUBLE_MAP);
+    public static final NBTPack<TagKey<Item>> ITEM_SCREEN  = new NBTPack<>("item_screen", AllNBTCell.ITEM_TAG);
+    public static final NBTPack<TagKey<Fluid>> FLUID_SCREEN  = new NBTPack<>("fluid_screen", AllNBTCell.FLUID_TAG);
     public static final NBTPack<Map<Skill, ISkill.SkillCell>> SKILL_SKILL_CELL_MAP = new NBTPack<>("skill_skill_cell", AllNBTCell.SKILL_SKILL_CELL_MAP);
 
     public static final IntPack ORIGINAL_LEVEL = new IntPack("originalLevel");

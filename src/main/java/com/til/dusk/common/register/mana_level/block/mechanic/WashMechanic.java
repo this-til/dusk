@@ -7,6 +7,7 @@ import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author til
@@ -14,7 +15,7 @@ import java.util.List;
 public class WashMechanic extends HandleMechanic {
 
     public WashMechanic() {
-        super("wash", () -> List.of(ShapedType.wash));
+        super("wash", () -> Set.of(ShapedType.wash));
         setSet(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
                 .addRun((s, m) -> s.addInItem(m.blockMap.get(frameBasic).blockItemTag(), 1))
                 .addRun((s, m) -> s.addInItem(ManaLevelItem.destruction.getTag(m), 1))

@@ -1,6 +1,7 @@
 package com.til.dusk.common.register.shaped.shapeds;
 
 import com.google.gson.JsonObject;
+import com.til.dusk.Dusk;
 import com.til.dusk.common.capability.handle.IHandle;
 import com.til.dusk.common.capability.handle.ShapedHandle;
 import com.til.dusk.common.capability.pos.IPosTrack;
@@ -31,6 +32,8 @@ public abstract class Shaped {
 
     private static int shapedId = 0;
 
+    public final ResourceLocation allName;
+
     public final String name;
 
     /***
@@ -39,7 +42,7 @@ public abstract class Shaped {
     public final ShapedType shapedType;
 
     /***
-     * 配方id
+     * 配方序列
      */
     public final ShapedDrive shapedDrive;
 
@@ -54,6 +57,7 @@ public abstract class Shaped {
         this.shapedType = shapedType;
         this.shapedDrive = shapedDrive;
         this.manaLevel = manaLevel;
+        allName = new ResourceLocation(shapedType.name.getNamespace(), shapedType.name.getPath() + "/" + shapedDrive.name.getPath() + "/" + name);
         add(this);
     }
 
@@ -65,10 +69,19 @@ public abstract class Shaped {
      */
     public Shaped(ResourceLocation name, JsonObject jsonObject) {
         String[] strings = name.getPath().split("/");
-        this.shapedType = ShapedType.SHAPED_TYPE.get().getValue(new ResourceLocation(name.getNamespace(), strings[0]));
-        this.shapedDrive = ShapedDrive.get(Integer.parseInt(strings[1]));
+        ShapedType shapedType = ShapedType.SHAPED_TYPE.get().getValue(new ResourceLocation(name.getNamespace(), strings[0]));
+        if (shapedType == null) {
+            shapedType = ShapedType.empty;
+        }
+        this.shapedType = shapedType;
+        ShapedDrive shapedDrive = ShapedDrive.get(Integer.parseInt(strings[1]));
+        if (shapedDrive == null) {
+            shapedDrive = ShapedDrive.get(1);
+        }
+        this.shapedDrive = shapedDrive;
         manaLevel = AllNBTPack.MANA_LEVEL.get(jsonObject);
         this.name = strings[2];
+        allName = new ResourceLocation(shapedType.name.getNamespace(), shapedType.name.getPath() + "/" + shapedDrive.name.getPath() + "/" + this.name);
     }
 
 
@@ -83,8 +96,18 @@ public abstract class Shaped {
         return jsonObject;
     }
 
+    /***
+     * 通过物品筛选，通过筛选将进入全匹配
+     */
+    public abstract boolean screenOfItem(ItemStack itemStack);
+
+    /***
+     * 通过流体筛选，优先于物品
+     */
+    public abstract boolean screenOfFluid(FluidStack fluidStack);
+
     @Nullable
-    public abstract ShapedHandle get(IHandle iControl, Map<IPosTrack, IItemHandler> items, Map<IPosTrack, IFluidHandler> fluids);
+    public abstract ShapedHandle get(IHandle iHandle, @Nullable Map.Entry<IPosTrack, IItemHandler> items, Map<IPosTrack, IFluidHandler> fluids);
 
     /***
      * 获取JEI配方
@@ -107,6 +130,23 @@ public abstract class Shaped {
      */
     public boolean isJEIShow() {
         return true;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Shaped shaped = (Shaped) o;
+        return Objects.equals(name, shaped.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return name != null ? name.hashCode() : 0;
     }
 
     public interface IJEIShaped {
@@ -136,10 +176,6 @@ public abstract class Shaped {
 
     }
 
-    @Override
-    public String toString() {
-        return String.valueOf(name);
-    }
 
     /***
      * 通过名字找寻
@@ -151,8 +187,8 @@ public abstract class Shaped {
         ID_MAP.put(shaped.name, shaped);
     }
 
-    public static List<Shaped> get(ShapedType... s) {
-        List<Shaped> list = new ArrayList<>();
+    public static Set<Shaped> get(ShapedType... s) {
+        Set<Shaped> list = new HashSet<>();
         for (ShapedType shapedType : s) {
             if (MAP.containsKey(shapedType)) {
                 MAP.get(shapedType).values().forEach(list::addAll);

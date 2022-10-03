@@ -31,7 +31,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 import java.util.*;
-import java.util.function.Supplier;
 
 public class ShapedOre extends ShapedMiddle {
 
@@ -43,6 +42,10 @@ public class ShapedOre extends ShapedMiddle {
     public Map<ItemStack, Double> outItem;
     @Nullable
     public Map<FluidStack, Double> outFluid;
+    @Nullable
+    public TagKey<Item> itemScreen;
+    @Nullable
+    public TagKey<Fluid> fluidScreen;
 
     Random random = new Random();
 
@@ -58,23 +61,21 @@ public class ShapedOre extends ShapedMiddle {
         super(name, jsonObject);
         if (AllNBTPack.ITEM_IN_MAP.contains(jsonObject)) {
             item = AllNBTPack.ITEM_IN_MAP.get(jsonObject);
-        } else {
-            item = null;
         }
         if (AllNBTPack.FLUID_IN_MAP.contains(jsonObject)) {
             fluid = AllNBTPack.FLUID_IN_MAP.get(jsonObject);
-        } else {
-            fluid = null;
         }
         if (AllNBTPack.ITEM_OUT_MAP.contains(jsonObject)) {
             outItem = AllNBTPack.ITEM_OUT_MAP.get(jsonObject);
-        } else {
-            outItem = null;
         }
         if (AllNBTPack.FLUID_OUT_MAP.contains(jsonObject)) {
             outFluid = AllNBTPack.FLUID_OUT_MAP.get(jsonObject);
-        } else {
-            outFluid = null;
+        }
+        if (AllNBTPack.ITEM_SCREEN.contains(jsonObject)) {
+            itemScreen = AllNBTPack.ITEM_SCREEN.get(jsonObject);
+        }
+        if (AllNBTPack.FLUID_SCREEN.contains(jsonObject)) {
+            fluidScreen = AllNBTPack.FLUID_SCREEN.get(jsonObject);
         }
     }
 
@@ -93,32 +94,46 @@ public class ShapedOre extends ShapedMiddle {
         if (outFluid != null && !outFluid.isEmpty()) {
             AllNBTPack.FLUID_OUT_MAP.set(jsonObject, outFluid);
         }
+        if (itemScreen != null) {
+            AllNBTPack.ITEM_SCREEN.set(jsonObject, itemScreen);
+        }
+        if (fluidScreen != null) {
+            AllNBTPack.FLUID_SCREEN.set(jsonObject, fluidScreen);
+        }
         return jsonObject;
     }
 
     @Override
-    public ShapedHandle get(IHandle iControl, Map<IPosTrack, IItemHandler> iItemHandlers, Map<IPosTrack, IFluidHandler> fluidHandlers) {
-        if (item != null && iItemHandlers.isEmpty()) {
+    public ShapedHandle get(IHandle iHandle, Map.Entry<IPosTrack, IItemHandler> iItemHandlers, Map<IPosTrack, IFluidHandler> fluidHandlers) {
+        if (item != null && iItemHandlers == null) {
             return null;
         }
         if (fluid != null && fluidHandlers.isEmpty()) {
             return null;
         }
-        if (extractFluid(iControl, fluidHandlers, true)) {
+        if (extractFluid(iHandle, fluidHandlers, true)) {
             if (item != null) {
-                for (Map.Entry<IPosTrack, IItemHandler> entry : iItemHandlers.entrySet()) {
-                    if (extractItem(iControl, entry, true)) {
-                        extractFluid(iControl, fluidHandlers, false);
-                        extractItem(iControl, entry, false);
-                        return new ShapedHandle(surplusTime, consumeMana, outMana, makeOutItem(), makeOutFluid());
-                    }
+                if (extractItem(iHandle, iItemHandlers, true)) {
+                    extractFluid(iHandle, fluidHandlers, false);
+                    extractItem(iHandle, iItemHandlers, false);
+                    return new ShapedHandle(surplusTime, consumeMana, outMana, makeOutItem(), makeOutFluid());
                 }
             } else {
-                extractFluid(iControl, fluidHandlers, false);
+                extractFluid(iHandle, fluidHandlers, false);
                 return new ShapedHandle(surplusTime, consumeMana, outMana, makeOutItem(), makeOutFluid());
             }
         }
         return null;
+    }
+
+    @Override
+    public boolean screenOfItem(ItemStack itemStack) {
+        return itemScreen == null || itemStack.is(itemScreen);
+    }
+
+    @Override
+    public boolean screenOfFluid(FluidStack fluidStack) {
+        return fluidScreen == null || fluidStack.getFluid().is(fluidScreen);
     }
 
     @Nullable
@@ -162,7 +177,7 @@ public class ShapedOre extends ShapedMiddle {
                     continue;
                 }
                 if (oldItemStack.is(tagKeyIntegerEntry.getKey())) {
-                    ItemStack outItemStack = CapabilityHelp.extractItem(iControl.getPosTrack(), routePack, entry.getValue(), entry.getKey().getPos(), i, needItem, isSimulated);
+                    ItemStack outItemStack = CapabilityHelp.extractItem(iControl.getPosTrack(), routePack, entry, i, needItem, isSimulated);
                     needItem = needItem - outItemStack.getCount();
                 }
                 if (needItem == 0) {
@@ -285,12 +300,18 @@ public class ShapedOre extends ShapedMiddle {
     public ShapedOre addInItem(TagKey<Item> item, Integer i) {
         assert this.item != null;
         MapUtil.add(this.item, item, i);
+        if (itemScreen == null) {
+            itemScreen = item;
+        }
         return this;
     }
 
     public ShapedOre addInFluid(TagKey<Fluid> fluid, Integer i) {
         assert this.fluid != null;
         MapUtil.add(this.fluid, fluid, i);
+        if (fluidScreen == null) {
+            fluidScreen = fluid;
+        }
         return this;
     }
 
@@ -318,4 +339,19 @@ public class ShapedOre extends ShapedMiddle {
         return this;
     }
 
+    @Override
+    public String toString() {
+        return "ShapedOre{" +
+               "allName=" + allName +
+               ", item=" + item +
+               ", fluid=" + fluid +
+               ", outItem=" + outItem +
+               ", outFluid=" + outFluid +
+               ", itemScreen=" + itemScreen +
+               ", fluidScreen=" + fluidScreen +
+               ", surplusTime=" + surplusTime +
+               ", consumeMana=" + consumeMana +
+               ", outMana=" + outMana +
+               '}';
+    }
 }

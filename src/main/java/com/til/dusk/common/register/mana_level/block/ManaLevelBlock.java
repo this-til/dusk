@@ -27,6 +27,7 @@ import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegistryBuilder;
 
 import java.util.List;
+import java.util.Set;
 import java.util.function.Supplier;
 
 /**
@@ -416,25 +417,25 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
         recovery =  new RecoveryMechanic();
         shaping = new ShapingMechanic();
         manaCoagulation = new ManaCoagulationMechanic();
-        stemCellExtract = (HandleMechanic) new HandleMechanic("stem_cell_extract", () -> List.of(ShapedType.stemCellExtract));
-        cellCulture = (HandleMechanic) new HandleMechanic("cell_culture", () -> List.of(ShapedType.cellCulture));
-        uuGenerate = (HandleMechanic) new HandleMechanic("uu_generate", () -> List.of(ShapedType.uuGenerate))
+        stemCellExtract = (HandleMechanic) new HandleMechanic("stem_cell_extract", () -> Set.of(ShapedType.stemCellExtract));
+        cellCulture = (HandleMechanic) new HandleMechanic("cell_culture", () -> Set.of(ShapedType.cellCulture));
+        uuGenerate = (HandleMechanic) new HandleMechanic("uu_generate", () -> Set.of(ShapedType.uuGenerate))
                 .setSet(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
                         .addRun((s, m) -> s.addInItem(m.blockMap.get(ManaLevelBlock.slimeyMana).blockItemTag(), 1))
                         .addRun((s, m) -> s.addInItem(ManaLevelItem.forming.getTag(m), 4))
                         .addRun((s, m) -> s.addInItem(ManaLevelItem.gather.getTag(m), 4))
                         .addRun((s, m) -> s.addInItem(ManaLevelItem.instructions.getTag(m), 4)));
-        qualityGenerate = (HandleMechanic) new HandleMechanic("quality_generate", () -> List.of(ShapedType.qualityGenerate))
+        qualityGenerate = (HandleMechanic) new HandleMechanic("quality_generate", () -> Set.of(ShapedType.qualityGenerate))
                 .setSet(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
                         .addRun((s, m) -> s.addInItem(m.blockMap.get(uuGenerate).blockItemTag(), 1))
                         .addRun((s, m) -> s.addInItem(ManaLevelItem.forming.getTag(m), 1))
                         .addRun((s, m) -> s.addInFluid(Ore.uu.fluidMap.get(OreFluid.solution).fluidTag(), 144 * m.level)));
-        dialysis = (HandleMechanic) new HandleMechanic("dialysis", () -> List.of(ShapedType.dialysis))
+        dialysis = (HandleMechanic) new HandleMechanic("dialysis", () -> Set.of(ShapedType.dialysis))
                 .setSet(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
                         .addRun((s, m) -> s.addInItem(m.blockMap.get(uuGenerate).blockItemTag(), 1))
                         .addRun((s, m) -> s.addInItem(ManaLevelItem.destruction.getTag(m), 1))
                         .addRun((s, m) -> s.addInFluid(Ore.uu.fluidMap.get(OreFluid.solution).fluidTag(), 144 * m.level)));
-        splitting = (HandleMechanic) new HandleMechanic("splitting", () -> List.of(ShapedType.splitting))
+        splitting = (HandleMechanic) new HandleMechanic("splitting", () -> Set.of(ShapedType.splitting))
                 .setSet(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
                         .addRun((s, m) -> s.addInItem(m.blockMap.get(highPressureFuse).blockItemTag(), 1))
                         .addRun((s, m) -> s.addInItem(m.getAcceptableTagPack(OreBlock.coil).itemTagKey(), 2))

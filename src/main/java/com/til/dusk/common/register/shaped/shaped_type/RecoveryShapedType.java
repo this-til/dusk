@@ -45,7 +45,7 @@ public class RecoveryShapedType extends ShapedType {
             this.probability = probability;
         }
 
-        public RecoveryShaped(ResourceLocation name, JsonObject jsonObject) throws Exception {
+        public RecoveryShaped(ResourceLocation name, JsonObject jsonObject) {
             super(name, jsonObject);
             probability = AllNBTPack.PROBABILITY.get(jsonObject);
         }

@@ -7,13 +7,14 @@ import com.til.dusk.common.register.ore.block.OreBlock;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author til
  */
 public class ManaCoagulationMechanic extends HandleMechanic {
     public ManaCoagulationMechanic() {
-        super("mana_coagulation", () -> List.of(ShapedType.manaCoagulation));
+        super("mana_coagulation", () -> Set.of(ShapedType.manaCoagulation));
         setSet(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
                 .addRun((s, m) -> s.addInItem(m.blockMap.get(frameBasic).blockItemTag(), 1))
                 .addRun((s, m) -> s.addInItem(ManaLevelItem.forming.getTag(m), 1))

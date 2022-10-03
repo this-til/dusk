@@ -11,6 +11,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegistryBuilder;
 
+import java.util.Objects;
 import java.util.function.Supplier;
 
 /**
@@ -321,11 +322,5 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
     public ShapedType(String name, Supplier<ManaLevelBlock> manaLevelBlockSupplier) {
         this(new ResourceLocation(Dusk.MOD_ID, name), manaLevelBlockSupplier);
     }
-
-    /*@Override
-    public EventPriority getRegisterBlackPriority() {
-        return EventPriority.LOWEST;
-    }*/
-
     public abstract void registerShaped();
 }

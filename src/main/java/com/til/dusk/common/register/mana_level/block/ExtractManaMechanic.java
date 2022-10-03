@@ -10,6 +10,7 @@ import com.til.dusk.util.DuskColor;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
+import java.util.Set;
 import java.util.function.Supplier;
 
 /**
@@ -21,12 +22,12 @@ public class ExtractManaMechanic extends HandleMechanic {
 
     public final DuskColor color;
 
-    public ExtractManaMechanic(ResourceLocation name, Supplier<List<ShapedType>> getShapedTypeList, DuskColor color) {
+    public ExtractManaMechanic(ResourceLocation name, Supplier<Set<ShapedType>> getShapedTypeList, DuskColor color) {
         super(name, getShapedTypeList);
         this.color = color;
     }
 
-    public ExtractManaMechanic(String name, Supplier<List<ShapedType>> getShapedTypeList, DuskColor color) {
+    public ExtractManaMechanic(String name, Supplier<Set<ShapedType>> getShapedTypeList, DuskColor color) {
         this(new ResourceLocation(Dusk.MOD_ID, name), getShapedTypeList, color);
     }
 

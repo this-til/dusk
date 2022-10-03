@@ -41,7 +41,7 @@ public class DischantmentManaShapedType extends ShapedType {
             super(shapedType, shapedDrive, manaLevel);
         }
 
-        public DischantmentManaShaped(ResourceLocation name, JsonObject jsonObject) throws Exception {
+        public DischantmentManaShaped(ResourceLocation name, JsonObject jsonObject) {
             super(name, jsonObject);
         }
 

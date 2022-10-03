@@ -125,7 +125,7 @@ public class IOMechanic extends DefaultCapacityMechanic {
                     }
                 }
                 ItemStack outSimulate = null;
-                Extension.Data_4<IPosTrack, IItemHandler, ItemStack, Integer> outData = null;
+                Extension.Data_3<Map.Entry<IPosTrack, IItemHandler>, ItemStack, Integer> outData = null;
                 for (Map.Entry<IPosTrack, IItemHandler> entry : inMap.entrySet()) {
                     for (int i = 0; i < entry.getValue().getSlots(); i++) {
                         ItemStack itemStack = entry.getValue().getStackInSlot(i);
@@ -133,7 +133,7 @@ public class IOMechanic extends DefaultCapacityMechanic {
                             ItemStack extractItemStack = entry.getValue().extractItem(i, Math.min(itemStack.getMaxStackSize(), 64), true);
                             if (!extractItemStack.isEmpty()) {
                                 outSimulate = extractItemStack;
-                                outData = new Extension.Data_4<>(entry.getKey(), entry.getValue(), extractItemStack, i);
+                                outData = new Extension.Data_3<>(entry, extractItemStack, i);
                                 break;
                             }
                         }
@@ -154,7 +154,7 @@ public class IOMechanic extends DefaultCapacityMechanic {
                 if (!outSimulate.isEmpty()) {
                     return;
                 }
-                CapabilityHelp.extractAndInsertItem(iPosTrack, outData.d2(), outData.d1().getPos(), outData.d4(), outData.d3().getCount(), outMap, false);
+                CapabilityHelp.extractAndInsertItem(iPosTrack, outData.d1(), outData.d3(), outData.d2().getCount(), outMap, false);
             });
         }
     }
@@ -192,7 +192,7 @@ public class IOMechanic extends DefaultCapacityMechanic {
                 }
                 int maxRate = 1000 * manaLevel.level;
                 FluidStack outSimulate = null;
-                Extension.Data_3<IPosTrack, IFluidHandler, FluidStack> outData = null;
+                Extension.Data_2<Map.Entry<IPosTrack, IFluidHandler>, FluidStack> outData = null;
                 for (Map.Entry<IPosTrack, IFluidHandler> entry : inMap.entrySet()) {
                     for (int i = 0; i < entry.getValue().getTanks(); i++) {
                         FluidStack fluidStack = entry.getValue().getFluidInTank(i);
@@ -202,7 +202,7 @@ public class IOMechanic extends DefaultCapacityMechanic {
                             FluidStack extractFluidStack = entry.getValue().drain(out, IFluidHandler.FluidAction.SIMULATE);
                             if (!extractFluidStack.isEmpty()) {
                                 outSimulate = extractFluidStack.copy();
-                                outData = new Extension.Data_3<>(entry.getKey(), entry.getValue(), extractFluidStack);
+                                outData = new Extension.Data_2<>(entry, extractFluidStack);
                                 break;
                             }
                         }
@@ -223,7 +223,7 @@ public class IOMechanic extends DefaultCapacityMechanic {
                 if (!outSimulate.isEmpty()) {
                     return;
                 }
-                CapabilityHelp.drainAndFillFluid(iPosTrack, outData.d2(), outData.d1().getPos(), outData.d3(), outMap, false);
+                CapabilityHelp.drainAndFillFluid(iPosTrack, outData.d1(), outData.d2(), outMap, false);
             });
         }
     }

@@ -6,13 +6,14 @@ import com.til.dusk.common.register.ore.block.OreBlock;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author til
  */
 public class BlastFurnaceMechanic extends HandleMechanic {
     public BlastFurnaceMechanic(){
-        super("blast_furnace", () -> List.of(ShapedType.blastFurnace));
+        super("blast_furnace", () -> Set.of(ShapedType.blastFurnace));
         setSet(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
                 .addRun((s, m) -> s.addInItem(m.blockMap.get(furnace).blockItemTag(), 1))
                 .addRun((s, m) -> s.addInItem(ManaLevelItem.forming.getTag(m), 1))

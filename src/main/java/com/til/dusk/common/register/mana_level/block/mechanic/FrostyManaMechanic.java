@@ -6,13 +6,14 @@ import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 import com.til.dusk.util.DuskColor;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author til
  */
 public class FrostyManaMechanic extends ExtractManaMechanic {
     public FrostyManaMechanic() {
-        super("frosty_mana", () -> List.of(ShapedType.frostyMana), new DuskColor(29, 237, 255));
+        super("frosty_mana", () -> Set.of(ShapedType.frostyMana), new DuskColor(29, 237, 255));
         setSet(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
                 .addRun((s, m) -> s.addInItem(m.blockMap.get(extractMana).blockItemTag(), 1))
                 .addInItem(ItemTag.ICES.d1(), 32)

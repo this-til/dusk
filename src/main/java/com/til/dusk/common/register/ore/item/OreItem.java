@@ -180,6 +180,11 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
      */
     public static OreItemTool file;
 
+    /***
+     * 储罐
+     */
+    public static OreItemTank tank;
+
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
         ORE_ITEM = event.create(new RegistryBuilder<OreItem>().setName(new ResourceLocation(Dusk.MOD_ID, "ore_item")));
@@ -441,6 +446,7 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
                                 .unlockedBy("has_file", ModRecipeProvider.has(file.getTagPack().itemTagKey())));
                     }
                 });
+        tank = new OreItemTank("tank");
     }
 
 

@@ -49,7 +49,7 @@ public class PotionManaShapedType extends ShapedType {
             super(shapedType, shapedDrive, manaLevel);
         }
 
-        public ShapedPotionMana(ResourceLocation name, JsonObject jsonObject) throws Exception {
+        public ShapedPotionMana(ResourceLocation name, JsonObject jsonObject) {
             super(name, jsonObject);
         }
 

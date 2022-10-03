@@ -6,6 +6,7 @@ import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author til
@@ -13,7 +14,7 @@ import java.util.List;
 public class CarvingMechanic extends HandleMechanic {
 
     public CarvingMechanic(){
-        super("carving", () -> List.of(ShapedType.carving));
+        super("carving", () -> Set.of(ShapedType.carving));
         setSet(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
                 .addRun((s, m) -> s.addInItem(m.blockMap.get(assemble).blockItemTag(), 1))
                 .addRun((s, m) -> s.addInItem(m.getAcceptableTagPack(OreItem.file).itemTagKey(), 1))

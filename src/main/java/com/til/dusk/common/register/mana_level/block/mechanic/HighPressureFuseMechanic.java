@@ -7,6 +7,7 @@ import com.til.dusk.common.register.ore.block.OreBlock;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author til
@@ -14,7 +15,7 @@ import java.util.List;
 public class HighPressureFuseMechanic extends HandleMechanic {
 
     public HighPressureFuseMechanic() {
-        super("high_pressure_fuse", () -> List.of(ShapedType.highPressureFuse));
+        super("high_pressure_fuse", () -> Set.of(ShapedType.highPressureFuse));
         setSet(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
                 .addRun((s, m) -> s.addInItem(m.blockMap.get(blastFurnace).blockItemTag(), 1))
                 .addRun((s, m) -> s.addInItem(ManaLevelItem.power.getTag(m), 1))

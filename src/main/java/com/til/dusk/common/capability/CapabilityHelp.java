@@ -39,17 +39,18 @@ public class CapabilityHelp {
     /***
      * 加入灵气
      * @param routePack iPosTrack的
+     * @param manaHandle
      */
-    public static long addMana(IPosTrack iPosTrack, @Nullable RoutePack<Long> routePack, Pos manaHandlePos, long mana, IManaHandle iManaHandle, boolean isSimulate) {
+    public static long addMana(IPosTrack iPosTrack, @Nullable RoutePack<Long> routePack, Map.Entry<IPosTrack, IManaHandle> manaHandle, long mana, boolean isSimulate) {
         boolean isOriginal = routePack == null;
         if (isOriginal) {
             routePack = new RoutePack<>();
         }
-        if (iManaHandle instanceof RoutePack.ISupportRoutePack<?> supportRoutePack) {
+        if (manaHandle.getValue() instanceof RoutePack.ISupportRoutePack<?> supportRoutePack) {
             supportRoutePack.set(Util.forcedConversion(routePack.getNext()));
         }
-        long inMana = iManaHandle.addMana(mana, isSimulate);
-        routePack.add(new RoutePack.RouteCell<>(iPosTrack.getPos(), manaHandlePos, inMana));
+        long inMana = manaHandle.getValue().addMana(mana, isSimulate);
+        routePack.add(new RoutePack.RouteCell<>(iPosTrack.getPos(), manaHandle.getKey().getPos(), inMana));
         if (!isSimulate && isOriginal) {
             MinecraftForge.EVENT_BUS.post(new EventIO.Mana(iPosTrack.getLevel(), routePack));
         }
@@ -59,18 +60,19 @@ public class CapabilityHelp {
     /***
      * 提取灵气
      * @param routePack iPosTrack的
+     * @param manaHandle
      */
-    public static long extractMana(IPosTrack iPosTrack, @Nullable RoutePack<Long> routePack, Pos manaHandlePos, long mana, IManaHandle iManaHandle, boolean isSimulate) {
+    public static long extractMana(IPosTrack iPosTrack, @Nullable RoutePack<Long> routePack, Map.Entry<IPosTrack, IManaHandle> manaHandle, long mana, boolean isSimulate) {
         boolean isOriginal = routePack == null;
         if (isOriginal) {
             routePack = new RoutePack<>();
         }
         RoutePack<Long> up = routePack.getUp();
-        if (iManaHandle instanceof RoutePack.ISupportRoutePack<?> supportRoutePack) {
+        if (manaHandle.getValue() instanceof RoutePack.ISupportRoutePack<?> supportRoutePack) {
             supportRoutePack.set(Util.forcedConversion(up));
         }
-        long outMana = iManaHandle.extractMana(mana, isSimulate);
-        up.add(new RoutePack.RouteCell<>(manaHandlePos, iPosTrack.getPos(), outMana));
+        long outMana = manaHandle.getValue().extractMana(mana, isSimulate);
+        up.add(new RoutePack.RouteCell<>(manaHandle.getKey().getPos(), iPosTrack.getPos(), outMana));
         if (!isSimulate && isOriginal) {
             MinecraftForge.EVENT_BUS.post(new EventIO.Mana(iPosTrack.getLevel(), routePack));
         }
@@ -98,7 +100,7 @@ public class CapabilityHelp {
             routePack = new RoutePack<>();
         }
         for (Map.Entry<IPosTrack, IManaHandle> entry : map.entrySet()) {
-            long in = addMana(iPosTrack, routePack, entry.getKey().getPos(), mana, entry.getValue(), isSimulate);
+            long in = addMana(iPosTrack, routePack, entry, mana, isSimulate);
             inMana += in;
             mana -= in;
             if (mana <= 0) {
@@ -132,7 +134,7 @@ public class CapabilityHelp {
             routePack = new RoutePack<>();
         }
         for (Map.Entry<IPosTrack, IManaHandle> entry : map.entrySet()) {
-            long out = extractMana(iPosTrack, routePack, entry.getKey().getPos(), mana, entry.getValue(), isSimulate);
+            long out = extractMana(iPosTrack, routePack, entry, mana, isSimulate);
             outMana += out;
             mana -= out;
             if (mana <= 0) {
@@ -179,13 +181,13 @@ public class CapabilityHelp {
                 if (needOutName == 0) {
                     break;
                 }
-                long needTransferMana = Math.min(Math.min(needOutName, max), Math.min(_entry.getValue().getInCurrentRate(),_entry.getValue().getRemainMana()));
+                long needTransferMana = Math.min(Math.min(needOutName, max), Math.min(_entry.getValue().getInCurrentRate(), _entry.getValue().getRemainMana()));
                 if (needTransferMana == 0) {
                     continue;
                 }
-                long extractMana = extractMana(iPosTrack, thisRoutePack, entry.getKey().getPos(), needTransferMana, entry.getValue(), isSimulate);
+                long extractMana = extractMana(iPosTrack, thisRoutePack, entry, needTransferMana, isSimulate);
                 extractMana = (long) (extractMana * (1 - manaLoss));
-                long transferMana = addMana(iPosTrack, thisRoutePack, _entry.getKey().getPos(), extractMana, _entry.getValue(), isSimulate);
+                long transferMana = addMana(iPosTrack, thisRoutePack, _entry, extractMana, isSimulate);
                 if (transferMana == 0) {
                     continue;
                 }
@@ -211,7 +213,7 @@ public class CapabilityHelp {
     /***
      * 使用路径粒子插入物品
      */
-    public static ItemStack insertItem(IPosTrack iPosTrack, @Nullable RoutePack<ItemStack> routePack, IItemHandler iItemHandler, Pos itemHandlerPos, int slot, ItemStack stack, boolean isSimulate) {
+    public static ItemStack insertItem(IPosTrack iPosTrack, @Nullable RoutePack<ItemStack> routePack, Map.Entry<IPosTrack, IItemHandler> iItemHandler, int slot, ItemStack stack, boolean isSimulate) {
         boolean isOriginal = routePack == null;
         if (isOriginal) {
             routePack = new RoutePack<>();
@@ -219,8 +221,8 @@ public class CapabilityHelp {
         if (iItemHandler instanceof RoutePack.ISupportRoutePack<?> supportRoutePack) {
             supportRoutePack.set(Util.forcedConversion(routePack.getNext()));
         }
-        ItemStack inMana = iItemHandler.insertItem(slot, stack, isSimulate);
-        routePack.add(new RoutePack.RouteCell<>(iPosTrack.getPos(), itemHandlerPos, inMana));
+        ItemStack inMana = iItemHandler.getValue().insertItem(slot, stack, isSimulate);
+        routePack.add(new RoutePack.RouteCell<>(iPosTrack.getPos(), iItemHandler.getKey().getPos(), inMana));
         if (!isSimulate && isOriginal) {
             MinecraftForge.EVENT_BUS.post(new EventIO.Item(iPosTrack.getLevel(), routePack));
         }
@@ -230,7 +232,7 @@ public class CapabilityHelp {
     /***
      * 使用路径粒子插入物品
      */
-    public static ItemStack insertItem(IPosTrack iPosTrack, @Nullable RoutePack<ItemStack> routePack, IItemHandler iItemHandler, Pos itemHandlerPos, ItemStack stack, boolean isSimulate) {
+    public static ItemStack insertItem(IPosTrack iPosTrack, @Nullable RoutePack<ItemStack> routePack, Map.Entry<IPosTrack, IItemHandler> iItemHandler, ItemStack stack, boolean isSimulate) {
         boolean isOriginal = routePack == null;
         if (isOriginal) {
             routePack = new RoutePack<>();
@@ -238,10 +240,10 @@ public class CapabilityHelp {
         if (iItemHandler instanceof RoutePack.ISupportRoutePack<?> supportRoutePack) {
             supportRoutePack.set(Util.forcedConversion(routePack.getNext()));
         }
-        ItemStack surplus = ItemHandlerHelper.insertItemStacked(iItemHandler, stack, isSimulate);
+        ItemStack surplus = ItemHandlerHelper.insertItemStacked(iItemHandler.getValue(), stack, isSimulate);
         ItemStack in = stack.copy();
         in.setCount(in.getCount() - surplus.getCount());
-        routePack.add(new RoutePack.RouteCell<>(iPosTrack.getPos(), itemHandlerPos, in));
+        routePack.add(new RoutePack.RouteCell<>(iPosTrack.getPos(), iItemHandler.getKey().getPos(), in));
         if (!isSimulate && isOriginal) {
             MinecraftForge.EVENT_BUS.post(new EventIO.Item(iPosTrack.getLevel(), routePack));
         }
@@ -257,7 +259,7 @@ public class CapabilityHelp {
             routePack = new RoutePack<>();
         }
         for (Map.Entry<IPosTrack, IItemHandler> entry : map.entrySet()) {
-            stack = insertItem(iPosTrack, routePack, entry.getValue(), entry.getKey().getPos(), stack, isSimulate);
+            stack = insertItem(iPosTrack, routePack, entry, stack, isSimulate);
             if (stack.isEmpty()) {
                 break;
             }
@@ -289,7 +291,7 @@ public class CapabilityHelp {
     /***
      * 提取物品
      */
-    public static ItemStack extractItem(IPosTrack iPosTrack, @Nullable RoutePack<ItemStack> routePack, IItemHandler iItemHandler, Pos itemHandlerPos, int slot, int amount, boolean isSimulate) {
+    public static ItemStack extractItem(IPosTrack iPosTrack, @Nullable RoutePack<ItemStack> routePack, Map.Entry<IPosTrack, IItemHandler> iItemHandler, int slot, int amount, boolean isSimulate) {
         boolean isOriginal = routePack == null;
         if (isOriginal) {
             routePack = new RoutePack<>();
@@ -298,8 +300,8 @@ public class CapabilityHelp {
         if (iItemHandler instanceof RoutePack.ISupportRoutePack<?> supportRoutePack) {
             supportRoutePack.set(Util.forcedConversion(up));
         }
-        ItemStack extractItem = iItemHandler.extractItem(slot, amount, isSimulate);
-        up.add(new RoutePack.RouteCell<>(itemHandlerPos, iPosTrack.getPos(), extractItem));
+        ItemStack extractItem = iItemHandler.getValue().extractItem(slot, amount, isSimulate);
+        up.add(new RoutePack.RouteCell<>(iItemHandler.getKey().getPos(), iPosTrack.getPos(), extractItem));
         if (!isSimulate && isOriginal) {
             MinecraftForge.EVENT_BUS.post(new EventIO.Item(iPosTrack.getLevel(), routePack));
         }
@@ -309,9 +311,9 @@ public class CapabilityHelp {
     /***
      * 取出物品并放入
      */
-    public static void extractAndInsertItem(IPosTrack iPosTrack, IItemHandler iItemHandler, Pos itemHandlerPos, int slot, int amount, Map<IPosTrack, IItemHandler> out, boolean isSimulate) {
+    public static void extractAndInsertItem(IPosTrack iPosTrack, Map.Entry<IPosTrack, IItemHandler> iItemHandler, int slot, int amount, Map<IPosTrack, IItemHandler> out, boolean isSimulate) {
         RoutePack<ItemStack> routePack = new RoutePack<>();
-        ItemStack itemStack = extractItem(iPosTrack, routePack, iItemHandler, itemHandlerPos, slot, amount, isSimulate);
+        ItemStack itemStack = extractItem(iPosTrack, routePack, iItemHandler, slot, amount, isSimulate);
         insertItem(iPosTrack, routePack, out, itemStack, isSimulate);
         if (!isSimulate) {
             MinecraftForge.EVENT_BUS.post(new EventIO.Item(iPosTrack.getLevel(), routePack));
@@ -321,7 +323,7 @@ public class CapabilityHelp {
     /***
      * 填充
      */
-    public static int fill(IPosTrack iPosTrack, @Nullable RoutePack<FluidStack> routePack, IFluidHandler fluidHandler, Pos itemHandlerPos, FluidStack fluidStack, boolean isSimulate) {
+    public static int fill(IPosTrack iPosTrack, @Nullable RoutePack<FluidStack> routePack, Map.Entry<IPosTrack, IFluidHandler> fluidHandler, FluidStack fluidStack, boolean isSimulate) {
         boolean isOriginal = routePack == null;
         if (isOriginal) {
             routePack = new RoutePack<>();
@@ -329,8 +331,8 @@ public class CapabilityHelp {
         if (fluidHandler instanceof RoutePack.ISupportRoutePack<?> supportRoutePack) {
             supportRoutePack.set(Util.forcedConversion(routePack.getNext()));
         }
-        int in = fluidHandler.fill(fluidStack, asFluidAction(isSimulate));
-        routePack.add(new RoutePack.RouteCell<>(iPosTrack.getPos(), itemHandlerPos, new FluidStack(fluidStack, in)));
+        int in = fluidHandler.getValue().fill(fluidStack, asFluidAction(isSimulate));
+        routePack.add(new RoutePack.RouteCell<>(iPosTrack.getPos(), fluidHandler.getKey().getPos(), new FluidStack(fluidStack, in)));
         if (!isSimulate && isOriginal) {
             MinecraftForge.EVENT_BUS.post(new EventIO.Fluid(iPosTrack.getLevel(), routePack));
         }
@@ -347,7 +349,7 @@ public class CapabilityHelp {
         }
         int allIn = 0;
         for (Map.Entry<IPosTrack, IFluidHandler> entry : map.entrySet()) {
-            int in = fill(iPosTrack, routePack, entry.getValue(), entry.getKey().getPos(), fluidStack, isSimulate);
+            int in = fill(iPosTrack, routePack, entry, fluidStack, isSimulate);
             fluidStack = fluidStack.copy();
             fluidStack.setAmount(fluidStack.getAmount() - in);
             allIn += in;
@@ -386,7 +388,7 @@ public class CapabilityHelp {
     /***
      * 排出
      */
-    public static FluidStack drain(IPosTrack iPosTrack, @Nullable RoutePack<FluidStack> routePack, IFluidHandler fluidHandler, Pos itemHandlerPos, FluidStack fluidStack, boolean isSimulate) {
+    public static FluidStack drain(IPosTrack iPosTrack, @Nullable RoutePack<FluidStack> routePack, Map.Entry<IPosTrack, IFluidHandler> fluidHandler, FluidStack fluidStack, boolean isSimulate) {
         boolean isOriginal = routePack == null;
         if (isOriginal) {
             routePack = new RoutePack<>();
@@ -395,8 +397,8 @@ public class CapabilityHelp {
         if (fluidHandler instanceof RoutePack.ISupportRoutePack<?> supportRoutePack) {
             supportRoutePack.set(Util.forcedConversion(up));
         }
-        FluidStack d = fluidHandler.drain(fluidStack, asFluidAction(isSimulate));
-        up.add(new RoutePack.RouteCell<>(itemHandlerPos, iPosTrack.getPos(), d));
+        FluidStack d = fluidHandler.getValue().drain(fluidStack, asFluidAction(isSimulate));
+        up.add(new RoutePack.RouteCell<>(fluidHandler.getKey().getPos(), iPosTrack.getPos(), d));
         if (!isSimulate && isOriginal) {
             MinecraftForge.EVENT_BUS.post(new EventIO.Fluid(iPosTrack.getLevel(), routePack));
         }
@@ -414,7 +416,7 @@ public class CapabilityHelp {
         int need = fluidStack.getAmount();
         int outA = 0;
         for (Map.Entry<IPosTrack, IFluidHandler> entry : out.entrySet()) {
-            FluidStack fluidStack1 = drain(iPosTrack, routePack, entry.getValue(), entry.getKey().getPos(), new FluidStack(fluidStack, need), isSimulate);
+            FluidStack fluidStack1 = drain(iPosTrack, routePack, entry, new FluidStack(fluidStack, need), isSimulate);
             outA += fluidStack1.getAmount();
             need -= fluidStack1.getAmount();
             if (need <= 0) {
@@ -430,7 +432,7 @@ public class CapabilityHelp {
     /***
      * 排出
      */
-    public static FluidStack drain(IPosTrack iPosTrack, @Nullable RoutePack<FluidStack> routePack, IFluidHandler fluidHandler, Pos itemHandlerPos, int fluidStack, boolean isSimulate) {
+    public static FluidStack drain(IPosTrack iPosTrack, @Nullable RoutePack<FluidStack> routePack, IFluidHandler fluidHandler, IPosTrack itemHandlerPos, int fluidStack, boolean isSimulate) {
         boolean isOriginal = routePack == null;
         if (isOriginal) {
             routePack = new RoutePack<>();
@@ -439,16 +441,25 @@ public class CapabilityHelp {
             supportRoutePack.set(Util.forcedConversion(routePack.getNext()));
         }
         FluidStack d = fluidHandler.drain(fluidStack, asFluidAction(isSimulate));
-        routePack.add(new RoutePack.RouteCell<>(itemHandlerPos, iPosTrack.getPos(), d));
+        routePack.add(new RoutePack.RouteCell<>(itemHandlerPos.getPos(), iPosTrack.getPos(), d));
         if (!isSimulate && isOriginal) {
             MinecraftForge.EVENT_BUS.post(new EventIO.Fluid(iPosTrack.getLevel(), routePack));
         }
         return d;
     }
 
-    public static void drainAndFillFluid(IPosTrack iPosTrack, IFluidHandler fluidHandler, Pos itemHandlerPos, FluidStack fluidStack, Map<IPosTrack, IFluidHandler> out, boolean isSimulate) {
+    public static void drainAndFillFluid(IPosTrack iPosTrack, Map.Entry<IPosTrack, IFluidHandler> fluidHandler, FluidStack fluidStack, Map<IPosTrack, IFluidHandler> out, boolean isSimulate) {
         RoutePack<FluidStack> routePack = new RoutePack<>();
-        FluidStack itemStack = drain(iPosTrack, routePack, fluidHandler, itemHandlerPos, fluidStack, isSimulate);
+        FluidStack itemStack = drain(iPosTrack, routePack, fluidHandler, fluidStack, isSimulate);
+        fill(iPosTrack, routePack, out, itemStack, isSimulate);
+        if (!isSimulate) {
+            MinecraftForge.EVENT_BUS.post(new EventIO.Fluid(iPosTrack.getLevel(), routePack));
+        }
+    }
+
+    public static void drainAndFillFluid(IPosTrack iPosTrack, Map.Entry<IPosTrack, IFluidHandler> fluidHandler, FluidStack fluidStack, Map.Entry<IPosTrack, IFluidHandler> out, boolean isSimulate) {
+        RoutePack<FluidStack> routePack = new RoutePack<>();
+        FluidStack itemStack = drain(iPosTrack, routePack, fluidHandler, fluidStack, isSimulate);
         fill(iPosTrack, routePack, out, itemStack, isSimulate);
         if (!isSimulate) {
             MinecraftForge.EVENT_BUS.post(new EventIO.Fluid(iPosTrack.getLevel(), routePack));

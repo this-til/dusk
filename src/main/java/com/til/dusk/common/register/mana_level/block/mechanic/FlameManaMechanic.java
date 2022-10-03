@@ -6,6 +6,7 @@ import com.til.dusk.util.DuskColor;
 import net.minecraft.tags.FluidTags;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author til
@@ -13,7 +14,7 @@ import java.util.List;
 public class FlameManaMechanic extends ExtractManaMechanic {
 
     public FlameManaMechanic(){
-        super("flame_mana", () -> List.of(ShapedType.flameMana), new DuskColor(255, 0, 0));setSet(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
+        super("flame_mana", () -> Set.of(ShapedType.flameMana), new DuskColor(255, 0, 0));setSet(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
                 .addRun((s, m) -> s.addInItem(m.blockMap.get(extractMana).blockItemTag(), 1))
                 .addInFluid(FluidTags.LAVA, 32000));
     }

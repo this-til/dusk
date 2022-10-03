@@ -6,6 +6,7 @@ import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author til
@@ -13,7 +14,7 @@ import java.util.List;
 public class DecomposeMechanic extends HandleMechanic {
 
     public DecomposeMechanic() {
-        super("decompose", () -> List.of(ShapedType.decompose));
+        super("decompose", () -> Set.of(ShapedType.decompose));
         setSet(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
                 .addRun((s, m) -> s.addInItem(m.blockMap.get(furnace).blockItemTag(), 1))
                 .addRun((s, m) -> s.addInItem(ManaLevelItem.power.getTag(m), 1))

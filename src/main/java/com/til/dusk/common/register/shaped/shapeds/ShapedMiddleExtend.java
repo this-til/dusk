@@ -10,6 +10,7 @@ import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.IItemHandler;
 import org.jetbrains.annotations.Nullable;
@@ -18,6 +19,7 @@ import java.util.Map;
 
 /***
  * 对单一物品进行处理
+ * @author til
  */
 public abstract class ShapedMiddleExtend extends ShapedMiddle {
 
@@ -31,31 +33,32 @@ public abstract class ShapedMiddleExtend extends ShapedMiddle {
 
     @Nullable
     @Override
-    public ShapedHandle get(IHandle iHandle, Map<IPosTrack, IItemHandler> items, Map<IPosTrack, IFluidHandler> fluids) {
+    public ShapedHandle get(IHandle iHandle, Map.Entry<IPosTrack, IItemHandler> items, Map<IPosTrack, IFluidHandler> fluids) {
+        if (items == null) {
+            return null;
+        }
         if (!extractItem(iHandle, items, true).isEmpty()) {
             ItemStack outItemStack = extractItem(iHandle, items, false);
-           return create(outItemStack);
+            return create(outItemStack);
         }
         return null;
     }
 
 
-    protected ItemStack extractItem(IHandle iHandle, Map<IPosTrack, IItemHandler> items, boolean isSimulated) {
-        for (Map.Entry<IPosTrack, IItemHandler> entry : items.entrySet()) {
-            for (int i = 0; i < entry.getValue().getSlots(); i++) {
-                ItemStack itemStack = entry.getValue().getStackInSlot(i);
-                if (itemStack.isEmpty()) {
-                    continue;
-                }
-                if (!isItem(itemStack)) {
-                    continue;
-                }
-                ItemStack outItemStack = CapabilityHelp.extractItem(iHandle.getPosTrack(), null, entry.getValue(), entry.getKey().getPos(), i, 1, isSimulated);
-                if (outItemStack.isEmpty()) {
-                    continue;
-                }
-                return outItemStack;
+    protected ItemStack extractItem(IHandle iHandle, Map.Entry<IPosTrack, IItemHandler> items, boolean isSimulated) {
+        for (int i = 0; i < items.getValue().getSlots(); i++) {
+            ItemStack itemStack = items.getValue().getStackInSlot(i);
+            if (itemStack.isEmpty()) {
+                continue;
             }
+            if (!isItem(itemStack)) {
+                continue;
+            }
+            ItemStack outItemStack = CapabilityHelp.extractItem(iHandle.getPosTrack(), null, items, i, 1, isSimulated);
+            if (outItemStack.isEmpty()) {
+                continue;
+            }
+            return outItemStack;
         }
         return ItemStack.EMPTY;
     }
@@ -66,4 +69,14 @@ public abstract class ShapedMiddleExtend extends ShapedMiddle {
     protected abstract boolean isItem(ItemStack itemStack);
 
     protected abstract ShapedHandle create(ItemStack itemStack);
+
+    @Override
+    public boolean screenOfFluid(FluidStack fluidStack) {
+        return true;
+    }
+
+    @Override
+    public boolean screenOfItem(ItemStack itemStack) {
+        return isItem(itemStack);
+    }
 }

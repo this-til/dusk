@@ -7,6 +7,7 @@ import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 import net.minecraftforge.common.Tags;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author til
@@ -14,7 +15,7 @@ import java.util.List;
 public class GrindMechanic extends HandleMechanic {
 
     public GrindMechanic() {
-        super("grind", () -> List.of(ShapedType.grind));
+        super("grind", () -> Set.of(ShapedType.grind));
         setSet(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
                 .addInItem(Tags.Items.GEMS_DIAMOND, 2)
                 .addRun((s, m) -> s.addInItem(m.blockMap.get(frameBasic).blockItemTag(), 1))

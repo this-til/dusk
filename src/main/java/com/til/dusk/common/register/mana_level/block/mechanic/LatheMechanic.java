@@ -7,6 +7,7 @@ import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author til
@@ -14,7 +15,7 @@ import java.util.List;
 public class LatheMechanic extends HandleMechanic {
 
     public LatheMechanic(){
-        super("lathe", () -> List.of(ShapedType.lathe));
+        super("lathe", () -> Set.of(ShapedType.lathe));
         setSet(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
                 .addRun((s, m) -> s.addInItem(m.blockMap.get(frameBasic).blockItemTag(), 1))
                 .addRun((s, m) -> s.addInItem(m.getAcceptableTagPack(OreItem.file).itemTagKey(), 3))

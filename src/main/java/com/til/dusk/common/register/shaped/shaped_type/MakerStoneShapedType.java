@@ -34,7 +34,7 @@ public class MakerStoneShapedType extends ShapedType {
                 .addMultipleSurplusTime(128)
                 .addMultipleConsumeMana(4);
 
-        new ShapedOre(this, ShapedDrive.get(1), ManaLevel.t1)
+        new ShapedOre(this, ShapedDrive.get(2), ManaLevel.t1)
                 .addInFluid(FluidTags.WATER, 1000)
                 .addInFluid(FluidTags.LAVA, 1000)
                 .addOutItem(new ItemStack(Blocks.OBSIDIAN), 1d)

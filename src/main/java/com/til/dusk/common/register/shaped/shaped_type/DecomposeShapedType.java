@@ -52,7 +52,7 @@ public class DecomposeShapedType extends ShapedType {
             this.basicsOut = basicsOut;
         }
 
-        public FoolDecomposeShaped(ResourceLocation name, JsonObject jsonObject) throws Exception {
+        public FoolDecomposeShaped(ResourceLocation name, JsonObject jsonObject) {
             super(name, jsonObject);
             basicsOut = AllNBTPack.BASICS_OUT.get(jsonObject);
         }

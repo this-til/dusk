@@ -23,9 +23,7 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.IItemHandler;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author til
@@ -34,14 +32,14 @@ public class Handle implements IHandle {
 
     public final IPosTrack posTrack;
 
-    public final List<Shaped> shapedList;
+    public final Set<Shaped> shapedList;
     public final IControl iControl;
     public final IClock iClock;
     public final IBack iBack;
     public final int maxParallel;
     public List<ShapedHandle> shapedHandles = new ArrayList<>();
 
-    public Handle(IPosTrack iPosTrack, List<Shaped> shapedTypes, IControl iControl, IClock iClock, IBack iBack, int maxParallel) {
+    public Handle(IPosTrack iPosTrack, Set<Shaped> shapedTypes, IControl iControl, IClock iClock, IBack iBack, int maxParallel) {
         this.shapedList = shapedTypes;
         this.posTrack = iPosTrack;
         this.iControl = iControl;
@@ -52,7 +50,7 @@ public class Handle implements IHandle {
         iBack.add(IBack.UP, v -> up());
     }
 
-    public Handle(IPosTrack iPosTrack, List<ShapedType> shapedTypes, IControl iControl, IClock iClock, IBack iBack, ManaLevel maxParallel) {
+    public Handle(IPosTrack iPosTrack, Set<ShapedType> shapedTypes, IControl iControl, IClock iClock, IBack iBack, ManaLevel maxParallel) {
         this.shapedList = Shaped.get(shapedTypes.toArray(new ShapedType[0]));
         this.posTrack = iPosTrack;
         this.iControl = iControl;
@@ -81,7 +79,7 @@ public class Handle implements IHandle {
     }
 
     @Override
-    public List<Shaped> getShaped() {
+    public Set<Shaped> getShaped() {
         return shapedList;
     }
 
@@ -92,10 +90,10 @@ public class Handle implements IHandle {
     }
 
     @Override
-    public List<ShapedDrive> getShapedDrive() {
-        List<ShapedDrive> list = new ArrayList<>();
-        iControl.getCapability(BindType.modelStore).forEach((k, v) -> list.addAll(v.get()));
-        return list;
+    public Set<ShapedDrive> getShapedDrive() {
+        Set<ShapedDrive> set = new HashSet<>();
+        iControl.getCapability(BindType.modelStore).forEach((k, v) -> set.addAll(v.get()));
+        return set;
     }
 
     @Override
@@ -124,56 +122,90 @@ public class Handle implements IHandle {
         Map<IPosTrack, IFluidHandler> fluidOut = iControl.getCapability(BindType.fluidOut);
 
         MinecraftForge.EVENT_BUS.post(new EventHandle.Clock(this, itemIn, itemOut, fluidIn, fluidOut));
-        shapedHandles.forEach(h -> {
-            EventHandle.EventShapedHandle.Clock clock = new EventHandle.EventShapedHandle.Clock(this, h, itemIn, itemOut, fluidIn, fluidOut);
-            h.process.clock(clock);
+        for (ShapedHandle shapedHandle : shapedHandles) {
+            EventHandle.EventShapedHandle.Clock clock = new EventHandle.EventShapedHandle.Clock(this, shapedHandle, itemIn, itemOut, fluidIn, fluidOut);
+            shapedHandle.process.clock(clock);
             MinecraftForge.EVENT_BUS.post(clock);
-        });
+        }
 
         List<ShapedHandle> rShapedHandle = new ArrayList<>();
-        shapedHandles.forEach(h -> {
+        for (ShapedHandle h : shapedHandles) {
             if (h.isEmpty()) {
                 rShapedHandle.add(h);
             }
-        });
-        rShapedHandle.forEach(r -> {
-            shapedHandles.remove(r);
-            MinecraftForge.EVENT_BUS.post(new EventHandle.EventShapedHandle.Complete(this, r));
-        });
+        }
+
+        if (!rShapedHandle.isEmpty()) {
+            for (ShapedHandle r : rShapedHandle) {
+                shapedHandles.remove(r);
+                MinecraftForge.EVENT_BUS.post(new EventHandle.EventShapedHandle.Complete(this, r));
+            }
+        }
 
         if (shapedHandles.size() >= getParallelHandle()) {
             return;
         }
 
-        List<ShapedDrive> shapedDrives = getShapedDrive();
+        Set<ShapedDrive> shapedDrives = getShapedDrive();
 
-        List<Shaped> shapedList = new ArrayList<>(this.shapedList.size());
-        this.shapedList.forEach(s -> {
+        Set<Shaped> shapedListOnt = new HashSet<>();
+        Set<Shaped> shapedListTwo = new HashSet<>();
+        Set<Shaped> shapedListThree = new HashSet<>();
+        for (Shaped s : this.shapedList) {
             if (shapedDrives.contains(s.shapedDrive)) {
-                shapedList.add(s);
+                shapedListOnt.add(s);
             }
-        });
-        List<Shaped> rShaped = new ArrayList<>();
-
-        ShapedHandle shapedHandle;
-        do {
-            shapedHandle = null;
-            if (!rShaped.isEmpty()) {
-                shapedList.removeAll(rShaped);
-                rShaped.clear();
-            }
-
-            for (Shaped shaped : shapedList) {
-                shapedHandle = shaped.get(this, itemIn, fluidIn);
-                if (shapedHandle != null) {
-                    addShapedHandle(shapedHandle);
-                    break;
-                } else {
-                    rShaped.add(shaped);
+        }
+        if (shapedListOnt.isEmpty()) {
+            return;
+        }
+        if (!fluidIn.isEmpty()) {
+            for (Map.Entry<IPosTrack, IFluidHandler> entry : fluidIn.entrySet()) {
+                IFluidHandler iFluidHandler = entry.getValue();
+                for (int i = 0; i < iFluidHandler.getTanks(); i++) {
+                    FluidStack fluidStack = iFluidHandler.getFluidInTank(i);
+                    for (Shaped shaped : shapedListOnt) {
+                        if (shaped.screenOfFluid(fluidStack)) {
+                            shapedListTwo.add(shaped);
+                            shapedListThree.add(shaped);
+                        }
+                    }
+                    if (!shapedListThree.isEmpty()) {
+                        for (Shaped shaped : shapedListThree) {
+                            shapedListOnt.remove(shaped);
+                        }
+                    }
                 }
             }
         }
-        while (shapedHandle != null && shapedHandles.size() < getParallelHandle());
+        if (shapedListTwo.isEmpty()) {
+            return;
+        }
+        if (itemIn.isEmpty()) {
+            for (Shaped shaped : shapedListTwo) {
+                ShapedHandle shapedHandle = shaped.get(this, null, fluidIn);
+                if (shapedHandle != null) {
+                    addShapedHandle(shapedHandle);
+                    return;
+                }
+            }
+        } else {
+            for (Map.Entry<IPosTrack, IItemHandler> entry : itemIn.entrySet()) {
+                IItemHandler iItemHandler = entry.getValue();
+                for (int i = 0; i < iItemHandler.getSlots(); i++) {
+                    ItemStack itemStack = iItemHandler.getStackInSlot(i);
+                    for (Shaped shaped : shapedListTwo) {
+                        if (shaped.screenOfItem(itemStack)) {
+                            ShapedHandle shapedHandle = shaped.get(this, entry, fluidIn);
+                            if (shapedHandle != null) {
+                                addShapedHandle(shapedHandle);
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     @Override
@@ -198,7 +230,7 @@ public class Handle implements IHandle {
     public CompoundTag appendServerData() {
         CompoundTag compoundTag = serializeNBT();
         AllNBTPack.MAX_PARALLEL.set(compoundTag, getParallelHandle());
-        AllNBTPack.SHAPED_DRIVE_LIST.set(compoundTag, getShapedDrive());
+        AllNBTPack.SHAPED_DRIVE_LIST.set(compoundTag, new ArrayList<>(getShapedDrive()));
         return compoundTag;
     }
 

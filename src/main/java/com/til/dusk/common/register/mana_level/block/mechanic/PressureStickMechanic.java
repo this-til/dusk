@@ -7,6 +7,7 @@ import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author til
@@ -14,7 +15,7 @@ import java.util.List;
 public class PressureStickMechanic extends HandleMechanic {
 
     public PressureStickMechanic(){
-        super("pressure_stick", () -> List.of(ShapedType.pressureStick));
+        super("pressure_stick", () -> Set.of(ShapedType.pressureStick));
         setSet(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
                 .addRun((s, m) -> s.addInItem(m.blockMap.get(frameBasic).blockItemTag(), 1))
                 .addRun((s, m) -> s.addInItem(ManaLevelItem.forming.getTag(m), 1))

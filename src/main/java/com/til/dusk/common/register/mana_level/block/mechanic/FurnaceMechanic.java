@@ -7,6 +7,7 @@ import com.til.dusk.common.register.ore.block.OreBlock;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author til
@@ -14,7 +15,7 @@ import java.util.List;
 public class FurnaceMechanic extends HandleMechanic {
 
     public FurnaceMechanic(){
-        super("furnace", () -> List.of(ShapedType.furnace));
+        super("furnace", () -> Set.of(ShapedType.furnace));
         setSet(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
                 .addRun((s, m) -> s.addInItem(m.blockMap.get(flameMana).blockItemTag(), 1))
                 .addRun((s, m) -> s.addInItem(ManaLevelItem.forming.getTag(m), 1))

@@ -13,6 +13,7 @@ import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
 import com.til.dusk.util.pack.BlockPack;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.common.Tags;
 
 import java.util.Map;
 
@@ -63,7 +64,6 @@ public class AssembleShapedType extends ShapedType {
                 }
             }
         }
-
         for (Ore ore : Ore.screen(Ore.ARMOR_DATA)) {
             ArmorData armorData = ore.getSet(Ore.ARMOR_DATA);
             new ShapedOre(this, ShapedDrive.get(3), ore.manaLevel)
@@ -174,6 +174,38 @@ public class AssembleShapedType extends ShapedType {
                     .addMultipleSurplusTime(16384L * ore.manaLevel.level)
                     .addMultipleConsumeMana(64L * ore.manaLevel.level);
 
+        }
+        for (Ore ore : Ore.screen(Ore.TOOL_DATA)) {
+            new ShapedOre(this, ShapedDrive.get(12), ore.manaLevel)
+                    .addInItem(ore.itemMap.get(OreItem.ingot).itemTag(), 6)
+                    .addInItem(Tags.Items.RODS_WOODEN, 1)
+                    .addOutItem(new ItemStack(ore.itemMap.get(OreItem.hammer).item()), 1D)
+                    .addMultipleSurplusTime((long) (2048 * ore.strength))
+                    .addMultipleConsumeMana((long) (7 * ore.consume));
+            new ShapedOre(this, ShapedDrive.get(13), ore.manaLevel)
+                    .addInItem(ore.itemMap.get(OreItem.ingot).itemTag(), 4)
+                    .addOutItem(new ItemStack(ore.itemMap.get(OreItem.wrench).item()), 1D)
+                    .addMultipleSurplusTime((long) (2048 * ore.strength))
+                    .addMultipleConsumeMana((long) (7 * ore.consume));
+            new ShapedOre(this, ShapedDrive.get(14), ore.manaLevel)
+                    .addInItem(ore.itemMap.get(OreItem.ingot).itemTag(), 2)
+                    .addInItem(ore.itemMap.get(OreItem.plate).itemTag(), 3)
+                    .addOutItem(new ItemStack(ore.itemMap.get(OreItem.wireCutter).item()), 1D)
+                    .addMultipleSurplusTime((long) (2048 * ore.strength))
+                    .addMultipleConsumeMana((long) (7 * ore.consume));
+            new ShapedOre(this, ShapedDrive.get(15), ore.manaLevel)
+                    .addInItem(ore.itemMap.get(OreItem.plate).itemTag(), 2)
+                    .addInItem(ore.itemMap.get(OreItem.casing).itemTag(), 1)
+                    .addOutItem(new ItemStack(ore.itemMap.get(OreItem.file).item()), 1D)
+                    .addMultipleSurplusTime((long) (2048 * ore.strength))
+                    .addMultipleConsumeMana((long) (7 * ore.consume));
+            new ShapedOre(this, ShapedDrive.get(16), ore.manaLevel)
+                    .addInItem(ore.itemMap.get(OreItem.plate_3).itemTag(), 2)
+                    .addInItem(ore.itemMap.get(OreItem.plate_2).itemTag(), 6)
+                    .addInItem(ore.itemMap.get(OreItem.casing).itemTag(), 16)
+                    .addOutItem(new ItemStack(ore.itemMap.get(OreItem.tank).item()), 1D)
+                    .addMultipleSurplusTime((long) (4096 * ore.strength))
+                    .addMultipleConsumeMana((long) (24 * ore.consume));
         }
     }
 }

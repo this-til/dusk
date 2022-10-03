@@ -6,17 +6,19 @@ import com.til.dusk.common.register.mana_level.block.HandleMechanic;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author til
  */
 public class DistillationMechanic extends HandleMechanic {
 
-    public DistillationMechanic(){
-        super("distillation", () -> List.of(ShapedType.distillation));
+    public DistillationMechanic() {
+        super("distillation", () -> Set.of(ShapedType.distillation));
         setSet(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
                 .addRun((s, m) -> s.addInItem(m.blockMap.get(blastFurnace).blockItemTag(), 1))
-                .addRun((s,m) -> s.addInItem(ManaLevelItem.destruction.getTag(m), 3))
+                .addRun((s, m) -> s.addInItem(ManaLevelItem.destruction.getTag(m), 3))
+                .addRun((s, m) -> s.addInItem(ManaLevelItem.spread.getTag(m), 1))
                 .addInItem(ItemTag.CAULDRON.d1(), 1));
     }
 

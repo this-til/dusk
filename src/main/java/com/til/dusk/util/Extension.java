@@ -1,5 +1,7 @@
 package com.til.dusk.util;
 
+import java.util.Map;
+
 public class Extension {
 
     public interface Action {
@@ -81,13 +83,30 @@ public class Extension {
         }
     }
 
-    public static class VariableData_2<D1, D2> {
+    public static class VariableData_2<D1, D2> implements Map.Entry<D1,D2> {
         public D1 d1;
         public D2 d2;
 
         public VariableData_2(D1 d1, D2 d2) {
             this.d1 = d1;
             this.d2 = d2;
+        }
+
+        @Override
+        public D1 getKey() {
+            return d1;
+        }
+
+        @Override
+        public D2 getValue() {
+            return d2;
+        }
+
+        @Override
+        public D2 setValue(D2 value) {
+            D2 d2 = this.d2;
+            this.d2 = value;
+            return d2;
         }
     }
 

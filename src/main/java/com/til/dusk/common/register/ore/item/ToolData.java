@@ -10,10 +10,15 @@ public class ToolData {
     /***
      * 储罐最大液体
      */
-    public int tankMax = 6400;
+    public int tankMax = 4000;
 
     public ToolData setUses(int uses) {
         this.uses = uses;
+        return this;
+    }
+
+    public ToolData setTankMax(int tankMax) {
+        this.tankMax = tankMax;
         return this;
     }
 }

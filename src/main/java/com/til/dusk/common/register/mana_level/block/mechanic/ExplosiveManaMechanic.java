@@ -7,6 +7,7 @@ import com.til.dusk.util.DuskColor;
 import net.minecraftforge.common.Tags;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author til
@@ -14,7 +15,7 @@ import java.util.List;
 public class ExplosiveManaMechanic extends ExtractManaMechanic {
 
     public ExplosiveManaMechanic(){
-        super("explosive_mana", () -> List.of(ShapedType.explosiveMana), new DuskColor(178, 25, 25));
+        super("explosive_mana", () -> Set.of(ShapedType.explosiveMana), new DuskColor(178, 25, 25));
         setSet(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
                 .addRun((s, m) -> s.addInItem(m.blockMap.get(extractMana).blockItemTag(), 1))
                 .addInItem(ItemTag.TNT.d1(), 4)

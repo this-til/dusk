@@ -6,13 +6,14 @@ import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author til
  */
 public class CuttingMechanic extends HandleMechanic {
     public CuttingMechanic(){
-        super("cutting", () -> List.of(ShapedType.cutting));
+        super("cutting", () -> Set.of(ShapedType.cutting));
 
         setSet(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
                 .addRun((s, m) -> s.addInItem(m.blockMap.get(frameBasic).blockItemTag(), 1))

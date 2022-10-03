@@ -22,7 +22,7 @@ public interface IHandle extends INBTSerializable<CompoundTag>, ITooltipCapabili
     /***
      * 获取所有的配方
      */
-    List<Shaped> getShaped();
+    Set<Shaped> getShaped();
 
     void addShapedHandle(ShapedHandle shaped);
 
@@ -31,7 +31,7 @@ public interface IHandle extends INBTSerializable<CompoundTag>, ITooltipCapabili
      */
     int getParallelHandle();
 
-    List<ShapedDrive> getShapedDrive();
+    Set<ShapedDrive> getShapedDrive();
 
     IControl getControl();
 

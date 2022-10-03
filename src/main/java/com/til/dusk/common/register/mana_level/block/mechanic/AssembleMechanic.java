@@ -12,13 +12,14 @@ import net.minecraft.data.recipes.RecipeBuilder;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author til
  */
 public class AssembleMechanic extends HandleMechanic {
     public AssembleMechanic(){
-        super("assemble", () -> List.of(ShapedType.assemble));
+        super("assemble", () -> Set.of(ShapedType.assemble));
         setSet(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
                 .setMakeLevel(ManaLevelMakeData.MakeLevel.UP)
                 .addRun((s, m) -> s.addInItem(m.blockMap.get(frameBasic).blockItemTag(), 1))
