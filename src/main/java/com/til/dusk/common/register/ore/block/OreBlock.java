@@ -2,7 +2,7 @@ package com.til.dusk.common.register.ore.block;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.client.ColorProxy;
-import com.til.dusk.common.data.DuskData;
+import com.til.dusk.common.data.ModRecipeProvider;
 import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.register.ore.Ore;
@@ -213,7 +213,7 @@ public abstract class OreBlock extends RegisterBasics.BlockUnitRegister<OreBlock
                         .pattern("ACA")
                         .pattern("BAB")
                         .unlockedBy("has_casing",
-                                DuskData.ModRecipeProvider.has(ore.itemMap.get(OreItem.casing).itemTag())));
+                                ModRecipeProvider.has(ore.itemMap.get(OreItem.casing).itemTag())));
             }
 
         });

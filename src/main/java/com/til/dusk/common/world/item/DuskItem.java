@@ -3,7 +3,7 @@ package com.til.dusk.common.world.item;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.client.ColorProxy;
-import com.til.dusk.common.data.DuskData;
+import com.til.dusk.common.data.ModRecipeProvider;
 import com.til.dusk.common.data.tag.ItemTag;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.register.mana_level.ManaLevelItem;
@@ -119,7 +119,7 @@ public class DuskItem {
                                 .pattern("  A")
                                 .pattern(" B ")
                                 .pattern("B  ")
-                                .unlockedBy("has_ores", DuskData.ModRecipeProvider.has(Tags.Items.ORES))));
+                                .unlockedBy("has_ores", ModRecipeProvider.has(Tags.Items.ORES))));
         copyStaff = ITEMS.register("copy_staff",
                 () -> (CopyStaffItem) new CopyStaffItem(new Item.Properties().stacksTo(1).tab(Dusk.TAB))
                         .addRecipe(() -> ShapedRecipeBuilder.shaped(copyStaff.get())
@@ -128,7 +128,7 @@ public class DuskItem {
                                 .pattern("  A")
                                 .pattern(" B ")
                                 .pattern("B  ")
-                                .unlockedBy("has_ores", DuskData.ModRecipeProvider.has(Tags.Items.ORES))));
+                                .unlockedBy("has_ores", ModRecipeProvider.has(Tags.Items.ORES))));
         showStaff = ITEMS.register("show_staff",
                 () -> (ShowStaffItem) new ShowStaffItem(new Item.Properties().stacksTo(1).tab(Dusk.TAB))
                         .addRecipe(() -> ShapedRecipeBuilder.shaped(showStaff.get())
@@ -137,7 +137,7 @@ public class DuskItem {
                                 .pattern("  A")
                                 .pattern(" B ")
                                 .pattern("B  ")
-                                .unlockedBy("has_ores", DuskData.ModRecipeProvider.has(Tags.Items.ORES))));
+                                .unlockedBy("has_ores", ModRecipeProvider.has(Tags.Items.ORES))));
         clearStaff = ITEMS.register("clear_staff",
                 () -> (ClearStaffItem) new ClearStaffItem(new Item.Properties().stacksTo(1).tab(Dusk.TAB))
                         .addRecipe(() -> ShapedRecipeBuilder.shaped(clearStaff.get())
@@ -146,7 +146,7 @@ public class DuskItem {
                                 .pattern("  A")
                                 .pattern(" B ")
                                 .pattern("B  ")
-                                .unlockedBy("has_ores", DuskData.ModRecipeProvider.has(Tags.Items.ORES))));
+                                .unlockedBy("has_ores", ModRecipeProvider.has(Tags.Items.ORES))));
 
 
         diamondMakeOperationBasics = ITEMS.register("diamond_make_operation_basics",
@@ -160,7 +160,7 @@ public class DuskItem {
                                 .pattern("DBD")
                                 .pattern("CAC")
                                 .pattern("DBD")
-                                .unlockedBy("has_diamond", DuskData.ModRecipeProvider.has(Tags.Items.GEMS_DIAMOND))));
+                                .unlockedBy("has_diamond", ModRecipeProvider.has(Tags.Items.GEMS_DIAMOND))));
         diamondMakeOperation = ITEMS.register("diamond_make_operation",
                 () -> (DiamondMakeItem) new DiamondMakeItem(new Item.Properties().tab(Dusk.TAB), ManaLevelItem.operation.strokeColor, ManaLevelItem.operation.coreColor)
                         .addTag(ManaLevelItem.operation.getTag(ManaLevel.t1))
@@ -171,7 +171,7 @@ public class DuskItem {
                                 .pattern("BCB")
                                 .pattern("CAC")
                                 .pattern("BCB")
-                                .unlockedBy("has_diamond_make_operation_basics", DuskData.ModRecipeProvider.has(diamondMakeOperation.get().tag()))));
+                                .unlockedBy("has_diamond_make_operation_basics", ModRecipeProvider.has(diamondMakeOperation.get().tag()))));
         diamondMakeForming = ITEMS.register("diamond_make_forming",
                 () -> (DiamondMakeItem) new DiamondMakeItem(new Item.Properties().tab(Dusk.TAB), ManaLevelItem.forming.strokeColor, ManaLevelItem.forming.coreColor)
                         .addTag(ManaLevelItem.forming.getTag(ManaLevel.t1))
@@ -181,7 +181,7 @@ public class DuskItem {
                                 .pattern(" B ")
                                 .pattern("BAB")
                                 .pattern(" B ")
-                                .unlockedBy("has_diamond_make_operation", DuskData.ModRecipeProvider.has(diamondMakeOperation.get().tag()))));
+                                .unlockedBy("has_diamond_make_operation", ModRecipeProvider.has(diamondMakeOperation.get().tag()))));
         diamondMakeDestruction = ITEMS.register("diamond_make_destruction",
                 () -> (DiamondMakeItem) new DiamondMakeItem(new Item.Properties().tab(Dusk.TAB), ManaLevelItem.destruction.strokeColor, ManaLevelItem.destruction.coreColor)
                         .addTag(ManaLevelItem.destruction.getTag(ManaLevel.t1))
@@ -191,7 +191,7 @@ public class DuskItem {
                                 .pattern(" B ")
                                 .pattern("BAB")
                                 .pattern(" B ")
-                                .unlockedBy("has_diamond_make_operation", DuskData.ModRecipeProvider.has(diamondMakeOperation.get().tag()))));
+                                .unlockedBy("has_diamond_make_operation", ModRecipeProvider.has(diamondMakeOperation.get().tag()))));
         diamondMakeGather = ITEMS.register("diamond_make_gather",
                 () -> (DiamondMakeItem) new DiamondMakeItem(new Item.Properties().tab(Dusk.TAB), ManaLevelItem.gather.strokeColor, ManaLevelItem.gather.coreColor)
                         .addTag(ManaLevelItem.gather.getTag(ManaLevel.t1))
@@ -201,7 +201,7 @@ public class DuskItem {
                                 .pattern(" B ")
                                 .pattern("BAB")
                                 .pattern(" B ")
-                                .unlockedBy("has_diamond_make_operation", DuskData.ModRecipeProvider.has(diamondMakeOperation.get().tag()))));
+                                .unlockedBy("has_diamond_make_operation", ModRecipeProvider.has(diamondMakeOperation.get().tag()))));
         diamondMakeSpread = ITEMS.register("diamond_make_spread",
                 () -> (DiamondMakeItem) new DiamondMakeItem(new Item.Properties().tab(Dusk.TAB), ManaLevelItem.spread.strokeColor, ManaLevelItem.spread.coreColor)
                         .addTag(ManaLevelItem.spread.getTag(ManaLevel.t1))
@@ -211,7 +211,7 @@ public class DuskItem {
                                 .pattern(" B ")
                                 .pattern("BAB")
                                 .pattern(" B ")
-                                .unlockedBy("has_diamond_make_operation", DuskData.ModRecipeProvider.has(diamondMakeOperation.get().tag()))));
+                                .unlockedBy("has_diamond_make_operation", ModRecipeProvider.has(diamondMakeOperation.get().tag()))));
         diamondMakePower = ITEMS.register("diamond_make_power",
                 () -> (DiamondMakeItem) new DiamondMakeItem(new Item.Properties().tab(Dusk.TAB), ManaLevelItem.power.strokeColor, ManaLevelItem.power.coreColor)
                         .addTag(ManaLevelItem.power.getTag(ManaLevel.t1))
@@ -221,7 +221,7 @@ public class DuskItem {
                                 .pattern(" B ")
                                 .pattern("BAB")
                                 .pattern(" B ")
-                                .unlockedBy("has_diamond_make_operation", DuskData.ModRecipeProvider.has(diamondMakePower.get().tag()))));
+                                .unlockedBy("has_diamond_make_operation", ModRecipeProvider.has(diamondMakePower.get().tag()))));
         diamondMakeInstructions = ITEMS.register("diamond_make_instructions",
                 () -> (DiamondMakeItem) new DiamondMakeItem(new Item.Properties().tab(Dusk.TAB), ManaLevelItem.instructions.strokeColor, ManaLevelItem.instructions.coreColor)
                         .addTag(ManaLevelItem.instructions.getTag(ManaLevel.t1))
@@ -231,7 +231,7 @@ public class DuskItem {
                                 .pattern(" B ")
                                 .pattern("BAB")
                                 .pattern(" B ")
-                                .unlockedBy("has_diamond_make_operation", DuskData.ModRecipeProvider.has(diamondMakeOperation.get().tag()))));
+                                .unlockedBy("has_diamond_make_operation", ModRecipeProvider.has(diamondMakeOperation.get().tag()))));
         resistance = ITEMS.register("resistance", () -> new ItemBasics.ItemGenerateModel(new Item.Properties().tab(Dusk.TAB))
                 .addTag(ItemTag.resistanceTag)
                 .addShaped(() -> new ShapedOre(ShapedType.encapsulation, ShapedDrive.get(0), ManaLevel.t1)

@@ -2,16 +2,21 @@ package com.til.dusk.common.data.tag;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.util.Extension;
+import net.minecraft.data.DataGenerator;
+import net.minecraft.data.tags.BlockTagsProvider;
+import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
+import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.NewRegistryEvent;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,17 +29,17 @@ import java.util.Map;
  * @author til
  */
 @Mod.EventBusSubscriber(modid = Dusk.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class ItemTag {
+public class ItemTag extends ItemTagsProvider {
 
-    public static final Map<TagKey<Item>, List<Item>> map = new HashMap<>();
+    public static final Map<TagKey<Item>, List<Item>> MAP = new HashMap<>();
 
     public static void addTag(TagKey<Item> tTagKey, Item t) {
         List<Item> tList;
-        if (map.containsKey(tTagKey)) {
-            tList = map.get(tTagKey);
+        if (MAP.containsKey(tTagKey)) {
+            tList = MAP.get(tTagKey);
         } else {
             tList = new ArrayList<>();
-            map.put(tTagKey, tList);
+            MAP.put(tTagKey, tList);
         }
         tList.add(t);
     }
@@ -107,7 +112,6 @@ public class ItemTag {
     public static TagKey<Item> diodeTag;
     public static TagKey<Item> triodeTag;
 
-
     @SubscribeEvent
     public static void event(NewRegistryEvent event) {
         TNT = createBlockTag((BlockItem) Items.TNT);
@@ -166,4 +170,14 @@ public class ItemTag {
 
     }
 
+    public ItemTag(DataGenerator dataGenerator, BlockTagsProvider blockTagsProvider, @Nullable ExistingFileHelper existingFileHelper) {
+        super(dataGenerator, blockTagsProvider, Dusk.MOD_ID, existingFileHelper);
+    }
+
+    @Override
+    protected void addTags() {
+        for (Map.Entry<TagKey<Item>, List<Item>> entry : ItemTag.MAP.entrySet()) {
+            this.tag(entry.getKey()).add(entry.getValue().toArray(new Item[0]));
+        }
+    }
 }

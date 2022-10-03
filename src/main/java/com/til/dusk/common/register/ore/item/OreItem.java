@@ -2,7 +2,7 @@ package com.til.dusk.common.register.ore.item;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.client.ColorProxy;
-import com.til.dusk.common.data.DuskData;
+import com.til.dusk.common.data.ModRecipeProvider;
 import com.til.dusk.common.data.tag.ItemTag;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.register.ore.Ore;
@@ -190,7 +190,7 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
                             continue;
                         }
                         list.add(SimpleCookingRecipeBuilder.smelting(Ingredient.of(ore.getMineralBlockTag().itemTagKey()), ore.itemMap.get(ingot).item(), 0.6F, 200)
-                                .unlockedBy("has_ore", DuskData.ModRecipeProvider.has(ore.getMineralBlockTag().itemTagKey())));
+                                .unlockedBy("has_ore", ModRecipeProvider.has(ore.getMineralBlockTag().itemTagKey())));
 
 
                     }
@@ -321,7 +321,7 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
                                 .pattern("AAA")
                                 .pattern("AAA")
                                 .pattern(" B ")
-                                .unlockedBy("has_ore", DuskData.ModRecipeProvider.has(ore.itemMap.get(ingot).itemTag())));
+                                .unlockedBy("has_ore", ModRecipeProvider.has(ore.itemMap.get(ingot).itemTag())));
                     }
                 })
                 .addRecipes(list -> {
@@ -333,26 +333,26 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
                                 .define('A', hammer.getTagPack().itemTagKey())
                                 .define('B', ore.itemMap.get(ingot).itemTag())
                                 .pattern("AB")
-                                .unlockedBy("has_hammer", DuskData.ModRecipeProvider.has(hammer.getTagPack().itemTagKey())));
+                                .unlockedBy("has_hammer", ModRecipeProvider.has(hammer.getTagPack().itemTagKey())));
                         list.add(ShapedRecipeBuilder.shaped(ore.itemMap.get(casing).item(), 1)
                                 .define('A', hammer.getTagPack().itemTagKey())
                                 .define('B', ore.itemMap.get(plate).itemTag())
                                 .pattern("A")
                                 .pattern("B")
-                                .unlockedBy("has_hammer", DuskData.ModRecipeProvider.has(hammer.getTagPack().itemTagKey())));
+                                .unlockedBy("has_hammer", ModRecipeProvider.has(hammer.getTagPack().itemTagKey())));
                         list.add(ShapedRecipeBuilder.shaped(ore.itemMap.get(foil).item(), 2)
                                 .define('A', hammer.getTagPack().itemTagKey())
                                 .define('B', ore.itemMap.get(plate).itemTag())
                                 .pattern("A ")
                                 .pattern(" B")
-                                .unlockedBy("has_hammer", DuskData.ModRecipeProvider.has(hammer.getTagPack().itemTagKey())));
+                                .unlockedBy("has_hammer", ModRecipeProvider.has(hammer.getTagPack().itemTagKey())));
                         list.add(ShapedRecipeBuilder.shaped(ore.itemMap.get(stick_long).item(), 1)
                                 .define('A', hammer.getTagPack().itemTagKey())
                                 .define('B', ore.itemMap.get(stick).itemTag())
                                 .pattern("A")
                                 .pattern("B")
                                 .pattern("B")
-                                .unlockedBy("has_hammer", DuskData.ModRecipeProvider.has(hammer.getTagPack().itemTagKey())));
+                                .unlockedBy("has_hammer", ModRecipeProvider.has(hammer.getTagPack().itemTagKey())));
                     }
                 });
         wrench = (OreItemTool) new OreItemTool("wrench")
@@ -363,7 +363,7 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
                                 .pattern("A A")
                                 .pattern(" A ")
                                 .pattern(" A ")
-                                .unlockedBy("has_ore", DuskData.ModRecipeProvider.has(ore.itemMap.get(ingot).itemTag())));
+                                .unlockedBy("has_ore", ModRecipeProvider.has(ore.itemMap.get(ingot).itemTag())));
                     }
                 })
                 .addRecipes(list -> {
@@ -378,7 +378,7 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
                                 .pattern("BCB")
                                 .pattern("CAC")
                                 .pattern("BCB")
-                                .unlockedBy("has_wrench", DuskData.ModRecipeProvider.has(wrench.getTagPack().itemTagKey())));
+                                .unlockedBy("has_wrench", ModRecipeProvider.has(wrench.getTagPack().itemTagKey())));
                         list.add(ShapedRecipeBuilder.shaped(ore.itemMap.get(rotor).item(), 1)
                                 .define('A', wrench.getTagPack().itemTagKey())
                                 .define('B', ore.itemMap.get(plate).itemTag())
@@ -386,7 +386,7 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
                                 .pattern("BCB")
                                 .pattern("CAC")
                                 .pattern("BCB")
-                                .unlockedBy("has_wrench", DuskData.ModRecipeProvider.has(wrench.getTagPack().itemTagKey())));
+                                .unlockedBy("has_wrench", ModRecipeProvider.has(wrench.getTagPack().itemTagKey())));
                     }
                 });
         wireCutter = (OreItemTool) new OreItemTool("wire_cutter")
@@ -399,7 +399,7 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
                                 .pattern("B B")
                                 .pattern(" B ")
                                 .pattern("A A")
-                                .unlockedBy("has_ore", DuskData.ModRecipeProvider.has(ore.itemMap.get(ingot).itemTag())));
+                                .unlockedBy("has_ore", ModRecipeProvider.has(ore.itemMap.get(ingot).itemTag())));
                     }
                 })
                 .setSet(IS_WIRE_CUTTER).addRecipes(list -> {
@@ -412,7 +412,7 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
                                 .define('B', ore.itemMap.get(plate).itemTag())
                                 .pattern("A")
                                 .pattern("B")
-                                .unlockedBy("has_wire_cutter", DuskData.ModRecipeProvider.has(wireCutter.getTagPack().itemTagKey())));
+                                .unlockedBy("has_wire_cutter", ModRecipeProvider.has(wireCutter.getTagPack().itemTagKey())));
                     }
                 });
         file = (OreItemTool) new OreItemTool("file")
@@ -425,7 +425,7 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
                                 .pattern("A")
                                 .pattern("A")
                                 .pattern("B")
-                                .unlockedBy("has_ore", DuskData.ModRecipeProvider.has(ore.itemMap.get(ingot).itemTag())));
+                                .unlockedBy("has_ore", ModRecipeProvider.has(ore.itemMap.get(ingot).itemTag())));
                     }
                 })
                 .addRecipes(list -> {
@@ -438,7 +438,7 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
                                 .define('B', ore.itemMap.get(ingot).itemTag())
                                 .pattern("A")
                                 .pattern("B")
-                                .unlockedBy("has_file", DuskData.ModRecipeProvider.has(file.getTagPack().itemTagKey())));
+                                .unlockedBy("has_file", ModRecipeProvider.has(file.getTagPack().itemTagKey())));
                     }
                 });
     }

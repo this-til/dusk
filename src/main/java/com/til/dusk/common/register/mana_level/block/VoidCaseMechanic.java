@@ -11,7 +11,7 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 /**
  * @author til
  */
-public class VoidCaseMechanic extends DefaultCapacityMechanic{
+public class VoidCaseMechanic extends DefaultCapacityMechanic {
     public VoidCaseMechanic() {
         super("void_case");
     }

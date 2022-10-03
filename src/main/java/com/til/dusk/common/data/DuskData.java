@@ -15,15 +15,11 @@ import com.til.dusk.common.data.tag.ItemTag;
 import com.til.dusk.common.data.tag.PotionsTag;
 import com.til.dusk.util.Extension;
 import com.til.dusk.util.nbt.pack.AllNBTPack;
-import net.minecraft.advancements.critereon.InventoryChangeTrigger;
-import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.core.Registry;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.loot.LootTableProvider;
-import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.data.tags.FluidTagsProvider;
 import net.minecraft.data.tags.ItemTagsProvider;
@@ -70,69 +66,12 @@ public class DuskData {
     public static void onEvent(GatherDataEvent event) {
         dataGenerator = event.getGenerator();
         DelayTrigger.run(DelayTrigger.TAG, Runnable::run);
-        BlockTagsProvider blockTagsProvider = new BlockTagsProvider(event.getGenerator(), Dusk.MOD_ID, event.getExistingFileHelper()) {
-            @Override
-            protected void addTags() {
-                for (Map.Entry<TagKey<Block>, List<Block>> entry : BlockTag.map.entrySet()) {
-                    this.tag(entry.getKey()).add(entry.getValue().toArray(new Block[0]));
-                }
-            }
-        };
-        event.getGenerator().addProvider(true, blockTagsProvider);
-        event.getGenerator().addProvider(true, new ItemTagsProvider(event.getGenerator(), blockTagsProvider, Dusk.MOD_ID, event.getExistingFileHelper()) {
-            @Override
-            protected void addTags() {
-                for (Map.Entry<TagKey<Item>, List<Item>> entry : ItemTag.map.entrySet()) {
-                    this.tag(entry.getKey()).add(entry.getValue().toArray(new Item[0]));
-                }
-            }
-        });
-        event.getGenerator().addProvider(true, new FluidTagsProvider(event.getGenerator(), Dusk.MOD_ID, event.getExistingFileHelper()) {
-            @Override
-            protected void addTags() {
-                for (Map.Entry<TagKey<Fluid>, List<Fluid>> entry : FluidTag.map.entrySet()) {
-                    this.tag(entry.getKey()).add(entry.getValue().toArray(new Fluid[0]));
-                }
-            }
-        });
-        event.getGenerator().addProvider(true, new TagsProvider<>(event.getGenerator(), Registry.POTION, Dusk.MOD_ID, event.getExistingFileHelper()) {
-            @Override
-            protected void addTags() {
-                for (Map.Entry<TagKey<Potion>, List<Potion>> entry : PotionsTag.map.entrySet()) {
-                    this.tag(entry.getKey()).add(entry.getValue().toArray(new Potion[0]));
-                }
-            }
-        });
-        event.getGenerator().addProvider(true, new DataProvider() {
-            @Override
-            public void run(@NotNull CachedOutput cachedOutput) throws IOException {
-                for (ShapedType shapedType : ShapedType.SHAPED_TYPE.get()) {
-                    shapedType.registerShaped();
-                }
-                DelayTrigger.run(DelayTrigger.SHAPED, Extension.Func::func);
-                for (Map.Entry<String, Shaped> entry : Shaped.ID_MAP.entrySet()) {
-                    Shaped shaped = entry.getValue();
-                    JsonObject jsonObject = new JsonObject();
-                    AllNBTPack.CLASS.set(jsonObject, shaped.getClass());
-                    entry.getValue().writ(jsonObject);
-                    Path mainOutput = DuskData.dataGenerator.getOutputFolder();
-                    assert shaped.shapedType != null;
-                    String pathSuffix = String.format("data/%s/shaped/%s/%s/%s.json",
-                            shaped.shapedType.name.getNamespace(),
-                            shaped.shapedType.name.getPath(),
-                            shaped.shapedDrive.name.getPath(),
-                            shaped.name);
-                    Path outputPath = mainOutput.resolve(pathSuffix);
-                    DataProvider.saveStable(cachedOutput, jsonObject, outputPath);
-                }
-
-            }
-
-            @Override
-            public @NotNull String getName() {
-                return "shaped";
-            }
-        });
+        BlockTag blockTag = new BlockTag(event.getGenerator(), event.getExistingFileHelper());
+        event.getGenerator().addProvider(true, blockTag);
+        event.getGenerator().addProvider(true, new ItemTag(event.getGenerator(), blockTag, event.getExistingFileHelper()));
+        event.getGenerator().addProvider(true, new FluidTag(event.getGenerator(), event.getExistingFileHelper()));
+        event.getGenerator().addProvider(true, new PotionsTag(event.getGenerator(), event.getExistingFileHelper()));
+        event.getGenerator().addProvider(true, new ShapedProvider());
         event.getGenerator().addProvider(true, new ModRecipeProvider(event.getGenerator()));
         event.getGenerator().addProvider(true, new LootTableProvider(event.getGenerator()) {
             @Override
@@ -146,25 +85,6 @@ public class DuskData {
             protected void validate(@NotNull Map<ResourceLocation, LootTable> map, @NotNull ValidationContext validationContext) {
             }
         });
-     /*   event.getGenerator().addProvider(true, new DataProvider() {
-            @Override
-            public void run(CachedOutput cachedOutput) throws IOException {
-                JsonObject jsonObject = new JsonObject();
-
-            }
-
-            @Override
-            public @NotNull String getName() {
-                return "biome_modifier";
-            }
-
-            private static String getPath(ResourceLocation rl) {
-                return "minecraft".equals(rl.getNamespace()) ? rl.getPath() : rl.getNamespace() + "/" + rl.getPath();
-            }
-
-            data\mekanism\forge\biome_modifier\mekanism\fluorite.json
-
-        });*/
         try {
             event.getGenerator().run();
         } catch (Exception e) {
@@ -194,26 +114,4 @@ public class DuskData {
         });
     }
 
-    public static class ModRecipeProvider extends RecipeProvider {
-        public ModRecipeProvider(DataGenerator dataGenerator) {
-            super(dataGenerator);
-        }
-
-        @Override
-        protected void buildCraftingRecipes(@NotNull Consumer<FinishedRecipe> consumer) {
-            DelayTrigger.run(DelayTrigger.RECIPE, s -> s.action(consumer));
-        }
-
-        public static InventoryChangeTrigger.TriggerInstance has(TagKey<Item> key) {
-            return RecipeProvider.has(key);
-        }
-        public static InventoryChangeTrigger.TriggerInstance has(Item key) {
-            return RecipeProvider.has(key);
-        }
-
-        public static InventoryChangeTrigger.TriggerInstance inventoryTrigger(ItemPredicate... itemPredicates) {
-            return RecipeProvider.inventoryTrigger(itemPredicates);
-        }
-
-    }
 }
