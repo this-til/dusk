@@ -10,6 +10,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.ItemHandlerHelper;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -63,7 +64,7 @@ public class VoidCaseItemHandler implements IItemHandler, INBTSerializable<Compo
             return stack.copy();
         }
         if (itemStackTag != null) {
-            if (itemStackTag.areShareTagsEqual(stack)) {
+            if (ItemHandlerHelper.canItemStacksStack(itemStackTag,stack)) {
                 long in = Math.min(stack.getCount(), maxCount - count);
                 if (!simulate) {
                     count += in;

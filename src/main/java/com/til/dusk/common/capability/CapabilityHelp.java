@@ -321,6 +321,18 @@ public class CapabilityHelp {
     }
 
     /***
+     * 取出物品并放入
+     */
+    public static void extractAndInsertItem(IPosTrack iPosTrack, Map.Entry<IPosTrack, IItemHandler> iItemHandler, int slot, int amount, Map.Entry<IPosTrack, IItemHandler> out, boolean isSimulate) {
+        RoutePack<ItemStack> routePack = new RoutePack<>();
+        ItemStack itemStack = extractItem(iPosTrack, routePack, iItemHandler, slot, amount, isSimulate);
+        insertItem(iPosTrack, routePack, out, itemStack, isSimulate);
+        if (!isSimulate) {
+            MinecraftForge.EVENT_BUS.post(new EventIO.Item(iPosTrack.getLevel(), routePack));
+        }
+    }
+
+    /***
      * 填充
      */
     public static int fill(IPosTrack iPosTrack, @Nullable RoutePack<FluidStack> routePack, Map.Entry<IPosTrack, IFluidHandler> fluidHandler, FluidStack fluidStack, boolean isSimulate) {

@@ -33,7 +33,7 @@ public interface IManaLevel extends ITooltipCapability {
     @Override
     default  void appendTooltip(IComponentPack iTooltip, CompoundTag compoundTag){
         ManaLevel manaLevel = AllNBTPack.MANA_LEVEL.get(compoundTag);
-        iTooltip.add(Lang.getLang(Lang.getLang(CapabilityRegister.iManaHandle), Lang.getLang(manaLevel)));
+        iTooltip.add(Lang.getLang(Lang.getLang(CapabilityRegister.iManaLevel), Lang.getLang(manaLevel)));
 
     }
 }

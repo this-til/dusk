@@ -45,7 +45,7 @@ public class FormingShapedType extends ShapedType {
                     .addMultipleConsumeMana((long) (ore.consume * 24L));
         }
 
-        for (Ore ore : Ore.screen(Ore.ARMS_DATA)) {
+        for (Ore ore : Ore.screen(Ore.ARMS_DATA, Ore.IS_METAL)) {
             new ShapedOre(this, ShapedDrive.get(5), ore.manaLevel)
                     .addInItem(ore.itemMap.get(OreItem.plate_4).itemTag(), 2)
                     .addInItem(ore.itemMap.get(OreItem.plate_3).itemTag(), 4)

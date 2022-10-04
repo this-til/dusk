@@ -13,6 +13,10 @@ import com.til.dusk.common.register.ore.item.ArmorData;
 import com.til.dusk.common.register.ore.item.ArmsData;
 import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.ore.item.ToolData;
+import com.til.dusk.common.register.ore.ores.CrimsonOre;
+import com.til.dusk.common.register.ore.ores.IndigoOre;
+import com.til.dusk.common.register.ore.ores.SpiritSilverOre;
+import com.til.dusk.common.register.ore.ores.UltramarineOre;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
@@ -45,22 +49,22 @@ public class Ore extends RegisterBasics.UnitRegister<Ore, OreItem, OreBlock, Ore
     /***
      * 灵银
      */
-    public static Ore spiritSilver;
+    public static SpiritSilverOre spiritSilver;
 
     /***
      * 绯红
      */
-    public static Ore crimson;
+    public static CrimsonOre crimson;
 
     /***
      * 群青
      */
-    public static Ore ultramarine;
+    public static UltramarineOre ultramarine;
 
     /***
      * 靛青
      */
-    public static Ore indigo;
+    public static IndigoOre indigo;
 
     /***
      * 紫罗兰
@@ -320,45 +324,10 @@ public class Ore extends RegisterBasics.UnitRegister<Ore, OreItem, OreBlock, Ore
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
         ORE = event.create(new RegistryBuilder<Ore>().setName(new ResourceLocation(Dusk.MOD_ID, "ore")));
-        spiritSilver = new Ore("spirit_silver", new DuskColor(106, 235, 255), ManaLevel.t1)
-                .setSet(IS_METAL)
-                .setSet(HAS_DUST)
-                .setSet(IS_LEVEL_ACCEPTABLE, () -> ManaLevel.t1)
-                .setSet(MINERAL_BLOCK_DATA, () -> new MineralBlockData(spiritSilver)
-                        .addCurrencyGenerateData(12, 12))
-                .setSet(DECORATE_BLOCK_DATA, () -> new DecorateBlockData(spiritSilver))
-                .setSet(FLUID_DATA, () -> new OreFluid.FluidData(spiritSilver)
-                        .setCanCopy(true))
-                .setSet(TOOL_DATA, () -> new ToolData()
-                        .setUses(64)
-                        .setTankMax(4000));
-        crimson = new Ore("crimson", new DuskColor(224, 49, 49), ManaLevel.t1)
-                .setSet(IS_METAL)
-                .setSet(HAS_DUST)
-                .setSet(IS_LEVEL_ACCEPTABLE, () -> ManaLevel.t1)
-                .setSet(MINERAL_BLOCK_DATA, () -> new MineralBlockData(crimson)
-                        .addCurrencyGenerateData(12, 4))
-                .setSet(DECORATE_BLOCK_DATA, () -> new DecorateBlockData(crimson))
-                .setSet(FLUID_DATA, () -> new OreFluid.FluidData(crimson)
-                        .setCanCopy(true));
-        ultramarine = new Ore("ultramarine", new DuskColor(0, 61, 153), ManaLevel.t1)
-                .setSet(IS_METAL)
-                .setSet(HAS_DUST)
-                .setSet(IS_LEVEL_ACCEPTABLE, () -> ManaLevel.t1)
-                .setSet(MINERAL_BLOCK_DATA, () -> new MineralBlockData(ultramarine)
-                        .addCurrencyGenerateData(12, 4))
-                .setSet(DECORATE_BLOCK_DATA, () -> new DecorateBlockData(ultramarine))
-                .setSet(FLUID_DATA, () -> new OreFluid.FluidData(ultramarine)
-                        .setCanCopy(true));
-        indigo = new Ore("indigo", new DuskColor(75, 0, 130), ManaLevel.t1)
-                .setSet(IS_METAL)
-                .setSet(HAS_DUST)
-                .setSet(IS_LEVEL_ACCEPTABLE, () -> ManaLevel.t1)
-                .setSet(MINERAL_BLOCK_DATA, () -> new MineralBlockData(indigo)
-                        .addCurrencyGenerateData(12, 4))
-                .setSet(DECORATE_BLOCK_DATA, () -> new DecorateBlockData(indigo))
-                .setSet(FLUID_DATA, () -> new OreFluid.FluidData(indigo)
-                        .setCanCopy(true));
+        spiritSilver = new SpiritSilverOre();
+        crimson = new CrimsonOre();
+        ultramarine = new UltramarineOre();
+        indigo = new IndigoOre();
         violet = new Ore("violet", new DuskColor(238, 130, 238), ManaLevel.t1)
                 .setSet(IS_METAL)
                 .setSet(HAS_DUST)
@@ -973,5 +942,4 @@ public class Ore extends RegisterBasics.UnitRegister<Ore, OreItem, OreBlock, Ore
      * 表明该灵压等级可接受物品作为通用输入
      */
     public static final GenericMap.IKey<ManaLevel> IS_LEVEL_ACCEPTABLE = new GenericMap.IKey.Key<>();
-
 }

@@ -304,7 +304,7 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
 
     /***
      * 虚空箱
-     * 1280 * l
+     * 4096 * l
      */
     public static VoidCaseMechanic voidCase;
 

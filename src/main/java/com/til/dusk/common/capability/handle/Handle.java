@@ -86,7 +86,7 @@ public class Handle implements IHandle {
     @Override
     public void addShapedHandle(ShapedHandle shaped) {
         shapedHandles.add(shaped);
-        MinecraftForge.EVENT_BUS.post(new EventHandle.EventShapedHandle.Complete(this, shaped));
+        MinecraftForge.EVENT_BUS.post(new EventHandle.EventShapedHandle.AddShaped(this, shaped));
     }
 
     @Override

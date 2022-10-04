@@ -5,8 +5,8 @@ plugins {
 }
 
 version = '1.0'
-group = 'com.yourname.modid' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = 'modid'
+group = 'com.til.dusk' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = 'dusk'
 
 // Mojang ships Java 17 to end users in 1.18+, so your mod should target Java 17.
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
@@ -34,6 +34,9 @@ minecraft {
     // These can be tweaked, removed, or duplicated as needed.
     runs {
         client {
+
+
+
             workingDirectory project.file('run')
 
             // Recommended logging data for a userdev environment
@@ -56,6 +59,9 @@ minecraft {
                     source sourceSets.main
                 }
             }
+
+            //property 'mixin.env.remapRefMap', 'true'
+            //property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
         }
 
         server {
@@ -140,6 +146,10 @@ dependencies {
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
     minecraft 'net.minecraftforge:forge:1.19.2-43.1.16'
 
+    //implementation 'org.spongepowered:mixingradle:0.7.+'
+
+    //annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+
     // Real mod deobf dependency examples - these get remapped to your current mappings
     // compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api") // Adds JEI API as a compile dependency
     // runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}") // Adds the full JEI mod as a runtime dependency
@@ -163,6 +173,9 @@ dependencies {
 
     //植物魔法
     //implementation fg.deobf("curse.maven:jade-225643:3922056")
+
+    //帕秋莉手册
+    //implementation fg.deobf("curse.maven:patchouli-306770:3936481")
 }
 
 // Example for how to get properties into the manifest for reading at runtime.

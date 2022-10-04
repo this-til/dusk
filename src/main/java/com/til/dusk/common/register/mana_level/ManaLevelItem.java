@@ -223,7 +223,7 @@ public class ManaLevelItem extends RegisterBasics.ItemUnitRegister<ManaLevelItem
             if (itemTag.containsKey(manaLevel)) {
                 return itemTag.get(manaLevel);
             }
-            TagKey<Item> tag = Dusk.instance.ITEM_TAG.createTagKey(fuseName(manaLevel.name, name));
+            TagKey<Item> tag = Dusk.instance.ITEM_TAG.createTagKey(fuseName("/", manaLevel.name, name));
             itemTag.put(manaLevel, tag);
             return tag;
         }

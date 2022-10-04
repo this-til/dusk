@@ -6,6 +6,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
 import com.til.dusk.Dusk;
+import com.til.dusk.common.data.lang.LangProvider;
 import com.til.dusk.common.event.DelayTrigger;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 import com.til.dusk.common.register.shaped.shapeds.Shaped;
@@ -73,23 +74,13 @@ public class DuskData {
         event.getGenerator().addProvider(true, new PotionsTag(event.getGenerator(), event.getExistingFileHelper()));
         event.getGenerator().addProvider(true, new ShapedProvider());
         event.getGenerator().addProvider(true, new ModRecipeProvider(event.getGenerator()));
-        event.getGenerator().addProvider(true, new LootTableProvider(event.getGenerator()) {
-            @Override
-            protected @NotNull List<Pair<Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>>, LootContextParamSet>> getTables() {
-                List<Pair<Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>>, LootContextParamSet>> list = new ArrayList<>();
-                list.add(new Pair<>(LootTableAdd::new, LootContextParamSets.BLOCK));
-                return list;
-            }
-
-            @Override
-            protected void validate(@NotNull Map<ResourceLocation, LootTable> map, @NotNull ValidationContext validationContext) {
-            }
-        });
+        event.getGenerator().addProvider(true, new DuskLootTableProvider(event.getGenerator()));
         try {
             event.getGenerator().run();
         } catch (Exception e) {
             Dusk.instance.logger.error("生成数据错误", e);
         }
+        event.getGenerator().addProvider(true, new LangProvider());
     }
 
     @SubscribeEvent

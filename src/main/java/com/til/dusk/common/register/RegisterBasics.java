@@ -2,6 +2,8 @@ package com.til.dusk.common.register;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.client.ColorProxy;
+import com.til.dusk.common.data.lang.LangProvider;
+import com.til.dusk.common.data.lang.LangType;
 import com.til.dusk.common.data.tag.BlockTag;
 import com.til.dusk.common.data.tag.FluidTag;
 import com.til.dusk.common.data.tag.ItemTag;
@@ -100,6 +102,15 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> implements Gen
         return setMap.containsKey(key);
     }
 
+    public boolean hasSet(GenericMap.IKey<?>... keys) {
+        for (GenericMap.IKey<?> key : keys) {
+            if (!hasSet(key)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public final T addDelayRun(Runnable run) {
         DelayTrigger.addRun(DelayTrigger.COMMON_SETUP, run);
         return Util.forcedConversion(this);
@@ -129,11 +140,17 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> implements Gen
     /***
      * 注册配方
      */
-    public void registerShaped(){
+    public void registerShaped() {
 
     }
 
     public void registerRecipe(List<RecipeBuilder> recipeBuilderList) {
+    }
+
+    /***
+     * 注册语言
+     */
+    public void registerLang(LangProvider.LangTool lang) {
     }
 
     @Override
