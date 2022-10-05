@@ -26,14 +26,14 @@ public class CarvingShapedType extends ShapedType {
                 if (manaLevel.up != null) {
                     new ShapedOre(this, ShapedDrive.get(0), manaLevel)
                             .addInItem(manaLevel.getAcceptableTagPack(OreItem.crystal).itemTagKey(), 1)
-                            .addOutItem(new ItemStack(manaLevel.itemMap.get(ManaLevelItem.operationBasics.integrate).item(), 1), 1d)
+                            .addOutItem(new ItemStack(manaLevel.get(ManaLevelItem.operationBasics.integrate).item(), 1), 1d)
                             .runThis(s -> manaLevelDataPack.run(s, manaLevel))
                             .addMultipleSurplusTime(1024)
                             .addMultipleConsumeMana(16);
                 }
                 new ShapedOre(this, ShapedDrive.get(0), manaLevel)
                         .addInItem(manaLevel.getAcceptableTagPack(OreItem.delicateCrystal).itemTagKey(), 1)
-                        .addOutItem(new ItemStack(manaLevel.itemMap.get(ManaLevelItem.operationBasics.processor).item(), 1), 1d)
+                        .addOutItem(new ItemStack(manaLevel.get(ManaLevelItem.operationBasics.processor).item(), 1), 1d)
                         .runThis(s -> {
                             manaLevelDataPack.run(s, manaLevel);
                             manaLevelDataPack.run(s, manaLevel);
@@ -43,7 +43,7 @@ public class CarvingShapedType extends ShapedType {
                 if (manaLevel.next != null) {
                     new ShapedOre(this, ShapedDrive.get(0), manaLevel)
                             .addInItem(manaLevel.getAcceptableTagPack(OreItem.perfectCrystal).itemTagKey(), 1)
-                            .addOutItem(new ItemStack(manaLevel.itemMap.get(ManaLevelItem.operationBasics.host).item(), 1), 1d)
+                            .addOutItem(new ItemStack(manaLevel.get(ManaLevelItem.operationBasics.host).item(), 1), 1d)
                             .runThis(s -> {
                                 manaLevelDataPack.run(s, manaLevel);
                                 manaLevelDataPack.run(s, manaLevel);

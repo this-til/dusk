@@ -173,7 +173,7 @@ public abstract class MessageRegister<MSG> extends RegisterBasics<MessageRegiste
     }
 
     @Override
-    public void registerBack() {
+    protected void registerBack() {
         INSTANCE.registerMessage(id, msgClass, this::encoder, this::decoder, this::messageConsumer);
     }
 

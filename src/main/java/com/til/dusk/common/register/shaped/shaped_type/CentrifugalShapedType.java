@@ -1,7 +1,7 @@
 package com.til.dusk.common.register.shaped.shaped_type;
 
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
-import com.til.dusk.common.register.ore.Ore;
+import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
@@ -21,8 +21,8 @@ public class CentrifugalShapedType extends ShapedType {
     public void registerShaped() {
         for (Ore ore : Ore.screen(Ore.MINERAL_BLOCK_DATA)) {
             new ShapedOre(this, ShapedDrive.get(0), ore.manaLevel)
-                    .addInItem(ore.itemMap.get(OreItem.crushedPurified).itemTag(), 1)
-                    .addOutItem(new ItemStack(ore.itemMap.get(OreItem.dust).item(), 1), 1d)
+                    .addInItem(ore.get(OreItem.crushedPurified).itemTag(), 1)
+                    .addOutItem(new ItemStack(ore.get(OreItem.dust).item(), 1), 1d)
                     .runThis(s -> {
                         DataPack.OreDataPack centrifugeByproduct = ore.getSet(Ore.MINERAL_BLOCK_DATA).centrifugeByproduct;
                         if (centrifugeByproduct != null) {

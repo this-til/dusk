@@ -1,14 +1,14 @@
 package com.til.dusk.util.nbt.cell;
 
 import com.google.gson.JsonElement;
-import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.til.dusk.Dusk;
 import com.til.dusk.common.capability.skill.ISkill;
 import com.til.dusk.common.capability.handle.ShapedHandle;
 import com.til.dusk.common.config.ConfigMap;
-import com.til.dusk.common.config.IConfigKey;
+import com.til.dusk.common.config.ConfigKey;
+import com.til.dusk.common.config.IAcceptConfigMap;
 import com.til.dusk.common.register.other.BindType;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.register.shaped.ShapedDrive;
@@ -16,6 +16,7 @@ import com.til.dusk.common.register.shaped.ShapedHandleProcess;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 import com.til.dusk.common.register.skill.Skill;
 import com.til.dusk.common.world.DuskAttribute;
+import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.Util;
 import com.til.dusk.util.nbt.ISerialize;
 import com.til.dusk.util.nbt.NBTUtil;
@@ -36,10 +37,8 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import java.awt.*;
 import java.text.MessageFormat;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Supplier;
 
 /***
@@ -226,7 +225,7 @@ public class AllNBTCell {
         @Override
         public Tag as(ISerialize iSerialize) {
             CompoundTag compoundTag = iSerialize.as();
-            AllNBTPack.CLASS.set(compoundTag, iSerialize.getClass());
+            AllNBTPack.TYPE.set(compoundTag, iSerialize.getClass());
             return compoundTag;
         }
 
@@ -234,7 +233,7 @@ public class AllNBTCell {
         public ISerialize from(Tag t) {
             try {
                 CompoundTag compoundTag = getAsCompoundTag(t);
-                Class<?> c = AllNBTPack.CLASS.get(compoundTag);
+                Class<?> c = AllNBTPack.TYPE.get(compoundTag);
                 Object o = c.getDeclaredConstructor().newInstance();
                 ISerialize serialize = (ISerialize) o;
                 serialize.init(compoundTag);
@@ -247,7 +246,7 @@ public class AllNBTCell {
         @Override
         public JsonElement asJson(ISerialize iSerialize) {
             JsonObject jsonObject = iSerialize.asJson();
-            AllNBTPack.CLASS.set(jsonObject, iSerialize.getClass());
+            AllNBTPack.TYPE.set(jsonObject, iSerialize.getClass());
             return jsonObject;
         }
 
@@ -255,10 +254,55 @@ public class AllNBTCell {
         public ISerialize fromJson(JsonElement json) {
             try {
                 JsonObject jsonObject = json.getAsJsonObject();
-                Class<?> c = AllNBTPack.CLASS.get(jsonObject);
+                Class<?> c = AllNBTPack.TYPE.get(jsonObject);
                 Object o = c.getDeclaredConstructor().newInstance();
                 ISerialize serialize = (ISerialize) o;
                 serialize.init(jsonObject);
+            } catch (Exception e) {
+                Dusk.instance.logger.error(MessageFormat.format("反序列化{0}出错", json), e);
+            }
+            return null;
+        }
+    };
+    public static final NBTCell<IAcceptConfigMap> I_ACCEPT_CONFIG_MAP = new NBTCell<>() {
+        @Override
+        public Tag as(IAcceptConfigMap acceptConfigMap) {
+            ConfigMap genericMap = acceptConfigMap.defaultConfigMap();
+            genericMap.setConfigOfV(ConfigKey.TYPE, acceptConfigMap.getClass());
+            return CONFIG_MAP.as(acceptConfigMap.defaultConfigMap());
+        }
+
+        @Override
+        public IAcceptConfigMap from(Tag t) {
+            try {
+                ConfigMap configMap = CONFIG_MAP.from(t);
+                Class<?> c = configMap.get(ConfigKey.TYPE);
+                Object o = c.getDeclaredConstructor().newInstance();
+                IAcceptConfigMap iAcceptConfigMap = (IAcceptConfigMap) o;
+                iAcceptConfigMap.init(configMap);
+                return iAcceptConfigMap;
+            } catch (Exception e) {
+                Dusk.instance.logger.error(MessageFormat.format("反序列化{0}出错", t), e);
+            }
+            return null;
+        }
+
+        @Override
+        public JsonElement asJson(IAcceptConfigMap acceptConfigMap) {
+            ConfigMap genericMap = acceptConfigMap.defaultConfigMap();
+            genericMap.setConfigOfV(ConfigKey.TYPE, acceptConfigMap.getClass());
+            return CONFIG_MAP.asJson(acceptConfigMap.defaultConfigMap());
+        }
+
+        @Override
+        public IAcceptConfigMap fromJson(JsonElement json) {
+            try {
+                ConfigMap configMap = CONFIG_MAP.fromJson(json);
+                Class<?> c = configMap.get(ConfigKey.TYPE);
+                Object o = c.getDeclaredConstructor().newInstance();
+                IAcceptConfigMap iAcceptConfigMap = (IAcceptConfigMap) o;
+                iAcceptConfigMap.init(configMap);
+                return iAcceptConfigMap;
             } catch (Exception e) {
                 Dusk.instance.logger.error(MessageFormat.format("反序列化{0}出错", json), e);
             }
@@ -411,7 +455,7 @@ public class AllNBTCell {
             return new BlockPos(jsonObject.get(X).getAsInt(), jsonObject.get(Y).getAsInt(), jsonObject.get(Z).getAsInt());
         }
     };
-    public static final NBTCell<Color> COLOR = new NBTCell<>() {
+    public static final NBTCell<DuskColor> COLOR = new NBTCell<>() {
 
         final String r = "r";
         final String g = "g";
@@ -419,7 +463,7 @@ public class AllNBTCell {
         final String a = "a";
 
         @Override
-        public CompoundTag as(Color color) {
+        public CompoundTag as(DuskColor color) {
             CompoundTag compoundTag = new CompoundTag();
             compoundTag.putInt(r, color.getRed());
             compoundTag.putInt(g, color.getGreen());
@@ -429,13 +473,13 @@ public class AllNBTCell {
         }
 
         @Override
-        public Color from(Tag tag) {
+        public DuskColor from(Tag tag) {
             CompoundTag compoundTag = getAsCompoundTag(tag);
-            return new Color(compoundTag.getInt(r), compoundTag.getInt(g), compoundTag.getInt(b), compoundTag.getInt(a));
+            return new DuskColor(compoundTag.getInt(r), compoundTag.getInt(g), compoundTag.getInt(b), compoundTag.getInt(a));
         }
 
         @Override
-        public JsonElement asJson(Color color) {
+        public JsonElement asJson(DuskColor color) {
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty(r, color.getRed());
             jsonObject.addProperty(g, color.getGreen());
@@ -445,9 +489,9 @@ public class AllNBTCell {
         }
 
         @Override
-        public Color fromJson(JsonElement json) {
+        public DuskColor fromJson(JsonElement json) {
             JsonObject jsonObject = json.getAsJsonObject();
-            return new Color(jsonObject.get(r).getAsFloat(), jsonObject.get(g).getAsFloat(), jsonObject.get(b).getAsFloat(), jsonObject.get(a).getAsFloat());
+            return new DuskColor(jsonObject.get(r).getAsFloat(), jsonObject.get(g).getAsFloat(), jsonObject.get(b).getAsFloat(), jsonObject.get(a).getAsFloat());
         }
     };
     public static final NBTCell<ShapedHandle> SHAPED_HANDLE = new NBTCell<>() {
@@ -579,13 +623,13 @@ public class AllNBTCell {
     public static final NBTMapCell<Skill, ISkill.SkillCell> SKILL_SKILL_CELL_MAP = new NBTMapCell<>(SKILL, SKILL_DATA);
     public static final NBTMapCell<Skill, Integer> SKILL_INT_MAP = new NBTMapCell<>(SKILL, INT);
     public static final NBTMapCell<Attribute, List<AttributeModifier>> ATTRIBUTE_LIST_NBT_MAP = new NBTMapCell<>(ATTRIBUTE, ATTRIBUTE_MODIFIER.getListNBTCell());
-    @Deprecated
+    public static final NBTMapCell<ResourceLocation, ResourceLocation> RESOURCE_LOCATION_MAP = new NBTMapCell<>(RESOURCE_LOCATION, RESOURCE_LOCATION);
     public static final NBTCell<ConfigMap> CONFIG_MAP = new NBTCell<>() {
         @Override
         public Tag as(ConfigMap configMapCell) {
             CompoundTag compoundTag = new CompoundTag();
-            for (Map.Entry<IConfigKey<?>, Supplier<?>> e : configMapCell.entrySet()) {
-                e.getKey().set(compoundTag, Util.forcedConversion(e.getValue()));
+            for (ConfigKey<?> configKey : configMapCell.keySet()) {
+                configKey.set(compoundTag, Util.forcedConversion(configMapCell.get(configKey)));
             }
             return compoundTag;
         }
@@ -595,8 +639,9 @@ public class AllNBTCell {
             ConfigMap configMap = new ConfigMap();
             CompoundTag compoundTag = getAsCompoundTag(t);
             for (String s : compoundTag.getAllKeys()) {
-                IConfigKey<?> iConfigKey = IConfigKey.getKey(s);
-                configMap.put(iConfigKey, iConfigKey.get(compoundTag));
+                ConfigKey<?> configKey = ConfigKey.getKey(s);
+                Tag tag = compoundTag.get(configKey.name);
+                configMap.setConfig(configKey, Util.forcedConversion((Supplier<?>) () -> configKey.nbtCell.from(tag)));
             }
             return configMap;
         }
@@ -604,8 +649,8 @@ public class AllNBTCell {
         @Override
         public JsonElement asJson(ConfigMap configMapCell) {
             JsonObject jsonObject = new JsonObject();
-            for (Map.Entry<IConfigKey<?>, Supplier<?>> e : configMapCell.entrySet()) {
-                e.getKey().set(jsonObject, Util.forcedConversion(e.getValue()));
+            for (ConfigKey<?> configKey : configMapCell.keySet()) {
+                configKey.set(jsonObject, Util.forcedConversion(configMapCell.get(configKey)));
             }
             return jsonObject;
         }
@@ -615,8 +660,9 @@ public class AllNBTCell {
             ConfigMap configMap = new ConfigMap();
             JsonObject jsonObject = json.getAsJsonObject();
             for (String s : jsonObject.keySet()) {
-                IConfigKey<?> iConfigKey = IConfigKey.getKey(s);
-                configMap.put(iConfigKey, iConfigKey.get(jsonObject));
+                ConfigKey<?> configKey = ConfigKey.getKey(s);
+                JsonElement jsonElement = jsonObject.get(configKey.name);
+                configMap.setConfig(configKey, Util.forcedConversion((Supplier<?>) () -> configKey.nbtCell.fromJson(jsonElement)));
             }
             return configMap;
         }

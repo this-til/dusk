@@ -6,9 +6,9 @@ import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
 import com.til.dusk.common.register.mana_level.ManaLevelFluid;
 import com.til.dusk.common.register.mana_level.ManaLevelItem;
-import com.til.dusk.common.register.ore.Ore;
+import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.register.ore.block.OreBlock;
-import com.til.dusk.common.register.ore.OreFluid;
+import com.til.dusk.common.register.ore.fluid.OreFluid;
 import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.world.block.ModBlock;
 import com.til.dusk.common.world.item.DuskItem;
@@ -52,10 +52,10 @@ public class ModelProxy {
     @SubscribeEvent
     public static void clientSetup(final FMLClientSetupEvent event) {
         for (Ore ore : Ore.ORE.get()) {
-            for (Map.Entry<OreItem, ItemPack> entry : ore.itemMap.entrySet()) {
+            for (Map.Entry<OreItem, ItemPack> entry : ore.itemEntrySet()) {
                 ITEM_MODEL_MAP.put(entry.getValue().item(), new ModelResourceLocation(entry.getKey().getItemMoldMapping(ore).itemJson(), "inventory"));
             }
-            for (Map.Entry<OreBlock, BlockPack> entry : ore.blockMap.entrySet()) {
+            for (Map.Entry<OreBlock, BlockPack> entry : ore.blockEntrySet()) {
                 ITEM_MODEL_MAP.put(entry.getValue().blockItem(), new ModelResourceLocation(entry.getKey().getBlockModelMapping(ore).blockModelName(), "inventory"));
                 ImmutableList<BlockState> definition = entry.getValue().block().getStateDefinition().getPossibleStates();
                 if (definition.size() == 1) {
@@ -66,7 +66,7 @@ public class ModelProxy {
                     }
                 }
             }
-            for (Map.Entry<OreFluid, FluidPack> entry : ore.fluidMap.entrySet()) {
+            for (Map.Entry<OreFluid, FluidPack> entry : ore.fluidEntrySet()) {
                 if (entry.getValue().bucketItem() != null) {
                     ITEM_MODEL_MAP.put(entry.getValue().bucketItem(), new ModelResourceLocation(entry.getKey().name, "inventory"));
                 }
@@ -90,10 +90,10 @@ public class ModelProxy {
         }
 
         for (ManaLevel manaLevel : ManaLevel.LEVEL.get()) {
-            for (Map.Entry<ManaLevelItem, ItemPack> entry : manaLevel.itemMap.entrySet()) {
+            for (Map.Entry<ManaLevelItem, ItemPack> entry : manaLevel.itemEntrySet()) {
                 ITEM_MODEL_MAP.put(entry.getValue().item(), new ModelResourceLocation(entry.getKey().getItemMoldMapping(manaLevel).itemModelName(), "inventory"));
             }
-            for (Map.Entry<ManaLevelBlock, BlockPack> entry : manaLevel.blockMap.entrySet()) {
+            for (Map.Entry<ManaLevelBlock, BlockPack> entry : manaLevel.blockEntrySet()) {
                 ITEM_MODEL_MAP.put(entry.getValue().blockItem(), new ModelResourceLocation(entry.getKey().getBlockModelMapping(manaLevel).blockModelName(), "inventory"));
                 ImmutableList<BlockState> definition = entry.getValue().block().getStateDefinition().getPossibleStates();
                 if (definition.size() == 1) {
@@ -104,7 +104,7 @@ public class ModelProxy {
                     }
                 }
             }
-            for (Map.Entry<ManaLevelFluid, FluidPack> entry : manaLevel.fluidMap.entrySet()) {
+            for (Map.Entry<ManaLevelFluid, FluidPack> entry : manaLevel.fluidEntrySet()) {
                 if (entry.getValue().bucketItem() != null) {
                     ITEM_MODEL_MAP.put(entry.getValue().bucketItem(), new ModelResourceLocation(entry.getKey().name, "inventory"));
                 }

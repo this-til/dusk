@@ -3,7 +3,7 @@ package com.til.dusk.common.world.item;
 import com.til.dusk.Dusk;
 import com.til.dusk.common.capability.DuskCapabilityProvider;
 import com.til.dusk.common.capability.IItemDefaultCapability;
-import com.til.dusk.common.register.ore.Ore;
+import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.register.ore.item.ArmsData;
 import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.util.Lang;

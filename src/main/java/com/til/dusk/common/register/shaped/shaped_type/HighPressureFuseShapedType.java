@@ -1,8 +1,8 @@
 package com.til.dusk.common.register.shaped.shaped_type;
 
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
-import com.til.dusk.common.register.ore.Ore;
-import com.til.dusk.common.register.ore.OreFluid;
+import com.til.dusk.common.register.ore.ore.Ore;
+import com.til.dusk.common.register.ore.fluid.OreFluid;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
 import net.minecraftforge.fluids.FluidStack;
@@ -24,17 +24,17 @@ public class HighPressureFuseShapedType extends ShapedType {
                 continue;
             }
             new ShapedOre(this, ShapedDrive.get(1), ore.manaLevel)
-                    .addInFluid(ore.fluidMap.get(OreFluid.solution).fluidTag(), 72)
-                    .addInFluid(Ore.sunlight.fluidMap.get(OreFluid.solution).fluidTag(), 72)
-                    .addOutFluid(new FluidStack(ore.fluidMap.get(OreFluid.splittingSunlightSolution).source(), 144), 1d);
+                    .addInFluid(ore.get(OreFluid.solution).fluidTag(), 72)
+                    .addInFluid(Ore.sunlight.get(OreFluid.solution).fluidTag(), 72)
+                    .addOutFluid(new FluidStack(ore.get(OreFluid.splittingSunlightSolution).source(), 144), 1d);
             new ShapedOre(this, ShapedDrive.get(1), ore.manaLevel)
-                    .addInFluid(ore.fluidMap.get(OreFluid.solution).fluidTag(), 72)
-                    .addInFluid(Ore.moonlight.fluidMap.get(OreFluid.solution).fluidTag(), 72)
-                    .addOutFluid(new FluidStack(ore.fluidMap.get(OreFluid.splittingMoonlightSolution).source(), 144), 1d);
+                    .addInFluid(ore.get(OreFluid.solution).fluidTag(), 72)
+                    .addInFluid(Ore.moonlight.get(OreFluid.solution).fluidTag(), 72)
+                    .addOutFluid(new FluidStack(ore.get(OreFluid.splittingMoonlightSolution).source(), 144), 1d);
             new ShapedOre(this, ShapedDrive.get(1), ore.manaLevel)
-                    .addInFluid(ore.fluidMap.get(OreFluid.solution).fluidTag(), 72)
-                    .addInFluid(Ore.rain.fluidMap.get(OreFluid.solution).fluidTag(), 72)
-                    .addOutFluid(new FluidStack(ore.fluidMap.get(OreFluid.splittingRainSolution).source(), 144), 1d);
+                    .addInFluid(ore.get(OreFluid.solution).fluidTag(), 72)
+                    .addInFluid(Ore.rain.get(OreFluid.solution).fluidTag(), 72)
+                    .addOutFluid(new FluidStack(ore.get(OreFluid.splittingRainSolution).source(), 144), 1d);
         }
     }
 }

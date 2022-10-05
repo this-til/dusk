@@ -2,7 +2,7 @@ package com.til.dusk.common.register.ore.item;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.client.ColorProxy;
-import com.til.dusk.common.register.ore.Ore;
+import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.util.pack.ItemPack;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -11,7 +11,7 @@ import org.jetbrains.annotations.Nullable;
 public abstract class OreItemArms extends OreItem {
     public OreItemArms(ResourceLocation name) {
         super(name);
-        setSet(IS_ARMS, null);
+        setConfig(IS_ARMS, null);
     }
 
     public OreItemArms(String name) {

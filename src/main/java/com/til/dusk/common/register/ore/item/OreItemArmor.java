@@ -2,7 +2,7 @@ package com.til.dusk.common.register.ore.item;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.common.data.tag.ItemTag;
-import com.til.dusk.common.register.ore.Ore;
+import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.world.item.CapabilityArmorItem;
 import com.til.dusk.util.pack.ItemPack;
 import net.minecraft.resources.ResourceLocation;
@@ -18,8 +18,8 @@ public class OreItemArmor extends OreItem {
     public OreItemArmor(ResourceLocation name, EquipmentSlot equipmentSlot) {
         super(name);
         this.equipmentSlot = equipmentSlot;
-        setSet(IS_ARMOR, null);
-        setSet(asArmorKey(equipmentSlot), null);
+        setConfig(IS_ARMOR, null);
+        setConfig(asArmorKey(equipmentSlot), null);
     }
 
     public OreItemArmor(String name, EquipmentSlot equipmentSlot) {

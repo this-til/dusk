@@ -20,9 +20,9 @@ import java.util.Set;
 public class AssembleMechanic extends HandleMechanic {
     public AssembleMechanic(){
         super("assemble", () -> Set.of(ShapedType.assemble));
-        setSet(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
+        setConfig(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
                 .setMakeLevel(ManaLevelMakeData.MakeLevel.UP)
-                .addRun((s, m) -> s.addInItem(m.blockMap.get(frameBasic).blockItemTag(), 1))
+                .addRun((s, m) -> s.addInItem(m.get(frameBasic).blockItemTag(), 1))
                 .addRun((s, m) -> s.addInItem(ManaLevelItem.power.getTag(m), 1))
                 .addRun((s, m) -> s.addInItem(ManaLevelItem.instructions.getTag(m), 1))
                 .addRun((s, m) -> s.addInItem(m.getAcceptableTagPack(OreItem.wrench).itemTagKey(), 1))
@@ -35,15 +35,15 @@ public class AssembleMechanic extends HandleMechanic {
             if (!manaLevel.hasSet(ManaLevel.CAN_USE_RECIPE_MAKE)) {
                 continue;
             }
-            recipeBuilderList.add(ShapedRecipeBuilder.shaped(manaLevel.blockMap.get(this).blockItem(), 1)
-                    .define('A', manaLevel.blockMap.get(frameBasic).blockItemTag())
+            recipeBuilderList.add(ShapedRecipeBuilder.shaped(manaLevel.get(this).blockItem(), 1)
+                    .define('A', manaLevel.get(frameBasic).blockItemTag())
                     .define('B', DuskItem.diamondMakePower.get().tag())
                     .define('C', DuskItem.diamondMakeInstructions.get().tag())
                     .define('D', manaLevel.getAcceptableTagPack(OreItem.wrench).itemTagKey())
                     .pattern(" D ")
                     .pattern("BAC")
                     .unlockedBy("has_frame_basic",
-                            ModRecipeProvider.has(manaLevel.blockMap.get(frameBasic).blockItemTag())));
+                            ModRecipeProvider.has(manaLevel.get(frameBasic).blockItemTag())));
         }
     }
 }

@@ -1,6 +1,6 @@
 package com.til.dusk.common.register.ore.block;
 
-import com.til.dusk.common.register.ore.Ore;
+import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.world.feature.CurrencyOreFeatureConfiguration;
 import com.til.dusk.util.Extension;
 import net.minecraft.core.BlockPos;
@@ -13,6 +13,7 @@ import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import org.jetbrains.annotations.Nullable;
 
+@Deprecated
 public class GenerateData {
 
     public Ore ore;

@@ -22,15 +22,15 @@ public class CrystalAssembleShapedType extends ShapedType {
                 DataPack.ManaLevelDataPack manaLevelDataPack = manaLevel.getSet(ManaLevel.OPERATION);
                 if (manaLevel.up != null) {
                     new ShapedOre(this, ShapedDrive.get(0), manaLevel)
-                            .addInItem(manaLevel.itemMap.get(ManaLevelItem.operationBasics.integrate).itemTag(), 1)
-                            .addOutItem(new ItemStack(manaLevel.itemMap.get(ManaLevelItem.operation.integrate).item(), 1), 1d)
+                            .addInItem(manaLevel.get(ManaLevelItem.operationBasics.integrate).itemTag(), 1)
+                            .addOutItem(new ItemStack(manaLevel.get(ManaLevelItem.operation.integrate).item(), 1), 1d)
                             .runThis(s -> manaLevelDataPack.run(s, manaLevel))
                             .addMultipleSurplusTime(2048)
                             .addMultipleConsumeMana(16);
                 }
                 new ShapedOre(this, ShapedDrive.get(0), manaLevel)
-                        .addInItem(manaLevel.itemMap.get(ManaLevelItem.operationBasics.processor).itemTag(), 1)
-                        .addOutItem(new ItemStack(manaLevel.itemMap.get(ManaLevelItem.operation.processor).item(), 1), 1d)
+                        .addInItem(manaLevel.get(ManaLevelItem.operationBasics.processor).itemTag(), 1)
+                        .addOutItem(new ItemStack(manaLevel.get(ManaLevelItem.operation.processor).item(), 1), 1d)
                         .runThis(s -> {
                             manaLevelDataPack.run(s, manaLevel);
                             manaLevelDataPack.run(s, manaLevel);
@@ -39,9 +39,9 @@ public class CrystalAssembleShapedType extends ShapedType {
                         .addMultipleConsumeMana(32);
                 if (manaLevel.next != null) {
                     new ShapedOre(this, ShapedDrive.get(0), manaLevel)
-                            .addInItem(manaLevel.itemMap.get(ManaLevelItem.operationBasics.host).itemTag(), 1)
+                            .addInItem(manaLevel.get(ManaLevelItem.operationBasics.host).itemTag(), 1)
                             .addInItem(manaLevel.getAcceptableTagPack(OreBlock.bracket).itemTagKey(), 1)
-                            .addOutItem(new ItemStack(manaLevel.itemMap.get(ManaLevelItem.operation.host).item(), 1), 1d)
+                            .addOutItem(new ItemStack(manaLevel.get(ManaLevelItem.operation.host).item(), 1), 1d)
                             .runThis(s -> {
                                 manaLevelDataPack.run(s, manaLevel);
                                 manaLevelDataPack.run(s, manaLevel);
@@ -56,15 +56,15 @@ public class CrystalAssembleShapedType extends ShapedType {
                 DataPack.ManaLevelDataPack manaLevelDataPack = manaLevel.getSet(ManaLevel.FORMING);
                 if (manaLevel.up != null) {
                     new ShapedOre(this, ShapedDrive.get(1), manaLevel)
-                            .addInItem(manaLevel.itemMap.get(ManaLevelItem.operationBasics.integrate).itemTag(), 1)
-                            .addOutItem(new ItemStack(manaLevel.itemMap.get(ManaLevelItem.forming.integrate).item(), 1), 1d)
+                            .addInItem(manaLevel.get(ManaLevelItem.operationBasics.integrate).itemTag(), 1)
+                            .addOutItem(new ItemStack(manaLevel.get(ManaLevelItem.forming.integrate).item(), 1), 1d)
                             .runThis(s -> manaLevelDataPack.run(s, manaLevel))
                             .addMultipleSurplusTime(2048)
                             .addMultipleConsumeMana(16);
                 }
                 new ShapedOre(this, ShapedDrive.get(1), manaLevel)
-                        .addInItem(manaLevel.itemMap.get(ManaLevelItem.operationBasics.processor).itemTag(), 1)
-                        .addOutItem(new ItemStack(manaLevel.itemMap.get(ManaLevelItem.forming.processor).item(), 1), 1d)
+                        .addInItem(manaLevel.get(ManaLevelItem.operationBasics.processor).itemTag(), 1)
+                        .addOutItem(new ItemStack(manaLevel.get(ManaLevelItem.forming.processor).item(), 1), 1d)
                         .runThis(s -> {
                             manaLevelDataPack.run(s, manaLevel);
                             manaLevelDataPack.run(s, manaLevel);
@@ -73,8 +73,8 @@ public class CrystalAssembleShapedType extends ShapedType {
                         .addMultipleConsumeMana(32);
                 if (manaLevel.next != null) {
                     new ShapedOre(this, ShapedDrive.get(1), manaLevel)
-                            .addInItem(manaLevel.itemMap.get(ManaLevelItem.operationBasics.host).itemTag(), 1)
-                            .addOutItem(new ItemStack(manaLevel.itemMap.get(ManaLevelItem.forming.host).item(), 1), 1d)
+                            .addInItem(manaLevel.get(ManaLevelItem.operationBasics.host).itemTag(), 1)
+                            .addOutItem(new ItemStack(manaLevel.get(ManaLevelItem.forming.host).item(), 1), 1d)
                             .runThis(s -> {
                                 manaLevelDataPack.run(s, manaLevel);
                                 manaLevelDataPack.run(s, manaLevel);
@@ -89,15 +89,15 @@ public class CrystalAssembleShapedType extends ShapedType {
                 DataPack.ManaLevelDataPack manaLevelDataPack = manaLevel.getSet(ManaLevel.DESTRUCTION);
                 if (manaLevel.up != null) {
                     new ShapedOre(this, ShapedDrive.get(2), manaLevel)
-                            .addInItem(manaLevel.itemMap.get(ManaLevelItem.operationBasics.integrate).itemTag(), 1)
-                            .addOutItem(new ItemStack(manaLevel.itemMap.get(ManaLevelItem.destruction.integrate).item(), 1), 1d)
+                            .addInItem(manaLevel.get(ManaLevelItem.operationBasics.integrate).itemTag(), 1)
+                            .addOutItem(new ItemStack(manaLevel.get(ManaLevelItem.destruction.integrate).item(), 1), 1d)
                             .runThis(s -> manaLevelDataPack.run(s, manaLevel))
                             .addMultipleSurplusTime(2048)
                             .addMultipleConsumeMana(16);
                 }
                 new ShapedOre(this, ShapedDrive.get(2), manaLevel)
-                        .addInItem(manaLevel.itemMap.get(ManaLevelItem.operationBasics.processor).itemTag(), 1)
-                        .addOutItem(new ItemStack(manaLevel.itemMap.get(ManaLevelItem.destruction.processor).item(), 1), 1d)
+                        .addInItem(manaLevel.get(ManaLevelItem.operationBasics.processor).itemTag(), 1)
+                        .addOutItem(new ItemStack(manaLevel.get(ManaLevelItem.destruction.processor).item(), 1), 1d)
                         .runThis(s -> {
                             manaLevelDataPack.run(s, manaLevel);
                             manaLevelDataPack.run(s, manaLevel);
@@ -106,8 +106,8 @@ public class CrystalAssembleShapedType extends ShapedType {
                         .addMultipleConsumeMana(32);
                 if (manaLevel.next != null) {
                     new ShapedOre(this, ShapedDrive.get(2), manaLevel)
-                            .addInItem(manaLevel.itemMap.get(ManaLevelItem.operationBasics.host).itemTag(), 1)
-                            .addOutItem(new ItemStack(manaLevel.itemMap.get(ManaLevelItem.destruction.host).item(), 1), 1d)
+                            .addInItem(manaLevel.get(ManaLevelItem.operationBasics.host).itemTag(), 1)
+                            .addOutItem(new ItemStack(manaLevel.get(ManaLevelItem.destruction.host).item(), 1), 1d)
                             .runThis(s -> {
                                 manaLevelDataPack.run(s, manaLevel);
                                 manaLevelDataPack.run(s, manaLevel);
@@ -122,15 +122,15 @@ public class CrystalAssembleShapedType extends ShapedType {
                 DataPack.ManaLevelDataPack manaLevelDataPack = manaLevel.getSet(ManaLevel.GATHER);
                 if (manaLevel.up != null) {
                     new ShapedOre(this, ShapedDrive.get(3), manaLevel)
-                            .addInItem(manaLevel.itemMap.get(ManaLevelItem.operationBasics.integrate).itemTag(), 1)
-                            .addOutItem(new ItemStack(manaLevel.itemMap.get(ManaLevelItem.gather.integrate).item(), 1), 1d)
+                            .addInItem(manaLevel.get(ManaLevelItem.operationBasics.integrate).itemTag(), 1)
+                            .addOutItem(new ItemStack(manaLevel.get(ManaLevelItem.gather.integrate).item(), 1), 1d)
                             .runThis(s -> manaLevelDataPack.run(s, manaLevel))
                             .addMultipleSurplusTime(2048)
                             .addMultipleConsumeMana(16);
                 }
                 new ShapedOre(this, ShapedDrive.get(3), manaLevel)
-                        .addInItem(manaLevel.itemMap.get(ManaLevelItem.operationBasics.processor).itemTag(), 1)
-                        .addOutItem(new ItemStack(manaLevel.itemMap.get(ManaLevelItem.gather.processor).item(), 1), 1d)
+                        .addInItem(manaLevel.get(ManaLevelItem.operationBasics.processor).itemTag(), 1)
+                        .addOutItem(new ItemStack(manaLevel.get(ManaLevelItem.gather.processor).item(), 1), 1d)
                         .runThis(s -> {
                             manaLevelDataPack.run(s, manaLevel);
                             manaLevelDataPack.run(s, manaLevel);
@@ -139,8 +139,8 @@ public class CrystalAssembleShapedType extends ShapedType {
                         .addMultipleConsumeMana(32);
                 if (manaLevel.next != null) {
                     new ShapedOre(this, ShapedDrive.get(3), manaLevel)
-                            .addInItem(manaLevel.itemMap.get(ManaLevelItem.operationBasics.host).itemTag(), 1)
-                            .addOutItem(new ItemStack(manaLevel.itemMap.get(ManaLevelItem.gather.host).item(), 1), 1d)
+                            .addInItem(manaLevel.get(ManaLevelItem.operationBasics.host).itemTag(), 1)
+                            .addOutItem(new ItemStack(manaLevel.get(ManaLevelItem.gather.host).item(), 1), 1d)
                             .runThis(s -> {
                                 manaLevelDataPack.run(s, manaLevel);
                                 manaLevelDataPack.run(s, manaLevel);
@@ -155,15 +155,15 @@ public class CrystalAssembleShapedType extends ShapedType {
                 DataPack.ManaLevelDataPack manaLevelDataPack = manaLevel.getSet(ManaLevel.SPREAD);
                 if (manaLevel.up != null) {
                     new ShapedOre(this, ShapedDrive.get(4), manaLevel)
-                            .addInItem(manaLevel.itemMap.get(ManaLevelItem.operationBasics.integrate).itemTag(), 1)
-                            .addOutItem(new ItemStack(manaLevel.itemMap.get(ManaLevelItem.spread.integrate).item(), 1), 1d)
+                            .addInItem(manaLevel.get(ManaLevelItem.operationBasics.integrate).itemTag(), 1)
+                            .addOutItem(new ItemStack(manaLevel.get(ManaLevelItem.spread.integrate).item(), 1), 1d)
                             .runThis(s -> manaLevelDataPack.run(s, manaLevel))
                             .addMultipleSurplusTime(2048)
                             .addMultipleConsumeMana(16);
                 }
                 new ShapedOre(this, ShapedDrive.get(4), manaLevel)
-                        .addInItem(manaLevel.itemMap.get(ManaLevelItem.operationBasics.processor).itemTag(), 1)
-                        .addOutItem(new ItemStack(manaLevel.itemMap.get(ManaLevelItem.spread.processor).item(), 1), 1d)
+                        .addInItem(manaLevel.get(ManaLevelItem.operationBasics.processor).itemTag(), 1)
+                        .addOutItem(new ItemStack(manaLevel.get(ManaLevelItem.spread.processor).item(), 1), 1d)
                         .runThis(s -> {
                             manaLevelDataPack.run(s, manaLevel);
                             manaLevelDataPack.run(s, manaLevel);
@@ -172,8 +172,8 @@ public class CrystalAssembleShapedType extends ShapedType {
                         .addMultipleConsumeMana(32);
                 if (manaLevel.next != null) {
                     new ShapedOre(this, ShapedDrive.get(4), manaLevel)
-                            .addInItem(manaLevel.itemMap.get(ManaLevelItem.operationBasics.host).itemTag(), 1)
-                            .addOutItem(new ItemStack(manaLevel.itemMap.get(ManaLevelItem.spread.host).item(), 1), 1d)
+                            .addInItem(manaLevel.get(ManaLevelItem.operationBasics.host).itemTag(), 1)
+                            .addOutItem(new ItemStack(manaLevel.get(ManaLevelItem.spread.host).item(), 1), 1d)
                             .runThis(s -> {
                                 manaLevelDataPack.run(s, manaLevel);
                                 manaLevelDataPack.run(s, manaLevel);
@@ -188,15 +188,15 @@ public class CrystalAssembleShapedType extends ShapedType {
                 DataPack.ManaLevelDataPack manaLevelDataPack = manaLevel.getSet(ManaLevel.POWER);
                 if (manaLevel.up != null) {
                     new ShapedOre(this, ShapedDrive.get(5), manaLevel)
-                            .addInItem(manaLevel.itemMap.get(ManaLevelItem.operationBasics.integrate).itemTag(), 1)
-                            .addOutItem(new ItemStack(manaLevel.itemMap.get(ManaLevelItem.power.integrate).item(), 1), 1d)
+                            .addInItem(manaLevel.get(ManaLevelItem.operationBasics.integrate).itemTag(), 1)
+                            .addOutItem(new ItemStack(manaLevel.get(ManaLevelItem.power.integrate).item(), 1), 1d)
                             .runThis(s -> manaLevelDataPack.run(s, manaLevel))
                             .addMultipleSurplusTime(2048)
                             .addMultipleConsumeMana(16);
                 }
                 new ShapedOre(this, ShapedDrive.get(5), manaLevel)
-                        .addInItem(manaLevel.itemMap.get(ManaLevelItem.operationBasics.processor).itemTag(), 1)
-                        .addOutItem(new ItemStack(manaLevel.itemMap.get(ManaLevelItem.power.processor).item(), 1), 1d)
+                        .addInItem(manaLevel.get(ManaLevelItem.operationBasics.processor).itemTag(), 1)
+                        .addOutItem(new ItemStack(manaLevel.get(ManaLevelItem.power.processor).item(), 1), 1d)
                         .runThis(s -> {
                             manaLevelDataPack.run(s, manaLevel);
                             manaLevelDataPack.run(s, manaLevel);
@@ -205,8 +205,8 @@ public class CrystalAssembleShapedType extends ShapedType {
                         .addMultipleConsumeMana(32);
                 if (manaLevel.next != null) {
                     new ShapedOre(this, ShapedDrive.get(5), manaLevel)
-                            .addInItem(manaLevel.itemMap.get(ManaLevelItem.operationBasics.host).itemTag(), 1)
-                            .addOutItem(new ItemStack(manaLevel.itemMap.get(ManaLevelItem.power.host).item(), 1), 1d)
+                            .addInItem(manaLevel.get(ManaLevelItem.operationBasics.host).itemTag(), 1)
+                            .addOutItem(new ItemStack(manaLevel.get(ManaLevelItem.power.host).item(), 1), 1d)
                             .runThis(s -> {
                                 manaLevelDataPack.run(s, manaLevel);
                                 manaLevelDataPack.run(s, manaLevel);
@@ -221,15 +221,15 @@ public class CrystalAssembleShapedType extends ShapedType {
                 DataPack.ManaLevelDataPack manaLevelDataPack = manaLevel.getSet(ManaLevel.INSTRUCTIONS);
                 if (manaLevel.up != null) {
                     new ShapedOre(this, ShapedDrive.get(5), manaLevel)
-                            .addInItem(manaLevel.itemMap.get(ManaLevelItem.operationBasics.integrate).itemTag(), 1)
-                            .addOutItem(new ItemStack(manaLevel.itemMap.get(ManaLevelItem.instructions.integrate).item(), 1), 1d)
+                            .addInItem(manaLevel.get(ManaLevelItem.operationBasics.integrate).itemTag(), 1)
+                            .addOutItem(new ItemStack(manaLevel.get(ManaLevelItem.instructions.integrate).item(), 1), 1d)
                             .runThis(s -> manaLevelDataPack.run(s, manaLevel))
                             .addMultipleSurplusTime(2048)
                             .addMultipleConsumeMana(16);
                 }
                 new ShapedOre(this, ShapedDrive.get(5), manaLevel)
-                        .addInItem(manaLevel.itemMap.get(ManaLevelItem.operationBasics.processor).itemTag(), 1)
-                        .addOutItem(new ItemStack(manaLevel.itemMap.get(ManaLevelItem.instructions.processor).item(), 1), 1d)
+                        .addInItem(manaLevel.get(ManaLevelItem.operationBasics.processor).itemTag(), 1)
+                        .addOutItem(new ItemStack(manaLevel.get(ManaLevelItem.instructions.processor).item(), 1), 1d)
                         .runThis(s -> {
                             manaLevelDataPack.run(s, manaLevel);
                             manaLevelDataPack.run(s, manaLevel);
@@ -238,8 +238,8 @@ public class CrystalAssembleShapedType extends ShapedType {
                         .addMultipleConsumeMana(32);
                 if (manaLevel.next != null) {
                     new ShapedOre(this, ShapedDrive.get(5), manaLevel)
-                            .addInItem(manaLevel.itemMap.get(ManaLevelItem.operationBasics.host).itemTag(), 1)
-                            .addOutItem(new ItemStack(manaLevel.itemMap.get(ManaLevelItem.instructions.host).item(), 1), 1d)
+                            .addInItem(manaLevel.get(ManaLevelItem.operationBasics.host).itemTag(), 1)
+                            .addOutItem(new ItemStack(manaLevel.get(ManaLevelItem.instructions.host).item(), 1), 1d)
                             .runThis(s -> {
                                 manaLevelDataPack.run(s, manaLevel);
                                 manaLevelDataPack.run(s, manaLevel);

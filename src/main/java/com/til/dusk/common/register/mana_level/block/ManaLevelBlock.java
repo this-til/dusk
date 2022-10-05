@@ -1,24 +1,19 @@
 package com.til.dusk.common.register.mana_level.block;
 
 import com.til.dusk.Dusk;
-import com.til.dusk.common.data.ModRecipeProvider;
 import com.til.dusk.common.data.tag.ItemTag;
-import com.til.dusk.common.register.RegisterBasics;
+import com.til.dusk.common.register.BlockUnitRegister;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.register.mana_level.ManaLevelItem;
 import com.til.dusk.common.register.mana_level.block.mechanic.*;
-import com.til.dusk.common.register.ore.Ore;
+import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.register.ore.block.OreBlock;
-import com.til.dusk.common.register.ore.OreFluid;
+import com.til.dusk.common.register.ore.fluid.OreFluid;
 import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
-import com.til.dusk.common.world.item.DuskItem;
 import com.til.dusk.util.*;
 import com.til.dusk.util.pack.DataPack;
-import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.FluidTags;
-import net.minecraft.tags.ItemTags;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -26,7 +21,6 @@ import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegistryBuilder;
 
-import java.util.List;
 import java.util.Set;
 import java.util.function.Supplier;
 
@@ -34,7 +28,7 @@ import java.util.function.Supplier;
  * @author til
  */
 @Mod.EventBusSubscriber(modid = Dusk.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<ManaLevelBlock, ManaLevel> {
+public abstract class ManaLevelBlock extends BlockUnitRegister<ManaLevelBlock, ManaLevel> {
 
 
     public static Supplier<IForgeRegistry<ManaLevelBlock>> LEVEL_BLOCK;
@@ -420,40 +414,40 @@ public abstract class ManaLevelBlock extends RegisterBasics.BlockUnitRegister<Ma
         stemCellExtract = (HandleMechanic) new HandleMechanic("stem_cell_extract", () -> Set.of(ShapedType.stemCellExtract));
         cellCulture = (HandleMechanic) new HandleMechanic("cell_culture", () -> Set.of(ShapedType.cellCulture));
         uuGenerate = (HandleMechanic) new HandleMechanic("uu_generate", () -> Set.of(ShapedType.uuGenerate))
-                .setSet(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
-                        .addRun((s, m) -> s.addInItem(m.blockMap.get(ManaLevelBlock.slimeyMana).blockItemTag(), 1))
+                .setConfig(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
+                        .addRun((s, m) -> s.addInItem(m.get(ManaLevelBlock.slimeyMana).blockItemTag(), 1))
                         .addRun((s, m) -> s.addInItem(ManaLevelItem.forming.getTag(m), 4))
                         .addRun((s, m) -> s.addInItem(ManaLevelItem.gather.getTag(m), 4))
                         .addRun((s, m) -> s.addInItem(ManaLevelItem.instructions.getTag(m), 4)));
         qualityGenerate = (HandleMechanic) new HandleMechanic("quality_generate", () -> Set.of(ShapedType.qualityGenerate))
-                .setSet(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
-                        .addRun((s, m) -> s.addInItem(m.blockMap.get(uuGenerate).blockItemTag(), 1))
+                .setConfig(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
+                        .addRun((s, m) -> s.addInItem(m.get(uuGenerate).blockItemTag(), 1))
                         .addRun((s, m) -> s.addInItem(ManaLevelItem.forming.getTag(m), 1))
-                        .addRun((s, m) -> s.addInFluid(Ore.uu.fluidMap.get(OreFluid.solution).fluidTag(), 144 * m.level)));
+                        .addRun((s, m) -> s.addInFluid(Ore.uu.get(OreFluid.solution).fluidTag(), 144 * m.level)));
         dialysis = (HandleMechanic) new HandleMechanic("dialysis", () -> Set.of(ShapedType.dialysis))
-                .setSet(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
-                        .addRun((s, m) -> s.addInItem(m.blockMap.get(uuGenerate).blockItemTag(), 1))
+                .setConfig(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
+                        .addRun((s, m) -> s.addInItem(m.get(uuGenerate).blockItemTag(), 1))
                         .addRun((s, m) -> s.addInItem(ManaLevelItem.destruction.getTag(m), 1))
-                        .addRun((s, m) -> s.addInFluid(Ore.uu.fluidMap.get(OreFluid.solution).fluidTag(), 144 * m.level)));
+                        .addRun((s, m) -> s.addInFluid(Ore.uu.get(OreFluid.solution).fluidTag(), 144 * m.level)));
         splitting = (HandleMechanic) new HandleMechanic("splitting", () -> Set.of(ShapedType.splitting))
-                .setSet(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
-                        .addRun((s, m) -> s.addInItem(m.blockMap.get(highPressureFuse).blockItemTag(), 1))
+                .setConfig(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
+                        .addRun((s, m) -> s.addInItem(m.get(highPressureFuse).blockItemTag(), 1))
                         .addRun((s, m) -> s.addInItem(m.getAcceptableTagPack(OreBlock.coil).itemTagKey(), 2))
                         .addRun((s, m) -> s.addInItem(ManaLevelItem.forming.getTag(m), 4))
                         .addRun((s, m) -> s.addInItem(ManaLevelItem.destruction.getTag(m), 4)));
         voidCase = (VoidCaseMechanic) new VoidCaseMechanic()
-                .setSet(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
-                        .addRun((s, m) -> s.addInItem(m.blockMap.get(frameBasic).blockItemTag(), 1))
-                        .addRun((s, m) -> s.addInItem(Ore._void.itemMap.get(OreItem.plate).itemTag(), 3 * m.level))
-                        .addRun((s, m) -> s.addInItem(Ore._void.itemMap.get(OreItem.casing).itemTag(), 12 * m.level))
-                        .addRun((s, m) -> s.addInItem(Ore._void.itemMap.get(OreItem.foil).itemTag(), 12 * m.level))
+                .setConfig(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
+                        .addRun((s, m) -> s.addInItem(m.get(frameBasic).blockItemTag(), 1))
+                        .addRun((s, m) -> s.addInItem(Ore._void.get(OreItem.plate).itemTag(), 3 * m.level))
+                        .addRun((s, m) -> s.addInItem(Ore._void.get(OreItem.casing).itemTag(), 12 * m.level))
+                        .addRun((s, m) -> s.addInItem(Ore._void.get(OreItem.foil).itemTag(), 12 * m.level))
                         .addRun((s, m) -> s.addInItem(Tags.Items.CHESTS, 12 * m.level)));
         voidTank = (VoidTankMechanic) new VoidTankMechanic()
-                .setSet(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
-                        .addRun((s, m) -> s.addInItem(m.blockMap.get(frameBasic).blockItemTag(), 1))
-                        .addRun((s, m) -> s.addInItem(Ore._void.itemMap.get(OreItem.plate).itemTag(), 3 * m.level))
-                        .addRun((s, m) -> s.addInItem(Ore._void.itemMap.get(OreItem.casing).itemTag(), 12 * m.level))
-                        .addRun((s, m) -> s.addInItem(Ore._void.itemMap.get(OreItem.foil).itemTag(), 12 * m.level))
+                .setConfig(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
+                        .addRun((s, m) -> s.addInItem(m.get(frameBasic).blockItemTag(), 1))
+                        .addRun((s, m) -> s.addInItem(Ore._void.get(OreItem.plate).itemTag(), 3 * m.level))
+                        .addRun((s, m) -> s.addInItem(Ore._void.get(OreItem.casing).itemTag(), 12 * m.level))
+                        .addRun((s, m) -> s.addInItem(Ore._void.get(OreItem.foil).itemTag(), 12 * m.level))
                         .addRun((s, m) -> s.addInItem(ItemTag.BUCKET, 12 * m.level)));
         gatherMana = new GatherManaMechanic();
         manaIO = new IOMechanic.ManaIO();

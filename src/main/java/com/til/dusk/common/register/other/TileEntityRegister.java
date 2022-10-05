@@ -7,15 +7,16 @@ import com.til.dusk.common.capability.tile_entity.ITileEntityType;
 import com.til.dusk.common.capability.tile_entity.RepeaterTileEntity;
 import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.register.mana_level.ManaLevel;
+import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.world.block.RepeaterBlock;
 import com.til.dusk.util.Util;
+import com.til.dusk.util.pack.BlockPack;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.datafix.fixes.References;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -43,44 +44,48 @@ public abstract class TileEntityRegister<T extends BlockEntity> extends Register
         TILE_ENTITY_REGISTER = event.create(new RegistryBuilder<TileEntityRegister<?>>().setName(new ResourceLocation(Dusk.MOD_ID, "tile_entity_register")));
         defaultTileEntityRegister = new TileEntityRegister<>("default_tile_entity_register") {
             @Override
-            public void registerBlackToBack() {
-                ManaLevel.LEVEL.get().forEach(l -> l.blockMap.forEach((k, v) -> {
-                    if (v.block() instanceof ITileEntityType iTileEntityType) {
+            protected void registerBlackToBack() {
+                for (ManaLevel manaLevel : ManaLevel.LEVEL.get()) {
+                    for (Map.Entry<ManaLevelBlock, BlockPack> e : manaLevel.blockEntrySet()) {
+                        if (e.getValue().block() instanceof ITileEntityType iTileEntityType) {
+                            BlockEntityType.Builder<DefaultTileEntity> builder = BlockEntityType.Builder.of((blockPos, blockState) ->
+                                    new DefaultTileEntity(tileEntityTypeBlockEntityTypeMap.get(iTileEntityType), blockPos, blockState), e.getValue().block());
+                            Type<?> type = net.minecraft.Util.fetchChoiceType(References.BLOCK_ENTITY, fuseName("_", this, manaLevel, e.getKey()).toString());
+                            BlockEntityType<DefaultTileEntity> blockEntityType = builder.build(type);
+                            tileEntityTypeBlockEntityTypeMap.put(iTileEntityType, blockEntityType);
+                            blockBlockEntityTypeMap.put(e.getValue().block(), blockEntityType);
+                            ForgeRegistries.BLOCK_ENTITY_TYPES.register(fuseName("_", this, manaLevel, e.getKey()), blockEntityType);
+                        }
+                    }
+                }
+                for (ShapedDrive shapedDrive : ShapedDrive.SHAPED_DRIVE.get()) {
+                    if (shapedDrive.blockPack.block() instanceof ITileEntityType iTileEntityType) {
                         BlockEntityType.Builder<DefaultTileEntity> builder = BlockEntityType.Builder.of((blockPos, blockState) ->
-                                new DefaultTileEntity(tileEntityTypeBlockEntityTypeMap.get(iTileEntityType), blockPos, blockState), v.block());
-                        Type<?> type = net.minecraft.Util.fetchChoiceType(References.BLOCK_ENTITY, fuseName("_", this, l, k).toString());
+                                new DefaultTileEntity(tileEntityTypeBlockEntityTypeMap.get(iTileEntityType), blockPos, blockState), shapedDrive.blockPack.block());
+                        Type<?> type = net.minecraft.Util.fetchChoiceType(References.BLOCK_ENTITY, fuseName("_", this, shapedDrive).toString());
                         BlockEntityType<DefaultTileEntity> blockEntityType = builder.build(type);
                         tileEntityTypeBlockEntityTypeMap.put(iTileEntityType, blockEntityType);
-                        blockBlockEntityTypeMap.put(v.block(), blockEntityType);
-                        ForgeRegistries.BLOCK_ENTITY_TYPES.register(fuseName("_", this, l, k), blockEntityType);
+                        blockBlockEntityTypeMap.put(shapedDrive.blockPack.block(), blockEntityType);
+                        ForgeRegistries.BLOCK_ENTITY_TYPES.register(fuseName("_", this, shapedDrive), blockEntityType);
                     }
-                }));
-                ShapedDrive.SHAPED_DRIVE.get().forEach(s -> {
-                    if (s.blockPack.block() instanceof ITileEntityType iTileEntityType) {
-                        BlockEntityType.Builder<DefaultTileEntity> builder = BlockEntityType.Builder.of((blockPos, blockState) ->
-                                new DefaultTileEntity(tileEntityTypeBlockEntityTypeMap.get(iTileEntityType), blockPos, blockState), s.blockPack.block());
-                        Type<?> type = net.minecraft.Util.fetchChoiceType(References.BLOCK_ENTITY, fuseName("_", this, s).toString());
-                        BlockEntityType<DefaultTileEntity> blockEntityType = builder.build(type);
-                        tileEntityTypeBlockEntityTypeMap.put(iTileEntityType, blockEntityType);
-                        blockBlockEntityTypeMap.put(s.blockPack.block(), blockEntityType);
-                        ForgeRegistries.BLOCK_ENTITY_TYPES.register(fuseName("_", this, s), blockEntityType);
-                    }
-                });
+                }
             }
         };
         repeaterTileEntityRegister = new TileEntityRegister<>("repeater_tile_entity_register") {
             @Override
-            public void registerBlackToBack() {
-                ManaLevel.LEVEL.get().forEach(l -> l.blockMap.forEach((k, v) -> {
-                    if (v.block() instanceof RepeaterBlock repeaterBlock) {
-                        BlockEntityType.Builder<RepeaterTileEntity> builder = BlockEntityType.Builder.of((blockPos, blockState) ->
-                                new RepeaterTileEntity(blockBlockEntityTypeMap.get(v.block()), blockPos, blockState), v.block());
-                        Type<?> type = net.minecraft.Util.fetchChoiceType(References.BLOCK_ENTITY, fuseName("_", this, l).toString());
-                        BlockEntityType<RepeaterTileEntity> blockEntityType = builder.build(type);
-                        ForgeRegistries.BLOCK_ENTITY_TYPES.register(fuseName("_", this, l), blockEntityType);
-                        blockBlockEntityTypeMap.put(repeaterBlock, blockEntityType);
+            protected void registerBlackToBack() {
+                for (ManaLevel manaLevel : ManaLevel.LEVEL.get()) {
+                    for (Map.Entry<ManaLevelBlock, BlockPack> e : manaLevel.blockEntrySet()) {
+                        if (e.getValue().block() instanceof RepeaterBlock repeaterBlock) {
+                            BlockEntityType.Builder<RepeaterTileEntity> builder = BlockEntityType.Builder.of((blockPos, blockState) ->
+                                    new RepeaterTileEntity(blockBlockEntityTypeMap.get(e.getValue().block()), blockPos, blockState), e.getValue().block());
+                            Type<?> type = net.minecraft.Util.fetchChoiceType(References.BLOCK_ENTITY, fuseName("_", this, manaLevel).toString());
+                            BlockEntityType<RepeaterTileEntity> blockEntityType = builder.build(type);
+                            ForgeRegistries.BLOCK_ENTITY_TYPES.register(fuseName("_", this, manaLevel), blockEntityType);
+                            blockBlockEntityTypeMap.put(repeaterBlock, blockEntityType);
+                        }
                     }
-                }));
+                }
             }
         };
     }
@@ -100,7 +105,7 @@ public abstract class TileEntityRegister<T extends BlockEntity> extends Register
      * 在此注册实体方块类型
      */
     @Override
-    public abstract void registerBlackToBack();
+    protected abstract void registerBlackToBack();
 
     /*@Override
     public EventPriority getRegisterBlackPriority() {

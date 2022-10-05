@@ -1,6 +1,6 @@
 package com.til.dusk.common.register.ore.block;
 
-import com.til.dusk.common.register.ore.Ore;
+import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.util.pack.DataPack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -9,6 +9,10 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author til
+ */
+@Deprecated
 public class MineralBlockData {
     public final Ore ore;
 
@@ -55,22 +59,22 @@ public class MineralBlockData {
                 .setPlace((blockPos, level, blockState) -> {
                     Block inBlock = blockState.getBlock();
                     if (inBlock.equals(Blocks.STONE)) {
-                        return ore.blockMap.get(OreBlock.lordWorld).block().defaultBlockState();
+                        return ore.get(OreBlock.lordWorld).block().defaultBlockState();
                     }
                     if (inBlock.equals(Blocks.DEEPSLATE)) {
-                        return ore.blockMap.get(OreBlock.lordWorldDeepslate).block().defaultBlockState();
+                        return ore.get(OreBlock.lordWorldDeepslate).block().defaultBlockState();
                     }
                     if (inBlock.equals(Blocks.DIRT)) {
-                        return ore.blockMap.get(OreBlock.lordWorldDirt).block().defaultBlockState();
+                        return ore.get(OreBlock.lordWorldDirt).block().defaultBlockState();
                     }
                     if (inBlock.equals(Blocks.GRAVEL)) {
-                        return ore.blockMap.get(OreBlock.lordWorldGravel).block().defaultBlockState();
+                        return ore.get(OreBlock.lordWorldGravel).block().defaultBlockState();
                     }
                     if (inBlock.equals(Blocks.NETHERITE_BLOCK)) {
-                        return ore.blockMap.get(OreBlock.netherWorldNetherrack).block().defaultBlockState();
+                        return ore.get(OreBlock.netherWorldNetherrack).block().defaultBlockState();
                     }
                     if (inBlock.equals(Blocks.END_STONE)) {
-                        return ore.blockMap.get(OreBlock.endWorldEndStone).block().defaultBlockState();
+                        return ore.get(OreBlock.endWorldEndStone).block().defaultBlockState();
                     }
                     return null;
 

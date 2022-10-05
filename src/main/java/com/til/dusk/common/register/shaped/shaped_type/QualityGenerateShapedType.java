@@ -1,8 +1,8 @@
 package com.til.dusk.common.register.shaped.shaped_type;
 
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
-import com.til.dusk.common.register.ore.Ore;
-import com.til.dusk.common.register.ore.OreFluid;
+import com.til.dusk.common.register.ore.ore.Ore;
+import com.til.dusk.common.register.ore.fluid.OreFluid;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
 import net.minecraftforge.fluids.FluidStack;
@@ -23,8 +23,8 @@ public class QualityGenerateShapedType extends ShapedType {
                 continue;
             }
             new ShapedOre(this, ShapedDrive.get(0), ore.manaLevel)
-                    .addInFluid(ore.fluidMap.get(OreFluid.joinUUSolution).fluidTag(), 72)
-                    .addOutFluid(new FluidStack(ore.fluidMap.get(OreFluid.solution).source(), 144), 1d)
+                    .addInFluid(ore.get(OreFluid.joinUUSolution).fluidTag(), 72)
+                    .addOutFluid(new FluidStack(ore.get(OreFluid.solution).source(), 144), 1d)
                     .addMultipleSurplusTime(4096L)
                     .addMultipleConsumeMana(64L);
         }

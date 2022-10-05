@@ -4,9 +4,9 @@ import com.til.dusk.Dusk;
 import com.til.dusk.client.ColorProxy;
 import com.til.dusk.common.data.ModRecipeProvider;
 import com.til.dusk.common.data.tag.ItemTag;
+import com.til.dusk.common.register.ItemUnitRegister;
 import com.til.dusk.common.register.mana_level.ManaLevel;
-import com.til.dusk.common.register.ore.Ore;
-import com.til.dusk.common.register.RegisterBasics;
+import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.world.item.*;
 import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.GenericMap;
@@ -31,7 +31,7 @@ import java.util.function.Supplier;
  * @author til
  */
 @Mod.EventBusSubscriber(modid = Dusk.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
+public class OreItem extends ItemUnitRegister<OreItem, Ore> {
 
     public static Supplier<IForgeRegistry<OreItem>> ORE_ITEM;
 
@@ -194,7 +194,7 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
                         if (!ore.manaLevel.hasSet(ManaLevel.CAN_UET_TOOL_MAKE)) {
                             continue;
                         }
-                        list.add(SimpleCookingRecipeBuilder.smelting(Ingredient.of(ore.getMineralBlockTag().itemTagKey()), ore.itemMap.get(ingot).item(), 0.6F, 200)
+                        list.add(SimpleCookingRecipeBuilder.smelting(Ingredient.of(ore.getMineralBlockTag().itemTagKey()), ore.get(ingot).item(), 0.6F, 200)
                                 .unlockedBy("has_ore", ModRecipeProvider.has(ore.getMineralBlockTag().itemTagKey())));
 
 
@@ -268,7 +268,7 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
                 ItemTag.addTag(Tags.Items.TOOLS_SWORDS, item);
                 return item;
             }
-        }.setSet(IS_SWORD, null);
+        }.setConfig(IS_SWORD, null);
         shovel = (OreItemArms) new OreItemArms("shovel") {
             @Override
             public Item createArmsItem(Ore ore, ArmsData armsData) {
@@ -277,7 +277,7 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
                 ItemTag.addTag(Tags.Items.TOOLS_SHOVELS, item);
                 return item;
             }
-        }.setSet(IS_SHOVEL, null);
+        }.setConfig(IS_SHOVEL, null);
         pickaxe = (OreItemArms) new OreItemArms("pickaxe") {
             @Override
             public Item createArmsItem(Ore ore, ArmsData armsData) {
@@ -286,7 +286,7 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
                 ItemTag.addTag(Tags.Items.TOOLS_PICKAXES, item);
                 return item;
             }
-        }.setSet(IS_PICKAXE, null);
+        }.setConfig(IS_PICKAXE, null);
         axe = (OreItemArms) new OreItemArms("axe") {
             @Override
             public Item createArmsItem(Ore ore, ArmsData armsData) {
@@ -295,7 +295,7 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
                 ItemTag.addTag(Tags.Items.TOOLS_AXES, item);
                 return item;
             }
-        }.setSet(IS_AXE, null);
+        }.setConfig(IS_AXE, null);
         hoe = (OreItemArms) new OreItemArms("hoe") {
             @Override
             public Item createArmsItem(Ore ore, ArmsData armsData) {
@@ -304,7 +304,7 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
                 ItemTag.addTag(Tags.Items.TOOLS_HOES, item);
                 return item;
             }
-        }.setSet(IS_HOE, null);
+        }.setConfig(IS_HOE, null);
 
         head = new OreItemArmor("head", EquipmentSlot.HEAD);
         chest = new OreItemArmor("chest", EquipmentSlot.CHEST);
@@ -317,16 +317,16 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
                 itemColorPack.addColor(1, itemStack -> ore.color);
             }
         }
-                .setSet(IS_HAMMER)
+                .setConfig(IS_HAMMER)
                 .addRecipes(list -> {
                     for (Ore ore : Ore.screen(Ore.IS_METAL, Ore.TOOL_DATA)) {
-                        list.add(ShapedRecipeBuilder.shaped(ore.itemMap.get(hammer).item(), 1)
-                                .define('A', ore.itemMap.get(ingot).itemTag())
+                        list.add(ShapedRecipeBuilder.shaped(ore.get(hammer).item(), 1)
+                                .define('A', ore.get(ingot).itemTag())
                                 .define('B', Tags.Items.RODS_WOODEN)
                                 .pattern("AAA")
                                 .pattern("AAA")
                                 .pattern(" B ")
-                                .unlockedBy("has_ore", ModRecipeProvider.has(ore.itemMap.get(ingot).itemTag())));
+                                .unlockedBy("has_ore", ModRecipeProvider.has(ore.get(ingot).itemTag())));
                     }
                 })
                 .addRecipes(list -> {
@@ -334,26 +334,26 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
                         if (!ore.manaLevel.hasSet(ManaLevel.CAN_UET_TOOL_MAKE)) {
                             continue;
                         }
-                        list.add(ShapedRecipeBuilder.shaped(ore.itemMap.get(plate).item(), 1)
+                        list.add(ShapedRecipeBuilder.shaped(ore.get(plate).item(), 1)
                                 .define('A', hammer.getTagPack().itemTagKey())
-                                .define('B', ore.itemMap.get(ingot).itemTag())
+                                .define('B', ore.get(ingot).itemTag())
                                 .pattern("AB")
                                 .unlockedBy("has_hammer", ModRecipeProvider.has(hammer.getTagPack().itemTagKey())));
-                        list.add(ShapedRecipeBuilder.shaped(ore.itemMap.get(casing).item(), 1)
+                        list.add(ShapedRecipeBuilder.shaped(ore.get(casing).item(), 1)
                                 .define('A', hammer.getTagPack().itemTagKey())
-                                .define('B', ore.itemMap.get(plate).itemTag())
+                                .define('B', ore.get(plate).itemTag())
                                 .pattern("A")
                                 .pattern("B")
                                 .unlockedBy("has_hammer", ModRecipeProvider.has(hammer.getTagPack().itemTagKey())));
-                        list.add(ShapedRecipeBuilder.shaped(ore.itemMap.get(foil).item(), 2)
+                        list.add(ShapedRecipeBuilder.shaped(ore.get(foil).item(), 2)
                                 .define('A', hammer.getTagPack().itemTagKey())
-                                .define('B', ore.itemMap.get(plate).itemTag())
+                                .define('B', ore.get(plate).itemTag())
                                 .pattern("A ")
                                 .pattern(" B")
                                 .unlockedBy("has_hammer", ModRecipeProvider.has(hammer.getTagPack().itemTagKey())));
-                        list.add(ShapedRecipeBuilder.shaped(ore.itemMap.get(stick_long).item(), 1)
+                        list.add(ShapedRecipeBuilder.shaped(ore.get(stick_long).item(), 1)
                                 .define('A', hammer.getTagPack().itemTagKey())
-                                .define('B', ore.itemMap.get(stick).itemTag())
+                                .define('B', ore.get(stick).itemTag())
                                 .pattern("A")
                                 .pattern("B")
                                 .pattern("B")
@@ -361,14 +361,14 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
                     }
                 });
         wrench = (OreItemTool) new OreItemTool("wrench")
-                .setSet(IS_WRENCH).addRecipes(list -> {
+                .setConfig(IS_WRENCH).addRecipes(list -> {
                     for (Ore ore : Ore.screen(Ore.IS_METAL, Ore.TOOL_DATA)) {
-                        list.add(ShapedRecipeBuilder.shaped(ore.itemMap.get(wrench).item(), 1)
-                                .define('A', ore.itemMap.get(ingot).itemTag())
+                        list.add(ShapedRecipeBuilder.shaped(ore.get(wrench).item(), 1)
+                                .define('A', ore.get(ingot).itemTag())
                                 .pattern("A A")
                                 .pattern(" A ")
                                 .pattern(" A ")
-                                .unlockedBy("has_ore", ModRecipeProvider.has(ore.itemMap.get(ingot).itemTag())));
+                                .unlockedBy("has_ore", ModRecipeProvider.has(ore.get(ingot).itemTag())));
                     }
                 })
                 .addRecipes(list -> {
@@ -376,18 +376,18 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
                         if (!ore.manaLevel.hasSet(ManaLevel.CAN_UET_TOOL_MAKE)) {
                             continue;
                         }
-                        list.add(ShapedRecipeBuilder.shaped(ore.itemMap.get(gear).item(), 1)
+                        list.add(ShapedRecipeBuilder.shaped(ore.get(gear).item(), 1)
                                 .define('A', wrench.getTagPack().itemTagKey())
-                                .define('B', ore.itemMap.get(plate).itemTag())
-                                .define('C', ore.itemMap.get(ingot).item())
+                                .define('B', ore.get(plate).itemTag())
+                                .define('C', ore.get(ingot).item())
                                 .pattern("BCB")
                                 .pattern("CAC")
                                 .pattern("BCB")
                                 .unlockedBy("has_wrench", ModRecipeProvider.has(wrench.getTagPack().itemTagKey())));
-                        list.add(ShapedRecipeBuilder.shaped(ore.itemMap.get(rotor).item(), 1)
+                        list.add(ShapedRecipeBuilder.shaped(ore.get(rotor).item(), 1)
                                 .define('A', wrench.getTagPack().itemTagKey())
-                                .define('B', ore.itemMap.get(plate).itemTag())
-                                .define('C', ore.itemMap.get(stick_long).item())
+                                .define('B', ore.get(plate).itemTag())
+                                .define('C', ore.get(stick_long).item())
                                 .pattern("BCB")
                                 .pattern("CAC")
                                 .pattern("BCB")
@@ -395,42 +395,42 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
                     }
                 });
         wireCutter = (OreItemTool) new OreItemTool("wire_cutter")
-                .setSet(IS_WRENCH)
+                .setConfig(IS_WRENCH)
                 .addRecipes(list -> {
                     for (Ore ore : Ore.screen(Ore.IS_METAL, Ore.TOOL_DATA)) {
-                        list.add(ShapedRecipeBuilder.shaped(ore.itemMap.get(wireCutter).item(), 1)
-                                .define('A', ore.itemMap.get(ingot).itemTag())
-                                .define('B', ore.itemMap.get(plate).itemTag())
+                        list.add(ShapedRecipeBuilder.shaped(ore.get(wireCutter).item(), 1)
+                                .define('A', ore.get(ingot).itemTag())
+                                .define('B', ore.get(plate).itemTag())
                                 .pattern("B B")
                                 .pattern(" B ")
                                 .pattern("A A")
-                                .unlockedBy("has_ore", ModRecipeProvider.has(ore.itemMap.get(ingot).itemTag())));
+                                .unlockedBy("has_ore", ModRecipeProvider.has(ore.get(ingot).itemTag())));
                     }
                 })
-                .setSet(IS_WIRE_CUTTER).addRecipes(list -> {
+                .setConfig(IS_WIRE_CUTTER).addRecipes(list -> {
                     for (Ore ore : Ore.screen(Ore.IS_METAL)) {
                         if (!ore.manaLevel.hasSet(ManaLevel.CAN_UET_TOOL_MAKE)) {
                             continue;
                         }
-                        list.add(ShapedRecipeBuilder.shaped(ore.itemMap.get(string).item(), 1)
+                        list.add(ShapedRecipeBuilder.shaped(ore.get(string).item(), 1)
                                 .define('A', wireCutter.getTagPack().itemTagKey())
-                                .define('B', ore.itemMap.get(plate).itemTag())
+                                .define('B', ore.get(plate).itemTag())
                                 .pattern("A")
                                 .pattern("B")
                                 .unlockedBy("has_wire_cutter", ModRecipeProvider.has(wireCutter.getTagPack().itemTagKey())));
                     }
                 });
         file = (OreItemTool) new OreItemTool("file")
-                .setSet(IS_FILE)
-                .setSet(IS_WRENCH).addRecipes(list -> {
+                .setConfig(IS_FILE)
+                .setConfig(IS_WRENCH).addRecipes(list -> {
                     for (Ore ore : Ore.screen(Ore.IS_METAL, Ore.TOOL_DATA)) {
-                        list.add(ShapedRecipeBuilder.shaped(ore.itemMap.get(file).item(), 1)
-                                .define('A', ore.itemMap.get(plate).itemTag())
-                                .define('B', ore.itemMap.get(casing).itemTag())
+                        list.add(ShapedRecipeBuilder.shaped(ore.get(file).item(), 1)
+                                .define('A', ore.get(plate).itemTag())
+                                .define('B', ore.get(casing).itemTag())
                                 .pattern("A")
                                 .pattern("A")
                                 .pattern("B")
-                                .unlockedBy("has_ore", ModRecipeProvider.has(ore.itemMap.get(ingot).itemTag())));
+                                .unlockedBy("has_ore", ModRecipeProvider.has(ore.get(ingot).itemTag())));
                     }
                 })
                 .addRecipes(list -> {
@@ -438,9 +438,9 @@ public class OreItem extends RegisterBasics.ItemUnitRegister<OreItem, Ore> {
                         if (!ore.manaLevel.hasSet(ManaLevel.CAN_UET_TOOL_MAKE)) {
                             continue;
                         }
-                        list.add(ShapedRecipeBuilder.shaped(ore.itemMap.get(stick).item(), 1)
+                        list.add(ShapedRecipeBuilder.shaped(ore.get(stick).item(), 1)
                                 .define('A', file.getTagPack().itemTagKey())
-                                .define('B', ore.itemMap.get(ingot).itemTag())
+                                .define('B', ore.get(ingot).itemTag())
                                 .pattern("A")
                                 .pattern("B")
                                 .unlockedBy("has_file", ModRecipeProvider.has(file.getTagPack().itemTagKey())));

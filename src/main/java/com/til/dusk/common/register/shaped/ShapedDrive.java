@@ -70,7 +70,7 @@ public class ShapedDrive extends RegisterBasics<ShapedDrive> {
 
 
     @Override
-    public void registerBack() {
+    protected void registerBack() {
         Block block = new MechanicBlock(ManaLevel.t1) {
             @Override
             public void add(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability, IPosTrack iPosTrack) {

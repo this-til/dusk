@@ -8,6 +8,7 @@ import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.ShapedHandleProcess;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 import com.til.dusk.common.register.skill.Skill;
+import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.nbt.cell.AllNBTCell;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -21,7 +22,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
-import java.awt.*;
 import java.util.List;
 import java.util.Map;
 
@@ -42,7 +42,7 @@ public class AllNBTPack {
     public static final NBTPack<List<ItemStack>> OUT_ITEM = new NBTPack<>("out_item", AllNBTCell.ITEM_STACK.getListNBTCell());
     public static final NBTPack<List<FluidStack>> OUT_FLUID = new NBTPack<>("out_fluid", AllNBTCell.FLUID_STATE.getListNBTCell());
     public static final NBTPack<BlockPos> BLOCK_POS = new NBTPack<>("block_pos", AllNBTCell.BLOCK_POS);
-    public static final NBTPack<Color> COLOR_SEPARATE = new NBTPack<>("color_separate", AllNBTCell.COLOR);
+    public static final NBTPack<DuskColor> COLOR_SEPARATE = new NBTPack<>("color_separate", AllNBTCell.COLOR);
     public static final IntPack COLOR = new IntPack("color_tag");
     public static final LongPack SURPLUS_TIME = new LongPack("surplus_time");
     public static final LongPack CONSUME_MANA = new LongPack("consume_mana");
@@ -73,7 +73,7 @@ public class AllNBTPack {
     public static final NBTPack<List<FluidStack>> FLUID_STACK_LIST_TAG = new NBTPack<>("fluid_stack_list", AllNBTCell.FLUID_STATE.getListNBTCell());
     public static final LongPack COUNT = new LongPack("count");
     public static final BooleanPack IS_VOID_CASE_ITEM_HANDLER = new BooleanPack("is_void_case_item_handle");
-    public static final NBTPack<Class<?>> CLASS = new NBTPack<>("class", AllNBTCell.CLASS);
+    public static final NBTPack<Class<?>> TYPE = new NBTPack<>("type", AllNBTCell.CLASS);
     public static final NBTPack<ResourceLocation> NAME = new NBTPack<>("name", AllNBTCell.RESOURCE_LOCATION);
     public static final NBTPack<ShapedType> SHAPED_TYPE = new NBTPack<>("shaped_type", AllNBTCell.SHAPED_TYPE);
     public static final NBTPack<ShapedDrive> SHAPED_DRIVE = new NBTPack<>("shaped_drive", AllNBTCell.SHAPED_DRIVE);

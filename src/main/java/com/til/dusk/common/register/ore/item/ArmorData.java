@@ -7,7 +7,7 @@ import com.til.dusk.common.capability.black.IBack;
 import com.til.dusk.common.capability.mana_handle.VariableManaHandle;
 import com.til.dusk.common.capability.skill.ISkill;
 import com.til.dusk.common.capability.skill.ItemStackSkill;
-import com.til.dusk.common.register.ore.Ore;
+import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.register.other.CapabilityRegister;
 import com.til.dusk.common.register.skill.Skill;
 import net.minecraft.resources.ResourceLocation;
@@ -130,7 +130,7 @@ public class ArmorData implements ArmorMaterial, IItemDefaultCapability {
 
     @Override
     public @NotNull Ingredient getRepairIngredient() {
-        return Ingredient.of(ore.get().itemMap.get(OreItem.ingot).itemTag());
+        return Ingredient.of(ore.get().get(OreItem.ingot).itemTag());
     }
 
     @Override

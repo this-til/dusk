@@ -1,5 +1,6 @@
 package com.til.dusk.common.world.feature;
 
+import com.til.dusk.common.config.IAcceptConfigMap;
 import com.til.dusk.common.register.ore.block.GenerateData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
@@ -137,7 +138,7 @@ public class CurrencyOreFeature extends Feature<CurrencyOreFeatureConfiguration>
                                                         int sectionY = SectionPos.sectionRelative(y);
                                                         int sectionZ = SectionPos.sectionRelative(z);
                                                         BlockState state = section.getBlockState(sectionX, sectionY, sectionZ);
-                                                        GenerateData generateData = config.generateData();
+                                                        IAcceptConfigMap generateData = config.iOrePlacedFeatureConfig();
                                                         if (generateData.canInLevel != null && !generateData.canInLevel.func(level)) {
                                                             continue;
                                                         }

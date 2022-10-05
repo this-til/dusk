@@ -18,10 +18,10 @@ public class ExtractManaHandleMechanic extends HandleMechanic {
 
     public ExtractManaHandleMechanic() {
         super("extract_mana", () -> Set.of(ShapedType.extractMana));
-        setSet(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
+        setConfig(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
                 .addRun((s, m) -> s.addInItem(m.getAcceptableTagPack(OreItem.casing).itemTagKey(), 4))
                 .addRun((s, m) -> s.addInItem(m.getAcceptableTagPack(OreItem.foil).itemTagKey(), 4))
-                .addRun((s, m) -> s.addInItem(m.blockMap.get(frameBasic).blockItemTag(), 1)));
+                .addRun((s, m) -> s.addInItem(m.get(frameBasic).blockItemTag(), 1)));
     }
 
     @Override
@@ -30,10 +30,10 @@ public class ExtractManaHandleMechanic extends HandleMechanic {
             if (!manaLevel.hasSet(ManaLevel.CAN_USE_RECIPE_MAKE)) {
                 continue;
             }
-            recipeBuilderList.add(ShapedRecipeBuilder.shaped(manaLevel.blockMap.get(this).blockItem(), 1)
+            recipeBuilderList.add(ShapedRecipeBuilder.shaped(manaLevel.get(this).blockItem(), 1)
                     .define('A', manaLevel.getAcceptableTagPack(OreItem.foil).itemTagKey())
                     .define('B', manaLevel.getAcceptableTagPack(OreItem.casing).itemTagKey())
-                    .define('C', manaLevel.blockMap.get(frameBasic).blockItemTag())
+                    .define('C', manaLevel.get(frameBasic).blockItemTag())
                     .define('D', manaLevel.getAcceptableTagPack(OreItem.wrench).itemTagKey())
                     .pattern("BDB")
                     .pattern("ACA")

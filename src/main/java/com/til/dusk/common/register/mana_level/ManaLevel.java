@@ -3,10 +3,11 @@ package com.til.dusk.common.register.mana_level;
 import com.til.dusk.Dusk;
 import com.til.dusk.common.data.tag.ItemTag;
 import com.til.dusk.common.register.RegisterBasics;
+import com.til.dusk.common.register.UnitRegister;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
-import com.til.dusk.common.register.ore.Ore;
+import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.register.ore.block.OreBlock;
-import com.til.dusk.common.register.ore.OreFluid;
+import com.til.dusk.common.register.ore.fluid.OreFluid;
 import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.GenericMap;
@@ -29,7 +30,7 @@ import java.util.function.Supplier;
  * @author til
  */
 @Mod.EventBusSubscriber(modid = Dusk.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class ManaLevel extends RegisterBasics.UnitRegister<ManaLevel, ManaLevelItem, ManaLevelBlock, ManaLevelFluid> {
+public class ManaLevel extends UnitRegister<ManaLevel, ManaLevelItem, ManaLevelBlock, ManaLevelFluid> {
 
     public static Supplier<IForgeRegistry<ManaLevel>> LEVEL;
 
@@ -47,115 +48,115 @@ public class ManaLevel extends RegisterBasics.UnitRegister<ManaLevel, ManaLevelI
     public static void onEvent(NewRegistryEvent event) {
         LEVEL = event.create(new RegistryBuilder<ManaLevel>().setName(new ResourceLocation(Dusk.MOD_ID, "mana_level")));
         t1 = new ManaLevel(1, 2560, 1, 2, 0.1, 16, new DuskColor(50, 255, 255), null, () -> t2)
-                .setSet(OPERATION_BASICS, () -> new DataPack.ManaLevelDataPack()
-                        .addInFluid(Ore.highEnergyRedStone.fluidMap.get(OreFluid.solution).fluidTag(), 72))
-                .setSet(OPERATION, () -> new DataPack.ManaLevelDataPack()
+                .setConfig(OPERATION_BASICS, () -> new DataPack.ManaLevelDataPack()
+                        .addInFluid(Ore.highEnergyRedStone.get(OreFluid.solution).fluidTag(), 72))
+                .setConfig(OPERATION, () -> new DataPack.ManaLevelDataPack()
                         .addInItem(ItemTag.resistanceTag, 4)
                         .addInItem(ItemTag.capacitanceTag, 4)
                         .addInItem(ItemTag.diodeTag, 4)
                         .addInItem(ItemTag.triodeTag, 4))
-                .setSet(FORMING, () -> new DataPack.ManaLevelDataPack()
+                .setConfig(FORMING, () -> new DataPack.ManaLevelDataPack()
                         .addInItem(Tags.Items.GEMS_AMETHYST, 1))
-                .setSet(DESTRUCTION, () -> new DataPack.ManaLevelDataPack()
+                .setConfig(DESTRUCTION, () -> new DataPack.ManaLevelDataPack()
                         .addInItem(Tags.Items.GEMS_QUARTZ, 1))
-                .setSet(GATHER, () -> new DataPack.ManaLevelDataPack()
+                .setConfig(GATHER, () -> new DataPack.ManaLevelDataPack()
                         .addInItem(Tags.Items.GEMS_LAPIS, 1))
-                .setSet(SPREAD, () -> new DataPack.ManaLevelDataPack()
+                .setConfig(SPREAD, () -> new DataPack.ManaLevelDataPack()
                         .addInItem(Tags.Items.GEMS_PRISMARINE, 1))
-                .setSet(POWER, () -> new DataPack.ManaLevelDataPack()
+                .setConfig(POWER, () -> new DataPack.ManaLevelDataPack()
                         .addRun((s, m) -> s.addInItem(m.getAcceptableTagPack(OreItem.rotor).itemTagKey(), 1))
                         .addRun((s, m) -> s.addInItem(m.getAcceptableTagPack(OreBlock.coil).itemTagKey(), 1)))
-                .setSet(INSTRUCTIONS, () -> new DataPack.ManaLevelDataPack()
+                .setConfig(INSTRUCTIONS, () -> new DataPack.ManaLevelDataPack()
                         .addInItem(ItemTag.inductanceTag, 2)
                         .addInItem(ItemTag.capacitanceTag, 4)
                         .addRun((s, m) -> s.addInItem(m.getAcceptableTagPack(OreItem.foil).itemTagKey(), 16)))
-                .setSet(CAN_UET_TOOL_MAKE)
-                .setSet(CAN_USE_RECIPE_MAKE);
+                .setConfig(CAN_UET_TOOL_MAKE)
+                .setConfig(CAN_USE_RECIPE_MAKE);
         t2 = new ManaLevel(2, 1280, 2, 2, 0.09, 18, new DuskColor(100, 200, 225), () -> t1, () -> t3)
-                .setSet(OPERATION_BASICS, () -> new DataPack.ManaLevelDataPack()
-                        .addInFluid(Ore.highEnergyRedStone.fluidMap.get(OreFluid.solution).fluidTag(), 72)
-                        .addInFluid(Ore.coolant.fluidMap.get(OreFluid.solution).fluidTag(), 32))
-                .setSet(OPERATION, () -> new DataPack.ManaLevelDataPack()
+                .setConfig(OPERATION_BASICS, () -> new DataPack.ManaLevelDataPack()
+                        .addInFluid(Ore.highEnergyRedStone.get(OreFluid.solution).fluidTag(), 72)
+                        .addInFluid(Ore.coolant.get(OreFluid.solution).fluidTag(), 32))
+                .setConfig(OPERATION, () -> new DataPack.ManaLevelDataPack()
                         .addInItem(ItemTag.resistanceTag, 8)
                         .addInItem(ItemTag.capacitanceTag, 8)
                         .addInItem(ItemTag.diodeTag, 8)
                         .addInItem(ItemTag.triodeTag, 8))
-                .setSet(FORMING, () -> new DataPack.ManaLevelDataPack()
+                .setConfig(FORMING, () -> new DataPack.ManaLevelDataPack()
                         .addInItem(Tags.Items.GEMS_AMETHYST, 2)
-                        .addInFluid(Ore.elementAir.fluidMap.get(OreFluid.solution).fluidTag(), 256))
-                .setSet(DESTRUCTION, () -> new DataPack.ManaLevelDataPack()
+                        .addInFluid(Ore.elementAir.get(OreFluid.solution).fluidTag(), 256))
+                .setConfig(DESTRUCTION, () -> new DataPack.ManaLevelDataPack()
                         .addInItem(Tags.Items.GEMS_QUARTZ, 2)
-                        .addInFluid(Ore.elementAir.fluidMap.get(OreFluid.solution).fluidTag(), 256))
-                .setSet(GATHER, () -> new DataPack.ManaLevelDataPack()
+                        .addInFluid(Ore.elementAir.get(OreFluid.solution).fluidTag(), 256))
+                .setConfig(GATHER, () -> new DataPack.ManaLevelDataPack()
                         .addInItem(Tags.Items.GEMS_LAPIS, 2)
-                        .addInFluid(Ore.sourceAir.fluidMap.get(OreFluid.solution).fluidTag(), 256))
-                .setSet(SPREAD, () -> new DataPack.ManaLevelDataPack()
+                        .addInFluid(Ore.sourceAir.get(OreFluid.solution).fluidTag(), 256))
+                .setConfig(SPREAD, () -> new DataPack.ManaLevelDataPack()
                         .addInItem(Tags.Items.GEMS_PRISMARINE, 2)
-                        .addInFluid(Ore.sourceAir.fluidMap.get(OreFluid.solution).fluidTag(), 256))
-                .setSet(POWER, () -> new DataPack.ManaLevelDataPack()
+                        .addInFluid(Ore.sourceAir.get(OreFluid.solution).fluidTag(), 256))
+                .setConfig(POWER, () -> new DataPack.ManaLevelDataPack()
                         .addRun((s, m) -> s.addInItem(m.getAcceptableTagPack(OreItem.rotor).itemTagKey(), 2))
                         .addRun((s, m) -> s.addInItem(m.getAcceptableTagPack(OreBlock.coil).itemTagKey(), 1))
-                        .addInFluid(Ore.natureAir.fluidMap.get(OreFluid.solution).fluidTag(), 256))
-                .setSet(INSTRUCTIONS, () -> new DataPack.ManaLevelDataPack()
+                        .addInFluid(Ore.natureAir.get(OreFluid.solution).fluidTag(), 256))
+                .setConfig(INSTRUCTIONS, () -> new DataPack.ManaLevelDataPack()
                         .addInItem(ItemTag.inductanceTag, 4)
                         .addInItem(ItemTag.capacitanceTag, 8)
                         .addRun((s, m) -> s.addInItem(m.getAcceptableTagPack(OreItem.foil).itemTagKey(), 32))
-                        .addInFluid(Ore.natureAir.fluidMap.get(OreFluid.solution).fluidTag(), 256));
+                        .addInFluid(Ore.natureAir.get(OreFluid.solution).fluidTag(), 256));
         t3 = new ManaLevel(3, 640, 3, 4, 0.08, 20, new DuskColor(125, 150, 200), () -> t2, () -> t4)
-                .setSet(OPERATION_BASICS, () -> new DataPack.ManaLevelDataPack()
-                        .addInFluid(Ore.highEnergyRedStone.fluidMap.get(OreFluid.solution).fluidTag(), 72)
-                        .addInFluid(Ore.coolant.fluidMap.get(OreFluid.solution).fluidTag(), 32)
-                        .addInFluid(Ore.dissolutionMana.fluidMap.get(OreFluid.solution).fluidTag(), 24))
-                .setSet(OPERATION, () -> new DataPack.ManaLevelDataPack()
+                .setConfig(OPERATION_BASICS, () -> new DataPack.ManaLevelDataPack()
+                        .addInFluid(Ore.highEnergyRedStone.get(OreFluid.solution).fluidTag(), 72)
+                        .addInFluid(Ore.coolant.get(OreFluid.solution).fluidTag(), 32)
+                        .addInFluid(Ore.dissolutionMana.get(OreFluid.solution).fluidTag(), 24))
+                .setConfig(OPERATION, () -> new DataPack.ManaLevelDataPack()
                         .addInItem(ItemTag.resistanceTag, 16)
                         .addInItem(ItemTag.capacitanceTag, 16)
                         .addInItem(ItemTag.diodeTag, 16)
                         .addInItem(ItemTag.triodeTag, 16))
-                .setSet(FORMING, () -> new DataPack.ManaLevelDataPack()
+                .setConfig(FORMING, () -> new DataPack.ManaLevelDataPack()
                         .addInItem(Tags.Items.GEMS_AMETHYST, 4)
-                        .addInFluid(Ore.elementAir.fluidMap.get(OreFluid.solution).fluidTag(), 512))
-                .setSet(DESTRUCTION, () -> new DataPack.ManaLevelDataPack()
+                        .addInFluid(Ore.elementAir.get(OreFluid.solution).fluidTag(), 512))
+                .setConfig(DESTRUCTION, () -> new DataPack.ManaLevelDataPack()
                         .addInItem(Tags.Items.GEMS_QUARTZ, 4)
-                        .addInFluid(Ore.elementAir.fluidMap.get(OreFluid.solution).fluidTag(), 512))
-                .setSet(GATHER, () -> new DataPack.ManaLevelDataPack()
+                        .addInFluid(Ore.elementAir.get(OreFluid.solution).fluidTag(), 512))
+                .setConfig(GATHER, () -> new DataPack.ManaLevelDataPack()
                         .addInItem(Tags.Items.GEMS_LAPIS, 4)
-                        .addInFluid(Ore.sourceAir.fluidMap.get(OreFluid.solution).fluidTag(), 512))
-                .setSet(SPREAD, () -> new DataPack.ManaLevelDataPack()
+                        .addInFluid(Ore.sourceAir.get(OreFluid.solution).fluidTag(), 512))
+                .setConfig(SPREAD, () -> new DataPack.ManaLevelDataPack()
                         .addInItem(Tags.Items.GEMS_PRISMARINE, 4)
-                        .addInFluid(Ore.sourceAir.fluidMap.get(OreFluid.solution).fluidTag(), 512))
-                .setSet(POWER, () -> new DataPack.ManaLevelDataPack()
+                        .addInFluid(Ore.sourceAir.get(OreFluid.solution).fluidTag(), 512))
+                .setConfig(POWER, () -> new DataPack.ManaLevelDataPack()
                         .addRun((s, m) -> s.addInItem(m.getAcceptableTagPack(OreItem.rotor).itemTagKey(), 4))
                         .addRun((s, m) -> s.addInItem(m.getAcceptableTagPack(OreBlock.coil).itemTagKey(), 1))
-                        .addInFluid(Ore.natureAir.fluidMap.get(OreFluid.solution).fluidTag(), 512))
-                .setSet(INSTRUCTIONS, () -> new DataPack.ManaLevelDataPack()
+                        .addInFluid(Ore.natureAir.get(OreFluid.solution).fluidTag(), 512))
+                .setConfig(INSTRUCTIONS, () -> new DataPack.ManaLevelDataPack()
                         .addInItem(ItemTag.inductanceTag, 8)
                         .addInItem(ItemTag.capacitanceTag, 16)
                         .addRun((s, m) -> s.addInItem(m.getAcceptableTagPack(OreItem.foil).itemTagKey(), 64))
-                        .addInFluid(Ore.natureAir.fluidMap.get(OreFluid.solution).fluidTag(), 512));
+                        .addInFluid(Ore.natureAir.get(OreFluid.solution).fluidTag(), 512));
         t4 = new ManaLevel(4, 320, 4, 4, 0.07, 22, new DuskColor(150, 100, 175), () -> t3, () -> t5)
-                .setSet(OPERATION_BASICS, () -> new DataPack.ManaLevelDataPack()
-                        .addInFluid(Ore.coolant.fluidMap.get(OreFluid.solution).fluidTag(), 128)
-                        .addInFluid(Ore.culture.fluidMap.get(OreFluid.solution).fluidTag(), 32)
-                        .addInFluid(Ore.nutrient.fluidMap.get(OreFluid.solution).fluidTag(), 256)
-                        .addInFluid(Ore.supportCell.fluidMap.get(OreFluid.solution).fluidTag(), 256))
-                .setSet(OPERATION, () -> new DataPack.ManaLevelDataPack()
-                        .addInFluid(Ore.neuronCell.fluidMap.get(OreFluid.solution).fluidTag(), 144));
+                .setConfig(OPERATION_BASICS, () -> new DataPack.ManaLevelDataPack()
+                        .addInFluid(Ore.coolant.get(OreFluid.solution).fluidTag(), 128)
+                        .addInFluid(Ore.culture.get(OreFluid.solution).fluidTag(), 32)
+                        .addInFluid(Ore.nutrient.get(OreFluid.solution).fluidTag(), 256)
+                        .addInFluid(Ore.supportCell.get(OreFluid.solution).fluidTag(), 256))
+                .setConfig(OPERATION, () -> new DataPack.ManaLevelDataPack()
+                        .addInFluid(Ore.neuronCell.get(OreFluid.solution).fluidTag(), 144));
         t5 = new ManaLevel(5, 160, 5, 8, 0.06, 24, new DuskColor(175, 100, 150), () -> t4, () -> t6)
-                .setSet(OPERATION_BASICS, () -> new DataPack.ManaLevelDataPack()
-                        .addInFluid(Ore.coolant.fluidMap.get(OreFluid.solution).fluidTag(), 128 * 2)
-                        .addInFluid(Ore.culture.fluidMap.get(OreFluid.solution).fluidTag(), 32 * 2)
-                        .addInFluid(Ore.nutrient.fluidMap.get(OreFluid.solution).fluidTag(), 1024 * 2)
-                        .addInFluid(Ore.supportCell.fluidMap.get(OreFluid.solution).fluidTag(), 1024 * 2))
-                .setSet(OPERATION, () -> new DataPack.ManaLevelDataPack()
-                        .addInFluid(Ore.neuronCell.fluidMap.get(OreFluid.solution).fluidTag(), 144));
+                .setConfig(OPERATION_BASICS, () -> new DataPack.ManaLevelDataPack()
+                        .addInFluid(Ore.coolant.get(OreFluid.solution).fluidTag(), 128 * 2)
+                        .addInFluid(Ore.culture.get(OreFluid.solution).fluidTag(), 32 * 2)
+                        .addInFluid(Ore.nutrient.get(OreFluid.solution).fluidTag(), 1024 * 2)
+                        .addInFluid(Ore.supportCell.get(OreFluid.solution).fluidTag(), 1024 * 2))
+                .setConfig(OPERATION, () -> new DataPack.ManaLevelDataPack()
+                        .addInFluid(Ore.neuronCell.get(OreFluid.solution).fluidTag(), 144));
         t6 = new ManaLevel(6, 80, 6, 8, 0.05, 26, new DuskColor(200, 150, 120), () -> t5, () -> t7)
-                .setSet(OPERATION_BASICS, () -> new DataPack.ManaLevelDataPack()
-                        .addInFluid(Ore.coolant.fluidMap.get(OreFluid.solution).fluidTag(), 128 * 4)
-                        .addInFluid(Ore.culture.fluidMap.get(OreFluid.solution).fluidTag(), 32 * 4)
-                        .addInFluid(Ore.nutrient.fluidMap.get(OreFluid.solution).fluidTag(), 2048 * 4)
-                        .addInFluid(Ore.supportCell.fluidMap.get(OreFluid.solution).fluidTag(), 2048 * 4))
-                .setSet(OPERATION, () -> new DataPack.ManaLevelDataPack()
-                        .addInFluid(Ore.neuronCell.fluidMap.get(OreFluid.solution).fluidTag(), 144));
+                .setConfig(OPERATION_BASICS, () -> new DataPack.ManaLevelDataPack()
+                        .addInFluid(Ore.coolant.get(OreFluid.solution).fluidTag(), 128 * 4)
+                        .addInFluid(Ore.culture.get(OreFluid.solution).fluidTag(), 32 * 4)
+                        .addInFluid(Ore.nutrient.get(OreFluid.solution).fluidTag(), 2048 * 4)
+                        .addInFluid(Ore.supportCell.get(OreFluid.solution).fluidTag(), 2048 * 4))
+                .setConfig(OPERATION, () -> new DataPack.ManaLevelDataPack()
+                        .addInFluid(Ore.neuronCell.get(OreFluid.solution).fluidTag(), 144));
         t7 = new ManaLevel(7, 40, 7, 16, 0.04, 28, new DuskColor(225, 200, 100), () -> t6, () -> t8);
         t8 = new ManaLevel(8, 20, 8, 16, 0.03, 30, new DuskColor(255, 255, 50), () -> t7, null);
     }

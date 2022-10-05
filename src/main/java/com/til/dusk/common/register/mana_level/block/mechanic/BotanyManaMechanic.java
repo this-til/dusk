@@ -5,7 +5,6 @@ import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 import com.til.dusk.util.DuskColor;
 import net.minecraft.tags.ItemTags;
 
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -15,8 +14,8 @@ public class BotanyManaMechanic extends ExtractManaMechanic {
 
     public BotanyManaMechanic() {
         super("botany_mana", () -> Set.of(ShapedType.botanyMana), new DuskColor(7, 140, 0));
-        setSet(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
-                .addRun((s, m) -> s.addInItem(m.blockMap.get(extractMana).blockItemTag(), 1))
+        setConfig(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
+                .addRun((s, m) -> s.addInItem(m.get(extractMana).blockItemTag(), 1))
                 .addInItem(ItemTags.FLOWERS, 256));
     }
 

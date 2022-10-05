@@ -5,7 +5,6 @@ package com.til.dusk.common.config;
  * 回调在ConfigMap.get()中
  * @author til
  */
-@Deprecated
 public interface INeedBack {
 
     /***

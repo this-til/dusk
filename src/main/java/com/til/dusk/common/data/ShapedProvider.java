@@ -49,7 +49,7 @@ public class ShapedProvider implements DataProvider {
 
     public void generate(Shaped shaped, CachedOutput cachedOutput) throws IOException {
         JsonObject jsonObject = new JsonObject();
-        AllNBTPack.CLASS.set(jsonObject, shaped.getClass());
+        AllNBTPack.TYPE.set(jsonObject, shaped.getClass());
         shaped.writ(jsonObject);
         Path mainOutput = DuskData.dataGenerator.getOutputFolder();
         String pathSuffix = String.format("data/%s/shaped/%s/%s/%s.json",

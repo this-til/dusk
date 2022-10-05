@@ -38,6 +38,10 @@ public class DuskColor {
         this((int) (r * 255 + 0.5), (int) (g * 255 + 0.5), (int) (b * 255 + 0.5), (int) (a * 255 + 0.5));
     }
 
+    public DuskColor() {
+        this(0, 0, 0);
+    }
+
 
     public int getRed() {
         return (getRGB() >> 16) & 0xFF;

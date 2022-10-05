@@ -7,7 +7,7 @@ import com.til.dusk.common.capability.black.IBack;
 import com.til.dusk.common.capability.mana_handle.VariableManaHandle;
 import com.til.dusk.common.capability.skill.ISkill;
 import com.til.dusk.common.capability.skill.ItemStackSkill;
-import com.til.dusk.common.register.ore.Ore;
+import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.register.other.CapabilityRegister;
 import com.til.dusk.common.register.skill.Skill;
 import com.til.dusk.util.IBackRun;
@@ -65,7 +65,7 @@ public class ArmsData implements Tier, IItemDefaultCapability, IBackRun {
 
     @Override
     public void backRun() {
-        repairIngredient = () -> Ingredient.of(ore.get().itemMap.get(OreItem.ingot).itemTag());
+        repairIngredient = () -> Ingredient.of(ore.get().get(OreItem.ingot).itemTag());
         ResourceLocation oreName = new ResourceLocation(ore.get().name.getNamespace(), "tier." + ore.get().name.getPath());
         tag = BlockTags.create(oreName);
         TierSortingRegistry.registerTier(this, oreName, List.of(Tiers.NETHERITE), List.of());

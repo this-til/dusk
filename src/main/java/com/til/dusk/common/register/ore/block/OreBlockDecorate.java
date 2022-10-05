@@ -1,7 +1,7 @@
 package com.til.dusk.common.register.ore.block;
 
 import com.til.dusk.Dusk;
-import com.til.dusk.common.register.ore.Ore;
+import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.util.pack.BlockPack;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
@@ -13,7 +13,7 @@ import org.jetbrains.annotations.Nullable;
 public abstract class OreBlockDecorate extends OreBlock {
     public OreBlockDecorate(ResourceLocation name) {
         super(name);
-        setSet(OreBlock.IS_DECORATE);
+        setConfig(OreBlock.IS_DECORATE);
     }
 
     public OreBlockDecorate(String name) {

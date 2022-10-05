@@ -1,7 +1,7 @@
 package com.til.dusk.common.register.ore.item;
 
 import com.til.dusk.Dusk;
-import com.til.dusk.common.register.ore.Ore;
+import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.util.Lang;
 import com.til.dusk.util.pack.ItemPack;
 import net.minecraft.network.chat.Component;
@@ -14,7 +14,7 @@ import org.jetbrains.annotations.Nullable;
 public class OreItemTool extends OreItem {
     public OreItemTool(ResourceLocation name) {
         super(name);
-        setSet(IS_TOOL);
+        setConfig(IS_TOOL);
     }
 
     public OreItemTool(String name) {

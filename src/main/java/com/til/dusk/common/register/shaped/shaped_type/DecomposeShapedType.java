@@ -4,8 +4,8 @@ import com.google.gson.JsonObject;
 import com.til.dusk.common.capability.handle.ShapedHandle;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
-import com.til.dusk.common.register.ore.Ore;
-import com.til.dusk.common.register.ore.OreFluid;
+import com.til.dusk.common.register.ore.ore.Ore;
+import com.til.dusk.common.register.ore.fluid.OreFluid;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shapeds.ShapedMiddleExtend;
 import com.til.dusk.util.Lang;
@@ -83,7 +83,7 @@ public class DecomposeShapedType extends ShapedType {
 
                 @Override
                 public @NotNull List<List<FluidStack>> getFluidOut() {
-                    FluidStack fluidStack = new FluidStack(Ore.nutrient.fluidMap.get(OreFluid.solution).source(), basicsOut);
+                    FluidStack fluidStack = new FluidStack(Ore.nutrient.get(OreFluid.solution).source(), basicsOut);
                     return List.of(List.of(fluidStack));
                 }
             };
@@ -104,7 +104,7 @@ public class DecomposeShapedType extends ShapedType {
             if (foodProperties == null) {
                 return null;
             }
-            return new ShapedHandle(surplusTime, consumeMana, outMana, null, List.of(new FluidStack(Ore.nutrient.fluidMap.get(OreFluid.solution).source(), basicsOut * foodProperties.getNutrition())));
+            return new ShapedHandle(surplusTime, consumeMana, outMana, null, List.of(new FluidStack(Ore.nutrient.get(OreFluid.solution).source(), basicsOut * foodProperties.getNutrition())));
         }
 
         @Override

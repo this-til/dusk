@@ -2,8 +2,6 @@ package com.til.dusk.common.register;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.common.event.RegisterManageEvent;
-import net.minecraft.core.MappedRegistry;
-import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fml.IModLoadingState;
 import net.minecraftforge.fml.IModStateProvider;

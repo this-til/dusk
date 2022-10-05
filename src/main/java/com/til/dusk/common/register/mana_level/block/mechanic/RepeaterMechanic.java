@@ -1,6 +1,5 @@
 package com.til.dusk.common.register.mana_level.block.mechanic;
 
-import com.til.dusk.Dusk;
 import com.til.dusk.common.data.ModRecipeProvider;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.register.mana_level.ManaLevelItem;
@@ -25,7 +24,7 @@ public class RepeaterMechanic extends Mechanic {
 
     public RepeaterMechanic() {
         super("repeater");
-        setSet(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
+        setConfig(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
                 .addRun((s, m) -> s.addInItem(m.getAcceptableTagPack(OreItem.casing).itemTagKey(), 2))
                 .addRun((s, m) -> s.addInItem(ManaLevelItem.operation.getTag(m), 1)));
     }
@@ -56,7 +55,7 @@ public class RepeaterMechanic extends Mechanic {
             if (!manaLevel.hasSet(ManaLevel.CAN_USE_RECIPE_MAKE)) {
                 continue;
             }
-            recipeBuilderList.add(ShapedRecipeBuilder.shaped(manaLevel.blockMap.get(this).blockItem(), 1)
+            recipeBuilderList.add(ShapedRecipeBuilder.shaped(manaLevel.get(this).blockItem(), 1)
                     .define('A', manaLevel.getAcceptableTagPack(OreItem.casing).itemTagKey())
                     .define('B', DuskItem.diamondMakeOperation.get().tag())
                     .define('D', manaLevel.getAcceptableTagPack(OreItem.wrench).itemTagKey())

@@ -3,10 +3,11 @@ package com.til.dusk.common.register.ore.block;
 import com.til.dusk.Dusk;
 import com.til.dusk.client.ColorProxy;
 import com.til.dusk.common.data.ModRecipeProvider;
-import com.til.dusk.common.register.RegisterBasics;
+import com.til.dusk.common.register.BlockUnitRegister;
 import com.til.dusk.common.register.mana_level.ManaLevel;
-import com.til.dusk.common.register.ore.Ore;
+import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.register.ore.item.OreItem;
+import com.til.dusk.common.register.ore.ore.OreConfig;
 import com.til.dusk.common.world.block.ModBlock;
 import com.til.dusk.util.GenericMap;
 import com.til.dusk.util.Lang;
@@ -38,7 +39,7 @@ import java.util.function.Supplier;
  * @author til
  */
 @Mod.EventBusSubscriber(modid = Dusk.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public abstract class OreBlock extends RegisterBasics.BlockUnitRegister<OreBlock, Ore> {
+public abstract class OreBlock extends BlockUnitRegister<OreBlock, Ore> {
     public static Supplier<IForgeRegistry<OreBlock>> ORE_BLOCK;
 
     public static OreBlockMineral lordWorld;
@@ -86,7 +87,7 @@ public abstract class OreBlock extends RegisterBasics.BlockUnitRegister<OreBlock
             @Override
             public Block createBlock(Ore ore) {
                 Block block = new Block(BlockBehaviour.Properties.of(Material.DIRT, MaterialColor.DIRT)
-                        .strength((float) ore.strength, (float) (2f * ore.strength))
+                        .strength(ore.getConfig(OreConfig.STRENGTH).floatValue(),  2f * ore.getConfig(OreConfig.STRENGTH).floatValue())
                         .requiresCorrectToolForDrops()
                         .sound(SoundType.STONE));
                 BlockTag.addTag(BlockTags.MINEABLE_WITH_PICKAXE, block);
@@ -98,7 +99,7 @@ public abstract class OreBlock extends RegisterBasics.BlockUnitRegister<OreBlock
             @Override
             public Block createBlock(Ore ore) {
                 Block block = new Block(BlockBehaviour.Properties.of(Material.DIRT, MaterialColor.DIRT)
-                        .strength((float) (1.5f * ore.strength), (float) (3f * ore.strength))
+                        .strength(1.5f * ore.getConfig(OreConfig.STRENGTH).floatValue(), 3f * ore.getConfig(OreConfig.STRENGTH).floatValue())
                         .requiresCorrectToolForDrops()
                         .sound(SoundType.STONE));
                 BlockTag.addTag(BlockTags.MINEABLE_WITH_PICKAXE, block);
@@ -110,7 +111,7 @@ public abstract class OreBlock extends RegisterBasics.BlockUnitRegister<OreBlock
             @Override
             public Block createBlock(Ore ore) {
                 Block block = new Block(BlockBehaviour.Properties.of(Material.DIRT, MaterialColor.DIRT)
-                        .strength((float) (0.5f * ore.strength), (float) ore.strength)
+                        .strength(0.5f * ore.getConfig(OreConfig.STRENGTH).floatValue(), ore.getConfig(OreConfig.STRENGTH).floatValue())
                         .requiresCorrectToolForDrops()
                         .sound(SoundType.GRAVEL));
                 BlockTag.addTag(BlockTags.MINEABLE_WITH_SHOVEL, block);
@@ -123,7 +124,7 @@ public abstract class OreBlock extends RegisterBasics.BlockUnitRegister<OreBlock
             @Override
             public Block createBlock(Ore ore) {
                 Block block = new Block(BlockBehaviour.Properties.of(Material.SAND, MaterialColor.SAND)
-                        .strength((float) (0.5f * ore.strength), (float) ore.strength)
+                        .strength(0.5f * ore.getConfig(OreConfig.STRENGTH).floatValue(), ore.getConfig(OreConfig.STRENGTH).floatValue())
                         .requiresCorrectToolForDrops()
                         .sound(SoundType.GRAVEL));
                 BlockTag.addTag(BlockTags.MINEABLE_WITH_SHOVEL, block);
@@ -135,7 +136,7 @@ public abstract class OreBlock extends RegisterBasics.BlockUnitRegister<OreBlock
             @Override
             public Block createBlock(Ore ore) {
                 Block block = new Block(BlockBehaviour.Properties.of(Material.SAND, MaterialColor.STONE)
-                        .strength((float) (0.5f * ore.strength), (float) ore.strength)
+                        .strength(0.5f * ore.getConfig(OreConfig.STRENGTH).floatValue(), ore.getConfig(OreConfig.STRENGTH).floatValue())
                         .requiresCorrectToolForDrops()
                         .sound(SoundType.GRAVEL));
                 BlockTag.addTag(BlockTags.MINEABLE_WITH_SHOVEL, block);
@@ -148,7 +149,7 @@ public abstract class OreBlock extends RegisterBasics.BlockUnitRegister<OreBlock
             @Override
             public Block createBlock(Ore ore) {
                 Block block = new Block(BlockBehaviour.Properties.of(Material.SAND, MaterialColor.STONE)
-                        .strength((float) (0.75f * ore.strength), (float) (1.25f * ore.strength))
+                        .strength(0.75f * ore.getConfig(OreConfig.STRENGTH).floatValue(), 1.25f * ore.getConfig(OreConfig.STRENGTH).floatValue())
                         .requiresCorrectToolForDrops()
                         .sound(SoundType.STONE));
                 BlockTag.addTag(BlockTags.MINEABLE_WITH_SHOVEL, block);
@@ -160,7 +161,7 @@ public abstract class OreBlock extends RegisterBasics.BlockUnitRegister<OreBlock
             @Override
             public Block createBlock(Ore ore) {
                 Block block = new Block(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.SAND)
-                        .strength((float) (0.6f * ore.strength), (float) (1.2f * ore.strength))
+                        .strength(0.6f * ore.getConfig(OreConfig.STRENGTH).floatValue(), 1.2f * ore.getConfig(OreConfig.STRENGTH).floatValue())
                         .requiresCorrectToolForDrops()
                         .sound(SoundType.STONE));
                 BlockTag.addTag(BlockTags.MINEABLE_WITH_PICKAXE, block);
@@ -181,7 +182,7 @@ public abstract class OreBlock extends RegisterBasics.BlockUnitRegister<OreBlock
             @Override
             public @Nullable Block createBlock(Ore ore) {
                 Block block = new Block(BlockBehaviour.Properties.of(Material.GLASS)
-                        .strength((float) (1.2f * ore.strength), (float) (2.4f * ore.strength))
+                        .strength(1.2f * ore.getConfig(OreConfig.STRENGTH).floatValue(), 2.4f * ore.getConfig(OreConfig.STRENGTH).floatValue())
                         .requiresCorrectToolForDrops()
                         .sound(SoundType.GLASS)
                         .noCollission()
@@ -193,27 +194,27 @@ public abstract class OreBlock extends RegisterBasics.BlockUnitRegister<OreBlock
 
             @Override
             public void dyeBlack(Ore ore, ColorProxy.ItemColorPack itemColorPack) {
-                itemColorPack.addColor(0, itemStack -> ore.color);
+                itemColorPack.addColor(0, itemStack -> ore.getConfig(OreConfig.COLOR));
             }
 
             @Override
             public void dyeBlack(Ore ore, ColorProxy.BlockColorPack itemColorPack) {
-                itemColorPack.addColor(0, (blockState, blockAndTintGetter, blockPos) -> ore.color);
+                itemColorPack.addColor(0, (blockState, blockAndTintGetter, blockPos) -> ore.getConfig(OreConfig.COLOR));
             }
         }.addRecipes(list -> {
             for (Ore ore : Ore.screen(Ore.IS_METAL)) {
                 if (!ore.manaLevel.hasSet(ManaLevel.CAN_UET_TOOL_MAKE)) {
                     continue;
                 }
-                list.add(ShapedRecipeBuilder.shaped(ore.blockMap.get(bracket).blockItem(), 1)
-                        .define('A', ore.itemMap.get(OreItem.casing).itemTag())
-                        .define('B', ore.itemMap.get(OreItem.stick).itemTag())
+                list.add(ShapedRecipeBuilder.shaped(ore.get(bracket).blockItem(), 1)
+                        .define('A', ore.get(OreItem.casing).itemTag())
+                        .define('B', ore.get(OreItem.stick).itemTag())
                         .define('C', ore.manaLevel.getAcceptableTagPack(OreItem.wrench).itemTagKey())
                         .pattern("BAB")
                         .pattern("ACA")
                         .pattern("BAB")
                         .unlockedBy("has_casing",
-                                ModRecipeProvider.has(ore.itemMap.get(OreItem.casing).itemTag())));
+                                ModRecipeProvider.has(ore.get(OreItem.casing).itemTag())));
             }
 
         });
@@ -279,7 +280,7 @@ public abstract class OreBlock extends RegisterBasics.BlockUnitRegister<OreBlock
         stairs = new OreBlockDecorate("stairs") {
             @Override
             public @Nullable Block createBlock(Ore ore) {
-                StairBlock block = new StairBlock(() -> ore.blockMap.get(OreBlock.block).block().defaultBlockState(), BlockBehaviour.Properties.of(Material.METAL, MaterialColor.METAL)
+                StairBlock block = new StairBlock(() -> ore.get(OreBlock.block).block().defaultBlockState(), BlockBehaviour.Properties.of(Material.METAL, MaterialColor.METAL)
                         .strength((float) (0.3f * ore.strength), (float) (0.6f * ore.strength))
                         .requiresCorrectToolForDrops()
                         .sound(SoundType.STONE));

@@ -4,7 +4,7 @@ import com.til.dusk.Dusk;
 import com.til.dusk.client.ColorProxy;
 import com.til.dusk.common.data.tag.ItemTag;
 import com.til.dusk.common.event.DelayTrigger;
-import com.til.dusk.common.register.RegisterBasics;
+import com.til.dusk.common.register.ItemUnitRegister;
 import com.til.dusk.common.world.item.DuskItem;
 import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.Lang;
@@ -31,7 +31,7 @@ import java.util.function.Supplier;
  * @author til
  */
 @Mod.EventBusSubscriber(modid = Dusk.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class ManaLevelItem extends RegisterBasics.ItemUnitRegister<ManaLevelItem, ManaLevel> {
+public class ManaLevelItem extends ItemUnitRegister<ManaLevelItem, ManaLevel> {
 
     public static Supplier<IForgeRegistry<ManaLevelItem>> LEVEL_ITEM;
 

@@ -1,7 +1,8 @@
-package com.til.dusk.common.register.ore;
+package com.til.dusk.common.register.ore.fluid;
 
 import com.til.dusk.Dusk;
-import com.til.dusk.common.register.RegisterBasics;
+import com.til.dusk.common.register.FluidUnitRegister;
+import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.Lang;
 import com.til.dusk.util.pack.DataPack;
@@ -28,7 +29,7 @@ import java.util.function.Supplier;
  * @author til
  */
 @Mod.EventBusSubscriber(modid = Dusk.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class OreFluid extends RegisterBasics.FluidUnitRegister<OreFluid, Ore> {
+public class OreFluid extends FluidUnitRegister<OreFluid, Ore> {
 
     public static Supplier<IForgeRegistry<OreFluid>> ORE_FLUID;
 

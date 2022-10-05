@@ -3,9 +3,11 @@ package com.til.dusk.client.data;
 import com.google.common.hash.Hashing;
 import com.google.common.hash.HashingOutputStream;
 import com.til.dusk.Dusk;
-import com.til.dusk.common.register.RegisterBasics;
+import com.til.dusk.common.register.BlockUnitRegister;
+import com.til.dusk.common.register.ItemUnitRegister;
+import com.til.dusk.common.register.UnitRegister;
 import com.til.dusk.common.register.mana_level.ManaLevel;
-import com.til.dusk.common.register.ore.Ore;
+import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.world.block.ModBlock;
 import com.til.dusk.common.world.item.DuskItem;
@@ -45,21 +47,21 @@ public class ClientDuskData {
     @SubscribeEvent
     public static void onEvent(GatherDataEvent event) {
         dataGenerator = event.getGenerator();
-        IForgeRegistry<RegisterBasics.UnitRegister<?, ?, ?, ?>>[] registries = new IForgeRegistry[]{
+        IForgeRegistry<UnitRegister<?, ?, ?, ?>>[] registries = new IForgeRegistry[]{
                 Ore.ORE.get(),
                 ManaLevel.LEVEL.get()
         };
         event.getGenerator().addProvider(true, new DataProvider() {
             @Override
             public void run(CachedOutput cachedOutput) throws IOException {
-                for (IForgeRegistry<RegisterBasics.UnitRegister<?, ?, ?, ?>> registry : registries) {
-                    for (RegisterBasics.UnitRegister<?, ?, ?, ?> unitRegister : registry) {
-                        for (Object o : unitRegister.itemMap.entrySet()) {
-                            Map.Entry<RegisterBasics.ItemUnitRegister<?, ?>, ItemPack> entry = Util.forcedConversion(o);
+                for (IForgeRegistry<UnitRegister<?, ?, ?, ?>> registry : registries) {
+                    for (UnitRegister<?, ?, ?, ?> unitRegister : registry) {
+                        for (Object o : unitRegister.itemEntrySet()) {
+                            Map.Entry<ItemUnitRegister<?, ?>, ItemPack> entry = Util.forcedConversion(o);
                             createItemJson(ForgeRegistries.ITEMS.getKey(entry.getValue().item()), entry.getKey().getItemMoldMapping(Util.forcedConversion(unitRegister)), cachedOutput);
                         }
-                        for (Object o : unitRegister.blockMap.entrySet()) {
-                            Map.Entry<RegisterBasics.BlockUnitRegister<?, ?>, BlockPack> entry = Util.forcedConversion(o);
+                        for (Object o : unitRegister.blockEntrySet()) {
+                            Map.Entry<BlockUnitRegister<?, ?>, BlockPack> entry = Util.forcedConversion(o);
                             ModBlock.ICustomModel customModel = entry.getKey().getBlockModelMapping(Util.forcedConversion(unitRegister));
                             createItemJson(ForgeRegistries.ITEMS.getKey(entry.getValue().blockItem()), customModel, cachedOutput);
                             createBlockJson(ForgeRegistries.BLOCKS.getKey(entry.getValue().block()), customModel, cachedOutput);

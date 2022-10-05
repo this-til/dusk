@@ -82,7 +82,7 @@ public class JEI_Interact implements IModPlugin {
             RecipeType<Shaped> shapedRecipeType = new RecipeType<>(shapedType.name, Shaped.class);
             ManaLevelBlock manaLevelBlock = shapedType.manaLevelBlockSupplier.get();
             for (ManaLevel manaLevel : ManaLevel.LEVEL.get()) {
-                registration.addRecipeCatalyst(new ItemStack(manaLevel.blockMap.get(manaLevelBlock).blockItem()), shapedRecipeType);
+                registration.addRecipeCatalyst(new ItemStack(manaLevel.get(manaLevelBlock).blockItem()), shapedRecipeType);
             }
         }
     }
@@ -108,7 +108,7 @@ public class JEI_Interact implements IModPlugin {
         public CurrencyCategory(IGuiHelper guiHelper, ShapedType shapedType) {
             this.shapedType = shapedType;
             background = guiHelper.createDrawable(new ResourceLocation(Dusk.MOD_ID, "textures/gui/currency_category.png"), 0, 0, WIDTH, HEIGHT);
-            icon = guiHelper.createDrawableItemStack(new ItemStack(ManaLevel.t8.blockMap.get(shapedType.manaLevelBlockSupplier.get()).block()));
+            icon = guiHelper.createDrawableItemStack(new ItemStack(ManaLevel.t8.get(shapedType.manaLevelBlockSupplier.get()).block()));
         }
 
         @Override
