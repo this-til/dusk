@@ -14,7 +14,7 @@ import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 
-import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * @author til
@@ -50,12 +50,12 @@ public class RepeaterMechanic extends Mechanic {
     }
 
     @Override
-    public void registerRecipe(List<RecipeBuilder> recipeBuilderList) {
+    public void registerRecipe(Consumer<RecipeBuilder> recipeConsumer) {
         for (ManaLevel manaLevel : ManaLevel.LEVEL.get()) {
             if (!manaLevel.hasSet(ManaLevel.CAN_USE_RECIPE_MAKE)) {
                 continue;
             }
-            recipeBuilderList.add(ShapedRecipeBuilder.shaped(manaLevel.get(this).blockItem(), 1)
+            recipeConsumer.accept(ShapedRecipeBuilder.shaped(manaLevel.get(this).blockItem(), 1)
                     .define('A', manaLevel.getAcceptableTagPack(OreItem.casing).itemTagKey())
                     .define('B', DuskItem.diamondMakeOperation.get().tag())
                     .define('D', manaLevel.getAcceptableTagPack(OreItem.wrench).itemTagKey())

@@ -29,18 +29,14 @@ public class Lang {
             return Component.empty();
         }
         if (registerBasics.length == 1) {
-            return Component.translatable(getKey(registerBasics[0]));
+            return Component.translatable(registerBasics[0].name.toLanguageKey());
         }
         List<Component> componentList = new ArrayList<>();
         for (RegisterBasics<?> registerBasic : registerBasics) {
-            componentList.add(Component.translatable(getKey(registerBasic)));
+            componentList.add(Component.translatable(registerBasic.name.toLanguageKey()));
         }
         return Component.translatable("%s".repeat(registerBasics.length), componentList.toArray());
     }
-
-/*    public static Component getLangFormat(String key, Object... objects) {
-        return Component.translatable(key, objects);
-    }*/
 
     public static Component getLang(String... strings) {
         if (strings.length == 0) {
@@ -56,16 +52,10 @@ public class Lang {
         return Component.translatable("%s".repeat(strings.length), componentList.toArray());
     }
 
-    public static String getKey(RegisterBasics<?> registerBasics) {
-        return registerBasics.name.getNamespace() + "." + registerBasics.getLangKey() + ".name";
-    }
 
     public static String getKey(String s) {
-        return Dusk.MOD_ID + "." + s + ".name";
+        return Dusk.MOD_ID + "." + s;
     }
 
-    public static String getKey(ResourceLocation resourceLocation) {
-        return resourceLocation.getNamespace() + "." + resourceLocation.getPath() + ".name";
-    }
 
 }

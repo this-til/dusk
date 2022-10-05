@@ -4,6 +4,7 @@ import com.til.dusk.common.config.ConfigKey;
 import com.til.dusk.common.config.util.IOrePlacedFeatureConfig;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.config.util.IShapedOreConfig;
+import com.til.dusk.common.register.shaped.shapeds.Shaped;
 import com.til.dusk.common.register.skill.Skill;
 import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.Util;
@@ -60,6 +61,11 @@ public class OreConfig {
      * 表明该灵压等级可接受物品作为通用输入
      */
     public static final ConfigKey<ManaLevel> IS_LEVEL_ACCEPTABLE = new ConfigKey<>("ore.is_level_acceptable", AllNBTCell.MANA_LEVEL, () -> ManaLevel.t1);
+
+    /***
+     * 相关配方生成
+     */
+    public static final ConfigKey<List<Shaped>> RELEVANT_SHAPED = new ConfigKey<>("ore.relevant_shaped", Util.forcedConversion(AllNBTCell.I_ACCEPT_CONFIG_MAP.getListNBTCell()), List::of);
 
 
     public static class FluidConfig {

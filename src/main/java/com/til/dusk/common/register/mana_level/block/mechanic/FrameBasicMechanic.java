@@ -8,7 +8,7 @@ import com.til.dusk.common.register.ore.item.OreItem;
 import net.minecraft.data.recipes.RecipeBuilder;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 
-import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * @author til
@@ -22,12 +22,12 @@ public class FrameBasicMechanic extends DefaultCapacityMechanic {
     }
 
     @Override
-    public void registerRecipe(List<RecipeBuilder> recipeBuilderList) {
+    public void registerRecipe(Consumer<RecipeBuilder> recipeConsumer) {
         for (ManaLevel manaLevel : ManaLevel.LEVEL.get()) {
             if (!manaLevel.hasSet(ManaLevel.CAN_USE_RECIPE_MAKE)) {
                 continue;
             }
-            recipeBuilderList.add(ShapedRecipeBuilder.shaped(manaLevel.get(this).blockItem(), 1)
+            recipeConsumer.accept(ShapedRecipeBuilder.shaped(manaLevel.get(this).blockItem(), 1)
                     .define('A', manaLevel.getAcceptableTagPack(OreBlock.bracket).itemTagKey())
                     .define('B', manaLevel.get(repeater).blockItemTag())
                     .define('D', manaLevel.getAcceptableTagPack(OreItem.wrench).itemTagKey())

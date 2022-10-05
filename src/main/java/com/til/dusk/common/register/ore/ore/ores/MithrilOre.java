@@ -4,6 +4,7 @@ import com.til.dusk.common.config.ConfigMap;
 import com.til.dusk.common.data.lang.LangProvider;
 import com.til.dusk.common.data.lang.LangType;
 import com.til.dusk.common.register.mana_level.ManaLevel;
+import com.til.dusk.common.register.ore.block.OreBlock;
 import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.register.ore.ore.OreConfig;
@@ -14,6 +15,7 @@ import com.til.dusk.common.register.skill.Skill;
 import com.til.dusk.util.DuskColor;
 import net.minecraft.world.item.ItemStack;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -52,18 +54,14 @@ public class MithrilOre extends Ore {
                         .setConfigOfV(OreConfig.ArmsConfig.RATE_BASICS, 12800L))
                 .setConfig(OreConfig.ToolDataConfig.TOOL_DATA_CONFIG, () -> new ConfigMap()
                         .setConfigOfV(OreConfig.ToolDataConfig.USES, 64 * 16)
-                        .setConfigOfV(OreConfig.ToolDataConfig.TANK_MAX, 4000 * 16));
-    }
-
-    @Override
-    public void registerShaped() {
-        new ShapedOre(ShapedType.blend, ShapedDrive.get(0), this.getConfig(OreConfig.MANA_LEVEL))
-                .addInItem(spiritSilver.get(OreItem.dust).itemTag(), 1)
-                .addInItem(greenTeal.get(OreItem.dust).itemTag(), 1)
-                .addInItem(mediumspringgreen.get(OreItem.dust).itemTag(), 1)
-                .addOutItem(new ItemStack(this.get(OreItem.dust).item(), 3), 1D)
-                .addMultipleSurplusTime((long) (this.getConfig(OreConfig.STRENGTH) * 1024L))
-                .addMultipleConsumeMana((long) (this.getConfig(OreConfig.CONSUME) * 27L));
+                        .setConfigOfV(OreConfig.ToolDataConfig.TANK_MAX, 4000 * 16))
+                .setConfig(OreConfig.RELEVANT_SHAPED, () -> List.of(new ShapedOre(fuseName(this, OreItem.dust), ShapedType.blend, ShapedDrive.get(0), this.getConfig(OreConfig.MANA_LEVEL))
+                        .addInItem(spiritSilver.get(OreItem.dust).itemTag(), 1)
+                        .addInItem(greenTeal.get(OreItem.dust).itemTag(), 1)
+                        .addInItem(mediumspringgreen.get(OreItem.dust).itemTag(), 1)
+                        .addOutItem(new ItemStack(this.get(OreItem.dust).item(), 3), 1D)
+                        .addMultipleSurplusTime((long) (this.getConfig(OreConfig.STRENGTH) * 1024L))
+                        .addMultipleConsumeMana((long) (this.getConfig(OreConfig.CONSUME) * 27L))));
     }
 }
 

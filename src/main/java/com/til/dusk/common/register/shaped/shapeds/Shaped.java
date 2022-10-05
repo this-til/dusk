@@ -5,9 +5,13 @@ import com.til.dusk.Dusk;
 import com.til.dusk.common.capability.handle.IHandle;
 import com.til.dusk.common.capability.handle.ShapedHandle;
 import com.til.dusk.common.capability.pos.IPosTrack;
+import com.til.dusk.common.config.ConfigKey;
+import com.til.dusk.common.config.ConfigMap;
+import com.til.dusk.common.config.IAcceptConfigMap;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
+import com.til.dusk.util.nbt.cell.AllNBTCell;
 import com.til.dusk.util.nbt.pack.AllNBTPack;
 import com.til.dusk.util.Lang;
 import net.minecraft.network.chat.Component;
@@ -23,77 +27,66 @@ import java.util.*;
 /**
  * @author til
  */
-public abstract class Shaped {
+public abstract class Shaped implements IAcceptConfigMap {
+
+
+    public static final ConfigKey<ResourceLocation> NAME = new ConfigKey<>("shaped.name", AllNBTCell.RESOURCE_LOCATION, () -> new ResourceLocation(Dusk.MOD_ID, "null"));
+    public static final ConfigKey<ShapedType> SHAPED_TYPE = new ConfigKey<>("shaped.shaped_type", AllNBTCell.SHAPED_TYPE, () -> ShapedType.empty);
+    public static final ConfigKey<ShapedDrive> SHAPED_DRIVE = new ConfigKey<>("shaped.shaped_drive", AllNBTCell.SHAPED_DRIVE, () -> ShapedDrive.get(0));
+    public static final ConfigKey<ManaLevel> MANA_LEVEL = new ConfigKey<>("shaped.mana_level", AllNBTCell.MANA_LEVEL, () -> ManaLevel.t1);
+    public static final ConfigKey<Boolean> IS_SHOW = new ConfigKey<>("shaped.is_show", AllNBTCell.BOOLEAN, () -> true);
 
     /***
-     * 类型找寻
+     * 配方名称
      */
-    public static final Map<ShapedType, Map<ShapedDrive, List<Shaped>>> MAP = new HashMap<>();
-
-    private static int shapedId = 0;
-
-    public final ResourceLocation allName;
-
-    public final String name;
+    public ResourceLocation name;
 
     /***
      * 配方类型
      */
-    public final ShapedType shapedType;
+    public ShapedType shapedType;
 
     /***
      * 配方序列
      */
-    public final ShapedDrive shapedDrive;
+    public ShapedDrive shapedDrive;
 
     /***
      * 配方加工等级
      */
-    public final ManaLevel manaLevel;
+    public ManaLevel manaLevel;
 
+    /***
+     * 显示
+     */
+    public boolean isShow = true;
 
-    public Shaped(ShapedType shapedType, ShapedDrive shapedDrive, ManaLevel manaLevel) {
-        name = String.valueOf(shapedId++);
+    public Shaped(){}
+
+    public Shaped(ResourceLocation name, ShapedType shapedType, ShapedDrive shapedDrive, ManaLevel manaLevel) {
+        this.name = name;
         this.shapedType = shapedType;
         this.shapedDrive = shapedDrive;
         this.manaLevel = manaLevel;
-        allName = new ResourceLocation(shapedType.name.getNamespace(), shapedType.name.getPath() + "/" + shapedDrive.name.getPath() + "/" + name);
-        add(this);
     }
 
-    /***
-     * 加载数据时调用
-     * 此调用不会自动注册
-     * @param name json文件限定名
-     * @param jsonObject json文件内容
-     */
-    public Shaped(ResourceLocation name, JsonObject jsonObject) {
-        String[] strings = name.getPath().split("/");
-        ShapedType shapedType = ShapedType.SHAPED_TYPE.get().getValue(new ResourceLocation(name.getNamespace(), strings[0]));
-        if (shapedType == null) {
-            shapedType = ShapedType.empty;
-        }
-        this.shapedType = shapedType;
-        ShapedDrive shapedDrive = ShapedDrive.get(Integer.parseInt(strings[1]));
-        if (shapedDrive == null) {
-            shapedDrive = ShapedDrive.get(1);
-        }
-        this.shapedDrive = shapedDrive;
-        manaLevel = AllNBTPack.MANA_LEVEL.get(jsonObject);
-        this.name = strings[2];
-        allName = new ResourceLocation(shapedType.name.getNamespace(), shapedType.name.getPath() + "/" + shapedDrive.name.getPath() + "/" + this.name);
+    @Override
+    public void init(ConfigMap configMap) {
+        name = configMap.get(NAME);
+        shapedType = configMap.get(SHAPED_TYPE);
+        manaLevel = configMap.get(MANA_LEVEL);
+        shapedDrive = configMap.get(SHAPED_DRIVE);
+        isShow = configMap.get(IS_SHOW);
     }
 
-
-    /***
-     * 将数据写入nbt，此nbt预先写入类等信息
-     * 如果返回空间忽视
-     * @param jsonObject nbt
-     */
-    @Nullable
-    public JsonObject writ(JsonObject jsonObject) {
-        AllNBTPack.MANA_LEVEL.set(jsonObject, manaLevel);
-        return jsonObject;
+    @Override
+    public ConfigMap defaultConfigMap() {
+        return new ConfigMap()
+                .setConfigOfV(NAME, name)
+                .setConfigOfV(SHAPED_TYPE, shapedType)
+                .setConfigOfV(MANA_LEVEL, manaLevel)
+                .setConfigOfV(SHAPED_DRIVE, shapedDrive)
+                .setConfigOfV(IS_SHOW, isShow);
     }
 
     /***
@@ -120,8 +113,8 @@ public abstract class Shaped {
     public List<Component> getComponent() {
         List<Component> componentList = new ArrayList<>();
         componentList.add(Component.literal("message"));
-        componentList.add(Lang.getLang(Component.translatable(Lang.getKey("需要灵压等级")), Component.translatable(Lang.getKey(manaLevel))));
-        componentList.add(Lang.getLang(Component.translatable(Lang.getKey("需要配方集")), Component.literal(shapedDrive.getLangKey())));
+        componentList.add(Lang.getLang(Component.translatable(Lang.getKey("需要灵压等级")), Component.translatable(manaLevel.name.toLanguageKey())));
+        componentList.add(Lang.getLang(Component.translatable(Lang.getKey("需要配方集")), Component.literal(shapedDrive.name.getPath())));
         return componentList;
     }
 
@@ -129,7 +122,7 @@ public abstract class Shaped {
      * 在JEI中显示
      */
     public boolean isJEIShow() {
-        return true;
+        return isShow;
     }
 
     @Override
@@ -147,6 +140,11 @@ public abstract class Shaped {
     @Override
     public int hashCode() {
         return name != null ? name.hashCode() : 0;
+    }
+
+    public Shaped setShow(boolean show) {
+        isShow = show;
+        return this;
     }
 
     public interface IJEIShaped {
@@ -176,15 +174,14 @@ public abstract class Shaped {
 
     }
 
-
-    /***
-     * 通过名字找寻
-     */
-    public static final Map<String, Shaped> ID_MAP = new HashMap<>();
-
-    public static void add(Shaped shaped) {
-        MAP.computeIfAbsent(shaped.shapedType, k -> new HashMap<>(8)).computeIfAbsent(shaped.shapedDrive, k -> new ArrayList<>()).add(shaped);
-        ID_MAP.put(shaped.name, shaped);
+    @Override
+    public String toString() {
+        return "Shaped{" +
+               "name=" + name +
+               ", shapedType=" + shapedType +
+               ", shapedDrive=" + shapedDrive +
+               ", manaLevel=" + manaLevel +
+               '}';
     }
 
     public static Set<Shaped> get(ShapedType... s) {

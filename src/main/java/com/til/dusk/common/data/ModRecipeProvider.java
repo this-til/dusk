@@ -30,7 +30,7 @@ public class ModRecipeProvider extends RecipeProvider {
         DelayTrigger.run(DelayTrigger.RECIPE, s -> s.action(consumer));
         List<RecipeBuilder> recipeBuilderList = new ArrayList<>(32);
         for (RegisterBasics<?> allRegisterBasic : RegisterManage.ALL_REGISTER_BASICS) {
-            allRegisterBasic.registerRecipe(recipeBuilderList);
+            allRegisterBasic.registerRecipe(recipeBuilderList::add);
             if (!recipeBuilderList.isEmpty()) {
                 for (RecipeBuilder recipeBuilder : recipeBuilderList) {
                     recipeBuilder.save(consumer);

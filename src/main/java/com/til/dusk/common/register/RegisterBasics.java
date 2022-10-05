@@ -13,13 +13,14 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.IForgeRegistry;
 
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 
 /**
  * @author til
  */
-public abstract class RegisterBasics<T extends RegisterBasics<?>> implements GenericMap.IGenericMapSupplier, IAcceptConfigMap {
+public abstract class RegisterBasics<T extends RegisterBasics<?>> implements  IAcceptConfigMap {
 
     /***
      * 注册项的名称
@@ -32,10 +33,8 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> implements Gen
     protected final Supplier<IForgeRegistry<T>> registrySupplier;
 
     /***
-     * 注册项是数据表
+     * 配置表
      */
-    protected final GenericMap setMap = new GenericMap();
-
     protected ConfigMap configMap;
 
     protected Random random = new Random();
@@ -72,33 +71,13 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> implements Gen
         return configMap.get(key);
     }
 
-    public <V> T setConfig(GenericMap.IKey<V> key, Supplier<V> v) {
-        setMap.set(key, v);
+    public <V> T setConfig(ConfigKey<V> key, Supplier<V> v) {
+        configMap.setConfig(key, v);
         return Util.forcedConversion(this);
     }
 
-    public T setConfig(GenericMap.IKey<Void> key) {
-        setMap.set(key, (Void) null);
-        return Util.forcedConversion(this);
-    }
-
-    @Override
-    public <V> V getSet(GenericMap.IKey<V> key) {
-        return setMap.get(key);
-    }
-
-    @Override
-    public boolean hasSet(GenericMap.IKey<?> key) {
-        return setMap.containsKey(key);
-    }
-
-    public boolean hasSet(GenericMap.IKey<?>... keys) {
-        for (GenericMap.IKey<?> key : keys) {
-            if (!hasSet(key)) {
-                return false;
-            }
-        }
-        return true;
+    public boolean hasConfigMap(ConfigKey<?> key) {
+        return configMap.containsKey(key);
     }
 
     public final T addDelayRun(Runnable run) {
@@ -125,14 +104,13 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> implements Gen
     /***
      * 注册配方
      */
-    public void registerShaped() {
-
+    public void registerShaped(Consumer<Shaped> shapedConsumer) {
     }
 
     /***
      * 注册核查表
      */
-    public void registerRecipe(List<RecipeBuilder> recipeBuilderList) {
+    public void registerRecipe(Consumer<RecipeBuilder> recipeConsumer) {
     }
 
     /***

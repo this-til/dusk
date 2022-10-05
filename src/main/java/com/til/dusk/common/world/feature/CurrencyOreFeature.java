@@ -1,6 +1,7 @@
 package com.til.dusk.common.world.feature;
 
 import com.til.dusk.common.config.IAcceptConfigMap;
+import com.til.dusk.common.config.util.IOrePlacedFeatureConfig;
 import com.til.dusk.common.register.ore.block.GenerateData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
@@ -138,15 +139,9 @@ public class CurrencyOreFeature extends Feature<CurrencyOreFeatureConfiguration>
                                                         int sectionY = SectionPos.sectionRelative(y);
                                                         int sectionZ = SectionPos.sectionRelative(z);
                                                         BlockState state = section.getBlockState(sectionX, sectionY, sectionZ);
-                                                        IAcceptConfigMap generateData = config.iOrePlacedFeatureConfig();
-                                                        if (generateData.canInLevel != null && !generateData.canInLevel.func(level)) {
-                                                            continue;
-                                                        }
+                                                        IOrePlacedFeatureConfig generateData = config.iOrePlacedFeatureConfig();
                                                         BlockPos blockPos = new BlockPos(sectionX, sectionY, sectionZ);
-                                                        if (generateData.canPlace != null && !generateData.canPlace.func(state)) {
-                                                            continue;
-                                                        }
-                                                        BlockState pBlock = generateData.place.func(blockPos, level, state);
+                                                        BlockState pBlock = generateData.placed(level, state, blockPos);
                                                         if (pBlock != null) {
                                                             section.setBlockState(sectionX, sectionY, sectionZ, pBlock, false);
                                                             ++i;

@@ -11,11 +11,15 @@ import com.til.dusk.common.world.feature.DuskFeature;
 import com.til.dusk.util.Util;
 import com.til.dusk.util.nbt.cell.AllNBTCell;
 import com.til.dusk.util.pack.BlockPack;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.placement.*;
@@ -38,6 +42,9 @@ public interface IOrePlacedFeatureConfig extends IAcceptConfigMap {
      */
     @Nullable
     Holder<PlacedFeature> getPlacedFeature(Holder<Biome> biome);
+
+    @Nullable
+    BlockState placed(Level level, BlockState blockState, BlockPos blockPos);
 
     /***
      * 初始化生成内容
@@ -145,10 +152,26 @@ public interface IOrePlacedFeatureConfig extends IAcceptConfigMap {
         @Nullable
         @Override
         public Holder<PlacedFeature> getPlacedFeature(Holder<Biome> biome) {
-            if (!configMap.containsKey(SCREEN_BIOME) && configMap.get(SCREEN_BIOME).isAccept(ForgeRegistries.BIOMES.getKey(biome.get()))) {
+            if (!configMap.containsKey(SCREEN_BIOME) || configMap.get(SCREEN_BIOME).isAccept(ForgeRegistries.BIOMES.getKey(biome.get()))) {
+                return holder;
+            }
+            return null;
+        }
+
+        @org.jetbrains.annotations.Nullable
+        @Override
+        public BlockState placed(Level level, BlockState blockState, BlockPos blockPos) {
+            if (configMap.containsKey(SCREEN_WORLD) && !configMap.get(SCREEN_WORLD).isAccept(level.dimension().location())) {
                 return null;
             }
-            return holder;
+            if (configMap.containsKey(BLOCK_PAIR)) {
+                Block block = ForgeRegistries.BLOCKS.getValue(configMap.get(BLOCK_PAIR).pair(ForgeRegistries.BLOCKS.getKey(blockState.getBlock())));
+                if (block == null) {
+                    return null;
+                }
+                return block.defaultBlockState();
+            }
+            return null;
         }
     }
 }

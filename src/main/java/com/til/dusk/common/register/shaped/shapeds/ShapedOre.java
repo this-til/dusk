@@ -7,6 +7,8 @@ import com.til.dusk.common.capability.CapabilityHelp;
 import com.til.dusk.common.capability.handle.IHandle;
 import com.til.dusk.common.capability.handle.ShapedHandle;
 import com.til.dusk.common.capability.pos.IPosTrack;
+import com.til.dusk.common.config.ConfigKey;
+import com.til.dusk.common.config.ConfigMap;
 import com.til.dusk.common.event.EventIO;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.register.shaped.ShapedDrive;
@@ -15,6 +17,7 @@ import com.til.dusk.util.Extension;
 import com.til.dusk.util.GenericMap;
 import com.til.dusk.util.MapUtil;
 import com.til.dusk.util.RoutePack;
+import com.til.dusk.util.nbt.cell.AllNBTCell;
 import com.til.dusk.util.nbt.pack.AllNBTPack;
 import com.til.dusk.util.pack.DataPack;
 import net.minecraft.nbt.CompoundTag;
@@ -33,6 +36,10 @@ import javax.annotation.Nullable;
 import java.util.*;
 
 public class ShapedOre extends ShapedMiddle {
+    public static final ConfigKey<Map<TagKey<Item>, Integer>> ITEM_IN_MAP = new ConfigKey<>("shaped_ore.item_in_map", AllNBTCell.ITEM_TAG_INT_MAP, Map::of);
+    public static final ConfigKey<Map<TagKey<Fluid>, Integer>> FLUID_IN_MAP = new ConfigKey<>("shaped_ore.fluid_in_map", AllNBTCell.FLUID_TAG_INT_MAP, Map::of);
+    public static final ConfigKey<Map<ItemStack, Double>> ITEM_OUT_MAP = new ConfigKey<>("shaped_ore.item_out_map", AllNBTCell.ITEM_STACK_DOUBLE_MAP, Map::of);
+    public static final ConfigKey<Map<FluidStack, Double>> FLUID_OUT_MAP = new ConfigKey<>("shaped_ore.fluid_out_map", AllNBTCell.FLUID_STACK_DOUBLE_MAP, Map::of);
 
     @Nullable
     public Map<TagKey<Item>, Integer> item;
@@ -49,58 +56,47 @@ public class ShapedOre extends ShapedMiddle {
 
     Random random = new Random();
 
-    public ShapedOre(ShapedType shapedType, ShapedDrive shapedDrive, ManaLevel manaLevel) {
-        super(shapedType, shapedDrive, manaLevel);
+    public ShapedOre(ResourceLocation resourceLocation, ShapedType shapedType, ShapedDrive shapedDrive, ManaLevel manaLevel) {
+        super(resourceLocation, shapedType, shapedDrive, manaLevel);
         this.item = new HashMap<>();
         this.fluid = new HashMap<>();
         this.outItem = new HashMap<>();
         this.outFluid = new HashMap<>();
     }
 
-    public ShapedOre(ResourceLocation name, JsonObject jsonObject) {
-        super(name, jsonObject);
-        if (AllNBTPack.ITEM_IN_MAP.contains(jsonObject)) {
-            item = AllNBTPack.ITEM_IN_MAP.get(jsonObject);
+    @Override
+    public void init(ConfigMap configMap) {
+        super.init(configMap);
+        if (configMap.containsKey(ITEM_IN_MAP)) {
+            item = configMap.get(ITEM_IN_MAP);
         }
-        if (AllNBTPack.FLUID_IN_MAP.contains(jsonObject)) {
-            fluid = AllNBTPack.FLUID_IN_MAP.get(jsonObject);
+        if (configMap.containsKey(FLUID_IN_MAP)) {
+            fluid = configMap.get(FLUID_IN_MAP);
         }
-        if (AllNBTPack.ITEM_OUT_MAP.contains(jsonObject)) {
-            outItem = AllNBTPack.ITEM_OUT_MAP.get(jsonObject);
+        if (configMap.containsKey(ITEM_OUT_MAP)) {
+            outItem = configMap.get(ITEM_OUT_MAP);
         }
-        if (AllNBTPack.FLUID_OUT_MAP.contains(jsonObject)) {
-            outFluid = AllNBTPack.FLUID_OUT_MAP.get(jsonObject);
-        }
-        if (AllNBTPack.ITEM_SCREEN.contains(jsonObject)) {
-            itemScreen = AllNBTPack.ITEM_SCREEN.get(jsonObject);
-        }
-        if (AllNBTPack.FLUID_SCREEN.contains(jsonObject)) {
-            fluidScreen = AllNBTPack.FLUID_SCREEN.get(jsonObject);
+        if (configMap.containsKey(FLUID_OUT_MAP)) {
+            outFluid = configMap.get(FLUID_OUT_MAP);
         }
     }
 
     @Override
-    public @Nullable JsonObject writ(JsonObject jsonObject) {
-        super.writ(jsonObject);
+    public ConfigMap defaultConfigMap() {
+        ConfigMap configMap = super.defaultConfigMap();
         if (item != null && !item.isEmpty()) {
-            AllNBTPack.ITEM_IN_MAP.set(jsonObject, item);
+            configMap.setConfigOfV(ITEM_IN_MAP, item);
         }
         if (fluid != null && !fluid.isEmpty()) {
-            AllNBTPack.FLUID_IN_MAP.set(jsonObject, fluid);
+            configMap.setConfigOfV(FLUID_IN_MAP, fluid);
         }
         if (outItem != null && !outItem.isEmpty()) {
-            AllNBTPack.ITEM_OUT_MAP.set(jsonObject, outItem);
+            configMap.setConfigOfV(ITEM_OUT_MAP, outItem);
         }
         if (outFluid != null && !outFluid.isEmpty()) {
-            AllNBTPack.FLUID_OUT_MAP.set(jsonObject, outFluid);
+            configMap.setConfigOfV(FLUID_OUT_MAP, outFluid);
         }
-        if (itemScreen != null) {
-            AllNBTPack.ITEM_SCREEN.set(jsonObject, itemScreen);
-        }
-        if (fluidScreen != null) {
-            AllNBTPack.FLUID_SCREEN.set(jsonObject, fluidScreen);
-        }
-        return jsonObject;
+        return configMap;
     }
 
     @Override
@@ -337,21 +333,5 @@ public class ShapedOre extends ShapedMiddle {
             supplier.getSet(key).run(this, otherData);
         }
         return this;
-    }
-
-    @Override
-    public String toString() {
-        return "ShapedOre{" +
-               "allName=" + allName +
-               ", item=" + item +
-               ", fluid=" + fluid +
-               ", outItem=" + outItem +
-               ", outFluid=" + outFluid +
-               ", itemScreen=" + itemScreen +
-               ", fluidScreen=" + fluidScreen +
-               ", surplusTime=" + surplusTime +
-               ", consumeMana=" + consumeMana +
-               ", outMana=" + outMana +
-               '}';
     }
 }

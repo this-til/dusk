@@ -18,6 +18,7 @@ import com.til.dusk.common.register.ore.item.ToolData;
 import com.til.dusk.common.register.ore.ore.ores.*;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
+import com.til.dusk.common.register.shaped.shapeds.Shaped;
 import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
 import com.til.dusk.common.register.skill.Skill;
 import com.til.dusk.util.DuskColor;
@@ -35,6 +36,7 @@ import net.minecraftforge.registries.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 /**
@@ -128,17 +130,17 @@ public class Ore extends UnitRegister<Ore, OreItem, OreBlock, OreFluid> {
     /***
      * 星云铁
      */
-    public static Ore starIron;
+    public static StarIronOre starIron;
 
     /***
      * 星云金
      */
-    public static Ore starGold;
+    public static StarGoldOre starGold;
 
     /***
      * 星河合金
      */
-    public static Ore starRiver;
+    public static StarRiverOre starRiver;
 
     /***
      * 日耀
@@ -232,17 +234,17 @@ public class Ore extends UnitRegister<Ore, OreItem, OreBlock, OreFluid> {
     /***
      * 实体灵气
      */
-    public static Ore mana;
+    public static ManaOre mana;
 
     /***
      * 营养液
      */
-    public static Ore nutrient;
+    public static NutrientOre nutrient;
 
     /***
      * 质空
      */
-    public static Ore natureAir;
+    public static NatureAirOre natureAir;
 
     /***
      * 源空
@@ -341,56 +343,10 @@ public class Ore extends UnitRegister<Ore, OreItem, OreBlock, OreFluid> {
         mithril = new MithrilOre();
 
         starSilver = new StarSilver();
-        starIron = new Ore("star_iron", new DuskColor(177, 176, 192), ManaLevel.t2)
-                .setConfig(IS_METAL)
-                .setConfig(HAS_DUST)
-                .setConfig(IS_LEVEL_ACCEPTABLE, () -> ManaLevel.t2)
-                .setConfig(DECORATE_BLOCK_DATA, () -> new DecorateBlockData(starIron))
-                .setConfig(FLUID_DATA, () -> new OreFluid.FluidData(starIron))
-                .addShaped(() -> new ShapedOre(ShapedType.blend, ShapedDrive.get(0), this.getConfig(OreConfig.MANA_LEVEL))
-                        .addInItem(_void.itemMap.get(OreItem.dust).itemTag(), 1)
-                        .addInItem(darkGreen.itemMap.get(OreItem.dust).itemTag(), 1)
-                        .addOutItem(new ItemStack(starIron.itemMap.get(OreItem.dust).item(), 2), 1D)
-                        .addMultipleSurplusTime((long) (2048L * this.getConfig(OreConfig.STRENGTH)))
-                        .addMultipleConsumeMana((long) (32L * this.getConfig(OreConfig.CONSUME))));
-        starGold = new Ore("star_gold", new DuskColor(255, 245, 46), ManaLevel.t2)
-                .setConfig(IS_METAL)
-                .setConfig(HAS_DUST)
-                .setConfig(IS_LEVEL_ACCEPTABLE, () -> ManaLevel.t2)
-                .setConfig(DECORATE_BLOCK_DATA, () -> new DecorateBlockData(starGold))
-                .setConfig(FLUID_DATA, () -> new OreFluid.FluidData(starGold))
-                .addShaped(() -> new ShapedOre(ShapedType.blend, ShapedDrive.get(0), this.getConfig(OreConfig.MANA_LEVEL))
-                        .addInItem(goldenrod.itemMap.get(OreItem.dust).itemTag(), 1)
-                        .addInItem(aliceblue.itemMap.get(OreItem.dust).itemTag(), 1)
-                        .addInItem(cornflowerblue.itemMap.get(OreItem.dust).itemTag(), 1)
-                        .addOutItem(new ItemStack(starGold.itemMap.get(OreItem.dust).item(), 3), 1D)
-                        .addMultipleSurplusTime((long) (2048L * this.getConfig(OreConfig.STRENGTH)))
-                        .addMultipleConsumeMana((long) (32L * this.getConfig(OreConfig.CONSUME))));
+        starIron = new StarIronOre();
+        starGold = new StarGoldOre();
 
-        starRiver = new Ore("star_river", new DuskColor(100, 135, 255), ManaLevel.t2)
-                .setConfig(IS_METAL)
-                .setConfig(HAS_DUST)
-                .setConfig(IS_LEVEL_ACCEPTABLE, () -> ManaLevel.t3)
-                .setConfig(DECORATE_BLOCK_DATA, () -> new DecorateBlockData(starRiver))
-                .setConfig(FLUID_DATA, () -> new OreFluid.FluidData(starRiver))
-                .setConfig(ARMOR_DATA, () -> new ArmorData(() -> starRiver)
-                        .setDefense(4)
-                        .setDurability(12)
-                        .setMane(12800000, 102400)
-                        .setDefaultSkill(() -> List.of(Skill.life)))
-                .setConfig(ARMS_DATA, () -> new ArmsData(() -> starRiver)
-                        .setMane(12800000, 102400))
-                .setConfig(TOOL_DATA, () -> new ToolData()
-                        .setUses(64 * 22)
-                        .setTankMax(4000 * 22))
-                .addShaped(() -> new ShapedOre(ShapedType.highPressureFuse, ShapedDrive.get(0), this.getConfig(OreConfig.MANA_LEVEL))
-                        .addInFluid(starSilver.fluidMap.get(OreFluid.solution).fluidTag(), 32)
-                        .addInFluid(starIron.fluidMap.get(OreFluid.solution).fluidTag(), 32)
-                        .addInFluid(starGold.fluidMap.get(OreFluid.solution).fluidTag(), 32)
-                        .addInFluid(elementAir.fluidMap.get(OreFluid.solution).fluidTag(), 256)
-                        .addOutFluid(new FluidStack(starRiver.fluidMap.get(OreFluid.solution).source(), 32 * 3), 1D)
-                        .addMultipleSurplusTime((long) (this.getConfig(OreConfig.STRENGTH) * 2048L))
-                        .addMultipleConsumeMana((long) (this.getConfig(OreConfig.CONSUME) * 42L)));
+        starRiver = new StarRiverOre();
 
         sunlight = new SunlightOre();
         moonlight = new MoonlightOre();
@@ -451,19 +407,16 @@ public class Ore extends UnitRegister<Ore, OreItem, OreBlock, OreFluid> {
                 .setConfig(DECORATE_BLOCK_DATA, () -> new DecorateBlockData(voidGlow))
                 .setConfig(FLUID_DATA, () -> new OreFluid.FluidData(voidGlow))
                 .addShaped(() -> new ShapedOre(ShapedType.highPressureFuse, ShapedDrive.get(1), this.getConfig(OreConfig.MANA_LEVEL))
-                        .addInFluid(cat.fluidMap.get(OreFluid.solution).fluidTag(), 72)
-                        .addInFluid(dog.fluidMap.get(OreFluid.solution).fluidTag(), 72)
-                        .addInFluid(natureAir.fluidMap.get(OreFluid.solution).fluidTag(), 1200)
-                        .addOutFluid(new FluidStack(voidGlow.fluidMap.get(OreFluid.solution).source(), 144), 1D)
+                        .addInFluid(cat.get(OreFluid.solution).fluidTag(), 72)
+                        .addInFluid(dog.get(OreFluid.solution).fluidTag(), 72)
+                        .addInFluid(natureAir.get(OreFluid.solution).fluidTag(), 1200)
+                        .addOutFluid(new FluidStack(this.fluidMap.get(OreFluid.solution).source(), 144), 1D)
                         .addMultipleSurplusTime((long) (1455L * this.getConfig(OreConfig.STRENGTH)))
                         .addMultipleConsumeMana((long) (17L * this.getConfig(OreConfig.CONSUME)));
 
-        mana = new Ore("mana", ColorPrefab.MANA_IO, ManaLevel.t1)
-                .setConfig(FLUID_DATA, () -> new OreFluid.FluidData(mana));
-        nutrient = new Ore("nutrient", new DuskColor(245, 190, 110), ManaLevel.t1)
-                .setConfig(FLUID_DATA, () -> new OreFluid.FluidData(nutrient));
-        natureAir = new Ore("nature_air", new DuskColor(255, 153, 149), ManaLevel.t2)
-                .setConfig(FLUID_DATA, () -> new OreFluid.FluidData(natureAir));
+        mana = new ManaOre();
+        nutrient = new NutrientOre();
+        natureAir = new NatureAirOre();
         sourceAir = new Ore("source_air", new DuskColor(240, 66, 243), ManaLevel.t2)
                 .setConfig(FLUID_DATA, () -> new OreFluid.FluidData(sourceAir));
         elementAir = new Ore("element_air", new DuskColor(114, 211, 175), ManaLevel.t2)
@@ -616,6 +569,15 @@ public class Ore extends UnitRegister<Ore, OreItem, OreBlock, OreFluid> {
         return mineralBlockTag;
     }
 
+    @Override
+    public void registerShaped(Consumer<Shaped> shapedConsumer) {
+        if (hasConfig(OreConfig.RELEVANT_SHAPED)) {
+            for (Shaped shaped : getConfig(OreConfig.RELEVANT_SHAPED)) {
+                shapedConsumer.accept(shaped);
+            }
+        }
+    }
+
     public static List<Ore> screen(ConfigKey<?>... isMetal) {
         List<Ore> oreList = new ArrayList<>();
         for (Ore ore : Ore.ORE.get()) {
@@ -660,54 +622,4 @@ public class Ore extends UnitRegister<Ore, OreItem, OreBlock, OreFluid> {
 
     public static RegistryPack<Ore, OreItem, OreBlock, OreFluid> cellRegistry;
 
-
-    /***
-     * 盔甲数据
-     */
-    public static final GenericMap.IKey<ArmorData> ARMOR_DATA = new GenericMap.IKey.Key<>();
-
-    /***
-     * 武器数据
-     */
-    public static final GenericMap.IKey<ArmsData> ARMS_DATA = new GenericMap.IKey.Key<>();
-
-    /***
-     * 有工具数据
-     */
-    public static final GenericMap.IKey<ToolData> TOOL_DATA = new GenericMap.IKey.Key<>();
-
-    /***
-     * 有矿物方块
-     */
-    public static final GenericMap.IKey<MineralBlockData> MINERAL_BLOCK_DATA = new GenericMap.IKey.Key<>();
-
-    /***
-     * 拥有装饰方块
-     */
-    public static final GenericMap.IKey<DecorateBlockData> DECORATE_BLOCK_DATA = new GenericMap.IKey.Key<>();
-
-    /***
-     * 有流体
-     */
-    public static final GenericMap.IKey<OreFluid.FluidData> FLUID_DATA = new GenericMap.IKey.Key<>();
-
-    /***
-     * 有粉末
-     */
-    public static final GenericMap.IKey<Void> HAS_DUST = new GenericMap.IKey.Key<>();
-
-    /***
-     * 是金属
-     */
-    public static final GenericMap.IKey<Void> IS_METAL = new GenericMap.IKey.Key<>();
-
-    /***
-     * 是晶体
-     */
-    public static final GenericMap.IKey<Void> IS_CRYSTA = new GenericMap.IKey.Key<>();
-
-    /***
-     * 表明该灵压等级可接受物品作为通用输入
-     */
-    public static final GenericMap.IKey<ManaLevel> IS_LEVEL_ACCEPTABLE = new GenericMap.IKey.Key<>();
 }

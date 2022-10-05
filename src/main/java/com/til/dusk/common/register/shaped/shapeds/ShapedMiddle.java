@@ -1,10 +1,13 @@
 package com.til.dusk.common.register.shaped.shapeds;
 
 import com.google.gson.JsonObject;
+import com.til.dusk.common.config.ConfigKey;
+import com.til.dusk.common.config.ConfigMap;
 import com.til.dusk.common.register.mana_level.ManaLevel;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 import com.til.dusk.util.Lang;
+import com.til.dusk.util.nbt.cell.AllNBTCell;
 import com.til.dusk.util.nbt.pack.AllNBTPack;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -15,28 +18,36 @@ import java.util.List;
  * @author til
  */
 public abstract class ShapedMiddle extends Shaped {
+
+    public static final ConfigKey<Long> SURPLUS_TIME = new ConfigKey<>("shaped_middle.surplus_time", AllNBTCell.LONG, () -> 0L);
+    public static final ConfigKey<Long> CONSUME_MANA = new ConfigKey<>("shaped_middle.consume_mana", AllNBTCell.LONG, () -> 0L);
+    public static final ConfigKey<Long> OUT_MANA = new ConfigKey<>("shaped_middle.out_mana", AllNBTCell.LONG, () -> 0L);
+
     public long surplusTime;
     public long consumeMana;
     public long outMana;
 
-    public ShapedMiddle(ShapedType shapedType, ShapedDrive shapedDrive, ManaLevel manaLevel) {
-        super(shapedType, shapedDrive, manaLevel);
+    public ShapedMiddle() {
     }
 
-    public ShapedMiddle(ResourceLocation name, JsonObject jsonObject) {
-        super(name, jsonObject);
-        surplusTime = AllNBTPack.SURPLUS_TIME.get(jsonObject);
-        consumeMana = AllNBTPack.CONSUME_MANA.get(jsonObject);
-        outMana = AllNBTPack.OUT_MANA.get(jsonObject);
+    public ShapedMiddle(ResourceLocation name, ShapedType shapedType, ShapedDrive shapedDrive, ManaLevel manaLevel) {
+        super(name, shapedType, shapedDrive, manaLevel);
+    }
+
+
+    @Override
+    public void init(ConfigMap configMap) {
+        surplusTime = configMap.get(SURPLUS_TIME);
+        consumeMana = configMap.get(CONSUME_MANA);
+        outMana = configMap.get(OUT_MANA);
     }
 
     @Override
-    public JsonObject writ(JsonObject jsonObject) {
-        super.writ(jsonObject);
-        AllNBTPack.CONSUME_MANA.set(jsonObject, consumeMana);
-        AllNBTPack.SURPLUS_TIME.set(jsonObject, surplusTime);
-        AllNBTPack.OUT_MANA.set(jsonObject, outMana);
-        return jsonObject;
+    public ConfigMap defaultConfigMap() {
+        return super.defaultConfigMap()
+                .setConfigOfV(SURPLUS_TIME, surplusTime)
+                .setConfigOfV(CONSUME_MANA, consumeMana)
+                .setConfigOfV(OUT_MANA, outMana);
     }
 
     @Override
