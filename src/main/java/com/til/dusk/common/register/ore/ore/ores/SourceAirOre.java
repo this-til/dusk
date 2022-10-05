@@ -11,25 +11,22 @@ import com.til.dusk.util.DuskColor;
 
 import java.util.List;
 
-/**
- * @author til
- */
-public class NatureAirOre extends Ore {
-    public NatureAirOre() {
-        super("nature_air");
+public class SourceAirOre extends Ore {
+    public SourceAirOre() {
+        super("source_air");
     }
 
     @Override
     public void registerLang(LangProvider.LangTool lang) {
         lang.setCache(name.toLanguageKey());
-        lang.add(LangType.ZH_CN, "质空");
-        lang.add(LangType.EN_CH, "Nature Air");
+        lang.add(LangType.ZH_CN, "源空");
+        lang.add(LangType.EN_CH, "Source Air");
     }
 
     @Override
     public ConfigMap defaultConfigMap() {
         return new ConfigMap()
-                .setConfigOfV(OreConfig.COLOR, new DuskColor(255, 153, 149 ))
+                .setConfigOfV(OreConfig.COLOR, new DuskColor(240, 66, 243 ))
                 .setConfigOfV(OreConfig.MANA_LEVEL, ManaLevel.t2)
                 .setConfig(OreConfig.FluidConfig.FLUID_CONFIG, ConfigMap::new);
     }

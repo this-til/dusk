@@ -77,13 +77,11 @@ public class OreConfig {
          */
         public static final ConfigKey.VoidConfigKey CAN_COPY = new ConfigKey.VoidConfigKey("ore.fluid.copy");
 
-        /***
-         * 流体裂变配置
-         */
-        public static final ConfigKey.ConfigMapKey SPLITTING = new ConfigKey.ConfigMapKey("ore.fluid.splitting");
-
-
         public static class SplittingConfig {
+            /***
+             * 流体裂变配置
+             */
+            public static final ConfigKey.ConfigMapKey SPLITTING = new ConfigKey.ConfigMapKey("ore.fluid.splitting");
             public static final ConfigKey<List<IShapedOreConfig>> SUNLIGHT = new ConfigKey<>("ore.fluid.splitting.sunlight", Util.forcedConversion(AllNBTCell.I_ACCEPT_CONFIG_MAP.getListNBTCell()), List::of);
             public static final ConfigKey<List<IShapedOreConfig>> MOONLIGHT = new ConfigKey<>("ore.fluid.splitting.moonlight", Util.forcedConversion(AllNBTCell.I_ACCEPT_CONFIG_MAP.getListNBTCell()), List::of);
             public static final ConfigKey<List<IShapedOreConfig>> RAIN = new ConfigKey<>("ore.fluid.splitting.rain", Util.forcedConversion(AllNBTCell.I_ACCEPT_CONFIG_MAP.getListNBTCell()), List::of);

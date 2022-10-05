@@ -249,27 +249,27 @@ public class Ore extends UnitRegister<Ore, OreItem, OreBlock, OreFluid> {
     /***
      * 源空
      */
-    public static Ore sourceAir;
+    public static SourceAirOre sourceAir;
 
     /***
      * 素空
      */
-    public static Ore elementAir;
+    public static ElementAirOre elementAir;
 
     /***
      * 质
      */
-    public static Ore nature;
+    public static NatureOre nature;
 
     /***
      * 源
      */
-    public static Ore source;
+    public static SourceOre source;
 
     /***
      * 素
      */
-    public static Ore element;
+    public static ElementOre element;
 
 
     /***
@@ -417,37 +417,11 @@ public class Ore extends UnitRegister<Ore, OreItem, OreBlock, OreFluid> {
         mana = new ManaOre();
         nutrient = new NutrientOre();
         natureAir = new NatureAirOre();
-        sourceAir = new Ore("source_air", new DuskColor(240, 66, 243), ManaLevel.t2)
-                .setConfig(FLUID_DATA, () -> new OreFluid.FluidData(sourceAir));
-        elementAir = new Ore("element_air", new DuskColor(114, 211, 175), ManaLevel.t2)
-                .setConfig(FLUID_DATA, () -> new OreFluid.FluidData(elementAir));
-        nature = new Ore("nature", new DuskColor(237, 133, 129), ManaLevel.t2)
-                .setConfig(FLUID_DATA, () -> new OreFluid.FluidData(nature)
-                        .setSplitting(new OreFluid.FluidData.SplittingData()
-                                .setMoonlightSplitting(new OreFluid.FluidData.SplittingDataPack()
-                                        .addOutFluid(new FluidStack(natureAir.fluidMap.get(OreFluid.solution).source(), 72), 1d))
-                                .setSunlightSplitting(new OreFluid.FluidData.SplittingDataPack()
-                                        .addOutFluid(new FluidStack(natureAir.fluidMap.get(OreFluid.solution).source(), 72), 1d))
-                                .setRainSplitting(new OreFluid.FluidData.SplittingDataPack()
-                                        .addOutFluid(new FluidStack(natureAir.fluidMap.get(OreFluid.solution).source(), 72), 1d))));
-        source = new Ore("source", new DuskColor(220, 46, 223), ManaLevel.t2)
-                .setConfig(FLUID_DATA, () -> new OreFluid.FluidData(source)
-                        .setSplitting(new OreFluid.FluidData.SplittingData()
-                                .setMoonlightSplitting(new OreFluid.FluidData.SplittingDataPack()
-                                        .addOutFluid(new FluidStack(sourceAir.fluidMap.get(OreFluid.solution).source(), 72), 1d))
-                                .setSunlightSplitting(new OreFluid.FluidData.SplittingDataPack()
-                                        .addOutFluid(new FluidStack(sourceAir.fluidMap.get(OreFluid.solution).source(), 72), 1d))
-                                .setRainSplitting(new OreFluid.FluidData.SplittingDataPack()
-                                        .addOutFluid(new FluidStack(sourceAir.fluidMap.get(OreFluid.solution).source(), 72), 1d))));
-        element = new Ore("element", new DuskColor(94, 191, 155), ManaLevel.t2)
-                .setConfig(FLUID_DATA, () -> new OreFluid.FluidData(element)
-                        .setSplitting(new OreFluid.FluidData.SplittingData()
-                                .setMoonlightSplitting(new OreFluid.FluidData.SplittingDataPack()
-                                        .addOutFluid(new FluidStack(elementAir.fluidMap.get(OreFluid.solution).source(), 72), 1d))
-                                .setSunlightSplitting(new OreFluid.FluidData.SplittingDataPack()
-                                        .addOutFluid(new FluidStack(elementAir.fluidMap.get(OreFluid.solution).source(), 72), 1d))
-                                .setRainSplitting(new OreFluid.FluidData.SplittingDataPack()
-                                        .addOutFluid(new FluidStack(elementAir.fluidMap.get(OreFluid.solution).source(), 72), 1d))));
+        sourceAir = new SourceAirOre();
+        elementAir = new ElementAirOre();
+        nature = new NatureOre();
+        source = new SourceOre();
+        element = new ElementOre();
 
         highEnergyRedStone = new Ore("high_energy_red_stone", new DuskColor(245, 35, 35), ManaLevel.t1)
                 .setConfig(FLUID_DATA, () -> new OreFluid.FluidData(highEnergyRedStone))
@@ -461,42 +435,42 @@ public class Ore extends UnitRegister<Ore, OreItem, OreBlock, OreFluid> {
         coolant = new Ore("coolant", new DuskColor(69, 173, 206), ManaLevel.t2)
                 .setConfig(FLUID_DATA, () -> new OreFluid.FluidData(coolant))
                 .addShaped(() -> new ShapedOre(ShapedType.highPressureFuse, ShapedDrive.get(0), this.getConfig(OreConfig.MANA_LEVEL))
-                        .addInItem(spiritSilver.itemMap.get(OreItem.dust).itemTag(), 1)
-                        .addInFluid(ultramarine.fluidMap.get(OreFluid.solution).fluidTag(), 144)
-                        .addOutFluid(new FluidStack(coolant.fluidMap.get(OreFluid.solution).source(), 144), 1d)
-                        .addMultipleSurplusTime((long) (2046L * coolant.strength))
-                        .addMultipleConsumeMana((long) (18L * coolant.consume)));
+                        .addInItem(spiritSilver.get(OreItem.dust).itemTag(), 1)
+                        .addInFluid(ultramarine. (OreFluid.solution).fluidTag(), 144)
+                        .addOutFluid(new FluidStack(coolant.get(OreFluid.solution).source(), 144), 1d)
+                .addMultipleSurplusTime((long) (2046L * coolant.strength))
+                .addMultipleConsumeMana((long) (18L * coolant.consume)));
         dissolutionMana = new Ore("dissolution_mana", new DuskColor(242, 225, 149), ManaLevel.t3)
                 .setConfig(FLUID_DATA, () -> new OreFluid.FluidData(dissolutionMana))
                 .addShaped(() -> new ShapedOre(ShapedType.highPressureFuse, ShapedDrive.get(0), this.getConfig(OreConfig.MANA_LEVEL))
-                        .addInItem(spiritSilver.itemMap.get(OreItem.dust).itemTag(), 1)
-                        .addInItem(indigo.itemMap.get(OreItem.dust).itemTag(), 1)
-                        .addInItem(willowYellow.itemMap.get(OreItem.dust).itemTag(), 1)
-                        .addInFluid(mana.fluidMap.get(OreFluid.solution).fluidTag(), 32)
-                        .addOutFluid(new FluidStack(dissolutionMana.fluidMap.get(OreFluid.solution).source(), 32), 1d)
+                        .addInItem(spiritSilver.get(OreItem.dust).itemTag(), 1)
+                        .addInItem(indigo.get(OreItem.dust).itemTag(), 1)
+                        .addInItem(willowYellow.get(OreItem.dust).itemTag(), 1)
+                        .addInFluid(mana.get(OreFluid.solution).fluidTag(), 32)
+                        .addOutFluid(new FluidStack(dissolutionMana.get(OreFluid.solution).source(), 32), 1d)
                         .addMultipleSurplusTime((long) (4096L * this.getConfig(OreConfig.STRENGTH)))
                         .addMultipleConsumeMana((long) (18L * this.getConfig(OreConfig.CONSUME)));
         culture = new Ore("culture", new DuskColor(199, 107, 87), ManaLevel.t4)
                 .setConfig(FLUID_DATA, () -> new OreFluid.FluidData(culture))
                 .addShaped(() -> new ShapedOre(ShapedType.highPressureFuse, ShapedDrive.get(0), this.getConfig(OreConfig.MANA_LEVEL))
-                        .addInFluid(nutrient.fluidMap.get(OreFluid.solution).fluidTag(), 1024)
+                        .addInFluid(nutrient.get(OreFluid.solution).fluidTag(), 1024)
                         .addInItem(ItemTag.SUGAR, 5)
-                        .addInItem(clove.itemMap.get(OreItem.dust).itemTag(), 5)
-                        .addInItem(lotusRoot.itemMap.get(OreItem.dust).itemTag(), 5)
-                        .addOutFluid(new FluidStack(culture.fluidMap.get(OreFluid.solution).source(), 128), 1D)
+                        .addInItem(clove.get(OreItem.dust).itemTag(), 5)
+                        .addInItem(lotusRoot.get(OreItem.dust).itemTag(), 5)
+                        .addOutFluid(new FluidStack(culture.get(OreFluid.solution).source(), 128), 1D)
                         .addMultipleSurplusTime((long) (8192L * this.getConfig(OreConfig.STRENGTH)))
                         .addMultipleConsumeMana((long) (18L * this.getConfig(OreConfig.CONSUME))));
         stemCell = new Ore("stem_cell", new DuskColor(209, 149, 182), ManaLevel.t4)
                 .setConfig(FLUID_DATA, () -> new OreFluid.FluidData(stemCell))
                 .addShaped(() -> new ShapedOre(ShapedType.stemCellExtract, ShapedDrive.get(0), this.getConfig(OreConfig.MANA_LEVEL))
                         .addInItem(ItemTag.CAN_EXTRACT_STEM_CELL, 1)
-                        .addOutFluid(new FluidStack(stemCell.fluidMap.get(OreFluid.solution).source(), 1), 0.1)
+                        .addOutFluid(new FluidStack(stemCell.get(OreFluid.solution).source(), 1), 0.1)
                         .addMultipleSurplusTime((long) (512L * this.getConfig(OreConfig.STRENGTH)))
                         .addMultipleConsumeMana((long) (128L * this.getConfig(OreConfig.CONSUME))))
                 .addShaped(() -> new ShapedOre(ShapedType.cellCulture, ShapedDrive.get(0), ManaLevel.t4)
-                        .addInFluid(stemCell.fluidMap.get(OreFluid.solution).fluidTag(), 1)
-                        .addInFluid(culture.fluidMap.get(OreFluid.solution).fluidTag(), 128)
-                        .addOutFluid(new FluidStack(stemCell.fluidMap.get(OreFluid.solution).source(), 1), 1d));
+                        .addInFluid(stemCell.get(OreFluid.solution).fluidTag(), 1)
+                        .addInFluid(culture.get(OreFluid.solution).fluidTag(), 128)
+                        .addOutFluid(new FluidStack(stemCell.get(OreFluid.solution).source(), 1), 1d));
         neuronCell = new Ore("neuron_cell", new DuskColor(176, 221, 227), ManaLevel.t4)
                 .setConfig(FLUID_DATA, () -> new OreFluid.FluidData(neuronCell));
         supportCell = new Ore("support_cell", new DuskColor(136, 209, 142), ManaLevel.t4)
@@ -508,7 +482,7 @@ public class Ore extends UnitRegister<Ore, OreItem, OreBlock, OreFluid> {
         uu = new Ore("uu", new DuskColor(160, 32, 240), ManaLevel.t4)
                 .setConfig(FLUID_DATA, () -> new OreFluid.FluidData(uu))
                 .addShaped(() -> new ShapedOre(ShapedType.uuGenerate, ShapedDrive.get(0), this.getConfig(OreConfig.MANA_LEVEL))
-                        .addOutFluid(new FluidStack(uu.fluidMap.get(OreFluid.solution).source(), 1), 1D)
+                        .addOutFluid(new FluidStack(uu.get(OreFluid.solution).source(), 1), 1D)
                         .addMultipleSurplusTime((long) (32768L * this.getConfig(OreConfig.STRENGTH)))
                         .addMultipleConsumeMana((long) (12L * this.getConfig(OreConfig.CONSUME))));
     }
