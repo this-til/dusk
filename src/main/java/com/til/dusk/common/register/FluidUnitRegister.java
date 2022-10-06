@@ -73,7 +73,7 @@ public abstract class FluidUnitRegister<T extends FluidUnitRegister<T, O>, O ext
     }
 
     public TagKey<Fluid> createFluidTag(O o) {
-        return FluidTags.create(fuseName("/", new String[]{"fluid", o.name.getPath(), name.getPath()}));
+        return FluidTags.create(fuseName(, "/", new String[]{"fluid", o.name.getPath(), name.getPath()}));
     }
 
     @Nullable
@@ -83,7 +83,7 @@ public abstract class FluidUnitRegister<T extends FluidUnitRegister<T, O>, O ext
 
     @Nullable
     public TagKey<Block> createBlockTag(O o) {
-        return BlockTags.create(fuseName("/", new String[]{"fluid", o.name.getPath(), name.getPath()}));
+        return BlockTags.create(fuseName(, "/", new String[]{"fluid", o.name.getPath(), name.getPath()}));
     }
 
     @Nullable
@@ -98,7 +98,7 @@ public abstract class FluidUnitRegister<T extends FluidUnitRegister<T, O>, O ext
 
     @Nullable
     public TagKey<Item> createBlockItemTag(O o) {
-        return ItemTags.create(fuseName("/", new String[]{"fluid", o.name.getPath(), name.getPath()}));
+        return ItemTags.create(fuseName(, "/", new String[]{"fluid", o.name.getPath(), name.getPath()}));
     }
 
     public TagPack getTagPack() {

@@ -7,7 +7,7 @@ import com.til.dusk.common.data.tag.BlockTag;
 import com.til.dusk.common.data.tag.ItemTag;
 import com.til.dusk.common.register.other.CapabilityRegister;
 import com.til.dusk.common.register.RegisterBasics;
-import com.til.dusk.common.register.mana_level.ManaLevel;
+import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.world.block.MechanicBlock;
 import com.til.dusk.common.world.block.ModBlock;
 import com.til.dusk.util.Lang;

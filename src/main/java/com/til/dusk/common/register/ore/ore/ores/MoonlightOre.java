@@ -4,10 +4,9 @@ import com.til.dusk.common.config.ConfigMap;
 import com.til.dusk.common.config.util.IOrePlacedFeatureConfig;
 import com.til.dusk.common.data.lang.LangProvider;
 import com.til.dusk.common.data.lang.LangType;
-import com.til.dusk.common.register.mana_level.ManaLevel;
+import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.register.ore.ore.OreConfig;
-import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.prefab.ColorPrefab;
 
 import java.util.List;

@@ -1,7 +1,11 @@
 package com.til.dusk.common.register.ore.block;
 
 import com.til.dusk.Dusk;
+import com.til.dusk.common.config.ConfigMap;
+import com.til.dusk.common.data.lang.LangProvider;
+import com.til.dusk.common.data.lang.LangType;
 import com.til.dusk.common.register.ore.ore.Ore;
+import com.til.dusk.common.register.ore.ore.OreConfig;
 import com.til.dusk.util.pack.BlockPack;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
@@ -22,7 +26,6 @@ public abstract class OreBlockMineral extends OreBlock {
 
     public OreBlockMineral(ResourceLocation name) {
         super(name);
-        setConfig(OreBlock.IS_MINERAL);
     }
 
     public OreBlockMineral(String name) {
@@ -31,7 +34,7 @@ public abstract class OreBlockMineral extends OreBlock {
 
     @Override
     public @Nullable BlockPack create(Ore ore) {
-        if (ore.hasSet(Ore.MINERAL_BLOCK_DATA)) {
+        if (ore.hasConfig(OreConfig.MineralBlockConfig.MINERAL_BLOCK_CONFIG)) {
             return super.create(ore);
         }
         return null;
@@ -40,5 +43,19 @@ public abstract class OreBlockMineral extends OreBlock {
     public OreBlockMineral setReplaceBasicsBlock(Supplier<Block> replaceBasicsBlock) {
         this.replaceBasicsBlock = replaceBasicsBlock;
         return this;
+    }
+
+    @Override
+    public ConfigMap defaultConfigMap() {
+        return super.defaultConfigMap()
+                .setConfig(IS_MINERAL);
+    }
+
+
+    @Override
+    public void registerLang(LangProvider.LangTool lang) {
+        lang.setCache(name.toLanguageKey());
+        lang.add(LangType.ZH_CN,"矿");
+        lang.add(LangType.EN_CH, "Ore");
     }
 }

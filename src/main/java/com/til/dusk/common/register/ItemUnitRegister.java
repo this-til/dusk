@@ -18,8 +18,10 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
 
+/**
+ * @author til
+ */
 public abstract class ItemUnitRegister<T extends ItemUnitRegister<T, O>, O extends RegisterBasics<?>> extends RegisterBasics<T> {
-
     protected TagPack tagPack;
 
     public ItemUnitRegister(ResourceLocation name, Supplier<IForgeRegistry<T>> iForgeRegistrySupplier) {
@@ -33,7 +35,7 @@ public abstract class ItemUnitRegister<T extends ItemUnitRegister<T, O>, O exten
     }
 
     public TagKey<Item> createItemTag(O o) {
-        return ItemTags.create(fuseName("/", new String[]{"item", o.name.getPath(), name.getPath()}));
+        return ItemTags.create(fuseName(, "/", new String[]{"item", o.name.getPath(), name.getPath()}));
     }
 
     public Item createItem(O o) {

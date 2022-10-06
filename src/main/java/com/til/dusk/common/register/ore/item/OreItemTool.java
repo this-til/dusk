@@ -1,7 +1,9 @@
 package com.til.dusk.common.register.ore.item;
 
 import com.til.dusk.Dusk;
+import com.til.dusk.common.config.ConfigMap;
 import com.til.dusk.common.register.ore.ore.Ore;
+import com.til.dusk.common.register.ore.ore.OreConfig;
 import com.til.dusk.util.Lang;
 import com.til.dusk.util.pack.ItemPack;
 import net.minecraft.network.chat.Component;
@@ -11,10 +13,12 @@ import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * @author til
+ */
 public class OreItemTool extends OreItem {
     public OreItemTool(ResourceLocation name) {
         super(name);
-        setConfig(IS_TOOL);
     }
 
     public OreItemTool(String name) {
@@ -23,7 +27,7 @@ public class OreItemTool extends OreItem {
 
     @Override
     public @Nullable ItemPack create(Ore ore) {
-        if (ore.hasSet(Ore.TOOL_DATA, Ore.IS_METAL)) {
+        if (ore.hasConfig(OreConfig.ToolDataConfig.TOOL_DATA_CONFIG) && ore.hasConfig(OreConfig.IS_METAL)) {
             return super.create(ore);
         }
         return null;
@@ -31,17 +35,17 @@ public class OreItemTool extends OreItem {
 
     @Override
     public Item createItem(Ore ore) {
-        return createToolItem(ore, ore.getSet(Ore.TOOL_DATA));
+        return createToolItem(ore, ore.getConfig(OreConfig.ToolDataConfig.TOOL_DATA_CONFIG));
     }
 
     /***
      * 创建工具物品
      * @param ore 矿物
-     * @param toolData 工具数据
+     * @param configMap 工具数据
      * @return 工具
      */
-    public Item createToolItem(Ore ore, ToolData toolData) {
-        return new Item(new Item.Properties().tab(Dusk.TAB).durability(toolData.uses).fireResistant()) {
+    public Item createToolItem(Ore ore, ConfigMap configMap) {
+        return new Item(new Item.Properties().tab(Dusk.TAB).durability(configMap.get(OreConfig.ToolDataConfig.USES)).fireResistant()) {
 
             @Override
             public @NotNull Component getName(@NotNull ItemStack stack) {
@@ -68,5 +72,11 @@ public class OreItemTool extends OreItem {
                 return false;
             }
         };
+    }
+
+    @Override
+    public ConfigMap defaultConfigMap() {
+        return super.defaultConfigMap()
+                .setConfig(IS_TOOL);
     }
 }

@@ -1,6 +1,6 @@
 package com.til.dusk.util.pack;
 
-import com.til.dusk.common.register.mana_level.ManaLevel;
+import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
 import com.til.dusk.util.Extension;
 import com.til.dusk.util.GenericMap;
@@ -11,10 +11,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Supplier;
 
 public class DataPack<T extends DataPack<?, OTHER_DATA>, OTHER_DATA> {
 

@@ -1,11 +1,12 @@
 package com.til.dusk.common.register.ore.ore.ores;
 
+import com.til.dusk.Dusk;
 import com.til.dusk.common.config.ConfigMap;
-import com.til.dusk.common.config.util.IOrePlacedFeatureConfig;
 import com.til.dusk.common.data.lang.LangProvider;
 import com.til.dusk.common.data.lang.LangType;
-import com.til.dusk.common.register.mana_level.ManaLevel;
+import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.ore.fluid.OreFluid;
+import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.register.ore.ore.OreConfig;
 import com.til.dusk.common.register.shaped.ShapedDrive;
@@ -13,6 +14,8 @@ import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
 import com.til.dusk.common.register.skill.Skill;
 import com.til.dusk.util.DuskColor;
+import com.til.dusk.util.ResourceLocationUtil;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
 
 import java.util.List;
@@ -51,12 +54,19 @@ public class StarRiverOre extends Ore {
                         .setConfigOfV(OreConfig.ArmorConfig.DEFAULT_SKILL, Map.of(Skill.life, 2)))
                 .setConfig(OreConfig.ArmsConfig.ARMS_CONFIG, () -> new ConfigMap()
                         .setConfigOfV(OreConfig.ArmsConfig.MANA_BASICS, 12800000L)
-                        .setConfigOfV(OreConfig.ArmsConfig.RATE_BASICS, 102400L))
+                        .setConfigOfV(OreConfig.ArmsConfig.RATE_BASICS, 102400L)
+                        .setConfigOfV(OreConfig.ArmsConfig.USES, 3200)
+                        .setConfigOfV(OreConfig.ArmsConfig.SPEED, -3.4F)
+                        .setConfigOfV(OreConfig.ArmsConfig.ATTACK_DAMAGE_BONUS, 16)
+                        .setConfigOfV(OreConfig.ArmsConfig.ENCHANTMENT_VALUE, 32)
+                        .setConfigOfV(OreConfig.ArmsConfig.REPAIR_ITEM, List.of(
+                                this.get(OreItem.ingot).itemTag()))
+                        .setConfigOfV(OreConfig.ArmsConfig.TAG, Dusk.instance.BLOCK_TAG.createTagKey(new ResourceLocation(name.getNamespace(), "tier." + name.getPath()))))
                 .setConfig(OreConfig.ToolDataConfig.TOOL_DATA_CONFIG, () -> new ConfigMap()
                         .setConfigOfV(OreConfig.ToolDataConfig.USES, 64 * 22)
                         .setConfigOfV(OreConfig.ToolDataConfig.TANK_MAX, 4000 * 22))
                 .setConfig(OreConfig.RELEVANT_SHAPED, () -> List.of(
-                        new ShapedOre(fuseName(this, OreFluid.solution), ShapedType.highPressureFuse, ShapedDrive.get(0), this.getConfig(OreConfig.MANA_LEVEL))
+                        new ShapedOre(ResourceLocationUtil.fuseName(this, OreFluid.solution), ShapedType.highPressureFuse, ShapedDrive.get(0), this.getConfig(OreConfig.MANA_LEVEL))
                                 .addInFluid(starSilver.get(OreFluid.solution).fluidTag(), 32)
                                 .addInFluid(starIron.get(OreFluid.solution).fluidTag(), 32)
                                 .addInFluid(starGold.get(OreFluid.solution).fluidTag(), 32)

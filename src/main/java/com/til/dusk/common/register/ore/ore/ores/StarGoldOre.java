@@ -1,10 +1,9 @@
 package com.til.dusk.common.register.ore.ore.ores;
 
 import com.til.dusk.common.config.ConfigMap;
-import com.til.dusk.common.config.util.IOrePlacedFeatureConfig;
 import com.til.dusk.common.data.lang.LangProvider;
 import com.til.dusk.common.data.lang.LangType;
-import com.til.dusk.common.register.mana_level.ManaLevel;
+import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.register.ore.ore.OreConfig;
@@ -12,6 +11,7 @@ import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
 import com.til.dusk.util.DuskColor;
+import com.til.dusk.util.ResourceLocationUtil;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
@@ -42,7 +42,7 @@ public class StarGoldOre extends Ore {
                 .setConfig(OreConfig.DecorateBlockConfig.DECORATE_BLOCK_CONFIG, ConfigMap::new)
                 .setConfig(OreConfig.FluidConfig.FLUID_CONFIG, ConfigMap::new)
                 .setConfig(OreConfig.RELEVANT_SHAPED, () -> List.of(
-                        new ShapedOre(fuseName(this, OreItem.dust), ShapedType.blend, ShapedDrive.get(0), this.getConfig(OreConfig.MANA_LEVEL))
+                        new ShapedOre(ResourceLocationUtil.fuseName(this, OreItem.dust), ShapedType.blend, ShapedDrive.get(0), this.getConfig(OreConfig.MANA_LEVEL))
                                 .addInItem(goldenrod.get(OreItem.dust).itemTag(), 1)
                                 .addInItem(aliceblue.get(OreItem.dust).itemTag(), 1)
                                 .addInItem(cornflowerblue.get(OreItem.dust).itemTag(), 1)

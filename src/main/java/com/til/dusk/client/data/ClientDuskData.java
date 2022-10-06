@@ -6,7 +6,7 @@ import com.til.dusk.Dusk;
 import com.til.dusk.common.register.BlockUnitRegister;
 import com.til.dusk.common.register.ItemUnitRegister;
 import com.til.dusk.common.register.UnitRegister;
-import com.til.dusk.common.register.mana_level.ManaLevel;
+import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.world.block.ModBlock;

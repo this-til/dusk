@@ -1,6 +1,7 @@
 package com.til.dusk.common.register.shaped.shaped_type;
 
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
+import com.til.dusk.common.register.ore.fluid.FluidData;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.register.ore.fluid.OreFluid;
 import com.til.dusk.common.register.shaped.ShapedDrive;
@@ -19,7 +20,7 @@ public class HighPressureFuseShapedType extends ShapedType {
     @Override
     public void registerShaped() {
         for (Ore ore : Ore.screen(Ore.FLUID_DATA)) {
-            OreFluid.FluidData fluidData = ore.getSet(Ore.FLUID_DATA);
+            FluidData fluidData = ore.getSet(Ore.FLUID_DATA);
             if (fluidData.splitting == null) {
                 continue;
             }

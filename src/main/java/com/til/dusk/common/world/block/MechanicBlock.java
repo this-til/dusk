@@ -3,7 +3,7 @@ package com.til.dusk.common.world.block;
 import com.til.dusk.common.capability.pos.IPosTrack;
 import com.til.dusk.common.capability.DuskCapabilityProvider;
 import com.til.dusk.common.capability.tile_entity.ITileEntityType;
-import com.til.dusk.common.register.mana_level.ManaLevel;
+import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;

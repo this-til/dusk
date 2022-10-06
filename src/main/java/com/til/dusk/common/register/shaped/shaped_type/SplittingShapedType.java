@@ -1,6 +1,7 @@
 package com.til.dusk.common.register.shaped.shaped_type;
 
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
+import com.til.dusk.common.register.ore.fluid.FluidData;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.register.ore.fluid.OreFluid;
 import com.til.dusk.common.register.shaped.ShapedDrive;
@@ -22,11 +23,11 @@ public class SplittingShapedType extends ShapedType {
             if (!ore.hasSet(Ore.FLUID_DATA)) {
                 continue;
             }
-            OreFluid.FluidData fluidData = ore.getSet(Ore.FLUID_DATA);
+            FluidData fluidData = ore.getSet(Ore.FLUID_DATA);
             if (fluidData.splitting == null) {
                 continue;
             }
-            OreFluid.FluidData.SplittingData splittingData = fluidData.splitting;
+            FluidData.SplittingData splittingData = fluidData.splitting;
             if (splittingData.sunlightSplitting != null) {
                 new ShapedOre(this, ShapedDrive.get(0), ore.manaLevel)
                         .addInFluid(ore.get(OreFluid.splittingSunlightSolution).fluidTag(), 144)

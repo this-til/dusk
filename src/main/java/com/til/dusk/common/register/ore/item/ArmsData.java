@@ -7,10 +7,10 @@ import com.til.dusk.common.capability.black.IBack;
 import com.til.dusk.common.capability.mana_handle.VariableManaHandle;
 import com.til.dusk.common.capability.skill.ISkill;
 import com.til.dusk.common.capability.skill.ItemStackSkill;
+import com.til.dusk.common.config.INeedBack;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.register.other.CapabilityRegister;
 import com.til.dusk.common.register.skill.Skill;
-import com.til.dusk.util.IBackRun;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
@@ -30,7 +30,8 @@ import java.util.function.Supplier;
 /***
  * 武器数据
  */
-public class ArmsData implements Tier, IItemDefaultCapability, IBackRun {
+@Deprecated
+public class ArmsData implements Tier, IItemDefaultCapability, INeedBack {
 
     public final Supplier<Ore> ore;
 
@@ -64,7 +65,7 @@ public class ArmsData implements Tier, IItemDefaultCapability, IBackRun {
     }
 
     @Override
-    public void backRun() {
+    public void back() {
         repairIngredient = () -> Ingredient.of(ore.get().get(OreItem.ingot).itemTag());
         ResourceLocation oreName = new ResourceLocation(ore.get().name.getNamespace(), "tier." + ore.get().name.getPath());
         tag = BlockTags.create(oreName);

@@ -1,7 +1,7 @@
 package com.til.dusk.common.register.mana_level.block.mechanic;
 
 import com.til.dusk.common.data.ModRecipeProvider;
-import com.til.dusk.common.register.mana_level.ManaLevel;
+import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.mana_level.ManaLevelItem;
 import com.til.dusk.common.register.mana_level.block.Mechanic;
 import com.til.dusk.common.register.ore.item.OreItem;

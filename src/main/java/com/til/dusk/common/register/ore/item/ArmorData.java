@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Supplier;
 
+@Deprecated
 public class ArmorData implements ArmorMaterial, IItemDefaultCapability {
 
     public static final int[] DEFAULT_DURABILITY = new int[]{

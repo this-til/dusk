@@ -59,7 +59,7 @@ public class MineralBlockData {
                 .setPlace((blockPos, level, blockState) -> {
                     Block inBlock = blockState.getBlock();
                     if (inBlock.equals(Blocks.STONE)) {
-                        return ore.get(OreBlock.lordWorld).block().defaultBlockState();
+                        return ore.get(OreBlock.lordWorldStone).block().defaultBlockState();
                     }
                     if (inBlock.equals(Blocks.DEEPSLATE)) {
                         return ore.get(OreBlock.lordWorldDeepslate).block().defaultBlockState();

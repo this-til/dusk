@@ -3,9 +3,11 @@ package com.til.dusk.common.world.item;
 import com.til.dusk.Dusk;
 import com.til.dusk.common.capability.DuskCapabilityProvider;
 import com.til.dusk.common.capability.IItemDefaultCapability;
+import com.til.dusk.common.config.ConfigMap;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.register.ore.item.ArmsData;
 import com.til.dusk.common.register.ore.item.OreItem;
+import com.til.dusk.common.register.ore.ore.OreConfig;
 import com.til.dusk.util.Lang;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.AxeItem;
@@ -16,13 +18,13 @@ import org.jetbrains.annotations.NotNull;
 /**
  * @author til
  */
-public class CapabilityAxeItem extends AxeItem implements IItemDefaultCapability {
+public class CapabilityAxeItem extends AxeItem implements IItemDefaultCapability.ArmsCapabilityItem {
     public final Ore ore;
     public final OreItem oreItem;
-    public final ArmsData armsData;
+    public final ConfigMap armsData;
 
-    public CapabilityAxeItem(Ore ore, OreItem oreItem, ArmsData armsData) {
-        super(armsData, armsData.attackDamageBonus * 1.6f, armsData.speed, new Properties().stacksTo(1).tab(Dusk.TAB).fireResistant());
+    public CapabilityAxeItem(Ore ore, OreItem oreItem, ConfigMap armsData) {
+        super(armsData, armsData.get(OreConfig.ArmsConfig.ATTACK_DAMAGE_BONUS) * 1.6f, armsData.get(OreConfig.ArmsConfig.SPEED), new Properties().stacksTo(1).tab(Dusk.TAB).fireResistant());
         this.ore = ore;
         this.oreItem = oreItem;
         this.armsData = armsData;
@@ -34,7 +36,7 @@ public class CapabilityAxeItem extends AxeItem implements IItemDefaultCapability
     }
 
     @Override
-    public void initCapability(AttachCapabilitiesEvent<ItemStack> event, DuskCapabilityProvider duskCapabilityProvider) {
-        armsData.initCapability(event, duskCapabilityProvider);
+    public ConfigMap getConfigMap() {
+        return armsData;
     }
 }

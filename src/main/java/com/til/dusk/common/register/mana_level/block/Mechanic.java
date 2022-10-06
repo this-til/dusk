@@ -2,8 +2,7 @@ package com.til.dusk.common.register.mana_level.block;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.client.ColorProxy;
-import com.til.dusk.common.register.mana_level.ManaLevel;
-import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
+import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import net.minecraft.resources.ResourceLocation;
 
 /**

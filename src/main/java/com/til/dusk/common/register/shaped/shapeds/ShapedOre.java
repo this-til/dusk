@@ -1,7 +1,6 @@
 package com.til.dusk.common.register.shaped.shapeds;
 
 import com.google.common.collect.Lists;
-import com.google.gson.JsonObject;
 import com.til.dusk.Dusk;
 import com.til.dusk.common.capability.CapabilityHelp;
 import com.til.dusk.common.capability.handle.IHandle;
@@ -10,7 +9,7 @@ import com.til.dusk.common.capability.pos.IPosTrack;
 import com.til.dusk.common.config.ConfigKey;
 import com.til.dusk.common.config.ConfigMap;
 import com.til.dusk.common.event.EventIO;
-import com.til.dusk.common.register.mana_level.ManaLevel;
+import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 import com.til.dusk.util.Extension;

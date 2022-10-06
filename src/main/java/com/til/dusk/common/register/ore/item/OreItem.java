@@ -2,22 +2,19 @@ package com.til.dusk.common.register.ore.item;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.client.ColorProxy;
-import com.til.dusk.common.data.ModRecipeProvider;
+import com.til.dusk.common.config.ConfigKey;
+import com.til.dusk.common.config.ConfigMap;
 import com.til.dusk.common.data.tag.ItemTag;
 import com.til.dusk.common.register.ItemUnitRegister;
-import com.til.dusk.common.register.mana_level.ManaLevel;
+import com.til.dusk.common.register.ore.item.items.*;
 import com.til.dusk.common.register.ore.ore.Ore;
+import com.til.dusk.common.register.ore.ore.OreConfig;
 import com.til.dusk.common.world.item.*;
 import com.til.dusk.util.DuskColor;
-import com.til.dusk.util.GenericMap;
-import com.til.dusk.util.prefab.ColorPrefab;
-import net.minecraft.data.recipes.ShapedRecipeBuilder;
-import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.*;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -39,18 +36,18 @@ public class OreItem extends ItemUnitRegister<OreItem, Ore> {
     /***
      * 矿物锭
      */
-    public static OreItemMetal ingot;
+    public static IngotOreItemMetal ingot;
 
     /***
      * 板
      */
     public static OreItemMetal plate;
 
-    public static OreItemMetal plate_2;
+    public static Plate2OreItemMetal plate_2;
 
-    public static OreItemMetal plate_3;
+    public static Plate3OreItemMetal plate_3;
 
-    public static OreItemMetal plate_4;
+    public static Plate4OreItemMetal plate_4;
 
     /***
      * 外壳
@@ -163,80 +160,36 @@ public class OreItem extends ItemUnitRegister<OreItem, Ore> {
     /***
      * 锤子
      */
-    public static OreItemTool hammer;
+    public static HammerOreItemTool hammer;
 
     /***
      * 扳手
      */
-    public static OreItemTool wrench;
+    public static WrenchOreItemTool wrench;
 
     /***
      * 剪刀
      */
-    public static OreItemTool wireCutter;
+    public static WireCutterOreItemTool wireCutter;
 
     /***
      * 锉刀
      */
-    public static OreItemTool file;
+    public static FileOreItemTool file;
 
     /***
      * 储罐
      */
-    public static OreItemTank tank;
+    public static TankOreItem tank;
 
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
         ORE_ITEM = event.create(new RegistryBuilder<OreItem>().setName(new ResourceLocation(Dusk.MOD_ID, "ore_item")));
-        ingot = (OreItemMetal) new OreItemMetal("ingot")
-                .addRecipes(list -> {
-                    for (Ore ore : Ore.screen(Ore.IS_METAL, Ore.MINERAL_BLOCK_DATA)) {
-                        if (!ore.manaLevel.hasSet(ManaLevel.CAN_UET_TOOL_MAKE)) {
-                            continue;
-                        }
-                        list.add(SimpleCookingRecipeBuilder.smelting(Ingredient.of(ore.getMineralBlockTag().itemTagKey()), ore.get(ingot).item(), 0.6F, 200)
-                                .unlockedBy("has_ore", ModRecipeProvider.has(ore.getMineralBlockTag().itemTagKey())));
-
-
-                    }
-                });
+        ingot = new IngotOreItemMetal();
         plate = new OreItemMetal("plate");
-        plate_2 = new OreItemMetal("plate_2") {
-            @Override
-            public DuskItem.ICustomModel getItemMoldMapping(Ore ore) {
-                return () -> plate.name;
-            }
-
-            @Override
-            public void dyeBlack(Ore ore, ColorProxy.ItemColorPack itemColorPack) {
-                DuskColor color = ColorPrefab.GRAYSCALE_REDUCTION_1.blend(ore.color);
-                itemColorPack.addColor(0, itemStack -> color);
-            }
-        };
-        plate_3 = new OreItemMetal("plate_3") {
-            @Override
-            public DuskItem.ICustomModel getItemMoldMapping(Ore ore) {
-                return () -> plate.name;
-            }
-
-            @Override
-            public void dyeBlack(Ore ore, ColorProxy.ItemColorPack itemColorPack) {
-                DuskColor color = ColorPrefab.GRAYSCALE_REDUCTION_2.blend(ore.color);
-                itemColorPack.addColor(0, itemStack -> color);
-            }
-        };
-        plate_4 = new OreItemMetal("plate_4") {
-            @Override
-            public DuskItem.ICustomModel getItemMoldMapping(Ore ore) {
-                return () -> plate.name;
-            }
-
-            @Override
-            public void dyeBlack(Ore ore, ColorProxy.ItemColorPack itemColorPack) {
-                DuskColor color = ColorPrefab.GRAYSCALE_REDUCTION_3.blend(ore.color);
-                itemColorPack.addColor(0, itemStack -> color);
-            }
-        };
+        plate_2 = new Plate2OreItemMetal();
+        plate_3 = new Plate3OreItemMetal();
+        plate_4 = new Plate4OreItemMetal();
         foil = new OreItemMetal("foil");
         casing = new OreItemMetal("casing");
         stick = new OreItemMetal("stick");
@@ -260,193 +213,22 @@ public class OreItem extends ItemUnitRegister<OreItem, Ore> {
         pickaxeBasics = new OreItemArmsBasics("pickaxe_basics");
         axeBasics = new OreItemArmsBasics("axe_basics");
         hoeBasics = new OreItemArmsBasics("hoe_basics");
-        sword = (OreItemArms) new OreItemArms("sword") {
-            @Override
-            public Item createArmsItem(Ore ore, ArmsData armsData) {
-                CapabilitySwordItem item = new CapabilitySwordItem(ore, this, armsData);
-                ItemTag.addTag(Tags.Items.TOOLS, item);
-                ItemTag.addTag(Tags.Items.TOOLS_SWORDS, item);
-                return item;
-            }
-        }.setConfig(IS_SWORD, null);
-        shovel = (OreItemArms) new OreItemArms("shovel") {
-            @Override
-            public Item createArmsItem(Ore ore, ArmsData armsData) {
-                CapabilityShovelItem item = new CapabilityShovelItem(ore, this, armsData);
-                ItemTag.addTag(Tags.Items.TOOLS, item);
-                ItemTag.addTag(Tags.Items.TOOLS_SHOVELS, item);
-                return item;
-            }
-        }.setConfig(IS_SHOVEL, null);
-        pickaxe = (OreItemArms) new OreItemArms("pickaxe") {
-            @Override
-            public Item createArmsItem(Ore ore, ArmsData armsData) {
-                CapabilityPickaxeItem item = new CapabilityPickaxeItem(ore, this, armsData);
-                ItemTag.addTag(Tags.Items.TOOLS, item);
-                ItemTag.addTag(Tags.Items.TOOLS_PICKAXES, item);
-                return item;
-            }
-        }.setConfig(IS_PICKAXE, null);
-        axe = (OreItemArms) new OreItemArms("axe") {
-            @Override
-            public Item createArmsItem(Ore ore, ArmsData armsData) {
-                CapabilityAxeItem item = new CapabilityAxeItem(ore, this, armsData);
-                ItemTag.addTag(Tags.Items.TOOLS, item);
-                ItemTag.addTag(Tags.Items.TOOLS_AXES, item);
-                return item;
-            }
-        }.setConfig(IS_AXE, null);
-        hoe = (OreItemArms) new OreItemArms("hoe") {
-            @Override
-            public Item createArmsItem(Ore ore, ArmsData armsData) {
-                CapabilityHoeItem item = new CapabilityHoeItem(ore, this, armsData);
-                ItemTag.addTag(Tags.Items.TOOLS, item);
-                ItemTag.addTag(Tags.Items.TOOLS_HOES, item);
-                return item;
-            }
-        }.setConfig(IS_HOE, null);
+        sword = new SwordOreItemArms();
+        shovel = new ShovelOreItemArms();
+        pickaxe = new PickaxeOreItemArms();
+        axe = new AxeOreItemArms();
+        hoe = new HoeOreItemArms();
 
-        head = new OreItemArmor("head", EquipmentSlot.HEAD);
-        chest = new OreItemArmor("chest", EquipmentSlot.CHEST);
-        legs = new OreItemArmor("legs", EquipmentSlot.LEGS);
-        feet = new OreItemArmor("feet", EquipmentSlot.FEET);
+        head = new HeadOreItemArmor();
+        chest = new ChestOreItemArmor();
+        legs = new LegsOreItemArmor();
+        feet = new FeetOreItemArmor();
 
-        hammer = (OreItemTool) new OreItemTool("hammer") {
-            @Override
-            public void dyeBlack(Ore ore, ColorProxy.ItemColorPack itemColorPack) {
-                itemColorPack.addColor(1, itemStack -> ore.color);
-            }
-        }
-                .setConfig(IS_HAMMER)
-                .addRecipes(list -> {
-                    for (Ore ore : Ore.screen(Ore.IS_METAL, Ore.TOOL_DATA)) {
-                        list.add(ShapedRecipeBuilder.shaped(ore.get(hammer).item(), 1)
-                                .define('A', ore.get(ingot).itemTag())
-                                .define('B', Tags.Items.RODS_WOODEN)
-                                .pattern("AAA")
-                                .pattern("AAA")
-                                .pattern(" B ")
-                                .unlockedBy("has_ore", ModRecipeProvider.has(ore.get(ingot).itemTag())));
-                    }
-                })
-                .addRecipes(list -> {
-                    for (Ore ore : Ore.screen(Ore.IS_METAL)) {
-                        if (!ore.manaLevel.hasSet(ManaLevel.CAN_UET_TOOL_MAKE)) {
-                            continue;
-                        }
-                        list.add(ShapedRecipeBuilder.shaped(ore.get(plate).item(), 1)
-                                .define('A', hammer.getTagPack().itemTagKey())
-                                .define('B', ore.get(ingot).itemTag())
-                                .pattern("AB")
-                                .unlockedBy("has_hammer", ModRecipeProvider.has(hammer.getTagPack().itemTagKey())));
-                        list.add(ShapedRecipeBuilder.shaped(ore.get(casing).item(), 1)
-                                .define('A', hammer.getTagPack().itemTagKey())
-                                .define('B', ore.get(plate).itemTag())
-                                .pattern("A")
-                                .pattern("B")
-                                .unlockedBy("has_hammer", ModRecipeProvider.has(hammer.getTagPack().itemTagKey())));
-                        list.add(ShapedRecipeBuilder.shaped(ore.get(foil).item(), 2)
-                                .define('A', hammer.getTagPack().itemTagKey())
-                                .define('B', ore.get(plate).itemTag())
-                                .pattern("A ")
-                                .pattern(" B")
-                                .unlockedBy("has_hammer", ModRecipeProvider.has(hammer.getTagPack().itemTagKey())));
-                        list.add(ShapedRecipeBuilder.shaped(ore.get(stick_long).item(), 1)
-                                .define('A', hammer.getTagPack().itemTagKey())
-                                .define('B', ore.get(stick).itemTag())
-                                .pattern("A")
-                                .pattern("B")
-                                .pattern("B")
-                                .unlockedBy("has_hammer", ModRecipeProvider.has(hammer.getTagPack().itemTagKey())));
-                    }
-                });
-        wrench = (OreItemTool) new OreItemTool("wrench")
-                .setConfig(IS_WRENCH).addRecipes(list -> {
-                    for (Ore ore : Ore.screen(Ore.IS_METAL, Ore.TOOL_DATA)) {
-                        list.add(ShapedRecipeBuilder.shaped(ore.get(wrench).item(), 1)
-                                .define('A', ore.get(ingot).itemTag())
-                                .pattern("A A")
-                                .pattern(" A ")
-                                .pattern(" A ")
-                                .unlockedBy("has_ore", ModRecipeProvider.has(ore.get(ingot).itemTag())));
-                    }
-                })
-                .addRecipes(list -> {
-                    for (Ore ore : Ore.screen(Ore.IS_METAL)) {
-                        if (!ore.manaLevel.hasSet(ManaLevel.CAN_UET_TOOL_MAKE)) {
-                            continue;
-                        }
-                        list.add(ShapedRecipeBuilder.shaped(ore.get(gear).item(), 1)
-                                .define('A', wrench.getTagPack().itemTagKey())
-                                .define('B', ore.get(plate).itemTag())
-                                .define('C', ore.get(ingot).item())
-                                .pattern("BCB")
-                                .pattern("CAC")
-                                .pattern("BCB")
-                                .unlockedBy("has_wrench", ModRecipeProvider.has(wrench.getTagPack().itemTagKey())));
-                        list.add(ShapedRecipeBuilder.shaped(ore.get(rotor).item(), 1)
-                                .define('A', wrench.getTagPack().itemTagKey())
-                                .define('B', ore.get(plate).itemTag())
-                                .define('C', ore.get(stick_long).item())
-                                .pattern("BCB")
-                                .pattern("CAC")
-                                .pattern("BCB")
-                                .unlockedBy("has_wrench", ModRecipeProvider.has(wrench.getTagPack().itemTagKey())));
-                    }
-                });
-        wireCutter = (OreItemTool) new OreItemTool("wire_cutter")
-                .setConfig(IS_WRENCH)
-                .addRecipes(list -> {
-                    for (Ore ore : Ore.screen(Ore.IS_METAL, Ore.TOOL_DATA)) {
-                        list.add(ShapedRecipeBuilder.shaped(ore.get(wireCutter).item(), 1)
-                                .define('A', ore.get(ingot).itemTag())
-                                .define('B', ore.get(plate).itemTag())
-                                .pattern("B B")
-                                .pattern(" B ")
-                                .pattern("A A")
-                                .unlockedBy("has_ore", ModRecipeProvider.has(ore.get(ingot).itemTag())));
-                    }
-                })
-                .setConfig(IS_WIRE_CUTTER).addRecipes(list -> {
-                    for (Ore ore : Ore.screen(Ore.IS_METAL)) {
-                        if (!ore.manaLevel.hasSet(ManaLevel.CAN_UET_TOOL_MAKE)) {
-                            continue;
-                        }
-                        list.add(ShapedRecipeBuilder.shaped(ore.get(string).item(), 1)
-                                .define('A', wireCutter.getTagPack().itemTagKey())
-                                .define('B', ore.get(plate).itemTag())
-                                .pattern("A")
-                                .pattern("B")
-                                .unlockedBy("has_wire_cutter", ModRecipeProvider.has(wireCutter.getTagPack().itemTagKey())));
-                    }
-                });
-        file = (OreItemTool) new OreItemTool("file")
-                .setConfig(IS_FILE)
-                .setConfig(IS_WRENCH).addRecipes(list -> {
-                    for (Ore ore : Ore.screen(Ore.IS_METAL, Ore.TOOL_DATA)) {
-                        list.add(ShapedRecipeBuilder.shaped(ore.get(file).item(), 1)
-                                .define('A', ore.get(plate).itemTag())
-                                .define('B', ore.get(casing).itemTag())
-                                .pattern("A")
-                                .pattern("A")
-                                .pattern("B")
-                                .unlockedBy("has_ore", ModRecipeProvider.has(ore.get(ingot).itemTag())));
-                    }
-                })
-                .addRecipes(list -> {
-                    for (Ore ore : Ore.screen(Ore.IS_METAL)) {
-                        if (!ore.manaLevel.hasSet(ManaLevel.CAN_UET_TOOL_MAKE)) {
-                            continue;
-                        }
-                        list.add(ShapedRecipeBuilder.shaped(ore.get(stick).item(), 1)
-                                .define('A', file.getTagPack().itemTagKey())
-                                .define('B', ore.get(ingot).itemTag())
-                                .pattern("A")
-                                .pattern("B")
-                                .unlockedBy("has_file", ModRecipeProvider.has(file.getTagPack().itemTagKey())));
-                    }
-                });
-        tank = new OreItemTank("tank");
+        hammer = new HammerOreItemTool();
+        wrench = new WrenchOreItemTool();
+        wireCutter = new WireCutterOreItemTool();
+        file = new FileOreItemTool();
+        tank = new TankOreItem();
     }
 
 
@@ -460,20 +242,26 @@ public class OreItem extends ItemUnitRegister<OreItem, Ore> {
 
     @Override
     public void dyeBlack(Ore ore, ColorProxy.ItemColorPack itemColorPack) {
-        itemColorPack.addColor(0, itemStack -> ore.color);
+        DuskColor color = ore.getConfig(OreConfig.COLOR);
+        itemColorPack.addColor(0, itemStack -> color);
+    }
+
+    @Override
+    public ConfigMap defaultConfigMap() {
+        return new ConfigMap();
     }
 
     /***
      * 是装备
      */
-    public static final GenericMap.IKey<Void> IS_ARMOR = new GenericMap.IKey.Key<>();
+    public static final ConfigKey.VoidConfigKey IS_ARMOR = new ConfigKey.VoidConfigKey("is_armor");
 
-    public static final GenericMap.IKey<Void> IS_HEAD = new GenericMap.IKey.Key<>();
-    public static final GenericMap.IKey<Void> IS_CHEST = new GenericMap.IKey.Key<>();
-    public static final GenericMap.IKey<Void> IS_LEGS = new GenericMap.IKey.Key<>();
-    public static final GenericMap.IKey<Void> IS_FEET = new GenericMap.IKey.Key<>();
+    public static final ConfigKey.VoidConfigKey IS_HEAD = new ConfigKey.VoidConfigKey("is_head");
+    public static final ConfigKey.VoidConfigKey IS_CHEST = new ConfigKey.VoidConfigKey("is_chest");
+    public static final ConfigKey.VoidConfigKey IS_LEGS = new ConfigKey.VoidConfigKey("is_legs");
+    public static final ConfigKey.VoidConfigKey IS_FEET = new ConfigKey.VoidConfigKey("is_feet");
 
-    public static GenericMap.IKey<Void> asArmorKey(EquipmentSlot equipmentSlot) {
+    public static ConfigKey.VoidConfigKey asArmorKey(EquipmentSlot equipmentSlot) {
         return switch (equipmentSlot) {
             default -> IS_ARMOR;
             case HEAD -> IS_HEAD;
@@ -497,22 +285,22 @@ public class OreItem extends ItemUnitRegister<OreItem, Ore> {
     /***
      * 是武器
      */
-    public static final GenericMap.IKey<Void> IS_ARMS = new GenericMap.IKey.Key<>();
+    public static final ConfigKey.VoidConfigKey IS_ARMS = new ConfigKey.VoidConfigKey("is_arms");
 
-    public static final GenericMap.IKey<Void> IS_SWORD = new GenericMap.IKey.Key<>();
-    public static final GenericMap.IKey<Void> IS_SHOVEL = new GenericMap.IKey.Key<>();
-    public static final GenericMap.IKey<Void> IS_PICKAXE = new GenericMap.IKey.Key<>();
-    public static final GenericMap.IKey<Void> IS_AXE = new GenericMap.IKey.Key<>();
-    public static final GenericMap.IKey<Void> IS_HOE = new GenericMap.IKey.Key<>();
+    public static final ConfigKey.VoidConfigKey IS_SWORD = new ConfigKey.VoidConfigKey("is_sword");
+    public static final ConfigKey.VoidConfigKey IS_SHOVEL = new ConfigKey.VoidConfigKey("is_shovel");
+    public static final ConfigKey.VoidConfigKey IS_PICKAXE = new ConfigKey.VoidConfigKey("is_pickaxe");
+    public static final ConfigKey.VoidConfigKey IS_AXE = new ConfigKey.VoidConfigKey("is_axe");
+    public static final ConfigKey.VoidConfigKey IS_HOE = new ConfigKey.VoidConfigKey("is_hoe");
 
     /***
      * 是工具
      */
-    public static final GenericMap.IKey<Void> IS_TOOL = new GenericMap.IKey.Key<>();
-    public static final GenericMap.IKey<Void> IS_HAMMER = new GenericMap.IKey.Key<>();
-    public static final GenericMap.IKey<Void> IS_WRENCH = new GenericMap.IKey.Key<>();
-    public static final GenericMap.IKey<Void> IS_WIRE_CUTTER = new GenericMap.IKey.Key<>();
-    public static final GenericMap.IKey<Void> IS_FILE = new GenericMap.IKey.Key<>();
+    public static final ConfigKey.VoidConfigKey IS_TOOL = new ConfigKey.VoidConfigKey("is_tool");
+    public static final ConfigKey.VoidConfigKey IS_HAMMER = new ConfigKey.VoidConfigKey("is_hammer");
+    public static final ConfigKey.VoidConfigKey IS_WRENCH = new ConfigKey.VoidConfigKey("is_wrench");
+    public static final ConfigKey.VoidConfigKey IS_WIRE_CUTTER = new ConfigKey.VoidConfigKey("is_wire_cutter");
+    public static final ConfigKey.VoidConfigKey IS_FILE = new ConfigKey.VoidConfigKey("is_file");
 
 
 }

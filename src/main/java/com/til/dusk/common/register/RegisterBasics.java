@@ -1,6 +1,5 @@
 package com.til.dusk.common.register;
 
-import com.til.dusk.Dusk;
 import com.til.dusk.common.config.ConfigMap;
 import com.til.dusk.common.config.IAcceptConfigMap;
 import com.til.dusk.common.config.ConfigKey;
@@ -20,7 +19,7 @@ import java.util.function.Supplier;
 /**
  * @author til
  */
-public abstract class RegisterBasics<T extends RegisterBasics<?>> implements  IAcceptConfigMap {
+public abstract class RegisterBasics<T extends RegisterBasics<?>> implements IAcceptConfigMap {
 
     /***
      * 注册项的名称
@@ -145,33 +144,5 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> implements  IA
         return name.toString();
     }
 
-
-    public static ResourceLocation fuseName(String splicing, String[] strings) {
-        return new ResourceLocation(Dusk.MOD_ID, String.join(splicing, Arrays.asList(strings)));
-    }
-
-    public static ResourceLocation fuseName(String splicing, RegisterBasics<?>... registerBasics) {
-        String[] strings = new String[registerBasics.length];
-        for (int i = 0; i < registerBasics.length; i++) {
-            strings[i] = registerBasics[i].name.getPath();
-        }
-        return fuseName(splicing, strings);
-    }
-
-    public static ResourceLocation fuseName(RegisterBasics<?>... registerBasics) {
-        return fuseName("_", registerBasics);
-    }
-
-    public static ResourceLocation fuseName(ResourceLocation... name) {
-        return fuseName("_", name);
-    }
-
-    public static ResourceLocation fuseName(String splicing, ResourceLocation... name) {
-        String[] stringArrayList = new String[name.length];
-        for (int i = 0; i < name.length; i++) {
-            stringArrayList[i] = name[i].getPath();
-        }
-        return fuseName(splicing, stringArrayList);
-    }
 
 }

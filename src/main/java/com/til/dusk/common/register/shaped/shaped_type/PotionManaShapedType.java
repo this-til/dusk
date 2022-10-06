@@ -5,7 +5,7 @@ import com.til.dusk.Dusk;
 import com.til.dusk.common.capability.handle.ShapedHandle;
 import com.til.dusk.common.data.tag.ItemTag;
 import com.til.dusk.common.data.tag.PotionsTag;
-import com.til.dusk.common.register.mana_level.ManaLevel;
+import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shapeds.ShapedMiddleExtend;

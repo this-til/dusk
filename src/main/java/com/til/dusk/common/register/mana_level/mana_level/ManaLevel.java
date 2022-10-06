@@ -1,16 +1,21 @@
-package com.til.dusk.common.register.mana_level;
+package com.til.dusk.common.register.mana_level.mana_level;
 
 import com.til.dusk.Dusk;
+import com.til.dusk.common.config.ConfigKey;
+import com.til.dusk.common.config.util.IShapedOreConfig;
 import com.til.dusk.common.data.tag.ItemTag;
 import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.register.UnitRegister;
+import com.til.dusk.common.register.mana_level.ManaLevelFluid;
+import com.til.dusk.common.register.mana_level.ManaLevelItem;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.register.ore.block.OreBlock;
 import com.til.dusk.common.register.ore.fluid.OreFluid;
 import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.util.DuskColor;
-import com.til.dusk.util.GenericMap;
+import com.til.dusk.util.Util;
+import com.til.dusk.util.nbt.cell.AllNBTCell;
 import com.til.dusk.util.pack.DataPack;
 import com.til.dusk.util.pack.RegistryPack;
 import com.til.dusk.util.pack.TagPack;
@@ -23,6 +28,7 @@ import net.minecraftforge.registries.*;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
@@ -232,9 +238,9 @@ public class ManaLevel extends UnitRegister<ManaLevel, ManaLevelItem, ManaLevelB
             return relationTagMap.get(registerBasics);
         }
         TagPack tagPack = new TagPack(
-                Dusk.instance.ITEM_TAG.createTagKey(fuseName("/", new String[]{name.getPath(), "acceptable", registerBasics.name.getPath()})),
-                Dusk.instance.BLOCK_TAG.createTagKey(fuseName("/", new String[]{name.getPath(), "acceptable", registerBasics.name.getPath()})),
-                Dusk.instance.FLUID_TAG.createTagKey(fuseName("/", new String[]{name.getPath(), "acceptable", registerBasics.name.getPath()}))
+                Dusk.instance.ITEM_TAG.createTagKey(fuseName(, "/", new String[]{name.getPath(), "acceptable", registerBasics.name.getPath()})),
+                Dusk.instance.BLOCK_TAG.createTagKey(fuseName(, "/", new String[]{name.getPath(), "acceptable", registerBasics.name.getPath()})),
+                Dusk.instance.FLUID_TAG.createTagKey(fuseName(, "/", new String[]{name.getPath(), "acceptable", registerBasics.name.getPath()}))
         );
         relationTagMap.put(registerBasics, tagPack);
         return tagPack;
@@ -250,23 +256,23 @@ public class ManaLevel extends UnitRegister<ManaLevel, ManaLevelItem, ManaLevelB
 
     public static RegistryPack<ManaLevel, ManaLevelItem, ManaLevelBlock, ManaLevelFluid> cellRegistry;
 
-    public static final GenericMap.IKey<DataPack.ManaLevelDataPack> OPERATION_BASICS = new GenericMap.IKey.Key<>();
-    public static final GenericMap.IKey<DataPack.ManaLevelDataPack> OPERATION = new GenericMap.IKey.Key<>();
-    public static final GenericMap.IKey<DataPack.ManaLevelDataPack> FORMING = new GenericMap.IKey.Key<>();
-    public static final GenericMap.IKey<DataPack.ManaLevelDataPack> DESTRUCTION = new GenericMap.IKey.Key<>();
-    public static final GenericMap.IKey<DataPack.ManaLevelDataPack> GATHER = new GenericMap.IKey.Key<>();
-    public static final GenericMap.IKey<DataPack.ManaLevelDataPack> SPREAD = new GenericMap.IKey.Key<>();
-    public static final GenericMap.IKey<DataPack.ManaLevelDataPack> POWER = new GenericMap.IKey.Key<>();
-    public static final GenericMap.IKey<DataPack.ManaLevelDataPack> INSTRUCTIONS = new GenericMap.IKey.Key<>();
+    public static final ConfigKey<List<IShapedOreConfig>> OPERATION_BASICS = new ConfigKey<>("mana_level.operation", Util.forcedConversion(AllNBTCell.I_ACCEPT_CONFIG_MAP.getListNBTCell()), null);
+    public static final ConfigKey<List<IShapedOreConfig>> OPERATION = new ConfigKey<>("mana_level.operation_basics", Util.forcedConversion(AllNBTCell.I_ACCEPT_CONFIG_MAP.getListNBTCell()), null);
+    public static final ConfigKey<List<IShapedOreConfig>> FORMING = new ConfigKey<>("mana_level.forming", Util.forcedConversion(AllNBTCell.I_ACCEPT_CONFIG_MAP.getListNBTCell()), null);
+    public static final ConfigKey<List<IShapedOreConfig>> DESTRUCTION = new ConfigKey<>("mana_level.destruction", Util.forcedConversion(AllNBTCell.I_ACCEPT_CONFIG_MAP.getListNBTCell()), null);
+    public static final ConfigKey<List<IShapedOreConfig>> GATHER = new ConfigKey<>("mana_level.gather", Util.forcedConversion(AllNBTCell.I_ACCEPT_CONFIG_MAP.getListNBTCell()), null);
+    public static final ConfigKey<List<IShapedOreConfig>> SPREAD = new ConfigKey<>("mana_level.spread", Util.forcedConversion(AllNBTCell.I_ACCEPT_CONFIG_MAP.getListNBTCell()), null);
+    public static final ConfigKey<List<IShapedOreConfig>> POWER = new ConfigKey<>("mana_level.power", Util.forcedConversion(AllNBTCell.I_ACCEPT_CONFIG_MAP.getListNBTCell()), null);
+    public static final ConfigKey<List<IShapedOreConfig>> INSTRUCTIONS = new ConfigKey<>("mana_level.instructions", Util.forcedConversion(AllNBTCell.I_ACCEPT_CONFIG_MAP.getListNBTCell()), null);
 
     /***
      * 能使用工具制造
      */
-    public static final GenericMap.IKey<Void> CAN_UET_TOOL_MAKE = new GenericMap.IKey.Key<>();
+    public static final ConfigKey.VoidConfigKey CAN_UET_TOOL_MAKE = new ConfigKey.VoidConfigKey("mana_level.can_use_tool_make");
 
     /***
      * 可以使用配方制造
      */
-    public static final GenericMap.IKey<Void> CAN_USE_RECIPE_MAKE = new GenericMap.IKey.Key<>();
+    public static final ConfigKey.VoidConfigKey CAN_USE_RECIPE_MAKE = new ConfigKey.VoidConfigKey("mana_level.can_use_recipe_make");
 
 }

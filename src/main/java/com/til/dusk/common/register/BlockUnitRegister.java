@@ -42,7 +42,7 @@ public abstract class BlockUnitRegister<T extends BlockUnitRegister<T, O>, O ext
     public abstract Block createBlock(O o);
 
     public TagKey<Block> createBlockTag(O o) {
-        return BlockTags.create(fuseName("/", new String[]{"item", o.name.getPath(), name.getPath()}));
+        return BlockTags.create(fuseName(, "/", new String[]{"item", o.name.getPath(), name.getPath()}));
     }
 
     public BlockItem createBlockItem(O o, Block block) {
@@ -55,7 +55,7 @@ public abstract class BlockUnitRegister<T extends BlockUnitRegister<T, O>, O ext
     }
 
     public TagKey<Item> createBlockItemTag(O o) {
-        return ItemTags.create(fuseName("/", new String[]{"block", o.name.getPath(), name.getPath()}));
+        return ItemTags.create(fuseName(, "/", new String[]{"block", o.name.getPath(), name.getPath()}));
     }
 
 

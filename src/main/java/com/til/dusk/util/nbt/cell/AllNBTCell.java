@@ -10,7 +10,7 @@ import com.til.dusk.common.config.ConfigMap;
 import com.til.dusk.common.config.ConfigKey;
 import com.til.dusk.common.config.IAcceptConfigMap;
 import com.til.dusk.common.register.other.BindType;
-import com.til.dusk.common.register.mana_level.ManaLevel;
+import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.ShapedHandleProcess;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;

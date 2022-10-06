@@ -3,7 +3,7 @@ package com.til.dusk.util.nbt.pack;
 import com.til.dusk.common.capability.skill.ISkill;
 import com.til.dusk.common.capability.handle.ShapedHandle;
 import com.til.dusk.common.register.other.BindType;
-import com.til.dusk.common.register.mana_level.ManaLevel;
+import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.ShapedHandleProcess;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;

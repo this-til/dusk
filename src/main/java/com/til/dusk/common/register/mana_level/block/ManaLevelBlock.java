@@ -3,7 +3,7 @@ package com.til.dusk.common.register.mana_level.block;
 import com.til.dusk.Dusk;
 import com.til.dusk.common.data.tag.ItemTag;
 import com.til.dusk.common.register.BlockUnitRegister;
-import com.til.dusk.common.register.mana_level.ManaLevel;
+import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.mana_level.ManaLevelItem;
 import com.til.dusk.common.register.mana_level.block.mechanic.*;
 import com.til.dusk.common.register.ore.ore.Ore;

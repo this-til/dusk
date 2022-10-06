@@ -5,9 +5,11 @@ import com.til.dusk.client.ColorProxy;
 import com.til.dusk.common.data.tag.ItemTag;
 import com.til.dusk.common.event.DelayTrigger;
 import com.til.dusk.common.register.ItemUnitRegister;
+import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.world.item.DuskItem;
 import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.Lang;
+import com.til.dusk.util.ResourceLocationUtil;
 import com.til.dusk.util.pack.ItemPack;
 import com.til.dusk.util.prefab.ColorPrefab;
 import net.minecraft.network.chat.Component;
@@ -223,7 +225,7 @@ public class ManaLevelItem extends ItemUnitRegister<ManaLevelItem, ManaLevel> {
             if (itemTag.containsKey(manaLevel)) {
                 return itemTag.get(manaLevel);
             }
-            TagKey<Item> tag = Dusk.instance.ITEM_TAG.createTagKey(fuseName("/", manaLevel.name, name));
+            TagKey<Item> tag = Dusk.instance.ITEM_TAG.createTagKey(ResourceLocationUtil.fuseName("/", manaLevel.name, name));
             itemTag.put(manaLevel, tag);
             return tag;
         }

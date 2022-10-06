@@ -2,7 +2,7 @@ package com.til.dusk.common.register.ore.ore;
 
 import com.til.dusk.common.config.ConfigKey;
 import com.til.dusk.common.config.util.IOrePlacedFeatureConfig;
-import com.til.dusk.common.register.mana_level.ManaLevel;
+import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.config.util.IShapedOreConfig;
 import com.til.dusk.common.register.shaped.shapeds.Shaped;
 import com.til.dusk.common.register.skill.Skill;
@@ -258,6 +258,8 @@ public class OreConfig {
 
     public static class ToolDataConfig {
 
+        public static final ConfigKey.ConfigMapKey TOOL_DATA_CONFIG = new ConfigKey.ConfigMapKey("ore.tool_data_config");
+
         /***
          * 耐久
          */
@@ -267,7 +269,5 @@ public class OreConfig {
          * 储罐最大液体
          */
         public static final ConfigKey<Integer> TANK_MAX = new ConfigKey<>("ore.tool_data.tank_max", AllNBTCell.INT, () -> 4000);
-
-        public static final ConfigKey.ConfigMapKey TOOL_DATA_CONFIG = new ConfigKey.ConfigMapKey("ore.tool_data_config");
     }
 }

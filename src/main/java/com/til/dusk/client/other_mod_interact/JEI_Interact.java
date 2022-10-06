@@ -5,7 +5,7 @@ import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.util.nbt.pack.AllNBTPack;
 import com.til.dusk.util.Lang;
-import com.til.dusk.common.register.mana_level.ManaLevel;
+import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.shaped.shapeds.Shaped;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 import mezz.jei.api.IModPlugin;

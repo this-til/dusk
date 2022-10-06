@@ -2,6 +2,7 @@ package com.til.dusk.common.register.mana_level;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.common.register.FluidUnitRegister;
+import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;

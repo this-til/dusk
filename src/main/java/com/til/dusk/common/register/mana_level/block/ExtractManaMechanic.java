@@ -2,14 +2,12 @@ package com.til.dusk.common.register.mana_level.block;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.client.ColorProxy;
-import com.til.dusk.common.register.mana_level.ManaLevel;
-import com.til.dusk.common.register.mana_level.block.HandleMechanic;
+import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 import com.til.dusk.common.world.block.ModBlock;
 import com.til.dusk.util.DuskColor;
 import net.minecraft.resources.ResourceLocation;
 
-import java.util.List;
 import java.util.Set;
 import java.util.function.Supplier;
 

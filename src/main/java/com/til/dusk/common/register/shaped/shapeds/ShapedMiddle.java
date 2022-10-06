@@ -1,14 +1,12 @@
 package com.til.dusk.common.register.shaped.shapeds;
 
-import com.google.gson.JsonObject;
 import com.til.dusk.common.config.ConfigKey;
 import com.til.dusk.common.config.ConfigMap;
-import com.til.dusk.common.register.mana_level.ManaLevel;
+import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 import com.til.dusk.util.Lang;
 import com.til.dusk.util.nbt.cell.AllNBTCell;
-import com.til.dusk.util.nbt.pack.AllNBTPack;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 

@@ -4,7 +4,7 @@ import com.til.dusk.common.config.ConfigMap;
 import com.til.dusk.common.config.util.IShapedOreConfig;
 import com.til.dusk.common.data.lang.LangProvider;
 import com.til.dusk.common.data.lang.LangType;
-import com.til.dusk.common.register.mana_level.ManaLevel;
+import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.ore.fluid.OreFluid;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.register.ore.ore.OreConfig;
