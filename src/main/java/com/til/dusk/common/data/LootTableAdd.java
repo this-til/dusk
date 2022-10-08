@@ -1,9 +1,9 @@
 package com.til.dusk.common.data;
 
-import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
-import com.til.dusk.common.register.ore.ore.Ore;
+import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.ore.block.OreBlock;
+import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.util.pack.BlockPack;
 import net.minecraft.data.loot.BlockLoot;
 import net.minecraft.resources.ResourceLocation;

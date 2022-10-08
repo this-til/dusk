@@ -20,7 +20,7 @@ public class OreItemMineralBlock extends OreItem {
 
     @Override
     public @Nullable ItemPack create(Ore ore) {
-        if (ore.getSet(Ore.MINERAL_BLOCK_DATA) != null) {
+        if (ore.mineralBlockData != null) {
             return super.create(ore);
         }
         return null;

@@ -32,7 +32,7 @@ public class BracketOreBlockMetal extends OreBlockMetal {
     @Override
     public @Nullable Block createBlock(Ore ore) {
         Block block = new Block(BlockBehaviour.Properties.of(Material.GLASS)
-                .strength(1.2f * ore.getConfig(Ore.STRENGTH).floatValue(), 2.4f * ore.getConfig(Ore.STRENGTH).floatValue())
+                .strength((float) (strengthBasics * ore.strength), (float) (explosionProofBasics * ore.strength))
                 .requiresCorrectToolForDrops()
                 .sound(SoundType.GLASS)
                 .noCollission()
@@ -44,24 +44,32 @@ public class BracketOreBlockMetal extends OreBlockMetal {
 
     @Override
     public void dyeBlack(Ore ore, ColorProxy.ItemColorPack itemColorPack) {
-        itemColorPack.addColor(0, itemStack -> ore.getConfig(Ore.COLOR));
+        itemColorPack.addColor(0, itemStack -> ore.color);
     }
 
     @Override
     public void dyeBlack(Ore ore, ColorProxy.BlockColorPack itemColorPack) {
-        itemColorPack.addColor(0, (blockState, blockAndTintGetter, blockPos) -> ore.getConfig(Ore.COLOR));
+        itemColorPack.addColor(0, (blockState, blockAndTintGetter, blockPos) -> ore.color);
+    }
+
+    @Override
+    public void defaultConfig() {
+        strength(1.2);
     }
 
     @Override
     public void registerRecipe(Consumer<RecipeBuilder> recipeConsumer) {
-        for (Ore ore : Ore.screen(Ore.IS_METAL)) {
-            if (!ore.getConfig(Ore.MANA_LEVEL).hasConfig(ManaLevel.CAN_UET_TOOL_MAKE)) {
+        for (Ore ore : Ore.ORE.get()) {
+            if (!ore.isMetal) {
+                continue;
+            }
+            if (!ore.manaLevel.canUetToolMake) {
                 continue;
             }
             recipeConsumer.accept(ShapedRecipeBuilder.shaped(ore.get(bracket).blockItem(), 1)
                     .define('A', ore.get(OreItem.casing).itemTag())
                     .define('B', ore.get(OreItem.stick).itemTag())
-                    .define('C', ore.getConfig(Ore.MANA_LEVEL).getAcceptableTagPack(OreItem.wrench).itemTagKey())
+                    .define('C', ore.manaLevel.acceptableTagPack.getTagPack(OreItem.wrench).itemTagKey())
                     .pattern("BAB")
                     .pattern("ACA")
                     .pattern("BAB")

@@ -5,8 +5,8 @@ import com.til.dusk.common.config.util.IShapedOreConfig;
 import com.til.dusk.common.data.ModRecipeProvider;
 import com.til.dusk.common.data.lang.LangProvider;
 import com.til.dusk.common.data.lang.LangType;
-import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.mana_level.block.DefaultCapacityMechanic;
+import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.ore.block.OreBlock;
 import com.til.dusk.common.register.ore.item.OreItem;
 import net.minecraft.data.recipes.RecipeBuilder;
@@ -34,7 +34,7 @@ public class FrameBasicMechanic extends DefaultCapacityMechanic {
     @Override
     public void registerRecipe(Consumer<RecipeBuilder> recipeConsumer) {
         for (ManaLevel manaLevel : ManaLevel.MANA_LEVEL.get()) {
-            if (!manaLevel.hasConfig(ManaLevel.CAN_USE_RECIPE_MAKE)) {
+            if (!manaLevel.hasConfig(ManaLevel.canUseRecipeMake)) {
                 continue;
             }
             recipeConsumer.accept(ShapedRecipeBuilder.shaped(manaLevel.get(this).blockItem(), 1)

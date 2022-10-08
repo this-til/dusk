@@ -11,7 +11,7 @@ import com.til.dusk.util.DuskColor;
  */
 public class OperationBasicsManaLevelItemPack extends ManaLevelItemPack {
 
-    public OperationBasicsManaLevelItemPack(){
+    public OperationBasicsManaLevelItemPack() {
         super("operation_basics");
     }
 
@@ -27,5 +27,11 @@ public class OperationBasicsManaLevelItemPack extends ManaLevelItemPack {
         return new ConfigMap()
                 .setConfigOfV(STROKE_COLOR, new DuskColor(25, 25, 25))
                 .setConfigOfV(CORE_COLOR, new DuskColor(25, 25, 25));
+    }
+
+    @Override
+    public void defaultConfig() {
+        strokeColor = new DuskColor(25, 25, 25);
+        coreColor = new DuskColor(25, 25, 25);
     }
 }

@@ -1,7 +1,8 @@
 package com.til.dusk.common.register.mana_level.mana_level;
 
 import com.til.dusk.Dusk;
-import com.til.dusk.common.config.ConfigKey;
+import com.til.dusk.common.config.ConfigField;
+import com.til.dusk.common.config.util.Delayed;
 import com.til.dusk.common.config.util.IShapedOreConfig;
 import com.til.dusk.common.data.lang.LangProvider;
 import com.til.dusk.common.data.lang.LangType;
@@ -10,20 +11,23 @@ import com.til.dusk.common.data.tag.FluidTag;
 import com.til.dusk.common.data.tag.ItemTag;
 import com.til.dusk.common.event.RegisterManageEvent;
 import com.til.dusk.common.register.UnitRegister;
+import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
 import com.til.dusk.common.register.mana_level.fluid.ManaLevelFluid;
 import com.til.dusk.common.register.mana_level.item.ManaLevelItem;
-import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
 import com.til.dusk.common.register.mana_level.mana_level.mana_levels.*;
 import com.til.dusk.common.world.tag.TagPackSupplier;
 import com.til.dusk.util.DuskColor;
-import com.til.dusk.util.Util;
-import com.til.dusk.util.nbt.cell.AllNBTCell;
-import com.til.dusk.util.pack.*;
+import com.til.dusk.util.pack.BlockPack;
+import com.til.dusk.util.pack.FluidPack;
+import com.til.dusk.util.pack.ItemPack;
+import com.til.dusk.util.pack.RegistryPack;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.*;
+import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraftforge.registries.NewRegistryEvent;
+import net.minecraftforge.registries.RegistryBuilder;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -68,7 +72,7 @@ public abstract class ManaLevel extends UnitRegister<ManaLevel, ManaLevelItem, M
         for (ManaLevel manaLevel : MANA_LEVEL.get()) {
             manaLevels.add(manaLevel);
         }
-        manaLevels = manaLevels.stream().sorted(Comparator.comparing(m -> m.getConfig(LEVEL))).toList();
+        manaLevels = manaLevels.stream().sorted(Comparator.comparing(m -> m.level)).toList();
         ManaLevel old = null;
         int id = 0;
         for (ManaLevel manaLevel : manaLevels) {
@@ -76,7 +80,7 @@ public abstract class ManaLevel extends UnitRegister<ManaLevel, ManaLevelItem, M
                 old.next = manaLevel;
             }
             manaLevel.up = old;
-            manaLevel.level = id;
+            manaLevel.levelId = id;
             old = manaLevel;
             id++;
         }
@@ -84,7 +88,7 @@ public abstract class ManaLevel extends UnitRegister<ManaLevel, ManaLevelItem, M
 
     public final TagPackSupplier acceptableTagPack;
 
-    protected int level;
+    protected int levelId;
     @Nullable
     protected ManaLevel up;
     @Nullable
@@ -154,45 +158,71 @@ public abstract class ManaLevel extends UnitRegister<ManaLevel, ManaLevelItem, M
     /***
      * 等级序列
      */
-    public static final ConfigKey<Integer> LEVEL = new ConfigKey<>("mana_level.level", AllNBTCell.INT, null);
+    @ConfigField
+    public int level;
     /***
      * 机器运行时的时钟时间
      */
-    public static final ConfigKey<Integer> CLOCK = new ConfigKey<>("mana_level.clock", AllNBTCell.INT, null);
+    @ConfigField
+    public int clock;
     /***
      * 机器并行次数
      */
-    public static final ConfigKey<Integer> PARALLEL = new ConfigKey<>("mana_level.parallel", AllNBTCell.INT, null);
+    @ConfigField
+    public int parallel;
     /***
      * 最大绑定数量
      */
-    public static final ConfigKey<Integer> MAX_BIND = new ConfigKey<>("mana_level.max_bind", AllNBTCell.INT, null);
+    @ConfigField
+    public int maxBind;
     /***
      * 灵气损耗
      */
-    public static final ConfigKey<Double> MANA_LOSS = new ConfigKey<>("mana_level.mana_loss", AllNBTCell.DOUBLE, null);
+    @ConfigField
+    public double manaLoss;
     /***
      * 机器的最大范围
      */
-    public static final ConfigKey<Integer> MAX_RANGE = new ConfigKey<>("mana_level.max_range", AllNBTCell.INT, null);
+    @ConfigField
+    public int maxRange;
     /***
      * 机器颜色
      */
-    public static final ConfigKey<DuskColor> COLOR = new ConfigKey<>("mana_level.color", AllNBTCell.COLOR, null);
-    public static final ConfigKey<List<IShapedOreConfig<ManaLevel>>> OPERATION_BASICS = new ConfigKey<>("mana_level.operation", Util.forcedConversion(AllNBTCell.I_ACCEPT_CONFIG_MAP.getListNBTCell()), null);
-    public static final ConfigKey<List<IShapedOreConfig<ManaLevel>>> OPERATION = new ConfigKey<>("mana_level.operation_basics", Util.forcedConversion(AllNBTCell.I_ACCEPT_CONFIG_MAP.getListNBTCell()), null);
-    public static final ConfigKey<List<IShapedOreConfig<ManaLevel>>> FORMING = new ConfigKey<>("mana_level.forming", Util.forcedConversion(AllNBTCell.I_ACCEPT_CONFIG_MAP.getListNBTCell()), null);
-    public static final ConfigKey<List<IShapedOreConfig<ManaLevel>>> DESTRUCTION = new ConfigKey<>("mana_level.destruction", Util.forcedConversion(AllNBTCell.I_ACCEPT_CONFIG_MAP.getListNBTCell()), null);
-    public static final ConfigKey<List<IShapedOreConfig<ManaLevel>>> GATHER = new ConfigKey<>("mana_level.gather", Util.forcedConversion(AllNBTCell.I_ACCEPT_CONFIG_MAP.getListNBTCell()), null);
-    public static final ConfigKey<List<IShapedOreConfig<ManaLevel>>> SPREAD = new ConfigKey<>("mana_level.spread", Util.forcedConversion(AllNBTCell.I_ACCEPT_CONFIG_MAP.getListNBTCell()), null);
-    public static final ConfigKey<List<IShapedOreConfig<ManaLevel>>> POWER = new ConfigKey<>("mana_level.power", Util.forcedConversion(AllNBTCell.I_ACCEPT_CONFIG_MAP.getListNBTCell()), null);
-    public static final ConfigKey<List<IShapedOreConfig<ManaLevel>>> INSTRUCTIONS = new ConfigKey<>("mana_level.instructions", Util.forcedConversion(AllNBTCell.I_ACCEPT_CONFIG_MAP.getListNBTCell()), null);
+    @ConfigField
+    public DuskColor color;
+
+    @Nullable
+    @ConfigField
+    public Delayed<List<IShapedOreConfig<ManaLevel>>> operationBasics;
+    @Nullable
+    @ConfigField
+    public Delayed<List<IShapedOreConfig<ManaLevel>>> operation;
+    @Nullable
+    @ConfigField
+    public Delayed<List<IShapedOreConfig<ManaLevel>>> forming;
+    @Nullable
+    @ConfigField
+    public Delayed<List<IShapedOreConfig<ManaLevel>>> destruction;
+    @Nullable
+    @ConfigField
+    public Delayed<List<IShapedOreConfig<ManaLevel>>> gather;
+    @Nullable
+    @ConfigField
+    public Delayed<List<IShapedOreConfig<ManaLevel>>> spread;
+    @Nullable
+    @ConfigField
+    public Delayed<List<IShapedOreConfig<ManaLevel>>> power;
+    @Nullable
+    @ConfigField
+    public Delayed<List<IShapedOreConfig<ManaLevel>>> instructions;
     /***
      * 能使用工具制造
      */
-    public static final ConfigKey.VoidConfigKey CAN_UET_TOOL_MAKE = new ConfigKey.VoidConfigKey("mana_level.can_use_tool_make");
+    @ConfigField
+    public boolean canUetToolMake;
     /***
      * 可以使用配方制造
      */
-    public static final ConfigKey.VoidConfigKey CAN_USE_RECIPE_MAKE = new ConfigKey.VoidConfigKey("mana_level.can_use_recipe_make");
+    @ConfigField
+    public boolean canUseRecipeMake;
 }

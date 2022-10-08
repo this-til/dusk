@@ -1,9 +1,9 @@
 package com.til.dusk.common.register.ore.ore.ores;
 
-import com.til.dusk.common.config.ConfigMap;
 import com.til.dusk.common.data.lang.LangProvider;
 import com.til.dusk.common.data.lang.LangType;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
+import com.til.dusk.common.register.ore.fluid.FluidData;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.util.DuskColor;
 
@@ -21,13 +21,11 @@ public class NatureAirOre extends Ore {
         lang.add(LangType.ZH_CN, "质空");
         lang.add(LangType.EN_CH, "Nature Air");
     }
-
     @Override
-    public ConfigMap defaultConfigMap() {
-        return new ConfigMap()
-                .setConfigOfV(Ore.COLOR, new DuskColor(255, 153, 149 ))
-                .setConfigOfV(Ore.MANA_LEVEL, ManaLevel.t2)
-                .setConfig(FluidConfig.FLUID_CONFIG, ConfigMap::new);
+    public void defaultConfig() {
+        color = new DuskColor(255, 153, 149);
+        manaLevel = ManaLevel.t2;
+        fluidData = new FluidData();
     }
 
 }

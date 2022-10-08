@@ -2,11 +2,11 @@ package com.til.dusk.common.world.item;
 
 import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.capability.pos.IPosTrack;
+import com.til.dusk.common.register.key.EventKey;
+import com.til.dusk.common.register.key.KeyRegister;
 import com.til.dusk.common.register.other.BindType;
 import com.til.dusk.common.register.other.CapabilityRegister;
 import com.til.dusk.common.register.particle_register.ParticleRegister;
-import com.til.dusk.common.register.key.EventKey;
-import com.til.dusk.common.register.key.KeyRegister;
 import com.til.dusk.util.prefab.ColorPrefab;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;

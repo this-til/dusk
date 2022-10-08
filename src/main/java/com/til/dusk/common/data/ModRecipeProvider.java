@@ -1,7 +1,6 @@
 package com.til.dusk.common.data;
 
 import com.til.dusk.Dusk;
-import com.til.dusk.common.event.DelayTrigger;
 import com.til.dusk.common.event.RegisterRecipeEvent;
 import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.register.RegisterManage;

@@ -4,8 +4,6 @@ import com.til.dusk.common.config.ConfigMap;
 import com.til.dusk.common.data.lang.LangProvider;
 import com.til.dusk.common.data.lang.LangType;
 import com.til.dusk.common.data.tag.ItemTag;
-import com.til.dusk.common.register.ore.item.ArmsData;
-import com.til.dusk.common.register.ore.item.OreItemArmor;
 import com.til.dusk.common.register.ore.item.OreItemArms;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.world.item.CapabilitySwordItem;

@@ -1,7 +1,6 @@
 package com.til.dusk.common.register.ore.fluid;
 
 import com.til.dusk.Dusk;
-import com.til.dusk.common.config.ConfigMap;
 import com.til.dusk.common.register.FluidUnitRegister;
 import com.til.dusk.common.register.ore.fluid.fluids.*;
 import com.til.dusk.common.register.ore.ore.Ore;
@@ -69,7 +68,7 @@ public class OreFluid extends FluidUnitRegister<OreFluid, Ore> {
 
     @Override
     public FluidPack create(Ore ore) {
-        if (ore.hasConfig(Ore.FluidConfig.FLUID_CONFIG)) {
+        if (ore.fluidData != null) {
             return super.create(ore);
         }
         return null;
@@ -94,8 +93,8 @@ public class OreFluid extends FluidUnitRegister<OreFluid, Ore> {
     }
 
     @Override
-    public ConfigMap defaultConfigMap() {
-        return new ConfigMap();
+    public void defaultConfig() {
+
     }
 
     public static final ResourceLocation STILL_TEXTURE = new ResourceLocation("block/water_still");

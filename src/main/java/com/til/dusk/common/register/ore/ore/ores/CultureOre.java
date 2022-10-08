@@ -1,10 +1,11 @@
 package com.til.dusk.common.register.ore.ore.ores;
 
-import com.til.dusk.common.config.ConfigMap;
+import com.til.dusk.common.config.util.Delayed;
 import com.til.dusk.common.data.lang.LangProvider;
 import com.til.dusk.common.data.lang.LangType;
 import com.til.dusk.common.data.tag.ItemTag;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
+import com.til.dusk.common.register.ore.fluid.FluidData;
 import com.til.dusk.common.register.ore.fluid.OreFluid;
 import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.ore.ore.Ore;
@@ -17,6 +18,9 @@ import net.minecraftforge.fluids.FluidStack;
 
 import java.util.List;
 
+/**
+ * @author til
+ */
 public class CultureOre extends Ore {
     public CultureOre() {
         super("culture");
@@ -30,21 +34,19 @@ public class CultureOre extends Ore {
     }
 
     @Override
-    public ConfigMap defaultConfigMap() {
-        return new ConfigMap()
-                .setConfigOfV(Ore.COLOR, new DuskColor(199, 107, 87 ))
-                .setConfigOfV(Ore.MANA_LEVEL, ManaLevel.t4)
-                .setConfig(FluidConfig.FLUID_CONFIG, ConfigMap::new)
-                .setConfig(Ore.RELEVANT_SHAPED, () -> List.of(
-                        new ShapedOre(ResourceLocationUtil.fuseName(this, OreFluid.solution), ShapedType.highPressureFuse, ShapedDrive.get(0), this.getConfig(Ore.MANA_LEVEL))
-                                .addInFluid(nutrient.get(OreFluid.solution).fluidTag(), 1024)
-                                .addInItem(ItemTag.SUGAR, 5)
-                                .addInItem(clove.get(OreItem.dust).itemTag(), 5)
-                                .addInItem(lotusRoot.get(OreItem.dust).itemTag(), 5)
-                                .addOutFluid(new FluidStack(culture.get(OreFluid.solution).source(), 128), 1D)
-                                .addMultipleSurplusTime((long) (8192L * this.getConfig(Ore.STRENGTH)))
-                                .addMultipleConsumeMana((long) (18L * this.getConfig(Ore.CONSUME)))));
+    public void defaultConfig() {
+        color = new DuskColor(199, 107, 87);
+        manaLevel = ManaLevel.t4;
+        fluidData = new FluidData();
+        relevantShaped = new Delayed<>(() -> List.of(
+                new ShapedOre(ResourceLocationUtil.fuseName(this, OreFluid.solution), ShapedType.blend, ShapedDrive.get(0),manaLevel)
+                        .addInFluid(nutrient.get(OreFluid.solution).fluidTag(), 1024)
+                        .addInItem(ItemTag.SUGAR, 5)
+                        .addInItem(clove.get(OreItem.dust).itemTag(), 5)
+                        .addInItem(lotusRoot.get(OreItem.dust).itemTag(), 5)
+                        .addOutFluid(new FluidStack(culture.get(OreFluid.solution).source(), 128), 1D)
+                        .addMultipleSurplusTime((long) (8192L * strength))
+                        .addMultipleConsumeMana((long) (18L * consume))));
     }
-
 }
 

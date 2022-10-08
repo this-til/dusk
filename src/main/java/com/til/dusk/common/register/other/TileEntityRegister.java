@@ -6,8 +6,8 @@ import com.til.dusk.common.capability.tile_entity.DefaultTileEntity;
 import com.til.dusk.common.capability.tile_entity.ITileEntityType;
 import com.til.dusk.common.capability.tile_entity.RepeaterTileEntity;
 import com.til.dusk.common.register.RegisterBasics;
-import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
+import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.world.block.RepeaterBlock;
 import com.til.dusk.util.ResourceLocationUtil;
@@ -112,4 +112,9 @@ public abstract class TileEntityRegister<T extends BlockEntity> extends Register
     public EventPriority getRegisterBlackPriority() {
         return EventPriority.LOWEST;
     }*/
+
+    @Override
+    public void defaultConfig() {
+
+    }
 }

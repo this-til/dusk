@@ -1,11 +1,13 @@
 package com.til.dusk.common.register.ore.ore.ores;
 
-import com.til.dusk.common.config.ConfigMap;
+import com.til.dusk.common.config.util.Delayed;
 import com.til.dusk.common.data.lang.LangProvider;
 import com.til.dusk.common.data.lang.LangType;
 import com.til.dusk.common.data.tag.ItemTag;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
+import com.til.dusk.common.register.ore.fluid.FluidData;
 import com.til.dusk.common.register.ore.fluid.OreFluid;
+import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
@@ -32,23 +34,25 @@ public class StemCellOre extends Ore {
     }
 
     @Override
-    public ConfigMap defaultConfigMap() {
-        return new ConfigMap()
-                .setConfigOfV(Ore.COLOR, new DuskColor(209, 149, 182))
-                .setConfigOfV(Ore.MANA_LEVEL, ManaLevel.t1)
-                .setConfig(FluidConfig.FLUID_CONFIG, ConfigMap::new)
-                .setConfig(Ore.RELEVANT_SHAPED, () -> List.of(
-                        new ShapedOre(ResourceLocationUtil.fuseName(this, OreFluid.solution), ShapedType.stemCellExtract, ShapedDrive.get(0), this.getConfig(Ore.MANA_LEVEL))
-                                .addInItem(ItemTag.CAN_EXTRACT_STEM_CELL, 1)
-                                .addOutFluid(new FluidStack(this.get(OreFluid.solution).source(), 1), 0.1)
-                                .addMultipleSurplusTime((long) (512L * this.getConfig(Ore.STRENGTH)))
-                                .addMultipleConsumeMana((long) (128L * this.getConfig(Ore.CONSUME))),
-                        new ShapedOre(ResourceLocationUtil.fuseName(this, OreFluid.solution), ShapedType.cellCulture, ShapedDrive.get(0), ManaLevel.t4)
-                                .addInFluid(stemCell.get(OreFluid.solution).fluidTag(), 1)
-                                .addInFluid(this.get(OreFluid.solution).fluidTag(), 128)
-                                .addOutFluid(new FluidStack(this.get(OreFluid.solution).source(), 1), 1d)
-                                .addMultipleSurplusTime((long) (512L * this.getConfig(Ore.STRENGTH)))
-                                .addMultipleConsumeMana((long) (128L * this.getConfig(Ore.CONSUME)))));
+    public void defaultConfig() {
+        color = new DuskColor(209, 149, 182);
+        manaLevel = ManaLevel.t4;
+        fluidData = new FluidData();
+        relevantShaped = new Delayed<>(() -> List.of(
+                new ShapedOre(ResourceLocationUtil.fuseName(this, OreFluid.solution), ShapedType.stemCellExtract, ShapedDrive.get(0), manaLevel)
+                        .addInFluid(nutrient.get(OreFluid.solution).fluidTag(), 1024)
+                        .addInItem(ItemTag.SUGAR, 5)
+                        .addInItem(clove.get(OreItem.dust).itemTag(), 5)
+                        .addInItem(lotusRoot.get(OreItem.dust).itemTag(), 5)
+                        .addOutFluid(new FluidStack(culture.get(OreFluid.solution).source(), 128), 1D)
+                        .addMultipleSurplusTime((long) (512L * strength))
+                        .addMultipleConsumeMana((long) (64L * consume)),
+                new ShapedOre(ResourceLocationUtil.fuseName(this, OreFluid.solution), ShapedType.cellCulture, ShapedDrive.get(0), manaLevel)
+                        .addInFluid(stemCell.get(OreFluid.solution).fluidTag(), 1)
+                        .addInFluid(this.get(OreFluid.solution).fluidTag(), 128)
+                        .addOutFluid(new FluidStack(this.get(OreFluid.solution).source(), 1), 1d)
+                        .addMultipleSurplusTime((long) (1024L * strength))
+                        .addMultipleConsumeMana((long) (64L * consume))));
     }
 
 }

@@ -17,14 +17,14 @@ import net.minecraft.world.level.material.MaterialColor;
  */
 public class BlockOreBlockDecorate extends OreBlockDecorate {
 
-    public BlockOreBlockDecorate(){
+    public BlockOreBlockDecorate() {
         super("block");
     }
 
     @Override
     public Block createBlock(Ore ore) {
         Block block = new Block(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.METAL)
-                .strength(0.6f * ore.getConfig(Ore.STRENGTH).floatValue(), 1.2f * ore.getConfig(Ore.STRENGTH).floatValue())
+                .strength((float) (strengthBasics * ore.strength), (float) (explosionProofBasics * ore.strength))
                 .requiresCorrectToolForDrops()
                 .sound(SoundType.STONE));
         BlockTag.addTag(BlockTags.MINEABLE_WITH_PICKAXE, block);
@@ -37,5 +37,10 @@ public class BlockOreBlockDecorate extends OreBlockDecorate {
         lang.setCache(name.toLanguageKey());
         lang.add(LangType.ZH_CN, "块");
         lang.add(LangType.EN_CH, "Block");
+    }
+
+    @Override
+    public void defaultConfig() {
+       strength(0.6);
     }
 }

@@ -1,8 +1,8 @@
 package com.til.dusk.common.register.shaped.shaped_type;
 
-import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
-import com.til.dusk.common.register.mana_level.item.ManaLevelItem;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
+import com.til.dusk.common.register.mana_level.item.ManaLevelItem;
+import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
@@ -21,8 +21,8 @@ public class CarvingShapedType extends ShapedType {
     @Override
     public void registerShaped() {
         for (ManaLevel manaLevel : ManaLevel.MANA_LEVEL.get()) {
-            if (manaLevel.hasSet(ManaLevel.OPERATION_BASICS)) {
-                DataPack.ManaLevelDataPack manaLevelDataPack = manaLevel.getSet(ManaLevel.OPERATION_BASICS);
+            if (manaLevel.hasSet(ManaLevel.operationBasics)) {
+                DataPack.ManaLevelDataPack manaLevelDataPack = manaLevel.getSet(ManaLevel.operationBasics);
                 if (manaLevel.up != null) {
                     new ShapedOre(this, ShapedDrive.get(0), manaLevel)
                             .addInItem(manaLevel.getAcceptableTagPack(OreItem.crystal).itemTagKey(), 1)

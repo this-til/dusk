@@ -27,8 +27,8 @@ public class OreFluidSplitting extends OreFluid {
 
     @Override
     public FluidPack create(Ore ore) {
-        if (ore.hasConfig(Ore.FluidConfig.FLUID_CONFIG)
-            && ore.getConfig(Ore.FluidConfig.FLUID_CONFIG).containsKey(Ore.FluidConfig.FLUID_CONFIG)) {
+        if (ore.fluidData != null
+            && ore.fluidData.splitting != null) {
             return super.create(ore);
         }
         return null;
@@ -36,7 +36,7 @@ public class OreFluidSplitting extends OreFluid {
 
     @Override
     public FluidType createFluidType(Ore ore) {
-        DuskColor color = ore.getConfig(Ore.COLOR).blend(this.color.get());
+        DuskColor color = ore.color.blend(this.color.get());
         return new OreFluidType(FluidType.Properties.create(), ore, this) {
             @Override
             public DuskColor getColor() {

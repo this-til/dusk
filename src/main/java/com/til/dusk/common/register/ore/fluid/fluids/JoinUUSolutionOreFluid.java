@@ -14,8 +14,7 @@ public class JoinUUSolutionOreFluid extends OreFluid {
 
     @Override
     public FluidPack create(Ore ore) {
-        if (ore.hasConfig(Ore.FluidConfig.FLUID_CONFIG) &&
-            ore.getConfig(Ore.FluidConfig.FLUID_CONFIG).containsKey(Ore.FluidConfig.CAN_COPY)) {
+        if (ore.fluidData != null && ore.fluidData.canCopy) {
             return super.create(ore);
         }
         return null;

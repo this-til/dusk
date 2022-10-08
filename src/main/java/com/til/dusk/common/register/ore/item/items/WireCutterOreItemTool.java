@@ -1,10 +1,8 @@
 package com.til.dusk.common.register.ore.item.items;
 
-import com.til.dusk.common.config.ConfigMap;
 import com.til.dusk.common.data.ModRecipeProvider;
 import com.til.dusk.common.data.lang.LangProvider;
 import com.til.dusk.common.data.lang.LangType;
-import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.ore.item.OreItemTool;
 import com.til.dusk.common.register.ore.ore.Ore;
 import net.minecraft.data.recipes.RecipeBuilder;
@@ -28,15 +26,15 @@ public class WireCutterOreItemTool extends OreItemTool {
     }
 
     @Override
-    public ConfigMap defaultConfigMap() {
-        return super.defaultConfigMap()
-                .setConfig(IS_WIRE_CUTTER);
-    }
-
-    @Override
     public void registerRecipe(Consumer<RecipeBuilder> recipeConsumer) {
         super.registerRecipe(recipeConsumer);
-        for (Ore ore : Ore.screen(Ore.IS_METAL, Ore.ToolDataConfig.TOOL_DATA_CONFIG)) {
+        for (Ore ore : Ore.ORE.get()) {
+            if (!ore.isMetal) {
+                continue;
+            }
+            if (ore.toolData == null) {
+                continue;
+            }
             recipeConsumer.accept(ShapedRecipeBuilder.shaped(ore.get(wireCutter).item(), 1)
                     .define('A', ore.get(ingot).itemTag())
                     .define('B', ore.get(plate).itemTag())
@@ -45,16 +43,16 @@ public class WireCutterOreItemTool extends OreItemTool {
                     .pattern("A A")
                     .unlockedBy("has_ore", ModRecipeProvider.has(ore.get(ingot).itemTag())));
         }
-        for (Ore ore : Ore.screen(Ore.IS_METAL)) {
-            if (!ore.getConfig(Ore.MANA_LEVEL).hasConfig(ManaLevel.CAN_UET_TOOL_MAKE)) {
+        for (Ore ore : Ore.ORE.get()) {
+            if (!ore.manaLevel.canUetToolMake) {
                 continue;
             }
             recipeConsumer.accept(ShapedRecipeBuilder.shaped(ore.get(string).item(), 1)
-                    .define('A', wireCutter.getTagPack().itemTagKey())
+                    .define('A', wireCutter.tagPackSupplier.getTagPack().itemTagKey())
                     .define('B', ore.get(plate).itemTag())
                     .pattern("A")
                     .pattern("B")
-                    .unlockedBy("has_wire_cutter", ModRecipeProvider.has(wireCutter.getTagPack().itemTagKey())));
+                    .unlockedBy("has_wire_cutter", ModRecipeProvider.has(wireCutter.tagPackSupplier.getTagPack().itemTagKey())));
         }
     }
 }

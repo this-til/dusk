@@ -20,13 +20,13 @@ public abstract class Mechanic extends ManaLevelBlock {
 
     @Override
     public void dyeBlack(ManaLevel manaLevel, ColorProxy.ItemColorPack itemColorPack) {
-        DuskColor color = manaLevel.getConfig(ManaLevel.COLOR);
+        DuskColor color = manaLevel.getConfig(ManaLevel.color);
         itemColorPack.addColor(0, itemStack -> color);
     }
 
     @Override
     public void dyeBlack(ManaLevel manaLevel, ColorProxy.BlockColorPack blockColorPack) {
-        DuskColor color = manaLevel.getConfig(ManaLevel.COLOR);
+        DuskColor color = manaLevel.getConfig(ManaLevel.color);
         blockColorPack.addColor(0, (blockState, blockAndTintGetter, blockPos) -> color);
     }
 

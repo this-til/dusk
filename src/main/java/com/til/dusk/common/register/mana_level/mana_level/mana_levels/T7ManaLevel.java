@@ -1,6 +1,5 @@
 package com.til.dusk.common.register.mana_level.mana_level.mana_levels;
 
-import com.til.dusk.common.config.ConfigMap;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.util.DuskColor;
 
@@ -13,14 +12,13 @@ public class T7ManaLevel extends ManaLevel {
     }
 
     @Override
-    public ConfigMap defaultConfigMap() {
-        return new ConfigMap()
-                .setConfigOfV(ManaLevel.LEVEL, 7)
-                .setConfigOfV(ManaLevel.CLOCK, 40)
-                .setConfigOfV(ManaLevel.PARALLEL, 7)
-                .setConfigOfV(ManaLevel.MAX_BIND, 7)
-                .setConfigOfV(ManaLevel.MANA_LOSS, 0.04)
-                .setConfigOfV(ManaLevel.MAX_RANGE, 28)
-                .setConfigOfV(ManaLevel.COLOR,  new DuskColor(225, 200, 100));
+    public void defaultConfig() {
+        level = 7;
+        clock = 40;
+        parallel = 7;
+        maxBind = 7;
+        manaLoss = 0.04;
+        maxRange = 28;
+        color = new DuskColor(225, 200, 100);
     }
 }

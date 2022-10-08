@@ -3,7 +3,7 @@ package com.til.dusk.common.register.shaped.shaped_type;
 import com.til.dusk.Dusk;
 import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
-import com.til.dusk.common.register.shaped.CrystalSeedMakeShapedType;
+import com.til.dusk.common.register.shaped.shapeds.CrystalSeedMakeShapedType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -11,7 +11,6 @@ import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegistryBuilder;
 
-import java.util.Objects;
 import java.util.function.Supplier;
 
 /**

@@ -1,12 +1,17 @@
 package com.til.dusk.common.register.ore.fluid;
 
-import com.til.dusk.common.register.ore.ore.Ore;
-import com.til.dusk.util.pack.DataPack;
+import com.til.dusk.common.config.AcceptTypeJson;
+import com.til.dusk.common.config.util.IShapedOreConfig;
 import org.jetbrains.annotations.Nullable;
 
-@Deprecated
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * @author til
+ */
+@AcceptTypeJson
 public class FluidData {
-    public final Ore ore;
 
     /***
      * 能不能被uu复制
@@ -19,10 +24,6 @@ public class FluidData {
     @Nullable
     public SplittingData splitting;
 
-    public FluidData(Ore ore) {
-        this.ore = ore;
-    }
-
     public FluidData setCanCopy(boolean canCopy) {
         this.canCopy = canCopy;
         return this;
@@ -33,30 +34,38 @@ public class FluidData {
         return this;
     }
 
+    @AcceptTypeJson
     public static class SplittingData {
         @Nullable
-        public SplittingDataPack sunlightSplitting;
+        public List<IShapedOreConfig<Void>> sunlightSplitting;
         @Nullable
-        public SplittingDataPack moonlightSplitting;
+        public List<IShapedOreConfig<Void>> moonlightSplitting;
         @Nullable
-        public SplittingDataPack rainSplitting;
+        public List<IShapedOreConfig<Void>> rainSplitting;
 
-        public SplittingData setSunlightSplitting(SplittingDataPack sunlightSplitting) {
-            this.sunlightSplitting = sunlightSplitting;
+        public SplittingData addSunlightSplitting(IShapedOreConfig<Void> config) {
+            if (sunlightSplitting == null) {
+                sunlightSplitting = new ArrayList<>();
+            }
+            sunlightSplitting.add(config);
             return this;
         }
 
-        public SplittingData setMoonlightSplitting(SplittingDataPack moonlightSplitting) {
-            this.moonlightSplitting = moonlightSplitting;
+        public SplittingData addMoonlightSplitting(IShapedOreConfig<Void> config) {
+            if (moonlightSplitting == null) {
+                moonlightSplitting = new ArrayList<>();
+            }
+            moonlightSplitting.add(config);
             return this;
         }
 
-        public SplittingData setRainSplitting(SplittingDataPack rainSplitting) {
-            this.rainSplitting = rainSplitting;
+        public SplittingData addRainSplitting(IShapedOreConfig<Void> config) {
+            if (rainSplitting == null) {
+                rainSplitting = new ArrayList<>();
+            }
+            rainSplitting.add(config);
             return this;
         }
     }
 
-    public static class SplittingDataPack extends DataPack<SplittingDataPack, Void> {
-    }
 }

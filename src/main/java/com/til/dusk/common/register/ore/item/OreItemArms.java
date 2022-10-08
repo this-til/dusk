@@ -16,7 +16,6 @@ import org.jetbrains.annotations.Nullable;
 public abstract class OreItemArms extends OreItem {
     public OreItemArms(ResourceLocation name) {
         super(name);
-        setConfig(IS_ARMS, null);
     }
 
     public OreItemArms(String name) {
@@ -25,7 +24,7 @@ public abstract class OreItemArms extends OreItem {
 
     @Override
     public @Nullable ItemPack create(Ore ore) {
-        if (ore.hasConfig(Ore.ArmsConfig.ARMS_CONFIG)) {
+        if (ore.armorData != null) {
             return super.create(ore);
         }
         return null;
@@ -33,7 +32,7 @@ public abstract class OreItemArms extends OreItem {
 
     @Override
     public Item createItem(Ore ore) {
-        return createArmsItem(ore, ore.getConfig(Ore.ArmsConfig.ARMS_CONFIG));
+        return createArmsItem(ore, ore.armorData);
     }
 
     /***
@@ -42,12 +41,11 @@ public abstract class OreItemArms extends OreItem {
      * @param armsData 武器数据
      * @return 武器
      */
-    public abstract Item createArmsItem(Ore ore, ConfigMap armsData);
+    public abstract Item createArmsItem(Ore ore, ArmorData armsData);
 
     @Override
     public void dyeBlack(Ore ore, ColorProxy.ItemColorPack itemColorPack) {
         super.dyeBlack(ore, itemColorPack);
-        DuskColor color = ore.getConfig(Ore.COLOR);
-        itemColorPack.addColor(1, itemStack -> color);
+        itemColorPack.addColor(1, itemStack -> ore.color);
     }
 }

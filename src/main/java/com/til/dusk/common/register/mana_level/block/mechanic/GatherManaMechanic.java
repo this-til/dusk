@@ -10,8 +10,8 @@ import com.til.dusk.common.config.ConfigMap;
 import com.til.dusk.common.data.lang.LangProvider;
 import com.til.dusk.common.data.lang.LangType;
 import com.til.dusk.common.register.mana_level.block.DefaultCapacityMechanic;
-import com.til.dusk.common.register.other.CapabilityRegister;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
+import com.til.dusk.common.register.other.CapabilityRegister;
 import com.til.dusk.util.nbt.cell.AllNBTCell;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
@@ -27,8 +27,8 @@ public class GatherManaMechanic extends DefaultCapacityMechanic {
         super.addCapability(event, duskModCapability, manaLevel, iPosTrack);
         IBack iBack = duskModCapability.addCapability(CapabilityRegister.iBlack.capability, new Back());
         duskModCapability.addCapability(CapabilityRegister.iManaHandle.capability, new ManaHandle(
-                getConfig(MANA_BASICS) * manaLevel.getConfig(ManaLevel.LEVEL),
-                getConfig(MANA_RATE_BASICS) * manaLevel.getConfig(ManaLevel.LEVEL), iBack));
+                getConfig(MANA_BASICS) * manaLevel.getConfig(ManaLevel.level),
+                getConfig(MANA_RATE_BASICS) * manaLevel.getConfig(ManaLevel.level), iBack));
     }
 
     @Override

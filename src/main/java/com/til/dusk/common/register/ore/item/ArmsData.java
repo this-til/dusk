@@ -1,48 +1,34 @@
 package com.til.dusk.common.register.ore.item;
 
-import com.til.dusk.common.capability.DuskCapabilityProvider;
-import com.til.dusk.common.capability.IItemDefaultCapability;
-import com.til.dusk.common.capability.black.Back;
-import com.til.dusk.common.capability.black.IBack;
-import com.til.dusk.common.capability.mana_handle.VariableManaHandle;
-import com.til.dusk.common.capability.skill.ISkill;
-import com.til.dusk.common.capability.skill.ItemStackSkill;
-import com.til.dusk.common.config.INeedBack;
+import com.til.dusk.Dusk;
+import com.til.dusk.common.config.AcceptTypeJson;
+import com.til.dusk.common.config.util.Delayed;
 import com.til.dusk.common.register.ore.ore.Ore;
-import com.til.dusk.common.register.other.CapabilityRegister;
 import com.til.dusk.common.register.skill.Skill;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Tier;
-import net.minecraft.world.item.Tiers;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.common.TierSortingRegistry;
-import net.minecraftforge.event.AttachCapabilitiesEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.function.Supplier;
 
 /***
  * 武器数据
+ * @author til
  */
-@Deprecated
-public class ArmsData implements Tier, IItemDefaultCapability, INeedBack {
+@AcceptTypeJson
+public class ArmsData implements Tier {
 
-    public final Supplier<Ore> ore;
 
     public int level = 5;
     public int uses = 2400;
     public float speed = -3f;
     public int attackDamageBonus = 10;
     public int enchantmentValue = 23;
-    public Supplier<Ingredient> repairIngredient;
-
-    public TagKey<Block> tag;
 
     /***
      * 基础灵气
@@ -56,21 +42,26 @@ public class ArmsData implements Tier, IItemDefaultCapability, INeedBack {
     public long rateBasics;
 
     /***
+     * 修复材料
+     */
+    @Nullable
+    public Delayed<TagKey<Item>> repairIngredient;
+
+    private Ingredient ingredient;
+
+    public Delayed<TagKey<Block>> destructionBlockTag;
+
+    /***
      * 默认技能
      */
-    public Supplier<List<Skill>> defaultSkill = List::of;
+    @Nullable
+    public List<Skill> defaultSkill;
 
-    public ArmsData(Supplier<Ore> ore) {
-        this.ore = ore;
+    public void setOfTag(Ore ore) {
+        repairIngredient = new Delayed<>(() -> ore.get(OreItem.ingot).itemTag());
+        destructionBlockTag = new Delayed<>(() -> Dusk.instance.BLOCK_TAG.createTagKey(new ResourceLocation(ore.name.getNamespace(), "tier." + ore.name.getPath())));
     }
 
-    @Override
-    public void back() {
-        repairIngredient = () -> Ingredient.of(ore.get().get(OreItem.ingot).itemTag());
-        ResourceLocation oreName = new ResourceLocation(ore.get().name.getNamespace(), "tier." + ore.get().name.getPath());
-        tag = BlockTags.create(oreName);
-        TierSortingRegistry.registerTier(this, oreName, List.of(Tiers.NETHERITE), List.of());
-    }
 
     public ArmsData setLevel(int level) {
         this.level = level;
@@ -103,12 +94,6 @@ public class ArmsData implements Tier, IItemDefaultCapability, INeedBack {
         return this;
     }
 
-    public ArmsData setDefaultSkill(Supplier<List<Skill>> defaultSkill) {
-        this.defaultSkill = defaultSkill;
-        return this;
-    }
-
-
     @Override
     public int getUses() {
         return uses;
@@ -136,7 +121,10 @@ public class ArmsData implements Tier, IItemDefaultCapability, INeedBack {
 
     @Override
     public @NotNull Ingredient getRepairIngredient() {
-        return repairIngredient.get();
+        if (ingredient == null) {
+            ingredient = repairIngredient == null ? Ingredient.of() : Ingredient.of(repairIngredient.get());
+        }
+        return ingredient;
     }
 
     @Override
@@ -145,22 +133,4 @@ public class ArmsData implements Tier, IItemDefaultCapability, INeedBack {
     }
 
 
-    @Override
-    public void initCapability(AttachCapabilitiesEvent<ItemStack> event, DuskCapabilityProvider duskCapabilityProvider) {
-        IBack iBack = duskCapabilityProvider.addCapability(CapabilityRegister.iBlack.capability, new Back());
-        ISkill iSkill = duskCapabilityProvider.addCapability(CapabilityRegister.iSkill.capability, new ItemStackSkill());
-        List<Skill> skills = defaultSkill.get();
-        if (!skills.isEmpty()) {
-            for (Skill skill : skills) {
-                iSkill.getSkill(skill).originalLevel++;
-                if (skill instanceof IItemDefaultCapability iItemDefaultCapability) {
-                    iItemDefaultCapability.initCapability(event, duskCapabilityProvider);
-                }
-            }
-        }
-        if (manaBasics > 0) {
-            duskCapabilityProvider.addCapability(CapabilityRegister.iManaHandle.capability, new VariableManaHandle(manaBasics, rateBasics, iBack,
-                    () -> 1 + iSkill.getSkill(Skill.maxManaDilatation).level * 0.2, () -> 1 + iSkill.getSkill(Skill.rateDilatation).level * 0.2));
-        }
-    }
 }

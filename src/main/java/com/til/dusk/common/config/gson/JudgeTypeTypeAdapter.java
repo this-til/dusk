@@ -1,6 +1,8 @@
 package com.til.dusk.common.config.gson;
 
 import com.google.gson.TypeAdapter;
+import com.google.gson.internal.ConstructorConstructor;
+import com.google.gson.internal.bind.JsonAdapterAnnotationTypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
@@ -9,11 +11,18 @@ import com.til.dusk.Dusk;
 import com.til.dusk.util.Util;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /***
  * 判断类型
+ * @author til
  */
 public class JudgeTypeTypeAdapter extends TypeAdapter<Object> {
+    public final Map<Class<?>, TypeAdapter<?>> typeAdapterMap = new HashMap<>();
+    public final JsonAdapterAnnotationTypeAdapterFactory jsonAdapterAnnotationTypeAdapterFactory = new JsonAdapterAnnotationTypeAdapterFactory(new ConstructorConstructor(new HashMap<>()));
+
+
     public JudgeTypeTypeAdapter() {
     }
 
@@ -32,11 +41,11 @@ public class JudgeTypeTypeAdapter extends TypeAdapter<Object> {
             return null;
         }
         TypeAdapter<?> typeAdapter;
-        if (ConfigGson.typeAdapterMap.containsKey(type)) {
-            typeAdapter = ConfigGson.typeAdapterMap.get(type);
+        if (typeAdapterMap.containsKey(type)) {
+            typeAdapter = typeAdapterMap.get(type);
         } else {
-            typeAdapter = ConfigGson.jsonAdapterAnnotationTypeAdapterFactory.create(ConfigGson.GSON, TypeToken.get(type));
-            ConfigGson.typeAdapterMap.put(type, typeAdapter);
+            typeAdapter = jsonAdapterAnnotationTypeAdapterFactory.create(ConfigGson.GSON, TypeToken.get(type));
+            typeAdapterMap.put(type, typeAdapter);
         }
         Object obj = typeAdapter.read(in);
         in.nextName();
@@ -54,11 +63,11 @@ public class JudgeTypeTypeAdapter extends TypeAdapter<Object> {
         out.name(ConfigGson.TYPE).value(value.getClass().getName());
         out.name(ConfigGson.CONFIG);
         TypeAdapter<?> typeAdapter;
-        if (ConfigGson.typeAdapterMap.containsKey(value.getClass())) {
-            typeAdapter = ConfigGson.typeAdapterMap.get(value.getClass());
+        if (typeAdapterMap.containsKey(value.getClass())) {
+            typeAdapter = typeAdapterMap.get(value.getClass());
         } else {
-            typeAdapter = ConfigGson.jsonAdapterAnnotationTypeAdapterFactory.create(ConfigGson.GSON, TypeToken.get(value.getClass()));
-            ConfigGson.typeAdapterMap.put(value.getClass(), typeAdapter);
+            typeAdapter = jsonAdapterAnnotationTypeAdapterFactory.create(ConfigGson.GSON, TypeToken.get(value.getClass()));
+            typeAdapterMap.put(value.getClass(), typeAdapter);
         }
         typeAdapter.write(out, Util.forcedConversion(value));
         out.endObject();

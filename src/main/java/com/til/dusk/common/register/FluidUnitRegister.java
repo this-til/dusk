@@ -5,7 +5,6 @@ import com.til.dusk.util.Extension;
 import com.til.dusk.util.Lang;
 import com.til.dusk.util.ResourceLocationUtil;
 import com.til.dusk.util.pack.FluidPack;
-import com.til.dusk.util.pack.TagPack;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
@@ -27,8 +26,6 @@ import net.minecraftforge.registries.IForgeRegistry;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.function.Supplier;
 
 public abstract class FluidUnitRegister<T extends FluidUnitRegister<T, O>, O extends TagPackSupplierRegister<?>> extends TagPackSupplierRegister<T> {

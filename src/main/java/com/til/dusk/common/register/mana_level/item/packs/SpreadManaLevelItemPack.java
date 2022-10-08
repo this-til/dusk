@@ -1,6 +1,5 @@
 package com.til.dusk.common.register.mana_level.item.packs;
 
-import com.til.dusk.common.config.ConfigMap;
 import com.til.dusk.common.data.lang.LangProvider;
 import com.til.dusk.common.data.lang.LangType;
 import com.til.dusk.common.register.mana_level.item.ManaLevelItemPack;
@@ -24,9 +23,8 @@ public class SpreadManaLevelItemPack extends ManaLevelItemPack {
     }
 
     @Override
-    public ConfigMap defaultConfigMap() {
-        return new ConfigMap()
-                .setConfigOfV(STROKE_COLOR, new DuskColor(136, 209, 142))
-                .setConfigOfV(CORE_COLOR, ColorPrefab.FLUID_IO);
+    public void defaultConfig() {
+        strokeColor = new DuskColor(136, 209, 142);
+        coreColor =  ColorPrefab.FLUID_IO;
     }
 }

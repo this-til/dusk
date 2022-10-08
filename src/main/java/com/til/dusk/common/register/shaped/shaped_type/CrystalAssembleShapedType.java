@@ -1,8 +1,8 @@
 package com.til.dusk.common.register.shaped.shaped_type;
 
-import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
-import com.til.dusk.common.register.mana_level.item.ManaLevelItem;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
+import com.til.dusk.common.register.mana_level.item.ManaLevelItem;
+import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.ore.block.OreBlock;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
@@ -18,8 +18,8 @@ public class CrystalAssembleShapedType extends ShapedType {
     @Override
     public void registerShaped() {
         for (ManaLevel manaLevel : ManaLevel.MANA_LEVEL.get()) {
-            if (manaLevel.hasSet(ManaLevel.OPERATION)) {
-                DataPack.ManaLevelDataPack manaLevelDataPack = manaLevel.getSet(ManaLevel.OPERATION);
+            if (manaLevel.hasSet(ManaLevel.operation)) {
+                DataPack.ManaLevelDataPack manaLevelDataPack = manaLevel.getSet(ManaLevel.operation);
                 if (manaLevel.up != null) {
                     new ShapedOre(this, ShapedDrive.get(0), manaLevel)
                             .addInItem(manaLevel.get(ManaLevelItem.operationBasics.integrate).itemTag(), 1)
@@ -52,8 +52,8 @@ public class CrystalAssembleShapedType extends ShapedType {
                             .addMultipleConsumeMana(42);
                 }
             }
-            if (manaLevel.hasSet(ManaLevel.FORMING)) {
-                DataPack.ManaLevelDataPack manaLevelDataPack = manaLevel.getSet(ManaLevel.FORMING);
+            if (manaLevel.hasSet(ManaLevel.forming)) {
+                DataPack.ManaLevelDataPack manaLevelDataPack = manaLevel.getSet(ManaLevel.forming);
                 if (manaLevel.up != null) {
                     new ShapedOre(this, ShapedDrive.get(1), manaLevel)
                             .addInItem(manaLevel.get(ManaLevelItem.operationBasics.integrate).itemTag(), 1)
@@ -85,8 +85,8 @@ public class CrystalAssembleShapedType extends ShapedType {
                             .addMultipleConsumeMana(42);
                 }
             }
-            if (manaLevel.hasSet(ManaLevel.DESTRUCTION)) {
-                DataPack.ManaLevelDataPack manaLevelDataPack = manaLevel.getSet(ManaLevel.DESTRUCTION);
+            if (manaLevel.hasSet(ManaLevel.destruction)) {
+                DataPack.ManaLevelDataPack manaLevelDataPack = manaLevel.getSet(ManaLevel.destruction);
                 if (manaLevel.up != null) {
                     new ShapedOre(this, ShapedDrive.get(2), manaLevel)
                             .addInItem(manaLevel.get(ManaLevelItem.operationBasics.integrate).itemTag(), 1)
@@ -118,8 +118,8 @@ public class CrystalAssembleShapedType extends ShapedType {
                             .addMultipleConsumeMana(42);
                 }
             }
-            if (manaLevel.hasSet(ManaLevel.GATHER)) {
-                DataPack.ManaLevelDataPack manaLevelDataPack = manaLevel.getSet(ManaLevel.GATHER);
+            if (manaLevel.hasSet(ManaLevel.gather)) {
+                DataPack.ManaLevelDataPack manaLevelDataPack = manaLevel.getSet(ManaLevel.gather);
                 if (manaLevel.up != null) {
                     new ShapedOre(this, ShapedDrive.get(3), manaLevel)
                             .addInItem(manaLevel.get(ManaLevelItem.operationBasics.integrate).itemTag(), 1)
@@ -151,8 +151,8 @@ public class CrystalAssembleShapedType extends ShapedType {
                             .addMultipleConsumeMana(42);
                 }
             }
-            if (manaLevel.hasSet(ManaLevel.SPREAD)) {
-                DataPack.ManaLevelDataPack manaLevelDataPack = manaLevel.getSet(ManaLevel.SPREAD);
+            if (manaLevel.hasSet(ManaLevel.spread)) {
+                DataPack.ManaLevelDataPack manaLevelDataPack = manaLevel.getSet(ManaLevel.spread);
                 if (manaLevel.up != null) {
                     new ShapedOre(this, ShapedDrive.get(4), manaLevel)
                             .addInItem(manaLevel.get(ManaLevelItem.operationBasics.integrate).itemTag(), 1)
@@ -184,8 +184,8 @@ public class CrystalAssembleShapedType extends ShapedType {
                             .addMultipleConsumeMana(42);
                 }
             }
-            if (manaLevel.hasSet(ManaLevel.POWER)) {
-                DataPack.ManaLevelDataPack manaLevelDataPack = manaLevel.getSet(ManaLevel.POWER);
+            if (manaLevel.hasSet(ManaLevel.power)) {
+                DataPack.ManaLevelDataPack manaLevelDataPack = manaLevel.getSet(ManaLevel.power);
                 if (manaLevel.up != null) {
                     new ShapedOre(this, ShapedDrive.get(5), manaLevel)
                             .addInItem(manaLevel.get(ManaLevelItem.operationBasics.integrate).itemTag(), 1)
@@ -217,8 +217,8 @@ public class CrystalAssembleShapedType extends ShapedType {
                             .addMultipleConsumeMana(42);
                 }
             }
-            if (manaLevel.hasSet(ManaLevel.INSTRUCTIONS)) {
-                DataPack.ManaLevelDataPack manaLevelDataPack = manaLevel.getSet(ManaLevel.INSTRUCTIONS);
+            if (manaLevel.hasSet(ManaLevel.instructions)) {
+                DataPack.ManaLevelDataPack manaLevelDataPack = manaLevel.getSet(ManaLevel.instructions);
                 if (manaLevel.up != null) {
                     new ShapedOre(this, ShapedDrive.get(5), manaLevel)
                             .addInItem(manaLevel.get(ManaLevelItem.operationBasics.integrate).itemTag(), 1)

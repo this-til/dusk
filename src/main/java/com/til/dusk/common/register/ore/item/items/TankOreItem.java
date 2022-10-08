@@ -38,7 +38,7 @@ public class TankOreItem extends OreItem {
 
     @Override
     public @Nullable ItemPack create(Ore ore) {
-        if (ore.hasConfig(Ore.ToolDataConfig.TOOL_DATA_CONFIG) && ore.hasConfig(Ore.IS_METAL)) {
+        if (ore.isMetal && ore.toolData != null) {
             return super.create(ore);
         }
         return null;
@@ -57,7 +57,8 @@ public class TankOreItem extends OreItem {
 
             @Override
             public void initCapability(AttachCapabilitiesEvent<ItemStack> event, DuskCapabilityProvider duskCapabilityProvider) {
-                ItemVoidTankFluidHandler itemVoidTankFluidHandler = new ItemVoidTankFluidHandler(ore.getConfig(Ore.ToolDataConfig.TOOL_DATA_CONFIG).get(Ore.ToolDataConfig.TANK_MAX), event.getObject());
+                assert ore.toolData != null;
+                ItemVoidTankFluidHandler itemVoidTankFluidHandler = new ItemVoidTankFluidHandler(ore.toolData.tankMax, event.getObject());
                 duskCapabilityProvider.addCapability(ForgeCapabilities.FLUID_HANDLER, itemVoidTankFluidHandler);
                 duskCapabilityProvider.addCapability(ForgeCapabilities.FLUID_HANDLER_ITEM, itemVoidTankFluidHandler);
             }
@@ -83,7 +84,7 @@ public class TankOreItem extends OreItem {
     @Override
     public void dyeBlack(Ore ore, ColorProxy.ItemColorPack itemColorPack) {
         super.dyeBlack(ore, itemColorPack);
-        DuskColor emptyColor = ColorPrefab.EMPTY_TANK.blend(ore.getConfig(Ore.COLOR));
+        DuskColor emptyColor = ColorPrefab.EMPTY_TANK.blend(ore.color);
         itemColorPack.addColor(1, itemStack -> {
             LazyOptional<IFluidHandlerItem> iFluidHandlerItemLazyOptional = itemStack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM, null);
             if (!iFluidHandlerItemLazyOptional.isPresent() ||

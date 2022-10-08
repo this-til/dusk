@@ -22,8 +22,6 @@ public class OreItemArmor extends OreItem {
     public OreItemArmor(ResourceLocation name, EquipmentSlot equipmentSlot) {
         super(name);
         this.equipmentSlot = equipmentSlot;
-        setConfig(IS_ARMOR, null);
-        setConfig(asArmorKey(equipmentSlot), null);
     }
 
     public OreItemArmor(String name, EquipmentSlot equipmentSlot) {
@@ -32,7 +30,7 @@ public class OreItemArmor extends OreItem {
 
     @Override
     public @Nullable ItemPack create(Ore ore) {
-        if (ore.hasConfig(Ore.ArmorConfig.ARMOR_CONFIG)) {
+        if (ore.armorData != null) {
             return super.create(ore);
         }
         return null;
@@ -40,15 +38,10 @@ public class OreItemArmor extends OreItem {
 
     @Override
     public Item createItem(Ore ore) {
-        CapabilityArmorItem item = new CapabilityArmorItem(ore.getConfig(Ore.ArmorConfig.ARMOR_CONFIG), equipmentSlot, new Item.Properties().stacksTo(1).tab(Dusk.TAB).fireResistant(), ore, this);
+        CapabilityArmorItem item = new CapabilityArmorItem(ore.armorData, equipmentSlot, new Item.Properties().stacksTo(1).tab(Dusk.TAB).fireResistant(), ore, this);
         ItemTag.addTag(Tags.Items.ARMORS, item);
         ItemTag.addTag(asTag(equipmentSlot), item);
         return item;
     }
 
-    @Override
-    public ConfigMap defaultConfigMap() {
-        return super.defaultConfigMap()
-                .setConfig(IS_ARMOR);
-    }
 }

@@ -1,16 +1,13 @@
 package com.til.dusk.common.register;
 
-import com.til.dusk.common.config.ConfigMap;
-import com.til.dusk.common.config.IAcceptConfig;
-import com.til.dusk.common.config.ConfigKey;
 import com.til.dusk.common.data.lang.LangProvider;
 import com.til.dusk.common.register.shaped.shapeds.Shaped;
-import com.til.dusk.util.*;
+import com.til.dusk.util.Util;
 import net.minecraft.data.recipes.RecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.IForgeRegistry;
 
-import java.util.*;
+import java.util.Random;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -18,7 +15,7 @@ import java.util.function.Supplier;
 /**
  * @author til
  */
-public abstract class RegisterBasics<T extends RegisterBasics<?>> implements IAcceptConfig {
+public abstract class RegisterBasics<T extends RegisterBasics<?>> {
 
     /***
      * 注册项的名称
@@ -56,6 +53,7 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> implements IAc
     protected void registerBlackToBack() {
 
     }
+
     /***
      * 注册配方
      */
@@ -73,6 +71,11 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> implements IAc
      */
     public void registerLang(LangProvider.LangTool lang) {
     }
+
+    /***
+     * 当配对丢失时重新生成配置文件
+     */
+    public abstract void defaultConfig();
 
     @Override
     public int hashCode() {

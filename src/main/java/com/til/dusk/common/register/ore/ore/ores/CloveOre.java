@@ -1,10 +1,12 @@
 package com.til.dusk.common.register.ore.ore.ores;
 
-import com.til.dusk.common.config.ConfigMap;
 import com.til.dusk.common.config.util.IOrePlacedFeatureConfig;
 import com.til.dusk.common.data.lang.LangProvider;
 import com.til.dusk.common.data.lang.LangType;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
+import com.til.dusk.common.register.ore.block.DecorateBlockData;
+import com.til.dusk.common.register.ore.block.MineralBlockData;
+import com.til.dusk.common.register.ore.fluid.FluidData;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.util.DuskColor;
 
@@ -23,20 +25,19 @@ public class CloveOre extends Ore {
     }
 
     @Override
-    public ConfigMap defaultConfigMap() {
-        return new ConfigMap()
-                .setConfigOfV(Ore.COLOR, new DuskColor(204, 164, 227))
-                .setConfigOfV(Ore.MANA_LEVEL, ManaLevel.t1)
-                .setConfig(Ore.IS_CRYSTA)
-                .setConfig(Ore.HAS_DUST)
-                .setConfigOfV(Ore.IS_LEVEL_ACCEPTABLE, ManaLevel.t1)
-                .setConfig(MineralBlockConfig.MINERAL_BLOCK_CONFIG, () -> new ConfigMap()
-                        .setConfig(MineralBlockConfig.PLACED_FEATURE, () -> List.of(
-                                new IOrePlacedFeatureConfig.OrePlacedFeatureConfig().useDefaultConfig(this, 12, 4))))
-                .setConfig(DecorateBlockConfig.DECORATE_BLOCK_CONFIG, ConfigMap::new)
-                .setConfig(FluidConfig.FLUID_CONFIG, () -> new ConfigMap()
-                        .setConfig(FluidConfig.CAN_COPY));
+    public void defaultConfig() {
+        color = new DuskColor(204, 164, 227);
+        manaLevel = ManaLevel.t1;
+        isCrysta = true;
+        hasDust = true;
+        isLevelAcceptable = List.of(ManaLevel.t1);
+        mineralBlockData = new MineralBlockData()
+                .addOrePlacedFeatureConfig(new IOrePlacedFeatureConfig.GenerateData().useDefaultConfig(this, 12, 4));
+        decorateBlockData = new DecorateBlockData();
+        fluidData = new FluidData()
+                .setCanCopy(true);
     }
+
 
 }
 

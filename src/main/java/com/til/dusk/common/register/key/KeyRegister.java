@@ -98,4 +98,8 @@ public class KeyRegister extends RegisterBasics<KeyRegister> {
 
     }
 
+    @Override
+    public void defaultConfig() {
+
+    }
 }

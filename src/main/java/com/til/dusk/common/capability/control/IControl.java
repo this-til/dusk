@@ -4,13 +4,13 @@ package com.til.dusk.common.capability.control;
 import com.til.dusk.common.capability.ITooltipCapability;
 import com.til.dusk.common.capability.pos.IPosTrack;
 import com.til.dusk.common.register.other.BindType;
-
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.INBTSerializable;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 
 
 /**

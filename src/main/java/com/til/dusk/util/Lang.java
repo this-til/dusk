@@ -2,8 +2,7 @@ package com.til.dusk.util;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.common.register.RegisterBasics;
-import net.minecraft.network.chat.*;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.Component;
 
 import java.util.ArrayList;
 import java.util.List;

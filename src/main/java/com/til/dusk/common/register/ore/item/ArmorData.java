@@ -1,32 +1,27 @@
 package com.til.dusk.common.register.ore.item;
 
-import com.til.dusk.common.capability.DuskCapabilityProvider;
-import com.til.dusk.common.capability.IItemDefaultCapability;
-import com.til.dusk.common.capability.black.Back;
-import com.til.dusk.common.capability.black.IBack;
-import com.til.dusk.common.capability.mana_handle.VariableManaHandle;
-import com.til.dusk.common.capability.skill.ISkill;
-import com.til.dusk.common.capability.skill.ItemStackSkill;
+import com.til.dusk.common.config.AcceptTypeJson;
+import com.til.dusk.common.config.util.Delayed;
 import com.til.dusk.common.register.ore.ore.Ore;
-import com.til.dusk.common.register.other.CapabilityRegister;
 import com.til.dusk.common.register.skill.Skill;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ArmorMaterial;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
-import java.util.function.Supplier;
 
-@Deprecated
-public class ArmorData implements ArmorMaterial, IItemDefaultCapability {
+@AcceptTypeJson
+public class ArmorData implements ArmorMaterial {
 
     public static final int[] DEFAULT_DURABILITY = new int[]{
             300,
@@ -40,8 +35,8 @@ public class ArmorData implements ArmorMaterial, IItemDefaultCapability {
             5,
             2,
     };
+    public String name;
 
-    public final Supplier<Ore> ore;
     public int[] durability = Arrays.copyOf(DEFAULT_DURABILITY, DEFAULT_DURABILITY.length);
     public int[] defense = Arrays.copyOf(DEFAULT_DURABILITY, DEFAULT_DURABILITY.length);
     public float toughness = 3;
@@ -66,13 +61,17 @@ public class ArmorData implements ArmorMaterial, IItemDefaultCapability {
     /***
      * 默认技能
      */
-    public Supplier<List<Skill>> defaultSkill = List::of;
+    @Nullable
+    public Map<Skill, Integer> defaultSkill;
 
-    public ArmorData(Supplier<Ore> ore) {
-        this.ore = ore;
-        setDefense(1);
-        setDurability(1);
-    }
+
+    /***
+     * 修复材料
+     */
+    @Nullable
+    public Delayed<TagKey<Item>> repairIngredient;
+
+    private Ingredient ingredient;
 
     public ArmorData setDurability(int durability) {
         for (int i = 0; i < DEFAULT_DURABILITY.length; i++) {
@@ -88,6 +87,12 @@ public class ArmorData implements ArmorMaterial, IItemDefaultCapability {
         return this;
     }
 
+    public void setOfTag(Ore ore) {
+        name = ore.name.toString();
+        repairIngredient = new Delayed<>(() -> ore.get(OreItem.ingot).itemTag());
+    }
+
+
     public ArmorData setToughness(float toughness) {
         this.toughness = toughness;
         return this;
@@ -98,14 +103,18 @@ public class ArmorData implements ArmorMaterial, IItemDefaultCapability {
         return this;
     }
 
-    public ArmorData setDefaultSkill(Supplier<List<Skill>> defaultSkill) {
-        this.defaultSkill = defaultSkill;
-        return this;
-    }
 
     public ArmorData setMane(long mana, long rate) {
         manaBasics = mana;
         rateBasics = rate;
+        return this;
+    }
+
+    public ArmorData putSkill(Skill skill, int g) {
+        if (defaultSkill == null) {
+            defaultSkill = new HashMap<>(8);
+        }
+        defaultSkill.put(skill, g);
         return this;
     }
 
@@ -131,12 +140,15 @@ public class ArmorData implements ArmorMaterial, IItemDefaultCapability {
 
     @Override
     public @NotNull Ingredient getRepairIngredient() {
-        return Ingredient.of(ore.get().get(OreItem.ingot).itemTag());
+        if (ingredient == null) {
+            ingredient = repairIngredient == null ? Ingredient.of() : Ingredient.of(repairIngredient.get());
+        }
+        return ingredient;
     }
 
     @Override
     public @NotNull String getName() {
-        return ore.get().name.toString();
+        return name;
     }
 
     @Override
@@ -149,22 +161,4 @@ public class ArmorData implements ArmorMaterial, IItemDefaultCapability {
         return knockBackResistance;
     }
 
-    @Override
-    public void initCapability(AttachCapabilitiesEvent<ItemStack> event, DuskCapabilityProvider duskCapabilityProvider) {
-        IBack iBack = duskCapabilityProvider.addCapability(CapabilityRegister.iBlack.capability, new Back());
-        ISkill iSkill = duskCapabilityProvider.addCapability(CapabilityRegister.iSkill.capability, new ItemStackSkill());
-        List<Skill> skills = defaultSkill.get();
-        if (!skills.isEmpty()) {
-            for (Skill skill : skills) {
-                iSkill.getSkill(skill).originalLevel++;
-                if (skill instanceof IItemDefaultCapability iItemDefaultCapability) {
-                    iItemDefaultCapability.initCapability(event, duskCapabilityProvider);
-                }
-            }
-        }
-        if (manaBasics > 0) {
-            duskCapabilityProvider.addCapability(CapabilityRegister.iManaHandle.capability, new VariableManaHandle(manaBasics, rateBasics, iBack,
-                    () -> 1 + iSkill.getSkill(Skill.maxManaDilatation).level * 0.2, () -> 1 + iSkill.getSkill(Skill.rateDilatation).level * 0.2));
-        }
-    }
 }

@@ -24,14 +24,17 @@ public class CoilOreBlockMetal extends OreBlockMetal {
     @Override
     public @Nullable Block createBlock(Ore ore) {
         Block block = new Block(BlockBehaviour.Properties.of(Material.STONE)
-                .strength(1.3f * ore.getConfig(Ore.STRENGTH).floatValue(), 2.6f * ore.getConfig(Ore.STRENGTH).floatValue())
+                .strength((float) (strengthBasics * ore.strength), (float) (explosionProofBasics * ore.strength))
                 .requiresCorrectToolForDrops()
                 .sound(SoundType.STONE));
         BlockTag.addTag(BlockTags.MINEABLE_WITH_PICKAXE, block);
         BlockTag.addTag(BlockTags.NEEDS_STONE_TOOL, block);
         return block;
     }
-
+    @Override
+    public void defaultConfig() {
+        strength(1.3);
+    }
     @Override
     public void registerLang(LangProvider.LangTool lang) {
         lang.setCache(name.toLanguageKey());

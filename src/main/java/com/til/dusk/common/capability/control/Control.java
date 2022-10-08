@@ -1,12 +1,12 @@
 package com.til.dusk.common.capability.control;
 
 import com.til.dusk.common.capability.pos.IPosTrack;
+import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.other.BindType;
 import com.til.dusk.common.register.other.CapabilityRegister;
-import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
-import com.til.dusk.util.tooltip_pack.IComponentPack;
-import com.til.dusk.util.nbt.pack.AllNBTPack;
 import com.til.dusk.util.Lang;
+import com.til.dusk.util.nbt.pack.AllNBTPack;
+import com.til.dusk.util.tooltip_pack.IComponentPack;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -17,7 +17,10 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Control implements IControl {
 

@@ -2,6 +2,7 @@ package com.til.dusk.common.register.mana_level.item;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.client.ColorProxy;
+import com.til.dusk.common.config.ConfigField;
 import com.til.dusk.common.config.ConfigKey;
 import com.til.dusk.common.data.lang.LangType;
 import com.til.dusk.common.data.tag.ItemTag;
@@ -9,13 +10,11 @@ import com.til.dusk.common.event.RegisterLangEvent;
 import com.til.dusk.common.register.TagPackSupplierRegister;
 import com.til.dusk.common.register.mana_level.item.packs.*;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
-import com.til.dusk.common.register.ore.ore.OreConfig;
 import com.til.dusk.common.world.item.DuskItem;
 import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.Lang;
 import com.til.dusk.util.nbt.cell.AllNBTCell;
 import com.til.dusk.util.pack.ItemPack;
-import com.til.dusk.util.prefab.ColorPrefab;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -128,8 +127,6 @@ public abstract class ManaLevelItemPack extends TagPackSupplierRegister<ManaLeve
             @Override
             public void dyeBlack(ManaLevel manaLevel, ColorProxy.ItemColorPack itemColorPack) {
                 super.dyeBlack(manaLevel, itemColorPack);
-                DuskColor coreColor = getConfig(CORE_COLOR);
-                DuskColor strokeColor = getConfig(STROKE_COLOR);
                 itemColorPack.addColor(1, itemStack -> coreColor);
                 itemColorPack.addColor(2, itemStack -> strokeColor);
             }
@@ -162,8 +159,6 @@ public abstract class ManaLevelItemPack extends TagPackSupplierRegister<ManaLeve
             @Override
             public void dyeBlack(ManaLevel manaLevel, ColorProxy.ItemColorPack itemColorPack) {
                 super.dyeBlack(manaLevel, itemColorPack);
-                DuskColor coreColor = getConfig(CORE_COLOR);
-                DuskColor strokeColor = getConfig(STROKE_COLOR);
                 itemColorPack.addColor(1, itemStack -> coreColor);
                 itemColorPack.addColor(2, itemStack -> strokeColor);
             }
@@ -195,8 +190,6 @@ public abstract class ManaLevelItemPack extends TagPackSupplierRegister<ManaLeve
             @Override
             public void dyeBlack(ManaLevel manaLevel, ColorProxy.ItemColorPack itemColorPack) {
                 super.dyeBlack(manaLevel, itemColorPack);
-                DuskColor coreColor = getConfig(CORE_COLOR);
-                DuskColor strokeColor = getConfig(STROKE_COLOR);
                 itemColorPack.addColor(1, itemStack -> coreColor);
                 itemColorPack.addColor(2, itemStack -> strokeColor);
             }
@@ -225,6 +218,7 @@ public abstract class ManaLevelItemPack extends TagPackSupplierRegister<ManaLeve
         event.langTool.add(LangType.EN_CH, "Host Processor");
     }
 
-    public static final ConfigKey<DuskColor> STROKE_COLOR = new ConfigKey<>("mana_level_item_pack.stroke_color", AllNBTCell.COLOR, null);
-    public static final ConfigKey<DuskColor> CORE_COLOR = new ConfigKey<>("mana_level_item_pack.core_color", AllNBTCell.COLOR, null);
+    @ConfigField public DuskColor coreColor;
+    @ConfigField public DuskColor strokeColor;
+
 }

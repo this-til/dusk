@@ -6,7 +6,6 @@ import com.til.dusk.common.world.block.ModBlock;
 import com.til.dusk.util.Lang;
 import com.til.dusk.util.ResourceLocationUtil;
 import com.til.dusk.util.pack.BlockPack;
-import com.til.dusk.util.pack.TagPack;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;

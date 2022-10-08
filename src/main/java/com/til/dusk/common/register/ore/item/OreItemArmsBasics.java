@@ -12,7 +12,6 @@ import org.jetbrains.annotations.Nullable;
 public class OreItemArmsBasics extends OreItem {
     public OreItemArmsBasics(ResourceLocation name) {
         super(name);
-        setConfig(IS_ARMOR, null);
     }
 
     public OreItemArmsBasics(String name) {
@@ -21,7 +20,7 @@ public class OreItemArmsBasics extends OreItem {
 
     @Override
     public @Nullable ItemPack create(Ore ore) {
-        if (ore.hasConfig(Ore.ArmsConfig.ARMS_CONFIG)) {
+        if (ore.armorData != null) {
             return super.create(ore);
         }
         return null;

@@ -1,17 +1,13 @@
 package com.til.dusk.common.event;
 
-import com.til.dusk.Dusk;
 import com.til.dusk.common.data.lang.LangProvider;
-import com.til.dusk.common.data.lang.LangType;
 import com.til.dusk.common.register.shaped.shapeds.Shaped;
 import com.til.dusk.util.Extension;
 import com.til.dusk.util.Util;
 import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
 import java.util.ArrayList;

@@ -1,9 +1,11 @@
 package com.til.dusk.common.register.ore.ore.ores;
 
-import com.til.dusk.common.config.ConfigMap;
+import com.til.dusk.common.config.util.Delayed;
 import com.til.dusk.common.data.lang.LangProvider;
 import com.til.dusk.common.data.lang.LangType;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
+import com.til.dusk.common.register.ore.block.DecorateBlockData;
+import com.til.dusk.common.register.ore.fluid.FluidData;
 import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.register.shaped.ShapedDrive;
@@ -27,23 +29,24 @@ public class StarIronOre extends Ore {
         lang.add(LangType.EN_CH, "Star Iron");
     }
 
+
     @Override
-    public ConfigMap defaultConfigMap() {
-        return new ConfigMap()
-                .setConfigOfV(Ore.COLOR, new DuskColor(177, 176, 192))
-                .setConfigOfV(Ore.MANA_LEVEL, ManaLevel.t2)
-                .setConfig(Ore.IS_METAL)
-                .setConfig(Ore.HAS_DUST)
-                .setConfigOfV(Ore.IS_LEVEL_ACCEPTABLE, ManaLevel.t2)
-                .setConfig(DecorateBlockConfig.DECORATE_BLOCK_CONFIG, ConfigMap::new)
-                .setConfig(FluidConfig.FLUID_CONFIG, ConfigMap::new)
-                .setConfig(Ore.RELEVANT_SHAPED, () -> List.of(
-                        new ShapedOre(ResourceLocationUtil.fuseName(this, OreItem.dust), ShapedType.blend, ShapedDrive.get(0), this.getConfig(Ore.MANA_LEVEL))
-                                .addInItem(_void.get(OreItem.dust).itemTag(), 1)
-                                .addInItem(darkGreen.get(OreItem.dust).itemTag(), 1)
-                                .addOutItem(new ItemStack(this.get(OreItem.dust).item(), 2), 1D)
-                                .addMultipleSurplusTime((long) (2048L * this.getConfig(Ore.STRENGTH)))
-                                .addMultipleConsumeMana((long) (32L * this.getConfig(Ore.CONSUME)))));
+    public void defaultConfig() {
+        color = new DuskColor(177, 176, 192);
+        manaLevel = ManaLevel.t2;
+        isMetal = true;
+        hasDust = true;
+        isLevelAcceptable = List.of(ManaLevel.t2);
+        decorateBlockData = new DecorateBlockData();
+        fluidData = new FluidData()
+                .setCanCopy(true);
+        relevantShaped = new Delayed<>(() -> List.of(
+                new ShapedOre(ResourceLocationUtil.fuseName(this, OreItem.dust), ShapedType.blend, ShapedDrive.get(0), manaLevel)
+                        .addInItem(_void.get(OreItem.dust).itemTag(), 1)
+                        .addInItem(darkGreen.get(OreItem.dust).itemTag(), 1)
+                        .addOutItem(new ItemStack(this.get(OreItem.dust).item(), 2), 1D)
+                        .addMultipleSurplusTime((long) consume * 2048L)
+                        .addMultipleConsumeMana((long) strength * 32L)));
     }
 
 }

@@ -3,8 +3,9 @@ package com.til.dusk.common.world.item;
 import com.til.dusk.Dusk;
 import com.til.dusk.common.capability.IItemDefaultCapability;
 import com.til.dusk.common.config.ConfigMap;
-import com.til.dusk.common.register.ore.ore.Ore;
+import com.til.dusk.common.register.ore.item.ArmorData;
 import com.til.dusk.common.register.ore.item.OreItem;
+import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.Lang;
 import net.minecraft.network.chat.Component;
@@ -20,17 +21,15 @@ import org.jetbrains.annotations.NotNull;
 public class CapabilityArmorItem extends DyeableArmorItem implements IItemDefaultCapability.ArmorCapabilityItem {
     public final Ore ore;
     public final OreItem oreItem;
-    public final ConfigMap armorData;
+    public final ArmorData armorData;
 
-    protected DuskColor color;
 
-    public CapabilityArmorItem(ConfigMap armorMaterial, EquipmentSlot equipmentSlot, Properties properties, Ore ore, OreItem oreItem) {
-        super(armorMaterial, equipmentSlot, properties);
+    public CapabilityArmorItem(ArmorData armorData, EquipmentSlot equipmentSlot, Properties properties, Ore ore, OreItem oreItem) {
+        super(armorData, equipmentSlot, properties);
         this.ore = ore;
-        this.armorData = armorMaterial;
+        this.armorData = armorData;
         this.oreItem = oreItem;
 
-        this.color = ore.getConfig(Ore.COLOR);
     }
 
     public static final String OVERLAY = "overlay";
@@ -54,7 +53,7 @@ public class CapabilityArmorItem extends DyeableArmorItem implements IItemDefaul
 
     @Override
     public int getColor(@NotNull ItemStack itemStack) {
-        return color.getRGB();
+        return ore.color.getRGB();
     }
 
     @Override
@@ -71,7 +70,7 @@ public class CapabilityArmorItem extends DyeableArmorItem implements IItemDefaul
     }
 
     @Override
-    public ConfigMap getConfigMap() {
+    public ArmorData getArmorData() {
         return armorData;
     }
 }

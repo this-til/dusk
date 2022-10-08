@@ -6,9 +6,9 @@ import com.til.dusk.common.data.ModRecipeProvider;
 import com.til.dusk.common.data.lang.LangProvider;
 import com.til.dusk.common.data.lang.LangType;
 import com.til.dusk.common.data.tag.ItemTag;
+import com.til.dusk.common.register.mana_level.block.HandleMechanic;
 import com.til.dusk.common.register.mana_level.item.ManaLevelItemPack;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
-import com.til.dusk.common.register.mana_level.block.HandleMechanic;
 import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 import com.til.dusk.common.world.item.DuskItem;
@@ -37,7 +37,7 @@ public class AssembleMechanic extends HandleMechanic {
     @Override
     public void registerRecipe(Consumer<RecipeBuilder> recipeConsumer) {
         for (ManaLevel manaLevel : ManaLevel.MANA_LEVEL.get()) {
-            if (!manaLevel.hasConfig(ManaLevel.CAN_USE_RECIPE_MAKE)) {
+            if (!manaLevel.canUseRecipeMake) {
                 continue;
             }
             recipeConsumer.accept(ShapedRecipeBuilder.shaped(manaLevel.get(this).blockItem(), 1)

@@ -1,11 +1,11 @@
 package com.til.dusk.common.capability.mana_level;
 
 import com.til.dusk.common.capability.ITooltipCapability;
-import com.til.dusk.common.register.other.CapabilityRegister;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
+import com.til.dusk.common.register.other.CapabilityRegister;
 import com.til.dusk.util.Lang;
-import com.til.dusk.util.tooltip_pack.IComponentPack;
 import com.til.dusk.util.nbt.pack.AllNBTPack;
+import com.til.dusk.util.tooltip_pack.IComponentPack;
 import net.minecraft.nbt.CompoundTag;
 import org.jetbrains.annotations.Nullable;
 

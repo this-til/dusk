@@ -26,7 +26,7 @@ public class WallOreBlockDecorate extends OreBlockDecorate {
     @Override
     public @Nullable Block createBlock(Ore ore) {
         WallBlock block = new WallBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.METAL)
-                .strength(0.3f * ore.getConfig(Ore.STRENGTH).floatValue(), 0.6f * ore.getConfig(Ore.STRENGTH).floatValue())
+                .strength((float) (strengthBasics * ore.strength), (float) (explosionProofBasics * ore.strength))
                 .requiresCorrectToolForDrops()
                 .sound(SoundType.STONE));
         BlockTag.addTag(BlockTags.MINEABLE_WITH_PICKAXE, block);
@@ -55,5 +55,8 @@ public class WallOreBlockDecorate extends OreBlockDecorate {
         lang.add(LangType.ZH_CN,"墙");
         lang.add(LangType.EN_CH, "Wall");
     }
-
+    @Override
+    public void defaultConfig() {
+        strength(0.3);
+    }
 }

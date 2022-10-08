@@ -1,16 +1,16 @@
 package com.til.dusk.common.register.mana_level.block;
 
 import com.til.dusk.common.capability.CapabilityHelp;
+import com.til.dusk.common.capability.DuskCapabilityProvider;
 import com.til.dusk.common.capability.black.Back;
 import com.til.dusk.common.capability.black.IBack;
 import com.til.dusk.common.capability.control.Control;
 import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.capability.mana_handle.IManaHandle;
 import com.til.dusk.common.capability.pos.IPosTrack;
-import com.til.dusk.common.capability.DuskCapabilityProvider;
+import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.other.BindType;
 import com.til.dusk.common.register.other.CapabilityRegister;
-import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;

@@ -2,7 +2,6 @@ package com.til.dusk.common.register.mana_level.item;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.client.ColorProxy;
-import com.til.dusk.common.config.ConfigMap;
 import com.til.dusk.common.register.ItemUnitRegister;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.util.DuskColor;
@@ -39,14 +38,11 @@ public class ManaLevelItem extends ItemUnitRegister<ManaLevelItem, ManaLevel> {
 
     @Override
     public void dyeBlack(ManaLevel manaLevel, ColorProxy.ItemColorPack itemColorPack) {
-        DuskColor duskColor = manaLevel.getConfig(ManaLevel.COLOR);
-        itemColorPack.addColor(0, itemStack -> duskColor);
+        itemColorPack.addColor(0, itemStack -> manaLevel.color);
     }
 
-
-
     @Override
-    public ConfigMap defaultConfigMap() {
-        return new ConfigMap();
+    public void defaultConfig() {
+
     }
 }

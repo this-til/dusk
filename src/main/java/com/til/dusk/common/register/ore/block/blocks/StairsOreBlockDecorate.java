@@ -29,7 +29,7 @@ public class StairsOreBlockDecorate extends OreBlockDecorate {
     @Override
     public @Nullable Block createBlock(Ore ore) {
         StairBlock block = new StairBlock(() -> ore.get(OreBlock.block).block().defaultBlockState(), BlockBehaviour.Properties.of(Material.METAL, MaterialColor.METAL)
-                .strength(0.3f * ore.getConfig(Ore.STRENGTH).floatValue(), 0.6f * ore.getConfig(Ore.STRENGTH).floatValue())
+                .strength((float) (strengthBasics * ore.strength), (float) (explosionProofBasics * ore.strength))
                 .requiresCorrectToolForDrops()
                 .sound(SoundType.STONE));
         BlockTag.addTag(BlockTags.MINEABLE_WITH_PICKAXE, block);
@@ -57,5 +57,8 @@ public class StairsOreBlockDecorate extends OreBlockDecorate {
         lang.setCache(name.toLanguageKey());
         lang.add(LangType.ZH_CN,"楼梯");
         lang.add(LangType.EN_CH, "Stairs");
+    }    @Override
+    public void defaultConfig() {
+        strength(0.3);
     }
 }

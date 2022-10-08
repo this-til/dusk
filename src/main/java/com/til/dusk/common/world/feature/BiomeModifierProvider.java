@@ -2,7 +2,6 @@ package com.til.dusk.common.world.feature;
 
 import com.mojang.serialization.Codec;
 import com.til.dusk.common.config.util.IOrePlacedFeatureConfig;
-import com.til.dusk.common.register.ore.block.GenerateData;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.biome.Biome;

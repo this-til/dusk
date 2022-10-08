@@ -30,7 +30,7 @@ public class IngotOreItemMetal extends OreItemMetal {
     @Override
     public void registerRecipe(Consumer<RecipeBuilder> recipeConsumer) {
         for (Ore ore : Ore.screen(Ore.IS_METAL, Ore.MineralBlockConfig.MINERAL_BLOCK_CONFIG)) {
-            if (!ore.getConfig(Ore.MANA_LEVEL).hasConfig(ManaLevel.CAN_UET_TOOL_MAKE)) {
+            if (!ore.getConfig(Ore.MANA_LEVEL).hasConfig(ManaLevel.canUetToolMake)) {
                 continue;
             }
             recipeConsumer.accept(SimpleCookingRecipeBuilder.smelting(Ingredient.of(ore.getMineralBlockTag().itemTagKey()), ore.get(this).item(), 0.6F, 200)

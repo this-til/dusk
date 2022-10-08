@@ -11,7 +11,7 @@ import com.til.dusk.util.DuskColor;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.Item;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -244,28 +244,8 @@ public class OreItem extends ItemUnitRegister<OreItem, Ore> {
     }
 
     @Override
-    public ConfigMap defaultConfigMap() {
-        return new ConfigMap();
-    }
+    public void defaultConfig() {
 
-    /***
-     * 是装备
-     */
-    public static final ConfigKey.VoidConfigKey IS_ARMOR = new ConfigKey.VoidConfigKey("is_armor");
-
-    public static final ConfigKey.VoidConfigKey IS_HEAD = new ConfigKey.VoidConfigKey("is_head");
-    public static final ConfigKey.VoidConfigKey IS_CHEST = new ConfigKey.VoidConfigKey("is_chest");
-    public static final ConfigKey.VoidConfigKey IS_LEGS = new ConfigKey.VoidConfigKey("is_legs");
-    public static final ConfigKey.VoidConfigKey IS_FEET = new ConfigKey.VoidConfigKey("is_feet");
-
-    public static ConfigKey.VoidConfigKey asArmorKey(EquipmentSlot equipmentSlot) {
-        return switch (equipmentSlot) {
-            default -> IS_ARMOR;
-            case HEAD -> IS_HEAD;
-            case CHEST -> IS_CHEST;
-            case LEGS -> IS_LEGS;
-            case FEET -> IS_FEET;
-        };
     }
 
     public static TagKey<Item> asTag(EquipmentSlot equipmentSlot) {
@@ -277,27 +257,4 @@ public class OreItem extends ItemUnitRegister<OreItem, Ore> {
             case FEET -> Tags.Items.ARMORS_BOOTS;
         };
     }
-
-
-    /***
-     * 是武器
-     */
-    public static final ConfigKey.VoidConfigKey IS_ARMS = new ConfigKey.VoidConfigKey("is_arms");
-
-    public static final ConfigKey.VoidConfigKey IS_SWORD = new ConfigKey.VoidConfigKey("is_sword");
-    public static final ConfigKey.VoidConfigKey IS_SHOVEL = new ConfigKey.VoidConfigKey("is_shovel");
-    public static final ConfigKey.VoidConfigKey IS_PICKAXE = new ConfigKey.VoidConfigKey("is_pickaxe");
-    public static final ConfigKey.VoidConfigKey IS_AXE = new ConfigKey.VoidConfigKey("is_axe");
-    public static final ConfigKey.VoidConfigKey IS_HOE = new ConfigKey.VoidConfigKey("is_hoe");
-
-    /***
-     * 是工具
-     */
-    public static final ConfigKey.VoidConfigKey IS_TOOL = new ConfigKey.VoidConfigKey("is_tool");
-    public static final ConfigKey.VoidConfigKey IS_HAMMER = new ConfigKey.VoidConfigKey("is_hammer");
-    public static final ConfigKey.VoidConfigKey IS_WRENCH = new ConfigKey.VoidConfigKey("is_wrench");
-    public static final ConfigKey.VoidConfigKey IS_WIRE_CUTTER = new ConfigKey.VoidConfigKey("is_wire_cutter");
-    public static final ConfigKey.VoidConfigKey IS_FILE = new ConfigKey.VoidConfigKey("is_file");
-
-
 }

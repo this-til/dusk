@@ -1,8 +1,8 @@
 package com.til.dusk.common.register.shaped;
 
 import com.til.dusk.Dusk;
-import com.til.dusk.common.capability.handle.EventHandle;
 import com.til.dusk.common.capability.CapabilityHelp;
+import com.til.dusk.common.capability.handle.EventHandle;
 import com.til.dusk.common.config.ConfigMap;
 import com.til.dusk.common.register.RegisterBasics;
 import net.minecraft.resources.ResourceLocation;

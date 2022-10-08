@@ -2,6 +2,7 @@ package com.til.dusk.common.register.ore.block;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.client.ColorProxy;
+import com.til.dusk.common.config.ConfigField;
 import com.til.dusk.common.config.ConfigKey;
 import com.til.dusk.common.config.ConfigMap;
 import com.til.dusk.common.register.BlockUnitRegister;
@@ -14,7 +15,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -84,7 +85,7 @@ public abstract class OreBlock extends BlockUnitRegister<OreBlock, Ore> {
         block = new BlockOreBlockDecorate();
         slab = new SlabOreBlockDecorate();
         stairs = new StairsOreBlockDecorate();
-        wall= new WallOreBlockDecorate();
+        wall = new WallOreBlockDecorate();
     }
 
     public OreBlock(ResourceLocation name) {
@@ -107,22 +108,28 @@ public abstract class OreBlock extends BlockUnitRegister<OreBlock, Ore> {
 
     @Override
     public void dyeBlack(Ore ore, ColorProxy.ItemColorPack itemColorPack) {
-        DuskColor color = ore.getConfig(Ore.COLOR);
-        itemColorPack.addColor(1, itemStack -> color);
+        itemColorPack.addColor(1, itemStack -> ore.color);
     }
 
     @Override
     public void dyeBlack(Ore ore, ColorProxy.BlockColorPack itemColorPack) {
-        DuskColor color = ore.getConfig(Ore.COLOR);
-        itemColorPack.addColor(1, (blockState, blockAndTintGetter, blockPos) -> color);
+        itemColorPack.addColor(1, (blockState, blockAndTintGetter, blockPos) -> ore.color);
     }
 
-    @Override
-    public ConfigMap defaultConfigMap() {
-        return new ConfigMap();
+    /***
+     * 强度
+     */
+    @ConfigField
+    public double strengthBasics = 1;
+
+    /***
+     * 防爆
+     */
+    @ConfigField
+    public double explosionProofBasics = 1;
+
+   protected void strength(double basics) {
+        strengthBasics = basics;
+        explosionProofBasics = basics * 2;
     }
-
-    public static final ConfigKey.VoidConfigKey IS_MINERAL = new ConfigKey.VoidConfigKey("is_mineral");
-    public static final ConfigKey.VoidConfigKey IS_DECORATE = new ConfigKey.VoidConfigKey("is_decorate");
-
 }

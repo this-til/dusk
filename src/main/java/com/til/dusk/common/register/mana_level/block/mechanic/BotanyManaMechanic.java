@@ -7,7 +7,6 @@ import com.til.dusk.common.data.lang.LangType;
 import com.til.dusk.common.register.mana_level.block.ExtractManaMechanic;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 import com.til.dusk.util.DuskColor;
-import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.ItemTags;
 
 import java.util.List;

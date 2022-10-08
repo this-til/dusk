@@ -20,7 +20,7 @@ public class OreItemMetal extends OreItem {
 
     @Override
     public @Nullable ItemPack create(Ore ore) {
-        if (ore.hasSet(Ore.IS_METAL)) {
+        if (ore.isMetal) {
             return super.create(ore);
         }
         return null;

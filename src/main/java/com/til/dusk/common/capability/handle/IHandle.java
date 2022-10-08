@@ -1,17 +1,17 @@
 package com.til.dusk.common.capability.handle;
 
 
-import com.til.dusk.common.capability.*;
+import com.til.dusk.common.capability.ITooltipCapability;
 import com.til.dusk.common.capability.black.IBack;
 import com.til.dusk.common.capability.clock.IClock;
 import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.capability.pos.IPosTrack;
-import com.til.dusk.common.register.shaped.shapeds.Shaped;
 import com.til.dusk.common.register.shaped.ShapedDrive;
+import com.til.dusk.common.register.shaped.shapeds.Shaped;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.common.util.INBTSerializable;
 
-import java.util.*;
+import java.util.Set;
 
 
 /**

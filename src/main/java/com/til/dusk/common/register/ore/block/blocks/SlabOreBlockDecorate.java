@@ -28,7 +28,7 @@ public class SlabOreBlockDecorate extends OreBlockDecorate {
     @Override
     public @Nullable Block createBlock(Ore ore) {
         Block block = new SlabBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.METAL)
-                .strength(0.3f * ore.getConfig(Ore.STRENGTH).floatValue(), 0.6f * ore.getConfig(Ore.STRENGTH).floatValue())
+                .strength((float) (strengthBasics * ore.strength), (float) (explosionProofBasics * ore.strength))
                 .requiresCorrectToolForDrops()
                 .sound(SoundType.STONE));
         BlockTag.addTag(BlockTags.MINEABLE_WITH_PICKAXE, block);
@@ -56,5 +56,8 @@ public class SlabOreBlockDecorate extends OreBlockDecorate {
         lang.setCache(name.toLanguageKey());
         lang.add(LangType.ZH_CN,"半砖");
         lang.add(LangType.EN_CH, "Slab");
+    }    @Override
+    public void defaultConfig() {
+        strength(0.3);
     }
 }

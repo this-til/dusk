@@ -26,7 +26,7 @@ public class OreItemTool extends OreItem {
 
     @Override
     public @Nullable ItemPack create(Ore ore) {
-        if (ore.hasConfig(Ore.ToolDataConfig.TOOL_DATA_CONFIG) && ore.hasConfig(Ore.IS_METAL)) {
+        if (ore.isMetal && ore.toolData != null) {
             return super.create(ore);
         }
         return null;
@@ -34,7 +34,8 @@ public class OreItemTool extends OreItem {
 
     @Override
     public Item createItem(Ore ore) {
-        return createToolItem(ore, ore.getConfig(Ore.ToolDataConfig.TOOL_DATA_CONFIG));
+        assert ore.toolData != null;
+        return createToolItem(ore, ore.toolData);
     }
 
     /***
@@ -43,8 +44,8 @@ public class OreItemTool extends OreItem {
      * @param configMap 工具数据
      * @return 工具
      */
-    public Item createToolItem(Ore ore, ConfigMap configMap) {
-        return new Item(new Item.Properties().tab(Dusk.TAB).durability(configMap.get(Ore.ToolDataConfig.USES)).fireResistant()) {
+    public Item createToolItem(Ore ore, ToolData configMap) {
+        return new Item(new Item.Properties().tab(Dusk.TAB).durability(configMap.uses).fireResistant()) {
 
             @Override
             public @NotNull Component getName(@NotNull ItemStack stack) {
@@ -71,11 +72,5 @@ public class OreItemTool extends OreItem {
                 return false;
             }
         };
-    }
-
-    @Override
-    public ConfigMap defaultConfigMap() {
-        return super.defaultConfigMap()
-                .setConfig(IS_TOOL);
     }
 }

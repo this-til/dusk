@@ -2,15 +2,11 @@ package com.til.dusk.common.config.util;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.common.config.AcceptTypeJson;
-import com.til.dusk.common.config.ConfigKey;
-import com.til.dusk.common.config.IAcceptConfig;
 import com.til.dusk.common.register.ore.block.OreBlock;
 import com.til.dusk.common.register.ore.block.OreBlockMineral;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.world.feature.CurrencyOreFeatureConfiguration;
 import com.til.dusk.common.world.feature.DuskFeature;
-import com.til.dusk.util.Util;
-import com.til.dusk.util.nbt.cell.AllNBTCell;
 import com.til.dusk.util.pack.BlockPack;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -37,7 +33,7 @@ import java.util.Map;
  * @author til
  */
 @AcceptTypeJson
-public interface IOrePlacedFeatureConfig  {
+public interface IOrePlacedFeatureConfig {
     /***
      * 获取矿物生产配置
      * @return 矿物上场配置
@@ -55,125 +51,142 @@ public interface IOrePlacedFeatureConfig  {
 
     ResourceLocation name();
 
-    class OrePlacedFeatureConfig extends RetainConfigMap implements IOrePlacedFeatureConfig {
+    /**
+     * @author til
+     */
+    @AcceptTypeJson
+    class GenerateData implements IOrePlacedFeatureConfig {
 
-        public static final ConfigKey<ResourceLocation> NAME = new ConfigKey<>("placed.name", AllNBTCell.RESOURCE_LOCATION, () -> new ResourceLocation(Dusk.MOD_ID, "null"));
-
+        public ResourceLocation name;
         /***
          * 数量，单次生成的数量
          */
-        public static final ConfigKey<Integer> AMOUNT = new ConfigKey<>("placed.amount", AllNBTCell.INT, () -> 12);
+        public int amount = 12;
 
         /***
          * 一区块中生产的数量
          */
-        public static final ConfigKey<Integer> IN_CHUNK_AMOUNT = new ConfigKey<>("placed.in_chunk_amount", AllNBTCell.INT, () -> 4);
+        public int inChunkAmount = 4;
 
         /***
          * 最高高度
          */
-        public static final ConfigKey<Integer> MAX_HEIGHT = new ConfigKey<>("placed.max_height", AllNBTCell.INT, () -> 128);
+        public int maxHeight = 128;
 
         /***
          * 最低高度
          */
-        public static final ConfigKey<Integer> MIN_HEIGHT = new ConfigKey<>("placed.min_height", AllNBTCell.INT, () -> -64);
+        public int minHeight = -64;
 
         /***
          * 筛选世界
          */
-        public static final ConfigKey<IScreen> SCREEN_WORLD = new ConfigKey<>("placed.screen_world", Util.forcedConversion(AllNBTCell.I_ACCEPT_CONFIG_MAP), () -> null);
+        @Nullable
+        public IScreen canInLevel;
 
         /***
-         * 筛选生物群系
+         * 可以在某生物群系生成
          */
-        public static final ConfigKey<IScreen> SCREEN_BIOME = new ConfigKey<>("placed.screen_biome", Util.forcedConversion(AllNBTCell.I_ACCEPT_CONFIG_MAP), () -> null);
+        @Nullable
+        public IScreen canInBiome;
 
         /***
-         * 方块匹配
+         * 获取放置方块
          */
-        public static final ConfigKey<IPair> BLOCK_PAIR = new ConfigKey<>("placed.block_pair", Util.forcedConversion(AllNBTCell.I_ACCEPT_CONFIG_MAP), () -> null);
+        public Delayed<IPair> place;
 
-        Holder<ConfiguredFeature<CurrencyOreFeatureConfiguration, ?>> currencyOreFeatureConfigurationHolder;
-        Holder<PlacedFeature> holder;
+        private Holder<PlacedFeature> holder;
 
-        public OrePlacedFeatureConfig() {
-        }
-
-        public OrePlacedFeatureConfig(ResourceLocation name) {
-            configMap.setConfigOfV(NAME, name);
-        }
-
-        @Override
-        public List<ConfigKey<?>> defaultKey() {
-            return List.of(NAME, AMOUNT, IN_CHUNK_AMOUNT, MAX_HEIGHT, MIN_HEIGHT);
-        }
-
-        public OrePlacedFeatureConfig useDefaultConfig(Ore ore, int amount, int inChunkAmount) {
-            configMap.setConfigOfV(AMOUNT, amount)
-                    .setConfigOfV(NAME, ore.name)
-                    .setConfigOfV(IN_CHUNK_AMOUNT, inChunkAmount)
-                    .setConfig(BLOCK_PAIR, () -> {
-                        Map<ResourceLocation, ResourceLocation> map = new HashMap<>();
-                        for (Map.Entry<OreBlock, BlockPack> entry : ore.blockEntrySet()) {
-                            if (!(entry.getKey() instanceof OreBlockMineral mineral)) {
-                                continue;
-                            }
-                            if (mineral.replaceBasicsBlock == null) {
-                                continue;
-                            }
-                            map.put(ForgeRegistries.BLOCKS.getKey(mineral.replaceBasicsBlock.get()), ForgeRegistries.BLOCKS.getKey(entry.getValue().block()));
-                        }
-                        return new IPair.ResourceLocationPair(map, null);
-                    });
+        public GenerateData useDefaultConfig(Ore ore, int amount, int inChunkAmount) {
+            this.amount = amount;
+            this.inChunkAmount = inChunkAmount;
+            this.name = ore.name;
+            place = new Delayed<>(() -> {
+                Map<String, ResourceLocation> map = new HashMap<>();
+                for (Map.Entry<OreBlock, BlockPack> entry : ore.blockEntrySet()) {
+                    if (!(entry.getKey() instanceof OreBlockMineral mineral)) {
+                        continue;
+                    }
+                    if (mineral.replaceBasicsBlock == null) {
+                        continue;
+                    }
+                    ResourceLocation blockName = ForgeRegistries.BLOCKS.getKey(mineral.replaceBasicsBlock.get());
+                    if (blockName == null) {
+                        continue;
+                    }
+                    map.put(blockName.toString(), ForgeRegistries.BLOCKS.getKey(entry.getValue().block()));
+                }
+                return new IPair.ResourceLocationPair(map, null);
+            });
             return this;
         }
 
         @Override
         public ResourceLocation name() {
-            return configMap.get(NAME);
+            return name;
         }
 
         @Override
         public void init() {
             ResourceLocation name = name();
-            currencyOreFeatureConfigurationHolder = FeatureUtils.register(
+            Holder<ConfiguredFeature<CurrencyOreFeatureConfiguration, ?>> currencyOreFeatureConfigurationHolder = FeatureUtils.register(
                     new ResourceLocation(Dusk.MOD_ID, name.getPath() + "_configured").toString(),
                     DuskFeature.CURRENCY_ORE_FEATURE.get(),
                     new CurrencyOreFeatureConfiguration(this, 12));
-            PlacementUtils.register(new ResourceLocation(name.getNamespace(), name.getPath() + "_placed").toString(),
+            holder = PlacementUtils.register(new ResourceLocation(name.getNamespace(), name.getPath() + "_placed").toString(),
                     currencyOreFeatureConfigurationHolder,
-                    List.of(CountPlacement.of(configMap.get(IN_CHUNK_AMOUNT)),
+                    List.of(CountPlacement.of(inChunkAmount),
                             InSquarePlacement.spread(),
                             HeightRangePlacement.uniform(
-                                    VerticalAnchor.absolute(configMap.get(MIN_HEIGHT)),
-                                    VerticalAnchor.absolute(configMap.get(MAX_HEIGHT))),
+                                    VerticalAnchor.absolute(maxHeight),
+                                    VerticalAnchor.absolute(minHeight)),
                             BiomeFilter.biome()));
         }
 
         @Nullable
         @Override
         public Holder<PlacedFeature> getPlacedFeature(Holder<Biome> biome) {
-            if (!configMap.containsKey(SCREEN_BIOME) || configMap.get(SCREEN_BIOME).isAccept(ForgeRegistries.BIOMES.getKey(biome.get()))) {
+            if (canInBiome == null || canInBiome.isAccept(ForgeRegistries.BIOMES.getKey(biome.get()))) {
                 return holder;
             }
             return null;
         }
 
-        @org.jetbrains.annotations.Nullable
+        @Nullable
         @Override
         public BlockState placed(Level level, BlockState blockState, BlockPos blockPos) {
-            if (configMap.containsKey(SCREEN_WORLD) && !configMap.get(SCREEN_WORLD).isAccept(level.dimension().location())) {
+            if (canInLevel != null && !canInLevel.isAccept(level.dimension().location())) {
                 return null;
             }
-            if (configMap.containsKey(BLOCK_PAIR)) {
-                Block block = ForgeRegistries.BLOCKS.getValue(configMap.get(BLOCK_PAIR).pair(ForgeRegistries.BLOCKS.getKey(blockState.getBlock())));
+            if (place != null) {
+                Block block = ForgeRegistries.BLOCKS.getValue(place.get().pair(ForgeRegistries.BLOCKS.getKey(blockState.getBlock())));
                 if (block == null) {
                     return null;
                 }
                 return block.defaultBlockState();
             }
             return null;
+        }
+
+
+        public GenerateData setAmount(int amount) {
+            this.amount = amount;
+            return this;
+        }
+
+        public GenerateData setInChunkAmount(int inChunkAmount) {
+            this.inChunkAmount = inChunkAmount;
+            return this;
+        }
+
+        public GenerateData setMaxHeight(int maxHeight) {
+            this.maxHeight = maxHeight;
+            return this;
+        }
+
+        public GenerateData setMinHeight(int minHeight) {
+            this.minHeight = minHeight;
+            return this;
         }
     }
 }

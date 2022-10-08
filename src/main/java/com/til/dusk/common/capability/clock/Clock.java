@@ -1,12 +1,12 @@
 package com.til.dusk.common.capability.clock;
 
 import com.til.dusk.common.capability.black.IBack;
-import com.til.dusk.common.register.other.CapabilityRegister;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
-import com.til.dusk.util.Lang;
-import com.til.dusk.util.tooltip_pack.IComponentPack;
-import com.til.dusk.util.nbt.pack.AllNBTPack;
+import com.til.dusk.common.register.other.CapabilityRegister;
 import com.til.dusk.util.Extension;
+import com.til.dusk.util.Lang;
+import com.til.dusk.util.nbt.pack.AllNBTPack;
+import com.til.dusk.util.tooltip_pack.IComponentPack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.common.MinecraftForge;

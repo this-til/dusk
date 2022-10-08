@@ -1,6 +1,6 @@
 package com.til.dusk.common.register.mana_level.mana_level.mana_levels;
 
-import com.til.dusk.common.config.ConfigMap;
+import com.til.dusk.common.config.util.Delayed;
 import com.til.dusk.common.config.util.IShapedOreConfig;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.ore.fluid.OreFluid;
@@ -18,21 +18,20 @@ public class T5ManaLevel extends ManaLevel {
     }
 
     @Override
-    public ConfigMap defaultConfigMap() {
-        return new ConfigMap()
-                .setConfigOfV(ManaLevel.LEVEL, 5)
-                .setConfigOfV(ManaLevel.CLOCK, 160)
-                .setConfigOfV(ManaLevel.PARALLEL, 5)
-                .setConfigOfV(ManaLevel.MAX_BIND, 5)
-                .setConfigOfV(ManaLevel.MANA_LOSS, 0.06)
-                .setConfigOfV(ManaLevel.MAX_RANGE, 24)
-                .setConfigOfV(ManaLevel.COLOR,  new DuskColor(175, 100, 150))
-                .setConfig(ManaLevel.OPERATION_BASICS, () -> List.of(
-                        new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelFluidIn(Ore.coolant.get(OreFluid.solution).fluidTag(), 128),
-                        new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelFluidIn(Ore.culture.get(OreFluid.solution).fluidTag(), 32),
-                        new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelFluidIn(Ore.nutrient.get(OreFluid.solution).fluidTag(), 16),
-                        new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelFluidIn(Ore.supportCell.get(OreFluid.solution).fluidTag(), 256)))
-                .setConfig(ManaLevel.OPERATION, () -> List.of(
-                        new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelFluidIn(Ore.neuronCell.get(OreFluid.solution).fluidTag(), 16)));
+    public void defaultConfig() {
+        level = 5;
+        clock = 160;
+        parallel = 5;
+        maxBind = 5;
+        manaLoss = 0.06;
+        maxRange = 24;
+        color = new DuskColor(175, 100, 150);
+        operationBasics = new Delayed<>(() -> List.of(
+                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelFluidIn(Ore.coolant.get(OreFluid.solution).fluidTag(), 128),
+                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelFluidIn(Ore.culture.get(OreFluid.solution).fluidTag(), 32),
+                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelFluidIn(Ore.nutrient.get(OreFluid.solution).fluidTag(), 16),
+                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelFluidIn(Ore.supportCell.get(OreFluid.solution).fluidTag(), 256)));
+        operation = new Delayed<>(() -> List.of(
+                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelFluidIn(Ore.neuronCell.get(OreFluid.solution).fluidTag(), 16)));
     }
 }

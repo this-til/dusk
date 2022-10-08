@@ -1,11 +1,15 @@
 package com.til.dusk.common.register.ore.ore.ores;
 
-import com.til.dusk.Dusk;
-import com.til.dusk.common.config.ConfigMap;
+import com.til.dusk.common.config.util.Delayed;
 import com.til.dusk.common.data.lang.LangProvider;
 import com.til.dusk.common.data.lang.LangType;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
+import com.til.dusk.common.register.ore.block.DecorateBlockData;
+import com.til.dusk.common.register.ore.fluid.FluidData;
+import com.til.dusk.common.register.ore.item.ArmorData;
+import com.til.dusk.common.register.ore.item.ArmsData;
 import com.til.dusk.common.register.ore.item.OreItem;
+import com.til.dusk.common.register.ore.item.ToolData;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
@@ -13,11 +17,9 @@ import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
 import com.til.dusk.common.register.skill.Skill;
 import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.ResourceLocationUtil;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author til
@@ -35,37 +37,33 @@ public class MithrilOre extends Ore {
     }
 
     @Override
-    public ConfigMap defaultConfigMap() {
-        return new ConfigMap()
-                .setConfigOfV(Ore.COLOR, new DuskColor(205, 209, 229))
-                .setConfigOfV(Ore.MANA_LEVEL, ManaLevel.t1)
-                .setConfig(Ore.IS_METAL)
-                .setConfig(Ore.HAS_DUST)
-                .setConfigOfV(Ore.IS_LEVEL_ACCEPTABLE, ManaLevel.t2)
-                .setConfig(DecorateBlockConfig.DECORATE_BLOCK_CONFIG, ConfigMap::new)
-                .setConfig(FluidConfig.FLUID_CONFIG, ConfigMap::new)
-                .setConfig(ArmorConfig.ARMOR_CONFIG, () -> new ConfigMap()
-                        .setConfigOfV(ArmorConfig.DEFENSE, ArmorConfig.ofDefense(3))
-                        .setConfigOfV(ArmorConfig.DURABILITY, ArmorConfig.ofDurability(10))
-                        .setConfigOfV(ArmorConfig.MANA_BASICS, 3200000L)
-                        .setConfigOfV(ArmorConfig.RATE_BASICS, 12800L)
-                        .setConfigOfV(ArmorConfig.DEFAULT_SKILL, Map.of(Skill.life, 1)))
-                .setConfig(ArmsConfig.ARMS_CONFIG, () -> new ConfigMap()
-                        .setConfigOfV(ArmsConfig.MANA_BASICS, 3200000L)
-                        .setConfigOfV(ArmsConfig.RATE_BASICS, 12800L)
-                        .setConfigOfV(ArmsConfig.REPAIR_ITEM, List.of(
-                                this.get(OreItem.ingot).itemTag()))
-                        .setConfigOfV(ArmsConfig.TAG, Dusk.instance.BLOCK_TAG.createTagKey(new ResourceLocation(name.getNamespace(), "tier." + name.getPath()))))
-                .setConfig(ToolDataConfig.TOOL_DATA_CONFIG, () -> new ConfigMap()
-                        .setConfigOfV(ToolDataConfig.USES, 64 * 16)
-                        .setConfigOfV(ToolDataConfig.TANK_MAX, 4000 * 16))
-                .setConfig(Ore.RELEVANT_SHAPED, () -> List.of(new ShapedOre(ResourceLocationUtil.fuseName(this, OreItem.dust), ShapedType.blend, ShapedDrive.get(0), this.getConfig(Ore.MANA_LEVEL))
+    public void defaultConfig() {
+        color = new DuskColor(205, 209, 229);
+        manaLevel = ManaLevel.t1;
+        isMetal = true;
+        hasDust = true;
+        isLevelAcceptable = List.of(ManaLevel.t2);
+        decorateBlockData = new DecorateBlockData();
+        fluidData = new FluidData()
+                .setCanCopy(true);
+        armorData = new ArmorData()
+                .setDefense(3)
+                .setDurability(10)
+                .setMane(3200000L, 12800L)
+                .putSkill(Skill.life, 1);
+        armsData = new ArmsData()
+                .setMane(3200000L, 12800L);
+        toolData = new ToolData()
+                .setUses(16 * 64)
+                .setUses(16 * 4000);
+        relevantShaped = new Delayed<>(() -> List.of(
+                new ShapedOre(ResourceLocationUtil.fuseName(this, OreItem.dust), ShapedType.blend, ShapedDrive.get(0), manaLevel)
                         .addInItem(spiritSilver.get(OreItem.dust).itemTag(), 1)
                         .addInItem(greenTeal.get(OreItem.dust).itemTag(), 1)
                         .addInItem(mediumspringgreen.get(OreItem.dust).itemTag(), 1)
                         .addOutItem(new ItemStack(this.get(OreItem.dust).item(), 3), 1D)
-                        .addMultipleSurplusTime((long) (this.getConfig(Ore.STRENGTH) * 1024L))
-                        .addMultipleConsumeMana((long) (this.getConfig(Ore.CONSUME) * 27L))));
+                        .addMultipleSurplusTime((long) consume * 1024L)
+                        .addMultipleConsumeMana((long) strength * 27L)));
     }
 }
 

@@ -1,8 +1,6 @@
 package com.til.dusk.common.config.util;
 
-import com.til.dusk.common.config.ConfigKey;
-import com.til.dusk.common.config.ConfigMap;
-import com.til.dusk.common.config.IAcceptConfig;
+import com.til.dusk.common.config.AcceptTypeJson;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
 import net.minecraft.resources.ResourceLocation;
@@ -17,7 +15,8 @@ import net.minecraftforge.fluids.FluidStack;
  * 用于设置配方
  * @author til
  */
-public interface IShapedOreConfig<DATA> extends IAcceptConfig {
+@AcceptTypeJson
+public interface IShapedOreConfig<DATA> {
     /***
      * 配置配方
      * @param shapedOre 配方
@@ -42,19 +41,6 @@ public interface IShapedOreConfig<DATA> extends IAcceptConfig {
         public void config(ShapedOre shapedOre, Void data) {
             shapedOre.addInItem(itemTag, amount);
         }
-
-        @Override
-        public void init(ConfigMap configMap) {
-            itemTag = configMap.get(ConfigKey.ITEM_TAG);
-            amount = configMap.get(ConfigKey.AMOUNT);
-        }
-
-        @Override
-        public ConfigMap defaultConfigMap() {
-            return new ConfigMap()
-                    .setConfigOfV(ConfigKey.ITEM_TAG, itemTag)
-                    .setConfigOfV(ConfigKey.AMOUNT, amount);
-        }
     }
 
     class FluidIn implements IShapedOreConfig<Void> {
@@ -74,19 +60,6 @@ public interface IShapedOreConfig<DATA> extends IAcceptConfig {
         public void config(ShapedOre shapedOre, Void data) {
             shapedOre.addInFluid(fluidTag, amount);
         }
-
-        @Override
-        public void init(ConfigMap configMap) {
-            fluidTag = configMap.get(ConfigKey.FLUID_TAG);
-            amount = configMap.get(ConfigKey.AMOUNT);
-        }
-
-        @Override
-        public ConfigMap defaultConfigMap() {
-            return new ConfigMap()
-                    .setConfigOfV(ConfigKey.FLUID_TAG, fluidTag)
-                    .setConfigOfV(ConfigKey.AMOUNT, amount);
-        }
     }
 
     class ItemOut implements IShapedOreConfig<Void> {
@@ -104,19 +77,6 @@ public interface IShapedOreConfig<DATA> extends IAcceptConfig {
         @Override
         public void config(ShapedOre shapedOre, Void data) {
             shapedOre.addOutItem(itemStack, probability);
-        }
-
-        @Override
-        public void init(ConfigMap configMap) {
-            itemStack = configMap.get(ConfigKey.ITEM_STACK);
-            probability = configMap.get(ConfigKey.PROBABILITY);
-        }
-
-        @Override
-        public ConfigMap defaultConfigMap() {
-            return new ConfigMap()
-                    .setConfigOfV(ConfigKey.ITEM_STACK, itemStack)
-                    .setConfigOfV(ConfigKey.PROBABILITY, probability);
         }
     }
 
@@ -136,20 +96,6 @@ public interface IShapedOreConfig<DATA> extends IAcceptConfig {
         public void config(ShapedOre shapedOre, Void data) {
             shapedOre.addOutFluid(fluidStack, probability);
         }
-
-        @Override
-        public void init(ConfigMap configMap) {
-            fluidStack = configMap.get(ConfigKey.FLUID_STACK);
-            probability = configMap.get(ConfigKey.PROBABILITY);
-        }
-
-        @Override
-        public ConfigMap defaultConfigMap() {
-            return new ConfigMap()
-                    .setConfigOfV(ConfigKey.FLUID_STACK, fluidStack)
-                    .setConfigOfV(ConfigKey.PROBABILITY, probability);
-        }
-
     }
 
     class MultipleSurplusTime implements IShapedOreConfig<Object> {
@@ -165,16 +111,6 @@ public interface IShapedOreConfig<DATA> extends IAcceptConfig {
         @Override
         public void config(ShapedOre shapedOre, Object data) {
             shapedOre.addMultipleSurplusTime(surplusTime);
-        }
-
-        @Override
-        public void init(ConfigMap configMap) {
-            surplusTime = configMap.get(ConfigKey.SURPLUS_TIME);
-        }
-
-        @Override
-        public ConfigMap defaultConfigMap() {
-            return new ConfigMap().setConfigOfV(ConfigKey.SURPLUS_TIME, surplusTime);
         }
     }
 
@@ -192,16 +128,6 @@ public interface IShapedOreConfig<DATA> extends IAcceptConfig {
         public void config(ShapedOre shapedOre, Object data) {
             shapedOre.addMultipleConsumeMana(consumeMana);
         }
-
-        @Override
-        public void init(ConfigMap configMap) {
-            consumeMana = configMap.get(ConfigKey.CONSUME_MANA);
-        }
-
-        @Override
-        public ConfigMap defaultConfigMap() {
-            return new ConfigMap().setConfigOfV(ConfigKey.CONSUME_MANA, consumeMana);
-        }
     }
 
     class MultipleOutMana implements IShapedOreConfig<Object> {
@@ -217,16 +143,6 @@ public interface IShapedOreConfig<DATA> extends IAcceptConfig {
         @Override
         public void config(ShapedOre shapedOre, Object data) {
             shapedOre.addMultipleOutMana(outMana);
-        }
-
-        @Override
-        public void init(ConfigMap configMap) {
-            outMana = configMap.get(ConfigKey.OUT_MANA);
-        }
-
-        @Override
-        public ConfigMap defaultConfigMap() {
-            return new ConfigMap().setConfigOfV(ConfigKey.OUT_MANA, outMana);
         }
     }
 
@@ -248,19 +164,6 @@ public interface IShapedOreConfig<DATA> extends IAcceptConfig {
             public void config(ShapedOre shapedOre, ManaLevel data) {
                 shapedOre.addInItem(itemTag, amount);
             }
-
-            @Override
-            public void init(ConfigMap configMap) {
-                itemTag = configMap.get(ConfigKey.ITEM_TAG);
-                amount = configMap.get(ConfigKey.AMOUNT);
-            }
-
-            @Override
-            public ConfigMap defaultConfigMap() {
-                return new ConfigMap()
-                        .setConfigOfV(ConfigKey.ITEM_TAG, itemTag)
-                        .setConfigOfV(ConfigKey.AMOUNT, amount);
-            }
         }
 
         class ManaLevelAcceptItemIn implements IShapedOreManaLevelConfig {
@@ -279,19 +182,6 @@ public interface IShapedOreConfig<DATA> extends IAcceptConfig {
             @Override
             public void config(ShapedOre shapedOre, ManaLevel data) {
                 shapedOre.addInItem(data.acceptableTagPack.getTagPack(resourceLocation).itemTagKey(), amount);
-            }
-
-            @Override
-            public void init(ConfigMap configMap) {
-                resourceLocation = configMap.get(ConfigKey.RESOURCE_LOCATION);
-                amount = configMap.get(ConfigKey.AMOUNT);
-            }
-
-            @Override
-            public ConfigMap defaultConfigMap() {
-                return new ConfigMap()
-                        .setConfigOfV(ConfigKey.RESOURCE_LOCATION, resourceLocation)
-                        .setConfigOfV(ConfigKey.AMOUNT, amount);
             }
         }
 
@@ -312,19 +202,6 @@ public interface IShapedOreConfig<DATA> extends IAcceptConfig {
             public void config(ShapedOre shapedOre, ManaLevel data) {
                 shapedOre.addInFluid(fluidTag, amount);
             }
-
-            @Override
-            public void init(ConfigMap configMap) {
-                fluidTag = configMap.get(ConfigKey.FLUID_TAG);
-                amount = configMap.get(ConfigKey.AMOUNT);
-            }
-
-            @Override
-            public ConfigMap defaultConfigMap() {
-                return new ConfigMap()
-                        .setConfigOfV(ConfigKey.FLUID_TAG, fluidTag)
-                        .setConfigOfV(ConfigKey.AMOUNT, amount);
-            }
         }
 
         class ManaLevelAcceptFluidIn implements IShapedOreManaLevelConfig {
@@ -344,19 +221,6 @@ public interface IShapedOreConfig<DATA> extends IAcceptConfig {
             public void config(ShapedOre shapedOre, ManaLevel data) {
                 shapedOre.addInFluid(data.acceptableTagPack.getTagPack(resourceLocation).fluidTagKey(), amount);
             }
-
-            @Override
-            public void init(ConfigMap configMap) {
-                resourceLocation = configMap.get(ConfigKey.RESOURCE_LOCATION);
-                amount = configMap.get(ConfigKey.AMOUNT);
-            }
-
-            @Override
-            public ConfigMap defaultConfigMap() {
-                return new ConfigMap()
-                        .setConfigOfV(ConfigKey.RESOURCE_LOCATION, resourceLocation)
-                        .setConfigOfV(ConfigKey.AMOUNT, amount);
-            }
         }
 
         class ManaLevelItemOut implements IShapedOreManaLevelConfig {
@@ -374,19 +238,6 @@ public interface IShapedOreConfig<DATA> extends IAcceptConfig {
             @Override
             public void config(ShapedOre shapedOre, ManaLevel data) {
                 shapedOre.addOutItem(itemStack, probability);
-            }
-
-            @Override
-            public void init(ConfigMap configMap) {
-                itemStack = configMap.get(ConfigKey.ITEM_STACK);
-                probability = configMap.get(ConfigKey.PROBABILITY);
-            }
-
-            @Override
-            public ConfigMap defaultConfigMap() {
-                return new ConfigMap()
-                        .setConfigOfV(ConfigKey.ITEM_STACK, itemStack)
-                        .setConfigOfV(ConfigKey.PROBABILITY, probability);
             }
         }
 
@@ -406,21 +257,6 @@ public interface IShapedOreConfig<DATA> extends IAcceptConfig {
             public void config(ShapedOre shapedOre, ManaLevel data) {
                 shapedOre.addOutFluid(fluidStack, probability);
             }
-
-            @Override
-            public void init(ConfigMap configMap) {
-                fluidStack = configMap.get(ConfigKey.FLUID_STACK);
-                probability = configMap.get(ConfigKey.PROBABILITY);
-            }
-
-            @Override
-            public ConfigMap defaultConfigMap() {
-                return new ConfigMap()
-                        .setConfigOfV(ConfigKey.FLUID_STACK, fluidStack)
-                        .setConfigOfV(ConfigKey.PROBABILITY, probability);
-            }
         }
     }
-
-
 }

@@ -1,9 +1,10 @@
 package com.til.dusk.common.register.ore.ore.ores;
 
-import com.til.dusk.common.config.ConfigMap;
+import com.til.dusk.common.config.util.Delayed;
 import com.til.dusk.common.data.lang.LangProvider;
 import com.til.dusk.common.data.lang.LangType;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
+import com.til.dusk.common.register.ore.fluid.FluidData;
 import com.til.dusk.common.register.ore.fluid.OreFluid;
 import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.ore.ore.Ore;
@@ -32,18 +33,17 @@ public class CoolantOre extends Ore {
     }
 
     @Override
-    public ConfigMap defaultConfigMap() {
-        return new ConfigMap()
-                .setConfigOfV(Ore.COLOR, new DuskColor(69, 173, 206))
-                .setConfigOfV(Ore.MANA_LEVEL, ManaLevel.t2)
-                .setConfig(FluidConfig.FLUID_CONFIG, ConfigMap::new)
-                .setConfig(Ore.RELEVANT_SHAPED, () -> List.of(
-                        new ShapedOre(ResourceLocationUtil.fuseName(this, OreFluid.solution), ShapedType.highPressureFuse, ShapedDrive.get(0), this.getConfig(Ore.MANA_LEVEL))
-                                .addInItem(spiritSilver.get(OreItem.dust).itemTag(), 1)
-                                .addInFluid(ultramarine.get(OreFluid.solution).fluidTag(), 144)
-                                .addOutFluid(new FluidStack(this.get(OreFluid.solution).source(), 144), 1d)
-                                .addMultipleSurplusTime((long) (2046L * this.getConfig(Ore.STRENGTH)))
-                                .addMultipleConsumeMana((long) (18L * this.getConfig(Ore.CONSUME)))));
+    public void defaultConfig() {
+        color = new DuskColor(245, 35, 35);
+        manaLevel = ManaLevel.t2;
+        fluidData = new FluidData();
+        relevantShaped = new Delayed<>(() -> List.of(
+                new ShapedOre(ResourceLocationUtil.fuseName(this, OreFluid.solution), ShapedType.highPressureFuse, ShapedDrive.get(0),manaLevel)
+                        .addInItem(spiritSilver.get(OreItem.dust).itemTag(), 1)
+                        .addInFluid(ultramarine.get(OreFluid.solution).fluidTag(), 144)
+                        .addOutFluid(new FluidStack(this.get(OreFluid.solution).source(), 144), 1d)
+                        .addMultipleSurplusTime((long) (1024L * strength))
+                        .addMultipleConsumeMana((long) (18L * consume))));
     }
 
 }

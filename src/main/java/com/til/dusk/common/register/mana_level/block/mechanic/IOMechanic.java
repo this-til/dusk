@@ -3,6 +3,7 @@ package com.til.dusk.common.register.mana_level.block.mechanic;
 import com.til.dusk.Dusk;
 import com.til.dusk.client.ColorProxy;
 import com.til.dusk.common.capability.CapabilityHelp;
+import com.til.dusk.common.capability.DuskCapabilityProvider;
 import com.til.dusk.common.capability.black.Back;
 import com.til.dusk.common.capability.black.IBack;
 import com.til.dusk.common.capability.clock.IClock;
@@ -11,15 +12,14 @@ import com.til.dusk.common.capability.control.Control;
 import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.capability.mana_handle.IManaHandle;
 import com.til.dusk.common.capability.pos.IPosTrack;
-import com.til.dusk.common.capability.DuskCapabilityProvider;
 import com.til.dusk.common.config.ConfigKey;
 import com.til.dusk.common.config.ConfigMap;
 import com.til.dusk.common.data.lang.LangProvider;
 import com.til.dusk.common.data.lang.LangType;
 import com.til.dusk.common.register.mana_level.block.DefaultCapacityMechanic;
+import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.other.BindType;
 import com.til.dusk.common.register.other.CapabilityRegister;
-import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.world.block.ModBlock;
 import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.Extension;
@@ -82,8 +82,8 @@ public abstract class IOMechanic extends DefaultCapacityMechanic {
         @Override
         public void addCapability(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability, ManaLevel manaLevel, IPosTrack iPosTrack) {
             super.addCapability(event, duskModCapability, manaLevel, iPosTrack);
-            long max = (long) getConfig(TRANSMISSION_EFFICIENCY) * manaLevel.getConfig(ManaLevel.LEVEL);
-            double loss = manaLevel.getConfig(ManaLevel.MANA_LOSS);
+            long max = (long) getConfig(TRANSMISSION_EFFICIENCY) * manaLevel.getConfig(ManaLevel.level);
+            double loss = manaLevel.getConfig(ManaLevel.manaLoss);
             IControl iControl = duskModCapability.addCapability(CapabilityRegister.iControl.capability, new Control(iPosTrack, List.of(BindType.manaIn, BindType.manaOut), manaLevel));
             IBack iUp = duskModCapability.addCapability(CapabilityRegister.iBlack.capability, new Back());
             iUp.add(IBack.UP, v -> {
@@ -124,7 +124,7 @@ public abstract class IOMechanic extends DefaultCapacityMechanic {
             IControl iControl = duskModCapability.addCapability(CapabilityRegister.iControl.capability, new Control(iPosTrack, List.of(BindType.itemIn, BindType.itemOut, BindType.manaIn), manaLevel));
             IBack iUp = duskModCapability.addCapability(CapabilityRegister.iBlack.capability, new Back());
             IClock iClock = duskModCapability.addCapability(CapabilityRegister.iClock.capability, new ManaClock(iUp,
-                    manaLevel.getConfig(ManaLevel.CLOCK) / getConfig(TRANSMISSION_EFFICIENCY), iControl, getConfig(CONSUME) * manaLevel.getConfig(ManaLevel.LEVEL)));
+                    manaLevel.getConfig(ManaLevel.clock) / getConfig(TRANSMISSION_EFFICIENCY), iControl, getConfig(CONSUME) * manaLevel.getConfig(ManaLevel.level)));
             iClock.addBlock(() -> {
                 Level level = event.getObject().getLevel();
                 if (level == null) {
@@ -211,7 +211,7 @@ public abstract class IOMechanic extends DefaultCapacityMechanic {
             IControl iControl = duskModCapability.addCapability(CapabilityRegister.iControl.capability, new Control(iPosTrack, List.of(BindType.fluidIn, BindType.fluidOut, BindType.manaIn), manaLevel));
             IBack iBack = duskModCapability.addCapability(CapabilityRegister.iBlack.capability, new Back());
             IClock iClock = duskModCapability.addCapability(CapabilityRegister.iClock.capability, new ManaClock(iBack,
-                    manaLevel.getConfig(ManaLevel.CLOCK) / getConfig(TRANSMISSION_EFFICIENCY), iControl, getConfig(CONSUME) * manaLevel.getConfig(ManaLevel.LEVEL)));
+                    manaLevel.getConfig(ManaLevel.clock) / getConfig(TRANSMISSION_EFFICIENCY), iControl, getConfig(CONSUME) * manaLevel.getConfig(ManaLevel.level)));
             iClock.addBlock(() -> {
                 Level level = event.getObject().getLevel();
                 if (level == null) {
@@ -231,7 +231,7 @@ public abstract class IOMechanic extends DefaultCapacityMechanic {
                         outMap.put(entry.getKey(), entry.getValue());
                     }
                 }
-                int maxRate = 1000 * manaLevel.getConfig(ManaLevel.LEVEL);
+                int maxRate = 1000 * manaLevel.getConfig(ManaLevel.level);
                 FluidStack outSimulate = null;
                 Extension.Data_2<Map.Entry<IPosTrack, IFluidHandler>, FluidStack> outData = null;
                 for (Map.Entry<IPosTrack, IFluidHandler> entry : inMap.entrySet()) {

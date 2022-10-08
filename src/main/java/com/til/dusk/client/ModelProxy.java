@@ -2,14 +2,14 @@ package com.til.dusk.client;
 
 import com.google.common.collect.ImmutableList;
 import com.til.dusk.common.register.RegisterBasics;
-import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
 import com.til.dusk.common.register.mana_level.fluid.ManaLevelFluid;
 import com.til.dusk.common.register.mana_level.item.ManaLevelItem;
-import com.til.dusk.common.register.ore.ore.Ore;
+import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.ore.block.OreBlock;
 import com.til.dusk.common.register.ore.fluid.OreFluid;
 import com.til.dusk.common.register.ore.item.OreItem;
+import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.world.block.ModBlock;
 import com.til.dusk.common.world.item.DuskItem;
 import com.til.dusk.util.pack.BlockPack;
@@ -32,7 +32,10 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.registries.RegistryObject;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author til

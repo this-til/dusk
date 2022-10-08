@@ -1,24 +1,5 @@
 package com.til.dusk.common.data;
 
-import com.google.gson.JsonObject;
-import com.til.dusk.common.event.DelayTrigger;
-import com.til.dusk.common.register.RegisterBasics;
-import com.til.dusk.common.register.RegisterManage;
-import com.til.dusk.common.register.shaped.ShapedDrive;
-import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
-import com.til.dusk.common.register.shaped.shapeds.AllShaped;
-import com.til.dusk.common.register.shaped.shapeds.Shaped;
-import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
-import com.til.dusk.util.Extension;
-import com.til.dusk.util.nbt.pack.AllNBTPack;
-import net.minecraft.data.CachedOutput;
-import net.minecraft.data.DataProvider;
-import org.jetbrains.annotations.NotNull;
-
-import java.io.IOException;
-import java.nio.file.Path;
-import java.util.*;
-
 /**
  * @author til
  */

@@ -1,8 +1,8 @@
 package com.til.dusk.common.register.shaped.shaped_type;
 
 import com.til.dusk.common.data.tag.ItemTag;
-import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
+import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
 import net.minecraft.world.item.ItemStack;

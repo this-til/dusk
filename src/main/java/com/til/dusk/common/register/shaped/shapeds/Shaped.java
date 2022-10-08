@@ -1,16 +1,12 @@
 package com.til.dusk.common.register.shaped.shapeds;
 
-import com.til.dusk.Dusk;
 import com.til.dusk.common.capability.handle.IHandle;
 import com.til.dusk.common.capability.handle.ShapedHandle;
 import com.til.dusk.common.capability.pos.IPosTrack;
-import com.til.dusk.common.config.ConfigKey;
-import com.til.dusk.common.config.ConfigMap;
-import com.til.dusk.common.config.IAcceptConfig;
+import com.til.dusk.common.config.AcceptTypeJson;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
-import com.til.dusk.util.nbt.cell.AllNBTCell;
 import com.til.dusk.util.Lang;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -25,14 +21,8 @@ import java.util.*;
 /**
  * @author til
  */
-public abstract class Shaped implements IAcceptConfig {
-
-
-    public static final ConfigKey<ResourceLocation> NAME = new ConfigKey<>("shaped.name", AllNBTCell.RESOURCE_LOCATION, () -> new ResourceLocation(Dusk.MOD_ID, "null"));
-    public static final ConfigKey<ShapedType> SHAPED_TYPE = new ConfigKey<>("shaped.shaped_type", AllNBTCell.SHAPED_TYPE, () -> ShapedType.empty);
-    public static final ConfigKey<ShapedDrive> SHAPED_DRIVE = new ConfigKey<>("shaped.shaped_drive", AllNBTCell.SHAPED_DRIVE, () -> ShapedDrive.get(0));
-    public static final ConfigKey<ManaLevel> MANA_LEVEL = new ConfigKey<>("shaped.mana_level", AllNBTCell.MANA_LEVEL, () -> ManaLevel.t1);
-    public static final ConfigKey<Boolean> IS_SHOW = new ConfigKey<>("shaped.is_show", AllNBTCell.BOOLEAN, () -> true);
+@AcceptTypeJson
+public abstract class Shaped {
 
     /***
      * 配方名称
@@ -66,25 +56,6 @@ public abstract class Shaped implements IAcceptConfig {
         this.shapedType = shapedType;
         this.shapedDrive = shapedDrive;
         this.manaLevel = manaLevel;
-    }
-
-    @Override
-    public void init(ConfigMap configMap) {
-        name = configMap.get(NAME);
-        shapedType = configMap.get(SHAPED_TYPE);
-        manaLevel = configMap.get(MANA_LEVEL);
-        shapedDrive = configMap.get(SHAPED_DRIVE);
-        isShow = configMap.get(IS_SHOW);
-    }
-
-    @Override
-    public ConfigMap defaultConfigMap() {
-        return new ConfigMap()
-                .setConfigOfV(NAME, name)
-                .setConfigOfV(SHAPED_TYPE, shapedType)
-                .setConfigOfV(MANA_LEVEL, manaLevel)
-                .setConfigOfV(SHAPED_DRIVE, shapedDrive)
-                .setConfigOfV(IS_SHOW, isShow);
     }
 
     /***

@@ -6,7 +6,6 @@ import com.til.dusk.common.data.lang.LangType;
 import com.til.dusk.common.data.tag.ItemTag;
 import com.til.dusk.common.register.ore.item.OreItemArms;
 import com.til.dusk.common.register.ore.ore.Ore;
-import com.til.dusk.common.world.item.CapabilityAxeItem;
 import com.til.dusk.common.world.item.CapabilityHoeItem;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.common.Tags;

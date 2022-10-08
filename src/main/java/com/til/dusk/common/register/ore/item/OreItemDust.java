@@ -20,7 +20,7 @@ public class OreItemDust extends OreItem {
 
     @Override
     public @Nullable ItemPack create(Ore ore) {
-        if (ore.hasConfig(Ore.HAS_DUST)) {
+        if (ore.hasDust) {
             return super.create(ore);
         }
         return null;

@@ -1,6 +1,9 @@
 package com.til.dusk.util.pack;
 
-import com.til.dusk.common.register.*;
+import com.til.dusk.common.register.BlockUnitRegister;
+import com.til.dusk.common.register.FluidUnitRegister;
+import com.til.dusk.common.register.ItemUnitRegister;
+import com.til.dusk.common.register.UnitRegister;
 import net.minecraftforge.registries.IForgeRegistry;
 import org.jetbrains.annotations.Nullable;
 

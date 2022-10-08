@@ -1,14 +1,14 @@
 package com.til.dusk.common.register.shaped;
 
 import com.til.dusk.Dusk;
-import com.til.dusk.common.capability.pos.IPosTrack;
 import com.til.dusk.common.capability.DuskCapabilityProvider;
+import com.til.dusk.common.capability.pos.IPosTrack;
 import com.til.dusk.common.config.ConfigMap;
 import com.til.dusk.common.data.tag.BlockTag;
 import com.til.dusk.common.data.tag.ItemTag;
-import com.til.dusk.common.register.other.CapabilityRegister;
 import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
+import com.til.dusk.common.register.other.CapabilityRegister;
 import com.til.dusk.common.world.block.MechanicBlock;
 import com.til.dusk.common.world.block.ModBlock;
 import com.til.dusk.util.Lang;
@@ -33,7 +33,9 @@ import net.minecraftforge.registries.RegistryBuilder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
 
 /**

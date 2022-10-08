@@ -1,15 +1,15 @@
 package com.til.dusk.common.capability.clock;
 
+import com.til.dusk.common.capability.CapabilityHelp;
 import com.til.dusk.common.capability.black.IBack;
 import com.til.dusk.common.capability.control.IControl;
-import com.til.dusk.common.capability.CapabilityHelp;
 import com.til.dusk.common.register.other.BindType;
 import com.til.dusk.common.register.other.CapabilityRegister;
 import com.til.dusk.common.register.shaped.ShapedHandleProcess;
 import com.til.dusk.util.Extension;
 import com.til.dusk.util.Lang;
-import com.til.dusk.util.tooltip_pack.IComponentPack;
 import com.til.dusk.util.nbt.pack.AllNBTPack;
+import com.til.dusk.util.tooltip_pack.IComponentPack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.Nullable;

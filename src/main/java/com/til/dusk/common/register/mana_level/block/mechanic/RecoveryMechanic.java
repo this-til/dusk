@@ -4,10 +4,8 @@ import com.til.dusk.common.config.ConfigMap;
 import com.til.dusk.common.config.util.IShapedOreConfig;
 import com.til.dusk.common.data.lang.LangProvider;
 import com.til.dusk.common.data.lang.LangType;
-import com.til.dusk.common.register.mana_level.item.ManaLevelItem;
 import com.til.dusk.common.register.mana_level.block.HandleMechanic;
 import com.til.dusk.common.register.mana_level.item.ManaLevelItemPack;
-import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 
 import java.util.List;

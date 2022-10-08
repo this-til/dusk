@@ -1,6 +1,7 @@
 package com.til.dusk.common.register.mana_level.block;
 
 import com.til.dusk.Dusk;
+import com.til.dusk.common.capability.DuskCapabilityProvider;
 import com.til.dusk.common.capability.black.Back;
 import com.til.dusk.common.capability.black.IBack;
 import com.til.dusk.common.capability.clock.Clock;
@@ -10,10 +11,9 @@ import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.capability.handle.Handle;
 import com.til.dusk.common.capability.handle.IHandle;
 import com.til.dusk.common.capability.pos.IPosTrack;
-import com.til.dusk.common.capability.DuskCapabilityProvider;
+import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.other.BindType;
 import com.til.dusk.common.register.other.CapabilityRegister;
-import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.entity.BlockEntity;
