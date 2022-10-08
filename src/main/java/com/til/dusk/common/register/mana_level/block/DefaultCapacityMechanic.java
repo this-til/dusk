@@ -13,7 +13,7 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 /**
  * @author til
  */
-public class DefaultCapacityMechanic extends Mechanic {
+public abstract class DefaultCapacityMechanic extends Mechanic {
 
     public DefaultCapacityMechanic(ResourceLocation name) {
         super(name);

@@ -4,7 +4,6 @@ import com.til.dusk.Dusk;
 import com.til.dusk.client.ColorProxy;
 import com.til.dusk.common.config.ConfigMap;
 import com.til.dusk.common.register.ore.ore.Ore;
-import com.til.dusk.common.register.ore.ore.OreConfig;
 import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.pack.ItemPack;
 import net.minecraft.resources.ResourceLocation;
@@ -26,7 +25,7 @@ public abstract class OreItemArms extends OreItem {
 
     @Override
     public @Nullable ItemPack create(Ore ore) {
-        if (ore.hasConfig(OreConfig.ArmsConfig.ARMS_CONFIG)) {
+        if (ore.hasConfig(Ore.ArmsConfig.ARMS_CONFIG)) {
             return super.create(ore);
         }
         return null;
@@ -34,7 +33,7 @@ public abstract class OreItemArms extends OreItem {
 
     @Override
     public Item createItem(Ore ore) {
-        return createArmsItem(ore, ore.getConfig(OreConfig.ArmsConfig.ARMS_CONFIG));
+        return createArmsItem(ore, ore.getConfig(Ore.ArmsConfig.ARMS_CONFIG));
     }
 
     /***
@@ -48,7 +47,7 @@ public abstract class OreItemArms extends OreItem {
     @Override
     public void dyeBlack(Ore ore, ColorProxy.ItemColorPack itemColorPack) {
         super.dyeBlack(ore, itemColorPack);
-        DuskColor color = ore.getConfig(OreConfig.COLOR);
+        DuskColor color = ore.getConfig(Ore.COLOR);
         itemColorPack.addColor(1, itemStack -> color);
     }
 }

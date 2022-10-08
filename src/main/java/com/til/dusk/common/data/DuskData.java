@@ -46,9 +46,10 @@ public class DuskData {
         event.getGenerator().addProvider(true, new ItemTag(event.getGenerator(), blockTag, event.getExistingFileHelper()));
         event.getGenerator().addProvider(true, new FluidTag(event.getGenerator(), event.getExistingFileHelper()));
         event.getGenerator().addProvider(true, new PotionsTag(event.getGenerator(), event.getExistingFileHelper()));
-        event.getGenerator().addProvider(true, new ShapedProvider());
+        //event.getGenerator().addProvider(true, new ShapedProvider());
         event.getGenerator().addProvider(true, new ModRecipeProvider(event.getGenerator()));
         event.getGenerator().addProvider(true, new DuskLootTableProvider(event.getGenerator()));
+        event.getGenerator().addProvider(true, new LangProvider());
         try {
             event.getGenerator().run();
         } catch (Exception e) {
@@ -57,7 +58,7 @@ public class DuskData {
         event.getGenerator().addProvider(true, new LangProvider());
     }
 
-    @SubscribeEvent
+/*    @SubscribeEvent
     public static void onEvent(FMLCommonSetupEvent fmlCommonSetupEvent) {
         MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, (Consumer<AddReloadListenerEvent>) event -> {
             Shaped.MAP.clear();
@@ -77,6 +78,6 @@ public class DuskData {
                 }
             });
         });
-    }
+    }*/
 
 }

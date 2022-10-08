@@ -3,8 +3,8 @@ package com.til.dusk.client;
 import com.til.dusk.Dusk;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
-import com.til.dusk.common.register.mana_level.ManaLevelFluid;
-import com.til.dusk.common.register.mana_level.ManaLevelItem;
+import com.til.dusk.common.register.mana_level.fluid.ManaLevelFluid;
+import com.til.dusk.common.register.mana_level.item.ManaLevelItem;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.register.ore.block.OreBlock;
 import com.til.dusk.common.register.ore.fluid.OreFluid;
@@ -67,7 +67,7 @@ public class ColorProxy {
                 }
             }
         }
-        for (ManaLevel manaLevel : ManaLevel.LEVEL.get()) {
+        for (ManaLevel manaLevel : ManaLevel.MANA_LEVEL.get()) {
             for (Map.Entry<ManaLevelItem, ItemPack> entry : manaLevel.itemEntrySet()) {
                 ItemColorPack itemColorPack = new ItemColorPack(entry.getValue().item());
                 ITEM_COLOR_PACK_MAP.put(entry.getValue().item(), itemColorPack);
@@ -112,7 +112,7 @@ public class ColorProxy {
                 }
             }
         }
-        for (ManaLevel manaLevel : ManaLevel.LEVEL.get()) {
+        for (ManaLevel manaLevel : ManaLevel.MANA_LEVEL.get()) {
             for (Map.Entry<ManaLevelBlock, BlockPack> entry : manaLevel.blockEntrySet()) {
                 BlockColorPack blockColorPack = new BlockColorPack(entry.getValue().block());
                 BLOCK_COLOR_PACK_MAP.put(entry.getValue().block(), blockColorPack);

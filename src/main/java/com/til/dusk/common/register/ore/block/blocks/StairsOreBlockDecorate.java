@@ -6,7 +6,6 @@ import com.til.dusk.common.data.tag.BlockTag;
 import com.til.dusk.common.register.ore.block.OreBlock;
 import com.til.dusk.common.register.ore.block.OreBlockDecorate;
 import com.til.dusk.common.register.ore.ore.Ore;
-import com.til.dusk.common.register.ore.ore.OreConfig;
 import com.til.dusk.common.world.block.ModBlock;
 import com.til.dusk.util.prefab.JsonPrefab;
 import net.minecraft.resources.ResourceLocation;
@@ -30,7 +29,7 @@ public class StairsOreBlockDecorate extends OreBlockDecorate {
     @Override
     public @Nullable Block createBlock(Ore ore) {
         StairBlock block = new StairBlock(() -> ore.get(OreBlock.block).block().defaultBlockState(), BlockBehaviour.Properties.of(Material.METAL, MaterialColor.METAL)
-                .strength(0.3f * ore.getConfig(OreConfig.STRENGTH).floatValue(), 0.6f * ore.getConfig(OreConfig.STRENGTH).floatValue())
+                .strength(0.3f * ore.getConfig(Ore.STRENGTH).floatValue(), 0.6f * ore.getConfig(Ore.STRENGTH).floatValue())
                 .requiresCorrectToolForDrops()
                 .sound(SoundType.STONE));
         BlockTag.addTag(BlockTags.MINEABLE_WITH_PICKAXE, block);

@@ -1,5 +1,6 @@
 package com.til.dusk;
 
+import com.google.gson.Gson;
 import com.mojang.logging.LogUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -8,9 +9,11 @@ import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.IModBusEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -36,6 +39,7 @@ public class Dusk {
     };
     public final Logger logger = LogUtils.getLogger();
     public final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+    public final Gson gson = new Gson();
     public ITagManager<Item> ITEM_TAG;
     public ITagManager<Block> BLOCK_TAG;
     public ITagManager<Fluid> FLUID_TAG;
@@ -52,6 +56,7 @@ public class Dusk {
         modEventBus.addListener(this::clientSetup);
         modEventBus.addListener(EventPriority.HIGHEST, this::newRegistryEvent);
         MinecraftForge.EVENT_BUS.register(this);
+        modEventBus.post(new Init());
     }
 
     private void newRegistryEvent(NewRegistryEvent event) {
@@ -71,5 +76,7 @@ public class Dusk {
     private void clientSetup(final FMLClientSetupEvent event) {
     }
 
+    public static class Init extends Event implements IModBusEvent {
+    }
 
 }

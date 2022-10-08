@@ -26,7 +26,7 @@ import java.util.function.Supplier;
 /**
  * @author til
  */
-public class HandleMechanic extends DefaultCapacityMechanic {
+public abstract class HandleMechanic extends DefaultCapacityMechanic {
 
     public final Supplier<Set<ShapedType>> getShapedTypeList;
 

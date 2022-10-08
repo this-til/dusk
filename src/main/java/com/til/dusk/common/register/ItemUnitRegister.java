@@ -3,7 +3,9 @@ package com.til.dusk.common.register;
 import com.til.dusk.Dusk;
 import com.til.dusk.client.ColorProxy;
 import com.til.dusk.common.world.item.DuskItem;
+import com.til.dusk.common.world.tag.TagPackSupplier;
 import com.til.dusk.util.Lang;
+import com.til.dusk.util.ResourceLocationUtil;
 import com.til.dusk.util.pack.ItemPack;
 import com.til.dusk.util.pack.TagPack;
 import net.minecraft.network.chat.Component;
@@ -21,8 +23,7 @@ import java.util.function.Supplier;
 /**
  * @author til
  */
-public abstract class ItemUnitRegister<T extends ItemUnitRegister<T, O>, O extends RegisterBasics<?>> extends RegisterBasics<T> {
-    protected TagPack tagPack;
+public abstract class ItemUnitRegister<T extends ItemUnitRegister<T, O>, O extends TagPackSupplierRegister<?>> extends TagPackSupplierRegister<T> {
 
     public ItemUnitRegister(ResourceLocation name, Supplier<IForgeRegistry<T>> iForgeRegistrySupplier) {
         super(name, iForgeRegistrySupplier);
@@ -35,7 +36,7 @@ public abstract class ItemUnitRegister<T extends ItemUnitRegister<T, O>, O exten
     }
 
     public TagKey<Item> createItemTag(O o) {
-        return ItemTags.create(fuseName(, "/", new String[]{"item", o.name.getPath(), name.getPath()}));
+        return ItemTags.create(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{"item", o.name.getPath(), name.getPath()}));
     }
 
     public Item createItem(O o) {
@@ -59,11 +60,4 @@ public abstract class ItemUnitRegister<T extends ItemUnitRegister<T, O>, O exten
      * 染色回调
      */
     public abstract void dyeBlack(O o, ColorProxy.ItemColorPack itemColorPack);
-
-    public TagPack getTagPack() {
-        if (tagPack == null) {
-            tagPack = new TagPack(Dusk.instance.ITEM_TAG.createTagKey(name), Dusk.instance.BLOCK_TAG.createTagKey(name), Dusk.instance.FLUID_TAG.createTagKey(name));
-        }
-        return tagPack;
-    }
 }

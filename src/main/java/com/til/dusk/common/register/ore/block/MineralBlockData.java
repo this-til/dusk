@@ -1,5 +1,6 @@
 package com.til.dusk.common.register.ore.block;
 
+import com.til.dusk.common.config.AcceptTypeJson;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.util.pack.DataPack;
 import net.minecraft.world.level.block.Block;
@@ -12,7 +13,6 @@ import java.util.List;
 /**
  * @author til
  */
-@Deprecated
 public class MineralBlockData {
     public final Ore ore;
 

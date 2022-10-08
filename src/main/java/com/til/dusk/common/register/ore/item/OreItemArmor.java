@@ -4,7 +4,6 @@ import com.til.dusk.Dusk;
 import com.til.dusk.common.config.ConfigMap;
 import com.til.dusk.common.data.tag.ItemTag;
 import com.til.dusk.common.register.ore.ore.Ore;
-import com.til.dusk.common.register.ore.ore.OreConfig;
 import com.til.dusk.common.world.item.CapabilityArmorItem;
 import com.til.dusk.util.pack.ItemPack;
 import net.minecraft.resources.ResourceLocation;
@@ -33,7 +32,7 @@ public class OreItemArmor extends OreItem {
 
     @Override
     public @Nullable ItemPack create(Ore ore) {
-        if (ore.hasConfig(OreConfig.ArmorConfig.ARMOR_CONFIG)) {
+        if (ore.hasConfig(Ore.ArmorConfig.ARMOR_CONFIG)) {
             return super.create(ore);
         }
         return null;
@@ -41,7 +40,7 @@ public class OreItemArmor extends OreItem {
 
     @Override
     public Item createItem(Ore ore) {
-        CapabilityArmorItem item = new CapabilityArmorItem(ore.getConfig(OreConfig.ArmorConfig.ARMOR_CONFIG), equipmentSlot, new Item.Properties().stacksTo(1).tab(Dusk.TAB).fireResistant(), ore, this);
+        CapabilityArmorItem item = new CapabilityArmorItem(ore.getConfig(Ore.ArmorConfig.ARMOR_CONFIG), equipmentSlot, new Item.Properties().stacksTo(1).tab(Dusk.TAB).fireResistant(), ore, this);
         ItemTag.addTag(Tags.Items.ARMORS, item);
         ItemTag.addTag(asTag(equipmentSlot), item);
         return item;

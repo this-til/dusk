@@ -7,7 +7,6 @@ import com.til.dusk.common.data.lang.LangType;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.ore.item.OreItemTool;
 import com.til.dusk.common.register.ore.ore.Ore;
-import com.til.dusk.common.register.ore.ore.OreConfig;
 import net.minecraft.data.recipes.RecipeBuilder;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 
@@ -38,7 +37,7 @@ public class FileOreItemTool extends OreItemTool {
     @Override
     public void registerRecipe(Consumer<RecipeBuilder> recipeConsumer) {
         super.registerRecipe(recipeConsumer);
-        for (Ore ore : Ore.screen(OreConfig.IS_METAL, OreConfig.ToolDataConfig.TOOL_DATA_CONFIG)) {
+        for (Ore ore : Ore.screen(Ore.IS_METAL, Ore.ToolDataConfig.TOOL_DATA_CONFIG)) {
             recipeConsumer.accept(ShapedRecipeBuilder.shaped(ore.get(file).item(), 1)
                     .define('A', ore.get(plate).itemTag())
                     .define('B', ore.get(casing).itemTag())
@@ -47,8 +46,8 @@ public class FileOreItemTool extends OreItemTool {
                     .pattern("B")
                     .unlockedBy("has_ore", ModRecipeProvider.has(ore.get(ingot).itemTag())));
         }
-        for (Ore ore : Ore.screen(OreConfig.IS_METAL)) {
-            if (!ore.getConfig(OreConfig.MANA_LEVEL).hasConfig(ManaLevel.CAN_UET_TOOL_MAKE)) {
+        for (Ore ore : Ore.screen(Ore.IS_METAL)) {
+            if (!ore.getConfig(Ore.MANA_LEVEL).hasConfig(ManaLevel.CAN_UET_TOOL_MAKE)) {
                 continue;
             }
             recipeConsumer.accept(ShapedRecipeBuilder.shaped(ore.get(stick).item(), 1)

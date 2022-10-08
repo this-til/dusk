@@ -49,7 +49,7 @@ public class ClientDuskData {
         dataGenerator = event.getGenerator();
         IForgeRegistry<UnitRegister<?, ?, ?, ?>>[] registries = new IForgeRegistry[]{
                 Ore.ORE.get(),
-                ManaLevel.LEVEL.get()
+                ManaLevel.MANA_LEVEL.get()
         };
         event.getGenerator().addProvider(true, new DataProvider() {
             @Override

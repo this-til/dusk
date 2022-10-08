@@ -1,18 +1,20 @@
 package com.til.dusk.common.register.mana_level.block;
 
 import com.til.dusk.Dusk;
+import com.til.dusk.common.config.ConfigKey;
+import com.til.dusk.common.config.util.IShapedOreConfig;
 import com.til.dusk.common.data.tag.ItemTag;
 import com.til.dusk.common.register.BlockUnitRegister;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
-import com.til.dusk.common.register.mana_level.ManaLevelItem;
+import com.til.dusk.common.register.mana_level.item.ManaLevelItem;
 import com.til.dusk.common.register.mana_level.block.mechanic.*;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.register.ore.block.OreBlock;
 import com.til.dusk.common.register.ore.fluid.OreFluid;
 import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
-import com.til.dusk.util.*;
-import com.til.dusk.util.pack.DataPack;
+import com.til.dusk.util.Util;
+import com.til.dusk.util.nbt.cell.AllNBTCell;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -21,6 +23,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegistryBuilder;
 
+import java.util.List;
 import java.util.Set;
 import java.util.function.Supplier;
 
@@ -90,7 +93,7 @@ public abstract class ManaLevelBlock extends BlockUnitRegister<ManaLevelBlock, M
     /***
      * 寒霜转灵晶体
      */
-    public static ExtractManaMechanic frostyMana;
+    public static FrostyManaMechanic frostyMana;
 
     /***
      * 粘液转灵晶体
@@ -110,7 +113,7 @@ public abstract class ManaLevelBlock extends BlockUnitRegister<ManaLevelBlock, M
     /***
      * 植物转灵晶体
      */
-    public static ExtractManaMechanic botanyMana;
+    public static BotanyManaMechanic botanyMana;
 
     /***
      * 食物转灵晶体
@@ -197,7 +200,7 @@ public abstract class ManaLevelBlock extends BlockUnitRegister<ManaLevelBlock, M
     /***
      * 雕刻
      */
-    public static HandleMechanic carving;
+    public static CarvingMechanic carving;
 
     /***
      * 筛选
@@ -262,7 +265,7 @@ public abstract class ManaLevelBlock extends BlockUnitRegister<ManaLevelBlock, M
     /***
      * 灵气凝结晶体
      */
-    public static HandleMechanic manaCoagulation;
+    public static ManaCoagulationMechanic manaCoagulation;
 
     /***
      * 干细胞提晶体
@@ -406,9 +409,9 @@ public abstract class ManaLevelBlock extends BlockUnitRegister<ManaLevelBlock, M
         tieWire = new TieWireMechanic();
         cutting = new CuttingMechanic();
         pressureStick = new PressureStickMechanic();
-        blend =  new BlendMechanic();
+        blend = new BlendMechanic();
         decompose = new DecomposeMechanic();
-        recovery =  new RecoveryMechanic();
+        recovery = new RecoveryMechanic();
         shaping = new ShapingMechanic();
         manaCoagulation = new ManaCoagulationMechanic();
         stemCellExtract = (HandleMechanic) new HandleMechanic("stem_cell_extract", () -> Set.of(ShapedType.stemCellExtract));
@@ -470,29 +473,18 @@ public abstract class ManaLevelBlock extends BlockUnitRegister<ManaLevelBlock, M
         this(new ResourceLocation(Dusk.MOD_ID, name));
     }
 
-    public static final GenericMap.IKey<ManaLevelMakeData> MECHANIC_MAKE_DATA = new GenericMap.IKey.Key<>();
+    public static final ConfigKey.ConfigMapKey MECHANIC_MAKE_DATA = new ConfigKey.ConfigMapKey("mana_level_block.mechanic_make_data");
 
-    public static class ManaLevelMakeData extends DataPack<ManaLevelMakeData, ManaLevel> {
+    public static class ManaLevelMakeDataConfig {
 
-        /***
-         * 所需组装机的等级
-         */
-        public MakeLevel makeLevel = MakeLevel.CURRENT;
-
-        /***
-         * 必定注册配方
-         * 当设置等级UP或者NEXT如果没有对应等级将注册为t1或t8
-         */
-        public boolean isMustRegister = false;
-
-        public ManaLevelMakeData setMakeLevel(MakeLevel makeLevel) {
-            this.makeLevel = makeLevel;
-            return this;
-        }
+        public static final ConfigKey<MakeLevel> MAKE_LEVEL = new ConfigKey<>("mana_level_block.mechanic_make_data.make_level", AllNBTCell.MAKE_LEVEL, () -> MakeLevel.CURRENT);
+        public static final ConfigKey<Boolean> IS_MUST_REGISTER = new ConfigKey<>("mana_level_block.mechanic_make_data.is_must_register", AllNBTCell.BOOLEAN, () -> false);
+        public static final ConfigKey<List<IShapedOreConfig<ManaLevel>>> ORE_CONFIG =new ConfigKey<>("mana_level_block.mechanic_make_data.ore_config", Util.forcedConversion(AllNBTCell.I_ACCEPT_CONFIG_MAP.getListNBTCell()), null);
 
         public enum MakeLevel {
             UP, CURRENT, NEXT
         }
     }
+
 
 }

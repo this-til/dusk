@@ -8,7 +8,6 @@ import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.ore.fluid.OreFluid;
 import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.ore.ore.Ore;
-import com.til.dusk.common.register.ore.ore.OreConfig;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
@@ -39,41 +38,41 @@ public class StarRiverOre extends Ore {
     @Override
     public ConfigMap defaultConfigMap() {
         return new ConfigMap()
-                .setConfigOfV(OreConfig.COLOR, new DuskColor(100, 135, 255))
-                .setConfigOfV(OreConfig.MANA_LEVEL, ManaLevel.t2)
-                .setConfig(OreConfig.IS_METAL)
-                .setConfig(OreConfig.HAS_DUST)
-                .setConfigOfV(OreConfig.IS_LEVEL_ACCEPTABLE, ManaLevel.t3)
-                .setConfig(OreConfig.DecorateBlockConfig.DECORATE_BLOCK_CONFIG, ConfigMap::new)
-                .setConfig(OreConfig.FluidConfig.FLUID_CONFIG, ConfigMap::new)
-                .setConfig(OreConfig.ArmorConfig.ARMOR_CONFIG, () -> new ConfigMap()
-                        .setConfigOfV(OreConfig.ArmorConfig.DEFENSE, OreConfig.ArmorConfig.ofDefense(4))
-                        .setConfigOfV(OreConfig.ArmorConfig.DURABILITY, OreConfig.ArmorConfig.ofDurability(4))
-                        .setConfigOfV(OreConfig.ArmorConfig.MANA_BASICS, 12800000L)
-                        .setConfigOfV(OreConfig.ArmorConfig.RATE_BASICS, 102400L)
-                        .setConfigOfV(OreConfig.ArmorConfig.DEFAULT_SKILL, Map.of(Skill.life, 2)))
-                .setConfig(OreConfig.ArmsConfig.ARMS_CONFIG, () -> new ConfigMap()
-                        .setConfigOfV(OreConfig.ArmsConfig.MANA_BASICS, 12800000L)
-                        .setConfigOfV(OreConfig.ArmsConfig.RATE_BASICS, 102400L)
-                        .setConfigOfV(OreConfig.ArmsConfig.USES, 3200)
-                        .setConfigOfV(OreConfig.ArmsConfig.SPEED, -3.4F)
-                        .setConfigOfV(OreConfig.ArmsConfig.ATTACK_DAMAGE_BONUS, 16)
-                        .setConfigOfV(OreConfig.ArmsConfig.ENCHANTMENT_VALUE, 32)
-                        .setConfigOfV(OreConfig.ArmsConfig.REPAIR_ITEM, List.of(
+                .setConfigOfV(Ore.COLOR, new DuskColor(100, 135, 255))
+                .setConfigOfV(Ore.MANA_LEVEL, ManaLevel.t2)
+                .setConfig(Ore.IS_METAL)
+                .setConfig(Ore.HAS_DUST)
+                .setConfigOfV(Ore.IS_LEVEL_ACCEPTABLE, ManaLevel.t3)
+                .setConfig(DecorateBlockConfig.DECORATE_BLOCK_CONFIG, ConfigMap::new)
+                .setConfig(FluidConfig.FLUID_CONFIG, ConfigMap::new)
+                .setConfig(ArmorConfig.ARMOR_CONFIG, () -> new ConfigMap()
+                        .setConfigOfV(ArmorConfig.DEFENSE, ArmorConfig.ofDefense(4))
+                        .setConfigOfV(ArmorConfig.DURABILITY, ArmorConfig.ofDurability(4))
+                        .setConfigOfV(ArmorConfig.MANA_BASICS, 12800000L)
+                        .setConfigOfV(ArmorConfig.RATE_BASICS, 102400L)
+                        .setConfigOfV(ArmorConfig.DEFAULT_SKILL, Map.of(Skill.life, 2)))
+                .setConfig(ArmsConfig.ARMS_CONFIG, () -> new ConfigMap()
+                        .setConfigOfV(ArmsConfig.MANA_BASICS, 12800000L)
+                        .setConfigOfV(ArmsConfig.RATE_BASICS, 102400L)
+                        .setConfigOfV(ArmsConfig.USES, 3200)
+                        .setConfigOfV(ArmsConfig.SPEED, -3.4F)
+                        .setConfigOfV(ArmsConfig.ATTACK_DAMAGE_BONUS, 16)
+                        .setConfigOfV(ArmsConfig.ENCHANTMENT_VALUE, 32)
+                        .setConfigOfV(ArmsConfig.REPAIR_ITEM, List.of(
                                 this.get(OreItem.ingot).itemTag()))
-                        .setConfigOfV(OreConfig.ArmsConfig.TAG, Dusk.instance.BLOCK_TAG.createTagKey(new ResourceLocation(name.getNamespace(), "tier." + name.getPath()))))
-                .setConfig(OreConfig.ToolDataConfig.TOOL_DATA_CONFIG, () -> new ConfigMap()
-                        .setConfigOfV(OreConfig.ToolDataConfig.USES, 64 * 22)
-                        .setConfigOfV(OreConfig.ToolDataConfig.TANK_MAX, 4000 * 22))
-                .setConfig(OreConfig.RELEVANT_SHAPED, () -> List.of(
-                        new ShapedOre(ResourceLocationUtil.fuseName(this, OreFluid.solution), ShapedType.highPressureFuse, ShapedDrive.get(0), this.getConfig(OreConfig.MANA_LEVEL))
+                        .setConfigOfV(ArmsConfig.TAG, Dusk.instance.BLOCK_TAG.createTagKey(new ResourceLocation(name.getNamespace(), "tier." + name.getPath()))))
+                .setConfig(ToolDataConfig.TOOL_DATA_CONFIG, () -> new ConfigMap()
+                        .setConfigOfV(ToolDataConfig.USES, 64 * 22)
+                        .setConfigOfV(ToolDataConfig.TANK_MAX, 4000 * 22))
+                .setConfig(Ore.RELEVANT_SHAPED, () -> List.of(
+                        new ShapedOre(ResourceLocationUtil.fuseName(this, OreFluid.solution), ShapedType.highPressureFuse, ShapedDrive.get(0), this.getConfig(Ore.MANA_LEVEL))
                                 .addInFluid(starSilver.get(OreFluid.solution).fluidTag(), 32)
                                 .addInFluid(starIron.get(OreFluid.solution).fluidTag(), 32)
                                 .addInFluid(starGold.get(OreFluid.solution).fluidTag(), 32)
                                 .addInFluid(elementAir.get(OreFluid.solution).fluidTag(), 256)
                                 .addOutFluid(new FluidStack(starRiver.get(OreFluid.solution).source(), 32 * 3), 1D)
-                                .addMultipleSurplusTime((long) (this.getConfig(OreConfig.STRENGTH) * 2048L))
-                                .addMultipleConsumeMana((long) (this.getConfig(OreConfig.CONSUME) * 42L))
+                                .addMultipleSurplusTime((long) (this.getConfig(Ore.STRENGTH) * 2048L))
+                                .addMultipleConsumeMana((long) (this.getConfig(Ore.CONSUME) * 42L))
                 ));
     }
 

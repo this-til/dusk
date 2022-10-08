@@ -4,12 +4,9 @@ import com.til.dusk.Dusk;
 import com.til.dusk.client.ColorProxy;
 import com.til.dusk.common.config.ConfigKey;
 import com.til.dusk.common.config.ConfigMap;
-import com.til.dusk.common.data.tag.ItemTag;
 import com.til.dusk.common.register.ItemUnitRegister;
 import com.til.dusk.common.register.ore.item.items.*;
 import com.til.dusk.common.register.ore.ore.Ore;
-import com.til.dusk.common.register.ore.ore.OreConfig;
-import com.til.dusk.common.world.item.*;
 import com.til.dusk.util.DuskColor;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -242,7 +239,7 @@ public class OreItem extends ItemUnitRegister<OreItem, Ore> {
 
     @Override
     public void dyeBlack(Ore ore, ColorProxy.ItemColorPack itemColorPack) {
-        DuskColor color = ore.getConfig(OreConfig.COLOR);
+        DuskColor color = ore.getConfig(Ore.COLOR);
         itemColorPack.addColor(0, itemStack -> color);
     }
 

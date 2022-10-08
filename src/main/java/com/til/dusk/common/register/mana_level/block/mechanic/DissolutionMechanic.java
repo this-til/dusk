@@ -1,11 +1,17 @@
 package com.til.dusk.common.register.mana_level.block.mechanic;
 
+import com.til.dusk.common.config.ConfigMap;
+import com.til.dusk.common.config.util.IShapedOreConfig;
+import com.til.dusk.common.data.lang.LangProvider;
+import com.til.dusk.common.data.lang.LangType;
 import com.til.dusk.common.data.tag.ItemTag;
-import com.til.dusk.common.register.mana_level.ManaLevelItem;
+import com.til.dusk.common.register.mana_level.item.ManaLevelItem;
 import com.til.dusk.common.register.mana_level.block.HandleMechanic;
+import com.til.dusk.common.register.mana_level.item.ManaLevelItemPack;
 import com.til.dusk.common.register.ore.block.OreBlock;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -14,10 +20,23 @@ import java.util.Set;
 public class DissolutionMechanic extends HandleMechanic {
     public DissolutionMechanic() {
         super("dissolution", () -> Set.of(ShapedType.dissolution));
-        setConfig(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
-                .addRun((s, m) -> s.addInItem(m.get(blastFurnace).blockItemTag(), 1))
-                .addRun((s, m) -> s.addInItem(ManaLevelItem.destruction.getTag(m), 1))
-                .addRun((s, m) -> s.addInItem(m.getAcceptableTagPack(OreBlock.coil).itemTagKey(), 3))
-                .addInItem(ItemTag.CAULDRON.d1(), 1));
+    }
+
+    @Override
+    public void registerLang(LangProvider.LangTool lang) {
+        lang.setCache(name.toLanguageKey());
+        lang.add(LangType.ZH_CN, "溶解");
+        lang.add(LangType.EN_CH, "Dissolution Crystal");
+    }
+
+    @Override
+    public ConfigMap defaultConfigMap() {
+        return new ConfigMap()
+                .setConfig(MECHANIC_MAKE_DATA, () -> new ConfigMap()
+                        .setConfigOfV(ManaLevelMakeDataConfig.ORE_CONFIG, List.of(
+                                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelAcceptItemIn(blastFurnace.name, 1),
+                                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelAcceptItemIn(ManaLevelItemPack.destruction.name, 1),
+                                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelAcceptItemIn(OreBlock.coil.name, 1),
+                                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelItemIn(ItemTag.CAULDRON.d1(), 1))));
     }
 }

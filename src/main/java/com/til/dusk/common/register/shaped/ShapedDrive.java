@@ -3,6 +3,7 @@ package com.til.dusk.common.register.shaped;
 import com.til.dusk.Dusk;
 import com.til.dusk.common.capability.pos.IPosTrack;
 import com.til.dusk.common.capability.DuskCapabilityProvider;
+import com.til.dusk.common.config.ConfigMap;
 import com.til.dusk.common.data.tag.BlockTag;
 import com.til.dusk.common.data.tag.ItemTag;
 import com.til.dusk.common.register.other.CapabilityRegister;
@@ -30,6 +31,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegistryBuilder;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.function.Supplier;
@@ -68,7 +70,6 @@ public class ShapedDrive extends RegisterBasics<ShapedDrive> {
         thisShapedDriveList = List.of(this);
     }
 
-
     @Override
     protected void registerBack() {
         Block block = new MechanicBlock(ManaLevel.t1) {
@@ -94,5 +95,11 @@ public class ShapedDrive extends RegisterBasics<ShapedDrive> {
         ItemTag.addTag(ItemTags.create(SHAPED_DRIVE.get().getRegistryName()), blockItem);
         ForgeRegistries.ITEMS.register(name, blockItem);
         blockPack = new BlockPack(block, blockTag, blockItem, itemTag);
+    }
+
+    @Nullable
+    @Override
+    public ConfigMap defaultConfigMap() {
+        return null;
     }
 }

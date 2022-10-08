@@ -5,19 +5,15 @@ import com.til.dusk.common.capability.black.IBack;
 import com.til.dusk.common.capability.mana_handle.VariableManaHandle;
 import com.til.dusk.common.capability.skill.ISkill;
 import com.til.dusk.common.capability.skill.ItemStackSkill;
-import com.til.dusk.common.config.ConfigKey;
 import com.til.dusk.common.config.ConfigMap;
-import com.til.dusk.common.register.ore.ore.OreConfig;
+import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.register.other.CapabilityRegister;
 import com.til.dusk.common.register.skill.Skill;
-import com.til.dusk.util.Extension;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 
-import java.util.List;
 import java.util.Map;
-import java.util.function.Supplier;
 
 /***
  * 物品默认拥有的能力，用于构建DuskCapabilityProvider
@@ -50,12 +46,12 @@ public interface IItemDefaultCapability {
             ConfigMap configMap = getConfigMap();
             IBack iBack = duskCapabilityProvider.addCapability(CapabilityRegister.iBlack.capability, new Back());
             ISkill iSkill = duskCapabilityProvider.addCapability(CapabilityRegister.iSkill.capability, new ItemStackSkill());
-            for (Map.Entry<Skill, Integer> entry : configMap.get(OreConfig.ArmsConfig.DEFAULT_SKILL).entrySet()) {
+            for (Map.Entry<Skill, Integer> entry : configMap.get(Ore.ArmsConfig.DEFAULT_SKILL).entrySet()) {
                 iSkill.getSkill(entry.getKey()).originalLevel = entry.getValue();
             }
-            if (configMap.get(OreConfig.ArmsConfig.MANA_BASICS) > 0) {
+            if (configMap.get(Ore.ArmsConfig.MANA_BASICS) > 0) {
                 duskCapabilityProvider.addCapability(CapabilityRegister.iManaHandle.capability,
-                        new VariableManaHandle(configMap.get(OreConfig.ArmsConfig.MANA_BASICS), configMap.get(OreConfig.ArmsConfig.RATE_BASICS), iBack,
+                        new VariableManaHandle(configMap.get(Ore.ArmsConfig.MANA_BASICS), configMap.get(Ore.ArmsConfig.RATE_BASICS), iBack,
                         () -> 1 + iSkill.getSkill(Skill.maxManaDilatation).level * 0.2, () -> 1 + iSkill.getSkill(Skill.rateDilatation).level * 0.2));
             }
         }
@@ -69,12 +65,12 @@ public interface IItemDefaultCapability {
             ConfigMap configMap = getConfigMap();
             IBack iBack = duskCapabilityProvider.addCapability(CapabilityRegister.iBlack.capability, new Back());
             ISkill iSkill = duskCapabilityProvider.addCapability(CapabilityRegister.iSkill.capability, new ItemStackSkill());
-            for (Map.Entry<Skill, Integer> entry : configMap.get(OreConfig.ArmorConfig.DEFAULT_SKILL).entrySet()) {
+            for (Map.Entry<Skill, Integer> entry : configMap.get(Ore.ArmorConfig.DEFAULT_SKILL).entrySet()) {
                 iSkill.getSkill(entry.getKey()).originalLevel = entry.getValue();
             }
-            if (configMap.get(OreConfig.ArmorConfig.MANA_BASICS) > 0) {
+            if (configMap.get(Ore.ArmorConfig.MANA_BASICS) > 0) {
                 duskCapabilityProvider.addCapability(CapabilityRegister.iManaHandle.capability,
-                        new VariableManaHandle(configMap.get(OreConfig.ArmorConfig.MANA_BASICS), configMap.get(OreConfig.ArmorConfig.RATE_BASICS), iBack,
+                        new VariableManaHandle(configMap.get(Ore.ArmorConfig.MANA_BASICS), configMap.get(Ore.ArmorConfig.RATE_BASICS), iBack,
                                 () -> 1 + iSkill.getSkill(Skill.maxManaDilatation).level * 0.2, () -> 1 + iSkill.getSkill(Skill.rateDilatation).level * 0.2));
             }
         }

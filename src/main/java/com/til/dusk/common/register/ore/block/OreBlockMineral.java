@@ -5,7 +5,6 @@ import com.til.dusk.common.config.ConfigMap;
 import com.til.dusk.common.data.lang.LangProvider;
 import com.til.dusk.common.data.lang.LangType;
 import com.til.dusk.common.register.ore.ore.Ore;
-import com.til.dusk.common.register.ore.ore.OreConfig;
 import com.til.dusk.util.pack.BlockPack;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
@@ -17,6 +16,8 @@ import java.util.function.Supplier;
  * @author til
  */
 public abstract class OreBlockMineral extends OreBlock {
+
+    public static final ResourceLocation MINERAL_NAME =new ResourceLocation(Dusk.MOD_ID, "mineral");
 
     /***
      * 作为矿物生成时替换基础方块
@@ -34,7 +35,7 @@ public abstract class OreBlockMineral extends OreBlock {
 
     @Override
     public @Nullable BlockPack create(Ore ore) {
-        if (ore.hasConfig(OreConfig.MineralBlockConfig.MINERAL_BLOCK_CONFIG)) {
+        if (ore.hasConfig(Ore.MineralBlockConfig.MINERAL_BLOCK_CONFIG)) {
             return super.create(ore);
         }
         return null;

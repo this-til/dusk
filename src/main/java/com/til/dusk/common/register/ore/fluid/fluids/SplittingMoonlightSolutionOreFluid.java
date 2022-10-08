@@ -4,7 +4,6 @@ import com.til.dusk.common.data.lang.LangProvider;
 import com.til.dusk.common.data.lang.LangType;
 import com.til.dusk.common.register.ore.fluid.OreFluidSplitting;
 import com.til.dusk.common.register.ore.ore.Ore;
-import com.til.dusk.common.register.ore.ore.OreConfig;
 
 /**
  * @author til
@@ -12,7 +11,7 @@ import com.til.dusk.common.register.ore.ore.OreConfig;
 public class SplittingMoonlightSolutionOreFluid extends OreFluidSplitting {
 
     public SplittingMoonlightSolutionOreFluid() {
-        super("splitting_moonlight_solution", () -> Ore.moonlight.getConfig(OreConfig.COLOR));
+        super("splitting_moonlight_solution", () -> Ore.moonlight.getConfig(Ore.COLOR));
     }
 
     @Override

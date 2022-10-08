@@ -1,7 +1,7 @@
 package com.til.dusk.common.register.shaped.shaped_type;
 
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
-import com.til.dusk.common.register.mana_level.ManaLevelItem;
+import com.til.dusk.common.register.mana_level.item.ManaLevelItem;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.register.ore.block.OreBlock;
@@ -42,7 +42,7 @@ public class AssembleShapedType extends ShapedType {
                     .addMultipleSurplusTime(8192L)
                     .addMultipleConsumeMana(22L);
         }
-        for (ManaLevel manaLevel : ManaLevel.LEVEL.get()) {
+        for (ManaLevel manaLevel : ManaLevel.MANA_LEVEL.get()) {
             for (Map.Entry<ManaLevelBlock, BlockPack> entry : manaLevel.blockEntrySet()) {
                 if (entry.getKey().hasSet(ManaLevelBlock.MECHANIC_MAKE_DATA)) {
                     ManaLevelBlock.ManaLevelMakeData manaLevelMakeData = entry.getKey().getSet(ManaLevelBlock.MECHANIC_MAKE_DATA);

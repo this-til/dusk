@@ -2,7 +2,6 @@ package com.til.dusk.common.register.ore.fluid;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.common.register.ore.ore.Ore;
-import com.til.dusk.common.register.ore.ore.OreConfig;
 import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.pack.FluidPack;
 import net.minecraft.resources.ResourceLocation;
@@ -28,8 +27,8 @@ public class OreFluidSplitting extends OreFluid {
 
     @Override
     public FluidPack create(Ore ore) {
-        if (ore.hasConfig(OreConfig.FluidConfig.FLUID_CONFIG)
-            && ore.getConfig(OreConfig.FluidConfig.FLUID_CONFIG).containsKey(OreConfig.FluidConfig.FLUID_CONFIG)) {
+        if (ore.hasConfig(Ore.FluidConfig.FLUID_CONFIG)
+            && ore.getConfig(Ore.FluidConfig.FLUID_CONFIG).containsKey(Ore.FluidConfig.FLUID_CONFIG)) {
             return super.create(ore);
         }
         return null;
@@ -37,7 +36,7 @@ public class OreFluidSplitting extends OreFluid {
 
     @Override
     public FluidType createFluidType(Ore ore) {
-        DuskColor color = ore.getConfig(OreConfig.COLOR).blend(this.color.get());
+        DuskColor color = ore.getConfig(Ore.COLOR).blend(this.color.get());
         return new OreFluidType(FluidType.Properties.create(), ore, this) {
             @Override
             public DuskColor getColor() {

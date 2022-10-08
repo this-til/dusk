@@ -5,7 +5,6 @@ import com.til.dusk.common.data.lang.LangProvider;
 import com.til.dusk.common.data.lang.LangType;
 import com.til.dusk.common.register.ore.item.OreItemMetal;
 import com.til.dusk.common.register.ore.ore.Ore;
-import com.til.dusk.common.register.ore.ore.OreConfig;
 import com.til.dusk.common.world.item.DuskItem;
 import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.prefab.ColorPrefab;
@@ -33,7 +32,7 @@ public class Plate4OreItemMetal extends OreItemMetal {
 
     @Override
     public void dyeBlack(Ore ore, ColorProxy.ItemColorPack itemColorPack) {
-        DuskColor color = ColorPrefab.GRAYSCALE_REDUCTION_3.blend(ore.getConfig(OreConfig.COLOR));
+        DuskColor color = ColorPrefab.GRAYSCALE_REDUCTION_3.blend(ore.getConfig(Ore.COLOR));
         itemColorPack.addColor(0, itemStack -> color);
     }
 }

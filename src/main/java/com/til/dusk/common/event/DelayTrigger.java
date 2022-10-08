@@ -23,7 +23,8 @@ import java.util.function.Consumer;
 /**
  * @author til
  */
-@Mod.EventBusSubscriber(modid = Dusk.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
+//@Mod.EventBusSubscriber(modid = Dusk.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@Deprecated
 public class DelayTrigger {
 
     protected static final Map<ITriggerType<?>, List<?>> RUN_MAP = new HashMap<>();
@@ -50,6 +51,7 @@ public class DelayTrigger {
     }
 
     @SubscribeEvent
+    @Deprecated
     public static void setupRun(FMLCommonSetupEvent event) {
         run(COMMON_SETUP, Runnable::run);
     }

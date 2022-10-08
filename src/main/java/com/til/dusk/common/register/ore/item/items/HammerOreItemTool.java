@@ -8,7 +8,6 @@ import com.til.dusk.common.data.lang.LangType;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.ore.item.OreItemTool;
 import com.til.dusk.common.register.ore.ore.Ore;
-import com.til.dusk.common.register.ore.ore.OreConfig;
 import com.til.dusk.util.DuskColor;
 import net.minecraft.data.recipes.RecipeBuilder;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
@@ -33,7 +32,7 @@ public class HammerOreItemTool extends OreItemTool {
 
     @Override
     public void dyeBlack(Ore ore, ColorProxy.ItemColorPack itemColorPack) {
-        DuskColor color = ore.getConfig(OreConfig.COLOR);
+        DuskColor color = ore.getConfig(Ore.COLOR);
         itemColorPack.addColor(1, itemStack -> color);
     }
 
@@ -46,7 +45,7 @@ public class HammerOreItemTool extends OreItemTool {
     @Override
     public void registerRecipe(Consumer<RecipeBuilder> recipeConsumer) {
         super.registerRecipe(recipeConsumer);
-        for (Ore ore : Ore.screen(OreConfig.IS_METAL, OreConfig.ToolDataConfig.TOOL_DATA_CONFIG)) {
+        for (Ore ore : Ore.screen(Ore.IS_METAL, Ore.ToolDataConfig.TOOL_DATA_CONFIG)) {
             recipeConsumer.accept(ShapedRecipeBuilder.shaped(ore.get(hammer).item(), 1)
                     .define('A', ore.get(ingot).itemTag())
                     .define('B', Tags.Items.RODS_WOODEN)
@@ -56,8 +55,8 @@ public class HammerOreItemTool extends OreItemTool {
                     .unlockedBy("has_ore", ModRecipeProvider.has(ore.get(ingot).itemTag())));
         }
 
-        for (Ore ore : Ore.screen(OreConfig.IS_METAL)) {
-            if (!ore.getConfig(OreConfig.MANA_LEVEL).hasConfig(ManaLevel.CAN_UET_TOOL_MAKE)) {
+        for (Ore ore : Ore.screen(Ore.IS_METAL)) {
+            if (!ore.getConfig(Ore.MANA_LEVEL).hasConfig(ManaLevel.CAN_UET_TOOL_MAKE)) {
                 continue;
             }
             recipeConsumer.accept(ShapedRecipeBuilder.shaped(ore.get(plate).item(), 1)

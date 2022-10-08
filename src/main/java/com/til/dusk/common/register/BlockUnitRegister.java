@@ -4,6 +4,7 @@ import com.til.dusk.Dusk;
 import com.til.dusk.client.ColorProxy;
 import com.til.dusk.common.world.block.ModBlock;
 import com.til.dusk.util.Lang;
+import com.til.dusk.util.ResourceLocationUtil;
 import com.til.dusk.util.pack.BlockPack;
 import com.til.dusk.util.pack.TagPack;
 import net.minecraft.network.chat.Component;
@@ -21,9 +22,10 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
 
-public abstract class BlockUnitRegister<T extends BlockUnitRegister<T, O>, O extends RegisterBasics<?>> extends RegisterBasics<T> {
-    protected TagPack tagPack;
-
+/**
+ * @author til
+ */
+public abstract class BlockUnitRegister<T extends BlockUnitRegister<T, O>, O extends TagPackSupplierRegister<?>> extends TagPackSupplierRegister<T> {
     public BlockUnitRegister(ResourceLocation name, Supplier<IForgeRegistry<T>> iForgeRegistrySupplier) {
         super(name, iForgeRegistrySupplier);
     }
@@ -42,7 +44,7 @@ public abstract class BlockUnitRegister<T extends BlockUnitRegister<T, O>, O ext
     public abstract Block createBlock(O o);
 
     public TagKey<Block> createBlockTag(O o) {
-        return BlockTags.create(fuseName(, "/", new String[]{"item", o.name.getPath(), name.getPath()}));
+        return BlockTags.create(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{"item", o.name.getPath(), name.getPath()}));
     }
 
     public BlockItem createBlockItem(O o, Block block) {
@@ -55,9 +57,8 @@ public abstract class BlockUnitRegister<T extends BlockUnitRegister<T, O>, O ext
     }
 
     public TagKey<Item> createBlockItemTag(O o) {
-        return ItemTags.create(fuseName(, "/", new String[]{"block", o.name.getPath(), name.getPath()}));
+        return ItemTags.create(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{"block", o.name.getPath(), name.getPath()}));
     }
-
 
     /***
      * 获取模型映射
@@ -75,11 +76,4 @@ public abstract class BlockUnitRegister<T extends BlockUnitRegister<T, O>, O ext
      * 染色回调
      */
     public abstract void dyeBlack(O o, ColorProxy.BlockColorPack itemColorPack);
-
-    public TagPack getTagPack() {
-        if (tagPack == null) {
-            tagPack = new TagPack(Dusk.instance.ITEM_TAG.createTagKey(name), Dusk.instance.BLOCK_TAG.createTagKey(name), Dusk.instance.FLUID_TAG.createTagKey(name));
-        }
-        return tagPack;
-    }
 }

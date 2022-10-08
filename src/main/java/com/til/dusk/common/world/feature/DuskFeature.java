@@ -5,7 +5,6 @@ import com.til.dusk.Dusk;
 import com.til.dusk.common.config.ConfigMap;
 import com.til.dusk.common.config.util.IOrePlacedFeatureConfig;
 import com.til.dusk.common.register.ore.ore.Ore;
-import com.til.dusk.common.register.ore.ore.OreConfig;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraftforge.common.world.BiomeModifier;
@@ -43,10 +42,10 @@ public class DuskFeature {
 
     @Deprecated
     public static void onEvent(FMLCommonSetupEvent event) {
-        for (Ore ore : Ore.screen(OreConfig.MineralBlockConfig.MINERAL_BLOCK_CONFIG)) {
-            ConfigMap configMap = ore.getConfig(OreConfig.MineralBlockConfig.MINERAL_BLOCK_CONFIG);
-            if (configMap.containsKey(OreConfig.MineralBlockConfig.PLACED_FEATURE)) {
-                for (IOrePlacedFeatureConfig iOrePlacedFeatureConfig : configMap.get(OreConfig.MineralBlockConfig.PLACED_FEATURE)) {
+        for (Ore ore : Ore.screen(Ore.MineralBlockConfig.MINERAL_BLOCK_CONFIG)) {
+            ConfigMap configMap = ore.getConfig(Ore.MineralBlockConfig.MINERAL_BLOCK_CONFIG);
+            if (configMap.containsKey(Ore.MineralBlockConfig.PLACED_FEATURE)) {
+                for (IOrePlacedFeatureConfig iOrePlacedFeatureConfig : configMap.get(Ore.MineralBlockConfig.PLACED_FEATURE)) {
                     if (ORE_PLACED_FEATURE_CONFIG_MAP.containsKey(iOrePlacedFeatureConfig.name())) {
                         Dusk.instance.logger.error("重复的矿物生成[{}]", iOrePlacedFeatureConfig.name());
                     }

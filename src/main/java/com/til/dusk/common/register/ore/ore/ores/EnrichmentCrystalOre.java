@@ -6,7 +6,6 @@ import com.til.dusk.common.data.lang.LangType;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.ore.ore.Ore;
-import com.til.dusk.common.register.ore.ore.OreConfig;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
@@ -34,21 +33,21 @@ public class EnrichmentCrystalOre extends Ore {
     @Override
     public ConfigMap defaultConfigMap() {
         return new ConfigMap()
-                .setConfigOfV(OreConfig.COLOR, new DuskColor(235, 225, 125))
-                .setConfigOfV(OreConfig.MANA_LEVEL, ManaLevel.t1)
-                .setConfig(OreConfig.IS_CRYSTA)
-                .setConfig(OreConfig.HAS_DUST)
-                .setConfigOfV(OreConfig.IS_LEVEL_ACCEPTABLE, ManaLevel.t2)
-                .setConfig(OreConfig.DecorateBlockConfig.DECORATE_BLOCK_CONFIG, ConfigMap::new)
-                .setConfig(OreConfig.FluidConfig.FLUID_CONFIG, ConfigMap::new)
-                .setConfig(OreConfig.RELEVANT_SHAPED, () -> List.of(
-                        new ShapedOre(ResourceLocationUtil.fuseName(this, OreItem.dust), ShapedType.blend, ShapedDrive.get(0), this.getConfig(OreConfig.MANA_LEVEL))
+                .setConfigOfV(Ore.COLOR, new DuskColor(235, 225, 125))
+                .setConfigOfV(Ore.MANA_LEVEL, ManaLevel.t1)
+                .setConfig(Ore.IS_CRYSTA)
+                .setConfig(Ore.HAS_DUST)
+                .setConfigOfV(Ore.IS_LEVEL_ACCEPTABLE, ManaLevel.t2)
+                .setConfig(DecorateBlockConfig.DECORATE_BLOCK_CONFIG, ConfigMap::new)
+                .setConfig(FluidConfig.FLUID_CONFIG, ConfigMap::new)
+                .setConfig(Ore.RELEVANT_SHAPED, () -> List.of(
+                        new ShapedOre(ResourceLocationUtil.fuseName(this, OreItem.dust), ShapedType.blend, ShapedDrive.get(0), this.getConfig(Ore.MANA_LEVEL))
                                 .addInItem(crystal.get(OreItem.dust).itemTag(), 1)
                                 .addInItem(goldenrod.get(OreItem.dust).itemTag(), 1)
                                 .addInItem(cotinusCoggygria.get(OreItem.dust).itemTag(), 1)
                                 .addOutItem(new ItemStack(this.get(OreItem.dust).item(), 3), 1d)
-                                .addMultipleSurplusTime((long) (751L * this.getConfig(OreConfig.STRENGTH)))
-                                .addMultipleConsumeMana((long) (15L * this.getConfig(OreConfig.CONSUME)))));
+                                .addMultipleSurplusTime((long) (751L * this.getConfig(Ore.STRENGTH)))
+                                .addMultipleConsumeMana((long) (15L * this.getConfig(Ore.CONSUME)))));
 
     }
 

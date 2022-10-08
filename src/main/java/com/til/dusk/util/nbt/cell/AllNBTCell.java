@@ -8,7 +8,8 @@ import com.til.dusk.common.capability.skill.ISkill;
 import com.til.dusk.common.capability.handle.ShapedHandle;
 import com.til.dusk.common.config.ConfigMap;
 import com.til.dusk.common.config.ConfigKey;
-import com.til.dusk.common.config.IAcceptConfigMap;
+import com.til.dusk.common.config.IAcceptConfig;
+import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
 import com.til.dusk.common.register.other.BindType;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.shaped.ShapedDrive;
@@ -264,21 +265,24 @@ public class AllNBTCell {
             return null;
         }
     };
-    public static final NBTCell<IAcceptConfigMap> I_ACCEPT_CONFIG_MAP = new NBTCell<>() {
+    public static final NBTCell<IAcceptConfig> I_ACCEPT_CONFIG_MAP = new NBTCell<>() {
         @Override
-        public Tag as(IAcceptConfigMap acceptConfigMap) {
+        public Tag as(IAcceptConfig acceptConfigMap) {
             ConfigMap genericMap = acceptConfigMap.defaultConfigMap();
+            if (genericMap == null) {
+                return null;
+            }
             genericMap.setConfigOfV(ConfigKey.TYPE, acceptConfigMap.getClass());
             return CONFIG_MAP.as(acceptConfigMap.defaultConfigMap());
         }
 
         @Override
-        public IAcceptConfigMap from(Tag t) {
+        public IAcceptConfig from(Tag t) {
             try {
                 ConfigMap configMap = CONFIG_MAP.from(t);
                 Class<?> c = configMap.get(ConfigKey.TYPE);
                 Object o = c.getDeclaredConstructor().newInstance();
-                IAcceptConfigMap iAcceptConfigMap = (IAcceptConfigMap) o;
+                IAcceptConfig iAcceptConfigMap = (IAcceptConfig) o;
                 iAcceptConfigMap.init(configMap);
                 return iAcceptConfigMap;
             } catch (Exception e) {
@@ -288,19 +292,22 @@ public class AllNBTCell {
         }
 
         @Override
-        public JsonElement asJson(IAcceptConfigMap acceptConfigMap) {
+        public JsonElement asJson(IAcceptConfig acceptConfigMap) {
             ConfigMap genericMap = acceptConfigMap.defaultConfigMap();
+            if (genericMap == null) {
+                return null;
+            }
             genericMap.setConfigOfV(ConfigKey.TYPE, acceptConfigMap.getClass());
             return CONFIG_MAP.asJson(acceptConfigMap.defaultConfigMap());
         }
 
         @Override
-        public IAcceptConfigMap fromJson(JsonElement json) {
+        public IAcceptConfig fromJson(JsonElement json) {
             try {
                 ConfigMap configMap = CONFIG_MAP.fromJson(json);
                 Class<?> c = configMap.get(ConfigKey.TYPE);
                 Object o = c.getDeclaredConstructor().newInstance();
-                IAcceptConfigMap iAcceptConfigMap = (IAcceptConfigMap) o;
+                IAcceptConfig iAcceptConfigMap = (IAcceptConfig) o;
                 iAcceptConfigMap.init(configMap);
                 return iAcceptConfigMap;
             } catch (Exception e) {
@@ -364,7 +371,7 @@ public class AllNBTCell {
     public static final RegisterItemNBTCell<Block> BLOCK = new RegisterItemNBTCell<>(() -> ForgeRegistries.BLOCKS, () -> Blocks.AIR);
     public static final RegisterItemNBTCell<Fluid> FLUID = new RegisterItemNBTCell<>(() -> ForgeRegistries.FLUIDS, () -> Fluids.EMPTY);
 
-    public static final RegisterItemNBTCell<ManaLevel> MANA_LEVEL = new RegisterItemNBTCell<>(() -> ManaLevel.LEVEL.get(), () -> ManaLevel.t1);
+    public static final RegisterItemNBTCell<ManaLevel> MANA_LEVEL = new RegisterItemNBTCell<>(() -> ManaLevel.MANA_LEVEL.get(), () -> ManaLevel.t1);
     public static final RegisterItemNBTCell<ShapedType> SHAPED_TYPE = new RegisterItemNBTCell<>(() -> ShapedType.SHAPED_TYPE.get(), () -> ShapedType.empty);
     public static final RegisterItemNBTCell<ShapedDrive> SHAPED_DRIVE = new RegisterItemNBTCell<>(() -> ShapedDrive.SHAPED_DRIVE.get(), () -> ShapedDrive.get(0));
     public static final RegisterItemNBTCell<BindType> BIND_TYPE = new RegisterItemNBTCell<>(() -> BindType.BIND_TYPE.get(), () -> BindType.itemOut);
@@ -667,5 +674,6 @@ public class AllNBTCell {
             return configMap;
         }
     };
+    public static final NBTCell<ManaLevelBlock.ManaLevelMakeDataConfig.MakeLevel> MAKE_LEVEL = new EnumNBT(ManaLevelBlock.ManaLevelMakeDataConfig.MakeLevel.class, ManaLevelBlock.ManaLevelMakeDataConfig.MakeLevel.CURRENT);
 
 }

@@ -5,8 +5,6 @@ import com.til.dusk.common.config.ConfigMap;
 import com.til.dusk.common.register.FluidUnitRegister;
 import com.til.dusk.common.register.ore.fluid.fluids.*;
 import com.til.dusk.common.register.ore.ore.Ore;
-import com.til.dusk.common.register.ore.ore.OreConfig;
-import com.til.dusk.util.pack.DataPack;
 import com.til.dusk.util.pack.FluidPack;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BucketItem;
@@ -71,7 +69,7 @@ public class OreFluid extends FluidUnitRegister<OreFluid, Ore> {
 
     @Override
     public FluidPack create(Ore ore) {
-        if (ore.hasConfig(OreConfig.FluidConfig.FLUID_CONFIG)) {
+        if (ore.hasConfig(Ore.FluidConfig.FLUID_CONFIG)) {
             return super.create(ore);
         }
         return null;

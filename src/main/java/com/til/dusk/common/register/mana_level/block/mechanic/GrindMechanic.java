@@ -1,11 +1,19 @@
 package com.til.dusk.common.register.mana_level.block.mechanic;
 
-import com.til.dusk.common.register.mana_level.ManaLevelItem;
+import com.til.dusk.common.config.ConfigMap;
+import com.til.dusk.common.config.util.IShapedOreConfig;
+import com.til.dusk.common.data.lang.LangProvider;
+import com.til.dusk.common.data.lang.LangType;
+import com.til.dusk.common.data.tag.ItemTag;
+import com.til.dusk.common.register.mana_level.item.ManaLevelItem;
 import com.til.dusk.common.register.mana_level.block.HandleMechanic;
+import com.til.dusk.common.register.mana_level.item.ManaLevelItemPack;
 import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
+import com.til.dusk.util.DuskColor;
 import net.minecraftforge.common.Tags;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -15,12 +23,25 @@ public class GrindMechanic extends HandleMechanic {
 
     public GrindMechanic() {
         super("grind", () -> Set.of(ShapedType.grind));
-        setConfig(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
-                .addInItem(Tags.Items.GEMS_DIAMOND, 2)
-                .addRun((s, m) -> s.addInItem(m.get(frameBasic).blockItemTag(), 1))
-                .addRun((s, m) -> s.addInItem(ManaLevelItem.destruction.getTag(m), 1))
-                .addRun((s, m) -> s.addInItem(m.getAcceptableTagPack(OreItem.gear).itemTagKey(), 2))
-                .addRun((s, m) -> s.addInItem(m.getAcceptableTagPack(OreItem.rotor).itemTagKey(), 1)));
+    }
+
+    @Override
+    public void registerLang(LangProvider.LangTool lang) {
+        lang.setCache(name.toLanguageKey());
+        lang.add(LangType.ZH_CN, "研磨晶体");
+        lang.add(LangType.EN_CH, "Grind Crystal");
+    }
+
+    @Override
+    public ConfigMap defaultConfigMap() {
+        return new ConfigMap()
+                .setConfig(MECHANIC_MAKE_DATA, () -> new ConfigMap()
+                        .setConfigOfV(ManaLevelMakeDataConfig.ORE_CONFIG, List.of(
+                                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelAcceptItemIn(frameBasic.name, 1),
+                                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelItemIn(Tags.Items.GEMS_DIAMOND, 2),
+                                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelAcceptItemIn(ManaLevelItemPack.destruction.name, 1),
+                                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelAcceptItemIn(OreItem.gear.name, 2),
+                                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelAcceptItemIn(OreItem.rotor.name, 1))));
     }
 
 }

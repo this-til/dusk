@@ -2,7 +2,7 @@ package com.til.dusk.common.config.util;
 
 import com.til.dusk.common.config.ConfigKey;
 import com.til.dusk.common.config.ConfigMap;
-import com.til.dusk.common.config.IAcceptConfigMap;
+import com.til.dusk.common.config.IAcceptConfig;
 import com.til.dusk.util.nbt.cell.AllNBTCell;
 import net.minecraft.resources.ResourceLocation;
 
@@ -14,7 +14,7 @@ import java.util.Map;
  *
  * @author til
  */
-public interface IPair extends IAcceptConfigMap {
+public interface IPair {
     /***
      * 进行匹配
      * @param resourceLocation 进行匹配的名称

@@ -1,6 +1,8 @@
 package com.til.dusk.common.data;
 
+import com.til.dusk.Dusk;
 import com.til.dusk.common.event.DelayTrigger;
+import com.til.dusk.common.event.RegisterRecipeEvent;
 import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.register.RegisterManage;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
@@ -27,20 +29,19 @@ public class ModRecipeProvider extends RecipeProvider {
 
     @Override
     protected void buildCraftingRecipes(@NotNull Consumer<FinishedRecipe> consumer) {
-        DelayTrigger.run(DelayTrigger.RECIPE, s -> s.action(consumer));
         List<RecipeBuilder> recipeBuilderList = new ArrayList<>(32);
         for (RegisterBasics<?> allRegisterBasic : RegisterManage.ALL_REGISTER_BASICS) {
             allRegisterBasic.registerRecipe(recipeBuilderList::add);
-            if (!recipeBuilderList.isEmpty()) {
-                for (RecipeBuilder recipeBuilder : recipeBuilderList) {
-                    recipeBuilder.save(consumer);
-                }
-                recipeBuilderList.clear();
+        }
+        Dusk.instance.modEventBus.post(new RegisterRecipeEvent(recipeBuilderList::add));
+        if (!recipeBuilderList.isEmpty()) {
+            for (RecipeBuilder recipeBuilder : recipeBuilderList) {
+                recipeBuilder.save(consumer);
             }
         }
     }
 
-    public static InventoryChangeTrigger.TriggerInstance has(TagKey<Item> key) {
+    public static InventoryChangeTrigger.TriggerInstance has(@NotNull TagKey<Item> key) {
         return RecipeProvider.has(key);
     }
 
@@ -48,7 +49,7 @@ public class ModRecipeProvider extends RecipeProvider {
         return RecipeProvider.has(key);
     }
 
-    public static InventoryChangeTrigger.TriggerInstance inventoryTrigger(ItemPredicate... itemPredicates) {
+    public static InventoryChangeTrigger.TriggerInstance inventoryTrigger(ItemPredicate @NotNull ... itemPredicates) {
         return RecipeProvider.inventoryTrigger(itemPredicates);
     }
 

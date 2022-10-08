@@ -2,7 +2,6 @@ package com.til.dusk.common.register.ore.fluid.fluids;
 
 import com.til.dusk.common.register.ore.fluid.OreFluid;
 import com.til.dusk.common.register.ore.ore.Ore;
-import com.til.dusk.common.register.ore.ore.OreConfig;
 import com.til.dusk.util.pack.FluidPack;
 
 /**
@@ -15,8 +14,8 @@ public class JoinUUSolutionOreFluid extends OreFluid {
 
     @Override
     public FluidPack create(Ore ore) {
-        if (ore.hasConfig(OreConfig.FluidConfig.FLUID_CONFIG) &&
-            ore.getConfig(OreConfig.FluidConfig.FLUID_CONFIG).containsKey(OreConfig.FluidConfig.CAN_COPY)) {
+        if (ore.hasConfig(Ore.FluidConfig.FLUID_CONFIG) &&
+            ore.getConfig(Ore.FluidConfig.FLUID_CONFIG).containsKey(Ore.FluidConfig.CAN_COPY)) {
             return super.create(ore);
         }
         return null;

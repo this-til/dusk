@@ -5,6 +5,7 @@ import com.google.gson.JsonPrimitive;
 import com.til.dusk.Dusk;
 import com.til.dusk.common.data.DuskData;
 import com.til.dusk.common.event.DelayTrigger;
+import com.til.dusk.common.event.RegisterLangEvent;
 import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.register.RegisterManage;
 import net.minecraft.data.CachedOutput;
@@ -31,6 +32,7 @@ public class LangProvider implements DataProvider {
             run.action(langTool);
             langTool.clearCache();
         });
+        Dusk.instance.modEventBus.post(new RegisterLangEvent(langTool));
         Map<LangType, Map<String, String>> outLang = new HashMap<>(LangType.values().length);
         for (Map.Entry<String, Map<LangType, String>> entry : langTool.langMap.entrySet()) {
             for (Map.Entry<LangType, String> e : entry.getValue().entrySet()) {

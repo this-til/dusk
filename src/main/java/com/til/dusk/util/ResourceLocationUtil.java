@@ -1,6 +1,5 @@
 package com.til.dusk.util;
 
-import com.til.dusk.Dusk;
 import com.til.dusk.common.register.RegisterBasics;
 import net.minecraft.resources.ResourceLocation;
 
@@ -12,8 +11,9 @@ import java.util.List;
  * @author til
  */
 public class ResourceLocationUtil {
+
     public static ResourceLocation fuseName(String namespace, String splicing, String[] strings) {
-        return new ResourceLocation(Dusk.MOD_ID, String.join(splicing, Arrays.asList(strings)));
+        return new ResourceLocation(namespace, String.join(splicing, Arrays.asList(strings)));
     }
 
     public static ResourceLocation fuseName(String splicing, RegisterBasics<?>... registerBasics) {

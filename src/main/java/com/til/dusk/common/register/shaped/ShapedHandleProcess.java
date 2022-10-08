@@ -3,6 +3,7 @@ package com.til.dusk.common.register.shaped;
 import com.til.dusk.Dusk;
 import com.til.dusk.common.capability.handle.EventHandle;
 import com.til.dusk.common.capability.CapabilityHelp;
+import com.til.dusk.common.config.ConfigMap;
 import com.til.dusk.common.register.RegisterBasics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -10,6 +11,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegistryBuilder;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
 
@@ -31,7 +33,7 @@ public abstract class ShapedHandleProcess extends RegisterBasics<ShapedHandlePro
         production = new ShapedHandleProcess("production") {
             @Override
             public void up(EventHandle.EventShapedHandle.Up event) {
-                if (CapabilityHelp.extractMana(event.iHandle.getPosTrack() , null, event.manaIn, event.shapedHandle.consumeMana, false) < event.shapedHandle.consumeMana) {
+                if (CapabilityHelp.extractMana(event.iHandle.getPosTrack(), null, event.manaIn, event.shapedHandle.consumeMana, false) < event.shapedHandle.consumeMana) {
                     event.shapedHandle.process = trippingOperation;
                     event.shapedHandle._surplusTime = event.shapedHandle.surplusTime;
                 } else {
@@ -51,7 +53,7 @@ public abstract class ShapedHandleProcess extends RegisterBasics<ShapedHandlePro
 
             @Override
             public void up(EventHandle.EventShapedHandle.Up event) {
-                event.shapedHandle.outMana -= CapabilityHelp.addMana(event.iHandle.getPosTrack() , null, event.manaOut, event.shapedHandle.outMana, false);
+                event.shapedHandle.outMana -= CapabilityHelp.addMana(event.iHandle.getPosTrack(), null, event.manaOut, event.shapedHandle.outMana, false);
             }
 
             @Override
@@ -88,4 +90,10 @@ public abstract class ShapedHandleProcess extends RegisterBasics<ShapedHandlePro
     public abstract void up(EventHandle.EventShapedHandle.Up event);
 
     public abstract void clock(EventHandle.EventShapedHandle.Clock event);
+
+    @Nullable
+    @Override
+    public ConfigMap defaultConfigMap() {
+        return null;
+    }
 }

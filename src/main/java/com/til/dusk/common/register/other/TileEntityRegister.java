@@ -46,7 +46,7 @@ public abstract class TileEntityRegister<T extends BlockEntity> extends Register
         defaultTileEntityRegister = new TileEntityRegister<>("default_tile_entity_register") {
             @Override
             protected void registerBlackToBack() {
-                for (ManaLevel manaLevel : ManaLevel.LEVEL.get()) {
+                for (ManaLevel manaLevel : ManaLevel.MANA_LEVEL.get()) {
                     for (Map.Entry<ManaLevelBlock, BlockPack> e : manaLevel.blockEntrySet()) {
                         if (e.getValue().block() instanceof ITileEntityType iTileEntityType) {
                             BlockEntityType.Builder<DefaultTileEntity> builder = BlockEntityType.Builder.of((blockPos, blockState) ->
@@ -75,7 +75,7 @@ public abstract class TileEntityRegister<T extends BlockEntity> extends Register
         repeaterTileEntityRegister = new TileEntityRegister<>("repeater_tile_entity_register") {
             @Override
             protected void registerBlackToBack() {
-                for (ManaLevel manaLevel : ManaLevel.LEVEL.get()) {
+                for (ManaLevel manaLevel : ManaLevel.MANA_LEVEL.get()) {
                     for (Map.Entry<ManaLevelBlock, BlockPack> e : manaLevel.blockEntrySet()) {
                         if (e.getValue().block() instanceof RepeaterBlock repeaterBlock) {
                             BlockEntityType.Builder<RepeaterTileEntity> builder = BlockEntityType.Builder.of((blockPos, blockState) ->

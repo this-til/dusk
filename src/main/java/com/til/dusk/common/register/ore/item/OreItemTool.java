@@ -3,7 +3,6 @@ package com.til.dusk.common.register.ore.item;
 import com.til.dusk.Dusk;
 import com.til.dusk.common.config.ConfigMap;
 import com.til.dusk.common.register.ore.ore.Ore;
-import com.til.dusk.common.register.ore.ore.OreConfig;
 import com.til.dusk.util.Lang;
 import com.til.dusk.util.pack.ItemPack;
 import net.minecraft.network.chat.Component;
@@ -27,7 +26,7 @@ public class OreItemTool extends OreItem {
 
     @Override
     public @Nullable ItemPack create(Ore ore) {
-        if (ore.hasConfig(OreConfig.ToolDataConfig.TOOL_DATA_CONFIG) && ore.hasConfig(OreConfig.IS_METAL)) {
+        if (ore.hasConfig(Ore.ToolDataConfig.TOOL_DATA_CONFIG) && ore.hasConfig(Ore.IS_METAL)) {
             return super.create(ore);
         }
         return null;
@@ -35,7 +34,7 @@ public class OreItemTool extends OreItem {
 
     @Override
     public Item createItem(Ore ore) {
-        return createToolItem(ore, ore.getConfig(OreConfig.ToolDataConfig.TOOL_DATA_CONFIG));
+        return createToolItem(ore, ore.getConfig(Ore.ToolDataConfig.TOOL_DATA_CONFIG));
     }
 
     /***
@@ -45,7 +44,7 @@ public class OreItemTool extends OreItem {
      * @return 工具
      */
     public Item createToolItem(Ore ore, ConfigMap configMap) {
-        return new Item(new Item.Properties().tab(Dusk.TAB).durability(configMap.get(OreConfig.ToolDataConfig.USES)).fireResistant()) {
+        return new Item(new Item.Properties().tab(Dusk.TAB).durability(configMap.get(Ore.ToolDataConfig.USES)).fireResistant()) {
 
             @Override
             public @NotNull Component getName(@NotNull ItemStack stack) {

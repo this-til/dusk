@@ -34,7 +34,7 @@ public class LootTableAdd extends BlockLoot {
                 biConsumer.accept(resourceLocation, createSingleItemTable(e.getValue().block()));
             }
         }
-        for (ManaLevel manaLevel : ManaLevel.LEVEL.get()) {
+        for (ManaLevel manaLevel : ManaLevel.MANA_LEVEL.get()) {
             for (Map.Entry<ManaLevelBlock, BlockPack> e : manaLevel.blockEntrySet()) {
                 ResourceLocation resourceLocation = ForgeRegistries.BLOCKS.getKey(e.getValue().block());
                 if (resourceLocation == null) {

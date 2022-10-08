@@ -7,7 +7,6 @@ import com.til.dusk.common.data.lang.LangType;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.ore.fluid.OreFluid;
 import com.til.dusk.common.register.ore.ore.Ore;
-import com.til.dusk.common.register.ore.ore.OreConfig;
 import com.til.dusk.util.DuskColor;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -31,15 +30,15 @@ public class SourceOre extends Ore {
     @Override
     public ConfigMap defaultConfigMap() {
         return new ConfigMap()
-                .setConfigOfV(OreConfig.COLOR, new DuskColor(237, 133, 129))
-                .setConfigOfV(OreConfig.MANA_LEVEL, ManaLevel.t2)
-                .setConfig(OreConfig.FluidConfig.FLUID_CONFIG, () -> new ConfigMap()
-                        .setConfigOfV(OreConfig.FluidConfig.SplittingConfig.SPLITTING, new ConfigMap()
-                                .setConfigOfV(OreConfig.FluidConfig.SplittingConfig.SUNLIGHT, List.of(
+                .setConfigOfV(Ore.COLOR, new DuskColor(237, 133, 129))
+                .setConfigOfV(Ore.MANA_LEVEL, ManaLevel.t2)
+                .setConfig(FluidConfig.FLUID_CONFIG, () -> new ConfigMap()
+                        .setConfigOfV(FluidConfig.SplittingConfig.SPLITTING, new ConfigMap()
+                                .setConfigOfV(FluidConfig.SplittingConfig.SUNLIGHT, List.of(
                                         new IShapedOreConfig.FluidOut(new FluidStack(sourceAir.get(OreFluid.solution).source(), 72), 1D)))
-                                .setConfigOfV(OreConfig.FluidConfig.SplittingConfig.MOONLIGHT, List.of(
+                                .setConfigOfV(FluidConfig.SplittingConfig.MOONLIGHT, List.of(
                                         new IShapedOreConfig.FluidOut(new FluidStack(sourceAir.get(OreFluid.solution).source(), 72), 1D)))
-                                .setConfigOfV(OreConfig.FluidConfig.SplittingConfig.RAIN, List.of(
+                                .setConfigOfV(FluidConfig.SplittingConfig.RAIN, List.of(
                                         new IShapedOreConfig.FluidOut(new FluidStack(sourceAir.get(OreFluid.solution).source(), 72), 1D)))));
     }
 

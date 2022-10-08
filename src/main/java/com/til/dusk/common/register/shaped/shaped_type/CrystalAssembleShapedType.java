@@ -1,7 +1,7 @@
 package com.til.dusk.common.register.shaped.shaped_type;
 
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
-import com.til.dusk.common.register.mana_level.ManaLevelItem;
+import com.til.dusk.common.register.mana_level.item.ManaLevelItem;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
 import com.til.dusk.common.register.ore.block.OreBlock;
 import com.til.dusk.common.register.shaped.ShapedDrive;
@@ -17,7 +17,7 @@ public class CrystalAssembleShapedType extends ShapedType {
 
     @Override
     public void registerShaped() {
-        for (ManaLevel manaLevel : ManaLevel.LEVEL.get()) {
+        for (ManaLevel manaLevel : ManaLevel.MANA_LEVEL.get()) {
             if (manaLevel.hasSet(ManaLevel.OPERATION)) {
                 DataPack.ManaLevelDataPack manaLevelDataPack = manaLevel.getSet(ManaLevel.OPERATION);
                 if (manaLevel.up != null) {

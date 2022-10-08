@@ -4,8 +4,8 @@ import com.google.common.collect.ImmutableList;
 import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
-import com.til.dusk.common.register.mana_level.ManaLevelFluid;
-import com.til.dusk.common.register.mana_level.ManaLevelItem;
+import com.til.dusk.common.register.mana_level.fluid.ManaLevelFluid;
+import com.til.dusk.common.register.mana_level.item.ManaLevelItem;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.register.ore.block.OreBlock;
 import com.til.dusk.common.register.ore.fluid.OreFluid;
@@ -89,7 +89,7 @@ public class ModelProxy {
             }
         }
 
-        for (ManaLevel manaLevel : ManaLevel.LEVEL.get()) {
+        for (ManaLevel manaLevel : ManaLevel.MANA_LEVEL.get()) {
             for (Map.Entry<ManaLevelItem, ItemPack> entry : manaLevel.itemEntrySet()) {
                 ITEM_MODEL_MAP.put(entry.getValue().item(), new ModelResourceLocation(entry.getKey().getItemMoldMapping(manaLevel).itemModelName(), "inventory"));
             }

@@ -1,8 +1,9 @@
 package com.til.dusk.common.config.util;
 
 import com.til.dusk.Dusk;
+import com.til.dusk.common.config.AcceptTypeJson;
 import com.til.dusk.common.config.ConfigKey;
-import com.til.dusk.common.config.IAcceptConfigMap;
+import com.til.dusk.common.config.IAcceptConfig;
 import com.til.dusk.common.register.ore.block.OreBlock;
 import com.til.dusk.common.register.ore.block.OreBlockMineral;
 import com.til.dusk.common.register.ore.ore.Ore;
@@ -35,7 +36,8 @@ import java.util.Map;
  *
  * @author til
  */
-public interface IOrePlacedFeatureConfig extends IAcceptConfigMap {
+@AcceptTypeJson
+public interface IOrePlacedFeatureConfig  {
     /***
      * 获取矿物生产配置
      * @return 矿物上场配置

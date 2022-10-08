@@ -9,7 +9,6 @@ import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.ore.block.OreBlockMetal;
 import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.ore.ore.Ore;
-import com.til.dusk.common.register.ore.ore.OreConfig;
 import net.minecraft.data.recipes.RecipeBuilder;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.tags.BlockTags;
@@ -33,7 +32,7 @@ public class BracketOreBlockMetal extends OreBlockMetal {
     @Override
     public @Nullable Block createBlock(Ore ore) {
         Block block = new Block(BlockBehaviour.Properties.of(Material.GLASS)
-                .strength(1.2f * ore.getConfig(OreConfig.STRENGTH).floatValue(), 2.4f * ore.getConfig(OreConfig.STRENGTH).floatValue())
+                .strength(1.2f * ore.getConfig(Ore.STRENGTH).floatValue(), 2.4f * ore.getConfig(Ore.STRENGTH).floatValue())
                 .requiresCorrectToolForDrops()
                 .sound(SoundType.GLASS)
                 .noCollission()
@@ -45,24 +44,24 @@ public class BracketOreBlockMetal extends OreBlockMetal {
 
     @Override
     public void dyeBlack(Ore ore, ColorProxy.ItemColorPack itemColorPack) {
-        itemColorPack.addColor(0, itemStack -> ore.getConfig(OreConfig.COLOR));
+        itemColorPack.addColor(0, itemStack -> ore.getConfig(Ore.COLOR));
     }
 
     @Override
     public void dyeBlack(Ore ore, ColorProxy.BlockColorPack itemColorPack) {
-        itemColorPack.addColor(0, (blockState, blockAndTintGetter, blockPos) -> ore.getConfig(OreConfig.COLOR));
+        itemColorPack.addColor(0, (blockState, blockAndTintGetter, blockPos) -> ore.getConfig(Ore.COLOR));
     }
 
     @Override
     public void registerRecipe(Consumer<RecipeBuilder> recipeConsumer) {
-        for (Ore ore : Ore.screen(OreConfig.IS_METAL)) {
-            if (!ore.getConfig(OreConfig.MANA_LEVEL).hasConfig(ManaLevel.CAN_UET_TOOL_MAKE)) {
+        for (Ore ore : Ore.screen(Ore.IS_METAL)) {
+            if (!ore.getConfig(Ore.MANA_LEVEL).hasConfig(ManaLevel.CAN_UET_TOOL_MAKE)) {
                 continue;
             }
             recipeConsumer.accept(ShapedRecipeBuilder.shaped(ore.get(bracket).blockItem(), 1)
                     .define('A', ore.get(OreItem.casing).itemTag())
                     .define('B', ore.get(OreItem.stick).itemTag())
-                    .define('C', ore.getConfig(OreConfig.MANA_LEVEL).getAcceptableTagPack(OreItem.wrench).itemTagKey())
+                    .define('C', ore.getConfig(Ore.MANA_LEVEL).getAcceptableTagPack(OreItem.wrench).itemTagKey())
                     .pattern("BAB")
                     .pattern("ACA")
                     .pattern("BAB")

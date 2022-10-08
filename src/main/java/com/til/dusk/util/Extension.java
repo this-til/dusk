@@ -1,6 +1,7 @@
 package com.til.dusk.util;
 
 import java.util.Map;
+import java.util.function.Supplier;
 
 public class Extension {
 
@@ -75,11 +76,16 @@ public class Extension {
     public record Data_6<D1, D2, D3, D4, D5, D6>(D1 d1, D2 d2, D3 d3, D4 d4, D5 d5, D6 d6) {
     }
 
-    public static class VariableData<D> {
+    public static class VariableData<D> implements Supplier<D> {
         public D d1;
 
         public VariableData(D d1) {
             this.d1 = d1;
+        }
+
+        @Override
+        public D get() {
+            return d1;
         }
     }
 

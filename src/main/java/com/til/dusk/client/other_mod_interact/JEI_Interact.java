@@ -81,7 +81,7 @@ public class JEI_Interact implements IModPlugin {
         for (ShapedType shapedType : ShapedType.SHAPED_TYPE.get()) {
             RecipeType<Shaped> shapedRecipeType = new RecipeType<>(shapedType.name, Shaped.class);
             ManaLevelBlock manaLevelBlock = shapedType.manaLevelBlockSupplier.get();
-            for (ManaLevel manaLevel : ManaLevel.LEVEL.get()) {
+            for (ManaLevel manaLevel : ManaLevel.MANA_LEVEL.get()) {
                 registration.addRecipeCatalyst(new ItemStack(manaLevel.get(manaLevelBlock).blockItem()), shapedRecipeType);
             }
         }

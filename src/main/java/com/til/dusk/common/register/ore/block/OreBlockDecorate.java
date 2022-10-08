@@ -3,7 +3,6 @@ package com.til.dusk.common.register.ore.block;
 import com.til.dusk.Dusk;
 import com.til.dusk.common.config.ConfigMap;
 import com.til.dusk.common.register.ore.ore.Ore;
-import com.til.dusk.common.register.ore.ore.OreConfig;
 import com.til.dusk.util.pack.BlockPack;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
@@ -23,7 +22,7 @@ public abstract class OreBlockDecorate extends OreBlock {
 
     @Override
     public @Nullable BlockPack create(Ore ore) {
-        if (ore.hasConfig(OreConfig.DecorateBlockConfig.DECORATE_BLOCK_CONFIG)) {
+        if (ore.hasConfig(Ore.DecorateBlockConfig.DECORATE_BLOCK_CONFIG)) {
             return super.create(ore);
         }
         return null;

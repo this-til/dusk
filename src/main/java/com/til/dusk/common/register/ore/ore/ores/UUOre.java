@@ -6,7 +6,6 @@ import com.til.dusk.common.data.lang.LangType;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.ore.fluid.OreFluid;
 import com.til.dusk.common.register.ore.ore.Ore;
-import com.til.dusk.common.register.ore.ore.OreConfig;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
@@ -31,14 +30,14 @@ public class UUOre extends Ore {
     @Override
     public ConfigMap defaultConfigMap() {
         return new ConfigMap()
-                .setConfigOfV(OreConfig.COLOR, new DuskColor(160, 32, 240))
-                .setConfigOfV(OreConfig.MANA_LEVEL, ManaLevel.t4)
-                .setConfig(OreConfig.FluidConfig.FLUID_CONFIG, ConfigMap::new)
-                .setConfig(OreConfig.RELEVANT_SHAPED, () -> List.of(
-                        new ShapedOre(ResourceLocationUtil.fuseName(this, OreFluid.solution), ShapedType.uuGenerate, ShapedDrive.get(0), this.getConfig(OreConfig.MANA_LEVEL))
+                .setConfigOfV(Ore.COLOR, new DuskColor(160, 32, 240))
+                .setConfigOfV(Ore.MANA_LEVEL, ManaLevel.t4)
+                .setConfig(FluidConfig.FLUID_CONFIG, ConfigMap::new)
+                .setConfig(Ore.RELEVANT_SHAPED, () -> List.of(
+                        new ShapedOre(ResourceLocationUtil.fuseName(this, OreFluid.solution), ShapedType.uuGenerate, ShapedDrive.get(0), this.getConfig(Ore.MANA_LEVEL))
                                 .addOutFluid(new FluidStack(uu.get(OreFluid.solution).source(), 1), 1D)
-                                .addMultipleSurplusTime((long) (32768L * this.getConfig(OreConfig.STRENGTH)))
-                                .addMultipleConsumeMana((long) (12L * this.getConfig(OreConfig.CONSUME)))));
+                                .addMultipleSurplusTime((long) (32768L * this.getConfig(Ore.STRENGTH)))
+                                .addMultipleConsumeMana((long) (12L * this.getConfig(Ore.CONSUME)))));
     }
 
 }

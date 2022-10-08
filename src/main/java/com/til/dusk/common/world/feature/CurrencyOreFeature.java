@@ -1,8 +1,6 @@
 package com.til.dusk.common.world.feature;
 
-import com.til.dusk.common.config.IAcceptConfigMap;
 import com.til.dusk.common.config.util.IOrePlacedFeatureConfig;
-import com.til.dusk.common.register.ore.block.GenerateData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
 import net.minecraft.util.Mth;

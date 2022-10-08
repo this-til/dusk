@@ -6,7 +6,7 @@ import com.til.dusk.common.capability.handle.ShapedHandle;
 import com.til.dusk.common.capability.pos.IPosTrack;
 import com.til.dusk.common.config.ConfigKey;
 import com.til.dusk.common.config.ConfigMap;
-import com.til.dusk.common.config.IAcceptConfigMap;
+import com.til.dusk.common.config.IAcceptConfig;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
@@ -25,7 +25,7 @@ import java.util.*;
 /**
  * @author til
  */
-public abstract class Shaped implements IAcceptConfigMap {
+public abstract class Shaped implements IAcceptConfig {
 
 
     public static final ConfigKey<ResourceLocation> NAME = new ConfigKey<>("shaped.name", AllNBTCell.RESOURCE_LOCATION, () -> new ResourceLocation(Dusk.MOD_ID, "null"));

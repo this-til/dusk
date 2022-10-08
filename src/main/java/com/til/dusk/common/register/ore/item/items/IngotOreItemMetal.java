@@ -6,7 +6,6 @@ import com.til.dusk.common.data.lang.LangType;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.ore.item.OreItemMetal;
 import com.til.dusk.common.register.ore.ore.Ore;
-import com.til.dusk.common.register.ore.ore.OreConfig;
 import net.minecraft.data.recipes.RecipeBuilder;
 import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -30,8 +29,8 @@ public class IngotOreItemMetal extends OreItemMetal {
 
     @Override
     public void registerRecipe(Consumer<RecipeBuilder> recipeConsumer) {
-        for (Ore ore : Ore.screen(OreConfig.IS_METAL, OreConfig.MineralBlockConfig.MINERAL_BLOCK_CONFIG)) {
-            if (!ore.getConfig(OreConfig.MANA_LEVEL).hasConfig(ManaLevel.CAN_UET_TOOL_MAKE)) {
+        for (Ore ore : Ore.screen(Ore.IS_METAL, Ore.MineralBlockConfig.MINERAL_BLOCK_CONFIG)) {
+            if (!ore.getConfig(Ore.MANA_LEVEL).hasConfig(ManaLevel.CAN_UET_TOOL_MAKE)) {
                 continue;
             }
             recipeConsumer.accept(SimpleCookingRecipeBuilder.smelting(Ingredient.of(ore.getMineralBlockTag().itemTagKey()), ore.get(this).item(), 0.6F, 200)

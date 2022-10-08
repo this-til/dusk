@@ -7,7 +7,6 @@ import com.til.dusk.common.config.ConfigMap;
 import com.til.dusk.common.register.BlockUnitRegister;
 import com.til.dusk.common.register.ore.block.blocks.*;
 import com.til.dusk.common.register.ore.ore.Ore;
-import com.til.dusk.common.register.ore.ore.OreConfig;
 import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.Lang;
 import net.minecraft.network.chat.Component;
@@ -108,13 +107,13 @@ public abstract class OreBlock extends BlockUnitRegister<OreBlock, Ore> {
 
     @Override
     public void dyeBlack(Ore ore, ColorProxy.ItemColorPack itemColorPack) {
-        DuskColor color = ore.getConfig(OreConfig.COLOR);
+        DuskColor color = ore.getConfig(Ore.COLOR);
         itemColorPack.addColor(1, itemStack -> color);
     }
 
     @Override
     public void dyeBlack(Ore ore, ColorProxy.BlockColorPack itemColorPack) {
-        DuskColor color = ore.getConfig(OreConfig.COLOR);
+        DuskColor color = ore.getConfig(Ore.COLOR);
         itemColorPack.addColor(1, (blockState, blockAndTintGetter, blockPos) -> color);
     }
 

@@ -52,7 +52,6 @@ public class Lang {
         return Component.translatable("%s".repeat(strings.length), componentList.toArray());
     }
 
-
     public static String getKey(String s) {
         return Dusk.MOD_ID + "." + s;
     }

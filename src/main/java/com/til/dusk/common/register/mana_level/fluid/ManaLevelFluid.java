@@ -1,4 +1,4 @@
-package com.til.dusk.common.register.mana_level;
+package com.til.dusk.common.register.mana_level.fluid;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.common.register.FluidUnitRegister;

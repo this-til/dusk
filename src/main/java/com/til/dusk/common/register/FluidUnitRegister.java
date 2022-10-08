@@ -1,7 +1,9 @@
 package com.til.dusk.common.register;
 
 import com.til.dusk.Dusk;
+import com.til.dusk.util.Extension;
 import com.til.dusk.util.Lang;
+import com.til.dusk.util.ResourceLocationUtil;
 import com.til.dusk.util.pack.FluidPack;
 import com.til.dusk.util.pack.TagPack;
 import net.minecraft.network.chat.Component;
@@ -29,12 +31,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
-public abstract class FluidUnitRegister<T extends FluidUnitRegister<T, O>, O extends RegisterBasics<?>> extends RegisterBasics<T> {
-
-    public final Map<O, Fluid> sourceMap = new HashMap<>();
-    public final Map<O, Fluid> flowingMap = new HashMap<>();
-
-    protected TagPack tagPack;
+public abstract class FluidUnitRegister<T extends FluidUnitRegister<T, O>, O extends TagPackSupplierRegister<?>> extends TagPackSupplierRegister<T> {
 
     public FluidUnitRegister(ResourceLocation name, Supplier<IForgeRegistry<T>> iForgeRegistrySupplier) {
         super(name, iForgeRegistrySupplier);
@@ -42,11 +39,13 @@ public abstract class FluidUnitRegister<T extends FluidUnitRegister<T, O>, O ext
 
     public FluidPack create(O o) {
         FluidType fluidType = createFluidType(o);
-        ForgeFlowingFluid.Properties properties = createProperties(o, fluidType);
-        FlowingFluid source = createSourceFluid(o, properties);
-        sourceMap.put(o, source);
-        FlowingFluid flowing = createFlowingFluid(o, properties);
-        flowingMap.put(o, flowing);
+        Extension.VariableData<ForgeFlowingFluid.Source> sourceSupplier = new Extension.VariableData<>(null);
+        Extension.VariableData<ForgeFlowingFluid.Flowing> flowingSupplier = new Extension.VariableData<>(null);
+        ForgeFlowingFluid.Properties properties = createProperties(o, fluidType, sourceSupplier, flowingSupplier);
+        ForgeFlowingFluid.Source source = createSourceFluid(o, properties);
+        ForgeFlowingFluid.Flowing flowing = createFlowingFluid(o, properties);
+        sourceSupplier.d1 = source;
+        flowingSupplier.d1 = flowing;
         LiquidBlock liquidBlock = createLiquidBlock(o, source);
         if (liquidBlock != null) {
             properties.block(() -> liquidBlock);
@@ -60,20 +59,20 @@ public abstract class FluidUnitRegister<T extends FluidUnitRegister<T, O>, O ext
 
     public abstract FluidType createFluidType(O ore);
 
-    public ForgeFlowingFluid.Properties createProperties(O ore, FluidType fluidType) {
-        return new ForgeFlowingFluid.Properties(() -> fluidType, () -> sourceMap.get(ore), () -> flowingMap.get(ore));
+    public ForgeFlowingFluid.Properties createProperties(O ore, FluidType fluidType, Supplier<ForgeFlowingFluid.Source> sourceSupplier, Supplier<ForgeFlowingFluid.Flowing> flowingSupplier) {
+        return new ForgeFlowingFluid.Properties(() -> fluidType, sourceSupplier, flowingSupplier);
     }
 
-    public FlowingFluid createFlowingFluid(O o, ForgeFlowingFluid.Properties properties) {
+    public ForgeFlowingFluid.Flowing createFlowingFluid(O o, ForgeFlowingFluid.Properties properties) {
         return new ForgeFlowingFluid.Flowing(properties);
     }
 
-    public FlowingFluid createSourceFluid(O o, ForgeFlowingFluid.Properties properties) {
+    public ForgeFlowingFluid.Source createSourceFluid(O o, ForgeFlowingFluid.Properties properties) {
         return new ForgeFlowingFluid.Source(properties);
     }
 
     public TagKey<Fluid> createFluidTag(O o) {
-        return FluidTags.create(fuseName(, "/", new String[]{"fluid", o.name.getPath(), name.getPath()}));
+        return FluidTags.create(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{"fluid", o.name.getPath(), name.getPath()}));
     }
 
     @Nullable
@@ -83,7 +82,7 @@ public abstract class FluidUnitRegister<T extends FluidUnitRegister<T, O>, O ext
 
     @Nullable
     public TagKey<Block> createBlockTag(O o) {
-        return BlockTags.create(fuseName(, "/", new String[]{"fluid", o.name.getPath(), name.getPath()}));
+        return BlockTags.create(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{"fluid", o.name.getPath(), name.getPath()}));
     }
 
     @Nullable
@@ -98,13 +97,7 @@ public abstract class FluidUnitRegister<T extends FluidUnitRegister<T, O>, O ext
 
     @Nullable
     public TagKey<Item> createBlockItemTag(O o) {
-        return ItemTags.create(fuseName(, "/", new String[]{"fluid", o.name.getPath(), name.getPath()}));
+        return ItemTags.create(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{"fluid", o.name.getPath(), name.getPath()}));
     }
 
-    public TagPack getTagPack() {
-        if (tagPack == null) {
-            tagPack = new TagPack(Dusk.instance.ITEM_TAG.createTagKey(name), Dusk.instance.BLOCK_TAG.createTagKey(name), Dusk.instance.FLUID_TAG.createTagKey(name));
-        }
-        return tagPack;
-    }
 }

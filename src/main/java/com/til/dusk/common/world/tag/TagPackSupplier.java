@@ -7,7 +7,6 @@ import com.til.dusk.util.pack.TagPack;
 import net.minecraft.resources.ResourceLocation;
 
 import javax.annotation.Nullable;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -15,7 +14,7 @@ import java.util.Map;
  *
  * @author til
  */
-public abstract class TagPackSupply {
+public class TagPackSupplier {
     public final ResourceLocation name;
 
     /***
@@ -31,7 +30,7 @@ public abstract class TagPackSupply {
      */
     protected Map<ResourceLocation, TagPack> relationTagPack;
 
-    public TagPackSupply(ResourceLocation name, @Nullable String modification) {
+    public TagPackSupplier(ResourceLocation name, @Nullable String modification) {
         this.name = name;
         this.modification = modification == null ? null : new ResourceLocation(name.getNamespace(), modification);
     }
