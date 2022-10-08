@@ -11,7 +11,9 @@ import com.til.dusk.common.config.gson.type_adapter.factory.AcceptTypeJsonTypeAd
 import com.til.dusk.common.config.gson.type_adapter.factory.DelayedTypeAdapterFactory;
 import com.til.dusk.common.config.gson.type_adapter.factory.RegisterBasicsAdapterFactory;
 import com.til.dusk.util.DuskColor;
+import com.til.dusk.util.Pos;
 import com.til.dusk.util.nbt.cell.AllNBTCell;
+import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
