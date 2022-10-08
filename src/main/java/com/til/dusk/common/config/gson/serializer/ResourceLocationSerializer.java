@@ -1,4 +1,4 @@
-package com.til.dusk.common.config.gson;
+package com.til.dusk.common.config.gson.serializer;
 
 import com.google.gson.*;
 import net.minecraft.resources.ResourceLocation;

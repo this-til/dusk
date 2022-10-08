@@ -1,4 +1,4 @@
-package com.til.dusk.common.config.gson;
+package com.til.dusk.common.config.gson.type_adapter;
 
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;

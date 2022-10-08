@@ -1,4 +1,4 @@
-package com.til.dusk.common.config.gson;
+package com.til.dusk.common.config.gson.type_adapter;
 
 import com.google.gson.TypeAdapter;
 import com.google.gson.internal.ConstructorConstructor;
@@ -8,6 +8,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
 import com.til.dusk.Dusk;
+import com.til.dusk.common.config.gson.ConfigGson;
 import com.til.dusk.util.Util;
 
 import java.io.IOException;
