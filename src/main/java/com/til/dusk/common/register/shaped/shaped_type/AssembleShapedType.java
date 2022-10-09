@@ -69,7 +69,7 @@ public class AssembleShapedType extends ShapedType {
         for (Ore ore : Ore.screen(Ore.ARMOR_DATA)) {
             ArmorData armorData = ore.getSet(Ore.ARMOR_DATA);
             new ShapedOre(this, ShapedDrive.get(3), ore.manaLevel)
-                    .addInItem(ore.get(OreItem.plate_4).itemTag(), 32 * ore.manaLevel.level)
+                    .addInItem(ore.get(OreItem.plate4).itemTag(), 32 * ore.manaLevel.level)
                     .addInItem(ManaLevelItem.operation.getTag(ore.manaLevel), 24 * ore.manaLevel.level)
                     .addInItem(ManaLevelItem.forming.getTag(ore.manaLevel), 12 * ore.manaLevel.level)
                     .addInItem(ManaLevelItem.gather.getTag(ore.manaLevel), 8 * ore.manaLevel.level)
@@ -80,7 +80,7 @@ public class AssembleShapedType extends ShapedType {
                     .addMultipleSurplusTime(16384L * ore.manaLevel.level)
                     .addMultipleConsumeMana(64L * ore.manaLevel.level);
             new ShapedOre(this, ShapedDrive.get(4), ore.manaLevel)
-                    .addInItem(ore.get(OreItem.plate_4).itemTag(), 64 * ore.manaLevel.level)
+                    .addInItem(ore.get(OreItem.plate4).itemTag(), 64 * ore.manaLevel.level)
                     .addInItem(ManaLevelItem.operation.getTag(ore.manaLevel), 24 * ore.manaLevel.level)
                     .addInItem(ManaLevelItem.forming.getTag(ore.manaLevel), 24 * ore.manaLevel.level)
                     .addInItem(ManaLevelItem.gather.getTag(ore.manaLevel), 24 * ore.manaLevel.level)
@@ -91,7 +91,7 @@ public class AssembleShapedType extends ShapedType {
                     .addMultipleSurplusTime(16384L * ore.manaLevel.level)
                     .addMultipleConsumeMana(64L * ore.manaLevel.level);
             new ShapedOre(this, ShapedDrive.get(5), ore.manaLevel)
-                    .addInItem(ore.get(OreItem.plate_4).itemTag(), 48 * ore.manaLevel.level)
+                    .addInItem(ore.get(OreItem.plate4).itemTag(), 48 * ore.manaLevel.level)
                     .addInItem(ManaLevelItem.operation.getTag(ore.manaLevel), 24 * ore.manaLevel.level)
                     .addInItem(ManaLevelItem.forming.getTag(ore.manaLevel), 24 * ore.manaLevel.level)
                     .addInItem(ManaLevelItem.gather.getTag(ore.manaLevel), 12 * ore.manaLevel.level)
@@ -102,7 +102,7 @@ public class AssembleShapedType extends ShapedType {
                     .addMultipleSurplusTime(16384L * ore.manaLevel.level)
                     .addMultipleConsumeMana(64L * ore.manaLevel.level);
             new ShapedOre(this, ShapedDrive.get(6), ore.manaLevel)
-                    .addInItem(ore.get(OreItem.plate_4).itemTag(), 32 * ore.manaLevel.level)
+                    .addInItem(ore.get(OreItem.plate4).itemTag(), 32 * ore.manaLevel.level)
                     .addInItem(ManaLevelItem.operation.getTag(ore.manaLevel), 24 * ore.manaLevel.level)
                     .addInItem(ManaLevelItem.forming.getTag(ore.manaLevel), 24 * ore.manaLevel.level)
                     .addInItem(ManaLevelItem.gather.getTag(ore.manaLevel), 4 * ore.manaLevel.level)
@@ -117,7 +117,7 @@ public class AssembleShapedType extends ShapedType {
             ArmsData armorData = ore.getSet(Ore.ARMS_DATA);
             new ShapedOre(this, ShapedDrive.get(7), ore.manaLevel)
                     .addInItem(ore.get(OreItem.swordBasics).itemTag(), 1)
-                    .addInItem(ore.get(OreItem.plate_4).itemTag(), 128 * ore.manaLevel.level)
+                    .addInItem(ore.get(OreItem.plate4).itemTag(), 128 * ore.manaLevel.level)
                     .addInItem(ManaLevelItem.operation.getTag(ore.manaLevel), 32 * ore.manaLevel.level)
                     .addInItem(ManaLevelItem.destruction.getTag(ore.manaLevel), 64 * ore.manaLevel.level)
                     .addInItem(ManaLevelItem.spread.getTag(ore.manaLevel), 48 * ore.manaLevel.level)
@@ -129,7 +129,7 @@ public class AssembleShapedType extends ShapedType {
                     .addMultipleConsumeMana(64L * ore.manaLevel.level);
             new ShapedOre(this, ShapedDrive.get(8), ore.manaLevel)
                     .addInItem(ore.get(OreItem.shovelBasics).itemTag(), 1)
-                    .addInItem(ore.get(OreItem.plate_4).itemTag(), 128 * ore.manaLevel.level)
+                    .addInItem(ore.get(OreItem.plate4).itemTag(), 128 * ore.manaLevel.level)
                     .addInItem(ManaLevelItem.operation.getTag(ore.manaLevel), 12 * ore.manaLevel.level)
                     .addInItem(ManaLevelItem.destruction.getTag(ore.manaLevel), 12 * ore.manaLevel.level)
                     .addInItem(ManaLevelItem.spread.getTag(ore.manaLevel), 4 * ore.manaLevel.level)
@@ -141,7 +141,7 @@ public class AssembleShapedType extends ShapedType {
                     .addMultipleConsumeMana(64L * ore.manaLevel.level);
             new ShapedOre(this, ShapedDrive.get(9), ore.manaLevel)
                     .addInItem(ore.get(OreItem.pickaxeBasics).itemTag(), 1)
-                    .addInItem(ore.get(OreItem.plate_4).itemTag(), 64 * ore.manaLevel.level)
+                    .addInItem(ore.get(OreItem.plate4).itemTag(), 64 * ore.manaLevel.level)
                     .addInItem(ManaLevelItem.operation.getTag(ore.manaLevel), 32 * ore.manaLevel.level)
                     .addInItem(ManaLevelItem.destruction.getTag(ore.manaLevel), 48 * ore.manaLevel.level)
                     .addInItem(ManaLevelItem.spread.getTag(ore.manaLevel), 12 * ore.manaLevel.level)
@@ -153,7 +153,7 @@ public class AssembleShapedType extends ShapedType {
                     .addMultipleConsumeMana(64L * ore.manaLevel.level);
             new ShapedOre(this, ShapedDrive.get(10), ore.manaLevel)
                     .addInItem(ore.get(OreItem.axeBasics).itemTag(), 1)
-                    .addInItem(ore.get(OreItem.plate_4).itemTag(), 64 * ore.manaLevel.level)
+                    .addInItem(ore.get(OreItem.plate4).itemTag(), 64 * ore.manaLevel.level)
                     .addInItem(ManaLevelItem.operation.getTag(ore.manaLevel), 32 * ore.manaLevel.level)
                     .addInItem(ManaLevelItem.destruction.getTag(ore.manaLevel), 64 * ore.manaLevel.level)
                     .addInItem(ManaLevelItem.spread.getTag(ore.manaLevel), 12 * ore.manaLevel.level)
@@ -165,7 +165,7 @@ public class AssembleShapedType extends ShapedType {
                     .addMultipleConsumeMana(64L * ore.manaLevel.level);
             new ShapedOre(this, ShapedDrive.get(11), ore.manaLevel)
                     .addInItem(ore.get(OreItem.hoeBasics).itemTag(), 1)
-                    .addInItem(ore.get(OreItem.plate_4).itemTag(), 64 * ore.manaLevel.level)
+                    .addInItem(ore.get(OreItem.plate4).itemTag(), 64 * ore.manaLevel.level)
                     .addInItem(ManaLevelItem.operation.getTag(ore.manaLevel), 16 * ore.manaLevel.level)
                     .addInItem(ManaLevelItem.destruction.getTag(ore.manaLevel), 4 * ore.manaLevel.level)
                     .addInItem(ManaLevelItem.spread.getTag(ore.manaLevel), 12 * ore.manaLevel.level)
@@ -202,8 +202,8 @@ public class AssembleShapedType extends ShapedType {
                     .addMultipleSurplusTime((long) (2048 * ore.strength))
                     .addMultipleConsumeMana((long) (7 * ore.consume));
             new ShapedOre(this, ShapedDrive.get(16), ore.manaLevel)
-                    .addInItem(ore.get(OreItem.plate_3).itemTag(), 2)
-                    .addInItem(ore.get(OreItem.plate_2).itemTag(), 6)
+                    .addInItem(ore.get(OreItem.plate3).itemTag(), 2)
+                    .addInItem(ore.get(OreItem.plate2).itemTag(), 6)
                     .addInItem(ore.get(OreItem.casing).itemTag(), 16)
                     .addOutItem(new ItemStack(ore.get(OreItem.tank).item()), 1D)
                     .addMultipleSurplusTime((long) (4096 * ore.strength))

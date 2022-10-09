@@ -19,7 +19,7 @@ public class ExtractManaShapedType extends ShapedType {
 
     @Override
     public void registerRuleShaped(Consumer<Shaped> shapedConsumer) {
-        new ShapedOre(this, ShapedDrive.get(0), ManaLevel.t1)
+        new ShapedOre(name, this, ShapedDrive.get(0), ManaLevel.t1)
                 .addMultipleSurplusTime(1024)
                 .addMultipleOutMana(20000);
     }

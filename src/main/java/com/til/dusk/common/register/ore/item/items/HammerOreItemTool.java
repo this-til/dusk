@@ -73,7 +73,7 @@ public class HammerOreItemTool extends OreItemTool {
                     .pattern("A ")
                     .pattern(" B")
                     .unlockedBy("has_hammer", ModRecipeProvider.has(hammer.tagPackSupplier.getTagPack().itemTagKey())));
-            recipeConsumer.accept(ShapedRecipeBuilder.shaped(ore.get(stick_long).item(), 1)
+            recipeConsumer.accept(ShapedRecipeBuilder.shaped(ore.get(stickLong).item(), 1)
                     .define('A', hammer.tagPackSupplier.getTagPack().itemTagKey())
                     .define('B', ore.get(stick).itemTag())
                     .pattern("A")

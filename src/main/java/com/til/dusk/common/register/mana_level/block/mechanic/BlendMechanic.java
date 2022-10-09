@@ -35,6 +35,6 @@ public class BlendMechanic extends HandleMechanic {
                         new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.destruction.name, 1),
                         new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(OreItem.gear.name, 2),
                         new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(OreItem.rotor.name, 2),
-                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(OreItem.stick_long.name, 4)));
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(OreItem.stickLong.name, 4)));
     }
 }

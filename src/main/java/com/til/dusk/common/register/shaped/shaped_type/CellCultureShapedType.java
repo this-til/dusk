@@ -17,4 +17,9 @@ public class CellCultureShapedType extends ShapedType{
     public void registerRuleShaped(Consumer<Shaped> shapedConsumer) {
 
     }
+
+    @Override
+    public void defaultConfig() {
+
+    }
 }

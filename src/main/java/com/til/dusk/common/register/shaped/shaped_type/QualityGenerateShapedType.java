@@ -1,5 +1,9 @@
 package com.til.dusk.common.register.shaped.shaped_type;
 
+import com.til.dusk.common.config.ConfigField;
+import com.til.dusk.common.config.IAcceptConfig;
+import com.til.dusk.common.config.util.IShapedCreate;
+import com.til.dusk.common.config.util.IShapedOreConfig;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
 import com.til.dusk.common.register.ore.fluid.OreFluid;
 import com.til.dusk.common.register.ore.ore.Ore;
@@ -21,15 +25,25 @@ public class QualityGenerateShapedType extends ShapedType {
 
     @Override
     public void registerRuleShaped(Consumer<Shaped> shapedConsumer) {
-        for (Ore ore : Ore.screen(Ore.FLUID_DATA)) {
-            if (!ore.getSet(Ore.FLUID_DATA).canCopy) {
+        for (Ore ore : Ore.ORE.get()) {
+            if (ore.fluidData == null) {
                 continue;
             }
-            new ShapedOre(this, ShapedDrive.get(0), ore.manaLevel)
-                    .addInFluid(ore.get(OreFluid.joinUUSolution).fluidTag(), 72)
-                    .addOutFluid(new FluidStack(ore.get(OreFluid.solution).source(), 144), 1d)
-                    .addMultipleSurplusTime(4096L)
-                    .addMultipleConsumeMana(64L);
+            if (!ore.fluidData.canCopy) {
+                continue;
+            }
+            shapedConsumer.accept(qualityGenerate.create(ore));
         }
     }
+
+    @Override
+    public void defaultConfig() {
+        qualityGenerate = new IShapedCreate.OreShapedCreate(name, this, ShapedDrive.get(0), 4096L, 64L, 0L)
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptFluidIn(OreFluid.joinUUSolution.name, 72))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptFluidOut(OreFluid.solution, 144, 1));
+    }
+
+    @ConfigField
+    public IShapedCreate<Ore> qualityGenerate;
+
 }

@@ -2,6 +2,7 @@ package com.til.dusk.common.config.util;
 
 import com.til.dusk.common.config.AcceptTypeJson;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
+import com.til.dusk.common.register.ore.block.OreBlock;
 import com.til.dusk.common.register.ore.fluid.OreFluid;
 import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.ore.ore.Ore;
@@ -304,6 +305,78 @@ public interface IShapedOreConfig<DATA> {
             @Override
             public void config(ShapedOre shapedOre, Ore ore) {
                 shapedOre.addInFluid(ore.tagPackSupplier.getTagPack(resourceLocation).fluidTagKey(), amount);
+            }
+        }
+
+        class OreItemItemOut implements IShapedOreOreConfig {
+
+            public OreItem oreItem;
+            public int amount;
+            public double probability;
+
+            public OreItemItemOut(OreItem oreItem, int amount, double probability) {
+                this.oreItem = oreItem;
+                this.amount = amount;
+                this.probability = probability;
+            }
+
+            public OreItemItemOut() {
+            }
+
+            @Override
+            public void config(ShapedOre shapedOre, Ore ore) {
+                if (!ore.has(oreItem)) {
+                    return;
+                }
+                shapedOre.addOutItem(new ItemStack(ore.get(oreItem).item(), amount), probability);
+            }
+        }
+
+        class OreBlockItemOut implements IShapedOreOreConfig {
+
+            public OreBlock oreBlock;
+            public int amount;
+            public double probability;
+
+            public OreBlockItemOut(OreBlock oreBlock, int amount, double probability) {
+                this.oreBlock = oreBlock;
+                this.amount = amount;
+                this.probability = probability;
+            }
+
+            public OreBlockItemOut() {
+            }
+
+            @Override
+            public void config(ShapedOre shapedOre, Ore ore) {
+                if (!ore.has(oreBlock)) {
+                    return;
+                }
+                shapedOre.addOutItem(new ItemStack(ore.get(oreBlock).blockItem(), amount), probability);
+            }
+        }
+
+        class AcceptFluidOut implements IShapedOreOreConfig {
+
+            public OreFluid oreFluid;
+            public int amount;
+            public double probability;
+
+            public AcceptFluidOut() {
+            }
+
+            public AcceptFluidOut(OreFluid oreFluid, int amount, double probability) {
+                this.oreFluid = oreFluid;
+                this.amount = amount;
+                this.probability = probability;
+            }
+
+            @Override
+            public void config(ShapedOre shapedOre, Ore ore) {
+                if (!ore.has(oreFluid)) {
+                    return;
+                }
+                shapedOre.addOutFluid(new FluidStack(ore.get(oreFluid).flowing(), amount), probability);
             }
         }
 

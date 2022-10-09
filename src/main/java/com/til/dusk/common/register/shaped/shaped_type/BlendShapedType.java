@@ -16,6 +16,11 @@ public class BlendShapedType extends ShapedType {
     }
 
     @Override
+    public void defaultConfig() {
+
+    }
+
+    @Override
     public void registerRuleShaped(Consumer<Shaped> shapedConsumer) {
         /*for (Ore ore : Ore.screen(Ore.IS_CRYSTA)) {
             new ShapedOre(this, ShapedDrive.get(0), ore.manaLevel)

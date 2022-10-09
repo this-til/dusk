@@ -24,7 +24,7 @@ public class CuttingShapedType extends ShapedType {
     public void registerRuleShaped(Consumer<Shaped> shapedConsumer) {
         for (Ore ore : Ore.screen(Ore.IS_METAL)) {
             new ShapedOre(this, ShapedDrive.get(0), ore.manaLevel)
-                    .addInItem(ore.get(OreItem.stick_long).itemTag(), 1)
+                    .addInItem(ore.get(OreItem.stickLong).itemTag(), 1)
                     .addOutItem(new ItemStack(ore.get(OreItem.stick).item(), 2), 1d)
                     .addMultipleSurplusTime((long) (ore.strength * 64L))
                     .addMultipleOutMana((long) (ore.consume * 16L));

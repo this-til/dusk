@@ -21,6 +21,11 @@ public class FurnaceShapedType extends ShapedType {
     final RecipeManager.CachedCheck<Container, SmeltingRecipe> quickCheck = RecipeManager.createCheck(RecipeType.SMELTING);
 
     @Override
+    public void defaultConfig() {
+
+    }
+
+    @Override
     public void registerRuleShaped(Consumer<Shaped> shapedConsumer) {
         /*new Shaped(name, this, ShapedDrive.get(0), ManaLevel.t1) {
             @Override

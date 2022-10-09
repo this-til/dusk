@@ -1,5 +1,8 @@
 package com.til.dusk.common.register.shaped.shaped_type;
 
+import com.til.dusk.common.config.ConfigField;
+import com.til.dusk.common.config.util.IShapedCreate;
+import com.til.dusk.common.config.util.IShapedOreConfig;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
 import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.ore.ore.Ore;
@@ -21,11 +24,25 @@ public class BlastFurnaceShapedType extends ShapedType {
 
     @Override
     public void registerRuleShaped(Consumer<Shaped> shapedConsumer) {
-        for (Ore ore : Ore.screen(Ore.IS_METAL, Ore.HAS_DUST)) {
-            new ShapedOre(this, ShapedDrive.get(0), ore.manaLevel).addInItem(ore.get(OreItem.dust).itemTag(), 1)
-                    .addOutItem(new ItemStack(ore.get(OreItem.ingot).item(), 1), 1d)
-                    .addMultipleSurplusTime((long) (1024L * ore.strength))
-                    .addMultipleConsumeMana((long) (32L * ore.consume));
+        for (Ore ore : Ore.ORE.get()) {
+            if (!ore.isMetal) {
+                continue;
+            }
+            if (!ore.hasDust) {
+                continue;
+            }
+            shapedConsumer.accept(blastFurnace.create(ore));
         }
     }
+
+    @Override
+    public void defaultConfig() {
+        blastFurnace = new IShapedCreate.OreShapedCreate(name, this, ShapedDrive.get(0), 1024L, 32L, 0)
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemItemOut(OreItem.dust, 1, 1))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.ingot.name, 1));
+    }
+
+    @ConfigField
+    public IShapedCreate<Ore> blastFurnace;
+
 }

@@ -4,7 +4,6 @@ import com.til.dusk.Dusk;
 import com.til.dusk.client.ColorProxy;
 import com.til.dusk.common.register.ItemUnitRegister;
 import com.til.dusk.common.register.RegisterManage;
-import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
 import com.til.dusk.common.register.ore.item.items.*;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.util.DuskColor;
@@ -17,7 +16,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.NewRegistryEvent;
-import net.minecraftforge.registries.RegistryBuilder;
 
 import java.util.function.Supplier;
 
@@ -40,11 +38,11 @@ public class OreItem extends ItemUnitRegister<OreItem, Ore> {
      */
     public static OreItemMetal plate;
 
-    public static Plate2OreItemMetal plate_2;
+    public static Plate2OreItemMetal plate2;
 
-    public static Plate3OreItemMetal plate_3;
+    public static Plate3OreItemMetal plate3;
 
-    public static Plate4OreItemMetal plate_4;
+    public static Plate4OreItemMetal plate4;
 
     /***
      * 外壳
@@ -64,7 +62,7 @@ public class OreItem extends ItemUnitRegister<OreItem, Ore> {
     /***
      * 长杆
      */
-    public static OreItemMetal stick_long;
+    public static OreItemMetal stickLong;
 
     /***
      * 线
@@ -184,13 +182,13 @@ public class OreItem extends ItemUnitRegister<OreItem, Ore> {
         ORE_ITEM = RegisterManage.create(OreItem.class, new ResourceLocation(Dusk.MOD_ID, "ore_item"), event);
         ingot = new IngotOreItemMetal();
         plate = new OreItemMetal("plate");
-        plate_2 = new Plate2OreItemMetal();
-        plate_3 = new Plate3OreItemMetal();
-        plate_4 = new Plate4OreItemMetal();
+        plate2 = new Plate2OreItemMetal();
+        plate3 = new Plate3OreItemMetal();
+        plate4 = new Plate4OreItemMetal();
         foil = new OreItemMetal("foil");
         casing = new OreItemMetal("casing");
         stick = new OreItemMetal("stick");
-        stick_long = new OreItemMetal("stick_long");
+        stickLong = new OreItemMetal("stick_long");
         string = new OreItemMetal("string");
         gear = new OreItemMetal("gear");
         rotor = new OreItemMetal("rotor");

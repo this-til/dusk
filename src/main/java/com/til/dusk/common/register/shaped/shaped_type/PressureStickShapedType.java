@@ -1,5 +1,8 @@
 package com.til.dusk.common.register.shaped.shaped_type;
 
+import com.til.dusk.common.config.ConfigField;
+import com.til.dusk.common.config.util.IShapedCreate;
+import com.til.dusk.common.config.util.IShapedOreConfig;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
 import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.ore.ore.Ore;
@@ -21,17 +24,25 @@ public class PressureStickShapedType extends ShapedType {
 
     @Override
     public void registerRuleShaped(Consumer<Shaped> shapedConsumer) {
-        for (Ore ore : Ore.screen(Ore.IS_METAL)) {
-            new ShapedOre(this, ShapedDrive.get(0), ore.manaLevel)
-                    .addInItem(ore.get(OreItem.ingot).itemTag(), 1)
-                    .addOutItem(new ItemStack(ore.get(OreItem.stick).item()), 1d)
-                    .addMultipleSurplusTime((long) (ore.strength * 512))
-                    .addMultipleConsumeMana((long) (ore.consume * 32L));
+        for (Ore ore : Ore.ORE.get()) {
+            if (!ore.isMetal) {
+                continue;
+            }
+            shapedConsumer.accept(pressureStick.create(ore));
         }
     }
 
+
+
     @Override
     public void defaultConfig() {
-
+        pressureStick = new IShapedCreate.OreShapedCreate(name)
+                .setSurplusTime(1280L)
+                .setConsumeMana(12L)
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.ingot.name, 1))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemItemOut(OreItem.stick, 1, 1));
     }
+
+    @ConfigField
+    public IShapedCreate<Ore> pressureStick;
 }

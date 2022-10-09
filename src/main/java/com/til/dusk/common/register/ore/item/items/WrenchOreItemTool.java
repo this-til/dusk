@@ -58,7 +58,7 @@ public class WrenchOreItemTool extends OreItemTool {
             recipeConsumer.accept(ShapedRecipeBuilder.shaped(ore.get(rotor).item(), 1)
                     .define('A', wrench.tagPackSupplier.getTagPack().itemTagKey())
                     .define('B', ore.get(plate).itemTag())
-                    .define('C', ore.get(stick_long).item())
+                    .define('C', ore.get(stickLong).item())
                     .pattern("BCB")
                     .pattern("CAC")
                     .pattern("BCB")

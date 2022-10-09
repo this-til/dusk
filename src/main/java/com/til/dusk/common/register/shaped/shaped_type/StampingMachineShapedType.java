@@ -1,11 +1,15 @@
 package com.til.dusk.common.register.shaped.shaped_type;
 
+import com.til.dusk.common.config.ConfigField;
+import com.til.dusk.common.config.util.IShapedCreate;
+import com.til.dusk.common.config.util.IShapedOreConfig;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
 import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shapeds.Shaped;
 import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
+import com.til.dusk.util.ResourceLocationUtil;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.function.Consumer;
@@ -21,41 +25,56 @@ public class StampingMachineShapedType extends ShapedType {
 
     @Override
     public void registerRuleShaped(Consumer<Shaped> shapedConsumer) {
-        for (Ore ore : Ore.screen(Ore.IS_METAL)) {
-            new ShapedOre(this, ShapedDrive.get(0), ore.manaLevel)
-                    .addInItem(ore.get(OreItem.plate).itemTag(), 2)
-                    .addOutItem(new ItemStack(ore.get(OreItem.plate_2).item(), 1), 1D)
-                    .addMultipleSurplusTime((long) (ore.strength * 1024L))
-                    .addMultipleConsumeMana((long) (ore.consume * 32L));
-        }
-        for (Ore ore : Ore.screen(Ore.IS_METAL)) {
-            new ShapedOre(this, ShapedDrive.get(1), ore.manaLevel)
-                    .addInItem(ore.get(OreItem.plate_2).itemTag(), 2)
-                    .addOutItem(new ItemStack(ore.get(OreItem.plate_3).item(), 1), 1D)
-                    .addMultipleSurplusTime((long) (ore.strength * 1024L))
-                    .addMultipleConsumeMana((long) (ore.consume * 64L));
-        }
-        for (Ore ore : Ore.screen(Ore.IS_METAL)) {
-            new ShapedOre(this, ShapedDrive.get(3), ore.manaLevel)
-                    .addInItem(ore.get(OreItem.plate_3).itemTag(), 2)
-                    .addOutItem(new ItemStack(ore.get(OreItem.plate_4).item(), 1), 1D)
-                    .addMultipleSurplusTime((long) (ore.strength * 1024L))
-                    .addMultipleConsumeMana((long) (ore.consume * 128L));
-        }
-        for (Ore ore : Ore.screen(Ore.IS_METAL)) {
-            new ShapedOre(this, ShapedDrive.get(3), ore.manaLevel)
-                    .addInItem(ore.get(OreItem.plate).itemTag(), 1)
-                    .addOutItem(new ItemStack(ore.get(OreItem.foil).item(), 4), 1D)
-                    .addMultipleSurplusTime((long) (ore.strength * 512L))
-                    .addMultipleConsumeMana((long) (ore.consume * 12L));
-        }
-
-        for (Ore ore : Ore.screen(Ore.IS_METAL)) {
-            new ShapedOre(this, ShapedDrive.get(4), ore.manaLevel)
-                    .addInItem(ore.get(OreItem.stick).itemTag(), 1)
-                    .addOutItem(new ItemStack(ore.get(OreItem.stick_long).item(), 1), 1D)
-                    .addMultipleSurplusTime((long) (ore.strength * 512L))
-                    .addMultipleConsumeMana((long) (ore.consume * 8L));
+        for (Ore ore : Ore.ORE.get()) {
+            if (!ore.isMetal) {
+                continue;
+            }
+            shapedConsumer.accept(plate2.create(ore));
+            shapedConsumer.accept(plate3.create(ore));
+            shapedConsumer.accept(plate4.create(ore));
+            shapedConsumer.accept(foil.create(ore));
+            shapedConsumer.accept(stickLong.create(ore));
         }
     }
+
+    @Override
+    public void defaultConfig() {
+        plate2 = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "plate2"}),
+                this, ShapedDrive.get(0), 1024L, 32L, 0L)
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.plate.name, 2))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemItemOut(OreItem.plate2, 1, 1));
+        plate3 = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "plate3"}),
+                this, ShapedDrive.get(1), 2048L, 32L, 0L)
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.plate2.name, 2))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemItemOut(OreItem.plate3, 1, 1));
+        plate4 = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "plate4"}),
+                this, ShapedDrive.get(2), 4096L, 32L, 0L)
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.plate3.name, 2))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemItemOut(OreItem.plate4, 1, 1));
+        foil = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "foil"}),
+                this, ShapedDrive.get(3), 512L, 12L, 0L)
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.plate.name, 1))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemItemOut(OreItem.feet, 1, 4));
+        stickLong = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "stick_long"}),
+                this, ShapedDrive.get(4), 512L, 8L, 0L)
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.stick.name, 2))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemItemOut(OreItem.stickLong, 1, 1));
+    }
+
+    @ConfigField
+    public IShapedCreate<Ore> plate2;
+
+    @ConfigField
+    public IShapedCreate<Ore> plate3;
+
+    @ConfigField
+    public IShapedCreate<Ore> plate4;
+
+    @ConfigField
+    public IShapedCreate<Ore> foil;
+
+    @ConfigField
+    public IShapedCreate<Ore> stickLong;
+
+
 }

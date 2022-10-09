@@ -19,10 +19,7 @@ import java.util.function.Supplier;
 /**
  * @author til
  */
-public abstract class UnitRegister<T extends UnitRegister<T, ITEM, BLOCK, FLUID>,
-        ITEM extends ItemUnitRegister<?, T>,
-        BLOCK extends BlockUnitRegister<?, T>,
-        FLUID extends FluidUnitRegister<?, T>> extends TagPackSupplierRegister<T> {
+public abstract class UnitRegister<T extends UnitRegister<T, ITEM, BLOCK, FLUID>, ITEM extends ItemUnitRegister<?, T>, BLOCK extends BlockUnitRegister<?, T>, FLUID extends FluidUnitRegister<?, T>> extends TagPackSupplierRegister<T> {
 
     protected final Map<ITEM, ItemPack> itemMap = new HashMap<>();
     protected final Map<BLOCK, BlockPack> blockMap = new HashMap<>();
@@ -133,6 +130,18 @@ public abstract class UnitRegister<T extends UnitRegister<T, ITEM, BLOCK, FLUID>
 
     public FluidPack get(FLUID fluid) {
         return fluidMap.get(fluid);
+    }
+
+    public boolean has(ITEM item) {
+        return itemMap.containsKey(item);
+    }
+
+    public boolean has(BLOCK block) {
+        return blockMap.containsKey(block);
+    }
+
+    public boolean has(FLUID fluid) {
+        return fluidMap.containsKey(fluid);
     }
 
     public Set<Map.Entry<ITEM, ItemPack>> itemEntrySet() {

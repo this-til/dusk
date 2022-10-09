@@ -1,6 +1,9 @@
 package com.til.dusk.common.register.shaped.shaped_type;
 
 
+import com.til.dusk.common.config.ConfigField;
+import com.til.dusk.common.config.util.IShapedCreate;
+import com.til.dusk.common.config.util.IShapedOreConfig;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
 import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.ore.ore.Ore;
@@ -23,24 +26,25 @@ public class ScreenShapedType extends ShapedType {
 
     @Override
     public void registerRuleShaped(Consumer<Shaped> shapedConsumer) {
-        for (Ore ore : Ore.screen(Ore.IS_CRYSTA, Ore.MINERAL_BLOCK_DATA)) {
-            new ShapedOre(this, ShapedDrive.get(0), ore.manaLevel)
-                    .addInItem(ore.get(OreItem.crushedPurified).itemTag(), 1)
-                    .addOutItem(new ItemStack(ore.get(OreItem.damagedCrystal).item(), 1), 0.4)
-                    .addOutItem(new ItemStack(ore.get(OreItem.crystal).item(), 1), 0.5)
-                    .addOutItem(new ItemStack(ore.get(OreItem.delicateCrystal).item(), 1), 0.05)
-                    .addOutItem(new ItemStack(ore.get(OreItem.perfectCrystal).item(), 1), 0.01)
-                    .addOutItem(new ItemStack(ore.get(OreItem.crystalSeed).item(), 1), 0.3)
-                    .addOutItem(new ItemStack(ore.get(OreItem.dustTiny).item(), 1), 0.6)
-                    .addOutItem(new ItemStack(ore.get(OreItem.dust).item(), 1), 0.2)
-                    .runThis(s -> {
-                        DataPack.OreDataPack centrifugeByproduct = ore.getSet(Ore.MINERAL_BLOCK_DATA).screenByproduct;
-                        if (centrifugeByproduct != null) {
-                            centrifugeByproduct.run(s, null);
-                        }
-                    })
-                    .addMultipleSurplusTime((long) (128 * ore.strength))
-                    .addMultipleConsumeMana((long) (4 * ore.consume));
+        for (Ore ore : Ore.ORE.get()) {
+            if (ore.mineralBlockData == null) {return;}
+            shapedConsumer.accept(screen.create(ore));
         }
     }
+
+    @Override
+    public void defaultConfig() {
+        screen = new IShapedCreate.OreShapedCreate(name, this, ShapedDrive.get(0), 128, 4, 0)
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.crushedPurified.name, 1))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemItemOut(OreItem.damagedCrystal, 1, 0.5))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemItemOut(OreItem.crystal, 1, 0.5))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemItemOut(OreItem.delicateCrystal, 1, 0.05))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemItemOut(OreItem.perfectCrystal, 1, 0.01))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemItemOut(OreItem.crystalSeed, 1, 0.3))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemItemOut(OreItem.dustTiny, 1, 0.6))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemItemOut(OreItem.dust, 1, 0.5));
+    }
+
+    @ConfigField
+    public IShapedCreate<Ore> screen;
 }

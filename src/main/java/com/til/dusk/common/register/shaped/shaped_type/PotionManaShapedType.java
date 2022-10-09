@@ -3,6 +3,7 @@ package com.til.dusk.common.register.shaped.shaped_type;
 import com.google.gson.JsonObject;
 import com.til.dusk.Dusk;
 import com.til.dusk.common.capability.handle.ShapedHandle;
+import com.til.dusk.common.config.util.Delayed;
 import com.til.dusk.common.data.tag.ItemTag;
 import com.til.dusk.common.data.tag.PotionsTag;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
@@ -40,19 +41,22 @@ public class PotionManaShapedType extends ShapedType {
 
     @Override
     public void registerRuleShaped(Consumer<Shaped> shapedConsumer) {
-        new ShapedPotionMana(this, ShapedDrive.get(0), ManaLevel.t1)
+
+    }
+
+    @Override
+    public void defaultConfig() {
+        relevantShaped = new Delayed<>(() -> List.of(  new ShapedPotionMana(name, this, ShapedDrive.get(0), ManaLevel.t1)
                 .addMultipleSurplusTime(1024L)
-                .addMultipleOutMana(20L);
+                .addMultipleOutMana(20L)));
     }
 
     public static class ShapedPotionMana extends ShapedMiddleExtend {
+        public ShapedPotionMana() {
 
-        public ShapedPotionMana(ShapedType shapedType, ShapedDrive shapedDrive, ManaLevel manaLevel) {
-            super(shapedType, shapedDrive, manaLevel);
         }
-
-        public ShapedPotionMana(ResourceLocation name, JsonObject jsonObject) {
-            super(name, jsonObject);
+        public ShapedPotionMana(ResourceLocation name, ShapedType shapedType, ShapedDrive shapedDrive, ManaLevel manaLevel) {
+            super(name, shapedType, shapedDrive, manaLevel);
         }
 
         @Override
@@ -119,8 +123,8 @@ public class PotionManaShapedType extends ShapedType {
         public List<Component> getComponent() {
             List<Component> componentList = new ArrayList<>();
             componentList.add(Component.literal("message"));
-            componentList.add(Lang.getLang(Component.translatable(Lang.getKey("需要灵压等级")), Component.literal(Lang.getKey(manaLevel))));
-            componentList.add(Lang.getLang(Component.translatable(Lang.getKey("需要配方集")), Component.literal(shapedDrive.getLangKey())));
+            componentList.add(Lang.getLang(Component.translatable(Lang.getKey("需要灵压等级")), Component.literal(manaLevel.name.toLanguageKey())));
+            componentList.add(Lang.getLang(Component.translatable(Lang.getKey("需要配方集")), Component.literal(shapedDrive.name.getPath())));
             if (consumeMana > 0) {
                 componentList.add(Lang.getLang(Component.translatable(Lang.getKey("消耗灵气")), Component.literal(String.valueOf(consumeMana))));
             }

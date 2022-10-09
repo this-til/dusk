@@ -1,5 +1,6 @@
 package com.til.dusk.common.config.util;
 
+import com.til.dusk.common.config.AcceptTypeJson;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.register.shaped.ShapedDrive;
@@ -16,6 +17,7 @@ import java.util.List;
 /**
  * @author til
  */
+@AcceptTypeJson
 public interface IShapedCreate<DATA> {
     @Nullable
     Shaped create(DATA data);
@@ -36,20 +38,48 @@ public interface IShapedCreate<DATA> {
         public OreShapedCreate() {
         }
 
+        public OreShapedCreate(ResourceLocation name) {
+            this.name = name;
+        }
+
         public OreShapedCreate(ResourceLocation name, ShapedType shapedType, ShapedDrive shapedDrive) {
             this.name = name;
             this.shapedType = shapedType;
             this.shapedDrive = shapedDrive;
         }
 
+        public OreShapedCreate(ResourceLocation name, ShapedType shapedType, ShapedDrive shapedDrive, long surplusTime, long consumeMana, long outMana) {
+            this.name = name;
+            this.shapedType = shapedType;
+            this.shapedDrive = shapedDrive;
+            this.surplusTime = surplusTime;
+            this.consumeMana = consumeMana;
+            this.outMana = outMana;
+        }
+
+        public OreShapedCreate(ResourceLocation name, ShapedType shapedType, ShapedDrive shapedDrive, long surplusTime, long consumeMana, long outMana, boolean isShow, @Nullable List<IShapedOreConfig<Ore>> shapedOreConfig) {
+            this.name = name;
+            this.shapedType = shapedType;
+            this.shapedDrive = shapedDrive;
+            this.surplusTime = surplusTime;
+            this.consumeMana = consumeMana;
+            this.outMana = outMana;
+            this.isShow = isShow;
+            this.shapedOreConfig = shapedOreConfig;
+        }
+
         @Override
         public Shaped create(Ore data) {
             if (shapedOreConfig == null) {
                 return null;
+            }if (shapedType == null) {
+                shapedType = ShapedType.empty;
+            }if (shapedDrive == null) {
+                 shapedDrive = ShapedDrive.get(0);
             }
             ShapedOre shapedOre = (ShapedOre) new ShapedOre(ResourceLocationUtil.fuseName("/", shapedType.name, shapedDrive.name, name), shapedType, shapedDrive, data.manaLevel)
-                    .addMultipleSurplusTime(surplusTime)
-                    .addMultipleConsumeMana(consumeMana)
+                    .addMultipleSurplusTime((long) (surplusTime * data.strength))
+                    .addMultipleConsumeMana((long) (consumeMana * data.consume * data.consume))
                     .addMultipleOutMana(outMana);
             for (IShapedOreConfig<Ore> dataShapedOreConfig : shapedOreConfig) {
                 dataShapedOreConfig.config(shapedOre, data);
@@ -77,6 +107,16 @@ public interface IShapedCreate<DATA> {
 
         public OreShapedCreate setOutMana(long outMana) {
             this.outMana = outMana;
+            return this;
+        }
+
+        public OreShapedCreate setShapedType(ShapedType shapedType) {
+            this.shapedType = shapedType;
+            return this;
+        }
+
+        public OreShapedCreate setShapedDrive(ShapedDrive shapedDrive) {
+            this.shapedDrive = shapedDrive;
             return this;
         }
 

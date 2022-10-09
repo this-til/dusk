@@ -19,6 +19,6 @@ public class T8ManaLevel extends ManaLevel {
         maxBind = 8;
         manaLoss = 0.03;
         maxRange = 30;
-        color = new DuskColor(255, 255, 50;
+        color = new DuskColor(255, 255, 50);
     }
 }

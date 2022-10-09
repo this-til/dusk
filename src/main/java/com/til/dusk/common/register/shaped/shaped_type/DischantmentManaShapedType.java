@@ -2,6 +2,7 @@ package com.til.dusk.common.register.shaped.shaped_type;
 
 import com.google.gson.JsonObject;
 import com.til.dusk.common.capability.handle.ShapedHandle;
+import com.til.dusk.common.config.util.Delayed;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.shaped.ShapedDrive;
@@ -31,16 +32,22 @@ public class DischantmentManaShapedType extends ShapedType {
     }
 
     @Override
+    public void defaultConfig() {
+        relevantShaped = new Delayed<>(() -> List.of(
+                new DischantmentManaShaped(name, this, ShapedDrive.get(0), ManaLevel.t1)
+                        .addMultipleSurplusTime(1024L)
+                        .addMultipleConsumeMana(4096L)));
+    }
+
+    @Override
     public void registerRuleShaped(Consumer<Shaped> shapedConsumer) {
-        new DischantmentManaShaped(this, ShapedDrive.get(0), ManaLevel.t1)
-                .addMultipleSurplusTime(1024L)
-                .addMultipleConsumeMana(4096L);
+
     }
 
     public static class DischantmentManaShaped extends ShapedMiddleExtend {
 
-        public DischantmentManaShaped(ShapedType shapedType, ShapedDrive shapedDrive, ManaLevel manaLevel) {
-            super(shapedType, shapedDrive, manaLevel);
+        public DischantmentManaShaped(ResourceLocation name, ShapedType shapedType, ShapedDrive shapedDrive, ManaLevel manaLevel) {
+            super(name, shapedType, shapedDrive, manaLevel);
         }
 
         public DischantmentManaShaped(ResourceLocation name, JsonObject jsonObject) {

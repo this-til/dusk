@@ -3,9 +3,12 @@ package com.til.dusk.common.register.shaped.shaped_type;
 import com.til.dusk.Dusk;
 import com.til.dusk.common.config.ConfigField;
 import com.til.dusk.common.config.util.Delayed;
+import com.til.dusk.common.config.util.IShapedCreate;
 import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.register.RegisterManage;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
+import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
+import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.register.shaped.shapeds.CrystalSeedMakeShapedType;
 import com.til.dusk.common.register.shaped.shapeds.Shaped;
 import net.minecraft.resources.ResourceLocation;
@@ -344,6 +347,7 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
         }
         registerRuleShaped(shapedConsumer);
     }
+
 
     public abstract void registerRuleShaped(Consumer<Shaped> shapedConsumer);
 

@@ -28,6 +28,9 @@ public class AllShaped {
     public static void onEvent(FMLCommonSetupEvent event) {
         Map<ShapedType, Map<ShapedDrive, List<Shaped>>> map = new HashMap<>();
         Consumer<Shaped> shapedConsumer = s -> {
+            if (s == null) {
+                return;
+            }
             Map<ShapedDrive, List<Shaped>> shapedDriveListMap;
             if (map.containsKey(s.shapedType)) {
                 shapedDriveListMap = map.get(s.shapedType);

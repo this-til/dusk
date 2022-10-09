@@ -1,5 +1,8 @@
 package com.til.dusk.common.register.shaped.shaped_type;
 
+import com.til.dusk.common.config.ConfigField;
+import com.til.dusk.common.config.util.IShapedCreate;
+import com.til.dusk.common.config.util.IShapedOreConfig;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
 import com.til.dusk.common.register.ore.block.OreBlock;
 import com.til.dusk.common.register.ore.item.OreItem;
@@ -7,6 +10,7 @@ import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shapeds.Shaped;
 import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
+import com.til.dusk.util.ResourceLocationUtil;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.function.Consumer;
@@ -22,39 +26,52 @@ public class UnPackShapedType extends ShapedType {
 
     @Override
     public void registerRuleShaped(Consumer<Shaped> shapedConsumer) {
-        for (Ore ore : Ore.screen(Ore.DECORATE_BLOCK_DATA, Ore.IS_METAL)) {
-            new ShapedOre(this, ShapedDrive.get(0), ore.manaLevel)
-                    .addInItem(ore.get(OreBlock.block).blockItemTag(), 1)
-                    .addOutItem(new ItemStack(ore.get(OreItem.ingot).item(), 9), 1d)
-                    .addMultipleSurplusTime((long) (128 * ore.strength))
-                    .addMultipleConsumeMana((long) (4 * ore.consume));
+        for (Ore ore : Ore.ORE.get()) {
+
+            if (ore.isMetal && ore.decorateBlockData != null) {
+                shapedConsumer.accept(ingot.create(ore));
+            }
+            if (ore.isCrysta && ore.decorateBlockData != null) {
+                shapedConsumer.accept(crystal.create(ore));
+            }
+            if (ore.isMetal) {
+                shapedConsumer.accept(nuggets.create(ore));
+            }
+            if (ore.hasDust) {
+                shapedConsumer.accept(dustTiny.create(ore));
+            }
         }
-
-        for (Ore ore : Ore.screen(Ore.DECORATE_BLOCK_DATA, Ore.IS_CRYSTA)) {
-            new ShapedOre(this, ShapedDrive.get(0), ore.manaLevel)
-                    .addInItem(ore.get(OreBlock.block).blockItemTag(), 1)
-                    .addOutItem(new ItemStack(ore.get(OreItem.crystal).item(), 9), 1d)
-                    .addMultipleSurplusTime((long) (128 * ore.strength))
-                    .addMultipleConsumeMana((long) (4 * ore.consume));
-        }
-
-        for (Ore ore : Ore.screen(Ore.IS_METAL)) {
-            new ShapedOre(this, ShapedDrive.get(1), ore.manaLevel)
-                    .addInItem(ore.get(OreItem.ingot).itemTag(), 1)
-                    .addOutItem(new ItemStack(ore.get(OreItem.nuggets).item(), 9), 1d)
-                    .addMultipleSurplusTime((long) (128 * ore.strength))
-                    .addMultipleConsumeMana((long) (4 * ore.consume));
-        }
-
-        for (Ore ore : Ore.screen(Ore.HAS_DUST)) {
-            new ShapedOre(this, ShapedDrive.get(2), ore.manaLevel)
-                    .addInItem(ore.get(OreItem.dust).itemTag(), 1)
-                    .addOutItem(new ItemStack(ore.get(OreItem.dustTiny).item(), 9), 1d)
-                    .addMultipleSurplusTime((long) (128 * ore.strength))
-                    .addMultipleConsumeMana((long) (4 * ore.consume));
-        }
-
-
     }
 
+    @Override
+    public void defaultConfig() {
+        ingot = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(),"ingot"}),
+                this, ShapedDrive.get(0), 128L, 4L, 0L)
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreBlock.block.name, 1))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemItemOut(OreItem.ingot, 9, 1));
+        crystal = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(),"crystal"}),
+                this, ShapedDrive.get(1), 128L, 4L, 0L)
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreBlock.block.name, 1))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemItemOut(OreItem.crystal, 9, 1));
+        nuggets = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(),"nuggets"}),
+                this, ShapedDrive.get(2), 128L, 4L, 0L)
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.ingot.name, 1))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemItemOut(OreItem.nuggets, 9, 1));
+        dustTiny = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(),"dust_tiny"}),
+                this, ShapedDrive.get(3), 128L, 4L, 0L)
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.dust.name, 1))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemItemOut(OreItem.dustTiny, 9, 1));
+    }
+
+    @ConfigField
+    public IShapedCreate<Ore> ingot;
+
+    @ConfigField
+    public IShapedCreate<Ore> crystal;
+
+    @ConfigField
+    public IShapedCreate<Ore> nuggets;
+
+    @ConfigField
+    public IShapedCreate<Ore> dustTiny;
 }

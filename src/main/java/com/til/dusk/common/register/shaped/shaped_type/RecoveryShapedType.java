@@ -2,6 +2,7 @@ package com.til.dusk.common.register.shaped.shaped_type;
 
 import com.google.gson.JsonObject;
 import com.til.dusk.common.capability.handle.ShapedHandle;
+import com.til.dusk.common.config.util.Delayed;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.shaped.ShapedDrive;
@@ -33,31 +34,44 @@ public class RecoveryShapedType extends ShapedType {
 
     @Override
     public void registerRuleShaped(Consumer<Shaped> shapedConsumer) {
-        new RecoveryShaped(this, ShapedDrive.get(0), ManaLevel.t1, 0.2f)
+        new RecoveryShaped(name, this, ShapedDrive.get(0), ManaLevel.t1, 0.2f)
                 .addMultipleConsumeMana(128L)
                 .addMultipleConsumeMana(8L);
     }
 
+    @Override
+    public void defaultConfig() {
+        relevantShaped = new Delayed<>(() -> List.of(new RecoveryShaped(name, this, ShapedDrive.get(0), ManaLevel.t1, 0.2f)
+                .addMultipleConsumeMana(128L)
+                .addMultipleConsumeMana(8L)));
+    }
+
     public static class RecoveryShaped extends ShapedMiddleExtend {
         public final Random random = new Random();
-        public final double probability;
+        public double probability;
 
-        public RecoveryShaped(ShapedType shapedType, ShapedDrive shapedDrive, ManaLevel manaLevel, double probability) {
-            super(shapedType, shapedDrive, manaLevel);
+        public RecoveryShaped() {
+
+        }
+
+
+        public RecoveryShaped(ResourceLocation name, ShapedType shapedType, ShapedDrive shapedDrive, ManaLevel manaLevel, double probability) {
+            super(name, shapedType, shapedDrive, manaLevel);
             this.probability = probability;
         }
 
-        public RecoveryShaped(ResourceLocation name, JsonObject jsonObject) {
-            super(name, jsonObject);
-            probability = AllNBTPack.PROBABILITY.get(jsonObject);
+        @Override
+        public JsonObject asJson() {
+            JsonObject jsonObject = super.asJson();
+            AllNBTPack.PROBABILITY.set(jsonObject, probability);
+            return jsonObject;
         }
 
         @Override
-        public JsonObject writ(JsonObject jsonObject) {
-            AllNBTPack.PROBABILITY.set(jsonObject, probability);
-            return super.writ(jsonObject);
+        public void init(JsonObject json) {
+            super.init(json);
+            probability = AllNBTPack.PROBABILITY.get(json);
         }
-
 
         @Override
         protected boolean isItem(ItemStack itemStack) {
@@ -66,11 +80,10 @@ public class RecoveryShapedType extends ShapedType {
 
         @Override
         protected ShapedHandle create(ItemStack itemStack) {
-            List<ItemStack> itemStackList = new ArrayList<>();
             if (random.nextDouble() < probability) {
-                itemStackList.add(new ItemStack(DuskItem.waste.get()));
+                return new ShapedHandle(surplusTime, consumeMana, outMana, List.of(new ItemStack(DuskItem.waste.get())), null);
             }
-            return new ShapedHandle(surplusTime, consumeMana, outMana, itemStackList, null);
+            return null;
         }
 
         @Override
