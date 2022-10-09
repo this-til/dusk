@@ -1,6 +1,5 @@
 package com.til.dusk.common.register.mana_level.block.mechanic;
 
-import com.til.dusk.common.config.ConfigMap;
 import com.til.dusk.common.config.util.IShapedOreConfig;
 import com.til.dusk.common.data.lang.LangProvider;
 import com.til.dusk.common.data.lang.LangType;
@@ -16,7 +15,7 @@ import java.util.Set;
  */
 public class EncapsulationMechanic extends HandleMechanic {
 
-    public EncapsulationMechanic(){
+    public EncapsulationMechanic() {
         super("encapsulation", () -> Set.of(ShapedType.encapsulation));
     }
 
@@ -28,12 +27,10 @@ public class EncapsulationMechanic extends HandleMechanic {
     }
 
     @Override
-    public ConfigMap defaultConfigMap() {
-        return new ConfigMap()
-                .setConfig(MECHANIC_MAKE_DATA, () -> new ConfigMap()
-                        .setConfigOfV(ManaLevelMakeDataConfig.ORE_CONFIG, List.of(
-                                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelAcceptItemIn(assemble.name, 1),
-                                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelAcceptItemIn(ManaLevelItemPack.gather.name, 1))));
+    public void defaultConfig() {
+        manaLevelMakeData = new ManaLevelMakeData()
+                .addOreConfig(List.of(
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(assemble.name, 1),
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.gather.name, 1)));
     }
-
 }

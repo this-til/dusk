@@ -26,7 +26,7 @@ public interface IPair {
         /***
          * 匹配表
          */
-        public Map<String, ResourceLocation> resourceLocationMap;
+        public Map<ResourceLocation, ResourceLocation> resourceLocationMap;
 
         /***
          * 默认
@@ -36,7 +36,7 @@ public interface IPair {
         public ResourceLocationPair() {
         }
 
-        public ResourceLocationPair(Map<String, ResourceLocation> resourceLocationMap, ResourceLocation defaultResourceLocation) {
+        public ResourceLocationPair(Map<ResourceLocation, ResourceLocation> resourceLocationMap, ResourceLocation defaultResourceLocation) {
             this.resourceLocationMap = resourceLocationMap;
             this.defaultResourceLocation = defaultResourceLocation;
         }
@@ -44,7 +44,7 @@ public interface IPair {
         @Nullable
         @Override
         public ResourceLocation pair(ResourceLocation resourceLocation) {
-            return resourceLocationMap.containsKey(resourceLocation.toString()) ? resourceLocationMap.get(resourceLocation.toString()) : defaultResourceLocation;
+            return resourceLocationMap.containsKey(resourceLocation) ? resourceLocationMap.get(resourceLocation) : defaultResourceLocation;
         }
 
     }

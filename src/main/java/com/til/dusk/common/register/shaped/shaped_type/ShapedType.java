@@ -1,9 +1,13 @@
 package com.til.dusk.common.register.shaped.shaped_type;
 
 import com.til.dusk.Dusk;
+import com.til.dusk.common.config.ConfigField;
+import com.til.dusk.common.config.util.Delayed;
 import com.til.dusk.common.register.RegisterBasics;
+import com.til.dusk.common.register.RegisterManage;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
 import com.til.dusk.common.register.shaped.shapeds.CrystalSeedMakeShapedType;
+import com.til.dusk.common.register.shaped.shapeds.Shaped;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -11,6 +15,9 @@ import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegistryBuilder;
 
+import javax.annotation.Nullable;
+import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 /**
@@ -256,10 +263,15 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
 
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
-        SHAPED_TYPE = event.create(new RegistryBuilder<ShapedType>().setName(new ResourceLocation(Dusk.MOD_ID, "shaped_type")));
+        SHAPED_TYPE = RegisterManage.create(ShapedType.class, new ResourceLocation(Dusk.MOD_ID, "shaped_type"), event);;
         empty = new ShapedType("empty", () -> ManaLevelBlock.frameBasic) {
             @Override
-            public void registerShaped() {
+            public void registerRuleShaped(Consumer<Shaped> shapedConsumer) {
+
+            }
+
+            @Override
+            public void defaultConfig() {
 
             }
         };
@@ -321,5 +333,21 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
     public ShapedType(String name, Supplier<ManaLevelBlock> manaLevelBlockSupplier) {
         this(new ResourceLocation(Dusk.MOD_ID, name), manaLevelBlockSupplier);
     }
-    public abstract void registerShaped();
+
+    @Override
+    public void registerShaped(Consumer<Shaped> shapedConsumer) {
+        super.registerShaped(shapedConsumer);
+        if (relevantShaped != null) {
+            for (Shaped shaped : relevantShaped.get()) {
+                shapedConsumer.accept(shaped);
+            }
+        }
+        registerRuleShaped(shapedConsumer);
+    }
+
+    public abstract void registerRuleShaped(Consumer<Shaped> shapedConsumer);
+
+    @Nullable
+    @ConfigField
+    public Delayed<List<Shaped>> relevantShaped;
 }

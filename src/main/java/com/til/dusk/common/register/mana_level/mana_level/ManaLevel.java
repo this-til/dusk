@@ -10,11 +10,13 @@ import com.til.dusk.common.data.tag.BlockTag;
 import com.til.dusk.common.data.tag.FluidTag;
 import com.til.dusk.common.data.tag.ItemTag;
 import com.til.dusk.common.event.RegisterManageEvent;
+import com.til.dusk.common.register.RegisterManage;
 import com.til.dusk.common.register.UnitRegister;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
 import com.til.dusk.common.register.mana_level.fluid.ManaLevelFluid;
 import com.til.dusk.common.register.mana_level.item.ManaLevelItem;
 import com.til.dusk.common.register.mana_level.mana_level.mana_levels.*;
+import com.til.dusk.common.register.ore.fluid.OreFluid;
 import com.til.dusk.common.world.tag.TagPackSupplier;
 import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.pack.BlockPack;
@@ -55,7 +57,7 @@ public abstract class ManaLevel extends UnitRegister<ManaLevel, ManaLevelItem, M
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void onEvent(NewRegistryEvent event) {
-        MANA_LEVEL = event.create(new RegistryBuilder<ManaLevel>().setName(new ResourceLocation(Dusk.MOD_ID, "mana_level")));
+        MANA_LEVEL = RegisterManage.create(ManaLevel.class, new ResourceLocation(Dusk.MOD_ID, "mana_level"), event);
         t1 = new T1ManaLevel();
         t2 = new T2ManaLevel();
         t3 = new T3ManaLevel();

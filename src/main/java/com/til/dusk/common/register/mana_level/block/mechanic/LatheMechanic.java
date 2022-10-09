@@ -1,6 +1,5 @@
 package com.til.dusk.common.register.mana_level.block.mechanic;
 
-import com.til.dusk.common.config.ConfigMap;
 import com.til.dusk.common.config.util.IShapedOreConfig;
 import com.til.dusk.common.data.lang.LangProvider;
 import com.til.dusk.common.data.lang.LangType;
@@ -18,7 +17,7 @@ import java.util.Set;
  */
 public class LatheMechanic extends HandleMechanic {
 
-    public LatheMechanic(){
+    public LatheMechanic() {
         super("lathe", () -> Set.of(ShapedType.lathe));
     }
 
@@ -30,15 +29,13 @@ public class LatheMechanic extends HandleMechanic {
     }
 
     @Override
-    public ConfigMap defaultConfigMap() {
-        return new ConfigMap()
-                .setConfig(MECHANIC_MAKE_DATA, () -> new ConfigMap()
-                        .setConfigOfV(ManaLevelMakeDataConfig.ORE_CONFIG, List.of(
-                                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelAcceptItemIn(frameBasic.name, 1),
-                                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelAcceptItemIn(ManaLevelItemPack.instructions.name, 3),
-                                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelAcceptItemIn(ManaLevelItemPack.power.name, 3),
-                                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelAcceptItemIn(OreItem.file.name, 3),
-                                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelItemIn(ItemTag.ANVIL.d1(), 1))));
+    public void defaultConfig() {
+        manaLevelMakeData = new ManaLevelMakeData()
+                .addOreConfig(List.of(
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(frameBasic.name, 1),
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.instructions.name, 3),
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.power.name, 3),
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(OreItem.file.name, 3),
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.ItemIn(() ->ItemTag.ANVIL.d1(), 1)));
     }
-
 }

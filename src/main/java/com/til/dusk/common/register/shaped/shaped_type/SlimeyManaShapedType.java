@@ -4,7 +4,10 @@ import com.til.dusk.common.data.tag.ItemTag;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.shaped.ShapedDrive;
+import com.til.dusk.common.register.shaped.shapeds.Shaped;
 import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
+
+import java.util.function.Consumer;
 
 /**
  * @author til
@@ -16,7 +19,7 @@ public class SlimeyManaShapedType extends ShapedType {
     }
 
     @Override
-    public void registerShaped() {
+    public void registerRuleShaped(Consumer<Shaped> shapedConsumer) {
         new ShapedOre(this, ShapedDrive.get(0), ManaLevel.t1)
                 .addInItem(ItemTag.SLIME_BALL, 1)
                 .addMultipleSurplusTime(512)

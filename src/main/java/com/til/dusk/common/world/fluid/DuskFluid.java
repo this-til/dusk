@@ -10,7 +10,7 @@ import net.minecraftforge.registries.ForgeRegistries;
  * @author til
  */
 @Mod.EventBusSubscriber(modid = Dusk.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class ModFluid {
+public class DuskFluid {
     public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, Dusk.MOD_ID);
 
     //public static final RegistryObject<ForgeFlowingFluid.Source> TEST_FLUID_SOURCE = FLUIDS.register("test_fluid", () -> new ForgeFlowingFluid.Source(ModProperties.TEST_FLUID_PROPERTIES));

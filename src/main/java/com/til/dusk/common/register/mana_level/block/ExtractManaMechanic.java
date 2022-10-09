@@ -2,12 +2,11 @@ package com.til.dusk.common.register.mana_level.block;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.client.ColorProxy;
-import com.til.dusk.common.config.ConfigKey;
+import com.til.dusk.common.config.ConfigField;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 import com.til.dusk.common.world.block.ModBlock;
 import com.til.dusk.util.DuskColor;
-import com.til.dusk.util.nbt.cell.AllNBTCell;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.Set;
@@ -32,15 +31,13 @@ public abstract class ExtractManaMechanic extends HandleMechanic {
     @Override
     public void dyeBlack(ManaLevel manaLevel, ColorProxy.ItemColorPack itemColorPack) {
         super.dyeBlack(manaLevel, itemColorPack);
-        DuskColor color = getConfig(EXTRACT_MANA_COLOR);
-        itemColorPack.addColor(1, itemStack -> color);
+        itemColorPack.addColor(1, itemStack -> extractManaColor);
     }
 
     @Override
     public void dyeBlack(ManaLevel manaLevel, ColorProxy.BlockColorPack blockColorPack) {
         super.dyeBlack(manaLevel, blockColorPack);
-        DuskColor color = getConfig(EXTRACT_MANA_COLOR);
-        blockColorPack.addColor(1, (blockState, blockAndTintGetter, blockPos) -> color);
+        blockColorPack.addColor(1, (blockState, blockAndTintGetter, blockPos) -> extractManaColor);
     }
 
     @Override
@@ -48,5 +45,7 @@ public abstract class ExtractManaMechanic extends HandleMechanic {
         return () -> MODEL_NAME;
     }
 
-    public static final ConfigKey<DuskColor> EXTRACT_MANA_COLOR = new ConfigKey<>("mana_level_block.extract_mana.color", AllNBTCell.COLOR, null);
+    @ConfigField
+    public DuskColor extractManaColor;
+
 }

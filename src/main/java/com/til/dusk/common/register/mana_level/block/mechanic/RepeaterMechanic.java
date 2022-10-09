@@ -53,7 +53,7 @@ public class RepeaterMechanic extends Mechanic {
     @Override
     public void registerRecipe(Consumer<RecipeBuilder> recipeConsumer) {
         for (ManaLevel manaLevel : ManaLevel.MANA_LEVEL.get()) {
-            if (!manaLevel.hasConfig(ManaLevel.canUseRecipeMake)) {
+            if (!manaLevel.canUseRecipeMake) {
                 continue;
             }
             recipeConsumer.accept(ShapedRecipeBuilder.shaped(manaLevel.get(this).blockItem(), 1)
@@ -79,7 +79,9 @@ public class RepeaterMechanic extends Mechanic {
         return new ConfigMap()
                 .setConfig(MECHANIC_MAKE_DATA, () -> new ConfigMap()
                         .setConfigOfV(ManaLevelMakeDataConfig.ORE_CONFIG, List.of(
-                                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelAcceptItemIn(OreItem.casing.name, 2),
-                                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelAcceptItemIn(ManaLevelItemPack.operation.name, 1))));
+                                new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(OreItem.casing.name, 2),
+                                new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.operation.name, 1))));
     }
+
+
 }

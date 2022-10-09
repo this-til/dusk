@@ -3,10 +3,10 @@ package com.til.dusk.common.register.shaped;
 import com.til.dusk.Dusk;
 import com.til.dusk.common.capability.DuskCapabilityProvider;
 import com.til.dusk.common.capability.pos.IPosTrack;
-import com.til.dusk.common.config.ConfigMap;
 import com.til.dusk.common.data.tag.BlockTag;
 import com.til.dusk.common.data.tag.ItemTag;
 import com.til.dusk.common.register.RegisterBasics;
+import com.til.dusk.common.register.RegisterManage;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.other.CapabilityRegister;
 import com.til.dusk.common.world.block.MechanicBlock;
@@ -50,7 +50,7 @@ public class ShapedDrive extends RegisterBasics<ShapedDrive> {
 
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
-        SHAPED_DRIVE = event.create(new RegistryBuilder<ShapedDrive>().setName(new ResourceLocation(Dusk.MOD_ID, "shaped_drive")));
+        SHAPED_DRIVE = RegisterManage.create(ShapedDrive.class, new ResourceLocation(Dusk.MOD_ID, "shaped_drive"), event);
         for (int i = 0; i < 32; i++) {
             new ShapedDrive(i);
         }
@@ -99,9 +99,8 @@ public class ShapedDrive extends RegisterBasics<ShapedDrive> {
         blockPack = new BlockPack(block, blockTag, blockItem, itemTag);
     }
 
-    @Nullable
     @Override
-    public ConfigMap defaultConfigMap() {
-        return null;
+    public void defaultConfig() {
+
     }
 }

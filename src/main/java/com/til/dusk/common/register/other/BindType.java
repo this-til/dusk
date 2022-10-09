@@ -6,6 +6,8 @@ import com.til.dusk.common.capability.mana_handle.IManaHandle;
 import com.til.dusk.common.capability.pos.IPosTrack;
 import com.til.dusk.common.capability.shaped_drive.IShapedDrive;
 import com.til.dusk.common.register.RegisterBasics;
+import com.til.dusk.common.register.RegisterManage;
+import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
 import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.Lang;
 import net.minecraft.network.chat.Component;
@@ -47,8 +49,7 @@ public class BindType extends RegisterBasics<BindType> {
 
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
-        BIND_TYPE = event.create(new RegistryBuilder<BindType>().setName(new ResourceLocation(Dusk.MOD_ID, "bind_type")));
-
+        BIND_TYPE=  RegisterManage.create(BindType.class, new ResourceLocation(Dusk.MOD_ID, "bind_type"), event);
         itemIn = new BindTypeBindCapability<>("item_in", new DuskColor(43, 255, 33), Lang.getKey("capability.item_handler"), () -> ForgeCapabilities.ITEM_HANDLER);
         itemOut = new BindTypeBindCapability<>("item_out", new DuskColor(65, 112, 62), Lang.getKey("capability.item_handler"), () -> ForgeCapabilities.ITEM_HANDLER);
         manaIn = new BindTypeBindCapability<>("mana_in", new DuskColor(255, 255, 0), Lang.getKey("capability.mana_handler"), () -> CapabilityRegister.iManaHandle.capability);

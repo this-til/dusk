@@ -5,6 +5,7 @@ import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
+import com.til.dusk.common.register.shaped.shapeds.AllShaped;
 import com.til.dusk.common.register.shaped.shapeds.Shaped;
 import com.til.dusk.util.Lang;
 import com.til.dusk.util.nbt.pack.AllNBTPack;
@@ -53,7 +54,7 @@ public class JEI_Interact implements IModPlugin {
 
     @Override
     public void registerRecipes(@NotNull IRecipeRegistration registration) {
-        for (Map.Entry<ShapedType, Map<ShapedDrive, List<Shaped>>> entry : Shaped.MAP.entrySet()) {
+        for (Map.Entry<ShapedType, Map<ShapedDrive, List<Shaped>>> entry : AllShaped.MAP.entrySet()) {
             RecipeType<Shaped> shapedRecipeType = new RecipeType<>(entry.getKey().name, Shaped.class);
             for (List<Shaped> value : entry.getValue().values()) {
                 List<Shaped> shapedList = new ArrayList<>();

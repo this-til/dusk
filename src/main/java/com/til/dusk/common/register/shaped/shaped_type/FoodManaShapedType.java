@@ -1,15 +1,14 @@
 package com.til.dusk.common.register.shaped.shaped_type;
 
-import com.google.gson.JsonObject;
 import com.til.dusk.common.capability.handle.ShapedHandle;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.shaped.ShapedDrive;
+import com.til.dusk.common.register.shaped.shapeds.Shaped;
 import com.til.dusk.common.register.shaped.shapeds.ShapedMiddleExtend;
 import com.til.dusk.util.Lang;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -19,6 +18,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 /**
  * @author til
@@ -30,21 +30,21 @@ public class FoodManaShapedType extends ShapedType {
     }
 
     @Override
-    public void registerShaped() {
+    public void registerRuleShaped(Consumer<Shaped> shapedConsumer) {
         new FoodShaped(this, ShapedDrive.get(0), ManaLevel.t1)
                 .addMultipleSurplusTime(1024)
                 .addMultipleOutMana(512);
     }
 
     public static class FoodShaped extends ShapedMiddleExtend {
+        public FoodShaped(){
+            super();
+        }
 
         public FoodShaped(ShapedType shapedType, ShapedDrive shapedDrive, ManaLevel manaLevel) {
             super(shapedType, shapedDrive, manaLevel);
         }
 
-        public FoodShaped(ResourceLocation name, JsonObject jsonObject) {
-            super(name, jsonObject);
-        }
 
         @Override
         protected boolean isItem(ItemStack itemStack) {

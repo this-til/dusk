@@ -7,6 +7,7 @@ import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.ore.fluid.OreFluid;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.register.shaped.ShapedDrive;
+import com.til.dusk.common.register.shaped.shapeds.Shaped;
 import com.til.dusk.common.register.shaped.shapeds.ShapedMiddleExtend;
 import com.til.dusk.util.Lang;
 import com.til.dusk.util.nbt.pack.AllNBTPack;
@@ -23,6 +24,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 /**
  * @author til
@@ -34,7 +36,7 @@ public class DecomposeShapedType extends ShapedType {
     }
 
     @Override
-    public void registerShaped() {
+    public void registerRuleShaped(Consumer<Shaped> shapedConsumer) {
         new FoolDecomposeShaped(this, ShapedDrive.get(0), ManaLevel.t1, 20)
                 .addMultipleSurplusTime(752L)
                 .addMultipleConsumeMana(18L);

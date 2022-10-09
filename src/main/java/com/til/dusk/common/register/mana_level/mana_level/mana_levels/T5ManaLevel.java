@@ -27,11 +27,11 @@ public class T5ManaLevel extends ManaLevel {
         maxRange = 24;
         color = new DuskColor(175, 100, 150);
         operationBasics = new Delayed<>(() -> List.of(
-                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelFluidIn(Ore.coolant.get(OreFluid.solution).fluidTag(), 128),
-                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelFluidIn(Ore.culture.get(OreFluid.solution).fluidTag(), 32),
-                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelFluidIn(Ore.nutrient.get(OreFluid.solution).fluidTag(), 16),
-                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelFluidIn(Ore.supportCell.get(OreFluid.solution).fluidTag(), 256)));
+                new IShapedOreConfig.IShapedOreManaLevelConfig.FluidIn(() ->Ore.coolant.get(OreFluid.solution).fluidTag(), 128),
+                new IShapedOreConfig.IShapedOreManaLevelConfig.FluidIn(() ->Ore.culture.get(OreFluid.solution).fluidTag(), 32),
+                new IShapedOreConfig.IShapedOreManaLevelConfig.FluidIn(() ->Ore.nutrient.get(OreFluid.solution).fluidTag(), 16),
+                new IShapedOreConfig.IShapedOreManaLevelConfig.FluidIn(() ->Ore.supportCell.get(OreFluid.solution).fluidTag(), 256)));
         operation = new Delayed<>(() -> List.of(
-                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelFluidIn(Ore.neuronCell.get(OreFluid.solution).fluidTag(), 16)));
+                new IShapedOreConfig.IShapedOreManaLevelConfig.FluidIn(() ->Ore.neuronCell.get(OreFluid.solution).fluidTag(), 16)));
     }
 }

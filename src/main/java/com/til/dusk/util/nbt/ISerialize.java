@@ -34,4 +34,16 @@ public interface ISerialize {
      */
     void init(JsonObject json);
 
+    interface IOnlyJsonSerialize extends ISerialize {
+        @Override
+        default CompoundTag as() {
+            return (CompoundTag) NBTUtil.toTag(asJson());
+        }
+
+        @Override
+        default void init(CompoundTag t) {
+            init((JsonObject) NBTUtil.toJson(t));
+        }
+    }
+
 }

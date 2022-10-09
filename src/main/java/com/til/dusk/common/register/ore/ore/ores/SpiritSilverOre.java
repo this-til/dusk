@@ -40,6 +40,8 @@ public class SpiritSilverOre extends Ore {
         decorateBlockData = new DecorateBlockData();
         fluidData = new FluidData()
                 .setCanCopy(true);
-        toolData = new ToolData();
+        toolData = new ToolData()
+                .setUses(22 * 64)
+                .setTankMax(22 * 4000);
     }
 }

@@ -5,8 +5,11 @@ import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.ore.fluid.OreFluid;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.register.shaped.ShapedDrive;
+import com.til.dusk.common.register.shaped.shapeds.Shaped;
 import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
 import net.minecraftforge.fluids.FluidStack;
+
+import java.util.function.Consumer;
 
 /**
  * @author til
@@ -17,7 +20,7 @@ public class ManaCoagulationShapedType extends ShapedType {
     }
 
     @Override
-    public void registerShaped() {
+    public void registerRuleShaped(Consumer<Shaped> shapedConsumer) {
         new ShapedOre(this, ShapedDrive.get(0), ManaLevel.t1)
                 .addOutFluid(new FluidStack(Ore.mana.get(OreFluid.solution).source(), 1), 1D)
                 .addMultipleSurplusTime(1024L).addMultipleConsumeMana(32L);

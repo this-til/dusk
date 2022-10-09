@@ -31,24 +31,26 @@ public class T1ManaLevel extends ManaLevel {
         maxRange = 16;
         color = new DuskColor(50, 255, 255);
         operationBasics = new Delayed<>(() -> List.of(
-                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelFluidIn(Ore.highEnergyRedStone.get(OreFluid.solution).fluidTag(), 72)));
+                new IShapedOreConfig.IShapedOreManaLevelConfig.FluidIn(() ->Ore.highEnergyRedStone.get(OreFluid.solution).fluidTag(), 72)));
         operation = new Delayed<>(() -> List.of(
-                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelItemIn(ItemTag.resistanceTag, 4),
-                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelItemIn(ItemTag.capacitanceTag, 4),
-                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelItemIn(ItemTag.diodeTag, 4),
-                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelItemIn(ItemTag.triodeTag, 4)));
+                new IShapedOreConfig.IShapedOreManaLevelConfig.ItemIn(() ->ItemTag.resistanceTag, 4),
+                new IShapedOreConfig.IShapedOreManaLevelConfig.ItemIn(() ->ItemTag.capacitanceTag, 4),
+                new IShapedOreConfig.IShapedOreManaLevelConfig.ItemIn(() ->ItemTag.diodeTag, 4),
+                new IShapedOreConfig.IShapedOreManaLevelConfig.ItemIn(() ->ItemTag.triodeTag, 4)));
         forming = new Delayed<>(() -> List.of(
-                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelItemIn(Tags.Items.GEMS_AMETHYST, 2)));
+                new IShapedOreConfig.IShapedOreManaLevelConfig.ItemIn(() ->Tags.Items.GEMS_AMETHYST, 2)));
         destruction = new Delayed<>(() -> List.of(
-                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelItemIn(Tags.Items.GEMS_QUARTZ, 2)));
+                new IShapedOreConfig.IShapedOreManaLevelConfig.ItemIn(() ->Tags.Items.GEMS_QUARTZ, 2)));
         gather = new Delayed<>(() -> List.of(
-                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelItemIn(Tags.Items.GEMS_LAPIS, 2)));
+                new IShapedOreConfig.IShapedOreManaLevelConfig.ItemIn(() ->Tags.Items.GEMS_LAPIS, 2)));
         spread = new Delayed<>(() -> List.of(
-                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelItemIn(Tags.Items.GEMS_PRISMARINE, 2)));
+                new IShapedOreConfig.IShapedOreManaLevelConfig.ItemIn(() ->Tags.Items.GEMS_PRISMARINE, 2)));
         power = new Delayed<>(() -> List.of(
-                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelAcceptItemIn(OreItem.rotor.name, 1), new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelAcceptItemIn(OreBlock.coil.name, 1)));
+                new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(OreItem.rotor.name, 1),
+                new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(OreBlock.coil.name, 1)));
         instructions = new Delayed<>(() -> List.of(
-                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelItemIn(ItemTag.inductanceTag, 2), new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelItemIn(ItemTag.capacitanceTag, 2)));
+                new IShapedOreConfig.IShapedOreManaLevelConfig.ItemIn(() ->ItemTag.inductanceTag, 2),
+                new IShapedOreConfig.IShapedOreManaLevelConfig.ItemIn(() ->ItemTag.capacitanceTag, 2)));
 
     }
 }

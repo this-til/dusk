@@ -3,8 +3,8 @@ package com.til.dusk.common.register.mana_level.item;
 import com.til.dusk.Dusk;
 import com.til.dusk.client.ColorProxy;
 import com.til.dusk.common.register.ItemUnitRegister;
+import com.til.dusk.common.register.RegisterManage;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
-import com.til.dusk.util.DuskColor;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -25,7 +25,7 @@ public class ManaLevelItem extends ItemUnitRegister<ManaLevelItem, ManaLevel> {
 
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
-        LEVEL_ITEM = event.create(new RegistryBuilder<ManaLevelItem>().setName(new ResourceLocation(Dusk.MOD_ID, "mana_level_item")));
+        LEVEL_ITEM = RegisterManage.create(ManaLevelItem.class, new ResourceLocation(Dusk.MOD_ID, "mana_level_item"), event);
     }
 
     public ManaLevelItem(ResourceLocation name) {

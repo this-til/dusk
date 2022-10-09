@@ -6,6 +6,7 @@ import com.til.dusk.common.capability.tile_entity.DefaultTileEntity;
 import com.til.dusk.common.capability.tile_entity.ITileEntityType;
 import com.til.dusk.common.capability.tile_entity.RepeaterTileEntity;
 import com.til.dusk.common.register.RegisterBasics;
+import com.til.dusk.common.register.RegisterManage;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.shaped.ShapedDrive;
@@ -42,7 +43,7 @@ public abstract class TileEntityRegister<T extends BlockEntity> extends Register
 
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
-        TILE_ENTITY_REGISTER = event.create(new RegistryBuilder<TileEntityRegister<?>>().setName(new ResourceLocation(Dusk.MOD_ID, "tile_entity_register")));
+        TILE_ENTITY_REGISTER = RegisterManage.create(Util.forcedConversion(TileEntityRegister.class), new ResourceLocation(Dusk.MOD_ID, "tile_entity_register"), event);
         defaultTileEntityRegister = new TileEntityRegister<>("default_tile_entity_register") {
             @Override
             protected void registerBlackToBack() {

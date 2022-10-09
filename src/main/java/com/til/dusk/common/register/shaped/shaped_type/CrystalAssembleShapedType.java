@@ -5,9 +5,12 @@ import com.til.dusk.common.register.mana_level.item.ManaLevelItem;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.ore.block.OreBlock;
 import com.til.dusk.common.register.shaped.ShapedDrive;
+import com.til.dusk.common.register.shaped.shapeds.Shaped;
 import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
 import com.til.dusk.util.pack.DataPack;
 import net.minecraft.world.item.ItemStack;
+
+import java.util.function.Consumer;
 
 public class CrystalAssembleShapedType extends ShapedType {
 
@@ -16,7 +19,7 @@ public class CrystalAssembleShapedType extends ShapedType {
     }
 
     @Override
-    public void registerShaped() {
+    public void registerRuleShaped(Consumer<Shaped> shapedConsumer) {
         for (ManaLevel manaLevel : ManaLevel.MANA_LEVEL.get()) {
             if (manaLevel.hasSet(ManaLevel.operation)) {
                 DataPack.ManaLevelDataPack manaLevelDataPack = manaLevel.getSet(ManaLevel.operation);

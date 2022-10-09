@@ -4,12 +4,16 @@ import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
 import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.register.shaped.ShapedDrive;
+import com.til.dusk.common.register.shaped.shapeds.Shaped;
 import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
 import net.minecraft.world.item.ItemStack;
+
+import java.util.function.Consumer;
 
 /**
  * @author til
  */
+
 public class TieWireShapedType extends ShapedType {
 
     public TieWireShapedType() {
@@ -17,7 +21,7 @@ public class TieWireShapedType extends ShapedType {
     }
 
     @Override
-    public void registerShaped() {
+    public void registerRuleShaped(Consumer<Shaped> shapedConsumer) {
         for (Ore ore : Ore.screen(Ore.IS_METAL)) {
             new ShapedOre(this, ShapedDrive.get(1), ore.manaLevel)
                     .addInItem(ore.get(OreItem.stick).itemTag(), 1)
@@ -27,4 +31,8 @@ public class TieWireShapedType extends ShapedType {
         }
     }
 
+    @Override
+    public void defaultConfig() {
+
+    }
 }

@@ -6,6 +6,7 @@ import com.til.dusk.common.event.DelayTrigger;
 import com.til.dusk.common.register.shaped.shapeds.Shaped;
 import com.til.dusk.util.Extension;
 import com.til.dusk.util.prefab.JsonPrefab;
+import net.minecraft.data.recipes.RecipeBuilder;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -33,8 +34,8 @@ public class ItemBasics extends Item {
         return this;
     }
 
-    public ItemBasics addRecipe(Extension.Func<ShapedRecipeBuilder> func) {
-        DelayTrigger.addRun(DelayTrigger.RECIPE, c -> func.func().save(c));
+    public ItemBasics addRecipe(Extension.Func<RecipeBuilder> func) {
+        DelayTrigger.addRun(DelayTrigger.RECIPE, func);
         return this;
     }
 

@@ -4,10 +4,13 @@ package com.til.dusk.common.register.shaped.shaped_type;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.shaped.ShapedDrive;
+import com.til.dusk.common.register.shaped.shapeds.Shaped;
 import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
+
+import java.util.function.Consumer;
 
 /**
  * @author til
@@ -19,7 +22,7 @@ public class MakerStoneShapedType extends ShapedType {
     }
 
     @Override
-    public void registerShaped() {
+    public void registerRuleShaped(Consumer<Shaped> shapedConsumer) {
         new ShapedOre(this, ShapedDrive.get(0), ManaLevel.t1)
                 .addInFluid(FluidTags.WATER, 10)
                 .addInFluid(FluidTags.LAVA, 1)

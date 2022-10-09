@@ -5,6 +5,8 @@ import com.til.dusk.common.capability.CapabilityHelp;
 import com.til.dusk.common.capability.handle.EventHandle;
 import com.til.dusk.common.config.ConfigMap;
 import com.til.dusk.common.register.RegisterBasics;
+import com.til.dusk.common.register.RegisterManage;
+import com.til.dusk.common.register.other.BindType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -29,7 +31,7 @@ public abstract class ShapedHandleProcess extends RegisterBasics<ShapedHandlePro
 
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
-        SHAPED_TYPE_PROCESS = event.create(new RegistryBuilder<ShapedHandleProcess>().setName(new ResourceLocation(Dusk.MOD_ID, "shaped_handle_process")));
+        SHAPED_TYPE_PROCESS = RegisterManage.create(ShapedHandleProcess.class, new ResourceLocation(Dusk.MOD_ID, "shaped_handle_process"), event);;
         production = new ShapedHandleProcess("production") {
             @Override
             public void up(EventHandle.EventShapedHandle.Up event) {
@@ -91,9 +93,8 @@ public abstract class ShapedHandleProcess extends RegisterBasics<ShapedHandlePro
 
     public abstract void clock(EventHandle.EventShapedHandle.Clock event);
 
-    @Nullable
     @Override
-    public ConfigMap defaultConfigMap() {
-        return null;
+    public void defaultConfig() {
+
     }
 }

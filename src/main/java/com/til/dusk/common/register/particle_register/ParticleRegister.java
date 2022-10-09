@@ -2,6 +2,8 @@ package com.til.dusk.common.register.particle_register;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.common.register.RegisterBasics;
+import com.til.dusk.common.register.RegisterManage;
+import com.til.dusk.common.register.ore.block.OreBlock;
 import com.til.dusk.common.register.other.MessageRegister;
 import com.til.dusk.common.register.particle_register.particle_registers.*;
 import com.til.dusk.util.DuskColor;
@@ -73,7 +75,7 @@ public class ParticleRegister extends RegisterBasics<ParticleRegister> {
 
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
-        PARTICLE_REGISTER = event.create(new RegistryBuilder<ParticleRegister>().setName(new ResourceLocation(Dusk.MOD_ID, "particle_register")));
+        PARTICLE_REGISTER = RegisterManage.create(ParticleRegister.class, new ResourceLocation(Dusk.MOD_ID, "particle_register"), event);
         MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, (Consumer<TickEvent.ServerTickEvent>) serverTickEvent -> {
             MAP.forEach((k, v) -> {
                 List<ServerPlayer> serverPlayerList = k.getPlayers(p -> true);

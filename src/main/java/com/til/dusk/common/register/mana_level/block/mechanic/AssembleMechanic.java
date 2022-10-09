@@ -1,6 +1,5 @@
 package com.til.dusk.common.register.mana_level.block.mechanic;
 
-import com.til.dusk.common.config.ConfigMap;
 import com.til.dusk.common.config.util.IShapedOreConfig;
 import com.til.dusk.common.data.ModRecipeProvider;
 import com.til.dusk.common.data.lang.LangProvider;
@@ -53,15 +52,14 @@ public class AssembleMechanic extends HandleMechanic {
     }
 
     @Override
-    public ConfigMap defaultConfigMap() {
-        return new ConfigMap()
-                .setConfig(MECHANIC_MAKE_DATA, () -> new ConfigMap()
-                        .setConfigOfV(ManaLevelMakeDataConfig.MAKE_LEVEL, ManaLevelMakeDataConfig.MakeLevel.UP)
-                        .setConfigOfV(ManaLevelMakeDataConfig.ORE_CONFIG, List.of(
-                                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelAcceptItemIn(frameBasic.name, 2),
-                                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelAcceptItemIn(ManaLevelItemPack.power.name, 2),
-                                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelAcceptItemIn(ManaLevelItemPack.instructions.name, 2),
-                                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelAcceptItemIn(OreItem.wrench.name, 2),
-                                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelItemIn(ItemTag.CRAFTING_TABLE.d1(), 18))));
+    public void defaultConfig() {
+        manaLevelMakeData = new ManaLevelMakeData()
+                .setManaLevel(ManaLevelMakeData.MakeLevel.UP)
+                .addOreConfig(List.of(
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(frameBasic.name, 2),
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.power.name, 2),
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.instructions.name, 2),
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(OreItem.wrench.name, 2),
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.ItemIn(() ->ItemTag.CRAFTING_TABLE.d1(), 18)));
     }
 }

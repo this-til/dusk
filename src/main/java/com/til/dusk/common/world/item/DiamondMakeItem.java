@@ -2,8 +2,11 @@ package com.til.dusk.common.world.item;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.client.ColorProxy;
+import com.til.dusk.common.config.util.Delayed;
 import com.til.dusk.util.DuskColor;
 import net.minecraft.resources.ResourceLocation;
+
+import java.util.function.Supplier;
 
 /**
  * @author til
@@ -12,10 +15,10 @@ public class DiamondMakeItem extends ItemBasics implements DuskItem.ICustomModel
 
     public static final ResourceLocation DIAMOND_MAKE = new ResourceLocation(Dusk.MOD_ID, "diamond_make");
 
-    public final DuskColor strokeColor;
-    public final DuskColor coreColor;
+    public Delayed<DuskColor> strokeColor;
+    public Delayed<DuskColor> coreColor;
 
-    public DiamondMakeItem(Properties properties, DuskColor strokeColor, DuskColor coreColor) {
+    public DiamondMakeItem(Properties properties, Delayed<DuskColor> strokeColor, Delayed<DuskColor> coreColor) {
         super(properties);
         this.strokeColor = strokeColor;
         this.coreColor = coreColor;
@@ -28,7 +31,8 @@ public class DiamondMakeItem extends ItemBasics implements DuskItem.ICustomModel
 
     @Override
     public void itemColorBlack(ColorProxy.ItemColorPack itemColorPack) {
-        itemColorPack.addColor(1, itemStack -> coreColor);
-        itemColorPack.addColor(2, itemStack -> strokeColor);
+
+        itemColorPack.addColor(1, itemStack -> strokeColor.get());
+        itemColorPack.addColor(2, itemStack -> coreColor.get());
     }
 }

@@ -1,10 +1,12 @@
 package com.til.dusk.common.register.mana_level.block;
 
 import com.til.dusk.Dusk;
-import com.til.dusk.common.config.ConfigKey;
+import com.til.dusk.common.config.AcceptTypeJson;
+import com.til.dusk.common.config.ConfigField;
 import com.til.dusk.common.config.util.IShapedOreConfig;
 import com.til.dusk.common.data.tag.ItemTag;
 import com.til.dusk.common.register.BlockUnitRegister;
+import com.til.dusk.common.register.RegisterManage;
 import com.til.dusk.common.register.mana_level.block.mechanic.*;
 import com.til.dusk.common.register.mana_level.item.ManaLevelItem;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
@@ -13,8 +15,6 @@ import com.til.dusk.common.register.ore.fluid.OreFluid;
 import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
-import com.til.dusk.util.Util;
-import com.til.dusk.util.nbt.cell.AllNBTCell;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -23,6 +23,8 @@ import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegistryBuilder;
 
+import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Supplier;
@@ -368,7 +370,7 @@ public abstract class ManaLevelBlock extends BlockUnitRegister<ManaLevelBlock, M
 
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
-        LEVEL_BLOCK = event.create(new RegistryBuilder<ManaLevelBlock>().setName(new ResourceLocation(Dusk.MOD_ID, "mana_level_block")));
+        LEVEL_BLOCK = RegisterManage.create(ManaLevelBlock.class, new ResourceLocation(Dusk.MOD_ID, "mana_level_block"), event);
         repeater = new RepeaterMechanic();
         frameBasic = new FrameBasicMechanic();
         sunlight = new SunlightSimilarSolarEnergyMechanic();
@@ -408,7 +410,7 @@ public abstract class ManaLevelBlock extends BlockUnitRegister<ManaLevelBlock, M
         lathe = new LatheMechanic();
         tieWire = new TieWireMechanic();
         cutting = new CuttingMechanic();
-        pressureStick = new PressureStickMechanic();
+        //pressureStick = new PressureStickMechanic();
         blend = new BlendMechanic();
         decompose = new DecomposeMechanic();
         recovery = new RecoveryMechanic();
@@ -473,13 +475,42 @@ public abstract class ManaLevelBlock extends BlockUnitRegister<ManaLevelBlock, M
         this(new ResourceLocation(Dusk.MOD_ID, name));
     }
 
-    public static final ConfigKey.ConfigMapKey MECHANIC_MAKE_DATA = new ConfigKey.ConfigMapKey("mana_level_block.mechanic_make_data");
+    @ConfigField
+    public ManaLevelMakeData manaLevelMakeData;
 
-    public static class ManaLevelMakeDataConfig {
+    @AcceptTypeJson
+    public static class ManaLevelMakeData {
 
-        public static final ConfigKey<MakeLevel> MAKE_LEVEL = new ConfigKey<>("mana_level_block.mechanic_make_data.make_level", AllNBTCell.MAKE_LEVEL, () -> MakeLevel.CURRENT);
-        public static final ConfigKey<Boolean> IS_MUST_REGISTER = new ConfigKey<>("mana_level_block.mechanic_make_data.is_must_register", AllNBTCell.BOOLEAN, () -> false);
-        public static final ConfigKey<List<IShapedOreConfig<ManaLevel>>> ORE_CONFIG =new ConfigKey<>("mana_level_block.mechanic_make_data.ore_config", Util.forcedConversion(AllNBTCell.I_ACCEPT_CONFIG_MAP.getListNBTCell()), null);
+        public MakeLevel makeLevel;
+        public boolean isMustRegister;
+        @Nullable
+        public List<IShapedOreConfig<ManaLevel>> oreConfig;
+
+        public ManaLevelMakeData setManaLevel(MakeLevel makeLevel) {
+            this.makeLevel = makeLevel;
+            return this;
+        }
+
+        public ManaLevelMakeData setMustRegister(boolean mustRegister) {
+            isMustRegister = mustRegister;
+            return this;
+        }
+
+        public ManaLevelMakeData addOreConfig(IShapedOreConfig<ManaLevel> oreConfig) {
+            if (this.oreConfig == null) {
+                this.oreConfig = new ArrayList<>();
+            }
+            this.oreConfig.add(oreConfig);
+            return this;
+        }
+
+        public final ManaLevelMakeData addOreConfig(List<IShapedOreConfig<ManaLevel>> oreConfig) {
+            if (this.oreConfig == null) {
+                this.oreConfig = new ArrayList<>();
+            }
+            this.oreConfig.addAll(oreConfig);
+            return this;
+        }
 
         public enum MakeLevel {
             UP, CURRENT, NEXT

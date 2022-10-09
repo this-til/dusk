@@ -1,6 +1,5 @@
 package com.til.dusk.common.register.mana_level.block.mechanic;
 
-import com.til.dusk.common.config.ConfigMap;
 import com.til.dusk.common.config.util.IShapedOreConfig;
 import com.til.dusk.common.data.lang.LangProvider;
 import com.til.dusk.common.data.lang.LangType;
@@ -26,15 +25,13 @@ public class DischantmentManaMechanic extends ExtractManaMechanic {
         lang.add(LangType.ZH_CN, "解咒转灵晶体");
         lang.add(LangType.EN_CH, "Dischantment Mana Crystal");
     }
-
     @Override
-    public ConfigMap defaultConfigMap() {
-        return new ConfigMap()
-                .setConfigOfV(EXTRACT_MANA_COLOR, new DuskColor(135, 60, 168, 255))
-                .setConfig(MECHANIC_MAKE_DATA, () -> new ConfigMap()
-                        .setConfigOfV(ManaLevelMakeDataConfig.ORE_CONFIG, List.of(
-                                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelAcceptItemIn(extractMana.name, 1),
-                                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelItemIn(ItemTag.ENCHANTING_TABLE.d1(), 1),
-                                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelItemIn(ItemTag.ENCHANTING_BOOK, 3))));
+    public void defaultConfig() {
+        extractManaColor = new DuskColor(135, 60, 168);
+        manaLevelMakeData = new ManaLevelMakeData()
+                .addOreConfig(List.of(
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(extractMana.name, 1),
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.ItemIn(() ->ItemTag.ENCHANTING_TABLE.d1(), 1),
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.ItemIn(() ->ItemTag.ENCHANTING_BOOK, 3)));
     }
 }

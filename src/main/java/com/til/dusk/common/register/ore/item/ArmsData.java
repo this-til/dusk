@@ -15,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Map;
 
 /***
  * 武器数据
@@ -55,7 +56,7 @@ public class ArmsData implements Tier {
      * 默认技能
      */
     @Nullable
-    public List<Skill> defaultSkill;
+    public Map<Skill, Integer> defaultSkill;
 
     public void setOfTag(Ore ore) {
         repairIngredient = new Delayed<>(() -> ore.get(OreItem.ingot).itemTag());

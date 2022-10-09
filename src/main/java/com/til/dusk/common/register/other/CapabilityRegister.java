@@ -15,6 +15,8 @@ import com.til.dusk.common.capability.shaped_drive.IShapedDrive;
 import com.til.dusk.common.capability.skill.ISkill;
 import com.til.dusk.common.event.EventIO;
 import com.til.dusk.common.register.RegisterBasics;
+import com.til.dusk.common.register.RegisterManage;
+import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.util.Pos;
 import com.til.dusk.util.Util;
 import com.til.dusk.util.tooltip_pack.ComponentPack;
@@ -63,7 +65,7 @@ public class CapabilityRegister<C> extends RegisterBasics<CapabilityRegister<C>>
 
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
-        CAPABILITY_REGISTER = event.create(new RegistryBuilder<CapabilityRegister<?>>().setName(new ResourceLocation(Dusk.MOD_ID, "capability_register")));
+        CAPABILITY_REGISTER = RegisterManage.create(Util.forcedConversion(CapabilityRegister.class), new ResourceLocation(Dusk.MOD_ID, "capability_register"), event);
         iItemHandler = new CapabilityRegister<>("i_item_handler", IItemHandler.class, ForgeCapabilities.ITEM_HANDLER);
         iFluidHandler = new CapabilityRegister<>("i_fluid_handler", IFluidHandler.class, ForgeCapabilities.FLUID_HANDLER);
         iEnergyStorage = new CapabilityRegister<>("i_energy_storage", IEnergyStorage.class, ForgeCapabilities.ENERGY);

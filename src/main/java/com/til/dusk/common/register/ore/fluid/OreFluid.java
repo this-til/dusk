@@ -2,6 +2,8 @@ package com.til.dusk.common.register.ore.fluid;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.common.register.FluidUnitRegister;
+import com.til.dusk.common.register.RegisterManage;
+import com.til.dusk.common.register.mana_level.item.ManaLevelItemPack;
 import com.til.dusk.common.register.ore.fluid.fluids.*;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.util.pack.FluidPack;
@@ -53,7 +55,7 @@ public class OreFluid extends FluidUnitRegister<OreFluid, Ore> {
 
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
-        ORE_FLUID = event.create(new RegistryBuilder<OreFluid>().setName(new ResourceLocation(Dusk.MOD_ID, "ore_fluid")));
+        ORE_FLUID = RegisterManage.create(OreFluid.class, new ResourceLocation(Dusk.MOD_ID, "ore_fluid"), event);
         solution = new SolutionOreFluid();
         joinUUSolution = new JoinUUSolutionOreFluid();
         splittingSunlightSolution = new SplittingSunlightSolutionOreFluid();

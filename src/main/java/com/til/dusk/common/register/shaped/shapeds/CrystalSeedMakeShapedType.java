@@ -5,9 +5,10 @@ import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
-import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.ItemStack;
+
+import java.util.function.Consumer;
 
 /**
  * @author til
@@ -19,7 +20,7 @@ public class CrystalSeedMakeShapedType extends ShapedType {
     }
 
     @Override
-    public void registerShaped() {
+    public void registerRuleShaped(Consumer<Shaped> shapedConsumer) {
         for (Ore ore : Ore.screen(Ore.IS_CRYSTA, Ore.FLUID_DATA, Ore.HAS_DUST)) {
             new ShapedOre(this, ShapedDrive.get(0), ore.manaLevel)
                     .addInItem(ItemTags.SAND, 1)

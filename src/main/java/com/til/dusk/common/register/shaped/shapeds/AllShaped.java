@@ -22,6 +22,8 @@ import java.util.function.Consumer;
 @Mod.EventBusSubscriber(modid = Dusk.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class AllShaped {
 
+    public final static Map<ShapedType, Map<ShapedDrive, List<Shaped>>> MAP = new HashMap<>();
+
     @SubscribeEvent
     public static void onEvent(FMLCommonSetupEvent event) {
         Map<ShapedType, Map<ShapedDrive, List<Shaped>>> map = new HashMap<>();
@@ -57,6 +59,7 @@ public class AllShaped {
                 }
             }
         }
+        MAP.putAll(map);
     }
 
 

@@ -31,32 +31,32 @@ public class T2ManaLevel extends ManaLevel {
         maxRange = 18;
         color = new DuskColor(100, 200, 225);
         operationBasics = new Delayed<>(() -> List.of(
-                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelFluidIn(Ore.highEnergyRedStone.get(OreFluid.solution).fluidTag(), 72),
-                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelFluidIn(Ore.coolant.get(OreFluid.solution).fluidTag(), 32)));
+                new IShapedOreConfig.IShapedOreManaLevelConfig.FluidIn(() ->Ore.highEnergyRedStone.get(OreFluid.solution).fluidTag(), 72),
+                new IShapedOreConfig.IShapedOreManaLevelConfig.FluidIn(() ->Ore.coolant.get(OreFluid.solution).fluidTag(), 32)));
         operation = new Delayed<>(() -> List.of(
-                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelItemIn(ItemTag.resistanceTag, 8),
-                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelItemIn(ItemTag.capacitanceTag, 8),
-                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelItemIn(ItemTag.diodeTag, 8),
-                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelItemIn(ItemTag.triodeTag, 8)));
+                new IShapedOreConfig.IShapedOreManaLevelConfig.ItemIn(() ->ItemTag.resistanceTag, 8),
+                new IShapedOreConfig.IShapedOreManaLevelConfig.ItemIn(() ->ItemTag.capacitanceTag, 8),
+                new IShapedOreConfig.IShapedOreManaLevelConfig.ItemIn(() ->ItemTag.diodeTag, 8),
+                new IShapedOreConfig.IShapedOreManaLevelConfig.ItemIn(() ->ItemTag.triodeTag, 8)));
         forming = new Delayed<>(() -> List.of(
-                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelItemIn(Tags.Items.GEMS_AMETHYST, 4),
-                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelFluidIn(Ore.elementAir.get(OreFluid.solution).fluidTag(), 128)));
+                new IShapedOreConfig.IShapedOreManaLevelConfig.ItemIn(() ->Tags.Items.GEMS_AMETHYST, 4),
+                new IShapedOreConfig.IShapedOreManaLevelConfig.FluidIn(() ->Ore.elementAir.get(OreFluid.solution).fluidTag(), 128)));
         destruction = new Delayed<>(() -> List.of(
-                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelItemIn(Tags.Items.GEMS_QUARTZ, 4),
-                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelFluidIn(Ore.elementAir.get(OreFluid.solution).fluidTag(), 128)));
+                new IShapedOreConfig.IShapedOreManaLevelConfig.ItemIn(() ->Tags.Items.GEMS_QUARTZ, 4),
+                new IShapedOreConfig.IShapedOreManaLevelConfig.FluidIn(() ->Ore.elementAir.get(OreFluid.solution).fluidTag(), 128)));
         gather = new Delayed<>(() -> List.of(
-                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelItemIn(Tags.Items.GEMS_LAPIS, 4),
-                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelFluidIn(Ore.sourceAir.get(OreFluid.solution).fluidTag(), 128)));
+                new IShapedOreConfig.IShapedOreManaLevelConfig.ItemIn(() ->Tags.Items.GEMS_LAPIS, 4),
+                new IShapedOreConfig.IShapedOreManaLevelConfig.FluidIn(() ->Ore.sourceAir.get(OreFluid.solution).fluidTag(), 128)));
         spread = new Delayed<>(() -> List.of(
-                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelItemIn(Tags.Items.GEMS_PRISMARINE, 4),
-                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelFluidIn(Ore.sourceAir.get(OreFluid.solution).fluidTag(), 128)));
+                new IShapedOreConfig.IShapedOreManaLevelConfig.ItemIn(() ->Tags.Items.GEMS_PRISMARINE, 4),
+                new IShapedOreConfig.IShapedOreManaLevelConfig.FluidIn(() ->Ore.sourceAir.get(OreFluid.solution).fluidTag(), 128)));
         power = new Delayed<>(() -> List.of(
-                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelAcceptItemIn(OreItem.rotor.name, 2),
-                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelAcceptItemIn(OreBlock.coil.name, 1),
-                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelFluidIn(Ore.natureAir.get(OreFluid.solution).fluidTag(), 128)));
+                new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(OreItem.rotor.name, 2),
+                new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(OreBlock.coil.name, 1),
+                new IShapedOreConfig.IShapedOreManaLevelConfig.FluidIn(() ->Ore.natureAir.get(OreFluid.solution).fluidTag(), 128)));
         instructions = new Delayed<>(() -> List.of(
-                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelItemIn(ItemTag.inductanceTag, 4),
-                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelItemIn(ItemTag.capacitanceTag, 4),
-                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelFluidIn(Ore.natureAir.get(OreFluid.solution).fluidTag(), 128)));
+                new IShapedOreConfig.IShapedOreManaLevelConfig.ItemIn(() ->ItemTag.inductanceTag, 4),
+                new IShapedOreConfig.IShapedOreManaLevelConfig.ItemIn(() ->ItemTag.capacitanceTag, 4),
+                new IShapedOreConfig.IShapedOreManaLevelConfig.FluidIn(() ->Ore.natureAir.get(OreFluid.solution).fluidTag(), 128)));
     }
 }

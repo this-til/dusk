@@ -102,7 +102,7 @@ public interface IOrePlacedFeatureConfig {
             this.inChunkAmount = inChunkAmount;
             this.name = ore.name;
             place = new Delayed<>(() -> {
-                Map<String, ResourceLocation> map = new HashMap<>();
+                Map<ResourceLocation, ResourceLocation> map = new HashMap<>();
                 for (Map.Entry<OreBlock, BlockPack> entry : ore.blockEntrySet()) {
                     if (!(entry.getKey() instanceof OreBlockMineral mineral)) {
                         continue;
@@ -114,7 +114,7 @@ public interface IOrePlacedFeatureConfig {
                     if (blockName == null) {
                         continue;
                     }
-                    map.put(blockName.toString(), ForgeRegistries.BLOCKS.getKey(entry.getValue().block()));
+                    map.put(blockName, ForgeRegistries.BLOCKS.getKey(entry.getValue().block()));
                 }
                 return new IPair.ResourceLocationPair(map, null);
             });

@@ -5,8 +5,11 @@ import com.til.dusk.common.register.ore.fluid.FluidData;
 import com.til.dusk.common.register.ore.fluid.OreFluid;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.register.shaped.ShapedDrive;
+import com.til.dusk.common.register.shaped.shapeds.Shaped;
 import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
 import net.minecraftforge.fluids.FluidStack;
+
+import java.util.function.Consumer;
 
 /**
  * @author til
@@ -18,7 +21,7 @@ public class HighPressureFuseShapedType extends ShapedType {
     }
 
     @Override
-    public void registerShaped() {
+    public void registerRuleShaped(Consumer<Shaped> shapedConsumer) {
         for (Ore ore : Ore.screen(Ore.FLUID_DATA)) {
             FluidData fluidData = ore.getSet(Ore.FLUID_DATA);
             if (fluidData.splitting == null) {

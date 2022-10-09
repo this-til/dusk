@@ -1,6 +1,5 @@
 package com.til.dusk.common.register.mana_level.block.mechanic;
 
-import com.til.dusk.common.config.ConfigMap;
 import com.til.dusk.common.config.util.IShapedOreConfig;
 import com.til.dusk.common.data.lang.LangProvider;
 import com.til.dusk.common.data.lang.LangType;
@@ -17,7 +16,7 @@ import java.util.Set;
  */
 public class MakerStoneMechanic extends HandleMechanic {
 
-    public MakerStoneMechanic(){
+    public MakerStoneMechanic() {
         super("maker_stone", () -> Set.of(ShapedType.makerStone));
     }
 
@@ -29,14 +28,12 @@ public class MakerStoneMechanic extends HandleMechanic {
     }
 
     @Override
-    public ConfigMap defaultConfigMap() {
-        return new ConfigMap()
-                .setConfig(MECHANIC_MAKE_DATA, () -> new ConfigMap()
-                        .setConfigOfV(ManaLevelMakeDataConfig.ORE_CONFIG, List.of(
-                                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelAcceptItemIn(frameBasic.name, 1),
-                                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelAcceptItemIn(ManaLevelItemPack.forming.name, 1),
-                                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelFluidIn(FluidTags.WATER, 16000),
-                                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelFluidIn(FluidTags.LAVA, 16000))));
+    public void defaultConfig() {
+        manaLevelMakeData = new ManaLevelMakeData()
+                .addOreConfig(List.of(
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(frameBasic.name, 1),
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.forming.name, 1),
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.FluidIn(() -> FluidTags.WATER, 16000),
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.FluidIn(() -> FluidTags.LAVA, 16000)));
     }
-
 }

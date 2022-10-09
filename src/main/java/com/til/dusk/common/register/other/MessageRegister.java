@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.til.dusk.Dusk;
 import com.til.dusk.client.ClientTransfer;
 import com.til.dusk.common.register.RegisterBasics;
+import com.til.dusk.common.register.RegisterManage;
 import com.til.dusk.common.register.key.KeyRegister;
 import com.til.dusk.common.register.particle_register.ParticleData;
 import com.til.dusk.common.register.particle_register.ParticleRouteData;
@@ -49,7 +50,7 @@ public abstract class MessageRegister<MSG> extends RegisterBasics<MessageRegiste
 
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
-        MESSAGE_REGISTER = event.create(new RegistryBuilder<MessageRegister<?>>().setName(new ResourceLocation(Dusk.MOD_ID, "message_register")));
+        MESSAGE_REGISTER = RegisterManage.create(Util.forcedConversion(MessageRegister.class), new ResourceLocation(Dusk.MOD_ID, "message_register"), event);
         INSTANCE = NetworkRegistry.newSimpleChannel(
                 new ResourceLocation(Dusk.MOD_ID, "main"),
                 () -> PROTOCOL_VERSION,
@@ -200,4 +201,8 @@ public abstract class MessageRegister<MSG> extends RegisterBasics<MessageRegiste
         INSTANCE.sendTo(msg, player.connection.getConnection(), NetworkDirection.PLAY_TO_CLIENT);
     }
 
+    @Override
+    public void defaultConfig() {
+
+    }
 }

@@ -32,9 +32,9 @@ public class NatureOre extends Ore {
         manaLevel = ManaLevel.t2;
         fluidData = new FluidData()
                 .setSplitting(new FluidData.SplittingData()
-                        .addSunlightSplitting(new IShapedOreConfig.FluidOut(new FluidStack(natureAir.get(OreFluid.solution).source(), 72), 1D))
-                        .addMoonlightSplitting(new IShapedOreConfig.FluidOut(new FluidStack(natureAir.get(OreFluid.solution).source(), 72), 1D))
-                        .addRainSplitting(new IShapedOreConfig.FluidOut(new FluidStack(natureAir.get(OreFluid.solution).source(), 72), 1D)));
+                        .addSunlightSplitting(new IShapedOreConfig.FluidOut(() -> new FluidStack(natureAir.get(OreFluid.solution).source(), 72), 1D))
+                        .addMoonlightSplitting(new IShapedOreConfig.FluidOut(() -> new FluidStack(natureAir.get(OreFluid.solution).source(), 72), 1D))
+                        .addRainSplitting(new IShapedOreConfig.FluidOut(() -> new FluidStack(natureAir.get(OreFluid.solution).source(), 72), 1D)));
     }
 
 }

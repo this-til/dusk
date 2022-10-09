@@ -2,6 +2,8 @@ package com.til.dusk.common.register.mana_level.fluid;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.common.register.FluidUnitRegister;
+import com.til.dusk.common.register.RegisterManage;
+import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -22,7 +24,7 @@ public abstract class ManaLevelFluid extends FluidUnitRegister<ManaLevelFluid, M
 
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
-        LEVEL_FLUID = event.create(new RegistryBuilder<ManaLevelFluid>().setName(new ResourceLocation(Dusk.MOD_ID, "mana_level_fluid")));
+        LEVEL_FLUID = RegisterManage.create(ManaLevelFluid.class, new ResourceLocation(Dusk.MOD_ID, "mana_level_fluid"), event);
     }
 
     public ManaLevelFluid(ResourceLocation name) {

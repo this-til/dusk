@@ -12,8 +12,7 @@ import com.til.dusk.common.capability.control.Control;
 import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.capability.mana_handle.IManaHandle;
 import com.til.dusk.common.capability.pos.IPosTrack;
-import com.til.dusk.common.config.ConfigKey;
-import com.til.dusk.common.config.ConfigMap;
+import com.til.dusk.common.config.ConfigField;
 import com.til.dusk.common.data.lang.LangProvider;
 import com.til.dusk.common.data.lang.LangType;
 import com.til.dusk.common.register.mana_level.block.DefaultCapacityMechanic;
@@ -23,7 +22,6 @@ import com.til.dusk.common.register.other.CapabilityRegister;
 import com.til.dusk.common.world.block.ModBlock;
 import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.Extension;
-import com.til.dusk.util.nbt.cell.AllNBTCell;
 import com.til.dusk.util.prefab.ColorPrefab;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -44,15 +42,13 @@ import java.util.Map;
  */
 public abstract class IOMechanic extends DefaultCapacityMechanic {
     public static final ResourceLocation MODEL_NAME = new ResourceLocation(Dusk.MOD_ID, "io");
-    public final DuskColor color;
 
-    public IOMechanic(ResourceLocation name, DuskColor color) {
+    public IOMechanic(ResourceLocation name) {
         super(name);
-        this.color = color;
     }
 
-    public IOMechanic(String name, DuskColor color) {
-        this(new ResourceLocation(Dusk.MOD_ID, name), color);
+    public IOMechanic(String name) {
+        this(new ResourceLocation(Dusk.MOD_ID, name));
     }
 
     @Override
@@ -63,27 +59,26 @@ public abstract class IOMechanic extends DefaultCapacityMechanic {
     @Override
     public void dyeBlack(ManaLevel manaLevel, ColorProxy.ItemColorPack itemColorPack) {
         super.dyeBlack(manaLevel, itemColorPack);
-        itemColorPack.addColor(1, itemStack -> color);
+        itemColorPack.addColor(1, itemStack -> ioColor);
     }
 
     @Override
     public void dyeBlack(ManaLevel manaLevel, ColorProxy.BlockColorPack blockColorPack) {
         super.dyeBlack(manaLevel, blockColorPack);
-        blockColorPack.addColor(1, (blockState, blockAndTintGetter, blockPos) -> color);
+        blockColorPack.addColor(1, (blockState, blockAndTintGetter, blockPos) -> ioColor);
     }
 
 
     public static class ManaIO extends IOMechanic {
 
         public ManaIO() {
-            super("mana_io", ColorPrefab.MANA_IO);
+            super("mana_io");
         }
 
         @Override
         public void addCapability(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability, ManaLevel manaLevel, IPosTrack iPosTrack) {
             super.addCapability(event, duskModCapability, manaLevel, iPosTrack);
-            long max = (long) getConfig(TRANSMISSION_EFFICIENCY) * manaLevel.getConfig(ManaLevel.level);
-            double loss = manaLevel.getConfig(ManaLevel.manaLoss);
+            long max = (long) transmissionAmount * manaLevel.level;
             IControl iControl = duskModCapability.addCapability(CapabilityRegister.iControl.capability, new Control(iPosTrack, List.of(BindType.manaIn, BindType.manaOut), manaLevel));
             IBack iUp = duskModCapability.addCapability(CapabilityRegister.iBlack.capability, new Back());
             iUp.add(IBack.UP, v -> {
@@ -92,7 +87,7 @@ public abstract class IOMechanic extends DefaultCapacityMechanic {
                     return;
                 }
                 CapabilityHelp.manaPointToPointTransmit(iControl.getPosTrack(), iControl.getCapability(BindType.manaIn),
-                        iControl.getCapability(BindType.manaOut), max, loss, false);
+                        iControl.getCapability(BindType.manaOut), max, manaLevel.manaLoss, false);
             });
         }
 
@@ -103,19 +98,18 @@ public abstract class IOMechanic extends DefaultCapacityMechanic {
             lang.add(LangType.EN_CH, "Item IO");
         }
 
-
         @Override
-        public ConfigMap defaultConfigMap() {
-            return new ConfigMap()
-                    .setConfigOfV(IO_COLOR, ColorPrefab.MANA_IO)
-                    .setConfigOfV(TRANSMISSION_EFFICIENCY, 1024);
+        public void defaultConfig() {
+            ioColor = ColorPrefab.MANA_IO;
+            transmissionAmount = 1024;
         }
+
     }
 
     public static class ItemIO extends IOMechanic {
 
         public ItemIO() {
-            super("item_io", ColorPrefab.ITEM_IO);
+            super("item_io");
         }
 
         @Override
@@ -124,7 +118,7 @@ public abstract class IOMechanic extends DefaultCapacityMechanic {
             IControl iControl = duskModCapability.addCapability(CapabilityRegister.iControl.capability, new Control(iPosTrack, List.of(BindType.itemIn, BindType.itemOut, BindType.manaIn), manaLevel));
             IBack iUp = duskModCapability.addCapability(CapabilityRegister.iBlack.capability, new Back());
             IClock iClock = duskModCapability.addCapability(CapabilityRegister.iClock.capability, new ManaClock(iUp,
-                    manaLevel.getConfig(ManaLevel.clock) / getConfig(TRANSMISSION_EFFICIENCY), iControl, getConfig(CONSUME) * manaLevel.getConfig(ManaLevel.level)));
+                    manaLevel.clock / transmissionEfficiency, iControl, consume * manaLevel.level));
             iClock.addBlock(() -> {
                 Level level = event.getObject().getLevel();
                 if (level == null) {
@@ -190,19 +184,17 @@ public abstract class IOMechanic extends DefaultCapacityMechanic {
         }
 
         @Override
-        public ConfigMap defaultConfigMap() {
-            return new ConfigMap()
-                    .setConfigOfV(IO_COLOR, ColorPrefab.ITEM_IO)
-                    .setConfigOfV(TRANSMISSION_EFFICIENCY, 5)
-                    .setConfigOfV(CONSUME, 2L);
+        public void defaultConfig() {
+            ioColor = ColorPrefab.ITEM_IO;
+            transmissionEfficiency = 5;
+            consume = 2;
         }
-
     }
 
     public static class FluidIO extends IOMechanic {
 
         public FluidIO() {
-            super("fluid_io", ColorPrefab.FLUID_IO);
+            super("fluid_io");
         }
 
         @Override
@@ -211,7 +203,7 @@ public abstract class IOMechanic extends DefaultCapacityMechanic {
             IControl iControl = duskModCapability.addCapability(CapabilityRegister.iControl.capability, new Control(iPosTrack, List.of(BindType.fluidIn, BindType.fluidOut, BindType.manaIn), manaLevel));
             IBack iBack = duskModCapability.addCapability(CapabilityRegister.iBlack.capability, new Back());
             IClock iClock = duskModCapability.addCapability(CapabilityRegister.iClock.capability, new ManaClock(iBack,
-                    manaLevel.getConfig(ManaLevel.clock) / getConfig(TRANSMISSION_EFFICIENCY), iControl, getConfig(CONSUME) * manaLevel.getConfig(ManaLevel.level)));
+                    manaLevel.clock / transmissionEfficiency, iControl, consume * manaLevel.level));
             iClock.addBlock(() -> {
                 Level level = event.getObject().getLevel();
                 if (level == null) {
@@ -231,7 +223,7 @@ public abstract class IOMechanic extends DefaultCapacityMechanic {
                         outMap.put(entry.getKey(), entry.getValue());
                     }
                 }
-                int maxRate = 1000 * manaLevel.getConfig(ManaLevel.level);
+                int maxRate = transmissionAmount * manaLevel.level;
                 FluidStack outSimulate = null;
                 Extension.Data_2<Map.Entry<IPosTrack, IFluidHandler>, FluidStack> outData = null;
                 for (Map.Entry<IPosTrack, IFluidHandler> entry : inMap.entrySet()) {
@@ -276,24 +268,21 @@ public abstract class IOMechanic extends DefaultCapacityMechanic {
         }
 
         @Override
-        public ConfigMap defaultConfigMap() {
-            return new ConfigMap()
-                    .setConfigOfV(IO_COLOR, ColorPrefab.FLUID_IO)
-                    .setConfigOfV(TRANSMISSION_EFFICIENCY, 5)
-                    .setConfigOfV(CONSUME, 2L);
+        public void defaultConfig() {
+            ioColor = ColorPrefab.ITEM_IO;
+            transmissionEfficiency = 5;
+            transmissionAmount = 1000;
+            consume = 2;
         }
     }
 
-    public static final ConfigKey<DuskColor> IO_COLOR = new ConfigKey<>("mana_level_block.io_color", AllNBTCell.COLOR, null);
-
-    /***
-     * 传输效率
-     */
-    public static final ConfigKey<Integer> TRANSMISSION_EFFICIENCY = new ConfigKey<>("mana_level_block.transmission_efficiency", AllNBTCell.INT, null);
-
-    /***
-     * 传输消耗
-     */
-    public static final ConfigKey<Long> CONSUME = new ConfigKey<>("mana_level_block.consume", AllNBTCell.LONG, null);
+    @ConfigField
+    public DuskColor ioColor;
+    @ConfigField
+    public int transmissionEfficiency;
+    @ConfigField
+    public int transmissionAmount;
+    @ConfigField
+    public long consume;
 
 }

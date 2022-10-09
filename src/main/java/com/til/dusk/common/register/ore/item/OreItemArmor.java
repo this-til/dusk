@@ -1,7 +1,6 @@
 package com.til.dusk.common.register.ore.item;
 
 import com.til.dusk.Dusk;
-import com.til.dusk.common.config.ConfigMap;
 import com.til.dusk.common.data.tag.ItemTag;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.world.item.CapabilityArmorItem;

@@ -2,9 +2,9 @@ package com.til.dusk.common.register.ore.item;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.client.ColorProxy;
-import com.til.dusk.common.config.ConfigKey;
-import com.til.dusk.common.config.ConfigMap;
 import com.til.dusk.common.register.ItemUnitRegister;
+import com.til.dusk.common.register.RegisterManage;
+import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
 import com.til.dusk.common.register.ore.item.items.*;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.util.DuskColor;
@@ -181,7 +181,7 @@ public class OreItem extends ItemUnitRegister<OreItem, Ore> {
 
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
-        ORE_ITEM = event.create(new RegistryBuilder<OreItem>().setName(new ResourceLocation(Dusk.MOD_ID, "ore_item")));
+        ORE_ITEM = RegisterManage.create(OreItem.class, new ResourceLocation(Dusk.MOD_ID, "ore_item"), event);
         ingot = new IngotOreItemMetal();
         plate = new OreItemMetal("plate");
         plate_2 = new Plate2OreItemMetal();

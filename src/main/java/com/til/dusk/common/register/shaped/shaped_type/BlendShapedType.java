@@ -1,6 +1,9 @@
 package com.til.dusk.common.register.shaped.shaped_type;
 
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
+import com.til.dusk.common.register.shaped.shapeds.Shaped;
+
+import java.util.function.Consumer;
 
 
 /**
@@ -13,7 +16,7 @@ public class BlendShapedType extends ShapedType {
     }
 
     @Override
-    public void registerShaped() {
+    public void registerRuleShaped(Consumer<Shaped> shapedConsumer) {
         /*for (Ore ore : Ore.screen(Ore.IS_CRYSTA)) {
             new ShapedOre(this, ShapedDrive.get(0), ore.manaLevel)
                     .addInItem(ore.itemMap.get(OreItem.dust).itemTag(), 1)

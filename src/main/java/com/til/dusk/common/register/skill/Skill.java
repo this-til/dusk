@@ -2,6 +2,8 @@ package com.til.dusk.common.register.skill;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.common.register.RegisterBasics;
+import com.til.dusk.common.register.RegisterManage;
+import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -61,7 +63,7 @@ public class Skill extends RegisterBasics<Skill> {
 
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
-        SKILL = event.create(new RegistryBuilder<Skill>().setName(new ResourceLocation(Dusk.MOD_ID, "skill")));
+        SKILL = RegisterManage.create(Skill.class, new ResourceLocation(Dusk.MOD_ID, "skill"), event);
         empty = new Skill("empty").setOnlineDelivery(false);
         maxManaDilatation = new Skill("max_mana_dilatation").setOnlineDelivery(false);
         rateDilatation = new Skill("rate_dilatation").setOnlineDelivery(false);

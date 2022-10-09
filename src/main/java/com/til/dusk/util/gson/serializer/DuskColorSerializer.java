@@ -1,4 +1,4 @@
-package com.til.dusk.common.config.gson.serializer;
+package com.til.dusk.util.gson.serializer;
 
 import com.google.gson.*;
 import com.google.gson.stream.JsonReader;

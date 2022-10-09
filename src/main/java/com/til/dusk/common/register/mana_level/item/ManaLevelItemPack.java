@@ -3,17 +3,16 @@ package com.til.dusk.common.register.mana_level.item;
 import com.til.dusk.Dusk;
 import com.til.dusk.client.ColorProxy;
 import com.til.dusk.common.config.ConfigField;
-import com.til.dusk.common.config.ConfigKey;
 import com.til.dusk.common.data.lang.LangType;
 import com.til.dusk.common.data.tag.ItemTag;
 import com.til.dusk.common.event.RegisterLangEvent;
+import com.til.dusk.common.register.RegisterManage;
 import com.til.dusk.common.register.TagPackSupplierRegister;
 import com.til.dusk.common.register.mana_level.item.packs.*;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.world.item.DuskItem;
 import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.Lang;
-import com.til.dusk.util.nbt.cell.AllNBTCell;
 import com.til.dusk.util.pack.ItemPack;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -82,7 +81,7 @@ public abstract class ManaLevelItemPack extends TagPackSupplierRegister<ManaLeve
 
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
-        MANA_LEVEL_ITEM_PACK = event.create(new RegistryBuilder<ManaLevelItemPack>().setName(new ResourceLocation(Dusk.MOD_ID, "mana_level_item_pack")));
+        MANA_LEVEL_ITEM_PACK = RegisterManage.create(ManaLevelItemPack.class, new ResourceLocation(Dusk.MOD_ID, "mana_level_item_pack"), event);
         operationBasics = new OperationBasicsManaLevelItemPack();
         operation = new OperationManaLevelItemPack();
         forming = new FormingManaLevelItemPack();

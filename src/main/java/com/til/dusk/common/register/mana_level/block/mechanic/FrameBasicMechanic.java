@@ -1,6 +1,5 @@
 package com.til.dusk.common.register.mana_level.block.mechanic;
 
-import com.til.dusk.common.config.ConfigMap;
 import com.til.dusk.common.config.util.IShapedOreConfig;
 import com.til.dusk.common.data.ModRecipeProvider;
 import com.til.dusk.common.data.lang.LangProvider;
@@ -34,7 +33,7 @@ public class FrameBasicMechanic extends DefaultCapacityMechanic {
     @Override
     public void registerRecipe(Consumer<RecipeBuilder> recipeConsumer) {
         for (ManaLevel manaLevel : ManaLevel.MANA_LEVEL.get()) {
-            if (!manaLevel.hasConfig(ManaLevel.canUseRecipeMake)) {
+            if (!manaLevel.canUseRecipeMake) {
                 continue;
             }
             recipeConsumer.accept(ShapedRecipeBuilder.shaped(manaLevel.get(this).blockItem(), 1)
@@ -49,11 +48,10 @@ public class FrameBasicMechanic extends DefaultCapacityMechanic {
     }
 
     @Override
-    public ConfigMap defaultConfigMap() {
-        return new ConfigMap()
-                .setConfig(MECHANIC_MAKE_DATA, () -> new ConfigMap()
-                        .setConfigOfV(ManaLevelMakeDataConfig.ORE_CONFIG, List.of(
-                                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelAcceptItemIn(repeater.name, 2),
-                                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelAcceptItemIn(OreBlock.bracket.name, 1))));
+    public void defaultConfig() {
+        manaLevelMakeData = new ManaLevelMakeData()
+                .addOreConfig(List.of(
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(repeater.name, 2),
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(OreBlock.bracket.name, 1)));
     }
 }

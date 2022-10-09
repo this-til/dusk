@@ -1,13 +1,16 @@
 package com.til.dusk.common.event;
 
+import com.til.dusk.Dusk;
 import com.til.dusk.common.data.lang.LangProvider;
 import com.til.dusk.common.register.shaped.shapeds.Shaped;
 import com.til.dusk.util.Extension;
 import com.til.dusk.util.Util;
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.RecipeBuilder;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
 import java.util.ArrayList;
@@ -19,8 +22,7 @@ import java.util.function.Consumer;
 /**
  * @author til
  */
-//@Mod.EventBusSubscriber(modid = Dusk.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-@Deprecated
+@Mod.EventBusSubscriber(modid = Dusk.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class DelayTrigger {
 
     protected static final Map<ITriggerType<?>, List<?>> RUN_MAP = new HashMap<>();
@@ -62,7 +64,7 @@ public class DelayTrigger {
     public static final ITriggerType<Runnable> GATHER_DATA_EVENT = new ITriggerType.TriggerType<>();
     public static final ITriggerType<Runnable> TAG = new ITriggerType.TriggerType<>();
     public static final ITriggerType<Extension.Func<Shaped>> SHAPED = new ITriggerType.TriggerType<>();
-    public static final ITriggerType<Extension.Action_1V<Consumer<FinishedRecipe>>> RECIPE = new ITriggerType.TriggerType<>();
+    public static final ITriggerType<Extension.Func<RecipeBuilder>> RECIPE = new ITriggerType.TriggerType<>();
     public static final ITriggerType<Extension.Action_1V<LangProvider.LangTool>> LANG = new ITriggerType.TriggerType<>();
 
     public interface ITriggerType<RUN_TYPE> {

@@ -1,6 +1,5 @@
 package com.til.dusk.common.register.mana_level.block.mechanic;
 
-import com.til.dusk.common.config.ConfigMap;
 import com.til.dusk.common.config.util.IShapedOreConfig;
 import com.til.dusk.common.register.mana_level.block.SimilarSolarEnergyMechanic;
 import com.til.dusk.common.register.ore.item.OreItem;
@@ -20,14 +19,12 @@ public class RainSimilarSolarEnergyMechanic extends SimilarSolarEnergyMechanic {
     }
 
     @Override
-    public ConfigMap defaultConfigMap() {
-        return new ConfigMap()
-                .setConfigOfV(PRODUCTION_MULTIPLE, 4)
-                .setConfigOfV(SOLAR_ENERGY_COLOR, ColorPrefab.RAIN_COLOR)
-                .setConfig(MECHANIC_MAKE_DATA, () -> new ConfigMap()
-                        .setConfigOfV(ManaLevelMakeDataConfig.ORE_CONFIG, List.of(
-                                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelAcceptItemIn(extractMana.name, 1),
-                                new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelItemIn(Ore.rain.get(OreItem.perfectCrystal).itemTag(), 4))));
+    public void defaultConfig() {
+        solarEnergyColor = ColorPrefab.RAIN_COLOR;
+        productionMultiple = 4;
+        manaLevelMakeData = new ManaLevelMakeData()
+                .addOreConfig(List.of(
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(extractMana.name, 1),
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.ItemIn(() ->Ore.rain.get(OreItem.perfectCrystal).itemTag(), 4)));
     }
-
 }

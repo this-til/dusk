@@ -1,6 +1,5 @@
 package com.til.dusk.common.register.shaped.shapeds;
 
-import com.google.gson.JsonObject;
 import com.til.dusk.common.capability.CapabilityHelp;
 import com.til.dusk.common.capability.handle.IHandle;
 import com.til.dusk.common.capability.handle.ShapedHandle;
@@ -23,12 +22,12 @@ import java.util.Map;
  */
 public abstract class ShapedMiddleExtend extends ShapedMiddle {
 
-    public ShapedMiddleExtend(ShapedType shapedType, ShapedDrive shapedDrive, ManaLevel manaLevel) {
-        super(shapedType, shapedDrive, manaLevel);
+    public ShapedMiddleExtend() {
+        super();
     }
 
-    public ShapedMiddleExtend(ResourceLocation name, JsonObject jsonObject) {
-        super(name, jsonObject);
+    public ShapedMiddleExtend(ResourceLocation name, ShapedType shapedType, ShapedDrive shapedDrive, ManaLevel manaLevel) {
+        super(name, shapedType, shapedDrive, manaLevel);
     }
 
     @Nullable

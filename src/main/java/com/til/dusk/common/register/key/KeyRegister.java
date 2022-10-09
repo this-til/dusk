@@ -3,6 +3,8 @@ package com.til.dusk.common.register.key;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.til.dusk.Dusk;
 import com.til.dusk.common.register.RegisterBasics;
+import com.til.dusk.common.register.RegisterManage;
+import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.register.other.MessageRegister;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.resources.ResourceLocation;
@@ -44,7 +46,7 @@ public class KeyRegister extends RegisterBasics<KeyRegister> {
 
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
-        KEY_REGISTER = event.create(new RegistryBuilder<KeyRegister>().setName(new ResourceLocation(Dusk.MOD_ID, "key_register")));
+        KEY_REGISTER = RegisterManage.create(KeyRegister.class, new ResourceLocation(Dusk.MOD_ID, "key_register"), event);
         switchBindType = new KeyRegister("switch_bind_type", InputConstants.KEY_G);
         showBindState = new KeyRegister("show_bind_state", InputConstants.KEY_H);
     }

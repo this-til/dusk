@@ -1,6 +1,7 @@
 package com.til.dusk.common.data;
 
 import com.til.dusk.Dusk;
+import com.til.dusk.common.event.DelayTrigger;
 import com.til.dusk.common.event.RegisterRecipeEvent;
 import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.register.RegisterManage;
@@ -29,10 +30,12 @@ public class ModRecipeProvider extends RecipeProvider {
     @Override
     protected void buildCraftingRecipes(@NotNull Consumer<FinishedRecipe> consumer) {
         List<RecipeBuilder> recipeBuilderList = new ArrayList<>(32);
+        Consumer<RecipeBuilder> listConsumer = recipeBuilderList::add;
         for (RegisterBasics<?> allRegisterBasic : RegisterManage.ALL_REGISTER_BASICS) {
-            allRegisterBasic.registerRecipe(recipeBuilderList::add);
+            allRegisterBasic.registerRecipe(listConsumer);
         }
-        Dusk.instance.modEventBus.post(new RegisterRecipeEvent(recipeBuilderList::add));
+        Dusk.instance.modEventBus.post(new RegisterRecipeEvent(listConsumer));
+        DelayTrigger.run(DelayTrigger.RECIPE, r -> listConsumer.accept(r.func()));
         if (!recipeBuilderList.isEmpty()) {
             for (RecipeBuilder recipeBuilder : recipeBuilderList) {
                 recipeBuilder.save(consumer);

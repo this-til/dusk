@@ -3,12 +3,11 @@ package com.til.dusk.common.register.ore.block;
 import com.til.dusk.Dusk;
 import com.til.dusk.client.ColorProxy;
 import com.til.dusk.common.config.ConfigField;
-import com.til.dusk.common.config.ConfigKey;
-import com.til.dusk.common.config.ConfigMap;
 import com.til.dusk.common.register.BlockUnitRegister;
+import com.til.dusk.common.register.RegisterManage;
 import com.til.dusk.common.register.ore.block.blocks.*;
 import com.til.dusk.common.register.ore.ore.Ore;
-import com.til.dusk.util.DuskColor;
+import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.util.Lang;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -72,7 +71,7 @@ public abstract class OreBlock extends BlockUnitRegister<OreBlock, Ore> {
 
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
-        ORE_BLOCK = event.create(new RegistryBuilder<OreBlock>().setName(new ResourceLocation(Dusk.MOD_ID, "ore_block")));
+        ORE_BLOCK = RegisterManage.create(OreBlock.class, new ResourceLocation(Dusk.MOD_ID, "ore_block"), event);
         lordWorldStone = new LordWorldStoneOreBlockMineral();
         lordWorldDeepslate = new LordWorldDeepslateOreBlockMineral();
         lordWorldSand = new LordWorldSandOreBlockMineral();

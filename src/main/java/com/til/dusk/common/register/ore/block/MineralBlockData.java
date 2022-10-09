@@ -3,6 +3,7 @@ package com.til.dusk.common.register.ore.block;
 import com.til.dusk.common.config.AcceptTypeJson;
 import com.til.dusk.common.config.ConfigField;
 import com.til.dusk.common.config.util.IOrePlacedFeatureConfig;
+import com.til.dusk.common.config.util.IShapedOreConfig;
 import com.til.dusk.util.pack.DataPack;
 import org.jetbrains.annotations.Nullable;
 
@@ -19,36 +20,45 @@ public class MineralBlockData {
      * 洗矿副产物
      */
     @Nullable
-    public DataPack.OreDataPack washByproduct;
+    public List<IShapedOreConfig<Void>> washByproduct;
 
     /***
      * 离心副产物
      */
     @Nullable
-    public DataPack.OreDataPack centrifugeByproduct;
+    public List<IShapedOreConfig<Void>> centrifugeByproduct;
 
     /***
      * 筛选副产物
      */
     @Nullable
-    public DataPack.OreDataPack screenByproduct;
+    public List<IShapedOreConfig<Void>> screenByproduct;
 
     @Nullable
     @ConfigField
     public List<IOrePlacedFeatureConfig> orePlacedFeatureConfigList;
 
-    public MineralBlockData setWashByproduct(DataPack.OreDataPack washByproduct) {
-        this.washByproduct = washByproduct;
+    public MineralBlockData addWashByproduct(IShapedOreConfig<Void> config) {
+        if (washByproduct == null) {
+            washByproduct = new ArrayList<>();
+        }
+        washByproduct.add(config);
         return this;
     }
 
-    public MineralBlockData setCentrifugeByproduct(DataPack.OreDataPack centrifugeByproduct) {
-        this.centrifugeByproduct = centrifugeByproduct;
+    public MineralBlockData addCentrifugeByproduct(IShapedOreConfig<Void> config) {
+        if (centrifugeByproduct == null) {
+            centrifugeByproduct = new ArrayList<>();
+        }
+        centrifugeByproduct.add(config);
         return this;
     }
 
-    public MineralBlockData setScreenByproduct(DataPack.OreDataPack screenByproduct) {
-        this.screenByproduct = screenByproduct;
+    public MineralBlockData addScreenByproduct(IShapedOreConfig<Void> config) {
+        if (screenByproduct == null) {
+            screenByproduct = new ArrayList<>();
+        }
+        screenByproduct.add(config);
         return this;
     }
 
