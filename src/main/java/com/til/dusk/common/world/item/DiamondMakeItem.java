@@ -6,8 +6,6 @@ import com.til.dusk.common.config.util.Delayed;
 import com.til.dusk.util.DuskColor;
 import net.minecraft.resources.ResourceLocation;
 
-import java.util.function.Supplier;
-
 /**
  * @author til
  */

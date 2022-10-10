@@ -6,8 +6,6 @@ import com.google.gson.JsonPrimitive;
 import com.til.dusk.Dusk;
 import com.til.dusk.common.capability.handle.ShapedHandle;
 import com.til.dusk.common.capability.skill.ISkill;
-import com.til.dusk.common.config.ConfigKey;
-import com.til.dusk.common.config.ConfigMap;
 import com.til.dusk.common.config.IAcceptConfig;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
@@ -265,7 +263,7 @@ public class AllNBTCell {
             return null;
         }
     };
-    public static final NBTCell<IAcceptConfig> I_ACCEPT_CONFIG_MAP = new NBTCell<>() {
+    /*public static final NBTCell<IAcceptConfig> I_ACCEPT_CONFIG_MAP = new NBTCell<>() {
         @Override
         public Tag as(IAcceptConfig acceptConfigMap) {
             ConfigMap genericMap = acceptConfigMap.defaultConfigMap();
@@ -315,7 +313,7 @@ public class AllNBTCell {
             }
             return null;
         }
-    };
+    };*/
     public static final NBTCell<ResourceLocation> RESOURCE_LOCATION = new NBTCell<>() {
         @Override
         public StringTag as(ResourceLocation resourceLocation) {
@@ -631,7 +629,7 @@ public class AllNBTCell {
     public static final NBTMapCell<Skill, Integer> SKILL_INT_MAP = new NBTMapCell<>(SKILL, INT);
     public static final NBTMapCell<Attribute, List<AttributeModifier>> ATTRIBUTE_LIST_NBT_MAP = new NBTMapCell<>(ATTRIBUTE, ATTRIBUTE_MODIFIER.getListNBTCell());
     public static final NBTMapCell<ResourceLocation, ResourceLocation> RESOURCE_LOCATION_MAP = new NBTMapCell<>(RESOURCE_LOCATION, RESOURCE_LOCATION);
-    public static final NBTCell<ConfigMap> CONFIG_MAP = new NBTCell<>() {
+    /*public static final NBTCell<ConfigMap> CONFIG_MAP = new NBTCell<>() {
         @Override
         public Tag as(ConfigMap configMapCell) {
             CompoundTag compoundTag = new CompoundTag();
@@ -673,7 +671,7 @@ public class AllNBTCell {
             }
             return configMap;
         }
-    };
-    public static final NBTCell<ManaLevelBlock.ManaLevelMakeDataConfig.MakeLevel> MAKE_LEVEL = new EnumNBT(ManaLevelBlock.ManaLevelMakeDataConfig.MakeLevel.class, ManaLevelBlock.ManaLevelMakeDataConfig.MakeLevel.CURRENT);
+    };*/
+    //public static final NBTCell<ManaLevelBlock.ManaLevelMakeDataConfig.MakeLevel> MAKE_LEVEL = new EnumNBT(ManaLevelBlock.ManaLevelMakeDataConfig.MakeLevel.class, ManaLevelBlock.ManaLevelMakeDataConfig.MakeLevel.CURRENT);
 
 }

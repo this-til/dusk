@@ -36,7 +36,7 @@ public class OreItem extends ItemUnitRegister<OreItem, Ore> {
     /***
      * 板
      */
-    public static OreItemMetal plate;
+    public static PlateOreItemMetal plate;
 
     public static Plate2OreItemMetal plate2;
 
@@ -181,33 +181,33 @@ public class OreItem extends ItemUnitRegister<OreItem, Ore> {
     public static void onEvent(NewRegistryEvent event) {
         ORE_ITEM = RegisterManage.create(OreItem.class, new ResourceLocation(Dusk.MOD_ID, "ore_item"), event);
         ingot = new IngotOreItemMetal();
-        plate = new OreItemMetal("plate");
+        plate = new PlateOreItemMetal();
         plate2 = new Plate2OreItemMetal();
         plate3 = new Plate3OreItemMetal();
         plate4 = new Plate4OreItemMetal();
-        foil = new OreItemMetal("foil");
-        casing = new OreItemMetal("casing");
-        stick = new OreItemMetal("stick");
-        stickLong = new OreItemMetal("stick_long");
-        string = new OreItemMetal("string");
-        gear = new OreItemMetal("gear");
-        rotor = new OreItemMetal("rotor");
-        circularSawBlade = new OreItemMetal("circular_saw_blade");
-        nuggets = new OreItemMetal("nuggets");
-        damagedCrystal = new OreItemCrysta("crystal_damaged");
-        crystal = new OreItemCrysta("crystal");
-        delicateCrystal = new OreItemCrysta("crystal_delicate");
-        perfectCrystal = new OreItemCrysta("crystal_perfect");
-        crystalSeed = new OreItemCrysta("crystal_seed");
-        crushed = new OreItemMineralBlock("crushed");
-        crushedPurified = new OreItemMineralBlock("crushed_purified");
-        dust = new OreItemDust("dust");
-        dustTiny = new OreItemDust("dust_tiny");
-        swordBasics = new OreItemArmsBasics("sword_basics");
-        shovelBasics = new OreItemArmsBasics("shovel_basics");
-        pickaxeBasics = new OreItemArmsBasics("pickaxe_basics");
-        axeBasics = new OreItemArmsBasics("axe_basics");
-        hoeBasics = new OreItemArmsBasics("hoe_basics");
+        foil = new FoilOreItemMetal();
+        casing = new CasingOreItemMetal();
+        stick = new StickOreItemMetal();
+        stickLong = new StickLongOreItemMetal();
+        string = new StringOreItemMetal();
+        gear = new GearOreItemMetal();
+        rotor = new RotorOreItemMetal();
+        circularSawBlade = new CircularSawBladeOreItemMetal();
+        nuggets = new NuggetsOreItemMetal();
+        damagedCrystal = new DamagedCrystalOreItemCrysta();
+        crystal = new CrystalOreItemCrysta();
+        delicateCrystal = new DamagedCrystalOreItemCrysta();
+        perfectCrystal = new CrystalPerfectOreItemCrysta();
+        crystalSeed = new CrystalSeedOreItemCrysta();
+        crushed = new CrushedOreItemMineralBlock();
+        crushedPurified = new CrushedPurifiedOreItemMineralBlock();
+        dust = new DustOreItemDust();
+        dustTiny = new DustTinyOreItemDust();
+        swordBasics = new SwordOreItemArmsBasics();
+        shovelBasics = new ShovelOreItemArmsBasics();
+        pickaxeBasics = new PickaxeOreItemArmsBasics();
+        axeBasics = new AxeOreItemArmsBasics();
+        hoeBasics = new HoeOreItemArmsBasics();
         sword = new SwordOreItemArms();
         shovel = new ShovelOreItemArms();
         pickaxe = new PickaxeOreItemArms();
@@ -237,8 +237,7 @@ public class OreItem extends ItemUnitRegister<OreItem, Ore> {
 
     @Override
     public void dyeBlack(Ore ore, ColorProxy.ItemColorPack itemColorPack) {
-        DuskColor color = ore.getConfig(Ore.COLOR);
-        itemColorPack.addColor(0, itemStack -> color);
+        itemColorPack.addColor(0, itemStack -> ore.color);
     }
 
     @Override

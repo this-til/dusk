@@ -47,11 +47,13 @@ public class MithrilOre extends Ore {
         fluidData = new FluidData()
                 .setCanCopy(true);
         armorData = new ArmorData()
+                .setOfOre(this)
                 .setDefense(3)
                 .setDurability(10)
                 .setMane(3200000L, 12800L)
                 .putSkill(Skill.life, 1);
         armsData = new ArmsData()
+                .setOfOre(this)
                 .setMane(3200000L, 12800L);
         toolData = new ToolData()
                 .setUses(16 * 64)

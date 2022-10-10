@@ -70,7 +70,6 @@ public abstract class ShapedMiddle extends Shaped {
 
     public ShapedMiddle addMultipleOutMana(long outMana) {
         this.outMana = this.outMana == 0 ? outMana : this.outMana * outMana;
-        this.outMana = outMana;
         return this;
     }
 }

@@ -7,6 +7,9 @@ import com.til.dusk.common.capability.clock.ManaClock;
 import com.til.dusk.common.capability.control.Control;
 import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.capability.pos.IPosTrack;
+import com.til.dusk.common.config.ConfigField;
+import com.til.dusk.common.data.lang.LangProvider;
+import com.til.dusk.common.data.lang.LangType;
 import com.til.dusk.common.event.EventIO;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.other.BindType;
@@ -36,7 +39,6 @@ public class MiningMechanic extends PosImplementMechanic {
         super("mining");
     }
 
-
     @Override
     public IControl createControl(ManaLevel manaLevel, IPosTrack iPosTrack) {
         return new Control(iPosTrack, List.of(BindType.manaIn, BindType.itemOut, BindType.posTrack, BindType.modelStore), manaLevel);
@@ -44,7 +46,7 @@ public class MiningMechanic extends PosImplementMechanic {
 
     @Override
     public IClock createClock(ManaLevel manaLevel, IBack back, IControl iControl, IPosTrack iPosTrack) {
-        return new ManaClock(back, manaLevel.clock / 10, iControl, 32L * manaLevel.level);
+        return new ManaClock(back, manaLevel.clock / transmissionEfficiency, iControl, consume * manaLevel.level);
     }
 
     @Override
@@ -91,4 +93,22 @@ public class MiningMechanic extends PosImplementMechanic {
             }
         };
     }
+
+    @Override
+    public void registerLang(LangProvider.LangTool lang) {
+        lang.setCache(name.toLanguageKey());
+        lang.add(LangType.ZH_CN, "挖掘晶体");
+        lang.add(LangType.EN_CH, "Mining Crystal");
+    }
+
+    @Override
+    public void defaultConfig() {
+        consume = 32L;
+        transmissionEfficiency = 10;
+    }
+
+    @ConfigField
+    public int transmissionEfficiency;
+    @ConfigField
+    public long consume;
 }

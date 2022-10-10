@@ -16,7 +16,6 @@ import com.til.dusk.common.capability.skill.ISkill;
 import com.til.dusk.common.event.EventIO;
 import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.register.RegisterManage;
-import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.util.Pos;
 import com.til.dusk.util.Util;
 import com.til.dusk.util.tooltip_pack.ComponentPack;
@@ -40,7 +39,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.NewRegistryEvent;
-import net.minecraftforge.registries.RegistryBuilder;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -197,4 +195,8 @@ public class CapabilityRegister<C> extends RegisterBasics<CapabilityRegister<C>>
         }
     }
 
+    @Override
+    public void defaultConfig() {
+
+    }
 }

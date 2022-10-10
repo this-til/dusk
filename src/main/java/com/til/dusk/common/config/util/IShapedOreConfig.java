@@ -1,6 +1,9 @@
 package com.til.dusk.common.config.util;
 
 import com.til.dusk.common.config.AcceptTypeJson;
+import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
+import com.til.dusk.common.register.mana_level.fluid.ManaLevelFluid;
+import com.til.dusk.common.register.mana_level.item.ManaLevelItem;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.ore.block.OreBlock;
 import com.til.dusk.common.register.ore.fluid.OreFluid;
@@ -14,6 +17,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
+import java.util.List;
 import java.util.function.Supplier;
 
 /***
@@ -157,6 +161,7 @@ public interface IShapedOreConfig<DATA> {
 
             public ResourceLocation resourceLocation;
             public int amount;
+            public boolean isMultiple;
 
             public AcceptItemIn(ResourceLocation resourceLocation, int amount) {
                 this.resourceLocation = resourceLocation;
@@ -168,7 +173,12 @@ public interface IShapedOreConfig<DATA> {
 
             @Override
             public void config(ShapedOre shapedOre, ManaLevel data) {
-                shapedOre.addInItem(data.acceptableTagPack.getTagPack(resourceLocation).itemTagKey(), amount);
+                shapedOre.addInItem(data.acceptableTagPack.getTagPack(resourceLocation).itemTagKey(), isMultiple ? amount * data.level : amount);
+            }
+
+            public AcceptItemIn setMultiple(boolean multiple) {
+                isMultiple = multiple;
+                return this;
             }
         }
 
@@ -176,6 +186,7 @@ public interface IShapedOreConfig<DATA> {
 
             public ResourceLocation resourceLocation;
             public int amount;
+            public boolean isMultiple;
 
             public AcceptFluidIn(ResourceLocation fluidTag, int amount) {
                 this.resourceLocation = fluidTag;
@@ -187,7 +198,11 @@ public interface IShapedOreConfig<DATA> {
 
             @Override
             public void config(ShapedOre shapedOre, ManaLevel data) {
-                shapedOre.addInFluid(data.acceptableTagPack.getTagPack(resourceLocation).fluidTagKey(), amount);
+                shapedOre.addInFluid(data.acceptableTagPack.getTagPack(resourceLocation).fluidTagKey(), isMultiple ? amount * data.level : amount);
+            }
+
+            public AcceptFluidIn(boolean isMultiple) {
+                this.isMultiple = isMultiple;
             }
         }
 
@@ -195,6 +210,7 @@ public interface IShapedOreConfig<DATA> {
 
             public Delayed<TagKey<Item>> itemTag;
             public int amount;
+            public boolean isMultiple;
 
             public ItemIn(Supplier<TagKey<Item>> itemTag, int amount) {
                 this.itemTag = new Delayed<>(itemTag);
@@ -206,7 +222,11 @@ public interface IShapedOreConfig<DATA> {
 
             @Override
             public void config(ShapedOre shapedOre, ManaLevel data) {
-                shapedOre.addInItem(itemTag.get(), amount);
+                shapedOre.addInItem(itemTag.get(), isMultiple ? amount * data.level : amount);
+            }
+
+            public ItemIn(Delayed<TagKey<Item>> itemTag) {
+                this.itemTag = itemTag;
             }
         }
 
@@ -214,6 +234,7 @@ public interface IShapedOreConfig<DATA> {
 
             public Delayed<TagKey<Fluid>> fluidTag;
             public int amount;
+            public boolean isMultiple;
 
             public FluidIn(Supplier<TagKey<Fluid>> fluidTag, int amount) {
                 this.fluidTag = new Delayed<>(fluidTag);
@@ -225,7 +246,11 @@ public interface IShapedOreConfig<DATA> {
 
             @Override
             public void config(ShapedOre shapedOre, ManaLevel data) {
-                shapedOre.addInFluid(fluidTag.get(), amount);
+                shapedOre.addInFluid(fluidTag.get(), isMultiple ? amount * data.level : amount);
+            }
+
+            public FluidIn(Delayed<TagKey<Fluid>> fluidTag) {
+                this.fluidTag = fluidTag;
             }
         }
 
@@ -247,6 +272,78 @@ public interface IShapedOreConfig<DATA> {
             }
         }
 
+        class ManaLevelItemOut implements IShapedOreManaLevelConfig {
+
+            public ManaLevelItem manaLevelItem;
+            public int amount;
+            public double probability;
+
+            public ManaLevelItemOut(ManaLevelItem manaLevelItem, int amount, double probability) {
+                this.manaLevelItem = manaLevelItem;
+                this.amount = amount;
+                this.probability = probability;
+            }
+
+            public ManaLevelItemOut() {
+            }
+
+            @Override
+            public void config(ShapedOre shapedOre, ManaLevel ore) {
+                if (!ore.has(manaLevelItem)) {
+                    return;
+                }
+                shapedOre.addOutItem(new ItemStack(ore.get(manaLevelItem).item(), amount), probability);
+            }
+        }
+
+        class ManaLevelBlockOut implements IShapedOreManaLevelConfig {
+
+            public ManaLevelBlock manaLevelBlock;
+            public int amount;
+            public double probability;
+
+            public ManaLevelBlockOut(ManaLevelBlock manaLevelBlock, int amount, double probability) {
+                this.manaLevelBlock = manaLevelBlock;
+                this.amount = amount;
+                this.probability = probability;
+            }
+
+            public ManaLevelBlockOut() {
+            }
+
+            @Override
+            public void config(ShapedOre shapedOre, ManaLevel ore) {
+                if (!ore.has(manaLevelBlock)) {
+                    return;
+                }
+                shapedOre.addOutItem(new ItemStack(ore.get(manaLevelBlock).blockItem(), amount), probability);
+            }
+        }
+
+        class AcceptFluidOut implements IShapedOreManaLevelConfig {
+
+            public ManaLevelFluid manaLevelFluid;
+            public int amount;
+            public double probability;
+
+            public AcceptFluidOut() {
+            }
+
+            public AcceptFluidOut(ManaLevelFluid manaLevelFluid, int amount, double probability) {
+                this.manaLevelFluid = manaLevelFluid;
+                this.amount = amount;
+                this.probability = probability;
+            }
+
+            @Override
+            public void config(ShapedOre shapedOre, ManaLevel ore) {
+                if (!ore.has(manaLevelFluid)) {
+                    return;
+                }
+                shapedOre.addOutFluid(new FluidStack(ore.get(manaLevelFluid).flowing(), amount), probability);
+            }
+        }
+
         class FluidOut implements IShapedOreManaLevelConfig {
             public Delayed<FluidStack> fluidStack;
             public double probability;
@@ -264,11 +361,27 @@ public interface IShapedOreConfig<DATA> {
                 shapedOre.addOutFluid(fluidStack.get(), probability);
             }
         }
-
-
     }
 
     interface IShapedOreOreConfig extends IShapedOreConfig<Ore> {
+        class ItemIn implements IShapedOreOreConfig {
+
+            public Delayed<TagKey<Item>> itemTag;
+            public int amount;
+
+            public ItemIn(Supplier<TagKey<Item>> itemTag, int amount) {
+                this.itemTag = new Delayed<>(itemTag);
+                this.amount = amount;
+            }
+
+            public ItemIn() {
+            }
+
+            @Override
+            public void config(ShapedOre shapedOre, Ore data) {
+                shapedOre.addInItem(itemTag.get(), amount);
+            }
+        }
 
         class AcceptItemIn implements IShapedOreOreConfig {
 
@@ -289,6 +402,25 @@ public interface IShapedOreConfig<DATA> {
             }
         }
 
+        class FluidIn implements IShapedOreOreConfig {
+
+            public Delayed<TagKey<Fluid>> fluidTag;
+            public int amount;
+
+            public FluidIn(Supplier<TagKey<Fluid>> fluidTag, int amount) {
+                this.fluidTag = new Delayed<>(fluidTag);
+                this.amount = amount;
+            }
+
+            public FluidIn() {
+            }
+
+            @Override
+            public void config(ShapedOre shapedOre, Ore data) {
+                shapedOre.addInFluid(fluidTag.get(), amount);
+            }
+        }
+
         class AcceptFluidIn implements IShapedOreOreConfig {
 
             public ResourceLocation resourceLocation;
@@ -305,54 +437,6 @@ public interface IShapedOreConfig<DATA> {
             @Override
             public void config(ShapedOre shapedOre, Ore ore) {
                 shapedOre.addInFluid(ore.tagPackSupplier.getTagPack(resourceLocation).fluidTagKey(), amount);
-            }
-        }
-
-        class OreItemItemOut implements IShapedOreOreConfig {
-
-            public OreItem oreItem;
-            public int amount;
-            public double probability;
-
-            public OreItemItemOut(OreItem oreItem, int amount, double probability) {
-                this.oreItem = oreItem;
-                this.amount = amount;
-                this.probability = probability;
-            }
-
-            public OreItemItemOut() {
-            }
-
-            @Override
-            public void config(ShapedOre shapedOre, Ore ore) {
-                if (!ore.has(oreItem)) {
-                    return;
-                }
-                shapedOre.addOutItem(new ItemStack(ore.get(oreItem).item(), amount), probability);
-            }
-        }
-
-        class OreBlockItemOut implements IShapedOreOreConfig {
-
-            public OreBlock oreBlock;
-            public int amount;
-            public double probability;
-
-            public OreBlockItemOut(OreBlock oreBlock, int amount, double probability) {
-                this.oreBlock = oreBlock;
-                this.amount = amount;
-                this.probability = probability;
-            }
-
-            public OreBlockItemOut() {
-            }
-
-            @Override
-            public void config(ShapedOre shapedOre, Ore ore) {
-                if (!ore.has(oreBlock)) {
-                    return;
-                }
-                shapedOre.addOutItem(new ItemStack(ore.get(oreBlock).blockItem(), amount), probability);
             }
         }
 
@@ -380,45 +464,7 @@ public interface IShapedOreConfig<DATA> {
             }
         }
 
-        class ItemIn implements IShapedOreConfig<Ore> {
-
-            public Delayed<TagKey<Item>> itemTag;
-            public int amount;
-
-            public ItemIn(Supplier<TagKey<Item>> itemTag, int amount) {
-                this.itemTag = new Delayed<>(itemTag);
-                this.amount = amount;
-            }
-
-            public ItemIn() {
-            }
-
-            @Override
-            public void config(ShapedOre shapedOre, Ore data) {
-                shapedOre.addInItem(itemTag.get(), amount);
-            }
-        }
-
-        class FluidIn implements IShapedOreConfig<Ore> {
-
-            public Delayed<TagKey<Fluid>> fluidTag;
-            public int amount;
-
-            public FluidIn(Supplier<TagKey<Fluid>> fluidTag, int amount) {
-                this.fluidTag = new Delayed<>(fluidTag);
-                this.amount = amount;
-            }
-
-            public FluidIn() {
-            }
-
-            @Override
-            public void config(ShapedOre shapedOre, Ore data) {
-                shapedOre.addInFluid(fluidTag.get(), amount);
-            }
-        }
-
-        class ItemOut implements IShapedOreConfig<Ore> {
+        class ItemOut implements IShapedOreOreConfig {
             public Delayed<ItemStack> itemStack;
             public double probability;
 
@@ -436,7 +482,55 @@ public interface IShapedOreConfig<DATA> {
             }
         }
 
-        class FluidOut implements IShapedOreConfig<Ore> {
+        class OreItemOut implements IShapedOreOreConfig {
+
+            public OreItem oreItem;
+            public int amount;
+            public double probability;
+
+            public OreItemOut(OreItem oreItem, int amount, double probability) {
+                this.oreItem = oreItem;
+                this.amount = amount;
+                this.probability = probability;
+            }
+
+            public OreItemOut() {
+            }
+
+            @Override
+            public void config(ShapedOre shapedOre, Ore ore) {
+                if (!ore.has(oreItem)) {
+                    return;
+                }
+                shapedOre.addOutItem(new ItemStack(ore.get(oreItem).item(), amount), probability);
+            }
+        }
+
+        class OreBlockOut implements IShapedOreOreConfig {
+
+            public OreBlock oreBlock;
+            public int amount;
+            public double probability;
+
+            public OreBlockOut(OreBlock oreBlock, int amount, double probability) {
+                this.oreBlock = oreBlock;
+                this.amount = amount;
+                this.probability = probability;
+            }
+
+            public OreBlockOut() {
+            }
+
+            @Override
+            public void config(ShapedOre shapedOre, Ore ore) {
+                if (!ore.has(oreBlock)) {
+                    return;
+                }
+                shapedOre.addOutItem(new ItemStack(ore.get(oreBlock).blockItem(), amount), probability);
+            }
+        }
+
+        class FluidOut implements IShapedOreOreConfig {
             public Delayed<FluidStack> fluidStack;
             public double probability;
 
@@ -451,6 +545,31 @@ public interface IShapedOreConfig<DATA> {
             @Override
             public void config(ShapedOre shapedOre, Ore data) {
                 shapedOre.addOutFluid(fluidStack.get(), probability);
+            }
+        }
+
+        class ManaLevelPack implements IShapedOreOreConfig {
+            public List<IShapedOreConfig<ManaLevel>> pack;
+
+            public ManaLevelPack() {
+            }
+
+            public ManaLevelPack(IShapedOreConfig<ManaLevel> pack) {
+                this.pack = List.of(pack);
+            }
+
+            public ManaLevelPack(List<IShapedOreConfig<ManaLevel>> pack) {
+                this.pack = pack;
+            }
+
+            @Override
+            public void config(ShapedOre shapedOre, Ore ore) {
+                if (pack == null) {
+                    return;
+                }
+                for (IShapedOreConfig<ManaLevel> manaLevelIShapedOreConfig : pack) {
+                    manaLevelIShapedOreConfig.config(shapedOre, ore.manaLevel);
+                }
             }
         }
     }

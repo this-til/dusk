@@ -7,11 +7,15 @@ import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.ore.block.DecorateBlockData;
 import com.til.dusk.common.register.ore.fluid.FluidData;
 import com.til.dusk.common.register.ore.fluid.OreFluid;
+import com.til.dusk.common.register.ore.item.ArmorData;
+import com.til.dusk.common.register.ore.item.ArmsData;
 import com.til.dusk.common.register.ore.item.OreItem;
+import com.til.dusk.common.register.ore.item.ToolData;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
+import com.til.dusk.common.register.skill.Skill;
 import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.ResourceLocationUtil;
 import net.minecraftforge.fluids.FluidStack;
@@ -40,6 +44,18 @@ public class StarRiverOre extends Ore {
         isMetal = true;
         hasDust = true;
         isLevelAcceptable = List.of(ManaLevel.t3);
+        armorData = new ArmorData()
+                .setOfOre(this)
+                .setDefense(3)
+                .setDurability(10)
+                .setMane(4 * 3200000L, 4 * 12800L)
+                .putSkill(Skill.life, 1);
+        armsData = new ArmsData()
+                .setOfOre(this)
+                .setMane(4 * 3200000L, 4 * 12800L);
+        toolData = new ToolData()
+                .setUses(22 * 64)
+                .setTankMax(22 * 4000);
         decorateBlockData = new DecorateBlockData();
         fluidData = new FluidData();
         relevantShaped = new Delayed<>(() -> List.of(

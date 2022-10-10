@@ -6,10 +6,7 @@ import com.til.dusk.common.config.util.IShapedOreConfig;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
 import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.ore.ore.Ore;
-import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shapeds.Shaped;
-import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
-import net.minecraft.world.item.ItemStack;
 
 import java.util.function.Consumer;
 
@@ -40,7 +37,7 @@ public class PressureStickShapedType extends ShapedType {
                 .setSurplusTime(1280L)
                 .setConsumeMana(12L)
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.ingot.name, 1))
-                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemItemOut(OreItem.stick, 1, 1));
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.stick, 1, 1));
     }
 
     @ConfigField

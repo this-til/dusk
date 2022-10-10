@@ -14,6 +14,9 @@ import com.til.dusk.common.register.other.CapabilityRegister;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 
+/**
+ * @author til
+ */
 public class GatherManaMechanic extends DefaultCapacityMechanic {
 
     public GatherManaMechanic() {

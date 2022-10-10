@@ -1,21 +1,23 @@
 package com.til.dusk.common.register.shaped.shaped_type;
 
+import com.til.dusk.common.config.ConfigField;
+import com.til.dusk.common.config.util.IShapedCreate;
+import com.til.dusk.common.config.util.IShapedOreConfig;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
-import com.til.dusk.common.register.mana_level.item.ManaLevelItem;
+import com.til.dusk.common.register.mana_level.item.ManaLevelItemPack;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
-import com.til.dusk.common.register.ore.block.OreBlock;
 import com.til.dusk.common.register.ore.fluid.OreFluid;
-import com.til.dusk.common.register.ore.item.ArmorData;
-import com.til.dusk.common.register.ore.item.ArmsData;
 import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shapeds.Shaped;
 import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
+import com.til.dusk.util.ResourceLocationUtil;
 import com.til.dusk.util.pack.BlockPack;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.Tags;
 
+import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -29,185 +31,278 @@ public class AssembleShapedType extends ShapedType {
 
     @Override
     public void registerRuleShaped(Consumer<Shaped> shapedConsumer) {
-        for (Ore ore : Ore.screen(Ore.IS_METAL)) {
-            new ShapedOre(this, ShapedDrive.get(0), ore.manaLevel)
-                    .addInItem(ore.get(OreItem.casing).itemTag(), 6)
-                    .addInItem(ore.get(OreItem.stick).itemTag(), 4)
-                    .addOutItem(new ItemStack(ore.get(OreBlock.bracket).blockItem(), 1), 1d)
-                    .addMultipleSurplusTime(4096L)
-                    .addMultipleConsumeMana(12L);
-            new ShapedOre(this, ShapedDrive.get(0), ore.manaLevel)
-                    .addInItem(ore.get(OreBlock.bracket).blockItemTag(), 1)
-                    .addInItem(ore.get(OreItem.casing).itemTag(), 6)
-                    .addInItem(ore.get(OreItem.string).itemTag(), 32)
-                    .addOutItem(new ItemStack(ore.get(OreBlock.coil).blockItem(), 1), 1d)
-                    .addMultipleSurplusTime(8192L)
-                    .addMultipleConsumeMana(22L);
+        for (Ore ore : Ore.ORE.get()) {
+            if (!ore.isMetal) {
+                continue;
+            }
+            shapedConsumer.accept(bracket.create(ore));
+            shapedConsumer.accept(chest.create(ore));
         }
         for (ManaLevel manaLevel : ManaLevel.MANA_LEVEL.get()) {
             for (Map.Entry<ManaLevelBlock, BlockPack> entry : manaLevel.blockEntrySet()) {
-                if (entry.getKey().hasSet(ManaLevelBlock.MECHANIC_MAKE_DATA)) {
-                    ManaLevelBlock.ManaLevelMakeData manaLevelMakeData = entry.getKey().getSet(ManaLevelBlock.MECHANIC_MAKE_DATA);
-                    ManaLevel level = switch (manaLevelMakeData.makeLevel) {
-                        case UP ->
-                                manaLevel.up != null ? manaLevel.up.get() : manaLevelMakeData.isMustRegister ? ManaLevel.t1 : null;
-                        case CURRENT -> manaLevel;
-                        case NEXT ->
-                                manaLevel.next != null ? manaLevel.next.get() : manaLevelMakeData.isMustRegister ? ManaLevel.t8 : null;
-                    };
-                    if (level == null) {
-                        continue;
-                    }
-                    new ShapedOre(this, ShapedDrive.get(2), level)
-                            .addOutItem(new ItemStack(entry.getValue().blockItem(), 1), 1d)
-                            .runThis(ManaLevelBlock.MECHANIC_MAKE_DATA, entry.getKey(), manaLevel)
-                            .addMultipleSurplusTime(4096L * manaLevel.level)
-                            .addMultipleConsumeMana(32L * manaLevel.level);
+                if (entry.getKey().manaLevelMakeData == null) {
+                    continue;
+                }
+                ManaLevelBlock.ManaLevelMakeData makeLevel = entry.getKey().manaLevelMakeData;
+                if (makeLevel.oreConfig == null) {
+                    continue;
+                }
+                ManaLevel level = ManaLevel.get(manaLevel, makeLevel.makeLevel, makeLevel.isMustRegister);
+                if (level == null) {
+                    continue;
+                }
+                ShapedOre shaped = (ShapedOre) mechanicMakeData.create(manaLevel);
+                assert shaped != null;
+                shaped.addOutItem(new ItemStack(entry.getValue().blockItem(), 1), 1d);
+                for (IShapedOreConfig<ManaLevel> config : makeLevel.oreConfig) {
+                    config.config(shaped, level);
                 }
             }
         }
-        for (Ore ore : Ore.screen(Ore.ARMOR_DATA)) {
-            ArmorData armorData = ore.getSet(Ore.ARMOR_DATA);
-            new ShapedOre(this, ShapedDrive.get(3), ore.manaLevel)
-                    .addInItem(ore.get(OreItem.plate4).itemTag(), 32 * ore.manaLevel.level)
-                    .addInItem(ManaLevelItem.operation.getTag(ore.manaLevel), 24 * ore.manaLevel.level)
-                    .addInItem(ManaLevelItem.forming.getTag(ore.manaLevel), 12 * ore.manaLevel.level)
-                    .addInItem(ManaLevelItem.gather.getTag(ore.manaLevel), 8 * ore.manaLevel.level)
-                    .addInItem(ManaLevelItem.instructions.getTag(ore.manaLevel), 8 * ore.manaLevel.level)
-                    .addInItem(ManaLevelItem.power.getTag(ore.manaLevel), 8 * ore.manaLevel.level)
-                    .addInFluid(ore.get(OreFluid.solution).fluidTag(), 65536 * ore.manaLevel.level)
-                    .addOutItem(new ItemStack(ore.get(OreItem.head).item(), 1), 1d)
-                    .addMultipleSurplusTime(16384L * ore.manaLevel.level)
-                    .addMultipleConsumeMana(64L * ore.manaLevel.level);
-            new ShapedOre(this, ShapedDrive.get(4), ore.manaLevel)
-                    .addInItem(ore.get(OreItem.plate4).itemTag(), 64 * ore.manaLevel.level)
-                    .addInItem(ManaLevelItem.operation.getTag(ore.manaLevel), 24 * ore.manaLevel.level)
-                    .addInItem(ManaLevelItem.forming.getTag(ore.manaLevel), 24 * ore.manaLevel.level)
-                    .addInItem(ManaLevelItem.gather.getTag(ore.manaLevel), 24 * ore.manaLevel.level)
-                    .addInItem(ManaLevelItem.instructions.getTag(ore.manaLevel), 24 * ore.manaLevel.level)
-                    .addInItem(ManaLevelItem.power.getTag(ore.manaLevel), 24 * ore.manaLevel.level)
-                    .addInFluid(ore.get(OreFluid.solution).fluidTag(), 65536 * ore.manaLevel.level)
-                    .addOutItem(new ItemStack(ore.get(OreItem.chest).item(), 1), 1d)
-                    .addMultipleSurplusTime(16384L * ore.manaLevel.level)
-                    .addMultipleConsumeMana(64L * ore.manaLevel.level);
-            new ShapedOre(this, ShapedDrive.get(5), ore.manaLevel)
-                    .addInItem(ore.get(OreItem.plate4).itemTag(), 48 * ore.manaLevel.level)
-                    .addInItem(ManaLevelItem.operation.getTag(ore.manaLevel), 24 * ore.manaLevel.level)
-                    .addInItem(ManaLevelItem.forming.getTag(ore.manaLevel), 24 * ore.manaLevel.level)
-                    .addInItem(ManaLevelItem.gather.getTag(ore.manaLevel), 12 * ore.manaLevel.level)
-                    .addInItem(ManaLevelItem.instructions.getTag(ore.manaLevel), 12 * ore.manaLevel.level)
-                    .addInItem(ManaLevelItem.power.getTag(ore.manaLevel), 12 * ore.manaLevel.level)
-                    .addInFluid(ore.get(OreFluid.solution).fluidTag(), 65536 * ore.manaLevel.level)
-                    .addOutItem(new ItemStack(ore.get(OreItem.legs).item(), 1), 1d)
-                    .addMultipleSurplusTime(16384L * ore.manaLevel.level)
-                    .addMultipleConsumeMana(64L * ore.manaLevel.level);
-            new ShapedOre(this, ShapedDrive.get(6), ore.manaLevel)
-                    .addInItem(ore.get(OreItem.plate4).itemTag(), 32 * ore.manaLevel.level)
-                    .addInItem(ManaLevelItem.operation.getTag(ore.manaLevel), 24 * ore.manaLevel.level)
-                    .addInItem(ManaLevelItem.forming.getTag(ore.manaLevel), 24 * ore.manaLevel.level)
-                    .addInItem(ManaLevelItem.gather.getTag(ore.manaLevel), 4 * ore.manaLevel.level)
-                    .addInItem(ManaLevelItem.instructions.getTag(ore.manaLevel), 16 * ore.manaLevel.level)
-                    .addInItem(ManaLevelItem.power.getTag(ore.manaLevel), 16 * ore.manaLevel.level)
-                    .addInFluid(ore.get(OreFluid.solution).fluidTag(), 65536 * ore.manaLevel.level)
-                    .addOutItem(new ItemStack(ore.get(OreItem.feet).item(), 1), 1d)
-                    .addMultipleSurplusTime(16384L * ore.manaLevel.level)
-                    .addMultipleConsumeMana(64L * ore.manaLevel.level);
-        }
-        for (Ore ore : Ore.screen(Ore.ARMS_DATA)) {
-            ArmsData armorData = ore.getSet(Ore.ARMS_DATA);
-            new ShapedOre(this, ShapedDrive.get(7), ore.manaLevel)
-                    .addInItem(ore.get(OreItem.swordBasics).itemTag(), 1)
-                    .addInItem(ore.get(OreItem.plate4).itemTag(), 128 * ore.manaLevel.level)
-                    .addInItem(ManaLevelItem.operation.getTag(ore.manaLevel), 32 * ore.manaLevel.level)
-                    .addInItem(ManaLevelItem.destruction.getTag(ore.manaLevel), 64 * ore.manaLevel.level)
-                    .addInItem(ManaLevelItem.spread.getTag(ore.manaLevel), 48 * ore.manaLevel.level)
-                    .addInItem(ManaLevelItem.instructions.getTag(ore.manaLevel), 32 * ore.manaLevel.level)
-                    .addInItem(ManaLevelItem.power.getTag(ore.manaLevel), 48 * ore.manaLevel.level)
-                    .addInFluid(ore.get(OreFluid.solution).fluidTag(), 65536 * ore.manaLevel.level)
-                    .addOutItem(new ItemStack(ore.get(OreItem.sword).item(), 1), 1d)
-                    .addMultipleSurplusTime(16384L * ore.manaLevel.level)
-                    .addMultipleConsumeMana(64L * ore.manaLevel.level);
-            new ShapedOre(this, ShapedDrive.get(8), ore.manaLevel)
-                    .addInItem(ore.get(OreItem.shovelBasics).itemTag(), 1)
-                    .addInItem(ore.get(OreItem.plate4).itemTag(), 128 * ore.manaLevel.level)
-                    .addInItem(ManaLevelItem.operation.getTag(ore.manaLevel), 12 * ore.manaLevel.level)
-                    .addInItem(ManaLevelItem.destruction.getTag(ore.manaLevel), 12 * ore.manaLevel.level)
-                    .addInItem(ManaLevelItem.spread.getTag(ore.manaLevel), 4 * ore.manaLevel.level)
-                    .addInItem(ManaLevelItem.instructions.getTag(ore.manaLevel), 4 * ore.manaLevel.level)
-                    .addInItem(ManaLevelItem.power.getTag(ore.manaLevel), 8 * ore.manaLevel.level)
-                    .addInFluid(ore.get(OreFluid.solution).fluidTag(), 65536 * ore.manaLevel.level)
-                    .addOutItem(new ItemStack(ore.get(OreItem.shovel).item(), 1), 1d)
-                    .addMultipleSurplusTime(16384L * ore.manaLevel.level)
-                    .addMultipleConsumeMana(64L * ore.manaLevel.level);
-            new ShapedOre(this, ShapedDrive.get(9), ore.manaLevel)
-                    .addInItem(ore.get(OreItem.pickaxeBasics).itemTag(), 1)
-                    .addInItem(ore.get(OreItem.plate4).itemTag(), 64 * ore.manaLevel.level)
-                    .addInItem(ManaLevelItem.operation.getTag(ore.manaLevel), 32 * ore.manaLevel.level)
-                    .addInItem(ManaLevelItem.destruction.getTag(ore.manaLevel), 48 * ore.manaLevel.level)
-                    .addInItem(ManaLevelItem.spread.getTag(ore.manaLevel), 12 * ore.manaLevel.level)
-                    .addInItem(ManaLevelItem.instructions.getTag(ore.manaLevel), 12 * ore.manaLevel.level)
-                    .addInItem(ManaLevelItem.power.getTag(ore.manaLevel), 16 * ore.manaLevel.level)
-                    .addInFluid(ore.get(OreFluid.solution).fluidTag(), 65536 * ore.manaLevel.level)
-                    .addOutItem(new ItemStack(ore.get(OreItem.pickaxe).item(), 1), 1d)
-                    .addMultipleSurplusTime(16384L * ore.manaLevel.level)
-                    .addMultipleConsumeMana(64L * ore.manaLevel.level);
-            new ShapedOre(this, ShapedDrive.get(10), ore.manaLevel)
-                    .addInItem(ore.get(OreItem.axeBasics).itemTag(), 1)
-                    .addInItem(ore.get(OreItem.plate4).itemTag(), 64 * ore.manaLevel.level)
-                    .addInItem(ManaLevelItem.operation.getTag(ore.manaLevel), 32 * ore.manaLevel.level)
-                    .addInItem(ManaLevelItem.destruction.getTag(ore.manaLevel), 64 * ore.manaLevel.level)
-                    .addInItem(ManaLevelItem.spread.getTag(ore.manaLevel), 12 * ore.manaLevel.level)
-                    .addInItem(ManaLevelItem.instructions.getTag(ore.manaLevel), 12 * ore.manaLevel.level)
-                    .addInItem(ManaLevelItem.power.getTag(ore.manaLevel), 12 * ore.manaLevel.level)
-                    .addInFluid(ore.get(OreFluid.solution).fluidTag(), 65536 * ore.manaLevel.level)
-                    .addOutItem(new ItemStack(ore.get(OreItem.axe).item(), 1), 1d)
-                    .addMultipleSurplusTime(16384L * ore.manaLevel.level)
-                    .addMultipleConsumeMana(64L * ore.manaLevel.level);
-            new ShapedOre(this, ShapedDrive.get(11), ore.manaLevel)
-                    .addInItem(ore.get(OreItem.hoeBasics).itemTag(), 1)
-                    .addInItem(ore.get(OreItem.plate4).itemTag(), 64 * ore.manaLevel.level)
-                    .addInItem(ManaLevelItem.operation.getTag(ore.manaLevel), 16 * ore.manaLevel.level)
-                    .addInItem(ManaLevelItem.destruction.getTag(ore.manaLevel), 4 * ore.manaLevel.level)
-                    .addInItem(ManaLevelItem.spread.getTag(ore.manaLevel), 12 * ore.manaLevel.level)
-                    .addInItem(ManaLevelItem.instructions.getTag(ore.manaLevel), 8 * ore.manaLevel.level)
-                    .addInItem(ManaLevelItem.power.getTag(ore.manaLevel), 8 * ore.manaLevel.level)
-                    .addInFluid(ore.get(OreFluid.solution).fluidTag(), 65536 * ore.manaLevel.level)
-                    .addOutItem(new ItemStack(ore.get(OreItem.hoe).item(), 1), 1d)
-                    .addMultipleSurplusTime(16384L * ore.manaLevel.level)
-                    .addMultipleConsumeMana(64L * ore.manaLevel.level);
 
+
+        for (Ore ore : Ore.ORE.get()) {
+            if (ore.armorData != null) {
+                continue;
+            }
+            shapedConsumer.accept(head.create(ore));
+            shapedConsumer.accept(chest.create(ore));
+            shapedConsumer.accept(legs.create(ore));
+            shapedConsumer.accept(feet.create(ore));
         }
-        for (Ore ore : Ore.screen(Ore.TOOL_DATA)) {
-            new ShapedOre(this, ShapedDrive.get(12), ore.manaLevel)
-                    .addInItem(ore.get(OreItem.ingot).itemTag(), 6)
-                    .addInItem(Tags.Items.RODS_WOODEN, 1)
-                    .addOutItem(new ItemStack(ore.get(OreItem.hammer).item()), 1D)
-                    .addMultipleSurplusTime((long) (2048 * ore.strength))
-                    .addMultipleConsumeMana((long) (7 * ore.consume));
-            new ShapedOre(this, ShapedDrive.get(13), ore.manaLevel)
-                    .addInItem(ore.get(OreItem.ingot).itemTag(), 4)
-                    .addOutItem(new ItemStack(ore.get(OreItem.wrench).item()), 1D)
-                    .addMultipleSurplusTime((long) (2048 * ore.strength))
-                    .addMultipleConsumeMana((long) (7 * ore.consume));
-            new ShapedOre(this, ShapedDrive.get(14), ore.manaLevel)
-                    .addInItem(ore.get(OreItem.ingot).itemTag(), 2)
-                    .addInItem(ore.get(OreItem.plate).itemTag(), 3)
-                    .addOutItem(new ItemStack(ore.get(OreItem.wireCutter).item()), 1D)
-                    .addMultipleSurplusTime((long) (2048 * ore.strength))
-                    .addMultipleConsumeMana((long) (7 * ore.consume));
-            new ShapedOre(this, ShapedDrive.get(15), ore.manaLevel)
-                    .addInItem(ore.get(OreItem.plate).itemTag(), 2)
-                    .addInItem(ore.get(OreItem.casing).itemTag(), 1)
-                    .addOutItem(new ItemStack(ore.get(OreItem.file).item()), 1D)
-                    .addMultipleSurplusTime((long) (2048 * ore.strength))
-                    .addMultipleConsumeMana((long) (7 * ore.consume));
-            new ShapedOre(this, ShapedDrive.get(16), ore.manaLevel)
-                    .addInItem(ore.get(OreItem.plate3).itemTag(), 2)
-                    .addInItem(ore.get(OreItem.plate2).itemTag(), 6)
-                    .addInItem(ore.get(OreItem.casing).itemTag(), 16)
-                    .addOutItem(new ItemStack(ore.get(OreItem.tank).item()), 1D)
-                    .addMultipleSurplusTime((long) (4096 * ore.strength))
-                    .addMultipleConsumeMana((long) (24 * ore.consume));
+        for (Ore ore : Ore.ORE.get()) {
+            if (ore.armsData != null) {
+                continue;
+            }
+            shapedConsumer.accept(sword.create(ore));
+            shapedConsumer.accept(shovel.create(ore));
+            shapedConsumer.accept(pickaxe.create(ore));
+            shapedConsumer.accept(axe.create(ore));
+            shapedConsumer.accept(hoe.create(ore));
+        }
+        for (Ore ore : Ore.ORE.get()) {
+            if (!ore.isMetal) {
+                continue;
+            }
+            if (ore.toolData == null) {
+                continue;
+            }
+            shapedConsumer.accept(hammer.create(ore));
+            shapedConsumer.accept(wrench.create(ore));
+            shapedConsumer.accept(wireCutter.create(ore));
+            shapedConsumer.accept(file.create(ore));
+            shapedConsumer.accept(tank.create(ore));
+        }
+        for (Ore ore : Ore.ORE.get()) {
+            if (!ore.isCrysta) {
+                continue;
+            }
+            if (ore.toolData == null) {
+                continue;
+            }
+            //TODO 有关晶体的工具
         }
     }
+
+    @Override
+    public void defaultConfig() {
+        bracket = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "bracket"})
+                , this, ShapedDrive.get(0), 4096L, 12L, 0);
+        coil = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "coil"})
+                , this, ShapedDrive.get(1), 8192L, 22L, 0);
+        mechanicMakeData = new IShapedCreate.ManaLevelShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "mechanic_make_data"})
+                , this, ShapedDrive.get(2), 4096L, 22L, 0);
+
+        head = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "head"})
+                , this, ShapedDrive.get(3), 16384L, 64L, 0)
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptFluidIn(OreFluid.solution.name, 16384))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.plate4.name, 5 * 4))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.ManaLevelPack(List.of(
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.operation.name, 24).setMultiple(true),
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.forming.name, 12).setMultiple(true),
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.gather.name, 8).setMultiple(true),
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.instructions.name, 8).setMultiple(true),
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.power.name, 8).setMultiple(true)
+                )))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.head, 1, 1));
+        chest = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "chest"})
+                , this, ShapedDrive.get(4), 16384L, 64L, 0)
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptFluidIn(OreFluid.solution.name, 16384))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.plate4.name, 8 * 4))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.ManaLevelPack(List.of(
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.operation.name, 24).setMultiple(true),
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.forming.name, 24).setMultiple(true),
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.gather.name, 24).setMultiple(true),
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.instructions.name, 24).setMultiple(true),
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.power.name, 24).setMultiple(true)
+                )))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.chest, 1, 1));
+        legs = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "legs"})
+                , this, ShapedDrive.get(5), 16384L, 64L, 0)
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptFluidIn(OreFluid.solution.name, 16384))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.plate4.name, 7 * 4))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.ManaLevelPack(List.of(
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.operation.name, 24).setMultiple(true),
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.forming.name, 24).setMultiple(true),
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.gather.name, 12).setMultiple(true),
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.instructions.name, 12).setMultiple(true),
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.power.name, 12).setMultiple(true)
+                )))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.legs, 1, 1));
+        chest = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "chest"})
+                , this, ShapedDrive.get(6), 16384L, 64L, 0)
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptFluidIn(OreFluid.solution.name, 16384))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.plate4.name, 4 * 4))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.ManaLevelPack(List.of(
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.operation.name, 24).setMultiple(true),
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.forming.name, 24).setMultiple(true),
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.gather.name, 4).setMultiple(true),
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.instructions.name, 16).setMultiple(true),
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.power.name, 16).setMultiple(true)
+                )))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.chest, 1, 1));
+
+        sword = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "sword"})
+                , this, ShapedDrive.get(7), 16384L, 64L, 0)
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptFluidIn(OreFluid.solution.name, 16384))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.swordBasics.name, 1))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.plate4.name, 64 * 2))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.ManaLevelPack(List.of(
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.operation.name, 32).setMultiple(true),
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.destruction.name, 64).setMultiple(true),
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.spread.name, 48).setMultiple(true),
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.instructions.name, 32).setMultiple(true),
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.power.name, 48).setMultiple(true)
+                )))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.sword, 1, 1));
+        shovel = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "shovel"})
+                , this, ShapedDrive.get(8), 16384L, 64L, 0)
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptFluidIn(OreFluid.solution.name, 16384))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.shovelBasics.name, 1))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.plate4.name, 16))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.ManaLevelPack(List.of(
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.operation.name, 12).setMultiple(true),
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.destruction.name, 12).setMultiple(true),
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.spread.name, 4).setMultiple(true),
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.instructions.name, 4).setMultiple(true),
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.power.name, 8).setMultiple(true)
+                )))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.shovel, 1, 1));
+        pickaxe = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "pickaxe"})
+                , this, ShapedDrive.get(9), 16384L, 64L, 0)
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptFluidIn(OreFluid.solution.name, 16384))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.pickaxeBasics.name, 1))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.plate4.name, 16 * 3))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.ManaLevelPack(List.of(
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.operation.name, 32).setMultiple(true),
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.destruction.name, 48).setMultiple(true),
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.spread.name, 12).setMultiple(true),
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.instructions.name, 12).setMultiple(true),
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.power.name, 16).setMultiple(true)
+                )))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.pickaxe, 1, 1));
+        axe = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "axe"})
+                , this, ShapedDrive.get(10), 16384L, 64L, 0)
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptFluidIn(OreFluid.solution.name, 16384))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.axeBasics.name, 1))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.plate4.name, 16 * 3))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.ManaLevelPack(List.of(
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.operation.name, 32).setMultiple(true),
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.destruction.name, 64).setMultiple(true),
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.spread.name, 12).setMultiple(true),
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.instructions.name, 12).setMultiple(true),
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.power.name, 12).setMultiple(true)
+                )))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.axe, 1, 1));
+        hoe = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "hoe"})
+                , this, ShapedDrive.get(11), 16384L, 64L, 0)
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptFluidIn(OreFluid.solution.name, 16384))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.hoeBasics.name, 1))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.plate4.name, 16 * 2))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.ManaLevelPack(List.of(
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.operation.name, 16).setMultiple(true),
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.destruction.name, 4).setMultiple(true),
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.spread.name, 12).setMultiple(true),
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.instructions.name, 8).setMultiple(true),
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.power.name, 8).setMultiple(true)
+                )))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.hoe, 1, 1));
+
+        hammer = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "hammer"})
+                , this, ShapedDrive.get(12), 2048L, 7L, 0)
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.ingot.name, 6))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.ItemIn(() -> Tags.Items.RODS_WOODEN, 1))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.hammer, 1, 1));
+        wrench = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "wrench"})
+                , this, ShapedDrive.get(13), 2048L, 7L, 0)
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.ingot.name, 4))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.wrench, 1, 1));
+        wireCutter = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "wire_cutter"})
+                , this, ShapedDrive.get(14), 2048L, 7L, 0)
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.plate.name, 3))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.ingot.name, 2))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.wireCutter, 1, 1));
+        file = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "file"})
+                , this, ShapedDrive.get(15), 2048L, 7L, 0)
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.plate.name, 2))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.casing.name, 1))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.file, 1, 1));
+        tank = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "tank"})
+                , this, ShapedDrive.get(16), 4096L, 24L, 0)
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.plate2.name, 6))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.plate3.name, 3))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.casing.name, 12))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.tank, 1, 1));
+    }
+
+    @ConfigField
+    public IShapedCreate<Ore> bracket;
+
+    @ConfigField
+    public IShapedCreate<Ore> coil;
+    @ConfigField
+    public IShapedCreate<ManaLevel> mechanicMakeData;
+
+    @ConfigField
+    public IShapedCreate<Ore> head;
+
+    @ConfigField
+    public IShapedCreate<Ore> chest;
+
+    @ConfigField
+    public IShapedCreate<Ore> legs;
+
+    @ConfigField
+    public IShapedCreate<Ore> feet;
+
+    @ConfigField
+    public IShapedCreate<Ore> sword;
+
+    @ConfigField
+    public IShapedCreate<Ore> shovel;
+
+    @ConfigField
+    public IShapedCreate<Ore> pickaxe;
+
+    @ConfigField
+    public IShapedCreate<Ore> axe;
+
+    @ConfigField
+    public IShapedCreate<Ore> hoe;
+
+    @ConfigField
+    public IShapedCreate<Ore> hammer;
+
+    @ConfigField
+    public IShapedCreate<Ore> wrench;
+
+    @ConfigField
+    public IShapedCreate<Ore> wireCutter;
+
+    @ConfigField
+    public IShapedCreate<Ore> file;
+
+    @ConfigField
+    public IShapedCreate<Ore> tank;
+
 }

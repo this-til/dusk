@@ -18,4 +18,9 @@ public class DistillationShapedType extends ShapedType{
     public void registerRuleShaped(Consumer<Shaped> shapedConsumer) {
 
     }
+
+    @Override
+    public void defaultConfig() {
+
+    }
 }

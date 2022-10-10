@@ -16,7 +16,6 @@ import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
 import com.til.dusk.common.register.mana_level.fluid.ManaLevelFluid;
 import com.til.dusk.common.register.mana_level.item.ManaLevelItem;
 import com.til.dusk.common.register.mana_level.mana_level.mana_levels.*;
-import com.til.dusk.common.register.ore.fluid.OreFluid;
 import com.til.dusk.common.world.tag.TagPackSupplier;
 import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.pack.BlockPack;
@@ -29,12 +28,12 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.NewRegistryEvent;
-import net.minecraftforge.registries.RegistryBuilder;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
 
 /**
@@ -44,6 +43,9 @@ import java.util.function.Supplier;
 public abstract class ManaLevel extends UnitRegister<ManaLevel, ManaLevelItem, ManaLevelBlock, ManaLevelFluid> {
 
     public static Supplier<IForgeRegistry<ManaLevel>> MANA_LEVEL;
+    public static Map<Integer, ManaLevel> ID_MAP;
+    public static ManaLevel min;
+    public static ManaLevel max;
 
     public static T1ManaLevel t1;
     public static T2ManaLevel t2;
@@ -75,6 +77,11 @@ public abstract class ManaLevel extends UnitRegister<ManaLevel, ManaLevelItem, M
             manaLevels.add(manaLevel);
         }
         manaLevels = manaLevels.stream().sorted(Comparator.comparing(m -> m.level)).toList();
+        if (manaLevels.size() <= 0) {
+            return;
+        }
+        min = manaLevels.get(0);
+        max = manaLevels.get(manaLevels.size() - 1);
         ManaLevel old = null;
         int id = 0;
         for (ManaLevel manaLevel : manaLevels) {
@@ -84,6 +91,7 @@ public abstract class ManaLevel extends UnitRegister<ManaLevel, ManaLevelItem, M
             manaLevel.up = old;
             manaLevel.levelId = id;
             old = manaLevel;
+            ID_MAP.put(id, manaLevel);
             id++;
         }
     }
@@ -227,4 +235,12 @@ public abstract class ManaLevel extends UnitRegister<ManaLevel, ManaLevelItem, M
      */
     @ConfigField
     public boolean canUseRecipeMake;
+
+    public static ManaLevel get(ManaLevel manaLevel, MakeLevel makeLevel, boolean isMustRegister) {
+        return switch (makeLevel) {
+            case UP -> manaLevel.getUp() != null ? manaLevel.getUp() : isMustRegister ? ManaLevel.min : null;
+            case CURRENT -> manaLevel;
+            case NEXT -> manaLevel.getNext() != null ? manaLevel.getNext() : isMustRegister ? ManaLevel.max : null;
+        };
+    }
 }

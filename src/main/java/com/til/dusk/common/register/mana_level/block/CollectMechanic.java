@@ -9,6 +9,9 @@ import com.til.dusk.common.capability.clock.ManaClock;
 import com.til.dusk.common.capability.control.Control;
 import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.capability.pos.IPosTrack;
+import com.til.dusk.common.config.ConfigField;
+import com.til.dusk.common.data.lang.LangProvider;
+import com.til.dusk.common.data.lang.LangType;
 import com.til.dusk.common.event.EventIO;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.other.BindType;
@@ -44,7 +47,7 @@ public class CollectMechanic extends DefaultCapacityMechanic {
         super.addCapability(event, duskModCapability, manaLevel, iPosTrack);
         IControl iControl = duskModCapability.addCapability(CapabilityRegister.iControl.capability, new Control(iPosTrack, List.of(BindType.manaIn, BindType.itemOut, BindType.posTrack), manaLevel));
         IBack iBack = duskModCapability.addCapability(CapabilityRegister.iBlack.capability, new Back());
-        IClock iClock = duskModCapability.addCapability(CapabilityRegister.iClock.capability, new ManaClock(iBack, manaLevel.clock / 5, iControl, 12L * manaLevel.level));
+        IClock iClock = duskModCapability.addCapability(CapabilityRegister.iClock.capability, new ManaClock(iBack, manaLevel.clock / transmissionEfficiency, iControl, consume * manaLevel.level));
         iClock.addBlock(() -> {
             Level level = event.getObject().getLevel();
             if (level == null) {
@@ -58,7 +61,11 @@ public class CollectMechanic extends DefaultCapacityMechanic {
             if (outItem.isEmpty()) {
                 return;
             }
+            int transmissionAmount = this.transmissionAmount;
             for (ItemEntity itemEntity : itemEntityList) {
+                if (transmissionAmount <= 0) {
+                    break;
+                }
                 ItemStack itemStackSimulate = itemEntity.getItem().copy();
                 for (IItemHandler value : outItem.values()) {
                     itemStackSimulate = ItemHandlerHelper.insertItemStacked(value, itemStackSimulate, true);
@@ -75,7 +82,30 @@ public class CollectMechanic extends DefaultCapacityMechanic {
                 CapabilityHelp.insertItem(iPosTrack, routePack, outItem, itemStack, false);
                 itemEntity.kill();
                 MinecraftForge.EVENT_BUS.post(new EventIO.Item(level, routePack));
+                transmissionAmount--;
             }
         });
     }
+
+    @Override
+    public void registerLang(LangProvider.LangTool lang) {
+        lang.setCache(name.toLanguageKey());
+        lang.add(LangType.ZH_CN, "收集晶体");
+        lang.add(LangType.EN_CH, "Collect Crystal");
+    }
+
+    @Override
+    public void defaultConfig() {
+        consume = 8L;
+        transmissionEfficiency = 5;
+        transmissionAmount = 1;
+    }
+
+    @ConfigField
+    public int transmissionEfficiency;
+    @ConfigField
+    public int transmissionAmount;
+    @ConfigField
+    public long consume;
+
 }

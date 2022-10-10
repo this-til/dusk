@@ -9,7 +9,6 @@ import com.til.dusk.common.register.ore.fluid.OreFluid;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shapeds.Shaped;
-import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
 import com.til.dusk.util.ResourceLocationUtil;
 import net.minecraftforge.fluids.FluidStack;
 

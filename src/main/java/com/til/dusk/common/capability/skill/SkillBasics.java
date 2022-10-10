@@ -84,7 +84,10 @@ public abstract class SkillBasics implements ISkill, ITooltipCapability {
         iTooltip.add(Lang.getLang(Lang.getLang(CapabilityRegister.iSkill)));
         iTooltip.indent();
         for (Map.Entry<Skill, Integer> entry : sMap.entrySet()) {
-            iTooltip.add(Lang.getLang(Component.translatable(Lang.getKey(entry.getKey())), Component.literal("x"), Component.literal(String.valueOf(entry.getValue()))));
+            iTooltip.add(Lang.getLang(
+                    Component.translatable(entry.getKey().name.toLanguageKey()),
+                    Component.literal("x"),
+                    Component.literal(String.valueOf(entry.getValue()))));
 
         }
     }

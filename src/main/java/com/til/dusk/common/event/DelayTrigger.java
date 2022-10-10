@@ -5,7 +5,6 @@ import com.til.dusk.common.data.lang.LangProvider;
 import com.til.dusk.common.register.shaped.shapeds.Shaped;
 import com.til.dusk.util.Extension;
 import com.til.dusk.util.Util;
-import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeBuilder;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -17,7 +16,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
 
 /**
  * @author til

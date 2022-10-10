@@ -2,6 +2,7 @@ package com.til.dusk.common.register.shaped.shaped_type;
 
 import com.google.gson.JsonObject;
 import com.til.dusk.common.capability.handle.ShapedHandle;
+import com.til.dusk.common.config.util.Delayed;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.ore.fluid.OreFluid;
@@ -36,10 +37,16 @@ public class DecomposeShapedType extends ShapedType {
     }
 
     @Override
+    public void defaultConfig() {
+        relevantShaped = new Delayed<>(() -> List.of(
+                new FoolDecomposeShaped(name, this, ShapedDrive.get(0), ManaLevel.t1, 20)
+                        .addMultipleSurplusTime(752L)
+                        .addMultipleConsumeMana(18L)));
+    }
+
+    @Override
     public void registerRuleShaped(Consumer<Shaped> shapedConsumer) {
-        new FoolDecomposeShaped(this, ShapedDrive.get(0), ManaLevel.t1, 20)
-                .addMultipleSurplusTime(752L)
-                .addMultipleConsumeMana(18L);
+
     }
 
     public static class FoolDecomposeShaped extends ShapedMiddleExtend {
@@ -49,20 +56,25 @@ public class DecomposeShapedType extends ShapedType {
          */
         public int basicsOut;
 
-        public FoolDecomposeShaped(ShapedType shapedType, ShapedDrive shapedDrive, ManaLevel manaLevel, int basicsOut) {
-            super(shapedType, shapedDrive, manaLevel);
+        public FoolDecomposeShaped() {
+        }
+
+        public FoolDecomposeShaped(ResourceLocation name, ShapedType shapedType, ShapedDrive shapedDrive, ManaLevel manaLevel, int basicsOut) {
+            super(name, shapedType, shapedDrive, manaLevel);
             this.basicsOut = basicsOut;
         }
 
-        public FoolDecomposeShaped(ResourceLocation name, JsonObject jsonObject) {
-            super(name, jsonObject);
-            basicsOut = AllNBTPack.BASICS_OUT.get(jsonObject);
+        @Override
+        public JsonObject asJson() {
+            JsonObject jsonObject = super.asJson();
+            AllNBTPack.BASICS_OUT.set(jsonObject, basicsOut);
+            return jsonObject;
         }
 
         @Override
-        public JsonObject writ(JsonObject jsonObject) {
-            AllNBTPack.BASICS_OUT.set(jsonObject, basicsOut);
-            return super.writ(jsonObject);
+        public void init(JsonObject json) {
+            super.init(json);
+            basicsOut = AllNBTPack.BASICS_OUT.get(json);
         }
 
         @Override

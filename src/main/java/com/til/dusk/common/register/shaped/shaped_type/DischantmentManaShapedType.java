@@ -1,6 +1,5 @@
 package com.til.dusk.common.register.shaped.shaped_type;
 
-import com.google.gson.JsonObject;
 import com.til.dusk.common.capability.handle.ShapedHandle;
 import com.til.dusk.common.config.util.Delayed;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
@@ -46,13 +45,13 @@ public class DischantmentManaShapedType extends ShapedType {
 
     public static class DischantmentManaShaped extends ShapedMiddleExtend {
 
+        public DischantmentManaShaped() {
+        }
+
         public DischantmentManaShaped(ResourceLocation name, ShapedType shapedType, ShapedDrive shapedDrive, ManaLevel manaLevel) {
             super(name, shapedType, shapedDrive, manaLevel);
         }
 
-        public DischantmentManaShaped(ResourceLocation name, JsonObject jsonObject) {
-            super(name, jsonObject);
-        }
 
         @Override
         protected boolean isItem(ItemStack itemStack) {
@@ -98,8 +97,8 @@ public class DischantmentManaShapedType extends ShapedType {
         public List<Component> getComponent() {
             List<Component> componentList = new ArrayList<>();
             componentList.add(Component.literal("message"));
-            componentList.add(Lang.getLang(Component.translatable(Lang.getKey("需要灵压等级")), Component.translatable(Lang.getKey(manaLevel))));
-            componentList.add(Lang.getLang(Component.translatable(Lang.getKey("需要配方集")), Component.literal(shapedDrive.getLangKey())));
+            componentList.add(Lang.getLang(Component.translatable(Lang.getKey("需要灵压等级")), Component.translatable(manaLevel.name.toLanguageKey())));
+            componentList.add(Lang.getLang(Component.translatable(Lang.getKey("需要配方集")), Component.literal(shapedDrive.name.getPath())));
             if (consumeMana > 0) {
                 componentList.add(Lang.getLang(Component.translatable(Lang.getKey("消耗灵气")), Component.literal(String.valueOf(consumeMana))));
             }

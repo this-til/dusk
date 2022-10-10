@@ -8,8 +8,6 @@ import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shapeds.Shaped;
-import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
-import net.minecraft.world.item.ItemStack;
 
 import java.util.function.Consumer;
 
@@ -38,7 +36,7 @@ public class BlastFurnaceShapedType extends ShapedType {
     @Override
     public void defaultConfig() {
         blastFurnace = new IShapedCreate.OreShapedCreate(name, this, ShapedDrive.get(0), 1024L, 32L, 0)
-                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemItemOut(OreItem.dust, 1, 1))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.dust, 1, 1))
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.ingot.name, 1));
     }
 

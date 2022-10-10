@@ -1,13 +1,16 @@
 package com.til.dusk.common.register.shaped.shaped_type;
 
+import com.til.dusk.common.config.ConfigField;
+import com.til.dusk.common.config.util.IShapedCreate;
+import com.til.dusk.common.config.util.IShapedOreConfig;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
 import com.til.dusk.common.register.ore.block.OreBlock;
+import com.til.dusk.common.register.ore.block.OreBlockMineral;
 import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shapeds.Shaped;
-import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
-import net.minecraft.world.item.ItemStack;
+import com.til.dusk.util.ResourceLocationUtil;
 
 import java.util.function.Consumer;
 
@@ -22,64 +25,84 @@ public class GrindShapedType extends ShapedType {
 
     @Override
     public void registerRuleShaped(Consumer<Shaped> shapedConsumer) {
-        for (Ore ore : Ore.screen(Ore.MINERAL_BLOCK_DATA)) {
-            new ShapedOre(this, ShapedDrive.get(0), ore.manaLevel)
-                    .addInItem(ore.getMineralBlockTag().itemTagKey(), 1)
-                    .addOutItem(new ItemStack(ore.get(OreItem.crushed).item(), 2), 1d)
-                    .addMultipleSurplusTime((long) (640 * ore.strength))
-                    .addMultipleConsumeMana((long) (16 * ore.consume));
+        for (Ore ore : Ore.ORE.get()) {
+            if (ore.mineralBlockData != null) {
+                shapedConsumer.accept(crushed.create(ore));
+            }
+            if (ore.isMetal && ore.hasDust) {
+                shapedConsumer.accept(ingotDust.create(ore));
+            }
+            if (ore.isCrysta && ore.hasDust) {
+                shapedConsumer.accept(crystalDust.create(ore));
+                shapedConsumer.accept(damagedCrystalDust.create(ore));
+                shapedConsumer.accept(delicateCrystalDust.create(ore));
+                shapedConsumer.accept(perfectCrystalDust.create(ore));
+            }
         }
-
-        for (Ore ore : Ore.screen(Ore.IS_METAL, Ore.HAS_DUST)) {
-            new ShapedOre(this, ShapedDrive.get(1), ore.manaLevel)
-                    .addInItem(ore.get(OreItem.ingot).itemTag(), 1)
-                    .addOutItem(new ItemStack(ore.get(OreItem.dust).item(), 1), 1d)
-                    .addMultipleSurplusTime((long) (320 * ore.strength))
-                    .addMultipleConsumeMana((long) (8 * ore.consume));
-        }
-
-        for (Ore ore : Ore.screen(Ore.IS_CRYSTA, Ore.HAS_DUST)) {
-            new ShapedOre(this, ShapedDrive.get(2), ore.manaLevel).addInItem(ore.get(OreItem.crystal).itemTag(), 1)
-                    .addOutItem(new ItemStack(ore.get(OreItem.dust).item(), 1), 1d)
-                    .addMultipleSurplusTime((long) (320 * ore.strength))
-                    .addMultipleConsumeMana((long) (12 * ore.consume));
-            new ShapedOre(this, ShapedDrive.get(3), ore.manaLevel).addInItem(ore.get(OreItem.damagedCrystal).itemTag(), 1)
-                    .addOutItem(new ItemStack(ore.get(OreItem.dust).item(), 1), 1d)
-                    .addMultipleSurplusTime((long) (320 * ore.strength))
-                    .addMultipleConsumeMana((long) (18 * ore.consume));
-            new ShapedOre(this, ShapedDrive.get(4), ore.manaLevel).addInItem(ore.get(OreItem.delicateCrystal).itemTag(), 1)
-                    .addOutItem(new ItemStack(ore.get(OreItem.dust).item(), 2), 1d)
-                    .addMultipleSurplusTime((long) (320 * ore.strength))
-                    .addMultipleConsumeMana((long) (24 * ore.consume));
-            new ShapedOre(this, ShapedDrive.get(5), ore.manaLevel)
-                    .addInItem(ore.get(OreItem.perfectCrystal).itemTag(), 1)
-                    .addOutItem(new ItemStack(ore.get(OreItem.dust).item(), 3), 1d)
-                    .addMultipleSurplusTime((long) (320 * ore.strength))
-                    .addMultipleConsumeMana((long) (24 * ore.consume));
-        }
-
-        for (Ore ore : Ore.screen(Ore.DECORATE_BLOCK_DATA, Ore.HAS_DUST)) {
-            new ShapedOre(this, ShapedDrive.get(6), ore.manaLevel)
-                    .addInItem(ore.get(OreBlock.block).blockItemTag(), 1)
-                    .addOutItem(new ItemStack(ore.get(OreItem.dust).item(), 9), 1d)
-                    .addMultipleSurplusTime((long) (5000 * ore.strength))
-                    .addMultipleConsumeMana((long) (16 * ore.consume));
-            new ShapedOre(this, ShapedDrive.get(7), ore.manaLevel)
-                    .addInItem(ore.get(OreBlock.slab).blockItemTag(), 1)
-                    .addOutItem(new ItemStack(ore.get(OreItem.dust).item(), 3), 1d)
-                    .addMultipleSurplusTime((long) (2000 * ore.strength))
-                    .addMultipleConsumeMana((long) (16 * ore.consume));
-            new ShapedOre(this, ShapedDrive.get(8), ore.manaLevel)
-                    .addInItem(ore.get(OreBlock.stairs).blockItemTag(), 1)
-                    .addOutItem(new ItemStack(ore.get(OreItem.dust).item(), 7), 1d)
-                    .addMultipleSurplusTime((long) (5000 * ore.strength))
-                    .addMultipleConsumeMana((long) (16 * ore.consume));
-            new ShapedOre(this, ShapedDrive.get(9), ore.manaLevel)
-                    .addInItem(ore.get(OreBlock.wall).blockItemTag(), 1)
-                    .addOutItem(new ItemStack(ore.get(OreItem.dust).item(), 6), 1d)
-                    .addMultipleSurplusTime((long) (5000 * ore.strength))
-                    .addMultipleConsumeMana((long) (16 * ore.consume));
-        }
-
     }
+
+    @Override
+    public void defaultConfig() {
+        crushed = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "crushed"})
+                , this, ShapedDrive.get(0), 1024L, 8L, 0)
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreBlockMineral.MINERAL_NAME, 1))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.crushed, 2, 1));
+        ingotDust = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "ingot_dust"})
+                , this, ShapedDrive.get(1), 1024L, 12L, 0)
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.ingot.name, 1))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.dust, 1, 1));
+        crystalDust = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "crystal_dust"})
+                , this, ShapedDrive.get(1), 1024L, 12L, 0)
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.crystal.name, 1))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.dust, 1, 1));
+        damagedCrystalDust = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "damaged_crystal_dust"})
+                , this, ShapedDrive.get(1), 757L, 12L, 0)
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.damagedCrystal.name, 1))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.dust, 1, 1));
+        delicateCrystalDust = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "damaged_crystal_dust"})
+                , this, ShapedDrive.get(1), 1024L, 12L, 0)
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.damagedCrystal.name, 1))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.dust, 2, 1));
+        perfectCrystalDust = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "perfect_crystal_dust"})
+                , this, ShapedDrive.get(1), 1024L, 12L, 0)
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.perfectCrystal.name, 1))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.dust, 3, 1));
+        blockDust = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "block_dust"})
+                , this, ShapedDrive.get(2), 5000L, 12L, 0)
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreBlock.block.name, 1))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.dust, 9, 1));
+        slabDust = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "slab_dust"})
+                , this, ShapedDrive.get(2), 5000L, 6L, 0)
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreBlock.slab.name, 1))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.dust, 3, 1));
+        stairsDust = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "stairs_dust"})
+                , this, ShapedDrive.get(2), 5000L, 12L, 0)
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreBlock.stairs.name, 1))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.dust, 7, 1));
+        wallDust = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "wall_dust"})
+                , this, ShapedDrive.get(2), 5000L, 12L, 0)
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreBlock.wall.name, 1))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.dust, 6, 1));
+    }
+
+    @ConfigField
+    public IShapedCreate<Ore> crushed;
+    @ConfigField
+    public IShapedCreate<Ore> ingotDust;
+    @ConfigField
+    public IShapedCreate<Ore> crystalDust;
+    @ConfigField
+    public IShapedCreate<Ore> damagedCrystalDust;
+    @ConfigField
+    public IShapedCreate<Ore> delicateCrystalDust;
+    @ConfigField
+    public IShapedCreate<Ore> perfectCrystalDust;
+    @ConfigField
+    public IShapedCreate<Ore> blockDust;
+    @ConfigField
+    public IShapedCreate<Ore> slabDust;
+    @ConfigField
+    public IShapedCreate<Ore> stairsDust;
+    @ConfigField
+    public IShapedCreate<Ore> wallDust;
 }

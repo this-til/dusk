@@ -3,7 +3,6 @@ package com.til.dusk.util.pack;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
 import com.til.dusk.util.Extension;
-import com.til.dusk.util.GenericMap;
 import com.til.dusk.util.Util;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -14,6 +13,10 @@ import net.minecraftforge.fluids.FluidStack;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author til
+ */
+@Deprecated
 public class DataPack<T extends DataPack<?, OTHER_DATA>, OTHER_DATA> {
 
     public final List<Extension.Action_2V<ShapedOre, OTHER_DATA>> run = new ArrayList<>();
@@ -105,5 +108,5 @@ public class DataPack<T extends DataPack<?, OTHER_DATA>, OTHER_DATA> {
     public static class OreDataPack extends DataPack<OreDataPack, Void> {
     }
 
-    public static final GenericMap.IKey<Integer> AMOUNT = new GenericMap.IKey.Key<>();
+    //public static final GenericMap.IKey<Integer> AMOUNT = new GenericMap.IKey.Key<>();
 }

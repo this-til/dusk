@@ -3,7 +3,6 @@ package com.til.dusk.common.register.ore.fluid;
 import com.til.dusk.Dusk;
 import com.til.dusk.common.register.FluidUnitRegister;
 import com.til.dusk.common.register.RegisterManage;
-import com.til.dusk.common.register.mana_level.item.ManaLevelItemPack;
 import com.til.dusk.common.register.ore.fluid.fluids.*;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.util.pack.FluidPack;
@@ -15,7 +14,6 @@ import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.NewRegistryEvent;
-import net.minecraftforge.registries.RegistryBuilder;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
@@ -24,7 +22,7 @@ import java.util.function.Supplier;
  * @author til
  */
 @Mod.EventBusSubscriber(modid = Dusk.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class OreFluid extends FluidUnitRegister<OreFluid, Ore> {
+public abstract class OreFluid extends FluidUnitRegister<OreFluid, Ore> {
 
     public static Supplier<IForgeRegistry<OreFluid>> ORE_FLUID;
 
@@ -92,11 +90,6 @@ public class OreFluid extends FluidUnitRegister<OreFluid, Ore> {
     @Override
     public @Nullable BucketItem createBanner(Ore ore, FlowingFluid source) {
         return null;
-    }
-
-    @Override
-    public void defaultConfig() {
-
     }
 
     public static final ResourceLocation STILL_TEXTURE = new ResourceLocation("block/water_still");

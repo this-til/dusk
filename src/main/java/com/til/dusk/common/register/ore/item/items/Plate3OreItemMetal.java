@@ -31,7 +31,6 @@ public class Plate3OreItemMetal extends OreItemMetal {
 
     @Override
     public void dyeBlack(Ore ore, ColorProxy.ItemColorPack itemColorPack) {
-        DuskColor color = ColorPrefab.GRAYSCALE_REDUCTION_2.blend(ore.getConfig(Ore.COLOR));
-        itemColorPack.addColor(0, itemStack -> color);
+        itemColorPack.addColor(0, itemStack -> ore.color);
     }
 }

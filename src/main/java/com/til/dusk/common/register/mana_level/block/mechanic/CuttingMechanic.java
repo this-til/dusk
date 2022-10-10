@@ -29,7 +29,7 @@ public class CuttingMechanic extends HandleMechanic {
     public void defaultConfig() {
         manaLevelMakeData = new ManaLevelMakeData()
                 .addOreConfig(List.of(
-                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(frameBasic.name, 1),
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(forming.name, 1),
                         new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.forming.name, 1),
                         new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.power.name, 1),
                         new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(OreItem.circularSawBlade.name, 1)));

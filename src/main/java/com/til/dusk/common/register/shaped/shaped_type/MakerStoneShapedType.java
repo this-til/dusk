@@ -11,10 +11,8 @@ import com.til.dusk.util.ResourceLocationUtil;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.function.Consumer;
 
 /**

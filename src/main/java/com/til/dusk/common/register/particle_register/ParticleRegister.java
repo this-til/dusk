@@ -3,7 +3,6 @@ package com.til.dusk.common.register.particle_register;
 import com.til.dusk.Dusk;
 import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.register.RegisterManage;
-import com.til.dusk.common.register.ore.block.OreBlock;
 import com.til.dusk.common.register.other.MessageRegister;
 import com.til.dusk.common.register.particle_register.particle_registers.*;
 import com.til.dusk.util.DuskColor;
@@ -24,7 +23,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.NewRegistryEvent;
-import net.minecraftforge.registries.RegistryBuilder;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;

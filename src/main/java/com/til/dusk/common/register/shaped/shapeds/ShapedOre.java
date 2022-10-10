@@ -15,7 +15,6 @@ import com.til.dusk.util.Extension;
 import com.til.dusk.util.MapUtil;
 import com.til.dusk.util.RoutePack;
 import com.til.dusk.util.nbt.pack.AllNBTPack;
-import com.til.dusk.util.pack.DataPack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -317,13 +316,6 @@ public class ShapedOre extends ShapedMiddle {
 
     public ShapedOre runThis(Extension.Action_1V<ShapedOre> run) {
         run.action(this);
-        return this;
-    }
-
-    public <OTHER_DATA> ShapedOre runThis(GenericMap.IKey<? extends DataPack<?, OTHER_DATA>> key, GenericMap.IGenericMapSupplier supplier, OTHER_DATA otherData) {
-        if (supplier.hasSet(key)) {
-            supplier.getSet(key).run(this, otherData);
-        }
         return this;
     }
 }

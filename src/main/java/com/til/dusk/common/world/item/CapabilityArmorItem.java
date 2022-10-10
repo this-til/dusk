@@ -2,11 +2,9 @@ package com.til.dusk.common.world.item;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.common.capability.IItemDefaultCapability;
-import com.til.dusk.common.config.ConfigMap;
 import com.til.dusk.common.register.ore.item.ArmorData;
 import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.ore.ore.Ore;
-import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.Lang;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;

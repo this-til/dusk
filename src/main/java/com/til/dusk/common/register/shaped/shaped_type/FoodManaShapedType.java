@@ -1,6 +1,7 @@
 package com.til.dusk.common.register.shaped.shaped_type;
 
 import com.til.dusk.common.capability.handle.ShapedHandle;
+import com.til.dusk.common.config.util.Delayed;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.shaped.ShapedDrive;
@@ -9,6 +10,7 @@ import com.til.dusk.common.register.shaped.shapeds.ShapedMiddleExtend;
 import com.til.dusk.util.Lang;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -31,18 +33,24 @@ public class FoodManaShapedType extends ShapedType {
 
     @Override
     public void registerRuleShaped(Consumer<Shaped> shapedConsumer) {
-        new FoodShaped(this, ShapedDrive.get(0), ManaLevel.t1)
-                .addMultipleSurplusTime(1024)
-                .addMultipleOutMana(512);
+    }
+
+    @Override
+    public void defaultConfig() {
+        relevantShaped = new Delayed<>(() -> List.of(
+                new FoodShaped(name, this, ShapedDrive.get(0), ManaLevel.t1)
+                        .addMultipleSurplusTime(1024)
+                        .addMultipleOutMana(512)
+        ));
     }
 
     public static class FoodShaped extends ShapedMiddleExtend {
-        public FoodShaped(){
+        public FoodShaped() {
             super();
         }
 
-        public FoodShaped(ShapedType shapedType, ShapedDrive shapedDrive, ManaLevel manaLevel) {
-            super(shapedType, shapedDrive, manaLevel);
+        public FoodShaped(ResourceLocation name, ShapedType shapedType, ShapedDrive shapedDrive, ManaLevel manaLevel) {
+            super(name, shapedType, shapedDrive, manaLevel);
         }
 
 
@@ -88,8 +96,8 @@ public class FoodManaShapedType extends ShapedType {
         public List<Component> getComponent() {
             List<Component> componentList = new ArrayList<>();
             componentList.add(Component.literal("message"));
-            componentList.add(Lang.getLang(Lang.getKey("需要灵压等级"), Lang.getKey(manaLevel)));
-            componentList.add(Lang.getLang(Lang.getKey("需要配方集"), shapedDrive.getLangKey()));
+            componentList.add(Lang.getLang(Lang.getKey("需要灵压等级"), manaLevel.name.toLanguageKey()));
+            componentList.add(Lang.getLang(Lang.getKey("需要配方集"), shapedDrive.name.getPath()));
             if (consumeMana > 0) {
                 componentList.add(Lang.getLang(Component.translatable(Lang.getKey("消耗灵气")), Component.literal(String.valueOf(consumeMana))));
             }

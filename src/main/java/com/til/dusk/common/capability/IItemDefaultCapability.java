@@ -5,9 +5,8 @@ import com.til.dusk.common.capability.black.IBack;
 import com.til.dusk.common.capability.mana_handle.VariableManaHandle;
 import com.til.dusk.common.capability.skill.ISkill;
 import com.til.dusk.common.capability.skill.ItemStackSkill;
-import com.til.dusk.common.config.ConfigMap;
 import com.til.dusk.common.register.ore.item.ArmorData;
-import com.til.dusk.common.register.ore.ore.Ore;
+import com.til.dusk.common.register.ore.item.ArmsData;
 import com.til.dusk.common.register.other.CapabilityRegister;
 import com.til.dusk.common.register.skill.Skill;
 import net.minecraft.world.item.Item;
@@ -40,21 +39,21 @@ public interface IItemDefaultCapability {
     }
 
     interface ArmsCapabilityItem extends IItemDefaultCapability {
-        ArmorData getArmorData();
+        ArmsData getArmorData();
 
         @Override
         default void initCapability(AttachCapabilitiesEvent<ItemStack> event, DuskCapabilityProvider duskCapabilityProvider) {
-            ArmorData armorData = getArmorData();
+            ArmsData armsData = getArmorData();
             IBack iBack = duskCapabilityProvider.addCapability(CapabilityRegister.iBlack.capability, new Back());
             ISkill iSkill = duskCapabilityProvider.addCapability(CapabilityRegister.iSkill.capability, new ItemStackSkill());
-            if (armorData.defaultSkill != null) {
-                for (Map.Entry<Skill, Integer> entry : armorData.defaultSkill.entrySet()) {
+            if (armsData.defaultSkill != null) {
+                for (Map.Entry<Skill, Integer> entry : armsData.defaultSkill.entrySet()) {
                     iSkill.getSkill(entry.getKey()).originalLevel = entry.getValue();
                 }
             }
-            if (armorData.manaBasics > 0) {
+            if (armsData.manaBasics > 0) {
                 duskCapabilityProvider.addCapability(CapabilityRegister.iManaHandle.capability,
-                        new VariableManaHandle(armorData.manaBasics, armorData.rateBasics, iBack,
+                        new VariableManaHandle(armsData.manaBasics, armsData.rateBasics, iBack,
                         () -> 1 + iSkill.getSkill(Skill.maxManaDilatation).level * 0.2, () -> 1 + iSkill.getSkill(Skill.rateDilatation).level * 0.2));
             }
         }

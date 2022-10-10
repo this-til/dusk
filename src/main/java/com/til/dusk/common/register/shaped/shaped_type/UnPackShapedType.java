@@ -9,9 +9,7 @@ import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shapeds.Shaped;
-import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
 import com.til.dusk.util.ResourceLocationUtil;
-import net.minecraft.world.item.ItemStack;
 
 import java.util.function.Consumer;
 
@@ -48,19 +46,19 @@ public class UnPackShapedType extends ShapedType {
         ingot = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(),"ingot"}),
                 this, ShapedDrive.get(0), 128L, 4L, 0L)
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreBlock.block.name, 1))
-                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemItemOut(OreItem.ingot, 9, 1));
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.ingot, 9, 1));
         crystal = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(),"crystal"}),
                 this, ShapedDrive.get(1), 128L, 4L, 0L)
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreBlock.block.name, 1))
-                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemItemOut(OreItem.crystal, 9, 1));
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.crystal, 9, 1));
         nuggets = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(),"nuggets"}),
                 this, ShapedDrive.get(2), 128L, 4L, 0L)
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.ingot.name, 1))
-                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemItemOut(OreItem.nuggets, 9, 1));
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.nuggets, 9, 1));
         dustTiny = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(),"dust_tiny"}),
                 this, ShapedDrive.get(3), 128L, 4L, 0L)
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.dust.name, 1))
-                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemItemOut(OreItem.dustTiny, 9, 1));
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.dustTiny, 9, 1));
     }
 
     @ConfigField

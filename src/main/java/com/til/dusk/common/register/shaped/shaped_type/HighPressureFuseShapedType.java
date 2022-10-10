@@ -1,13 +1,15 @@
 package com.til.dusk.common.register.shaped.shaped_type;
 
+import com.til.dusk.common.config.ConfigField;
+import com.til.dusk.common.config.util.IShapedCreate;
+import com.til.dusk.common.config.util.IShapedOreConfig;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
 import com.til.dusk.common.register.ore.fluid.FluidData;
 import com.til.dusk.common.register.ore.fluid.OreFluid;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shapeds.Shaped;
-import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
-import net.minecraftforge.fluids.FluidStack;
+import com.til.dusk.util.ResourceLocationUtil;
 
 import java.util.function.Consumer;
 
@@ -22,23 +24,48 @@ public class HighPressureFuseShapedType extends ShapedType {
 
     @Override
     public void registerRuleShaped(Consumer<Shaped> shapedConsumer) {
-        for (Ore ore : Ore.screen(Ore.FLUID_DATA)) {
-            FluidData fluidData = ore.getSet(Ore.FLUID_DATA);
-            if (fluidData.splitting == null) {
+        for (Ore ore : Ore.ORE.get()) {
+            if (ore.fluidData == null) {
                 continue;
             }
-            new ShapedOre(this, ShapedDrive.get(1), ore.manaLevel)
-                    .addInFluid(ore.get(OreFluid.solution).fluidTag(), 72)
-                    .addInFluid(Ore.sunlight.get(OreFluid.solution).fluidTag(), 72)
-                    .addOutFluid(new FluidStack(ore.get(OreFluid.splittingSunlightSolution).source(), 144), 1d);
-            new ShapedOre(this, ShapedDrive.get(1), ore.manaLevel)
-                    .addInFluid(ore.get(OreFluid.solution).fluidTag(), 72)
-                    .addInFluid(Ore.moonlight.get(OreFluid.solution).fluidTag(), 72)
-                    .addOutFluid(new FluidStack(ore.get(OreFluid.splittingMoonlightSolution).source(), 144), 1d);
-            new ShapedOre(this, ShapedDrive.get(1), ore.manaLevel)
-                    .addInFluid(ore.get(OreFluid.solution).fluidTag(), 72)
-                    .addInFluid(Ore.rain.get(OreFluid.solution).fluidTag(), 72)
-                    .addOutFluid(new FluidStack(ore.get(OreFluid.splittingRainSolution).source(), 144), 1d);
+            if (ore.fluidData.splitting == null) {
+                continue;
+            }
+            FluidData.SplittingData splittingData = ore.fluidData.splitting;
+            if (splittingData.sunlightSplitting != null) {
+                shapedConsumer.accept(splittingSunlightSolution.create(ore));
+            }
+            if (splittingData.moonlightSplitting != null) {
+                shapedConsumer.accept(splittingMoonlightSolution.create(ore));
+            }
+            if (splittingData.rainSplitting != null) {
+                shapedConsumer.accept(splittingRainSolution.create(ore));
+            }
         }
     }
+
+    @Override
+    public void defaultConfig() {
+        splittingSunlightSolution = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "sunlight"}),
+                this, ShapedDrive.get(0), 2048L,22L,0)
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptFluidIn(OreFluid.solution.name,72))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.FluidIn(() -> Ore.sunlight.get(OreFluid.solution).fluidTag(),72));
+        splittingMoonlightSolution = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "moonlight"}),
+                this, ShapedDrive.get(0), 2048L,22L,0)
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptFluidIn(OreFluid.solution.name,72))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.FluidIn(() -> Ore.moonlight.get(OreFluid.solution).fluidTag(),72));
+        splittingRainSolution = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "rain"}),
+                this, ShapedDrive.get(0), 2048L,22L,0)
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptFluidIn(OreFluid.solution.name,72))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.FluidIn(() -> Ore.rain.get(OreFluid.solution).fluidTag(),72));
+    }
+
+    @ConfigField
+    public IShapedCreate<Ore> splittingSunlightSolution;
+
+    @ConfigField
+    public IShapedCreate<Ore> splittingMoonlightSolution;
+
+    @ConfigField
+    public IShapedCreate<Ore> splittingRainSolution;
 }

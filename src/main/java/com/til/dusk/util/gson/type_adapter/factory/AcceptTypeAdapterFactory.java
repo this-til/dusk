@@ -3,7 +3,6 @@ package com.til.dusk.util.gson.type_adapter.factory;
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 import com.google.gson.TypeAdapterFactory;
-import com.google.gson.internal.bind.TreeTypeAdapter;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
@@ -12,7 +11,6 @@ import com.til.dusk.Dusk;
 import com.til.dusk.common.config.AcceptTypeJson;
 import com.til.dusk.util.Util;
 import com.til.dusk.util.gson.ConfigGson;
-import com.til.dusk.util.gson.type_adapter.AcceptTypeAdapter;
 
 import java.io.IOException;
 import java.util.HashMap;

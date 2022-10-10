@@ -32,7 +32,7 @@ public class LatheMechanic extends HandleMechanic {
     public void defaultConfig() {
         manaLevelMakeData = new ManaLevelMakeData()
                 .addOreConfig(List.of(
-                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(frameBasic.name, 1),
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(stampingMachine.name, 1),
                         new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.instructions.name, 3),
                         new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.power.name, 3),
                         new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(OreItem.file.name, 3),

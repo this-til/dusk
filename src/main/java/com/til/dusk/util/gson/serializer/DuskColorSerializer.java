@@ -1,12 +1,8 @@
 package com.til.dusk.util.gson.serializer;
 
 import com.google.gson.*;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
 import com.til.dusk.util.DuskColor;
-import net.minecraft.resources.ResourceLocation;
 
-import java.io.IOException;
 import java.lang.reflect.Type;
 
 /**

@@ -1,9 +1,9 @@
 package com.til.dusk.common.register.ore.item.items;
 
-import com.til.dusk.common.config.ConfigMap;
 import com.til.dusk.common.data.lang.LangProvider;
 import com.til.dusk.common.data.lang.LangType;
 import com.til.dusk.common.data.tag.ItemTag;
+import com.til.dusk.common.register.ore.item.ArmsData;
 import com.til.dusk.common.register.ore.item.OreItemArms;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.world.item.CapabilityShovelItem;
@@ -20,7 +20,7 @@ public class ShovelOreItemArms extends OreItemArms {
     }
 
     @Override
-    public Item createArmsItem(Ore ore, ConfigMap armsData) {
+    public Item createArmsItem(Ore ore, ArmsData armsData) {
         CapabilityShovelItem item = new CapabilityShovelItem(ore, this, armsData);
         ItemTag.addTag(Tags.Items.TOOLS, item);
         ItemTag.addTag(Tags.Items.TOOLS_SHOVELS, item);
@@ -34,9 +34,4 @@ public class ShovelOreItemArms extends OreItemArms {
         lang.add(LangType.EN_CH, "Shovel");
     }
 
-    @Override
-    public ConfigMap defaultConfigMap() {
-        return super.defaultConfigMap()
-                .setConfig(IS_SHOVEL);
-    }
 }

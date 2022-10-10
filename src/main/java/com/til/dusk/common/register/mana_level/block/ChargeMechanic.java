@@ -8,6 +8,9 @@ import com.til.dusk.common.capability.control.Control;
 import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.capability.mana_handle.IManaHandle;
 import com.til.dusk.common.capability.pos.IPosTrack;
+import com.til.dusk.common.config.ConfigField;
+import com.til.dusk.common.data.lang.LangProvider;
+import com.til.dusk.common.data.lang.LangType;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.other.BindType;
 import com.til.dusk.common.register.other.CapabilityRegister;
@@ -58,8 +61,23 @@ public class ChargeMechanic extends DefaultCapacityMechanic {
                 IManaHandle manaHandle = lazyOptional.orElse(null);
                 outManaMap.put(player.getCapability(CapabilityRegister.iPosTrack.capability).orElse(null), manaHandle);
             }
-            CapabilityHelp.manaPointToPointTransmit(iPosTrack, inManaMap, outManaMap, 12L * manaLevel.level, 0, false);
+            CapabilityHelp.manaPointToPointTransmit(iPosTrack, inManaMap, outManaMap, power * manaLevel.level, 0, false);
         });
     }
+
+    @Override
+    public void registerLang(LangProvider.LangTool lang) {
+        lang.setCache(name.toLanguageKey());
+        lang.add(LangType.ZH_CN, "充能晶体");
+        lang.add(LangType.EN_CH, "Charge Crystal");
+    }
+
+    @Override
+    public void defaultConfig() {
+        power = 12L;
+    }
+
+    @ConfigField
+    public long power;
 
 }

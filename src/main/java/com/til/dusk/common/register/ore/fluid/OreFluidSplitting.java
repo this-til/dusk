@@ -1,11 +1,14 @@
 package com.til.dusk.common.register.ore.fluid;
 
 import com.til.dusk.Dusk;
+import com.til.dusk.common.config.ConfigField;
+import com.til.dusk.common.config.util.Delayed;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.pack.FluidPack;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fluids.FluidType;
+import org.checkerframework.checker.units.qual.C;
 
 import java.util.function.Supplier;
 
@@ -13,16 +16,15 @@ import java.util.function.Supplier;
 /**
  * @author til
  */
-public class OreFluidSplitting extends OreFluid {
-    public final Supplier<DuskColor> color;
+public abstract class OreFluidSplitting extends OreFluid {
 
-    public OreFluidSplitting(ResourceLocation name, Supplier<DuskColor> color) {
+    public OreFluidSplitting(ResourceLocation name) {
         super(name);
         this.color = color;
     }
 
-    public OreFluidSplitting(String name, Supplier<DuskColor> color) {
-        this(new ResourceLocation(Dusk.MOD_ID, name), color);
+    public OreFluidSplitting(String name) {
+        this(new ResourceLocation(Dusk.MOD_ID, name));
     }
 
     @Override
@@ -36,7 +38,7 @@ public class OreFluidSplitting extends OreFluid {
 
     @Override
     public FluidType createFluidType(Ore ore) {
-        DuskColor color = ore.color.blend(this.color.get());
+        DuskColor color = ore.color.blend(this.colorBasics.get());
         return new OreFluidType(FluidType.Properties.create(), ore, this) {
             @Override
             public DuskColor getColor() {
@@ -44,4 +46,7 @@ public class OreFluidSplitting extends OreFluid {
             }
         };
     }
+
+    @ConfigField
+    public Delayed<DuskColor> colorBasics;
 }

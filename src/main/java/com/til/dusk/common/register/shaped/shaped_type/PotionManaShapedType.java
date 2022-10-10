@@ -1,6 +1,5 @@
 package com.til.dusk.common.register.shaped.shaped_type;
 
-import com.google.gson.JsonObject;
 import com.til.dusk.Dusk;
 import com.til.dusk.common.capability.handle.ShapedHandle;
 import com.til.dusk.common.config.util.Delayed;

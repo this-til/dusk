@@ -4,29 +4,20 @@ import com.til.dusk.Dusk;
 import com.til.dusk.common.config.AcceptTypeJson;
 import com.til.dusk.common.config.ConfigField;
 import com.til.dusk.common.config.util.IShapedOreConfig;
-import com.til.dusk.common.data.tag.ItemTag;
 import com.til.dusk.common.register.BlockUnitRegister;
 import com.til.dusk.common.register.RegisterManage;
 import com.til.dusk.common.register.mana_level.block.mechanic.*;
-import com.til.dusk.common.register.mana_level.item.ManaLevelItem;
+import com.til.dusk.common.register.mana_level.mana_level.MakeLevel;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
-import com.til.dusk.common.register.ore.block.OreBlock;
-import com.til.dusk.common.register.ore.fluid.OreFluid;
-import com.til.dusk.common.register.ore.item.OreItem;
-import com.til.dusk.common.register.ore.ore.Ore;
-import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.common.Tags;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.NewRegistryEvent;
-import net.minecraftforge.registries.RegistryBuilder;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.function.Supplier;
 
 /**
@@ -262,7 +253,7 @@ public abstract class ManaLevelBlock extends BlockUnitRegister<ManaLevelBlock, M
     /***
      * 成型
      */
-    public static ShapingMechanic shaping;
+    public static FormingMechanic forming;
 
     /***
      * 灵气凝结晶体
@@ -410,50 +401,20 @@ public abstract class ManaLevelBlock extends BlockUnitRegister<ManaLevelBlock, M
         lathe = new LatheMechanic();
         tieWire = new TieWireMechanic();
         cutting = new CuttingMechanic();
-        //pressureStick = new PressureStickMechanic();
+        pressureStick = new PressureStickMechanic();
         blend = new BlendMechanic();
         decompose = new DecomposeMechanic();
         recovery = new RecoveryMechanic();
-        shaping = new ShapingMechanic();
+        forming = new FormingMechanic();
         manaCoagulation = new ManaCoagulationMechanic();
-        stemCellExtract = (HandleMechanic) new HandleMechanic("stem_cell_extract", () -> Set.of(ShapedType.stemCellExtract));
-        cellCulture = (HandleMechanic) new HandleMechanic("cell_culture", () -> Set.of(ShapedType.cellCulture));
-        uuGenerate = (HandleMechanic) new HandleMechanic("uu_generate", () -> Set.of(ShapedType.uuGenerate))
-                .setConfig(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
-                        .addRun((s, m) -> s.addInItem(m.get(ManaLevelBlock.slimeyMana).blockItemTag(), 1))
-                        .addRun((s, m) -> s.addInItem(ManaLevelItem.forming.getTag(m), 4))
-                        .addRun((s, m) -> s.addInItem(ManaLevelItem.gather.getTag(m), 4))
-                        .addRun((s, m) -> s.addInItem(ManaLevelItem.instructions.getTag(m), 4)));
-        qualityGenerate = (HandleMechanic) new HandleMechanic("quality_generate", () -> Set.of(ShapedType.qualityGenerate))
-                .setConfig(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
-                        .addRun((s, m) -> s.addInItem(m.get(uuGenerate).blockItemTag(), 1))
-                        .addRun((s, m) -> s.addInItem(ManaLevelItem.forming.getTag(m), 1))
-                        .addRun((s, m) -> s.addInFluid(Ore.uu.get(OreFluid.solution).fluidTag(), 144 * m.level)));
-        dialysis = (HandleMechanic) new HandleMechanic("dialysis", () -> Set.of(ShapedType.dialysis))
-                .setConfig(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
-                        .addRun((s, m) -> s.addInItem(m.get(uuGenerate).blockItemTag(), 1))
-                        .addRun((s, m) -> s.addInItem(ManaLevelItem.destruction.getTag(m), 1))
-                        .addRun((s, m) -> s.addInFluid(Ore.uu.get(OreFluid.solution).fluidTag(), 144 * m.level)));
-        splitting = (HandleMechanic) new HandleMechanic("splitting", () -> Set.of(ShapedType.splitting))
-                .setConfig(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
-                        .addRun((s, m) -> s.addInItem(m.get(highPressureFuse).blockItemTag(), 1))
-                        .addRun((s, m) -> s.addInItem(m.getAcceptableTagPack(OreBlock.coil).itemTagKey(), 2))
-                        .addRun((s, m) -> s.addInItem(ManaLevelItem.forming.getTag(m), 4))
-                        .addRun((s, m) -> s.addInItem(ManaLevelItem.destruction.getTag(m), 4)));
-        voidCase = (VoidCaseMechanic) new VoidCaseMechanic()
-                .setConfig(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
-                        .addRun((s, m) -> s.addInItem(m.get(frameBasic).blockItemTag(), 1))
-                        .addRun((s, m) -> s.addInItem(Ore._void.get(OreItem.plate).itemTag(), 3 * m.level))
-                        .addRun((s, m) -> s.addInItem(Ore._void.get(OreItem.casing).itemTag(), 12 * m.level))
-                        .addRun((s, m) -> s.addInItem(Ore._void.get(OreItem.foil).itemTag(), 12 * m.level))
-                        .addRun((s, m) -> s.addInItem(Tags.Items.CHESTS, 12 * m.level)));
-        voidTank = (VoidTankMechanic) new VoidTankMechanic()
-                .setConfig(MECHANIC_MAKE_DATA, () -> new ManaLevelMakeData()
-                        .addRun((s, m) -> s.addInItem(m.get(frameBasic).blockItemTag(), 1))
-                        .addRun((s, m) -> s.addInItem(Ore._void.get(OreItem.plate).itemTag(), 3 * m.level))
-                        .addRun((s, m) -> s.addInItem(Ore._void.get(OreItem.casing).itemTag(), 12 * m.level))
-                        .addRun((s, m) -> s.addInItem(Ore._void.get(OreItem.foil).itemTag(), 12 * m.level))
-                        .addRun((s, m) -> s.addInItem(ItemTag.BUCKET, 12 * m.level)));
+        stemCellExtract = new StemCellExtractMechanic();
+        cellCulture = new CellCultureMechanic();
+        uuGenerate = new UUGenerateMechanic();
+        qualityGenerate = new QualityGenerateMechanic();
+        dialysis = new DialysisMechanic();
+        splitting = new SplittingMechanic();
+        voidCase = new VoidCaseMechanic();
+        voidTank = new VoidTankMechanic();
         gatherMana = new GatherManaMechanic();
         manaIO = new IOMechanic.ManaIO();
         itemIO = new IOMechanic.ItemIO();
@@ -512,9 +473,6 @@ public abstract class ManaLevelBlock extends BlockUnitRegister<ManaLevelBlock, M
             return this;
         }
 
-        public enum MakeLevel {
-            UP, CURRENT, NEXT
-        }
     }
 
 

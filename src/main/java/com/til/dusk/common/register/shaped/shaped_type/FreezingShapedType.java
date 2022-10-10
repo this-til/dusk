@@ -1,13 +1,11 @@
 package com.til.dusk.common.register.shaped.shaped_type;
 
+import com.til.dusk.common.config.ConfigField;
+import com.til.dusk.common.config.util.IShapedCreate;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
-import com.til.dusk.common.register.ore.fluid.OreFluid;
-import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shapeds.Shaped;
-import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
-import net.minecraft.world.item.ItemStack;
 
 import java.util.function.Consumer;
 
@@ -21,12 +19,20 @@ public class FreezingShapedType extends ShapedType {
 
     @Override
     public void registerRuleShaped(Consumer<Shaped> shapedConsumer) {
-        for (Ore ore : Ore.screen(Ore.IS_METAL, Ore.FLUID_DATA)) {
-            new ShapedOre(this, ShapedDrive.get(0), ore.manaLevel)
-                    .addInFluid(ore.get(OreFluid.solution).fluidTag(), 144)
-                    .addOutItem(new ItemStack(ore.get(OreItem.ingot).item(), 1), 1D)
-                    .addMultipleSurplusTime((long) (ore.strength * 724L))
-                    .addMultipleConsumeMana((long) (ore.consume * 32L));
+        for (Ore ore : Ore.ORE.get()) {
+            if (!ore.isMetal) {
+                continue;
+            }
+            shapedConsumer.accept(freezing.create(ore));
         }
     }
+
+    @Override
+    public void defaultConfig() {
+        freezing = new IShapedCreate.OreShapedCreate(name, this, ShapedDrive.get(0), 724L, 32L, 0L);
+    }
+
+    @ConfigField
+    public IShapedCreate<Ore> freezing;
+
 }

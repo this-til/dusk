@@ -1,7 +1,6 @@
 package com.til.dusk.common.register.ore.block;
 
 import com.til.dusk.Dusk;
-import com.til.dusk.common.config.ConfigMap;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.util.pack.BlockPack;
 import net.minecraft.resources.ResourceLocation;
@@ -22,15 +21,9 @@ public abstract class OreBlockDecorate extends OreBlock {
 
     @Override
     public @Nullable BlockPack create(Ore ore) {
-        if (ore.hasConfig(Ore.DecorateBlockConfig.DECORATE_BLOCK_CONFIG)) {
+        if (ore.mineralBlockData != null) {
             return super.create(ore);
         }
         return null;
-    }
-
-    @Override
-    public ConfigMap defaultConfigMap() {
-        return super.defaultConfigMap()
-                .setConfig(IS_DECORATE);
     }
 }

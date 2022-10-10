@@ -18,4 +18,9 @@ public class SolutionOreFluid extends OreFluid {
         lang.add(LangType.ZH_CN,"溶液");
         lang.add(LangType.EN_CH, "Solution");
     }
+
+    @Override
+    public void defaultConfig() {
+
+    }
 }

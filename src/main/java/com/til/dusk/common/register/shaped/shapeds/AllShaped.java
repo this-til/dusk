@@ -6,6 +6,7 @@ import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.register.RegisterManage;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.material.Fluid;
@@ -23,6 +24,7 @@ import java.util.function.Consumer;
 public class AllShaped {
 
     public final static Map<ShapedType, Map<ShapedDrive, List<Shaped>>> MAP = new HashMap<>();
+    public static final Map<ResourceLocation, Shaped> ID_MAP = new HashMap<>();
 
     @SubscribeEvent
     public static void onEvent(FMLCommonSetupEvent event) {
@@ -31,6 +33,11 @@ public class AllShaped {
             if (s == null) {
                 return;
             }
+            if (ID_MAP.containsKey(s.name)) {
+                Dusk.instance.logger.error("配方出现重负[{}]的ID，已经修正", s);
+                s.name = new ResourceLocation(s.name.getNamespace(), s.name.getPath() + "_");
+            }
+            ID_MAP.put(s.name, s);
             Map<ShapedDrive, List<Shaped>> shapedDriveListMap;
             if (map.containsKey(s.shapedType)) {
                 shapedDriveListMap = map.get(s.shapedType);

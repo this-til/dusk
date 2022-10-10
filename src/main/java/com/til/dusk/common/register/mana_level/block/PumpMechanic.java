@@ -7,6 +7,9 @@ import com.til.dusk.common.capability.clock.ManaClock;
 import com.til.dusk.common.capability.control.Control;
 import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.capability.pos.IPosTrack;
+import com.til.dusk.common.config.ConfigField;
+import com.til.dusk.common.data.lang.LangProvider;
+import com.til.dusk.common.data.lang.LangType;
 import com.til.dusk.common.event.EventIO;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.other.BindType;
@@ -40,7 +43,7 @@ public class PumpMechanic extends PosImplementMechanic {
 
     @Override
     public IClock createClock(ManaLevel manaLevel, IBack iBack, IControl iControl, IPosTrack iPosTrack) {
-        return new ManaClock(iBack, manaLevel.clock / 5, iControl, 8L * manaLevel.level);
+        return new ManaClock(iBack, manaLevel.clock / transmissionEfficiency, iControl, consume * manaLevel.level);
     }
 
     @Override
@@ -78,4 +81,22 @@ public class PumpMechanic extends PosImplementMechanic {
             MinecraftForge.EVENT_BUS.post(new EventIO.Fluid(iPosTrack.getLevel(), routePack));
         };
     }
+
+    @Override
+    public void registerLang(LangProvider.LangTool lang) {
+        lang.setCache(name.toLanguageKey());
+        lang.add(LangType.ZH_CN, "泵晶体");
+        lang.add(LangType.EN_CH, "Pump Mechanic Crystal");
+    }
+
+    @Override
+    public void defaultConfig() {
+        consume = 8L;
+        transmissionEfficiency = 5;
+    }
+
+    @ConfigField
+    public int transmissionEfficiency;
+    @ConfigField
+    public long consume;
 }

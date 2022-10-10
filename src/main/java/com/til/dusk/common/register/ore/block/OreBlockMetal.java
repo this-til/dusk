@@ -22,7 +22,7 @@ public abstract class OreBlockMetal extends OreBlock{
 
     @Override
     public @Nullable BlockPack create(Ore ore) {
-        if (ore.hasConfig(Ore.IS_METAL)) {
+        if (ore.isMetal) {
             return super.create(ore);
         }
         return null;

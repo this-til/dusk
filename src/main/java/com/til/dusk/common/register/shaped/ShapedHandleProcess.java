@@ -3,17 +3,13 @@ package com.til.dusk.common.register.shaped;
 import com.til.dusk.Dusk;
 import com.til.dusk.common.capability.CapabilityHelp;
 import com.til.dusk.common.capability.handle.EventHandle;
-import com.til.dusk.common.config.ConfigMap;
 import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.register.RegisterManage;
-import com.til.dusk.common.register.other.BindType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.NewRegistryEvent;
-import net.minecraftforge.registries.RegistryBuilder;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
 

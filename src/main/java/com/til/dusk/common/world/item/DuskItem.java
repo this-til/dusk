@@ -6,7 +6,6 @@ import com.til.dusk.client.ColorProxy;
 import com.til.dusk.common.config.util.Delayed;
 import com.til.dusk.common.data.ModRecipeProvider;
 import com.til.dusk.common.data.tag.ItemTag;
-import com.til.dusk.common.register.mana_level.item.ManaLevelItem;
 import com.til.dusk.common.register.mana_level.item.ManaLevelItemPack;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.ore.item.OreItem;
@@ -236,7 +235,7 @@ public class DuskItem {
                                 .unlockedBy("has_diamond_make_operation", ModRecipeProvider.has(diamondMakeOperation.get().tag()))));
         resistance = ITEMS.register("resistance", () -> new ItemBasics.ItemGenerateModel(new Item.Properties().tab(Dusk.TAB))
                 .addTag(ItemTag.resistanceTag)
-                .addShaped(() -> new ShapedOre(resistance.getKey().location(),ShapedType.encapsulation, ShapedDrive.get(0), ManaLevel.t1)
+                .addShaped(() -> new ShapedOre(resistance.getId(),ShapedType.encapsulation, ShapedDrive.get(0), ManaLevel.t1)
                         .addInItem(Ore.spiritSilver.get(OreItem.casing).itemTag(), 1)
                         .addInItem(Ore.spiritSilver.get(OreItem.string).itemTag(), 2)
                         .addInItem(Ore.cinnabar.get(OreItem.dust).itemTag(), 1)
@@ -245,7 +244,7 @@ public class DuskItem {
                         .addMultipleConsumeMana(12L)));
         capacitance = ITEMS.register("capacitance", () -> new ItemBasics.ItemGenerateModel(new Item.Properties().tab(Dusk.TAB))
                 .addTag(ItemTag.capacitanceTag)
-                .addShaped(() -> new ShapedOre(ShapedType.encapsulation, ShapedDrive.get(0), ManaLevel.t1)
+                .addShaped(() -> new ShapedOre(capacitance.getId(),ShapedType.encapsulation, ShapedDrive.get(0), ManaLevel.t1)
                         .addInItem(Ore.spiritSilver.get(OreItem.casing).itemTag(), 1)
                         .addInItem(Ore.spiritSilver.get(OreItem.string).itemTag(), 2)
                         .addInItem(Ore.pink.get(OreItem.dust).itemTag(), 1)
@@ -254,7 +253,7 @@ public class DuskItem {
                         .addMultipleConsumeMana(12L)));
         inductance = ITEMS.register("inductance", () -> new ItemBasics.ItemGenerateModel(new Item.Properties().tab(Dusk.TAB))
                 .addTag(ItemTag.inductanceTag)
-                .addShaped(() -> new ShapedOre(ShapedType.encapsulation, ShapedDrive.get(0), ManaLevel.t1)
+                .addShaped(() -> new ShapedOre(inductance.getId(),ShapedType.encapsulation, ShapedDrive.get(0), ManaLevel.t1)
                         .addInItem(Ore.spiritSilver.get(OreItem.dust).itemTag(), 1)
                         .addInItem(Ore.spiritSilver.get(OreItem.casing).itemTag(), 4)
                         .addInItem(Ore.spiritSilver.get(OreItem.string).itemTag(), 2)
@@ -264,7 +263,7 @@ public class DuskItem {
                         .addMultipleConsumeMana(22L)));
         diode = ITEMS.register("diode", () -> new ItemBasics.ItemGenerateModel(new Item.Properties().tab(Dusk.TAB))
                 .addTag(ItemTag.diodeTag)
-                .addShaped(() -> new ShapedOre(ShapedType.encapsulation, ShapedDrive.get(0), ManaLevel.t1)
+                .addShaped(() -> new ShapedOre(diode.getId(),ShapedType.encapsulation, ShapedDrive.get(0), ManaLevel.t1)
                         .addInItem(Ore.spiritSilver.get(OreItem.casing).itemTag(), 1)
                         .addInItem(Ore.spiritSilver.get(OreItem.string).itemTag(), 2)
                         .addInItem(Ore.tibetanBlue.get(OreItem.dust).itemTag(), 1)
@@ -274,7 +273,7 @@ public class DuskItem {
                         .addMultipleConsumeMana(12L)));
         triode = ITEMS.register("triode", () -> new ItemBasics.ItemGenerateModel(new Item.Properties().tab(Dusk.TAB))
                 .addTag(ItemTag.triodeTag)
-                .addShaped(() -> new ShapedOre(ShapedType.encapsulation, ShapedDrive.get(0), ManaLevel.t1)
+                .addShaped(() -> new ShapedOre(triode.getId(),ShapedType.encapsulation, ShapedDrive.get(0), ManaLevel.t1)
                         .addInItem(Ore.spiritSilver.get(OreItem.casing).itemTag(), 1)
                         .addInItem(Ore.spiritSilver.get(OreItem.string).itemTag(), 3)
                         .addInItem(Ore.pineCypress.get(OreItem.dust).itemTag(), 1)
@@ -284,7 +283,7 @@ public class DuskItem {
                         .addMultipleConsumeMana(12L)));
         patchResistance = ITEMS.register("patch_resistance", () -> new ItemBasics.ItemGenerateModel(new Item.Properties().tab(Dusk.TAB))
                 .addTag(ItemTag.resistanceTag)
-                .addShaped(() -> new ShapedOre(ShapedType.encapsulation, ShapedDrive.get(1), ManaLevel.t2)
+                .addShaped(() -> new ShapedOre(patchResistance.getId(),ShapedType.encapsulation, ShapedDrive.get(1), ManaLevel.t2)
                         .addInItem(Ore.spiritSilver.get(OreItem.foil).itemTag(), 1)
                         .addInItem(Ore.cinnabar.get(OreItem.dustTiny).itemTag(), 1)
                         .addOutItem(new ItemStack(patchResistance.get(), 4), 1d)
@@ -292,7 +291,7 @@ public class DuskItem {
                         .addMultipleConsumeMana(12L)));
         patchCapacitance = ITEMS.register("patch_capacitance", () -> new ItemBasics.ItemGenerateModel(new Item.Properties().tab(Dusk.TAB))
                 .addTag(ItemTag.capacitanceTag)
-                .addShaped(() -> new ShapedOre(ShapedType.encapsulation, ShapedDrive.get(1), ManaLevel.t2)
+                .addShaped(() -> new ShapedOre(patchCapacitance.getId(),ShapedType.encapsulation, ShapedDrive.get(1), ManaLevel.t2)
                         .addInItem(Ore.spiritSilver.get(OreItem.foil).itemTag(), 1)
                         .addInItem(Ore.pink.get(OreItem.dustTiny).itemTag(), 1)
                         .addOutItem(new ItemStack(patchCapacitance.get(), 4), 1d)
@@ -300,7 +299,7 @@ public class DuskItem {
                         .addMultipleConsumeMana(12L)));
         patchInductance = ITEMS.register("patch_inductance", () -> new ItemBasics.ItemGenerateModel(new Item.Properties().tab(Dusk.TAB))
                 .addTag(ItemTag.inductanceTag)
-                .addShaped(() -> new ShapedOre(ShapedType.encapsulation, ShapedDrive.get(1), ManaLevel.t2)
+                .addShaped(() -> new ShapedOre(patchInductance.getId(),ShapedType.encapsulation, ShapedDrive.get(1), ManaLevel.t2)
                         .addInItem(Ore.spiritSilver.get(OreItem.nuggets).itemTag(), 1)
                         .addInItem(Ore.spiritSilver.get(OreItem.foil).itemTag(), 4)
                         .addInItem(Ore.goldenrod.get(OreItem.string).itemTag(), 4)
@@ -309,7 +308,7 @@ public class DuskItem {
                         .addMultipleConsumeMana(22L)));
         patchDiode = ITEMS.register("patch_diode", () -> new ItemBasics.ItemGenerateModel(new Item.Properties().tab(Dusk.TAB))
                 .addTag(ItemTag.diodeTag)
-                .addShaped(() -> new ShapedOre(ShapedType.encapsulation, ShapedDrive.get(1), ManaLevel.t2)
+                .addShaped(() -> new ShapedOre(patchDiode.getId(),ShapedType.encapsulation, ShapedDrive.get(1), ManaLevel.t2)
                         .addInItem(Ore.spiritSilver.get(OreItem.foil).itemTag(), 1)
                         .addInItem(Ore.tibetanBlue.get(OreItem.dustTiny).itemTag(), 1)
                         .addInItem(Ore.pineCypress.get(OreItem.dustTiny).itemTag(), 1)
@@ -318,7 +317,7 @@ public class DuskItem {
                         .addMultipleConsumeMana(12L)));
         patchTriode = ITEMS.register("patch_triode", () -> new ItemBasics.ItemGenerateModel(new Item.Properties().tab(Dusk.TAB))
                 .addTag(ItemTag.triodeTag)
-                .addShaped(() -> new ShapedOre(ShapedType.encapsulation, ShapedDrive.get(1), ManaLevel.t2)
+                .addShaped(() -> new ShapedOre(patchTriode.getId(),ShapedType.encapsulation, ShapedDrive.get(1), ManaLevel.t2)
                         .addInItem(Ore.spiritSilver.get(OreItem.foil).itemTag(), 2)
                         .addInItem(Ore.pineCypress.get(OreItem.dustTiny).itemTag(), 1)
                         .addInItem(Ore.cotinusCoggygria.get(OreItem.dustTiny).itemTag(), 2)

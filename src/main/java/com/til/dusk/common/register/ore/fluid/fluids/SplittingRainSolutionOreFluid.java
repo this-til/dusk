@@ -1,5 +1,6 @@
 package com.til.dusk.common.register.ore.fluid.fluids;
 
+import com.til.dusk.common.config.util.Delayed;
 import com.til.dusk.common.data.lang.LangProvider;
 import com.til.dusk.common.data.lang.LangType;
 import com.til.dusk.common.register.ore.fluid.OreFluidSplitting;
@@ -11,7 +12,7 @@ import com.til.dusk.common.register.ore.ore.Ore;
 public class SplittingRainSolutionOreFluid extends OreFluidSplitting {
 
     public SplittingRainSolutionOreFluid(){
-        super("splitting_rain_solution", () -> Ore.rain.getConfig(Ore.COLOR));
+        super("splitting_rain_solution");
     }
 
 
@@ -22,4 +23,8 @@ public class SplittingRainSolutionOreFluid extends OreFluidSplitting {
         lang.add(LangType.EN_CH, "Splitting Rain Solution");
     }
 
+    @Override
+    public void defaultConfig() {
+        colorBasics = new Delayed<>(() -> Ore.rain.color);
+    }
 }

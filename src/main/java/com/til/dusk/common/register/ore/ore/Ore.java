@@ -413,7 +413,7 @@ public abstract class Ore extends UnitRegister<Ore, OreItem, OreBlock, OreFluid>
                 BlockTag.addTag(level.acceptableTagPack.getTagPack(oreBlock).blockTagKey(), blockPack.block());
             }
         }
-        if (oreBlock.hasConfig(OreBlock.IS_MINERAL)) {
+        if (oreBlock instanceof OreBlockMineral) {
             ItemTag.addTag(tagPackSupplier.getTagPack(OreBlockMineral.MINERAL_NAME).itemTagKey(), blockPack.blockItem());
             BlockTag.addTag(tagPackSupplier.getTagPack(OreBlockMineral.MINERAL_NAME).blockTagKey(), blockPack.block());
         }

@@ -2,7 +2,7 @@ package com.til.dusk.common.world.item;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.common.capability.IItemDefaultCapability;
-import com.til.dusk.common.config.ConfigMap;
+import com.til.dusk.common.register.ore.item.ArmsData;
 import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.util.Lang;
@@ -17,11 +17,10 @@ import org.jetbrains.annotations.NotNull;
 public class CapabilityShovelItem extends ShovelItem implements IItemDefaultCapability.ArmsCapabilityItem {
     public final Ore ore;
     public final OreItem oreItem;
-    public final ConfigMap armsData;
+    public final ArmsData armsData;
 
-    public CapabilityShovelItem(Ore ore, OreItem oreItem, ConfigMap armsData) {
-        super(armsData, armsData.get(Ore.ArmsConfig.ATTACK_DAMAGE_BONUS) * 0.4f, armsData.get(Ore.ArmsConfig.SPEED), new Properties().stacksTo(1).tab(Dusk.TAB).fireResistant());
-        this.ore = ore;
+    public CapabilityShovelItem(Ore ore, OreItem oreItem, ArmsData armsData) {
+        super(armsData, (int) (armsData.attackDamageBasics * 0.4f), armsData.speed, new Properties().stacksTo(1).tab(Dusk.TAB).fireResistant());   this.ore = ore;
         this.oreItem = oreItem;
         this.armsData = armsData;
     }
@@ -32,7 +31,7 @@ public class CapabilityShovelItem extends ShovelItem implements IItemDefaultCapa
     }
 
     @Override
-    public ConfigMap getConfigMap() {
+    public ArmsData getArmorData() {
         return armsData;
     }
 }

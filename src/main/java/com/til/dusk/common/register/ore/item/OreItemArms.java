@@ -30,7 +30,7 @@ public abstract class OreItemArms extends OreItem {
 
     @Override
     public Item createItem(Ore ore) {
-        return createArmsItem(ore, ore.armorData);
+        return createArmsItem(ore, ore.armsData);
     }
 
     /***
@@ -39,7 +39,7 @@ public abstract class OreItemArms extends OreItem {
      * @param armsData 武器数据
      * @return 武器
      */
-    public abstract Item createArmsItem(Ore ore, ArmorData armsData);
+    public abstract Item createArmsItem(Ore ore, ArmsData armsData);
 
     @Override
     public void dyeBlack(Ore ore, ColorProxy.ItemColorPack itemColorPack) {

@@ -1,7 +1,6 @@
 package com.til.dusk.common.register.ore.block;
 
 import com.til.dusk.Dusk;
-import com.til.dusk.common.config.ConfigMap;
 import com.til.dusk.common.data.lang.LangProvider;
 import com.til.dusk.common.data.lang.LangType;
 import com.til.dusk.common.register.ore.ore.Ore;
@@ -35,7 +34,7 @@ public abstract class OreBlockMineral extends OreBlock {
 
     @Override
     public @Nullable BlockPack create(Ore ore) {
-        if (ore.hasConfig(Ore.MineralBlockConfig.MINERAL_BLOCK_CONFIG)) {
+        if (ore.mineralBlockData != null) {
             return super.create(ore);
         }
         return null;
@@ -45,13 +44,6 @@ public abstract class OreBlockMineral extends OreBlock {
         this.replaceBasicsBlock = replaceBasicsBlock;
         return this;
     }
-
-    @Override
-    public ConfigMap defaultConfigMap() {
-        return super.defaultConfigMap()
-                .setConfig(IS_MINERAL);
-    }
-
 
     @Override
     public void registerLang(LangProvider.LangTool lang) {

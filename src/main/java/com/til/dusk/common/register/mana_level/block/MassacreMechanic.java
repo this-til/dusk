@@ -9,6 +9,9 @@ import com.til.dusk.common.capability.clock.ManaClock;
 import com.til.dusk.common.capability.control.Control;
 import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.capability.pos.IPosTrack;
+import com.til.dusk.common.config.ConfigField;
+import com.til.dusk.common.data.lang.LangProvider;
+import com.til.dusk.common.data.lang.LangType;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.other.BindType;
 import com.til.dusk.common.register.other.CapabilityRegister;
@@ -38,7 +41,7 @@ public class MassacreMechanic extends DefaultCapacityMechanic {
         super.addCapability(event, duskModCapability, manaLevel, iPosTrack);
         IControl iControl = duskModCapability.addCapability(CapabilityRegister.iControl.capability, new Control(iPosTrack, List.of(BindType.manaIn, BindType.modelStore, BindType.posTrack), manaLevel));
         IBack iBack = duskModCapability.addCapability(CapabilityRegister.iBlack.capability, new Back());
-        IClock iClock = duskModCapability.addCapability(CapabilityRegister.iClock.capability, new ManaClock(iBack, manaLevel.clock / 3, iControl, 8L * manaLevel.level));
+        IClock iClock = duskModCapability.addCapability(CapabilityRegister.iClock.capability, new ManaClock(iBack, manaLevel.clock / transmissionEfficiency, iControl, consume * manaLevel.level));
         iClock.addBlock(() -> {
             Level level = iPosTrack.getLevel();
             if (level == null) {
@@ -76,8 +79,33 @@ public class MassacreMechanic extends DefaultCapacityMechanic {
             }
             if (attackEntity != null) {
                 attackEntity.invulnerableTime = 0;
-                attackEntity.hurt(new DamageSource("regression").setMagic(), 8 + (2 * manaLevel.level));
+                attackEntity.hurt(new DamageSource("regression").setMagic(), attackBasics + (attackUp * manaLevel.level));
             }
         });
     }
+
+    @Override
+    public void registerLang(LangProvider.LangTool lang) {
+        lang.setCache(name.toLanguageKey());
+        lang.add(LangType.ZH_CN, "屠杀晶体");
+        lang.add(LangType.EN_CH, "Massacre Crystal");
+    }
+
+    @Override
+    public void defaultConfig() {
+        consume = 8L;
+        transmissionEfficiency = 3;
+        attackBasics = 8;
+        attackUp = 2;
+    }
+
+    @ConfigField
+    public int transmissionEfficiency;
+    @ConfigField
+    public float attackBasics;
+    @ConfigField
+    public float attackUp;
+    @ConfigField
+    public long consume;
+
 }

@@ -1,6 +1,5 @@
 package com.til.dusk.common.register.mana_level.block.mechanic;
 
-import com.til.dusk.common.config.ConfigMap;
 import com.til.dusk.common.config.util.IShapedOreConfig;
 import com.til.dusk.common.data.ModRecipeProvider;
 import com.til.dusk.common.data.lang.LangProvider;
@@ -75,13 +74,10 @@ public class RepeaterMechanic extends Mechanic {
     }
 
     @Override
-    public ConfigMap defaultConfigMap() {
-        return new ConfigMap()
-                .setConfig(MECHANIC_MAKE_DATA, () -> new ConfigMap()
-                        .setConfigOfV(ManaLevelMakeDataConfig.ORE_CONFIG, List.of(
-                                new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(OreItem.casing.name, 2),
-                                new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.operation.name, 1))));
+    public void defaultConfig() {
+        manaLevelMakeData = new ManaLevelMakeData()
+                .addOreConfig(List.of(
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(OreItem.casing.name, 2),
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.operation.name, 1)));
     }
-
-
 }

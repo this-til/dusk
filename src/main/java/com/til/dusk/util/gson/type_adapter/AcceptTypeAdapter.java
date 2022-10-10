@@ -1,6 +1,7 @@
 package com.til.dusk.util.gson.type_adapter;
 
-import com.google.gson.*;
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.TypeAdapter;
 import com.google.gson.internal.ConstructorConstructor;
 import com.google.gson.internal.Excluder;
 import com.google.gson.internal.bind.JsonAdapterAnnotationTypeAdapterFactory;
@@ -10,14 +11,17 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
 import com.til.dusk.Dusk;
-import com.til.dusk.util.gson.ConfigGson;
 import com.til.dusk.util.Util;
+import com.til.dusk.util.gson.ConfigGson;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author til
+ */
 @Deprecated
 public class AcceptTypeAdapter extends TypeAdapter<Object> {
     public static final ConstructorConstructor CONSTRUCTOR_CONSTRUCTOR = new ConstructorConstructor(new HashMap<>());

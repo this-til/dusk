@@ -87,9 +87,10 @@ public class ArmorData implements ArmorMaterial {
         return this;
     }
 
-    public void setOfTag(Ore ore) {
+    public ArmorData setOfOre(Ore ore) {
         name = ore.name.toString();
         repairIngredient = new Delayed<>(() -> ore.get(OreItem.ingot).itemTag());
+        return this;
     }
 
 

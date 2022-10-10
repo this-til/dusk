@@ -4,9 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
-import com.til.dusk.util.gson.type_adapter.RegisterBasicsTypeAdapter;
 import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.util.Util;
+import com.til.dusk.util.gson.type_adapter.RegisterBasicsTypeAdapter;
 
 /**
  * @author til

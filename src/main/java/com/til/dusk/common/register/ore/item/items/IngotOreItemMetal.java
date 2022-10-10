@@ -4,6 +4,7 @@ import com.til.dusk.common.data.ModRecipeProvider;
 import com.til.dusk.common.data.lang.LangProvider;
 import com.til.dusk.common.data.lang.LangType;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
+import com.til.dusk.common.register.ore.block.OreBlockMineral;
 import com.til.dusk.common.register.ore.item.OreItemMetal;
 import com.til.dusk.common.register.ore.ore.Ore;
 import net.minecraft.data.recipes.RecipeBuilder;
@@ -29,12 +30,16 @@ public class IngotOreItemMetal extends OreItemMetal {
 
     @Override
     public void registerRecipe(Consumer<RecipeBuilder> recipeConsumer) {
-        for (Ore ore : Ore.screen(Ore.IS_METAL, Ore.MineralBlockConfig.MINERAL_BLOCK_CONFIG)) {
-            if (!ore.getConfig(Ore.MANA_LEVEL).hasConfig(ManaLevel.canUetToolMake)) {
+        for (Ore ore : Ore.ORE.get()) {
+            if (!ore.isMetal) {
                 continue;
             }
-            recipeConsumer.accept(SimpleCookingRecipeBuilder.smelting(Ingredient.of(ore.getMineralBlockTag().itemTagKey()), ore.get(this).item(), 0.6F, 200)
-                    .unlockedBy("has_ore", ModRecipeProvider.has(ore.getMineralBlockTag().itemTagKey())));
+            if (ore.mineralBlockData == null) {
+                continue;
+            }
+            recipeConsumer.accept(SimpleCookingRecipeBuilder.smelting(Ingredient.of(ore.tagPackSupplier.getTagPack(OreBlockMineral.MINERAL_NAME).itemTagKey()), ore.get(this).item(), 0.6F, 200)
+                    .unlockedBy("has_ore", ModRecipeProvider.has(ore.tagPackSupplier.getTagPack(OreBlockMineral.MINERAL_NAME).itemTagKey())));
         }
+
     }
 }

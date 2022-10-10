@@ -1,9 +1,9 @@
 package com.til.dusk.common.register.ore.item.items;
 
-import com.til.dusk.common.config.ConfigMap;
 import com.til.dusk.common.data.lang.LangProvider;
 import com.til.dusk.common.data.lang.LangType;
 import com.til.dusk.common.data.tag.ItemTag;
+import com.til.dusk.common.register.ore.item.ArmsData;
 import com.til.dusk.common.register.ore.item.OreItemArms;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.world.item.CapabilitySwordItem;
@@ -26,16 +26,10 @@ public class SwordOreItemArms extends OreItemArms {
     }
 
     @Override
-    public Item createArmsItem(Ore ore, ConfigMap configMap) {
+    public Item createArmsItem(Ore ore, ArmsData configMap) {
         CapabilitySwordItem item = new CapabilitySwordItem(ore, this, configMap);
         ItemTag.addTag(Tags.Items.TOOLS, item);
         ItemTag.addTag(Tags.Items.TOOLS_SWORDS, item);
         return item;
-    }
-
-    @Override
-    public ConfigMap defaultConfigMap() {
-        return super.defaultConfigMap()
-                .setConfig(IS_SWORD);
     }
 }

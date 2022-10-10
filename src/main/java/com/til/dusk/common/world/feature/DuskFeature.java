@@ -2,8 +2,8 @@ package com.til.dusk.common.world.feature;
 
 import com.mojang.serialization.Codec;
 import com.til.dusk.Dusk;
-import com.til.dusk.common.config.ConfigMap;
 import com.til.dusk.common.config.util.IOrePlacedFeatureConfig;
+import com.til.dusk.common.config.util.IShapedOreConfig;
 import com.til.dusk.common.register.ore.ore.Ore;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.levelgen.feature.Feature;
@@ -42,16 +42,19 @@ public class DuskFeature {
 
     @Deprecated
     public static void onEvent(FMLCommonSetupEvent event) {
-        for (Ore ore : Ore.screen(Ore.MineralBlockConfig.MINERAL_BLOCK_CONFIG)) {
-            ConfigMap configMap = ore.getConfig(Ore.MineralBlockConfig.MINERAL_BLOCK_CONFIG);
-            if (configMap.containsKey(Ore.MineralBlockConfig.PLACED_FEATURE)) {
-                for (IOrePlacedFeatureConfig iOrePlacedFeatureConfig : configMap.get(Ore.MineralBlockConfig.PLACED_FEATURE)) {
-                    if (ORE_PLACED_FEATURE_CONFIG_MAP.containsKey(iOrePlacedFeatureConfig.name())) {
-                        Dusk.instance.logger.error("重复的矿物生成[{}]", iOrePlacedFeatureConfig.name());
-                    }
-                    iOrePlacedFeatureConfig.init();
-                    ORE_PLACED_FEATURE_CONFIG_MAP.put(iOrePlacedFeatureConfig.name(), iOrePlacedFeatureConfig);
+        for (Ore ore : Ore.ORE.get()) {
+            if (ore.mineralBlockData == null) {
+                continue;
+            }
+            if (ore.mineralBlockData.orePlacedFeatureConfigList == null) {
+                continue;
+            }
+            for (IOrePlacedFeatureConfig voidIShapedOreConfig : ore.mineralBlockData.orePlacedFeatureConfigList) {
+                if (ORE_PLACED_FEATURE_CONFIG_MAP.containsKey(voidIShapedOreConfig.name())) {
+                    Dusk.instance.logger.error("重复的矿物生成[{}]", voidIShapedOreConfig.name());
                 }
+                voidIShapedOreConfig.init();
+                ORE_PLACED_FEATURE_CONFIG_MAP.put(voidIShapedOreConfig.name(), voidIShapedOreConfig);
             }
         }
     }

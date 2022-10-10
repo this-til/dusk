@@ -14,7 +14,6 @@ import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
 import java.util.Map;
 
 /***
@@ -28,7 +27,7 @@ public class ArmsData implements Tier {
     public int level = 5;
     public int uses = 2400;
     public float speed = -3f;
-    public int attackDamageBonus = 10;
+    public int attackDamageBasics = 10;
     public int enchantmentValue = 23;
 
     /***
@@ -58,9 +57,10 @@ public class ArmsData implements Tier {
     @Nullable
     public Map<Skill, Integer> defaultSkill;
 
-    public void setOfTag(Ore ore) {
+    public ArmsData setOfOre(Ore ore) {
         repairIngredient = new Delayed<>(() -> ore.get(OreItem.ingot).itemTag());
         destructionBlockTag = new Delayed<>(() -> Dusk.instance.BLOCK_TAG.createTagKey(new ResourceLocation(ore.name.getNamespace(), "tier." + ore.name.getPath())));
+        return this;
     }
 
 
@@ -79,8 +79,8 @@ public class ArmsData implements Tier {
         return this;
     }
 
-    public ArmsData setAttackDamageBonus(int attackDamageBonus) {
-        this.attackDamageBonus = attackDamageBonus;
+    public ArmsData setAttackDamageBasics(int attackDamageBasics) {
+        this.attackDamageBasics = attackDamageBasics;
         return this;
     }
 
@@ -130,7 +130,7 @@ public class ArmsData implements Tier {
 
     @Override
     public @Nullable TagKey<Block> getTag() {
-        return tag;
+        return destructionBlockTag.get();
     }
 
 

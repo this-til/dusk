@@ -4,6 +4,7 @@ import com.til.dusk.common.capability.CapabilityHelp;
 import com.til.dusk.common.capability.DuskCapabilityProvider;
 import com.til.dusk.common.capability.fluid_handler.VoidTankFluidHandler;
 import com.til.dusk.common.capability.pos.IPosTrack;
+import com.til.dusk.common.config.ConfigField;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.other.CapabilityRegister;
 import com.til.dusk.common.world.block.MechanicBlock;
@@ -148,6 +149,14 @@ public class VoidTankMechanic extends DefaultCapacityMechanic {
     @Override
     public void addCapability(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability, ManaLevel manaLevel, IPosTrack iPosTrack) {
         super.addCapability(event, duskModCapability, manaLevel, iPosTrack);
-        duskModCapability.addCapability(ForgeCapabilities.FLUID_HANDLER, new VoidTankFluidHandler(12800000 * manaLevel.level));
+        duskModCapability.addCapability(ForgeCapabilities.FLUID_HANDLER, new VoidTankFluidHandler(loadBasics * manaLevel.level));
     }
+
+    @Override
+    public void defaultConfig() {
+        loadBasics = 12800000;
+    }
+
+    @ConfigField
+    public int loadBasics;
 }

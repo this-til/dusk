@@ -7,7 +7,6 @@ import com.til.dusk.common.register.BlockUnitRegister;
 import com.til.dusk.common.register.RegisterManage;
 import com.til.dusk.common.register.ore.block.blocks.*;
 import com.til.dusk.common.register.ore.ore.Ore;
-import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.util.Lang;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -19,7 +18,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.NewRegistryEvent;
-import net.minecraftforge.registries.RegistryBuilder;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Supplier;

@@ -7,7 +7,6 @@ import com.til.dusk.common.register.shaped.shapeds.Shaped;
 import com.til.dusk.util.Extension;
 import com.til.dusk.util.prefab.JsonPrefab;
 import net.minecraft.data.recipes.RecipeBuilder;
-import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;

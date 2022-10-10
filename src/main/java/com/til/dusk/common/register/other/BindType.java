@@ -7,7 +7,6 @@ import com.til.dusk.common.capability.pos.IPosTrack;
 import com.til.dusk.common.capability.shaped_drive.IShapedDrive;
 import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.register.RegisterManage;
-import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
 import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.Lang;
 import net.minecraft.network.chat.Component;
@@ -22,7 +21,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.NewRegistryEvent;
-import net.minecraftforge.registries.RegistryBuilder;
 
 import javax.annotation.Nullable;
 import java.util.function.Supplier;
@@ -123,6 +121,11 @@ public class BindType extends RegisterBasics<BindType> {
             }
             return Component.translatable("绑定失败，绑定方块没有[%s]的能力", Component.translatable(capabilityName));
         }
+
+    }
+
+    @Override
+    public void defaultConfig() {
 
     }
 }

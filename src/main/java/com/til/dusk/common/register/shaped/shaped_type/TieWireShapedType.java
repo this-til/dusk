@@ -8,8 +8,6 @@ import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shapeds.Shaped;
-import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
-import net.minecraft.world.item.ItemStack;
 
 import java.util.function.Consumer;
 
@@ -40,6 +38,6 @@ public class TieWireShapedType extends ShapedType {
     public void defaultConfig() {
         tieWire = new IShapedCreate.OreShapedCreate(name, this, ShapedDrive.get(0), 1024L, 12L, 0L)
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.stick.name, 1))
-                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemItemOut(OreItem.string, 1, 1));
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.string, 1, 1));
     }
 }

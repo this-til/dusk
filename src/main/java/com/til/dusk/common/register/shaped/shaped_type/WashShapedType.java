@@ -1,12 +1,13 @@
 package com.til.dusk.common.register.shaped.shaped_type;
 
 import com.til.dusk.common.config.ConfigField;
+import com.til.dusk.common.config.util.IShapedCreate;
 import com.til.dusk.common.config.util.IShapedOreConfig;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
 import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.register.shaped.shapeds.Shaped;
-import com.til.dusk.common.config.util.IShapedCreate;
+import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
 
 import java.util.function.Consumer;
 
@@ -25,7 +26,13 @@ public class WashShapedType extends ShapedType {
             if (ore.mineralBlockData == null) {
                 continue;
             }
-            shapedConsumer.accept(wash.create(ore));
+            Shaped shaped = wash.create(ore);
+            if (ore.mineralBlockData.washByproduct != null) {
+                for (IShapedOreConfig<Void> voidShapedOreConfig : ore.mineralBlockData.washByproduct) {
+                    voidShapedOreConfig.config((ShapedOre) shaped, null);
+                }
+            }
+            shapedConsumer.accept(shaped);
         }
     }
 
@@ -35,7 +42,7 @@ public class WashShapedType extends ShapedType {
                 .setSurplusTime(1280L)
                 .setConsumeMana(12L)
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.crushed.name, 1))
-                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemItemOut(OreItem.crushedPurified, 1, 1));
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.crushedPurified, 1, 1));
     }
 
     @ConfigField

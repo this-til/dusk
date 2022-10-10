@@ -14,16 +14,16 @@ import java.util.Set;
 /**
  * @author til
  */
-public class ShapingMechanic extends HandleMechanic {
-    public ShapingMechanic() {
-        super("shaping", () -> Set.of(ShapedType.forming));
+public class FormingMechanic extends HandleMechanic {
+    public FormingMechanic() {
+        super("forming", () -> Set.of(ShapedType.forming));
     }
 
     @Override
     public void registerLang(LangProvider.LangTool lang) {
         lang.setCache(name.toLanguageKey());
         lang.add(LangType.ZH_CN, "成型晶体");
-        lang.add(LangType.EN_CH, "Shaping Crystal");
+        lang.add(LangType.EN_CH, "Forming Crystal");
     }
 
     @Override

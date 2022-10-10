@@ -7,6 +7,7 @@ import com.til.dusk.common.data.lang.LangType;
 import com.til.dusk.common.data.tag.ItemTag;
 import com.til.dusk.common.register.mana_level.block.HandleMechanic;
 import com.til.dusk.common.register.mana_level.item.ManaLevelItemPack;
+import com.til.dusk.common.register.mana_level.mana_level.MakeLevel;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
@@ -54,7 +55,7 @@ public class AssembleMechanic extends HandleMechanic {
     @Override
     public void defaultConfig() {
         manaLevelMakeData = new ManaLevelMakeData()
-                .setManaLevel(ManaLevelMakeData.MakeLevel.UP)
+                .setManaLevel(MakeLevel.UP)
                 .addOreConfig(List.of(
                         new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(frameBasic.name, 2),
                         new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.power.name, 2),
