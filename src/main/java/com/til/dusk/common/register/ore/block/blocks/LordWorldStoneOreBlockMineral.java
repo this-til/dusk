@@ -17,7 +17,7 @@ import net.minecraft.world.level.material.MaterialColor;
 public class LordWorldStoneOreBlockMineral extends OreBlockMineral {
 
     public LordWorldStoneOreBlockMineral() {
-        super("lord_world_stone");
+        super("lord_world");
         setReplaceBasicsBlock(() -> Blocks.STONE);
     }
 

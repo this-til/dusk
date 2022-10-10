@@ -33,8 +33,8 @@ public abstract class ItemUnitRegister<T extends ItemUnitRegister<T, O>, O exten
         return new ItemPack(item, createItemTag(o));
     }
 
-    public TagKey<Item> createItemTag(O o) {
-        return ItemTags.create(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{"item", o.name.getPath(), name.getPath()}));
+    public final TagKey<Item> createItemTag(O o) {
+        return o.tagPackSupplier.getTagPack(this).itemTagKey();
     }
 
     public Item createItem(O o) {

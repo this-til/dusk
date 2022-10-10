@@ -425,7 +425,6 @@ public abstract class Ore extends UnitRegister<Ore, OreItem, OreBlock, OreFluid>
         if (isLevelAcceptable != null) {
             for (ManaLevel level : isLevelAcceptable) {
                 FluidTag.addTag(level.acceptableTagPack.getTagPack(oreFluid).fluidTagKey(), fluidPack.source());
-                FluidTag.addTag(level.acceptableTagPack.getTagPack(oreFluid).fluidTagKey(), fluidPack.flowing());
                 if (fluidPack.bucketItem() != null) {
                     ItemTag.addTag(level.acceptableTagPack.getTagPack(oreFluid).itemTagKey(), fluidPack.bucketItem());
                 }

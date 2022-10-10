@@ -28,10 +28,6 @@ public class ResourceLocationUtil {
         return fuseName("_", registerBasics);
     }
 
-    public static ResourceLocation fuseName(ResourceLocation... name) {
-        return fuseName("_", name);
-    }
-
     public static ResourceLocation fuseName(String splicing, ResourceLocation... name) {
         List<String> namespace = new ArrayList<>(name.length);
         String[] path = new String[name.length];
@@ -44,4 +40,13 @@ public class ResourceLocationUtil {
         }
         return fuseName(String.join("_", namespace), splicing, path);
     }
+
+    public static ResourceLocation fuseName(String namespace, String processor) {
+        return new ResourceLocation(namespace, processor);
+    }
+
+    public static ResourceLocation fuseName(String namespace, ResourceLocation processor) {
+        return new ResourceLocation(namespace, processor.getPath());
+    }
+
 }

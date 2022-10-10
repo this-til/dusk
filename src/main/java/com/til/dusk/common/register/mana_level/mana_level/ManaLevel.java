@@ -4,8 +4,8 @@ import com.til.dusk.Dusk;
 import com.til.dusk.common.config.ConfigField;
 import com.til.dusk.common.config.util.Delayed;
 import com.til.dusk.common.config.util.IShapedOreConfig;
-import com.til.dusk.common.data.lang.LangProvider;
-import com.til.dusk.common.data.lang.LangType;
+import com.til.dusk.client.data.lang.LangProvider;
+import com.til.dusk.client.data.lang.LangType;
 import com.til.dusk.common.data.tag.BlockTag;
 import com.til.dusk.common.data.tag.FluidTag;
 import com.til.dusk.common.data.tag.ItemTag;
@@ -30,10 +30,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.NewRegistryEvent;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Supplier;
 
 /**
@@ -72,6 +69,7 @@ public abstract class ManaLevel extends UnitRegister<ManaLevel, ManaLevelItem, M
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void onEvent(RegisterManageEvent.Back event) {
+        ID_MAP = new HashMap<>();
         List<ManaLevel> manaLevels = new ArrayList<>(8);
         for (ManaLevel manaLevel : MANA_LEVEL.get()) {
             manaLevels.add(manaLevel);

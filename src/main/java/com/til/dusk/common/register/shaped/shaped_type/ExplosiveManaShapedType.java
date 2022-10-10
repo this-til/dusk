@@ -30,12 +30,12 @@ public class ExplosiveManaShapedType extends ShapedType {
     @Override
     public void defaultConfig() {
         relevantShaped = new Delayed<>(() -> List.of(
-                new ShapedOre(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), Tags.Items.GUNPOWDER.location().getPath()}),
+                new ShapedOre(ResourceLocationUtil.fuseName(name.getNamespace(), Tags.Items.GUNPOWDER.location()),
                         this, ShapedDrive.get(0), ManaLevel.t1)
                         .addInItem(Tags.Items.GUNPOWDER, 1)
                         .addMultipleSurplusTime(512)
                         .addMultipleOutMana(4096),
-                new ShapedOre(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), ItemTag.TNT.d1().location().getPath()}),
+                new ShapedOre(ResourceLocationUtil.fuseName(name.getNamespace(), ItemTag.TNT.d1().location()),
                         this, ShapedDrive.get(1), ManaLevel.t1)
                         .addInItem(ItemTag.TNT.d1(), 1)
                         .addMultipleSurplusTime(4096)

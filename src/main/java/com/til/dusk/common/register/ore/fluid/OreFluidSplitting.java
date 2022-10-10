@@ -20,7 +20,6 @@ public abstract class OreFluidSplitting extends OreFluid {
 
     public OreFluidSplitting(ResourceLocation name) {
         super(name);
-        this.color = color;
     }
 
     public OreFluidSplitting(String name) {

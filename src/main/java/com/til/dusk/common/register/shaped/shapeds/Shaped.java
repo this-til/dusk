@@ -169,12 +169,7 @@ public abstract class Shaped implements ISerialize, ISerialize.IOnlyJsonSerializ
 
     @Override
     public String toString() {
-        return "Shaped{" +
-               "name=" + name +
-               ", shapedType=" + shapedType +
-               ", shapedDrive=" + shapedDrive +
-               ", manaLevel=" + manaLevel +
-               '}';
+        return name.toString();
     }
 
     public static Set<Shaped> get(ShapedType... s) {

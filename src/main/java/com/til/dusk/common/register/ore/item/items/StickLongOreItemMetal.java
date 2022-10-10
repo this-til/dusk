@@ -1,7 +1,7 @@
 package com.til.dusk.common.register.ore.item.items;
 
-import com.til.dusk.common.data.lang.LangProvider;
-import com.til.dusk.common.data.lang.LangType;
+import com.til.dusk.client.data.lang.LangProvider;
+import com.til.dusk.client.data.lang.LangType;
 import com.til.dusk.common.register.ore.item.OreItemMetal;
 
 /**

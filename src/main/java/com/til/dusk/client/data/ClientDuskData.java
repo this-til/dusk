@@ -3,6 +3,7 @@ package com.til.dusk.client.data;
 import com.google.common.hash.Hashing;
 import com.google.common.hash.HashingOutputStream;
 import com.til.dusk.Dusk;
+import com.til.dusk.client.data.lang.LangProvider;
 import com.til.dusk.common.register.BlockUnitRegister;
 import com.til.dusk.common.register.ItemUnitRegister;
 import com.til.dusk.common.register.UnitRegister;
@@ -66,12 +67,6 @@ public class ClientDuskData {
                             createItemJson(ForgeRegistries.ITEMS.getKey(entry.getValue().blockItem()), customModel, cachedOutput);
                             createBlockJson(ForgeRegistries.BLOCKS.getKey(entry.getValue().block()), customModel, cachedOutput);
                         }
-                        /*for (Object o : unitRegister.fluidMap.entrySet()) {
-                            Map.Entry<RegisterBasics.FluidUnitRegister<?, ?>, FluidPack> entry = Util.forcedConversion(o);
-                            if (entry.getValue().liquidBlock() != null) {
-                                asFluid(ForgeRegistries.BLOCKS.getKey(entry.getValue().liquidBlock()), cachedOutput);
-                            }
-                        }*/
                     }
                 }
                 for (ShapedDrive shapedDrive : ShapedDrive.SHAPED_DRIVE.get()) {
@@ -131,6 +126,7 @@ public class ClientDuskData {
                 cachedOutput.writeIfNeeded(dataGenerator.getOutputFolder().resolve(pack), bytearrayoutputstream.toByteArray(), hashingoutputstream.hash());
             }
         });
+        event.getGenerator().addProvider(true, new LangProvider());
         try {
             event.getGenerator().run();
         } catch (IOException e) {

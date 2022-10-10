@@ -41,17 +41,17 @@ public class CrystallizingShapedType extends ShapedType {
 
     @Override
     public void defaultConfig() {
-        crystal = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "crystal"}),
+        crystal = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "crystal"),
                 this, ShapedDrive.get(0), 2048L, 8L, 0L)
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.crystalSeed.name, 1))
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptFluidIn(OreFluid.solution.name, 288))
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.crystal, 1, 1));
-        delicateCrystal = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "delicate_crystal"}),
+        delicateCrystal = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "delicate_crystal"),
                 this, ShapedDrive.get(1), 4096L, 8L, 0L)
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.crystal.name, 1))
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptFluidIn(OreFluid.solution.name, 576))
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.delicateCrystal, 1, 1));
-        perfectCrystal = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "perfect_crystal"}),
+        perfectCrystal = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "perfect_crystal"),
                 this, ShapedDrive.get(0), 8192L, 8L, 0L)
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.delicateCrystal.name, 1))
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptFluidIn(OreFluid.solution.name, 1152))

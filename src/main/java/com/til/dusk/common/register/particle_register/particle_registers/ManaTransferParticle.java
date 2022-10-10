@@ -1,6 +1,7 @@
 package com.til.dusk.common.register.particle_register.particle_registers;
 
 import com.til.dusk.client.particle.DefaultParticle;
+import com.til.dusk.common.config.ConfigField;
 import com.til.dusk.common.event.EventIO;
 import com.til.dusk.common.register.particle_register.ParticleRegister;
 import com.til.dusk.util.DuskColor;
@@ -54,13 +55,23 @@ public class ManaTransferParticle extends ParticleRegister {
     @Override
     public Extension.Data_2<Float, List<Particle>> run(ClientLevel world, Pos start, Pos end, DuskColor color, double density, @Nullable ResourceLocation resourceLocation) {
         if (density <= 0) {
-            return new Extension.Data_2<>(start.distance(end) * 3, null);
+            return new Extension.Data_2<>(start.distance(end) * speed, null);
         }
         Pos _end = end.move(Pos.randomPos());
-        int dis = (int) start.distance(_end) * 3;
-        new DefaultParticle(world, start, DEFAULT, color, Pos.movePos(start, _end, dis), 0.25f, dis);
-        return new Extension.Data_2<>(start.distance(end) * 3, List.of(new DefaultParticle(world, start, DEFAULT, color, Pos.movePos(start, _end, dis), 0.25f, dis)));
+        int dis = (int) (start.distance(_end) * speed);
+        new DefaultParticle(world, start, DEFAULT, color, Pos.movePos(start, _end, dis), size, dis);
+        return new Extension.Data_2<>(start.distance(end) * 3, List.of(new DefaultParticle(world, start, DEFAULT, color, Pos.movePos(start, _end, dis), size, dis)));
     }
 
+    @Override
+    public void defaultConfig() {
+        speed = 3f;
+        size = 0.25f;
+    }
 
+    @ConfigField
+    public float speed;
+
+    @ConfigField
+    public float size;
 }

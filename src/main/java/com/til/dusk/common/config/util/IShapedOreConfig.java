@@ -340,7 +340,7 @@ public interface IShapedOreConfig<DATA> {
                 if (!ore.has(manaLevelFluid)) {
                     return;
                 }
-                shapedOre.addOutFluid(new FluidStack(ore.get(manaLevelFluid).flowing(), amount), probability);
+                shapedOre.addOutFluid(new FluidStack(ore.get(manaLevelFluid).source(), amount), probability);
             }
         }
 
@@ -460,7 +460,7 @@ public interface IShapedOreConfig<DATA> {
                 if (!ore.has(oreFluid)) {
                     return;
                 }
-                shapedOre.addOutFluid(new FluidStack(ore.get(oreFluid).flowing(), amount), probability);
+                shapedOre.addOutFluid(new FluidStack(ore.get(oreFluid).source(), amount), probability);
             }
         }
 

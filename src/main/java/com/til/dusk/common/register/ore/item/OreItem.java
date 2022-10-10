@@ -47,22 +47,22 @@ public class OreItem extends ItemUnitRegister<OreItem, Ore> {
     /***
      * 外壳
      */
-    public static OreItemMetal casing;
+    public static CasingOreItemMetal casing;
 
     /***
      * 箔
      */
-    public static OreItemMetal foil;
+    public static FoilOreItemMetal foil;
 
     /***
      * 杆
      */
-    public static OreItemMetal stick;
+    public static StickOreItemMetal stick;
 
     /***
      * 长杆
      */
-    public static OreItemMetal stickLong;
+    public static StickLongOreItemMetal stickLong;
 
     /***
      * 线
@@ -196,7 +196,7 @@ public class OreItem extends ItemUnitRegister<OreItem, Ore> {
         nuggets = new NuggetsOreItemMetal();
         damagedCrystal = new DamagedCrystalOreItemCrysta();
         crystal = new CrystalOreItemCrysta();
-        delicateCrystal = new DamagedCrystalOreItemCrysta();
+        delicateCrystal = new CrystalDelicateOreItemCrysta();
         perfectCrystal = new CrystalPerfectOreItemCrysta();
         crystalSeed = new CrystalSeedOreItemCrysta();
         crushed = new CrushedOreItemMineralBlock();

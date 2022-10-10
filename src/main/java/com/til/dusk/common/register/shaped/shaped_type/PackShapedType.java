@@ -42,19 +42,19 @@ public class PackShapedType extends ShapedType {
 
     @Override
     public void defaultConfig() {
-        blockIngot = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "block_ingot"}),
+        blockIngot = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "block_ingot"),
                 this, ShapedDrive.get(0), 128L, 4L, 0)
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.ingot.name, 9))
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreBlockOut(OreBlock.block, 1, 1));
-        blockCrystal = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "block_crystal"}),
+        blockCrystal = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "block_crystal"),
                 this, ShapedDrive.get(1), 128L, 4L, 0)
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.crystal.name, 9))
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreBlockOut(OreBlock.block, 1, 1));
-        ingot = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "ingot"}),
+        ingot = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "ingot"),
                 this, ShapedDrive.get(2), 128L, 4L, 0)
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.dustTiny.name, 9))
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.ingot, 1, 1));
-        dust = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "dust"}),
+        dust = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "dust"),
                 this, ShapedDrive.get(3), 128L, 4L, 0)
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.dustTiny.name, 9))
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.dust, 1, 1));

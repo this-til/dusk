@@ -44,8 +44,13 @@ public class RegisterManage implements IModStateProvider {
         Dusk.instance.modEventBus.post(new RegisterManageEvent.InMap());
     });
 
+    public static final ModLoadingState INIT_CONFIG = ModLoadingState.withInline("INIT_CONFIG", "REGISTER_IN_MAP", ModLoadingPhase.GATHER, ml -> {
+        for (RegisterBasics<?> allRegisterBasic : ALL_REGISTER_BASICS) {
+            allRegisterBasic.defaultConfig();
+        }
+    });
 
-    public static final ModLoadingState REGISTER_BACK = ModLoadingState.withInline("REGISTER_BACK", "REGISTER_IN_MAP", ModLoadingPhase.GATHER, ml -> {
+    public static final ModLoadingState REGISTER_BACK = ModLoadingState.withInline("REGISTER_BACK", "INIT_CONFIG", ModLoadingPhase.GATHER, ml -> {
         for (RegisterBasics<?> allRegisterBasic : ALL_REGISTER_BASICS) {
             allRegisterBasic.registerBack();
         }
@@ -62,7 +67,7 @@ public class RegisterManage implements IModStateProvider {
 
     @Override
     public List<IModLoadingState> getAllStates() {
-        return List.of(REGISTER_INIT, REGISTER_IN_MAP, REGISTER_BACK, REGISTER_BLACK_TO_BACK);
+        return List.of(REGISTER_INIT, REGISTER_IN_MAP, INIT_CONFIG, REGISTER_BACK, REGISTER_BLACK_TO_BACK);
     }
 
     public static <C> Supplier<IForgeRegistry<C>> create(Class<C> cClass, ResourceLocation name, NewRegistryEvent event) {

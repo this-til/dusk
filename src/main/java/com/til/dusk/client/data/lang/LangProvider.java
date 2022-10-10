@@ -1,8 +1,9 @@
-package com.til.dusk.common.data.lang;
+package com.til.dusk.client.data.lang;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.til.dusk.Dusk;
+import com.til.dusk.client.data.ClientDuskData;
 import com.til.dusk.common.data.DuskData;
 import com.til.dusk.common.event.DelayTrigger;
 import com.til.dusk.common.event.RegisterLangEvent;
@@ -10,6 +11,8 @@ import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.register.RegisterManage;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -20,6 +23,7 @@ import java.util.Map;
 /**
  * @author til
  */
+@Mod.EventBusSubscriber(modid = Dusk.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class LangProvider implements DataProvider {
     @Override
     public void run(@NotNull CachedOutput cachedOutput) throws IOException {
@@ -44,7 +48,7 @@ public class LangProvider implements DataProvider {
             for (Map.Entry<String, String> e : entry.getValue().entrySet()) {
                 jsonObject.add(e.getKey(), new JsonPrimitive(entry.getKey().optimize(e.getValue())));
             }
-            Path mainOutput = DuskData.dataGenerator.getOutputFolder();
+            Path mainOutput = ClientDuskData.dataGenerator.getOutputFolder();
             String pathSuffix = String.format("assets/%s/lang/%s.json",
                     Dusk.MOD_ID,
                     entry.getKey().toString());
@@ -77,6 +81,14 @@ public class LangProvider implements DataProvider {
 
         public void clearCache() {
             cacheKey = null;
+        }
+    }
+
+    @SubscribeEvent
+    public static void onEvent(RegisterLangEvent event) {
+        event.langTool.setCache("config.jade.plugin_" + Dusk.MOD_ID + ".default");
+        for (LangType value : LangType.values()) {
+            event.langTool.add(value, "dusk default plugin");
         }
     }
 }

@@ -79,7 +79,7 @@ public interface IShapedCreate<DATA> {
             if (shapedDrive == null) {
                 shapedDrive = ShapedDrive.get(0);
             }
-            ShapedOre shapedOre = (ShapedOre) new ShapedOre(ResourceLocationUtil.fuseName("/", shapedType.name, shapedDrive.name, name), shapedType, shapedDrive, data.manaLevel)
+            ShapedOre shapedOre = (ShapedOre) new ShapedOre(ResourceLocationUtil.fuseName("/", shapedType.name, shapedDrive.name, name, data.name), shapedType, shapedDrive, data.manaLevel)
                     .addMultipleSurplusTime((long) (surplusTime * data.strength))
                     .addMultipleConsumeMana((long) (consumeMana * data.consume))
                     .addMultipleOutMana(outMana);
@@ -184,7 +184,7 @@ public interface IShapedCreate<DATA> {
             if (shapedDrive == null) {
                 shapedDrive = ShapedDrive.get(0);
             }
-            ShapedOre shapedOre = (ShapedOre) new ShapedOre(ResourceLocationUtil.fuseName("/", shapedType.name, shapedDrive.name, name), shapedType, shapedDrive, data)
+            ShapedOre shapedOre = (ShapedOre) new ShapedOre(ResourceLocationUtil.fuseName("/", shapedType.name, shapedDrive.name, name, data.name), shapedType, shapedDrive, data)
                     .addMultipleSurplusTime(surplusTime * data.level)
                     .addMultipleConsumeMana(consumeMana * data.level)
                     .addMultipleOutMana(outMana);

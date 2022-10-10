@@ -47,18 +47,18 @@ public class SplittingShapedType extends ShapedType {
 
     @Override
     public void defaultConfig() {
-        splittingSunlightSolution = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), ""}),
+        splittingSunlightSolution = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "sunlight"),
                 this, ShapedDrive.get(0), 1024L, 12L, 0L)
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptFluidIn(OreFluid.splittingSunlightSolution.name, 144))
-                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.FluidOut(() -> new FluidStack(Ore.sunlight.get(OreFluid.solution).flowing(), 42), 1));
-        splittingMoonlightSolution = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), ""}),
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.FluidOut(() -> new FluidStack(Ore.sunlight.get(OreFluid.solution).source(), 42), 1));
+        splittingMoonlightSolution = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(),  "moonlight"),
                 this, ShapedDrive.get(0), 1024L, 12L, 0L)
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptFluidIn(OreFluid.splittingMoonlightSolution.name, 144))
-                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.FluidOut(() -> new FluidStack(Ore.moonlight.get(OreFluid.solution).flowing(), 42), 1));
-        splittingRainSolution = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), ""}),
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.FluidOut(() -> new FluidStack(Ore.moonlight.get(OreFluid.solution).source(), 42), 1));
+        splittingRainSolution = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "rain"),
                 this, ShapedDrive.get(0), 1024L, 12L, 0L)
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptFluidIn(OreFluid.splittingRainSolution.name, 144))
-                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.FluidOut(() -> new FluidStack(Ore.rain.get(OreFluid.solution).flowing(), 42), 1));
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.FluidOut(() -> new FluidStack(Ore.rain.get(OreFluid.solution).source(), 42), 1));
     }
 
     @ConfigField

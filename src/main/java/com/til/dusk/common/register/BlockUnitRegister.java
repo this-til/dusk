@@ -42,8 +42,8 @@ public abstract class BlockUnitRegister<T extends BlockUnitRegister<T, O>, O ext
     @Nullable
     public abstract Block createBlock(O o);
 
-    public TagKey<Block> createBlockTag(O o) {
-        return BlockTags.create(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{"item", o.name.getPath(), name.getPath()}));
+    public final TagKey<Block> createBlockTag(O o) {
+        return o.tagPackSupplier.getTagPack(this).blockTagKey();
     }
 
     public BlockItem createBlockItem(O o, Block block) {
@@ -55,8 +55,8 @@ public abstract class BlockUnitRegister<T extends BlockUnitRegister<T, O>, O ext
         };
     }
 
-    public TagKey<Item> createBlockItemTag(O o) {
-        return ItemTags.create(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{"block", o.name.getPath(), name.getPath()}));
+    public final TagKey<Item> createBlockItemTag(O o) {
+        return o.tagPackSupplier.getTagPack(this).itemTagKey();
     }
 
     /***

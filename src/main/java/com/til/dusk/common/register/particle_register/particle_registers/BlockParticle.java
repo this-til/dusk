@@ -1,5 +1,6 @@
 package com.til.dusk.common.register.particle_register.particle_registers;
 
+import com.til.dusk.common.config.ConfigField;
 import com.til.dusk.common.register.particle_register.ParticleParsingMode;
 import com.til.dusk.common.register.particle_register.ParticleRegister;
 import com.til.dusk.util.DuskColor;
@@ -52,5 +53,10 @@ public class BlockParticle extends ParticleRegister {
             }
         }
         return new Extension.Data_2<>(0f, list);
+    }
+
+    @Override
+    public void defaultConfig() {
+
     }
 }

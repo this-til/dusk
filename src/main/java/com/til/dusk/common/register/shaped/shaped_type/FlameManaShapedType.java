@@ -31,17 +31,17 @@ public class FlameManaShapedType extends ShapedType {
     @Override
     public void defaultConfig() {
         relevantShaped = new Delayed<>(() -> List.of(
-                new ShapedOre(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), Tags.Items.GUNPOWDER.location().getPath()}),
+                new ShapedOre(ResourceLocationUtil.fuseName(name.getNamespace(), Tags.Items.GUNPOWDER.location()),
                         this, ShapedDrive.get(0), ManaLevel.t1)
                         .addInFluid(FluidTags.LAVA, 100)
                         .addMultipleSurplusTime(258)
                         .addMultipleOutMana(2048),
-                new ShapedOre(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), ItemTag.BLAZE_POWDER.location().getPath()}),
+                new ShapedOre(ResourceLocationUtil.fuseName(name.getNamespace(), ItemTag.BLAZE_POWDER.location()),
                         this, ShapedDrive.get(1), ManaLevel.t1)
                         .addInItem(ItemTag.BLAZE_POWDER, 1)
                         .addMultipleSurplusTime(512)
                         .addMultipleOutMana(2048),
-                new ShapedOre(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), Tags.Items.RODS_BLAZE.location().getPath()}),
+                new ShapedOre(ResourceLocationUtil.fuseName(name.getNamespace(), Tags.Items.RODS_BLAZE.location()),
                         this, ShapedDrive.get(2), ManaLevel.t1)
                         .addInItem(Tags.Items.RODS_BLAZE, 1)
                         .addMultipleSurplusTime(512)

@@ -38,27 +38,27 @@ public class StampingMachineShapedType extends ShapedType {
 
     @Override
     public void defaultConfig() {
-        plate = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "plate1"}),
+        plate = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(),  "plate1"),
                 this, ShapedDrive.get(0), 1024L, 16L, 0L)
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.ingot.name, 1))
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.plate, 1, 1));
-        plate2 = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "plate2"}),
+        plate2 = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(),  "plate2"),
                 this, ShapedDrive.get(0), 1024L, 32L, 0L)
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.plate.name, 2))
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.plate2, 1, 1));
-        plate3 = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "plate3"}),
+        plate3 = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "plate3"),
                 this, ShapedDrive.get(1), 2048L, 32L, 0L)
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.plate2.name, 2))
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.plate3, 1, 1));
-        plate4 = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "plate4"}),
+        plate4 = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(),  "plate4"),
                 this, ShapedDrive.get(2), 4096L, 32L, 0L)
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.plate3.name, 2))
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.plate4, 1, 1));
-        foil = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "foil"}),
+        foil = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "foil"),
                 this, ShapedDrive.get(3), 512L, 12L, 0L)
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.plate.name, 1))
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.feet, 1, 4));
-        stickLong = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "stick_long"}),
+        stickLong = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "stick_long"),
                 this, ShapedDrive.get(4), 512L, 8L, 0L)
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.stick.name, 2))
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.stickLong, 1, 1));

@@ -36,7 +36,7 @@ import java.util.function.Supplier;
  * @author til
  */
 @Mod.EventBusSubscriber(modid = Dusk.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class ParticleRegister extends RegisterBasics<ParticleRegister> {
+public abstract class ParticleRegister extends RegisterBasics<ParticleRegister> {
 
     public static Supplier<IForgeRegistry<ParticleRegister>> PARTICLE_REGISTER;
 
@@ -89,7 +89,12 @@ public class ParticleRegister extends RegisterBasics<ParticleRegister> {
             ROUTE_DATA.clear();
             PLAYER_MAP.clear();
         });
-        air = new ParticleRegister("air");
+        air = new ParticleRegister("air") {
+            @Override
+            public void defaultConfig() {
+
+            }
+        };
         manaTransfer = new ManaTransferParticle();
         itemTransfer = new ItemTransferParticle();
         fluidTransfer = new FluidTransferParticle();

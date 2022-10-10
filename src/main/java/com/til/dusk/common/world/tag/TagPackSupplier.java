@@ -7,6 +7,7 @@ import com.til.dusk.util.pack.TagPack;
 import net.minecraft.resources.ResourceLocation;
 
 import javax.annotation.Nullable;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -28,7 +29,7 @@ public class TagPackSupplier {
     /***
      * 关联的Tag
      */
-    protected Map<ResourceLocation, TagPack> relationTagPack;
+    protected final Map<ResourceLocation, TagPack> relationTagPack = new HashMap<>();
 
     public TagPackSupplier(ResourceLocation name, @Nullable String modification) {
         this.name = name;
@@ -47,9 +48,9 @@ public class TagPackSupplier {
                         Dusk.instance.FLUID_TAG.createTagKey(name));
             } else {
                 tagPack = new TagPack(
-                        Dusk.instance.ITEM_TAG.createTagKey(ResourceLocationUtil.fuseName(modification, name)),
-                        Dusk.instance.BLOCK_TAG.createTagKey(ResourceLocationUtil.fuseName(modification, name)),
-                        Dusk.instance.FLUID_TAG.createTagKey(ResourceLocationUtil.fuseName(modification, name)));
+                        Dusk.instance.ITEM_TAG.createTagKey(ResourceLocationUtil.fuseName("/", name, modification)),
+                        Dusk.instance.BLOCK_TAG.createTagKey(ResourceLocationUtil.fuseName("/", name, modification)),
+                        Dusk.instance.FLUID_TAG.createTagKey(ResourceLocationUtil.fuseName("/", name, modification)));
             }
         }
         return tagPack;
@@ -66,14 +67,14 @@ public class TagPackSupplier {
         TagPack tagPack;
         if (modification == null) {
             tagPack = new TagPack(
-                    Dusk.instance.ITEM_TAG.createTagKey(ResourceLocationUtil.fuseName(resourceLocation, name)),
-                    Dusk.instance.BLOCK_TAG.createTagKey(ResourceLocationUtil.fuseName(resourceLocation, name)),
-                    Dusk.instance.FLUID_TAG.createTagKey(ResourceLocationUtil.fuseName(resourceLocation, name)));
+                    Dusk.instance.ITEM_TAG.createTagKey(ResourceLocationUtil.fuseName("/", name, resourceLocation)),
+                    Dusk.instance.BLOCK_TAG.createTagKey(ResourceLocationUtil.fuseName("/", name, resourceLocation)),
+                    Dusk.instance.FLUID_TAG.createTagKey(ResourceLocationUtil.fuseName("/", name, resourceLocation)));
         } else {
             tagPack = new TagPack(
-                    Dusk.instance.ITEM_TAG.createTagKey(ResourceLocationUtil.fuseName(resourceLocation, modification, name)),
-                    Dusk.instance.BLOCK_TAG.createTagKey(ResourceLocationUtil.fuseName(resourceLocation, modification, name)),
-                    Dusk.instance.FLUID_TAG.createTagKey(ResourceLocationUtil.fuseName(resourceLocation, modification, name)));
+                    Dusk.instance.ITEM_TAG.createTagKey(ResourceLocationUtil.fuseName("/", name, modification, resourceLocation)),
+                    Dusk.instance.BLOCK_TAG.createTagKey(ResourceLocationUtil.fuseName("/", name, modification, resourceLocation)),
+                    Dusk.instance.FLUID_TAG.createTagKey(ResourceLocationUtil.fuseName("/", name, modification, resourceLocation)));
         }
         relationTagPack.put(resourceLocation, tagPack);
         return tagPack;

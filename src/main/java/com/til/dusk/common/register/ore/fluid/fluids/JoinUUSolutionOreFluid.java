@@ -19,4 +19,9 @@ public class JoinUUSolutionOreFluid extends OreFluid {
         }
         return null;
     }
+
+    @Override
+    public void defaultConfig() {
+
+    }
 }

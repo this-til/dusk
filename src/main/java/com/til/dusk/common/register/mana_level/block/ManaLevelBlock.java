@@ -442,7 +442,7 @@ public abstract class ManaLevelBlock extends BlockUnitRegister<ManaLevelBlock, M
     @AcceptTypeJson
     public static class ManaLevelMakeData {
 
-        public MakeLevel makeLevel;
+        public MakeLevel makeLevel = MakeLevel.CURRENT;
         public boolean isMustRegister;
         @Nullable
         public List<IShapedOreConfig<ManaLevel>> oreConfig;

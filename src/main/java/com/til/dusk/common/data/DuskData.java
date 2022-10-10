@@ -2,7 +2,7 @@ package com.til.dusk.common.data;
 
 
 import com.til.dusk.Dusk;
-import com.til.dusk.common.data.lang.LangProvider;
+import com.til.dusk.client.data.lang.LangProvider;
 import com.til.dusk.common.data.tag.BlockTag;
 import com.til.dusk.common.data.tag.FluidTag;
 import com.til.dusk.common.data.tag.ItemTag;
@@ -32,7 +32,6 @@ public class DuskData {
         //event.getGenerator().addProvider(true, new ShapedProvider());
         event.getGenerator().addProvider(true, new ModRecipeProvider(event.getGenerator()));
         event.getGenerator().addProvider(true, new DuskLootTableProvider(event.getGenerator()));
-        event.getGenerator().addProvider(true, new LangProvider());
         try {
             event.getGenerator().run();
         } catch (Exception e) {

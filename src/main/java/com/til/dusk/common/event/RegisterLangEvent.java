@@ -1,6 +1,6 @@
 package com.til.dusk.common.event;
 
-import com.til.dusk.common.data.lang.LangProvider;
+import com.til.dusk.client.data.lang.LangProvider;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.fml.event.IModBusEvent;
 

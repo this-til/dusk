@@ -34,8 +34,9 @@ public class AllShaped {
                 return;
             }
             if (ID_MAP.containsKey(s.name)) {
-                Dusk.instance.logger.error("配方出现重负[{}]的ID，已经修正", s);
+                ResourceLocation oldName = s.name;
                 s.name = new ResourceLocation(s.name.getNamespace(), s.name.getPath() + "_");
+                Dusk.instance.logger.error("配方出现重复[{}]的ID，已经修正为[{}]", oldName, s.name);
             }
             ID_MAP.put(s.name, s);
             Map<ShapedDrive, List<Shaped>> shapedDriveListMap;

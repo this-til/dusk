@@ -2,8 +2,8 @@ package com.til.dusk.common.register.mana_level.block.mechanic;
 
 import com.til.dusk.common.config.util.IShapedOreConfig;
 import com.til.dusk.common.data.ModRecipeProvider;
-import com.til.dusk.common.data.lang.LangProvider;
-import com.til.dusk.common.data.lang.LangType;
+import com.til.dusk.client.data.lang.LangProvider;
+import com.til.dusk.client.data.lang.LangType;
 import com.til.dusk.common.register.mana_level.block.Mechanic;
 import com.til.dusk.common.register.mana_level.item.ManaLevelItemPack;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;

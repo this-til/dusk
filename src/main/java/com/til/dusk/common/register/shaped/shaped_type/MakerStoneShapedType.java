@@ -32,20 +32,21 @@ public class MakerStoneShapedType extends ShapedType {
     @Override
     public void defaultConfig() {
         relevantShaped = new Delayed<>(() -> List.of(
-                new ShapedOre(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "stone"}), this, ShapedDrive.get(0), ManaLevel.t1)
+                new ShapedOre(ResourceLocationUtil.fuseName(name.getNamespace(),  "stone"),
+                        this, ShapedDrive.get(0), ManaLevel.t1)
                         .addInFluid(FluidTags.WATER, 10)
                         .addInFluid(FluidTags.LAVA, 1)
                         .addOutItem(new ItemStack(Blocks.STONE), 1d)
                         .addMultipleSurplusTime(128)
                         .addMultipleConsumeMana(4),
-                new ShapedOre(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "cobblestone"}),
+                new ShapedOre(ResourceLocationUtil.fuseName(name.getNamespace(), "cobblestone"),
                         this, ShapedDrive.get(1), ManaLevel.t1)
                         .addInFluid(FluidTags.WATER, 10)
                         .addInFluid(FluidTags.LAVA, 1)
                         .addOutItem(new ItemStack(Blocks.COBBLESTONE), 1d)
                         .addMultipleSurplusTime(128)
                         .addMultipleConsumeMana(4),
-                new ShapedOre(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "obsidian"}),
+                new ShapedOre(ResourceLocationUtil.fuseName(name.getNamespace(),  "obsidian"),
                         this, ShapedDrive.get(2), ManaLevel.t1)
                         .addInFluid(FluidTags.WATER, 1000)
                         .addInFluid(FluidTags.LAVA, 1000)

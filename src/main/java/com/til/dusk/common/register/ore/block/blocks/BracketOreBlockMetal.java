@@ -2,8 +2,8 @@ package com.til.dusk.common.register.ore.block.blocks;
 
 import com.til.dusk.client.ColorProxy;
 import com.til.dusk.common.data.ModRecipeProvider;
-import com.til.dusk.common.data.lang.LangProvider;
-import com.til.dusk.common.data.lang.LangType;
+import com.til.dusk.client.data.lang.LangProvider;
+import com.til.dusk.client.data.lang.LangType;
 import com.til.dusk.common.data.tag.BlockTag;
 import com.til.dusk.common.register.ore.block.OreBlockMetal;
 import com.til.dusk.common.register.ore.item.OreItem;

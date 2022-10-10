@@ -3,7 +3,7 @@ package com.til.dusk.common.register.mana_level.item;
 import com.til.dusk.Dusk;
 import com.til.dusk.client.ColorProxy;
 import com.til.dusk.common.config.ConfigField;
-import com.til.dusk.common.data.lang.LangType;
+import com.til.dusk.client.data.lang.LangType;
 import com.til.dusk.common.data.tag.ItemTag;
 import com.til.dusk.common.event.RegisterLangEvent;
 import com.til.dusk.common.register.RegisterManage;
@@ -13,6 +13,7 @@ import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.world.item.DuskItem;
 import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.Lang;
+import com.til.dusk.util.ResourceLocationUtil;
 import com.til.dusk.util.pack.ItemPack;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -98,7 +99,7 @@ public abstract class ManaLevelItemPack extends TagPackSupplierRegister<ManaLeve
 
     public ManaLevelItemPack(ResourceLocation name) {
         super(name, MANA_LEVEL_ITEM_PACK);
-        integrate = new ManaLevelItem(new ResourceLocation(name.getNamespace(), name.getPath() + "_" + INTEGRATE)) {
+        integrate = new ManaLevelItem(ResourceLocationUtil.fuseName(name.getNamespace(), "_", new String[]{name.getPath(), INTEGRATE.getPath()})) {
             @Override
             public @Nullable ItemPack create(ManaLevel manaLevel) {
                 if (manaLevel.getUp() != null) {
@@ -134,7 +135,7 @@ public abstract class ManaLevelItemPack extends TagPackSupplierRegister<ManaLeve
                 return () -> INTEGRATE;
             }
         };
-        processor = new ManaLevelItem(new ResourceLocation(name.getNamespace(), name.getPath() + "_" + PROCESSOR)) {
+        processor = new ManaLevelItem(ResourceLocationUtil.fuseName(name.getNamespace(), "_", new String[]{name.getPath(), PROCESSOR.getPath()})) {
             @Override
             public Item createItem(ManaLevel manaLevel) {
                 Item item = new Item(new Item.Properties().tab(Dusk.TAB)) {
@@ -161,7 +162,7 @@ public abstract class ManaLevelItemPack extends TagPackSupplierRegister<ManaLeve
                 itemColorPack.addColor(2, itemStack -> strokeColor);
             }
         };
-        host = new ManaLevelItem(new ResourceLocation(name.getNamespace(), name.getPath() + "_" + HOST)) {
+        host = new ManaLevelItem(ResourceLocationUtil.fuseName(name.getNamespace(), "_", new String[]{name.getPath(), HOST.getPath()})) {
             @Override
             public @Nullable ItemPack create(ManaLevel manaLevel) {
                 if (manaLevel.getNext() != null) {

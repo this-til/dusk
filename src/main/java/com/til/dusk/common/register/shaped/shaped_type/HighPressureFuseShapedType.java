@@ -46,18 +46,18 @@ public class HighPressureFuseShapedType extends ShapedType {
 
     @Override
     public void defaultConfig() {
-        splittingSunlightSolution = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "sunlight"}),
-                this, ShapedDrive.get(0), 2048L,22L,0)
-                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptFluidIn(OreFluid.solution.name,72))
-                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.FluidIn(() -> Ore.sunlight.get(OreFluid.solution).fluidTag(),72));
-        splittingMoonlightSolution = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "moonlight"}),
-                this, ShapedDrive.get(0), 2048L,22L,0)
-                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptFluidIn(OreFluid.solution.name,72))
-                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.FluidIn(() -> Ore.moonlight.get(OreFluid.solution).fluidTag(),72));
-        splittingRainSolution = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "rain"}),
-                this, ShapedDrive.get(0), 2048L,22L,0)
-                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptFluidIn(OreFluid.solution.name,72))
-                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.FluidIn(() -> Ore.rain.get(OreFluid.solution).fluidTag(),72));
+        splittingSunlightSolution = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "sunlight"),
+                this, ShapedDrive.get(0), 2048L, 22L, 0)
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptFluidIn(OreFluid.solution.name, 72))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.FluidIn(() -> Ore.sunlight.get(OreFluid.solution).fluidTag(), 72));
+        splittingMoonlightSolution = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "moonlight"),
+                this, ShapedDrive.get(0), 2048L, 22L, 0)
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptFluidIn(OreFluid.solution.name, 72))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.FluidIn(() -> Ore.moonlight.get(OreFluid.solution).fluidTag(), 72));
+        splittingRainSolution = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "rain"),
+                this, ShapedDrive.get(0), 2048L, 22L, 0)
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptFluidIn(OreFluid.solution.name, 72))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.FluidIn(() -> Ore.rain.get(OreFluid.solution).fluidTag(), 72));
     }
 
     @ConfigField

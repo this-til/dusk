@@ -1,7 +1,7 @@
 package com.til.dusk.common.event;
 
 import com.til.dusk.Dusk;
-import com.til.dusk.common.data.lang.LangProvider;
+import com.til.dusk.client.data.lang.LangProvider;
 import com.til.dusk.common.register.shaped.shapeds.Shaped;
 import com.til.dusk.util.Extension;
 import com.til.dusk.util.Util;

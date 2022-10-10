@@ -1,4 +1,4 @@
-package com.til.dusk.common.data.lang;
+package com.til.dusk.client.data.lang;
 
 /**
  * @author til

@@ -7,6 +7,8 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentCategory;
+import net.minecraftforge.common.IExtensibleEnum;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
@@ -22,7 +24,7 @@ public class DuskEnchantment {
 
     public static final DeferredRegister<Enchantment> ENCHANTMENT = DeferredRegister.create(ForgeRegistries.ENCHANTMENTS, Dusk.MOD_ID);
 
-    public static final RegistryObject<Enchantment> EMPTY = ENCHANTMENT.register("empty", () -> new Enchantment(Enchantment.Rarity.COMMON, null, EquipmentSlot.values()){
+    public static final RegistryObject<Enchantment> EMPTY = ENCHANTMENT.register("empty", () -> new Enchantment(Enchantment.Rarity.COMMON, EnchantmentCategory.VANISHABLE, EquipmentSlot.values()){
         @Override
         public float getDamageBonus(int level, MobType mobType, ItemStack enchantedItem) {
             return 0;

@@ -1,6 +1,7 @@
 package com.til.dusk.common.register.particle_register.particle_registers;
 
 import com.til.dusk.client.particle.DefaultParticle;
+import com.til.dusk.common.config.ConfigField;
 import com.til.dusk.common.event.EventIO;
 import com.til.dusk.common.register.particle_register.ParticleRegister;
 import com.til.dusk.util.DuskColor;
@@ -22,6 +23,9 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author til
+ */
 public class FluidTransferParticle extends ParticleRegister {
 
     public FluidTransferParticle() {
@@ -64,12 +68,28 @@ public class FluidTransferParticle extends ParticleRegister {
             }
         }
         List<Particle> list = new ArrayList<>();
+        density = Math.min(max, density);
         for (int i = 0; i < density; i++) {
             Pos _end = end.move(Pos.randomPos());
-            int dis = (int) start.distance(end) * 6;
-            list.add(new DefaultParticle(world, start, DEFAULT, color, Pos.movePos(start, _end, dis), 0.25f, dis));
+            int dis = (int) (start.distance(end) * speed);
+            list.add(new DefaultParticle(world, start, DEFAULT, color, Pos.movePos(start, _end, dis), size, dis));
         }
-        return new Extension.Data_2<>(start.distance(end) * 6, list);
+        return new Extension.Data_2<>(start.distance(end) * speed, list);
     }
+    @Override
+    public void defaultConfig() {
+        speed = 6;
+        size = 0.25f;
+        max = 10;
+    }
+
+    @ConfigField
+    public float speed;
+
+    @ConfigField
+    public float size;
+
+    @ConfigField
+    public float max;
 
 }

@@ -1,6 +1,6 @@
 package com.til.dusk.common.register;
 
-import com.til.dusk.common.data.lang.LangProvider;
+import com.til.dusk.client.data.lang.LangProvider;
 import com.til.dusk.common.register.shaped.shapeds.Shaped;
 import com.til.dusk.util.Util;
 import net.minecraft.data.recipes.RecipeBuilder;

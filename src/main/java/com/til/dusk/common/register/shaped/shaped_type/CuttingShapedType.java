@@ -28,7 +28,7 @@ public class CuttingShapedType extends ShapedType {
     public void registerRuleShaped(Consumer<Shaped> shapedConsumer) {
         for (Ore ore : Ore.ORE.get()) {
             if (ore.isMetal) {
-                shapedConsumer.accept(stairs.create(ore));
+                shapedConsumer.accept(stick.create(ore));
             }
             if (ore.decorateBlockData != null) {
                 shapedConsumer.accept(slab.create(ore));
@@ -41,17 +41,17 @@ public class CuttingShapedType extends ShapedType {
 
     @Override
     public void defaultConfig() {
-        stick = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "stick"}),
+        stick = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "stick"),
                 this, ShapedDrive.get(0), 64L, 16L, 1)
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.stickLong.name, 1))
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.stick, 2, 1));
-        slab = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "slab"}),
+        slab = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "slab"),
                 this, ShapedDrive.get(1), 1024L, 24L, 1)
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreBlock.block.name, 1));
-        stairs = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "stairs"}),
+        stairs = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "stairs"),
                 this, ShapedDrive.get(2), 1024L, 24L, 1)
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreBlock.block.name, 1));
-        wall = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "wall"}),
+        wall = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "wall"),
                 this, ShapedDrive.get(3), 1024L, 24L, 1)
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreBlock.block.name, 1));
     }

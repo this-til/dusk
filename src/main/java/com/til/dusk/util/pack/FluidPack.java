@@ -22,7 +22,7 @@ import org.jetbrains.annotations.Nullable;
 public record FluidPack(
         FluidType fluidType,
         FlowingFluid source,
-        FlowingFluid flowing,
+        @Deprecated FlowingFluid flowing,
         TagKey<Fluid> fluidTag,
         @Nullable LiquidBlock liquidBlock,
         @Nullable TagKey<Block> liquidBlockTag,

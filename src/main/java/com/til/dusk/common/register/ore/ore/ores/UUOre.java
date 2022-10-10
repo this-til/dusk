@@ -1,8 +1,8 @@
 package com.til.dusk.common.register.ore.ore.ores;
 
 import com.til.dusk.common.config.util.Delayed;
-import com.til.dusk.common.data.lang.LangProvider;
-import com.til.dusk.common.data.lang.LangType;
+import com.til.dusk.client.data.lang.LangProvider;
+import com.til.dusk.client.data.lang.LangType;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.ore.fluid.FluidData;
 import com.til.dusk.common.register.ore.fluid.OreFluid;

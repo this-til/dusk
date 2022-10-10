@@ -1,8 +1,8 @@
 package com.til.dusk.common.register.ore.ore.ores;
 
 import com.til.dusk.common.config.util.Delayed;
-import com.til.dusk.common.data.lang.LangProvider;
-import com.til.dusk.common.data.lang.LangType;
+import com.til.dusk.client.data.lang.LangProvider;
+import com.til.dusk.client.data.lang.LangType;
 import com.til.dusk.common.data.tag.ItemTag;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.ore.fluid.FluidData;
@@ -47,10 +47,10 @@ public class StemCellOre extends Ore {
                         .addOutFluid(new FluidStack(culture.get(OreFluid.solution).source(), 128), 1D)
                         .addMultipleSurplusTime((long) (512L * strength))
                         .addMultipleConsumeMana((long) (64L * consume)),
-                new ShapedOre(ResourceLocationUtil.fuseName(this, OreFluid.solution), ShapedType.cellCulture, ShapedDrive.get(0), manaLevel)
-                        .addInFluid(stemCell.get(OreFluid.solution).fluidTag(), 1)
-                        .addInFluid(this.get(OreFluid.solution).fluidTag(), 128)
-                        .addOutFluid(new FluidStack(this.get(OreFluid.solution).source(), 1), 1d)
+                new ShapedOre(ResourceLocationUtil.fuseName(this, culture, OreFluid.solution), ShapedType.cellCulture, ShapedDrive.get(0), manaLevel)
+                        .addInFluid(this.get(OreFluid.solution).fluidTag(), 1)
+                        .addInFluid(culture.get(OreFluid.solution).fluidTag(), 128)
+                        .addOutFluid(new FluidStack(this.get(OreFluid.solution).source(), 10), 1d)
                         .addMultipleSurplusTime((long) (1024L * strength))
                         .addMultipleConsumeMana((long) (64L * consume))));
     }

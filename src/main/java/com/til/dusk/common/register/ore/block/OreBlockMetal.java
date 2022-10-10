@@ -10,7 +10,6 @@ import org.jetbrains.annotations.Nullable;
 /**
  * @author til
  */
-@Mod.EventBusSubscriber(modid = Dusk.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public abstract class OreBlockMetal extends OreBlock{
     public OreBlockMetal(ResourceLocation name) {
         super(name);

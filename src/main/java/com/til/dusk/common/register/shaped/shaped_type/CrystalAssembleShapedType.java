@@ -200,87 +200,87 @@ public class CrystalAssembleShapedType extends ShapedType {
 
     @Override
     public void defaultConfig() {
-        operation_integrate = new IShapedCreate.ManaLevelShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "operation_integrate"}),
+        operation_integrate = new IShapedCreate.ManaLevelShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(),  "operation_integrate"),
                 this, ShapedDrive.get(0), 2048, 16, 0L)
                 .addConfig(new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.operationBasics.integrate.name, 1))
                 .addConfig(new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelItemOut(ManaLevelItemPack.operation.integrate, 1, 1));
-        operation_processor = new IShapedCreate.ManaLevelShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "operation_processor"}),
+        operation_processor = new IShapedCreate.ManaLevelShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(),  "operation_processor"),
                 this, ShapedDrive.get(0), 4096, 32, 0L)
                 .addConfig(new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.operationBasics.processor.name, 1))
                 .addConfig(new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelItemOut(ManaLevelItemPack.operation.processor, 1, 1));
-        operation_host = new IShapedCreate.ManaLevelShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "operation_host"}),
+        operation_host = new IShapedCreate.ManaLevelShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "operation_host"),
                 this, ShapedDrive.get(0), 8192, 45, 0L)
                 .addConfig(new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.operationBasics.host.name, 1))
                 .addConfig(new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelItemOut(ManaLevelItemPack.operation.host, 1, 1));
-        forming_integrate = new IShapedCreate.ManaLevelShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "forming_integrate"}),
+        forming_integrate = new IShapedCreate.ManaLevelShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "forming_integrate"),
                 this, ShapedDrive.get(1), 2048, 16, 0L)
                 .addConfig(new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.operationBasics.integrate.name, 1))
                 .addConfig(new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelItemOut(ManaLevelItemPack.forming.integrate, 1, 1));
-        forming_processor = new IShapedCreate.ManaLevelShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "forming_processor"}),
+        forming_processor = new IShapedCreate.ManaLevelShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "forming_processor"),
                 this, ShapedDrive.get(1), 4096, 32, 0L)
                 .addConfig(new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.operationBasics.processor.name, 1))
                 .addConfig(new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelItemOut(ManaLevelItemPack.forming.processor, 1, 1));
-        forming_host = new IShapedCreate.ManaLevelShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "forming_host"}),
+        forming_host = new IShapedCreate.ManaLevelShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "forming_host"),
                 this, ShapedDrive.get(1), 8192, 42, 0L)
                 .addConfig(new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.operationBasics.host.name, 1))
                 .addConfig(new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelItemOut(ManaLevelItemPack.forming.host, 1, 1));
-        destruction_integrate = new IShapedCreate.ManaLevelShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "destruction_integrate"}),
+        destruction_integrate = new IShapedCreate.ManaLevelShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "destruction_integrate"),
                 this, ShapedDrive.get(2), 2048, 16, 0L)
                 .addConfig(new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.operationBasics.integrate.name, 1))
                 .addConfig(new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelItemOut(ManaLevelItemPack.destruction.integrate, 1, 1));
-        destruction_processor = new IShapedCreate.ManaLevelShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "destruction_processor"}),
+        destruction_processor = new IShapedCreate.ManaLevelShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "destruction_processor"),
                 this, ShapedDrive.get(2), 4096, 32, 0L)
                 .addConfig(new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.operationBasics.processor.name, 1))
                 .addConfig(new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelItemOut(ManaLevelItemPack.destruction.processor, 1, 1));
-        destruction_host = new IShapedCreate.ManaLevelShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "destruction_host"}),
+        destruction_host = new IShapedCreate.ManaLevelShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "destruction_host"),
                 this, ShapedDrive.get(2), 8192, 42, 0L)
                 .addConfig(new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.operationBasics.host.name, 1))
                 .addConfig(new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelItemOut(ManaLevelItemPack.destruction.host, 1, 1));
-        gather_integrate = new IShapedCreate.ManaLevelShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "gather_integrate"}),
+        gather_integrate = new IShapedCreate.ManaLevelShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "gather_integrate"),
                 this, ShapedDrive.get(3), 2048, 16, 0L)
                 .addConfig(new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.operationBasics.integrate.name, 1))
                 .addConfig(new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelItemOut(ManaLevelItemPack.gather.integrate, 1, 1));
-        gather_processor = new IShapedCreate.ManaLevelShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "gather_processor"}),
+        gather_processor = new IShapedCreate.ManaLevelShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "gather_processor"),
                 this, ShapedDrive.get(3), 4096, 32, 0L)
                 .addConfig(new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.operationBasics.processor.name, 1))
                 .addConfig(new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelItemOut(ManaLevelItemPack.gather.processor, 1, 1));
-        gather_host = new IShapedCreate.ManaLevelShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "gather_host"}),
+        gather_host = new IShapedCreate.ManaLevelShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "gather_host"),
                 this, ShapedDrive.get(3), 8192, 42, 0L)
                 .addConfig(new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.operationBasics.host.name, 1))
                 .addConfig(new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelItemOut(ManaLevelItemPack.gather.host, 1, 1));
-        spread_integrate = new IShapedCreate.ManaLevelShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "spread_integrate"}),
+        spread_integrate = new IShapedCreate.ManaLevelShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "spread_integrate"),
                 this, ShapedDrive.get(4), 2048, 16, 0L)
                 .addConfig(new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.operationBasics.integrate.name, 1))
                 .addConfig(new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelItemOut(ManaLevelItemPack.spread.integrate, 1, 1));
-        spread_processor = new IShapedCreate.ManaLevelShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "spread_processor"}),
+        spread_processor = new IShapedCreate.ManaLevelShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "spread_processor"),
                 this, ShapedDrive.get(4), 4096, 32, 0L)
                 .addConfig(new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.operationBasics.processor.name, 1))
                 .addConfig(new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelItemOut(ManaLevelItemPack.spread.processor, 1, 1));
-        spread_host = new IShapedCreate.ManaLevelShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "spread_host"}),
+        spread_host = new IShapedCreate.ManaLevelShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "spread_host"),
                 this, ShapedDrive.get(4), 8192, 42, 0L)
                 .addConfig(new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.operationBasics.host.name, 1))
                 .addConfig(new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelItemOut(ManaLevelItemPack.spread.host, 1, 1));
-        power_integrate = new IShapedCreate.ManaLevelShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "power_integrate"}),
+        power_integrate = new IShapedCreate.ManaLevelShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "power_integrate"),
                 this, ShapedDrive.get(5), 2048, 16, 0L)
                 .addConfig(new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.operationBasics.integrate.name, 1))
                 .addConfig(new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelItemOut(ManaLevelItemPack.power.integrate, 1, 1));
-        power_processor = new IShapedCreate.ManaLevelShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "power_processor"}),
+        power_processor = new IShapedCreate.ManaLevelShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "power_processor"),
                 this, ShapedDrive.get(5), 4096, 16, 0L)
                 .addConfig(new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.operationBasics.integrate.name, 1))
                 .addConfig(new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelItemOut(ManaLevelItemPack.power.integrate, 1, 1));
-        power_host = new IShapedCreate.ManaLevelShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "power_host"}),
+        power_host = new IShapedCreate.ManaLevelShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "power_host"),
                 this, ShapedDrive.get(5), 8192, 16, 0L)
                 .addConfig(new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.operationBasics.integrate.name, 1))
                 .addConfig(new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelItemOut(ManaLevelItemPack.power.integrate, 1, 1));
-        instructions_integrate = new IShapedCreate.ManaLevelShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "instructions_integrate"}),
+        instructions_integrate = new IShapedCreate.ManaLevelShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "instructions_integrate"),
                 this, ShapedDrive.get(6), 2048, 16, 0L)
                 .addConfig(new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.operationBasics.integrate.name, 1))
                 .addConfig(new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelItemOut(ManaLevelItemPack.instructions.integrate, 1, 1));
-        instructions_processor = new IShapedCreate.ManaLevelShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "instructions_processor"}),
+        instructions_processor = new IShapedCreate.ManaLevelShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "instructions_processor"),
                 this, ShapedDrive.get(6), 4096, 16, 0L)
                 .addConfig(new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.operationBasics.integrate.name, 1))
                 .addConfig(new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelItemOut(ManaLevelItemPack.instructions.integrate, 1, 1));
-        instructions_host = new IShapedCreate.ManaLevelShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "instructions_host"}),
+        instructions_host = new IShapedCreate.ManaLevelShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "instructions_host"),
                 this, ShapedDrive.get(6), 8192, 16, 0L)
                 .addConfig(new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.operationBasics.integrate.name, 1))
                 .addConfig(new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelItemOut(ManaLevelItemPack.instructions.integrate, 1, 1));

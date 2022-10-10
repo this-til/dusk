@@ -68,8 +68,8 @@ public abstract class FluidUnitRegister<T extends FluidUnitRegister<T, O>, O ext
         return new ForgeFlowingFluid.Source(properties);
     }
 
-    public TagKey<Fluid> createFluidTag(O o) {
-        return FluidTags.create(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{"fluid", o.name.getPath(), name.getPath()}));
+    public final TagKey<Fluid> createFluidTag(O o) {
+        return o.tagPackSupplier.getTagPack(this).fluidTagKey();
     }
 
     @Nullable
@@ -78,8 +78,8 @@ public abstract class FluidUnitRegister<T extends FluidUnitRegister<T, O>, O ext
     }
 
     @Nullable
-    public TagKey<Block> createBlockTag(O o) {
-        return BlockTags.create(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{"fluid", o.name.getPath(), name.getPath()}));
+    public final TagKey<Block> createBlockTag(O o) {
+        return o.tagPackSupplier.getTagPack(this).blockTagKey();
     }
 
     @Nullable
@@ -93,8 +93,8 @@ public abstract class FluidUnitRegister<T extends FluidUnitRegister<T, O>, O ext
     }
 
     @Nullable
-    public TagKey<Item> createBlockItemTag(O o) {
-        return ItemTags.create(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{"fluid", o.name.getPath(), name.getPath()}));
+    public final TagKey<Item> createBlockItemTag(O o) {
+        return o.tagPackSupplier.getTagPack(this).itemTagKey();
     }
 
 }

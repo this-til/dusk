@@ -45,7 +45,7 @@ public class ArmorData implements ArmorMaterial {
     /***
      * 附魔值
      */
-    public int enchantmentValue;
+    public int enchantmentValue =23;
 
     /***
      * 基础灵气

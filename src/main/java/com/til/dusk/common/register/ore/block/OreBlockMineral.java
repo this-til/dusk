@@ -1,8 +1,8 @@
 package com.til.dusk.common.register.ore.block;
 
 import com.til.dusk.Dusk;
-import com.til.dusk.common.data.lang.LangProvider;
-import com.til.dusk.common.data.lang.LangType;
+import com.til.dusk.client.data.lang.LangProvider;
+import com.til.dusk.client.data.lang.LangType;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.util.pack.BlockPack;
 import net.minecraft.resources.ResourceLocation;

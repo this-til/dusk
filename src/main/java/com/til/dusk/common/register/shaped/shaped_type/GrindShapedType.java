@@ -11,6 +11,7 @@ import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shapeds.Shaped;
 import com.til.dusk.util.ResourceLocationUtil;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.function.Consumer;
 
@@ -43,43 +44,43 @@ public class GrindShapedType extends ShapedType {
 
     @Override
     public void defaultConfig() {
-        crushed = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "crushed"})
+        crushed = new IShapedCreate.OreShapedCreate(new ResourceLocation(name.getNamespace(),  "crushed")
                 , this, ShapedDrive.get(0), 1024L, 8L, 0)
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreBlockMineral.MINERAL_NAME, 1))
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.crushed, 2, 1));
-        ingotDust = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "ingot_dust"})
+        ingotDust = new IShapedCreate.OreShapedCreate(new ResourceLocation(name.getNamespace(),  "ingot")
                 , this, ShapedDrive.get(1), 1024L, 12L, 0)
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.ingot.name, 1))
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.dust, 1, 1));
-        crystalDust = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "crystal_dust"})
+        crystalDust = new IShapedCreate.OreShapedCreate(new ResourceLocation(name.getNamespace(),  "crysta")
                 , this, ShapedDrive.get(1), 1024L, 12L, 0)
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.crystal.name, 1))
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.dust, 1, 1));
-        damagedCrystalDust = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "damaged_crystal_dust"})
+        damagedCrystalDust = new IShapedCreate.OreShapedCreate(new ResourceLocation(name.getNamespace(),  "damaged_crystal")
                 , this, ShapedDrive.get(1), 757L, 12L, 0)
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.damagedCrystal.name, 1))
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.dust, 1, 1));
-        delicateCrystalDust = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "damaged_crystal_dust"})
+        delicateCrystalDust = new IShapedCreate.OreShapedCreate(new ResourceLocation(name.getNamespace(),  "delicate_crystal")
                 , this, ShapedDrive.get(1), 1024L, 12L, 0)
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.damagedCrystal.name, 1))
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.dust, 2, 1));
-        perfectCrystalDust = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "perfect_crystal_dust"})
+        perfectCrystalDust = new IShapedCreate.OreShapedCreate(new ResourceLocation(name.getNamespace(),  "perfect_crystal")
                 , this, ShapedDrive.get(1), 1024L, 12L, 0)
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.perfectCrystal.name, 1))
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.dust, 3, 1));
-        blockDust = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "block_dust"})
+        blockDust = new IShapedCreate.OreShapedCreate(new ResourceLocation(name.getNamespace(),  "block")
                 , this, ShapedDrive.get(2), 5000L, 12L, 0)
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreBlock.block.name, 1))
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.dust, 9, 1));
-        slabDust = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "slab_dust"})
+        slabDust = new IShapedCreate.OreShapedCreate(new ResourceLocation(name.getNamespace(),  "slab")
                 , this, ShapedDrive.get(2), 5000L, 6L, 0)
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreBlock.slab.name, 1))
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.dust, 3, 1));
-        stairsDust = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "stairs_dust"})
+        stairsDust = new IShapedCreate.OreShapedCreate(new ResourceLocation(name.getNamespace(),  "stairs")
                 , this, ShapedDrive.get(2), 5000L, 12L, 0)
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreBlock.stairs.name, 1))
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.dust, 7, 1));
-        wallDust = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), "wall_dust"})
+        wallDust = new IShapedCreate.OreShapedCreate(new ResourceLocation(name.getNamespace(),  "wall")
                 , this, ShapedDrive.get(2), 5000L, 12L, 0)
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreBlock.wall.name, 1))
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.dust, 6, 1));
