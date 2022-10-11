@@ -42,7 +42,7 @@ public class VoidGlowOre extends Ore {
                 .addOrePlacedFeatureConfig(new IOrePlacedFeatureConfig.GenerateData().useDefaultConfig(this, 12, 4));
         decorateBlockData = new DecorateBlockData();
         fluidData = new FluidData();
-        relevantShaped = new Delayed<>(() -> List.of(
+        relevantShaped = new Delayed.ListShapedDelayed(() -> List.of(
                 new ShapedOre(ResourceLocationUtil.fuseName(this, OreFluid.solution), ShapedType.highPressureFuse, ShapedDrive.get(1), manaLevel)
                         .addInFluid(cat.get(OreFluid.solution).fluidTag(), 72)
                         .addInFluid(dog.get(OreFluid.solution).fluidTag(), 72)

@@ -28,7 +28,7 @@ public class ManaCoagulationShapedType extends ShapedType {
 
     @Override
     public void defaultConfig() {
-        relevantShaped = new Delayed<>(() -> List.of(
+        relevantShaped = new Delayed.ListShapedDelayed(() -> List.of(
                 new ShapedOre(name, this, ShapedDrive.get(0), ManaLevel.t1)
                         .addOutFluid(new FluidStack(Ore.mana.get(OreFluid.solution).source(), 1), 1D)
                         .addMultipleSurplusTime(1024L).addMultipleConsumeMana(32L)

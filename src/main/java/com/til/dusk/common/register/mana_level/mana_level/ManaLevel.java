@@ -67,8 +67,7 @@ public abstract class ManaLevel extends UnitRegister<ManaLevel, ManaLevelItem, M
         t8 = new T8ManaLevel();
     }
 
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public static void onEvent(RegisterManageEvent.Back event) {
+    public static void sort() {
         ID_MAP = new HashMap<>();
         List<ManaLevel> manaLevels = new ArrayList<>(8);
         for (ManaLevel manaLevel : MANA_LEVEL.get()) {
@@ -210,24 +209,24 @@ public abstract class ManaLevel extends UnitRegister<ManaLevel, ManaLevelItem, M
     public Delayed<List<IShapedOreConfig<ManaLevel>>> forming;
     @Nullable
     @ConfigField
-    public Delayed<List<IShapedOreConfig<ManaLevel>>> destruction;
+    public Delayed<? extends List<IShapedOreConfig<ManaLevel>>> destruction;
     @Nullable
     @ConfigField
-    public Delayed<List<IShapedOreConfig<ManaLevel>>> gather;
+    public Delayed<? extends List<IShapedOreConfig<ManaLevel>>> gather;
     @Nullable
     @ConfigField
-    public Delayed<List<IShapedOreConfig<ManaLevel>>> spread;
+    public Delayed<? extends List<IShapedOreConfig<ManaLevel>>> spread;
     @Nullable
     @ConfigField
-    public Delayed<List<IShapedOreConfig<ManaLevel>>> power;
+    public Delayed<? extends List<IShapedOreConfig<ManaLevel>>> power;
     @Nullable
     @ConfigField
-    public Delayed<List<IShapedOreConfig<ManaLevel>>> instructions;
+    public Delayed<? extends List<IShapedOreConfig<ManaLevel>>> instructions;
     /***
      * 能使用工具制造
      */
     @ConfigField
-    public boolean canUetToolMake;
+    public boolean canUseToolMake;
     /***
      * 可以使用配方制造
      */

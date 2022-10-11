@@ -30,32 +30,32 @@ public class T3ManaLevel extends ManaLevel {
         manaLoss = 0.08;
         maxRange = 20;
         color = new DuskColor(125, 150, 200);
-        operationBasics = new Delayed<>(() -> List.of(
+        operationBasics = new Delayed.ManaLevelShapedOreConfigDelayed(() -> List.of(
                 new IShapedOreConfig.IShapedOreManaLevelConfig.FluidIn(() -> Ore.highEnergyRedStone.get(OreFluid.solution).fluidTag(), 72),
                 new IShapedOreConfig.IShapedOreManaLevelConfig.FluidIn(() -> Ore.coolant.get(OreFluid.solution).fluidTag(), 32),
                 new IShapedOreConfig.IShapedOreManaLevelConfig.FluidIn(() -> Ore.dissolutionMana.get(OreFluid.solution).fluidTag(), 24)));
-        operation = new Delayed<>(() -> List.of(
+        operation = new Delayed.ManaLevelShapedOreConfigDelayed(() -> List.of(
                 new IShapedOreConfig.IShapedOreManaLevelConfig.ItemIn(() -> ItemTag.resistanceTag, 8),
                 new IShapedOreConfig.IShapedOreManaLevelConfig.ItemIn(() -> ItemTag.capacitanceTag, 8),
                 new IShapedOreConfig.IShapedOreManaLevelConfig.ItemIn(() -> ItemTag.diodeTag, 8),
                 new IShapedOreConfig.IShapedOreManaLevelConfig.ItemIn(() -> ItemTag.triodeTag, 8)));
-        forming = new Delayed<>(() -> List.of(
+        forming = new Delayed.ManaLevelShapedOreConfigDelayed(() -> List.of(
                 new IShapedOreConfig.IShapedOreManaLevelConfig.ItemIn(() -> Tags.Items.GEMS_AMETHYST, 4),
                 new IShapedOreConfig.IShapedOreManaLevelConfig.FluidIn(() -> Ore.elementAir.get(OreFluid.solution).fluidTag(), 256)));
-        destruction = new Delayed<>(() -> List.of(
+        destruction = new Delayed.ManaLevelShapedOreConfigDelayed(() -> List.of(
                 new IShapedOreConfig.IShapedOreManaLevelConfig.ItemIn(() -> Tags.Items.GEMS_QUARTZ, 4),
                 new IShapedOreConfig.IShapedOreManaLevelConfig.FluidIn(() -> Ore.elementAir.get(OreFluid.solution).fluidTag(), 256)));
-        gather = new Delayed<>(() -> List.of(
+        gather = new Delayed.ManaLevelShapedOreConfigDelayed(() -> List.of(
                 new IShapedOreConfig.IShapedOreManaLevelConfig.ItemIn(() -> Tags.Items.GEMS_LAPIS, 4),
                 new IShapedOreConfig.IShapedOreManaLevelConfig.FluidIn(() -> Ore.sourceAir.get(OreFluid.solution).fluidTag(), 256)));
-        spread = new Delayed<>(() -> List.of(
+        spread = new Delayed.ManaLevelShapedOreConfigDelayed(() -> List.of(
                 new IShapedOreConfig.IShapedOreManaLevelConfig.ItemIn(() -> Tags.Items.GEMS_PRISMARINE, 4),
                 new IShapedOreConfig.IShapedOreManaLevelConfig.FluidIn(() -> Ore.sourceAir.get(OreFluid.solution).fluidTag(), 256)));
-        power = new Delayed<>(() -> List.of(
+        power = new Delayed.ManaLevelShapedOreConfigDelayed(() -> List.of(
                 new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(OreItem.rotor.name, 2),
                 new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(OreBlock.coil.name, 1),
                 new IShapedOreConfig.IShapedOreManaLevelConfig.FluidIn(() -> Ore.natureAir.get(OreFluid.solution).fluidTag(), 256)));
-        instructions = new Delayed<>(() -> List.of(
+        instructions = new Delayed.ManaLevelShapedOreConfigDelayed(() -> List.of(
                 new IShapedOreConfig.IShapedOreManaLevelConfig.ItemIn(() -> ItemTag.inductanceTag, 4),
                 new IShapedOreConfig.IShapedOreManaLevelConfig.ItemIn(() -> ItemTag.capacitanceTag, 4),
                 new IShapedOreConfig.IShapedOreManaLevelConfig.FluidIn(() -> Ore.natureAir.get(OreFluid.solution).fluidTag(), 256)));

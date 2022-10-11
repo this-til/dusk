@@ -2,6 +2,7 @@ package com.til.dusk.common.register.shaped.shapeds;
 
 import com.google.common.collect.Lists;
 import com.google.gson.JsonObject;
+import com.google.gson.annotations.Expose;
 import com.til.dusk.Dusk;
 import com.til.dusk.common.capability.CapabilityHelp;
 import com.til.dusk.common.capability.handle.IHandle;
@@ -45,6 +46,7 @@ public class ShapedOre extends ShapedMiddle {
     @Nullable
     public TagKey<Fluid> fluidScreen;
 
+    @Expose
     Random random = new Random();
 
     public ShapedOre(ResourceLocation resourceLocation, ShapedType shapedType, ShapedDrive shapedDrive, ManaLevel manaLevel) {

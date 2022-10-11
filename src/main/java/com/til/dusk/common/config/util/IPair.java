@@ -1,6 +1,6 @@
 package com.til.dusk.common.config.util;
 
-import com.til.dusk.common.config.AcceptTypeJson;
+import com.til.dusk.util.gson.AcceptTypeJson;
 import net.minecraft.resources.ResourceLocation;
 
 import javax.annotation.Nullable;

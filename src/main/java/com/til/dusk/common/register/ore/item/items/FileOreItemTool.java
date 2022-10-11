@@ -36,6 +36,9 @@ public class FileOreItemTool extends OreItemTool {
             if (ore.toolData == null) {
                 continue;
             }
+            if (!ore.manaLevel.canUseRecipeMake){
+                continue;
+            }
             recipeConsumer.accept(ShapedRecipeBuilder.shaped(ore.get(file).item(), 1)
                     .define('A', ore.get(plate).itemTag())
                     .define('B', ore.get(casing).itemTag())
@@ -45,7 +48,10 @@ public class FileOreItemTool extends OreItemTool {
                     .unlockedBy("has_ore", ModRecipeProvider.has(ore.get(ingot).itemTag())));
         }
         for (Ore ore : Ore.ORE.get()) {
-            if (!ore.manaLevel.canUetToolMake) {
+            if (!ore.isMetal) {
+                continue;
+            }
+            if (!ore.manaLevel.canUseToolMake) {
                 continue;
             }
             recipeConsumer.accept(ShapedRecipeBuilder.shaped(ore.get(stick).item(), 1)

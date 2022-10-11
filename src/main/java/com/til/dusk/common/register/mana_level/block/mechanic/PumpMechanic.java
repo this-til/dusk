@@ -1,4 +1,4 @@
-package com.til.dusk.common.register.mana_level.block;
+package com.til.dusk.common.register.mana_level.block.mechanic;
 
 import com.til.dusk.common.capability.CapabilityHelp;
 import com.til.dusk.common.capability.black.IBack;
@@ -11,6 +11,7 @@ import com.til.dusk.common.config.ConfigField;
 import com.til.dusk.client.data.lang.LangProvider;
 import com.til.dusk.client.data.lang.LangType;
 import com.til.dusk.common.event.EventIO;
+import com.til.dusk.common.register.mana_level.block.PosImplementMechanic;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.other.BindType;
 import com.til.dusk.util.Extension;

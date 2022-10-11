@@ -9,11 +9,14 @@ import com.til.dusk.util.Util;
 import com.til.dusk.util.gson.type_adapter.DelayedTypeAdapter;
 
 
+/**
+ * @author til
+ */
 public class DelayedTypeAdapterFactory implements TypeAdapterFactory {
     @Override
     public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
-        if (type.getRawType().equals(Delayed.class)) {
-            return Util.forcedConversion(new DelayedTypeAdapter<>(gson, type.getType()));
+        if (Delayed.class.isAssignableFrom(type.getRawType())) {
+            return Util.forcedConversion(new DelayedTypeAdapter<>(gson, type));
         }
         return null;
     }

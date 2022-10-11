@@ -58,7 +58,7 @@ public class StarRiverOre extends Ore {
                 .setTankMax(22 * 4000);
         decorateBlockData = new DecorateBlockData();
         fluidData = new FluidData();
-        relevantShaped = new Delayed<>(() -> List.of(
+        relevantShaped = new Delayed.ListShapedDelayed(() -> List.of(
                 new ShapedOre(ResourceLocationUtil.fuseName(this, OreItem.dust), ShapedType.highPressureFuse, ShapedDrive.get(0), manaLevel)
                         .addInFluid(starSilver.get(OreFluid.solution).fluidTag(), 32)
                         .addInFluid(starIron.get(OreFluid.solution).fluidTag(), 32)

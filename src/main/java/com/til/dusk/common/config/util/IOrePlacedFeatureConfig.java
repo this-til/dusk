@@ -1,7 +1,7 @@
 package com.til.dusk.common.config.util;
 
 import com.til.dusk.Dusk;
-import com.til.dusk.common.config.AcceptTypeJson;
+import com.til.dusk.util.gson.AcceptTypeJson;
 import com.til.dusk.common.register.ore.block.OreBlock;
 import com.til.dusk.common.register.ore.block.OreBlockMineral;
 import com.til.dusk.common.register.ore.ore.Ore;
@@ -93,7 +93,7 @@ public interface IOrePlacedFeatureConfig {
         /***
          * 获取放置方块
          */
-        public Delayed<IPair> place;
+        public Delayed<? extends IPair> place;
 
         private Holder<PlacedFeature> holder;
 
@@ -117,7 +117,7 @@ public interface IOrePlacedFeatureConfig {
                     map.put(blockName, ForgeRegistries.BLOCKS.getKey(entry.getValue().block()));
                 }
                 return new IPair.ResourceLocationPair(map, null);
-            });
+            }){};
             return this;
         }
 

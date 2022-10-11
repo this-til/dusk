@@ -1,6 +1,7 @@
 package com.til.dusk.common.register.shaped.shaped_type;
 
 import com.google.gson.JsonObject;
+import com.google.gson.annotations.Expose;
 import com.til.dusk.common.capability.handle.ShapedHandle;
 import com.til.dusk.common.config.util.Delayed;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
@@ -40,12 +41,13 @@ public class RecoveryShapedType extends ShapedType {
 
     @Override
     public void defaultConfig() {
-        relevantShaped = new Delayed<>(() -> List.of(new RecoveryShaped(name, this, ShapedDrive.get(0), ManaLevel.t1, 0.2f)
+        relevantShaped = new Delayed.ListShapedDelayed(() -> List.of(new RecoveryShaped(name, this, ShapedDrive.get(0), ManaLevel.t1, 0.2f)
                 .addMultipleConsumeMana(128L)
                 .addMultipleConsumeMana(8L)));
     }
 
     public static class RecoveryShaped extends ShapedMiddleExtend {
+        @Expose
         public final Random random = new Random();
         public double probability;
 

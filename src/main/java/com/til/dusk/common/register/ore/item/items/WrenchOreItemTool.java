@@ -36,6 +36,9 @@ public class WrenchOreItemTool extends OreItemTool {
             if (ore.toolData == null) {
                 continue;
             }
+            if (!ore.manaLevel.canUseRecipeMake){
+                continue;
+            }
             recipeConsumer.accept(ShapedRecipeBuilder.shaped(ore.get(wrench).item(), 1)
                     .define('A', ore.get(ingot).itemTag())
                     .pattern("A A")
@@ -44,7 +47,10 @@ public class WrenchOreItemTool extends OreItemTool {
                     .unlockedBy("has_ore", ModRecipeProvider.has(ore.get(ingot).itemTag())));
         }
         for (Ore ore : Ore.ORE.get()) {
-            if (!ore.manaLevel.canUetToolMake) {
+            if (!ore.manaLevel.canUseToolMake) {
+                continue;
+            }
+            if (!ore.isMetal) {
                 continue;
             }
             recipeConsumer.accept(ShapedRecipeBuilder.shaped(ore.get(gear).item(), 1)

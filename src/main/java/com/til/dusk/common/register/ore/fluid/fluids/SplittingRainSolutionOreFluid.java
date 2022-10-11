@@ -25,6 +25,6 @@ public class SplittingRainSolutionOreFluid extends OreFluidSplitting {
 
     @Override
     public void defaultConfig() {
-        colorBasics = new Delayed<>(() -> Ore.rain.color);
+        colorBasics = new Delayed.ColorDelayed(() -> Ore.rain.color);
     }
 }

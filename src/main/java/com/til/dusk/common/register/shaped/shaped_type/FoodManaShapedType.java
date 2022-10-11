@@ -37,7 +37,7 @@ public class FoodManaShapedType extends ShapedType {
 
     @Override
     public void defaultConfig() {
-        relevantShaped = new Delayed<>(() -> List.of(
+        relevantShaped = new Delayed.ListShapedDelayed(() -> List.of(
                 new FoodShaped(name, this, ShapedDrive.get(0), ManaLevel.t1)
                         .addMultipleSurplusTime(1024)
                         .addMultipleOutMana(512)

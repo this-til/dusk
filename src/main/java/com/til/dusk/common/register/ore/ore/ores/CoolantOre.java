@@ -37,7 +37,7 @@ public class CoolantOre extends Ore {
         color = new DuskColor(164	,200	,229);
         manaLevel = ManaLevel.t2;
         fluidData = new FluidData();
-        relevantShaped = new Delayed<>(() -> List.of(
+        relevantShaped = new Delayed.ListShapedDelayed(() -> List.of(
                 new ShapedOre(ResourceLocationUtil.fuseName(this, OreFluid.solution), ShapedType.highPressureFuse, ShapedDrive.get(0),manaLevel)
                         .addInItem(spiritSilver.get(OreItem.dust).itemTag(), 1)
                         .addInFluid(ultramarine.get(OreFluid.solution).fluidTag(), 144)

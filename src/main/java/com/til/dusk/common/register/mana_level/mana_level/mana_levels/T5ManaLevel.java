@@ -26,12 +26,12 @@ public class T5ManaLevel extends ManaLevel {
         manaLoss = 0.06;
         maxRange = 24;
         color = new DuskColor(175, 100, 150);
-        operationBasics = new Delayed<>(() -> List.of(
+        operationBasics = new Delayed.ManaLevelShapedOreConfigDelayed(() -> List.of(
                 new IShapedOreConfig.IShapedOreManaLevelConfig.FluidIn(() ->Ore.coolant.get(OreFluid.solution).fluidTag(), 128),
                 new IShapedOreConfig.IShapedOreManaLevelConfig.FluidIn(() ->Ore.culture.get(OreFluid.solution).fluidTag(), 32),
                 new IShapedOreConfig.IShapedOreManaLevelConfig.FluidIn(() ->Ore.nutrient.get(OreFluid.solution).fluidTag(), 16),
                 new IShapedOreConfig.IShapedOreManaLevelConfig.FluidIn(() ->Ore.supportCell.get(OreFluid.solution).fluidTag(), 256)));
-        operation = new Delayed<>(() -> List.of(
+        operation = new Delayed.ManaLevelShapedOreConfigDelayed(() -> List.of(
                 new IShapedOreConfig.IShapedOreManaLevelConfig.FluidIn(() ->Ore.neuronCell.get(OreFluid.solution).fluidTag(), 16)));
     }
 }

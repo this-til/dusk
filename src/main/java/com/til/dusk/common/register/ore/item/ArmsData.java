@@ -1,7 +1,8 @@
 package com.til.dusk.common.register.ore.item;
 
+import com.google.gson.annotations.Expose;
 import com.til.dusk.Dusk;
-import com.til.dusk.common.config.AcceptTypeJson;
+import com.til.dusk.util.gson.AcceptTypeJson;
 import com.til.dusk.common.config.util.Delayed;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.register.skill.Skill;
@@ -45,11 +46,12 @@ public class ArmsData implements Tier {
      * 修复材料
      */
     @Nullable
-    public Delayed<TagKey<Item>> repairIngredient;
+    public Delayed<? extends TagKey<Item>> repairIngredient;
 
+    @Expose
     private Ingredient ingredient;
 
-    public Delayed<TagKey<Block>> destructionBlockTag;
+    public Delayed<? extends TagKey<Block>> destructionBlockTag;
 
     /***
      * 默认技能
@@ -58,8 +60,8 @@ public class ArmsData implements Tier {
     public Map<Skill, Integer> defaultSkill;
 
     public ArmsData setOfOre(Ore ore) {
-        repairIngredient = new Delayed<>(() -> ore.get(OreItem.ingot).itemTag());
-        destructionBlockTag = new Delayed<>(() -> Dusk.instance.BLOCK_TAG.createTagKey(new ResourceLocation(ore.name.getNamespace(), "tier." + ore.name.getPath())));
+        repairIngredient = new Delayed.ItemDelayed(() -> ore.get(OreItem.ingot).itemTag());
+        destructionBlockTag = new Delayed.BlockDelayed(() -> Dusk.instance.BLOCK_TAG.createTagKey(new ResourceLocation(ore.name.getNamespace(), "tier." + ore.name.getPath())));
         return this;
     }
 

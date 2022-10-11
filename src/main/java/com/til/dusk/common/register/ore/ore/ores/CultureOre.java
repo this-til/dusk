@@ -38,7 +38,7 @@ public class CultureOre extends Ore {
         color = new DuskColor(199, 107, 87);
         manaLevel = ManaLevel.t4;
         fluidData = new FluidData();
-        relevantShaped = new Delayed<>(() -> List.of(
+        relevantShaped = new Delayed.ListShapedDelayed(() -> List.of(
                 new ShapedOre(ResourceLocationUtil.fuseName(this, OreFluid.solution), ShapedType.blend, ShapedDrive.get(0),manaLevel)
                         .addInFluid(nutrient.get(OreFluid.solution).fluidTag(), 1024)
                         .addInItem(ItemTag.SUGAR, 5)

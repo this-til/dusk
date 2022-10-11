@@ -35,7 +35,7 @@ public class HighEnergyRedStoneOre extends Ore {
         color = new DuskColor(245, 35, 35);
         manaLevel = ManaLevel.t1;
         fluidData = new FluidData();
-        relevantShaped = new Delayed<>(() -> List.of(
+        relevantShaped = new Delayed.ListShapedDelayed(() -> List.of(
                 new ShapedOre(ResourceLocationUtil.fuseName(this, OreFluid.solution), ShapedType.highPressureFuse, ShapedDrive.get(0),manaLevel)
                         .addInItem(Tags.Items.DUSTS_REDSTONE, 1)
                         .addInItem(Tags.Items.DUSTS_GLOWSTONE, 1)

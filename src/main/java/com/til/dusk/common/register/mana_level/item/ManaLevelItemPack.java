@@ -204,19 +204,6 @@ public abstract class ManaLevelItemPack extends TagPackSupplierRegister<ManaLeve
         this(new ResourceLocation(Dusk.MOD_ID, name));
     }
 
-    @SubscribeEvent
-    public void onEvent(RegisterLangEvent event) {
-        event.langTool.setCache(INTEGRATE.toLanguageKey());
-        event.langTool.add(LangType.ZH_CN, "集成处理器");
-        event.langTool.add(LangType.EN_CH, "Integrate Processor");
-        event.langTool.setCache(PROCESSOR.toLanguageKey());
-        event.langTool.add(LangType.ZH_CN, "处理器");
-        event.langTool.add(LangType.EN_CH, "Processor");
-        event.langTool.setCache(HOST.toLanguageKey());
-        event.langTool.add(LangType.ZH_CN, "主机");
-        event.langTool.add(LangType.EN_CH, "Host Processor");
-    }
-
     @ConfigField public DuskColor coreColor;
     @ConfigField public DuskColor strokeColor;
 

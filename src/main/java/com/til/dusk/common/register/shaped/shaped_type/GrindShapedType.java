@@ -62,7 +62,7 @@ public class GrindShapedType extends ShapedType {
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.dust, 1, 1));
         delicateCrystalDust = new IShapedCreate.OreShapedCreate(new ResourceLocation(name.getNamespace(),  "delicate_crystal")
                 , this, ShapedDrive.get(1), 1024L, 12L, 0)
-                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.damagedCrystal.name, 1))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.delicateCrystal.name, 1))
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.dust, 2, 1));
         perfectCrystalDust = new IShapedCreate.OreShapedCreate(new ResourceLocation(name.getNamespace(),  "perfect_crystal")
                 , this, ShapedDrive.get(1), 1024L, 12L, 0)

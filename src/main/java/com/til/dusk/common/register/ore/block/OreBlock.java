@@ -45,7 +45,7 @@ public abstract class OreBlock extends BlockUnitRegister<OreBlock, Ore> {
     /***
      * 线圈
      */
-    public static OreBlock coil;
+    public static CoilOreBlockMetal coil;
 
     /***
      * 快

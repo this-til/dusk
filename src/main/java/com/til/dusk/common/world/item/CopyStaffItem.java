@@ -1,5 +1,6 @@
 package com.til.dusk.common.world.item;
 
+import com.google.gson.annotations.Expose;
 import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.capability.pos.IPosTrack;
 import com.til.dusk.common.register.key.EventKey;
@@ -39,6 +40,7 @@ import java.util.function.Consumer;
  */
 public class CopyStaffItem extends ItemBasics implements DuskItem.IHasCustomColor {
 
+    @Expose
     public final Random random = new Random();
 
     public CopyStaffItem(Item.Properties properties) {

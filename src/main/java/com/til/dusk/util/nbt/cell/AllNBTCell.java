@@ -6,8 +6,6 @@ import com.google.gson.JsonPrimitive;
 import com.til.dusk.Dusk;
 import com.til.dusk.common.capability.handle.ShapedHandle;
 import com.til.dusk.common.capability.skill.ISkill;
-import com.til.dusk.common.config.IAcceptConfig;
-import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.other.BindType;
 import com.til.dusk.common.register.shaped.ShapedDrive;
@@ -16,7 +14,6 @@ import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 import com.til.dusk.common.register.skill.Skill;
 import com.til.dusk.common.world.DuskAttribute;
 import com.til.dusk.util.DuskColor;
-import com.til.dusk.util.Util;
 import com.til.dusk.util.nbt.ISerialize;
 import com.til.dusk.util.nbt.NBTUtil;
 import com.til.dusk.util.nbt.pack.AllNBTPack;
@@ -38,7 +35,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import java.text.MessageFormat;
 import java.util.List;
-import java.util.function.Supplier;
 
 /***
  * @author til

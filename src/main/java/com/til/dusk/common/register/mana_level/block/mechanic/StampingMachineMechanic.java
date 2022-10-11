@@ -31,7 +31,7 @@ public class StampingMachineMechanic extends HandleMechanic {
     public void defaultConfig() {
         manaLevelMakeData = new ManaLevelMakeData()
                 .addOreConfig(List.of(
-                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(forming.name, 1),
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(shaping.name, 1),
                         new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.instructions.name, 1),
                         new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(OreItem.hammer.name, 1),
                         new IShapedOreConfig.IShapedOreManaLevelConfig.ItemIn(() ->ItemTag.ANVIL.d1(), 1)));

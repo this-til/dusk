@@ -1,6 +1,7 @@
 package com.til.dusk.common.register.ore.item;
 
-import com.til.dusk.common.config.AcceptTypeJson;
+import com.google.gson.annotations.Expose;
+import com.til.dusk.util.gson.AcceptTypeJson;
 import com.til.dusk.common.config.util.Delayed;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.register.skill.Skill;
@@ -69,8 +70,9 @@ public class ArmorData implements ArmorMaterial {
      * 修复材料
      */
     @Nullable
-    public Delayed<TagKey<Item>> repairIngredient;
+    public Delayed<? extends TagKey<Item>> repairIngredient;
 
+    @Expose
     private Ingredient ingredient;
 
     public ArmorData setDurability(int durability) {
@@ -89,7 +91,7 @@ public class ArmorData implements ArmorMaterial {
 
     public ArmorData setOfOre(Ore ore) {
         name = ore.name.toString();
-        repairIngredient = new Delayed<>(() -> ore.get(OreItem.ingot).itemTag());
+        repairIngredient = new Delayed.ItemDelayed(() -> ore.get(OreItem.ingot).itemTag());
         return this;
     }
 

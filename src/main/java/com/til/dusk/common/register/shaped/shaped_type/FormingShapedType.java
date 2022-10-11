@@ -14,7 +14,7 @@ import java.util.function.Consumer;
 public class FormingShapedType extends ShapedType {
 
     public FormingShapedType() {
-        super("forming", () -> ManaLevelBlock.forming);
+        super("forming", () -> ManaLevelBlock.shaping);
     }
 
     @Override
@@ -31,7 +31,7 @@ public class FormingShapedType extends ShapedType {
     public void defaultConfig() {
         casing = new IShapedCreate.OreShapedCreate(name, this, ShapedDrive.get(0), 1024L, 12L, 0L)
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.ingot.name, 1))
-                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.crushed, 1, 1));
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.casing, 1, 1));
     }
 
     @ConfigField

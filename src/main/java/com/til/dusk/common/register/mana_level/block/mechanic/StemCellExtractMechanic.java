@@ -24,6 +24,5 @@ public class StemCellExtractMechanic extends HandleMechanic {
 
     @Override
     public void defaultConfig() {
-
     }
 }

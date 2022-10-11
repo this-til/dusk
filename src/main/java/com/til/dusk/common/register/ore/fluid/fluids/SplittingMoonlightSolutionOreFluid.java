@@ -24,6 +24,6 @@ public class SplittingMoonlightSolutionOreFluid extends OreFluidSplitting {
 
     @Override
     public void defaultConfig() {
-        colorBasics = new Delayed<>(() -> Ore.moonlight.color);
+        colorBasics = new Delayed.ColorDelayed(() -> Ore.moonlight.color);
     }
 }

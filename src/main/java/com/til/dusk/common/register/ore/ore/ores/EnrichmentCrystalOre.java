@@ -46,7 +46,7 @@ public class EnrichmentCrystalOre extends Ore {
                 .addOrePlacedFeatureConfig(new IOrePlacedFeatureConfig.GenerateData().useDefaultConfig(this, 12, 4));
         decorateBlockData = new DecorateBlockData();
         fluidData = new FluidData();
-        relevantShaped = new Delayed<>(() -> List.of(
+        relevantShaped = new Delayed.ListShapedDelayed(() -> List.of(
                 new ShapedOre(ResourceLocationUtil.fuseName(this, OreItem.dust), ShapedType.blend, ShapedDrive.get(0), manaLevel)
                         .addInItem(crystal.get(OreItem.dust).itemTag(), 1)
                         .addInItem(goldenrod.get(OreItem.dust).itemTag(), 1)

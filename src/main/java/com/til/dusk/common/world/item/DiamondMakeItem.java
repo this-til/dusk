@@ -13,8 +13,8 @@ public class DiamondMakeItem extends ItemBasics implements DuskItem.ICustomModel
 
     public static final ResourceLocation DIAMOND_MAKE = new ResourceLocation(Dusk.MOD_ID, "diamond_make");
 
-    public Delayed<DuskColor> strokeColor;
-    public Delayed<DuskColor> coreColor;
+    public Delayed<? extends DuskColor> strokeColor;
+    public Delayed<? extends DuskColor> coreColor;
 
     public DiamondMakeItem(Properties properties, Delayed<DuskColor> strokeColor, Delayed<DuskColor> coreColor) {
         super(properties);

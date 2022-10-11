@@ -18,7 +18,7 @@ public class GatherManaLevelItemPack extends ManaLevelItemPack {
     @Override
     public void registerLang(LangProvider.LangTool lang) {
         lang.setCache(name.toLanguageKey());
-        lang.add(LangType.ZH_CN, "聚集核心");
+        lang.add(LangType.ZH_CN, "聚集");
         lang.add(LangType.EN_CH, "Gather");
     }
 

@@ -1,6 +1,6 @@
 package com.til.dusk.common.register.ore.fluid;
 
-import com.til.dusk.common.config.AcceptTypeJson;
+import com.til.dusk.util.gson.AcceptTypeJson;
 import com.til.dusk.common.config.util.IShapedOreConfig;
 import org.jetbrains.annotations.Nullable;
 

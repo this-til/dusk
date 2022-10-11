@@ -36,7 +36,7 @@ public class DialysisShapedType extends ShapedType {
     @Override
     public void defaultConfig() {
         dialysis = new IShapedCreate.OreShapedCreate(name, this, ShapedDrive.get(0), 4096L, 44L, 0L)
-                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreFluid.solution.name, 72))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptFluidIn(OreFluid.solution.name, 72))
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.FluidIn(() -> Ore.uu.get(OreFluid.solution).fluidTag(), 1))
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptFluidOut(OreFluid.joinUUSolution, 72, 1d));
     }

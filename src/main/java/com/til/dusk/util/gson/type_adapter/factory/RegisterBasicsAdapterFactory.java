@@ -15,7 +15,7 @@ public class RegisterBasicsAdapterFactory implements TypeAdapterFactory {
 
     @Override
     public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
-        if (type.getRawType().isAssignableFrom(RegisterBasics.class)) {
+        if (RegisterBasics.class.isAssignableFrom(type.getRawType())) {
             return Util.forcedConversion(new RegisterBasicsTypeAdapter<>(Util.forcedConversion(type.getRawType())));
         }
         return null;

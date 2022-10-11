@@ -47,13 +47,16 @@ public class CuttingShapedType extends ShapedType {
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.stick, 2, 1));
         slab = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "slab"),
                 this, ShapedDrive.get(1), 1024L, 24L, 1)
-                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreBlock.block.name, 1));
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreBlock.block.name, 1))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreBlockOut(OreBlock.slab, 1, 1));
         stairs = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "stairs"),
                 this, ShapedDrive.get(2), 1024L, 24L, 1)
-                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreBlock.block.name, 1));
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreBlock.block.name, 1))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreBlockOut(OreBlock.stairs, 1, 1));
         wall = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "wall"),
                 this, ShapedDrive.get(3), 1024L, 24L, 1)
-                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreBlock.block.name, 1));
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreBlock.block.name, 1))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreBlockOut(OreBlock.wall, 1, 1));
     }
 
     @ConfigField

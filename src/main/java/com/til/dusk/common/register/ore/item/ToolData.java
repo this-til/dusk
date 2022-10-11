@@ -1,6 +1,6 @@
 package com.til.dusk.common.register.ore.item;
 
-import com.til.dusk.common.config.AcceptTypeJson;
+import com.til.dusk.util.gson.AcceptTypeJson;
 
 /**
  * @author til

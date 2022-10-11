@@ -9,6 +9,7 @@ import com.til.dusk.common.register.ore.fluid.OreFluid;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shapeds.Shaped;
+import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
 import com.til.dusk.util.ResourceLocationUtil;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -34,13 +35,25 @@ public class SplittingShapedType extends ShapedType {
             }
             FluidData.SplittingData splittingData = ore.fluidData.splitting;
             if (splittingData.sunlightSplitting != null) {
-                shapedConsumer.accept(splittingSunlightSolution.create(ore));
+                ShapedOre shaped = (ShapedOre) splittingSunlightSolution.create(ore);
+                for (IShapedOreConfig<Void> config : splittingData.sunlightSplitting) {
+                    config.config(shaped, null);
+                }
+                shapedConsumer.accept(shaped);
             }
             if (splittingData.moonlightSplitting != null) {
-                shapedConsumer.accept(splittingMoonlightSolution.create(ore));
+                ShapedOre shaped = (ShapedOre) splittingMoonlightSolution.create(ore);
+                for (IShapedOreConfig<Void> config : splittingData.moonlightSplitting) {
+                    config.config(shaped, null);
+                }
+                shapedConsumer.accept(shaped);
             }
             if (splittingData.rainSplitting != null) {
-                shapedConsumer.accept(splittingRainSolution.create(ore));
+                ShapedOre shaped = (ShapedOre) splittingRainSolution.create(ore);
+                for (IShapedOreConfig<Void> config : splittingData.rainSplitting) {
+                    config.config(shaped, null);
+                }
+                shapedConsumer.accept(shaped);
             }
         }
     }
@@ -51,7 +64,7 @@ public class SplittingShapedType extends ShapedType {
                 this, ShapedDrive.get(0), 1024L, 12L, 0L)
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptFluidIn(OreFluid.splittingSunlightSolution.name, 144))
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.FluidOut(() -> new FluidStack(Ore.sunlight.get(OreFluid.solution).source(), 42), 1));
-        splittingMoonlightSolution = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(),  "moonlight"),
+        splittingMoonlightSolution = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "moonlight"),
                 this, ShapedDrive.get(0), 1024L, 12L, 0L)
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptFluidIn(OreFluid.splittingMoonlightSolution.name, 144))
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.FluidOut(() -> new FluidStack(Ore.moonlight.get(OreFluid.solution).source(), 42), 1));

@@ -62,7 +62,7 @@ public class BracketOreBlockMetal extends OreBlockMetal {
             if (!ore.isMetal) {
                 continue;
             }
-            if (!ore.manaLevel.canUetToolMake) {
+            if (!ore.manaLevel.canUseToolMake) {
                 continue;
             }
             recipeConsumer.accept(ShapedRecipeBuilder.shaped(ore.get(bracket).blockItem(), 1)

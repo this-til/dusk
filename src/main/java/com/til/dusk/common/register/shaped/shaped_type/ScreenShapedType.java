@@ -26,7 +26,10 @@ public class ScreenShapedType extends ShapedType {
     public void registerRuleShaped(Consumer<Shaped> shapedConsumer) {
         for (Ore ore : Ore.ORE.get()) {
             if (ore.mineralBlockData == null) {
-                return;
+                continue;
+            }
+            if (!ore.isCrysta) {
+                continue;
             }
             Shaped shaped = screen.create(ore);
             if (ore.mineralBlockData.screenByproduct != null) {

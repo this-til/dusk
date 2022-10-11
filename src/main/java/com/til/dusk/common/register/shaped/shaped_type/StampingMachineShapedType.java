@@ -57,7 +57,7 @@ public class StampingMachineShapedType extends ShapedType {
         foil = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "foil"),
                 this, ShapedDrive.get(3), 512L, 12L, 0L)
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.plate.name, 1))
-                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.feet, 1, 4));
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.foil, 4, 1));
         stickLong = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "stick_long"),
                 this, ShapedDrive.get(4), 512L, 8L, 0L)
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.stick.name, 2))

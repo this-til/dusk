@@ -18,7 +18,7 @@ public class InstructionsManaLevelItemPack extends ManaLevelItemPack {
     @Override
     public void registerLang(LangProvider.LangTool lang) {
         lang.setCache(name.toLanguageKey());
-        lang.add(LangType.ZH_CN, "指令核心");
+        lang.add(LangType.ZH_CN, "指令");
         lang.add(LangType.EN_CH, "Instructions");
     }
     @Override

@@ -6,6 +6,7 @@ import com.til.dusk.common.config.util.IShapedOreConfig;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
 import com.til.dusk.common.register.mana_level.item.ManaLevelItemPack;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
+import com.til.dusk.common.register.ore.block.OreBlock;
 import com.til.dusk.common.register.ore.fluid.OreFluid;
 import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.ore.ore.Ore;
@@ -45,7 +46,7 @@ public class AssembleShapedType extends ShapedType {
                     continue;
                 }
                 ManaLevelBlock.ManaLevelMakeData makeLevel = entry.getKey().manaLevelMakeData;
-                if (makeLevel.oreConfig == null) {
+                if (makeLevel.config == null) {
                     continue;
                 }
                 ManaLevel level = ManaLevel.get(manaLevel, makeLevel.makeLevel, makeLevel.isMustRegister);
@@ -57,9 +58,11 @@ public class AssembleShapedType extends ShapedType {
                     continue;
                 }
                 shaped.addOutItem(new ItemStack(entry.getValue().blockItem(), 1), 1d);
-                for (IShapedOreConfig<ManaLevel> config : makeLevel.oreConfig) {
+                for (IShapedOreConfig<ManaLevel> config : makeLevel.config) {
                     config.config(shaped, level);
                 }
+                shaped.name = ResourceLocationUtil.fuseName(shaped.name.getNamespace(), "/", new String[]{shaped.name.getPath(), entry.getKey().name.getPath()});
+                shapedConsumer.accept(shaped);
             }
         }
 
@@ -110,9 +113,16 @@ public class AssembleShapedType extends ShapedType {
     @Override
     public void defaultConfig() {
         bracket = new IShapedCreate.OreShapedCreate(new ResourceLocation(name.getNamespace(), "bracket")
-                , this, ShapedDrive.get(0), 4096L, 12L, 0);
+                , this, ShapedDrive.get(0), 4096L, 12L, 0)
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.casing.name, 4))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.stick.name, 4))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreBlockOut(OreBlock.bracket, 1, 1));
         coil = new IShapedCreate.OreShapedCreate(new ResourceLocation(name.getNamespace(), "coil")
-                , this, ShapedDrive.get(1), 8192L, 22L, 0);
+                , this, ShapedDrive.get(1), 8192L, 22L, 0)
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreBlock.bracket.name, 1))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.casing.name, 6))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.string.name, 32))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreBlockOut(OreBlock.coil, 1, 1));
         mechanicMakeData = new IShapedCreate.ManaLevelShapedCreate(new ResourceLocation(name.getNamespace(), "mechanic_make_data")
                 , this, ShapedDrive.get(2), 4096L, 22L, 0);
 

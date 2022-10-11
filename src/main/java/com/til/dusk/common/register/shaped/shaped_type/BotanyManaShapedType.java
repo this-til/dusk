@@ -31,33 +31,33 @@ public class BotanyManaShapedType extends ShapedType {
 
     @Override
     public void defaultConfig() {
-        relevantShaped = new Delayed<>(() -> List.of(
-                new ShapedOre(new ResourceLocation(name.getNamespace(), ItemTags.SAPLINGS.location().getPath()),
+        relevantShaped = new Delayed.ListShapedDelayed(() -> List.of(
+                new ShapedOre(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), ItemTags.SAPLINGS.location().getPath()}),
                         this, ShapedDrive.get(0), ManaLevel.t1)
                         .addInItem(ItemTags.SAPLINGS, 1)
                         .addMultipleSurplusTime(128)
                         .addMultipleOutMana(256),
-                new ShapedOre(new ResourceLocation(name.getNamespace(), ItemTags.LEAVES.location().getPath()),
+                new ShapedOre(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), ItemTags.LEAVES.location().getPath()}),
                         this, ShapedDrive.get(1), ManaLevel.t1)
                         .addInItem(ItemTags.LEAVES, 1)
                         .addMultipleSurplusTime(128)
                         .addMultipleOutMana(128),
-                new ShapedOre(new ResourceLocation(name.getNamespace(), ItemTags.LOGS.location().getPath()),
+                new ShapedOre(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), ItemTags.LOGS.location().getPath()}),
                         this, ShapedDrive.get(2), ManaLevel.t1)
                         .addInItem(ItemTags.LOGS, 1)
                         .addMultipleSurplusTime(128)
                         .addMultipleOutMana(512),
-                new ShapedOre(new ResourceLocation(name.getNamespace(), ItemTags.FLOWERS.location().getPath()),
+                new ShapedOre(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), ItemTags.FLOWERS.location().getPath()}),
                         this, ShapedDrive.get(3), ManaLevel.t1)
                         .addInItem(ItemTags.FLOWERS, 1)
                         .addMultipleSurplusTime(128)
                         .addMultipleOutMana(256),
-                new ShapedOre(new ResourceLocation(name.getNamespace(), Tags.Items.MUSHROOMS.location().getPath()),
+                new ShapedOre(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), Tags.Items.MUSHROOMS.location().getPath()}),
                         this, ShapedDrive.get(4), ManaLevel.t1)
                         .addInItem(Tags.Items.MUSHROOMS, 1)
                         .addMultipleSurplusTime(128)
                         .addMultipleOutMana(385),
-                new ShapedOre(new ResourceLocation(name.getNamespace(), ItemTag.GRASS.d1().location().getPath()),
+                new ShapedOre(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), ItemTag.GRASS.d1().location().getPath()}),
                         this, ShapedDrive.get(5), ManaLevel.t1)
                         .addInItem(ItemTag.GRASS.d1(), 1)
                         .addMultipleSurplusTime(128)

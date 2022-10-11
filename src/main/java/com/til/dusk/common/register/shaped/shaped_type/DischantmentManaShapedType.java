@@ -32,7 +32,7 @@ public class DischantmentManaShapedType extends ShapedType {
 
     @Override
     public void defaultConfig() {
-        relevantShaped = new Delayed<>(() -> List.of(
+        relevantShaped = new Delayed.ListShapedDelayed(() -> List.of(
                 new DischantmentManaShaped(name, this, ShapedDrive.get(0), ManaLevel.t1)
                         .addMultipleSurplusTime(1024L)
                         .addMultipleConsumeMana(4096L)));

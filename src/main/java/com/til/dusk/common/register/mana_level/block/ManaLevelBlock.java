@@ -1,7 +1,7 @@
 package com.til.dusk.common.register.mana_level.block;
 
 import com.til.dusk.Dusk;
-import com.til.dusk.common.config.AcceptTypeJson;
+import com.til.dusk.util.gson.AcceptTypeJson;
 import com.til.dusk.common.config.ConfigField;
 import com.til.dusk.common.config.util.IShapedOreConfig;
 import com.til.dusk.common.register.BlockUnitRegister;
@@ -253,7 +253,7 @@ public abstract class ManaLevelBlock extends BlockUnitRegister<ManaLevelBlock, M
     /***
      * 成型
      */
-    public static FormingMechanic forming;
+    public static ShapingMechanic shaping;
 
     /***
      * 灵气凝结晶体
@@ -405,7 +405,7 @@ public abstract class ManaLevelBlock extends BlockUnitRegister<ManaLevelBlock, M
         blend = new BlendMechanic();
         decompose = new DecomposeMechanic();
         recovery = new RecoveryMechanic();
-        forming = new FormingMechanic();
+        shaping = new ShapingMechanic();
         manaCoagulation = new ManaCoagulationMechanic();
         stemCellExtract = new StemCellExtractMechanic();
         cellCulture = new CellCultureMechanic();
@@ -445,7 +445,7 @@ public abstract class ManaLevelBlock extends BlockUnitRegister<ManaLevelBlock, M
         public MakeLevel makeLevel = MakeLevel.CURRENT;
         public boolean isMustRegister;
         @Nullable
-        public List<IShapedOreConfig<ManaLevel>> oreConfig;
+        public List<IShapedOreConfig<ManaLevel>> config;
 
         public ManaLevelMakeData setManaLevel(MakeLevel makeLevel) {
             this.makeLevel = makeLevel;
@@ -458,18 +458,18 @@ public abstract class ManaLevelBlock extends BlockUnitRegister<ManaLevelBlock, M
         }
 
         public ManaLevelMakeData addOreConfig(IShapedOreConfig<ManaLevel> oreConfig) {
-            if (this.oreConfig == null) {
-                this.oreConfig = new ArrayList<>();
+            if (this.config == null) {
+                this.config = new ArrayList<>();
             }
-            this.oreConfig.add(oreConfig);
+            this.config.add(oreConfig);
             return this;
         }
 
         public final ManaLevelMakeData addOreConfig(List<IShapedOreConfig<ManaLevel>> oreConfig) {
-            if (this.oreConfig == null) {
-                this.oreConfig = new ArrayList<>();
+            if (this.config == null) {
+                this.config = new ArrayList<>();
             }
-            this.oreConfig.addAll(oreConfig);
+            this.config.addAll(oreConfig);
             return this;
         }
 

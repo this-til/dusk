@@ -23,7 +23,7 @@ public class HammerOreItemTool extends OreItemTool {
     @Override
     public void registerLang(LangProvider.LangTool lang) {
         lang.setCache(name.toLanguageKey());
-        lang.add(LangType.ZH_CN, "扳手");
+        lang.add(LangType.ZH_CN, "锤子");
         lang.add(LangType.EN_CH, "Hammer");
     }
 
@@ -43,6 +43,9 @@ public class HammerOreItemTool extends OreItemTool {
             if (ore.toolData == null) {
                 continue;
             }
+            if (!ore.manaLevel.canUseRecipeMake){
+                continue;
+            }
             recipeConsumer.accept(ShapedRecipeBuilder.shaped(ore.get(hammer).item(), 1)
                     .define('A', ore.get(ingot).itemTag())
                     .define('B', Tags.Items.RODS_WOODEN)
@@ -53,7 +56,10 @@ public class HammerOreItemTool extends OreItemTool {
         }
 
         for (Ore ore : Ore.ORE.get()) {
-            if (!ore.manaLevel.canUetToolMake){
+            if (!ore.isMetal) {
+                continue;
+            }
+            if (!ore.manaLevel.canUseToolMake){
                 continue;
             }
             recipeConsumer.accept(ShapedRecipeBuilder.shaped(ore.get(plate).item(), 1)

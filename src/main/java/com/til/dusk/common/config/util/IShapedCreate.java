@@ -1,6 +1,6 @@
 package com.til.dusk.common.config.util;
 
-import com.til.dusk.common.config.AcceptTypeJson;
+import com.til.dusk.util.gson.AcceptTypeJson;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.register.shaped.ShapedDrive;
@@ -36,16 +36,6 @@ public interface IShapedCreate<DATA> {
         public List<IShapedOreConfig<Ore>> shapedOreConfig;
 
         public OreShapedCreate() {
-        }
-
-        public OreShapedCreate(ResourceLocation name) {
-            this.name = name;
-        }
-
-        public OreShapedCreate(ResourceLocation name, ShapedType shapedType, ShapedDrive shapedDrive) {
-            this.name = name;
-            this.shapedType = shapedType;
-            this.shapedDrive = shapedDrive;
         }
 
         public OreShapedCreate(ResourceLocation name, ShapedType shapedType, ShapedDrive shapedDrive, long surplusTime, long consumeMana, long outMana) {
@@ -143,16 +133,6 @@ public interface IShapedCreate<DATA> {
         public ManaLevelShapedCreate() {
         }
 
-        public ManaLevelShapedCreate(ResourceLocation name) {
-            this.name = name;
-        }
-
-        public ManaLevelShapedCreate(ResourceLocation name, ShapedType shapedType, ShapedDrive shapedDrive) {
-            this.name = name;
-            this.shapedType = shapedType;
-            this.shapedDrive = shapedDrive;
-        }
-
         public ManaLevelShapedCreate(ResourceLocation name, ShapedType shapedType, ShapedDrive shapedDrive, long surplusTime, long consumeMana, long outMana) {
             this.name = name;
             this.shapedType = shapedType;
@@ -175,9 +155,6 @@ public interface IShapedCreate<DATA> {
 
         @Override
         public Shaped create(ManaLevel data) {
-            if (shapedOreConfig == null) {
-                return null;
-            }
             if (shapedType == null) {
                 shapedType = ShapedType.empty;
             }
@@ -188,8 +165,10 @@ public interface IShapedCreate<DATA> {
                     .addMultipleSurplusTime(surplusTime * data.level)
                     .addMultipleConsumeMana(consumeMana * data.level)
                     .addMultipleOutMana(outMana);
-            for (IShapedOreConfig<ManaLevel> dataShapedOreConfig : shapedOreConfig) {
-                dataShapedOreConfig.config(shapedOre, data);
+            if (shapedOreConfig != null) {
+                for (IShapedOreConfig<ManaLevel> dataShapedOreConfig : shapedOreConfig) {
+                    dataShapedOreConfig.config(shapedOre, data);
+                }
             }
             return shapedOre;
         }

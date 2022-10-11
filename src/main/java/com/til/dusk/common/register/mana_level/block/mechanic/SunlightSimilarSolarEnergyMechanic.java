@@ -24,6 +24,6 @@ public class SunlightSimilarSolarEnergyMechanic extends SimilarSolarEnergyMechan
         manaLevelMakeData = new ManaLevelMakeData()
                 .addOreConfig(List.of(
                         new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(extractMana.name, 1),
-                        new IShapedOreConfig.IShapedOreManaLevelConfig.ItemIn(() -> Ore.moonlight.get(OreItem.perfectCrystal).itemTag(), 4)));
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.ItemIn(() -> Ore.sunlight.get(OreItem.perfectCrystal).itemTag(), 4)));
     }
 }

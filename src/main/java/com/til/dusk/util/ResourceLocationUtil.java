@@ -44,9 +44,4 @@ public class ResourceLocationUtil {
     public static ResourceLocation fuseName(String namespace, String processor) {
         return new ResourceLocation(namespace, processor);
     }
-
-    public static ResourceLocation fuseName(String namespace, ResourceLocation processor) {
-        return new ResourceLocation(namespace, processor.getPath());
-    }
-
 }

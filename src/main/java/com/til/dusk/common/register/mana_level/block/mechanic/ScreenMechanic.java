@@ -35,6 +35,6 @@ public class ScreenMechanic extends HandleMechanic {
                         new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.destruction.name, 1),
                         new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(OreItem.rotor.name, 1),
                         new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(OreItem.gear.name, 1),
-                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(OreItem.string.name, 1)));
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(OreItem.string.name, 32)));
     }
 }

@@ -31,7 +31,7 @@ public class MakerStoneShapedType extends ShapedType {
 
     @Override
     public void defaultConfig() {
-        relevantShaped = new Delayed<>(() -> List.of(
+        relevantShaped = new Delayed.ListShapedDelayed(() -> List.of(
                 new ShapedOre(ResourceLocationUtil.fuseName(name.getNamespace(),  "stone"),
                         this, ShapedDrive.get(0), ManaLevel.t1)
                         .addInFluid(FluidTags.WATER, 10)

@@ -40,7 +40,7 @@ public class StarIronOre extends Ore {
         decorateBlockData = new DecorateBlockData();
         fluidData = new FluidData()
                 .setCanCopy(true);
-        relevantShaped = new Delayed<>(() -> List.of(
+        relevantShaped = new Delayed.ListShapedDelayed(() -> List.of(
                 new ShapedOre(ResourceLocationUtil.fuseName(this, OreItem.dust), ShapedType.blend, ShapedDrive.get(0), manaLevel)
                         .addInItem(_void.get(OreItem.dust).itemTag(), 1)
                         .addInItem(darkGreen.get(OreItem.dust).itemTag(), 1)

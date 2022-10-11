@@ -1,7 +1,9 @@
 package com.til.dusk.common.register;
 
 import com.til.dusk.Dusk;
+import com.til.dusk.common.config.ConfigManage;
 import com.til.dusk.common.event.RegisterManageEvent;
+import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.util.Util;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fml.IModLoadingState;
@@ -23,7 +25,7 @@ import java.util.function.Supplier;
  */
 public class RegisterManage implements IModStateProvider {
 
-    public static final Map<Class<?>, Supplier<IForgeRegistry<?>>> ALL_MAP = new HashMap<>();
+    public static final Map<Class<?>, Supplier<IForgeRegistry<RegisterBasics<?>>>> ALL_MAP = new HashMap<>();
     public static final List<RegisterBasics<?>> ALL_REGISTER_BASICS = new ArrayList<>(1024);
 
     public static final ModLoadingState REGISTER_INIT = ModLoadingState.withInline("REGISTER_INIT", "UNFREEZE_DATA", ModLoadingPhase.GATHER, ml -> {
@@ -44,13 +46,11 @@ public class RegisterManage implements IModStateProvider {
         Dusk.instance.modEventBus.post(new RegisterManageEvent.InMap());
     });
 
-    public static final ModLoadingState INIT_CONFIG = ModLoadingState.withInline("INIT_CONFIG", "REGISTER_IN_MAP", ModLoadingPhase.GATHER, ml -> {
-        for (RegisterBasics<?> allRegisterBasic : ALL_REGISTER_BASICS) {
-            allRegisterBasic.defaultConfig();
-        }
-    });
+    public static final ModLoadingState INIT_CONFIG = ModLoadingState.withInline("INIT_CONFIG", "REGISTER_IN_MAP", ModLoadingPhase.GATHER, ml -> ConfigManage.init());
 
-    public static final ModLoadingState REGISTER_BACK = ModLoadingState.withInline("REGISTER_BACK", "INIT_CONFIG", ModLoadingPhase.GATHER, ml -> {
+    public static final ModLoadingState MANA_LEVEL_SORT = ModLoadingState.withInline("MANA_LEVEL_SORT", "INIT_CONFIG", ModLoadingPhase.GATHER, ml -> ManaLevel.sort());
+
+    public static final ModLoadingState REGISTER_BACK = ModLoadingState.withInline("REGISTER_BACK", "MANA_LEVEL_SORT", ModLoadingPhase.GATHER, ml -> {
         for (RegisterBasics<?> allRegisterBasic : ALL_REGISTER_BASICS) {
             allRegisterBasic.registerBack();
         }
@@ -64,10 +64,12 @@ public class RegisterManage implements IModStateProvider {
         Dusk.instance.modEventBus.post(new RegisterManageEvent.BackToBack());
     });
 
+    public static final ModLoadingState WRITE_CONFIG = ModLoadingState.withInline("WRITE_CONFIG", "REGISTER_BLACK_TO_BACK", ModLoadingPhase.GATHER, ml -> ConfigManage.write());
+
 
     @Override
     public List<IModLoadingState> getAllStates() {
-        return List.of(REGISTER_INIT, REGISTER_IN_MAP, INIT_CONFIG, REGISTER_BACK, REGISTER_BLACK_TO_BACK);
+        return List.of(REGISTER_INIT, REGISTER_IN_MAP, INIT_CONFIG, MANA_LEVEL_SORT, REGISTER_BACK, REGISTER_BLACK_TO_BACK, WRITE_CONFIG);
     }
 
     public static <C> Supplier<IForgeRegistry<C>> create(Class<C> cClass, ResourceLocation name, NewRegistryEvent event) {

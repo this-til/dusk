@@ -38,7 +38,7 @@ public class DecomposeShapedType extends ShapedType {
 
     @Override
     public void defaultConfig() {
-        relevantShaped = new Delayed<>(() -> List.of(
+        relevantShaped = new Delayed.ListShapedDelayed(() -> List.of(
                 new FoolDecomposeShaped(name, this, ShapedDrive.get(0), ManaLevel.t1, 20)
                         .addMultipleSurplusTime(752L)
                         .addMultipleConsumeMana(18L)));

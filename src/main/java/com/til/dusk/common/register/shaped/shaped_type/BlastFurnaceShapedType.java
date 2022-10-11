@@ -36,8 +36,8 @@ public class BlastFurnaceShapedType extends ShapedType {
     @Override
     public void defaultConfig() {
         blastFurnace = new IShapedCreate.OreShapedCreate(name, this, ShapedDrive.get(0), 1024L, 32L, 0)
-                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.dust, 1, 1))
-                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.ingot.name, 1));
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.dust.name, 1))
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.ingot, 1,1));
     }
 
     @ConfigField

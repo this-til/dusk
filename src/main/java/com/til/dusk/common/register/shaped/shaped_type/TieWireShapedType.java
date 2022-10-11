@@ -38,6 +38,6 @@ public class TieWireShapedType extends ShapedType {
     public void defaultConfig() {
         tieWire = new IShapedCreate.OreShapedCreate(name, this, ShapedDrive.get(0), 1024L, 12L, 0L)
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.stick.name, 1))
-                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.string, 1, 1));
+                .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.string, 6, 1));
     }
 }

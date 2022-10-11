@@ -17,8 +17,8 @@ public class OperationBasicsManaLevelItemPack extends ManaLevelItemPack {
     @Override
     public void registerLang(LangProvider.LangTool lang) {
         lang.setCache(name.toLanguageKey());
-        lang.add(LangType.ZH_CN, "运算基体");
-        lang.add(LangType.EN_CH, "Operation Basics");
+        lang.add(LangType.ZH_CN, "基体");
+        lang.add(LangType.EN_CH, "Basics");
     }
 
     @Override

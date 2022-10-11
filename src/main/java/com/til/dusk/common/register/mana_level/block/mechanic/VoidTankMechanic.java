@@ -1,10 +1,11 @@
-package com.til.dusk.common.register.mana_level.block;
+package com.til.dusk.common.register.mana_level.block.mechanic;
 
 import com.til.dusk.common.capability.CapabilityHelp;
 import com.til.dusk.common.capability.DuskCapabilityProvider;
 import com.til.dusk.common.capability.fluid_handler.VoidTankFluidHandler;
 import com.til.dusk.common.capability.pos.IPosTrack;
 import com.til.dusk.common.config.ConfigField;
+import com.til.dusk.common.register.mana_level.block.DefaultCapacityMechanic;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.other.CapabilityRegister;
 import com.til.dusk.common.world.block.MechanicBlock;

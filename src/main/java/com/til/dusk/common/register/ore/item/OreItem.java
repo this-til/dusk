@@ -67,73 +67,73 @@ public class OreItem extends ItemUnitRegister<OreItem, Ore> {
     /***
      * 线
      */
-    public static OreItemMetal string;
+    public static StringOreItemMetal string;
 
     /***
      * 齿轮
      */
-    public static OreItemMetal gear;
+    public static GearOreItemMetal gear;
 
     /***
      * 转子
      */
-    public static OreItemMetal rotor;
+    public static RotorOreItemMetal rotor;
 
     /***
      * 圆锯
      */
-    public static OreItemMetal circularSawBlade;
+    public static CircularSawBladeOreItemMetal circularSawBlade;
 
     /***
      * 粒
      */
-    public static OreItemMetal nuggets;
+    public static NuggetsOreItemMetal nuggets;
 
     /***
      * 破损的晶体
      */
-    public static OreItemCrysta damagedCrystal;
+    public static DamagedCrystalOreItemCrysta damagedCrystal;
 
     /***
      * 晶体
      */
-    public static OreItemCrysta crystal;
+    public static CrystalOreItemCrysta crystal;
 
     /***
      * 精致的晶体
      */
-    public static OreItemCrysta delicateCrystal;
+    public static CrystalDelicateOreItemCrysta delicateCrystal;
 
     /***
      * 完美的晶体
      */
-    public static OreItemCrysta perfectCrystal;
+    public static CrystalPerfectOreItemCrysta perfectCrystal;
 
     /***
      * 晶体种子
      */
-    public static OreItemCrysta crystalSeed;
+    public static CrystalSeedOreItemCrysta crystalSeed;
 
     /***
      * 粉碎矿物
      */
-    public static OreItemMineralBlock crushed;
+    public static CrushedOreItemMineralBlock crushed;
 
     /***
      * 纯净矿物
      * 由粉碎矿物洗涤而得到
      */
-    public static OreItemMineralBlock crushedPurified;
+    public static CrushedPurifiedOreItemMineralBlock crushedPurified;
 
     /***
      * 矿粉
      */
-    public static OreItemDust dust;
+    public static DustOreItemDust dust;
 
     /***
      * 小撮粉
      */
-    public static OreItemDust dustTiny;
+    public static DustTinyOreItemDust dustTiny;
 
     public static OreItemArmsBasics swordBasics;
     public static OreItemArmsBasics shovelBasics;

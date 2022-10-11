@@ -27,13 +27,13 @@ public class SlimeyManaShapedType extends ShapedType {
 
     @Override
     public void defaultConfig() {
-        relevantShaped = new Delayed<>(() -> List.of(
-                new ShapedOre(ResourceLocationUtil.fuseName(name.getNamespace(),  ItemTag.SLIME_BALL.location()),
+        relevantShaped = new Delayed.ListShapedDelayed(() -> List.of(
+                new ShapedOre(ResourceLocationUtil.fuseName(name.getNamespace(),  "/", new String[]{name.getPath(), ItemTag.SLIME_BALL.location().getPath()}),
                         this, ShapedDrive.get(0), ManaLevel.t1)
                         .addInItem(ItemTag.SLIME_BALL, 1)
                         .addMultipleSurplusTime(512)
                         .addMultipleOutMana(2048),
-                new ShapedOre(ResourceLocationUtil.fuseName(name.getNamespace(), ItemTag.SLIME_BLOCK.d1().location()),
+                new ShapedOre(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), ItemTag.SLIME_BLOCK.d1().location().getPath()}),
                         this, ShapedDrive.get(1), ManaLevel.t1)
                         .addInItem(ItemTag.SLIME_BLOCK.d1(), 1)
                         .addMultipleSurplusTime(512)

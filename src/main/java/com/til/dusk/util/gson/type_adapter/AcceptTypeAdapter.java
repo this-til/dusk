@@ -1,9 +1,9 @@
 package com.til.dusk.util.gson.type_adapter;
 
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.TypeAdapter;
+import com.google.gson.*;
 import com.google.gson.internal.ConstructorConstructor;
 import com.google.gson.internal.Excluder;
+import com.google.gson.internal.Streams;
 import com.google.gson.internal.bind.JsonAdapterAnnotationTypeAdapterFactory;
 import com.google.gson.internal.bind.ReflectiveTypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
@@ -22,61 +22,60 @@ import java.util.Map;
 /**
  * @author til
  */
-@Deprecated
-public class AcceptTypeAdapter extends TypeAdapter<Object> {
-    public static final ConstructorConstructor CONSTRUCTOR_CONSTRUCTOR = new ConstructorConstructor(new HashMap<>());
-    public static final JsonAdapterAnnotationTypeAdapterFactory JSON_ADAPTER_ANNOTATION_TYPE_ADAPTER_FACTORY = new JsonAdapterAnnotationTypeAdapterFactory(CONSTRUCTOR_CONSTRUCTOR);
-    public static final ReflectiveTypeAdapterFactory REFLECTIVE_TYPE_ADAPTER_FACTORY = new ReflectiveTypeAdapterFactory(
-            new ConstructorConstructor(new HashMap<>()), FieldNamingPolicy.IDENTITY, Excluder.DEFAULT, JSON_ADAPTER_ANNOTATION_TYPE_ADAPTER_FACTORY);
+public class AcceptTypeAdapter<T> extends TypeAdapter<T> {
+    public final TypeAdapter<T> typeAdapter;
+    public final Gson gson;
+    public final TypeToken<T> typeToken;
 
-    public static final Map<Type, TypeAdapter<?>> MAP = new HashMap<>();
-
-    public static final String NAME = "type";
-
-    @Override
-    public Object read(JsonReader in) throws IOException {
-        if (in.peek().equals(JsonToken.NULL)) {
-            return null;
-        }
-        in.beginObject();
-        in.nextName();
-        Class<?> type;
-        try {
-            type = Class.forName(in.nextString());
-        } catch (ClassNotFoundException e) {
-            Dusk.instance.logger.error("反序列化时未找到对应类", e);
-            return null;
-        }
-        TypeAdapter<?> typeAdapter;
-        if (MAP.containsKey(type)) {
-            typeAdapter = MAP.get(type);
-        } else {
-            typeAdapter = REFLECTIVE_TYPE_ADAPTER_FACTORY.create(ConfigGson.GSON, TypeToken.get(type));
-            MAP.put(type, typeAdapter);
-        }
-        Object obj = typeAdapter.read(in);
-        in.nextName();
-        in.endObject();
-        return obj;
+    public AcceptTypeAdapter(Gson gson, TypeToken<T> type,TypeAdapter<T> typeAdapter) {
+        this.typeAdapter = typeAdapter;
+        this.gson = gson;
+        this.typeToken = type;
     }
 
     @Override
-    public void write(JsonWriter out, Object  value) throws IOException {
+    public void write(JsonWriter out, T value) throws IOException {
         if (value == null) {
             out.nullValue();
             return;
         }
-        out.beginObject();
-        out.name(ConfigGson.TYPE).value(value.getClass().getName());
-        out.name(ConfigGson.CONFIG);
-        TypeAdapter<?> typeAdapter;
-        if (MAP.containsKey(value.getClass())) {
-            typeAdapter = MAP.get(value.getClass());
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.add(ConfigGson.TYPE, new JsonPrimitive(value.getClass().getName()));
+        JsonElement vJson;
+        if(typeToken.getRawType().equals(value.getClass())){
+            vJson = typeAdapter.toJsonTree(value);
         } else {
-            typeAdapter = REFLECTIVE_TYPE_ADAPTER_FACTORY.create(ConfigGson.GSON, TypeToken.get(value.getClass()));
-            MAP.put(value.getClass(), typeAdapter);
+            vJson = gson.getAdapter(value.getClass()).toJsonTree(Util.forcedConversion(value));
         }
-        typeAdapter.write(out, Util.forcedConversion(value));
-        out.endObject();
+        if (vJson.isJsonObject() && !vJson.getAsJsonObject().has(ConfigGson.TYPE)) {
+            for (Map.Entry<String, JsonElement> entry : vJson.getAsJsonObject().entrySet()) {
+                jsonObject.add(entry.getKey(), entry.getValue());
+            }
+        } else {
+            jsonObject.add(ConfigGson.CONFIG, vJson);
+        }
+        Streams.write(jsonObject, out);
+    }
+
+    @Override
+    public T read(JsonReader in) throws IOException {
+        if (in.peek().equals(JsonToken.NULL)) {
+            return null;
+        }
+        JsonObject jsonObject = Streams.parse(in).getAsJsonObject();
+        Class<T> type;
+        try {
+            type = Util.forcedConversion(Class.forName(jsonObject.get(ConfigGson.TYPE).getAsString()));
+        } catch (ClassNotFoundException e) {
+            Dusk.instance.logger.error("反序列化时未找到对应类", e);
+            return null;
+        }
+        boolean isInertia = !jsonObject.has(ConfigGson.CONFIG);
+        JsonElement vJson = isInertia ? jsonObject : jsonObject.get(ConfigGson.CONFIG);
+        if (typeToken.getRawType().equals(type)) {
+            return typeAdapter.fromJsonTree(vJson);
+        } else {
+            return gson.getAdapter(type).fromJsonTree(vJson);
+        }
     }
 }

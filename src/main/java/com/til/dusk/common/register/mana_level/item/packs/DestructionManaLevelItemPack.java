@@ -18,7 +18,7 @@ public class DestructionManaLevelItemPack extends ManaLevelItemPack {
     @Override
     public void registerLang(LangProvider.LangTool lang) {
         lang.setCache(name.toLanguageKey());
-        lang.add(LangType.ZH_CN, "破坏核心");
+        lang.add(LangType.ZH_CN, "破坏");
         lang.add(LangType.EN_CH, "Destruction");
     }
 

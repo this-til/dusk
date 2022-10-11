@@ -58,7 +58,7 @@ public class MithrilOre extends Ore {
         toolData = new ToolData()
                 .setUses(16 * 64)
                 .setTankMax(16 * 4000);
-        relevantShaped = new Delayed<>(() -> List.of(
+        relevantShaped = new Delayed.ListShapedDelayed(() -> List.of(
                 new ShapedOre(ResourceLocationUtil.fuseName(this, OreItem.dust), ShapedType.blend, ShapedDrive.get(0), manaLevel)
                         .addInItem(spiritSilver.get(OreItem.dust).itemTag(), 1)
                         .addInItem(greenTeal.get(OreItem.dust).itemTag(), 1)

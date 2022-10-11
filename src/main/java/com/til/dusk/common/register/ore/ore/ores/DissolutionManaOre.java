@@ -38,7 +38,7 @@ public class DissolutionManaOre extends Ore {
         color = new DuskColor(242, 225, 149);
         manaLevel = ManaLevel.t3;
         fluidData = new FluidData();
-        relevantShaped = new Delayed<>(() -> List.of(
+        relevantShaped = new Delayed.ListShapedDelayed(() -> List.of(
                 new ShapedOre(ResourceLocationUtil.fuseName(this, OreFluid.solution), ShapedType.highPressureFuse, ShapedDrive.get(0),manaLevel)
                         .addInItem(spiritSilver.get(OreItem.dust).itemTag(), 1)
                         .addInItem(indigo.get(OreItem.dust).itemTag(), 1)

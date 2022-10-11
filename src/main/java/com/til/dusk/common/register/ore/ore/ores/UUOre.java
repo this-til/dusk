@@ -33,7 +33,7 @@ public class UUOre extends Ore {
         color = new DuskColor(160, 32, 240);
         manaLevel = ManaLevel.t4;
         fluidData = new FluidData();
-        relevantShaped = new Delayed<>(() -> List.of(
+        relevantShaped = new Delayed.ListShapedDelayed(() -> List.of(
                 new ShapedOre(ResourceLocationUtil.fuseName(this, OreFluid.solution), ShapedType.uuGenerate, ShapedDrive.get(0), manaLevel)
                         .addOutFluid(new FluidStack(uu.get(OreFluid.solution).source(), 1), 1D)
                         .addMultipleSurplusTime((long) (32768L * strength))

@@ -18,7 +18,7 @@ public class PowerManaLevelItemPack extends ManaLevelItemPack {
     @Override
     public void registerLang(LangProvider.LangTool lang) {
         lang.setCache(name.toLanguageKey());
-        lang.add(LangType.ZH_CN, "动力核心");
+        lang.add(LangType.ZH_CN, "动力");
         lang.add(LangType.EN_CH, "Power");
     }
 

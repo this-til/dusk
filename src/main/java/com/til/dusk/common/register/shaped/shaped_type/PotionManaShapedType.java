@@ -45,7 +45,7 @@ public class PotionManaShapedType extends ShapedType {
 
     @Override
     public void defaultConfig() {
-        relevantShaped = new Delayed<>(() -> List.of(  new ShapedPotionMana(name, this, ShapedDrive.get(0), ManaLevel.t1)
+        relevantShaped = new Delayed.ListShapedDelayed(() -> List.of(  new ShapedPotionMana(name, this, ShapedDrive.get(0), ManaLevel.t1)
                 .addMultipleSurplusTime(1024L)
                 .addMultipleOutMana(20L)));
     }

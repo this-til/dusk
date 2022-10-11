@@ -21,7 +21,7 @@ public abstract class OreBlockDecorate extends OreBlock {
 
     @Override
     public @Nullable BlockPack create(Ore ore) {
-        if (ore.mineralBlockData != null) {
+        if (ore.decorateBlockData != null) {
             return super.create(ore);
         }
         return null;

@@ -18,7 +18,7 @@ public class SpreadManaLevelItemPack extends ManaLevelItemPack {
     @Override
     public void registerLang(LangProvider.LangTool lang) {
         lang.setCache(name.toLanguageKey());
-        lang.add(LangType.ZH_CN, "扩散核心");
+        lang.add(LangType.ZH_CN, "扩散");
         lang.add(LangType.EN_CH, "Spread");
     }
 

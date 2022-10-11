@@ -30,23 +30,23 @@ public class FrostyManaShapedType extends ShapedType {
 
     @Override
     public void defaultConfig() {
-        relevantShaped = new Delayed<>(() -> List.of(
-                new ShapedOre(ResourceLocationUtil.fuseName(name.getNamespace(), ItemTag.ICES.d1().location()),
+        relevantShaped = new Delayed.ListShapedDelayed(() -> List.of(
+                new ShapedOre(ResourceLocationUtil.fuseName(name.getNamespace(),  "/", new String[]{name.getPath(), ItemTag.ICES.d1().location().getPath()}),
                         this, ShapedDrive.get(0), ManaLevel.t1)
                         .addInItem(ItemTag.ICES.d1(), 1)
                         .addMultipleSurplusTime(128)
                         .addMultipleOutMana(512),
-                new ShapedOre(ResourceLocationUtil.fuseName(name.getNamespace(), ItemTag.SNOW_BLOCK.d1().location()),
+                new ShapedOre(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), ItemTag.SNOW_BLOCK.d1().location().getPath()}),
                         this, ShapedDrive.get(1), ManaLevel.t1)
                         .addInItem(ItemTag.SNOW_BLOCK.d1(), 1)
                         .addMultipleSurplusTime(128)
                         .addMultipleOutMana(256),
-                new ShapedOre(ResourceLocationUtil.fuseName(name.getNamespace(), ItemTag.SNOWBALL.location()),
+                new ShapedOre(ResourceLocationUtil.fuseName(name.getNamespace(),  "/", new String[]{name.getPath(), ItemTag.SNOWBALL.location().getPath()}),
                         this, ShapedDrive.get(2), ManaLevel.t1)
                         .addInItem(ItemTag.SNOWBALL, 1)
                         .addMultipleSurplusTime(128)
                         .addMultipleOutMana(256),
-                new ShapedOre(ResourceLocationUtil.fuseName(name.getNamespace(), ItemTag.POWDER_SNOW_BUCKET.location()),
+                new ShapedOre(ResourceLocationUtil.fuseName(name.getNamespace(),  "/", new String[]{name.getPath(), ItemTag.POWDER_SNOW_BUCKET.location().getPath()}),
                         this, ShapedDrive.get(3), ManaLevel.t1)
                         .addInItem(ItemTag.POWDER_SNOW_BUCKET, 1)
                         .addOutItem(new ItemStack(Items.BUCKET), 1d)

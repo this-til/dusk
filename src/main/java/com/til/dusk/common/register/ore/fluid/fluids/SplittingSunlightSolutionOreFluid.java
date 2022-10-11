@@ -24,6 +24,6 @@ public class SplittingSunlightSolutionOreFluid extends OreFluidSplitting {
 
     @Override
     public void defaultConfig() {
-        colorBasics = new Delayed<>(() -> Ore.sunlight.color);
+        colorBasics = new Delayed.ColorDelayed(() -> Ore.sunlight.color);
     }
 }

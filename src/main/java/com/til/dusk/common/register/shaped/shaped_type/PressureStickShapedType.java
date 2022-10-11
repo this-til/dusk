@@ -6,6 +6,7 @@ import com.til.dusk.common.config.util.IShapedOreConfig;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
 import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.ore.ore.Ore;
+import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shapeds.Shaped;
 
 import java.util.function.Consumer;
@@ -33,9 +34,7 @@ public class PressureStickShapedType extends ShapedType {
 
     @Override
     public void defaultConfig() {
-        pressureStick = new IShapedCreate.OreShapedCreate(name)
-                .setSurplusTime(1280L)
-                .setConsumeMana(12L)
+        pressureStick = new IShapedCreate.OreShapedCreate(name, this, ShapedDrive.get(0), 1280L, 12L, 0)
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.ingot.name, 1))
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.stick, 1, 1));
     }

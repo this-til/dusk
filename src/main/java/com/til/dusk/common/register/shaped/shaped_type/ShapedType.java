@@ -348,5 +348,5 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
 
     @Nullable
     @ConfigField
-    public Delayed<List<Shaped>> relevantShaped;
+    public Delayed<? extends List<Shaped>> relevantShaped;
 }
