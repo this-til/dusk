@@ -80,15 +80,27 @@ public class ShapedOre extends ShapedMiddle {
         super.init(json);
         if (AllNBTPack.ITEM_IN_MAP.contains(json)) {
             item = AllNBTPack.ITEM_IN_MAP.get(json);
+            if (item.isEmpty()) {
+                item = null;
+            }
         }
         if (AllNBTPack.FLUID_IN_MAP.contains(json)) {
             fluid = AllNBTPack.FLUID_IN_MAP.get(json);
+            if (fluid.isEmpty()) {
+                fluid = null;
+            }
         }
         if (AllNBTPack.ITEM_OUT_MAP.contains(json)) {
             outItem = AllNBTPack.ITEM_OUT_MAP.get(json);
+            if (outItem.isEmpty()) {
+                outItem = null;
+            }
         }
         if (AllNBTPack.FLUID_OUT_MAP.contains(json)) {
             outFluid = AllNBTPack.FLUID_OUT_MAP.get(json);
+            if (outFluid.isEmpty()) {
+                outFluid = null;
+            }
         }
     }
 

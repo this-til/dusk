@@ -209,19 +209,19 @@ public abstract class ManaLevel extends UnitRegister<ManaLevel, ManaLevelItem, M
     public Delayed<List<IShapedOreConfig<ManaLevel>>> forming;
     @Nullable
     @ConfigField
-    public Delayed<? extends List<IShapedOreConfig<ManaLevel>>> destruction;
+    public Delayed<List<IShapedOreConfig<ManaLevel>>> destruction;
     @Nullable
     @ConfigField
-    public Delayed<? extends List<IShapedOreConfig<ManaLevel>>> gather;
+    public Delayed<List<IShapedOreConfig<ManaLevel>>> gather;
     @Nullable
     @ConfigField
-    public Delayed<? extends List<IShapedOreConfig<ManaLevel>>> spread;
+    public Delayed<List<IShapedOreConfig<ManaLevel>>> spread;
     @Nullable
     @ConfigField
-    public Delayed<? extends List<IShapedOreConfig<ManaLevel>>> power;
+    public Delayed<List<IShapedOreConfig<ManaLevel>>> power;
     @Nullable
     @ConfigField
-    public Delayed<? extends List<IShapedOreConfig<ManaLevel>>> instructions;
+    public Delayed<List<IShapedOreConfig<ManaLevel>>> instructions;
     /***
      * 能使用工具制造
      */

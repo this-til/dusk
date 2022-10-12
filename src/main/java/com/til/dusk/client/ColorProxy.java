@@ -9,7 +9,9 @@ import com.til.dusk.common.register.ore.block.OreBlock;
 import com.til.dusk.common.register.ore.fluid.OreFluid;
 import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.ore.ore.Ore;
-import com.til.dusk.common.world.block.ModBlock;
+import com.til.dusk.common.register.world.block.BlockPackRegister;
+import com.til.dusk.common.register.world.item.ItemPackRegister;
+import com.til.dusk.common.world.block.DuskBlock;
 import com.til.dusk.common.world.item.DuskItem;
 import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.Extension;
@@ -30,6 +32,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -85,10 +88,13 @@ public class ColorProxy {
                 }
             }
         }
-        for (RegistryObject<Item> entry : DuskItem.ITEMS.getEntries()) {
-            ItemColorPack itemColorPack = new ItemColorPack(entry.get());
-            ITEM_COLOR_PACK_MAP.put(entry.get(), itemColorPack);
-            if (entry.get() instanceof DuskItem.IHasCustomColor iHasCustomColor) {
+        for (ItemPackRegister itemRegister : ItemPackRegister.ITEM_PACK_REGISTER.get()) {
+            if (itemRegister.pack == null) {
+                continue;
+            }
+            if (itemRegister instanceof DuskItem.IHasCustomColor iHasCustomColor) {
+                ItemColorPack itemColorPack = new ItemColorPack(itemRegister.pack.item());
+                ITEM_COLOR_PACK_MAP.put(itemRegister.pack.item(), itemColorPack);
                 iHasCustomColor.itemColorBlack(itemColorPack);
             }
         }
@@ -125,13 +131,17 @@ public class ColorProxy {
                 }
             }
         }
-        for (RegistryObject<Block> entry : ModBlock.BLOCKS.getEntries()) {
-            BlockColorPack blockColorPack = new BlockColorPack(entry.get());
-            if (entry.get() instanceof ModBlock.IHasCustomColor iHasCustomColor) {
+        for (BlockPackRegister blockPackRegister : BlockPackRegister.BLOCK_PACK_REGISTER.get()) {
+            if (blockPackRegister.pack == null) {
+                continue;
+            }
+          if (blockPackRegister instanceof DuskBlock.IHasCustomColor iHasCustomColor) {
+              BlockColorPack blockColorPack = new BlockColorPack(blockPackRegister.pack.block());
+              BLOCK_COLOR_PACK_MAP.put(blockPackRegister.pack.block(), blockColorPack);
                 iHasCustomColor.blockColorBlack(blockColorPack);
             }
-            BLOCK_COLOR_PACK_MAP.put(entry.get(), new BlockColorPack(entry.get()));
         }
+
         for (Map.Entry<Block, BlockColorPack> blockBlockColorPackEntry : BLOCK_COLOR_PACK_MAP.entrySet()) {
             event.register(blockBlockColorPackEntry.getValue(), blockBlockColorPackEntry.getKey());
         }

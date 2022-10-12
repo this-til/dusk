@@ -46,12 +46,12 @@ public class ArmsData implements Tier {
      * 修复材料
      */
     @Nullable
-    public Delayed<? extends TagKey<Item>> repairIngredient;
+    public Delayed<TagKey<Item>> repairIngredient;
 
     @Expose
     private Ingredient ingredient;
 
-    public Delayed<? extends TagKey<Block>> destructionBlockTag;
+    public Delayed< TagKey<Block>> destructionBlockTag;
 
     /***
      * 默认技能

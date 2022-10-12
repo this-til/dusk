@@ -47,5 +47,5 @@ public abstract class OreFluidSplitting extends OreFluid {
     }
 
     @ConfigField
-    public Delayed<? extends DuskColor> colorBasics;
+    public Delayed<DuskColor> colorBasics;
 }

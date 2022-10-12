@@ -1,0 +1,57 @@
+package com.til.dusk.common.register.world.item.items;
+
+import com.til.dusk.client.data.lang.LangProvider;
+import com.til.dusk.client.data.lang.LangType;
+import com.til.dusk.common.data.ModRecipeProvider;
+import com.til.dusk.common.data.tag.ItemTag;
+import com.til.dusk.common.register.mana_level.item.ManaLevelItemPack;
+import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
+import com.til.dusk.common.register.world.item.DiamondMakeItemPackRegister;
+import com.til.dusk.util.DuskColor;
+import com.til.dusk.util.pack.ItemPack;
+import com.til.dusk.util.prefab.ColorPrefab;
+import net.minecraft.data.recipes.RecipeBuilder;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraftforge.common.Tags;
+
+import java.util.function.Consumer;
+
+/**
+ * @author til
+ */
+public class DiamondMakeOperationRegister extends DiamondMakeItemPackRegister {
+    public DiamondMakeOperationRegister() {
+        super("diamond_make_operation");
+    }
+
+    @Override
+    public void registerLang(LangProvider.LangTool lang) {
+        lang.setCache(name.toLanguageKey());
+        lang.add(LangType.ZH_CN, "钻石制运算器");
+        lang.add(LangType.EN_CH, "Diamond Make Operation");
+    }
+
+    @Override
+    public void defaultConfig() {
+        strokeColor = ColorPrefab.MANA_IO;
+        coreColor = ColorPrefab.MANA_IO;
+    }
+
+    @Override
+    protected void register(ItemPack itemPack) {
+        super.register(itemPack);
+        ItemTag.addTag(ManaLevel.t1.acceptableTagPack.getTagPack(ManaLevelItemPack.operation).itemTagKey(), itemPack.item());
+    }
+
+    @Override
+    public void registerRecipe(Consumer<RecipeBuilder> recipeConsumer) {
+        recipeConsumer.accept(ShapedRecipeBuilder.shaped(pack.item())
+                .define('A', diamondMakeOperationBasics.pack.itemTag())
+                .define('B', Tags.Items.DUSTS_REDSTONE)
+                .define('C', Tags.Items.DUSTS_GLOWSTONE)
+                .pattern("BCB")
+                .pattern("CAC")
+                .pattern("BCB")
+                .unlockedBy("has_diamond_make_operation_basics", ModRecipeProvider.has(diamondMakeOperationBasics.pack.itemTag())));
+    }
+}

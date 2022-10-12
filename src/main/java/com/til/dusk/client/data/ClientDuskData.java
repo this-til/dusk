@@ -10,7 +10,9 @@ import com.til.dusk.common.register.UnitRegister;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.register.shaped.ShapedDrive;
-import com.til.dusk.common.world.block.ModBlock;
+import com.til.dusk.common.register.world.block.BlockPackRegister;
+import com.til.dusk.common.register.world.item.ItemPackRegister;
+import com.til.dusk.common.world.block.DuskBlock;
 import com.til.dusk.common.world.item.DuskItem;
 import com.til.dusk.util.Util;
 import com.til.dusk.util.pack.BlockPack;
@@ -19,15 +21,12 @@ import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
-import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.ByteArrayOutputStream;
@@ -63,7 +62,7 @@ public class ClientDuskData {
                         }
                         for (Object o : unitRegister.blockEntrySet()) {
                             Map.Entry<BlockUnitRegister<?, ?>, BlockPack> entry = Util.forcedConversion(o);
-                            ModBlock.ICustomModel customModel = entry.getKey().getBlockModelMapping(Util.forcedConversion(unitRegister));
+                            DuskBlock.ICustomModel customModel = entry.getKey().getBlockModelMapping(Util.forcedConversion(unitRegister));
                             createItemJson(ForgeRegistries.ITEMS.getKey(entry.getValue().blockItem()), customModel, cachedOutput);
                             createBlockJson(ForgeRegistries.BLOCKS.getKey(entry.getValue().block()), customModel, cachedOutput);
                         }
@@ -73,14 +72,20 @@ public class ClientDuskData {
                     createItemJson(shapedDrive.name, ShapedDrive.RESOURCE_LOCATION, cachedOutput);
                     createBlockJson(shapedDrive.name, ShapedDrive.RESOURCE_LOCATION, cachedOutput);
                 }
-                for (RegistryObject<Item> entry : DuskItem.ITEMS.getEntries()) {
-                    if (entry.get() instanceof DuskItem.ICustomModel customModel) {
-                        createItemJson(ForgeRegistries.ITEMS.getKey(entry.get()), customModel, cachedOutput);
+                for (ItemPackRegister itemRegister : ItemPackRegister.ITEM_PACK_REGISTER.get()) {
+                    if (itemRegister.pack == null) {
+                        continue;
+                    }
+                    if (itemRegister instanceof DuskItem.ICustomModel customModel) {
+                        createItemJson(ForgeRegistries.ITEMS.getKey(itemRegister.pack.item()), customModel, cachedOutput);
                     }
                 }
-                for (RegistryObject<Block> entry : ModBlock.BLOCKS.getEntries()) {
-                    if (entry.get() instanceof ModBlock.ICustomModel customModel) {
-                        createBlockJson(ForgeRegistries.BLOCKS.getKey(entry.get()), customModel, cachedOutput);
+                for (BlockPackRegister blockRegister : BlockPackRegister.BLOCK_PACK_REGISTER.get()) {
+                    if (blockRegister.pack == null) {
+                        continue;
+                    }
+                    if (blockRegister instanceof DuskBlock.ICustomModel customModel) {
+                        createBlockJson(ForgeRegistries.ITEMS.getKey(blockRegister.pack.blockItem()), customModel, cachedOutput);
                     }
                 }
             }
@@ -100,7 +105,7 @@ public class ClientDuskData {
                 createJson(String.format("assets/%s/models/item/%s.json", name.getNamespace(), name.getPath()), iCustomModel.itemJson(), cachedOutput);
             }
 
-            public void createBlockJson(ResourceLocation name, ModBlock.ICustomModel iCustomModel, CachedOutput cachedOutput) throws IOException {
+            public void createBlockJson(ResourceLocation name, DuskBlock.ICustomModel iCustomModel, CachedOutput cachedOutput) throws IOException {
                 if (name == null) {
                     return;
                 }

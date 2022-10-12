@@ -14,7 +14,7 @@ import java.text.MessageFormat;
 /**
  * @author til
  */
-public class ModBlock {
+public class DuskBlock {
 
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Dusk.MOD_ID);
 

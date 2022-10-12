@@ -70,7 +70,7 @@ public class ArmorData implements ArmorMaterial {
      * 修复材料
      */
     @Nullable
-    public Delayed<? extends TagKey<Item>> repairIngredient;
+    public Delayed<TagKey<Item>> repairIngredient;
 
     @Expose
     private Ingredient ingredient;

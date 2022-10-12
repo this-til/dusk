@@ -17,11 +17,17 @@ public class NBTCellSerializer<E> implements JsonSerializer<E>, JsonDeserializer
 
     @Override
     public E deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+        if (json.isJsonNull()) {
+            return null;
+        }
         return cell.fromJson(json);
     }
 
     @Override
     public JsonElement serialize(E src, Type typeOfSrc, JsonSerializationContext context) {
+        if (src == null) {
+            return JsonNull.INSTANCE;
+        }
         return cell.asJson(src);
     }
 }

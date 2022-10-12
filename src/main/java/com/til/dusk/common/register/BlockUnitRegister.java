@@ -2,14 +2,11 @@ package com.til.dusk.common.register;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.client.ColorProxy;
-import com.til.dusk.common.world.block.ModBlock;
+import com.til.dusk.common.world.block.DuskBlock;
 import com.til.dusk.util.Lang;
-import com.til.dusk.util.ResourceLocationUtil;
 import com.til.dusk.util.pack.BlockPack;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -62,7 +59,7 @@ public abstract class BlockUnitRegister<T extends BlockUnitRegister<T, O>, O ext
     /***
      * 获取模型映射
      */
-    public ModBlock.ICustomModel getBlockModelMapping(O o) {
+    public DuskBlock.ICustomModel getBlockModelMapping(O o) {
         return () -> name;
     }
 

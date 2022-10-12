@@ -10,7 +10,7 @@ import com.til.dusk.common.register.ore.block.OreBlock;
 import com.til.dusk.common.register.ore.fluid.OreFluid;
 import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.ore.ore.Ore;
-import com.til.dusk.common.world.block.ModBlock;
+import com.til.dusk.common.world.block.DuskBlock;
 import com.til.dusk.common.world.item.DuskItem;
 import com.til.dusk.util.pack.BlockPack;
 import com.til.dusk.util.pack.FluidPack;
@@ -123,9 +123,9 @@ public class ModelProxy {
                 }
             }
         }
-        for (RegistryObject<Block> entry : ModBlock.BLOCKS.getEntries()) {
+        for (RegistryObject<Block> entry : DuskBlock.BLOCKS.getEntries()) {
             Block block = entry.get();
-            if (block instanceof ModBlock.ICustomModel iCustomModel) {
+            if (block instanceof DuskBlock.ICustomModel iCustomModel) {
                 ImmutableList<BlockState> definition = block.getStateDefinition().getPossibleStates();
                 if (definition.size() == 1) {
                     BLOCK_STATE_MAP.put(definition.get(0), iCustomModel.blockModelName());

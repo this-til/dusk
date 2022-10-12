@@ -5,7 +5,7 @@ import com.til.dusk.client.data.lang.LangType;
 import com.til.dusk.common.data.tag.BlockTag;
 import com.til.dusk.common.register.ore.block.OreBlockDecorate;
 import com.til.dusk.common.register.ore.ore.Ore;
-import com.til.dusk.common.world.block.ModBlock;
+import com.til.dusk.common.world.block.DuskBlock;
 import com.til.dusk.util.prefab.JsonPrefab;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
@@ -37,8 +37,8 @@ public class SlabOreBlockDecorate extends OreBlockDecorate {
     }
 
     @Override
-    public ModBlock.ICustomModel getBlockModelMapping(Ore ore) {
-        return new ModBlock.ICustomModel() {
+    public DuskBlock.ICustomModel getBlockModelMapping(Ore ore) {
+        return new DuskBlock.ICustomModel() {
             @Override
             public ResourceLocation blockModelName() {
                 return name;

@@ -93,7 +93,7 @@ public interface IOrePlacedFeatureConfig {
         /***
          * 获取放置方块
          */
-        public Delayed<? extends IPair> place;
+        public Delayed<IPair> place;
 
         private Holder<PlacedFeature> holder;
 

@@ -8,7 +8,8 @@ import com.til.dusk.common.register.mana_level.block.Mechanic;
 import com.til.dusk.common.register.mana_level.item.ManaLevelItemPack;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.ore.item.OreItem;
-import com.til.dusk.common.world.block.ModBlock;
+import com.til.dusk.common.register.world.item.ItemPackRegister;
+import com.til.dusk.common.world.block.DuskBlock;
 import com.til.dusk.common.world.block.RepeaterBlock;
 import com.til.dusk.common.world.item.DuskItem;
 import com.til.dusk.util.prefab.JsonPrefab;
@@ -35,8 +36,8 @@ public class RepeaterMechanic extends Mechanic {
     }
 
     @Override
-    public ModBlock.ICustomModel getBlockModelMapping(ManaLevel manaLevel) {
-        return new ModBlock.ICustomModel() {
+    public DuskBlock.ICustomModel getBlockModelMapping(ManaLevel manaLevel) {
+        return new DuskBlock.ICustomModel() {
             @Override
             public ResourceLocation blockModelName() {
                 return name;
@@ -57,7 +58,7 @@ public class RepeaterMechanic extends Mechanic {
             }
             recipeConsumer.accept(ShapedRecipeBuilder.shaped(manaLevel.get(this).blockItem(), 1)
                     .define('A', manaLevel.acceptableTagPack.getTagPack(OreItem.casing).itemTagKey())
-                    .define('B', DuskItem.diamondMakeOperation.get().tag())
+                    .define('B', ItemPackRegister.diamondMakeOperation.pack.itemTag())
                     .define('D', manaLevel.acceptableTagPack.getTagPack(OreItem.wrench).itemTagKey())
                     .pattern(" D ")
                     .pattern("BAB")

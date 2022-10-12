@@ -35,7 +35,7 @@ public class ConfigGsonTest {
     }
 
     protected static class TestData {
-        public Delayed<? extends TestData_2> data2Delayed;
+        public Delayed<TestData_2> data2Delayed;
         public List<TestData_3> list;
         public Map<String, ResourceLocation> stringMap;
         public Map<ResourceLocation, ResourceLocation> map;

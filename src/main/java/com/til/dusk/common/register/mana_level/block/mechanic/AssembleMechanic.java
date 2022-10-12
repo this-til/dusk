@@ -11,6 +11,7 @@ import com.til.dusk.common.register.mana_level.mana_level.MakeLevel;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
+import com.til.dusk.common.register.world.item.ItemPackRegister;
 import com.til.dusk.common.world.item.DuskItem;
 import net.minecraft.data.recipes.RecipeBuilder;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
@@ -42,8 +43,8 @@ public class AssembleMechanic extends HandleMechanic {
             }
             recipeConsumer.accept(ShapedRecipeBuilder.shaped(manaLevel.get(this).blockItem(), 1)
                     .define('A', manaLevel.get(frameBasic).blockItemTag())
-                    .define('B', DuskItem.diamondMakePower.get().tag())
-                    .define('C', DuskItem.diamondMakeInstructions.get().tag())
+                    .define('B', ItemPackRegister.diamondMakePower.pack.itemTag())
+                    .define('C', ItemPackRegister.diamondMakeInstructions.pack.itemTag())
                     .define('D', manaLevel.acceptableTagPack.getTagPack(OreItem.wrench).itemTagKey())
                     .pattern(" D ")
                     .pattern("BAC")

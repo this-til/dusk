@@ -36,7 +36,7 @@ public interface IShapedOreConfig<DATA> {
 
     class ItemIn implements IShapedOreConfig<Void> {
 
-        public Delayed<? extends TagKey<Item>> itemTag;
+        public Delayed<TagKey<Item>> itemTag;
         public int amount;
 
         public ItemIn(Supplier<TagKey<Item>> itemTag, int amount) {
@@ -55,7 +55,7 @@ public interface IShapedOreConfig<DATA> {
 
     class FluidIn implements IShapedOreConfig<Void> {
 
-        public Delayed<? extends TagKey<Fluid>> fluidTag;
+        public Delayed<TagKey<Fluid>> fluidTag;
         public int amount;
 
         public FluidIn(Supplier<TagKey<Fluid>> fluidTag, int amount) {
@@ -73,7 +73,7 @@ public interface IShapedOreConfig<DATA> {
     }
 
     class ItemOut implements IShapedOreConfig<Void> {
-        public Delayed<? extends ItemStack> itemStack;
+        public Delayed<ItemStack> itemStack;
         public double probability;
 
         public ItemOut() {
@@ -91,7 +91,7 @@ public interface IShapedOreConfig<DATA> {
     }
 
     class FluidOut implements IShapedOreConfig<Void> {
-        public Delayed<? extends FluidStack> fluidStack;
+        public Delayed<FluidStack> fluidStack;
         public double probability;
 
         public FluidOut() {
@@ -208,7 +208,7 @@ public interface IShapedOreConfig<DATA> {
 
         class ItemIn implements IShapedOreManaLevelConfig {
 
-            public Delayed<? extends TagKey<Item>> itemTag;
+            public Delayed<TagKey<Item>> itemTag;
             public int amount;
             public boolean isMultiple;
 
@@ -232,7 +232,7 @@ public interface IShapedOreConfig<DATA> {
 
         class FluidIn implements IShapedOreManaLevelConfig {
 
-            public Delayed<? extends TagKey<Fluid>> fluidTag;
+            public Delayed<TagKey<Fluid>> fluidTag;
             public int amount;
             public boolean isMultiple;
 
@@ -255,7 +255,7 @@ public interface IShapedOreConfig<DATA> {
         }
 
         class ItemOut implements IShapedOreManaLevelConfig {
-            public Delayed<? extends ItemStack> itemStack;
+            public Delayed<ItemStack> itemStack;
             public double probability;
 
             public ItemOut() {
@@ -345,7 +345,7 @@ public interface IShapedOreConfig<DATA> {
         }
 
         class FluidOut implements IShapedOreManaLevelConfig {
-            public Delayed<? extends FluidStack> fluidStack;
+            public Delayed<FluidStack> fluidStack;
             public double probability;
 
             public FluidOut() {
@@ -366,7 +366,7 @@ public interface IShapedOreConfig<DATA> {
     interface IShapedOreOreConfig extends IShapedOreConfig<Ore> {
         class ItemIn implements IShapedOreOreConfig {
 
-            public Delayed<? extends TagKey<Item>> itemTag;
+            public Delayed<TagKey<Item>> itemTag;
             public int amount;
 
             public ItemIn(Supplier<TagKey<Item>> itemTag, int amount) {
@@ -404,7 +404,7 @@ public interface IShapedOreConfig<DATA> {
 
         class FluidIn implements IShapedOreOreConfig {
 
-            public Delayed<? extends TagKey<Fluid>> fluidTag;
+            public Delayed<TagKey<Fluid>> fluidTag;
             public int amount;
 
             public FluidIn(Supplier<TagKey<Fluid>> fluidTag, int amount) {
@@ -465,7 +465,7 @@ public interface IShapedOreConfig<DATA> {
         }
 
         class ItemOut implements IShapedOreOreConfig {
-            public Delayed<? extends ItemStack> itemStack;
+            public Delayed<ItemStack> itemStack;
             public double probability;
 
             public ItemOut() {
@@ -531,7 +531,7 @@ public interface IShapedOreConfig<DATA> {
         }
 
         class FluidOut implements IShapedOreOreConfig {
-            public Delayed<? extends FluidStack> fluidStack;
+            public Delayed<FluidStack> fluidStack;
             public double probability;
 
             public FluidOut() {

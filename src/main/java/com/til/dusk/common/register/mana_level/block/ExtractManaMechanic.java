@@ -5,7 +5,7 @@ import com.til.dusk.client.ColorProxy;
 import com.til.dusk.common.config.ConfigField;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
-import com.til.dusk.common.world.block.ModBlock;
+import com.til.dusk.common.world.block.DuskBlock;
 import com.til.dusk.util.DuskColor;
 import net.minecraft.resources.ResourceLocation;
 
@@ -41,7 +41,7 @@ public abstract class ExtractManaMechanic extends HandleMechanic {
     }
 
     @Override
-    public ModBlock.ICustomModel getBlockModelMapping(ManaLevel manaLevel) {
+    public DuskBlock.ICustomModel getBlockModelMapping(ManaLevel manaLevel) {
         return () -> MODEL_NAME;
     }
 

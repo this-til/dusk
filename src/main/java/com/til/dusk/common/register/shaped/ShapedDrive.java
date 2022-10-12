@@ -10,7 +10,7 @@ import com.til.dusk.common.register.RegisterManage;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.other.CapabilityRegister;
 import com.til.dusk.common.world.block.MechanicBlock;
-import com.til.dusk.common.world.block.ModBlock;
+import com.til.dusk.common.world.block.DuskBlock;
 import com.til.dusk.util.Lang;
 import com.til.dusk.util.pack.BlockPack;
 import net.minecraft.network.chat.Component;
@@ -42,7 +42,7 @@ import java.util.function.Supplier;
 @Mod.EventBusSubscriber(modid = Dusk.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ShapedDrive extends RegisterBasics<ShapedDrive> {
 
-    public static final ModBlock.ICustomModel RESOURCE_LOCATION = () -> new ResourceLocation(Dusk.MOD_ID, "shaped_drive");
+    public static final DuskBlock.ICustomModel RESOURCE_LOCATION = () -> new ResourceLocation(Dusk.MOD_ID, "shaped_drive");
     public static Supplier<IForgeRegistry<ShapedDrive>> SHAPED_DRIVE;
     public final static Map<Integer, ShapedDrive> SHAPED_DRIVE_MAP = new HashMap<>();
 

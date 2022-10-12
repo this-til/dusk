@@ -505,7 +505,7 @@ public abstract class Ore extends UnitRegister<Ore, OreItem, OreBlock, OreFluid>
 
     @Nullable
     @ConfigField
-    public Delayed<? extends List<Shaped>> relevantShaped;
+    public Delayed<List<Shaped>> relevantShaped;
 
     @Nullable
     @ConfigField

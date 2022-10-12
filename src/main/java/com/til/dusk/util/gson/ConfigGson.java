@@ -21,6 +21,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -58,6 +59,14 @@ public class ConfigGson {
         }.getType(), new NBTCellSerializer<>(AllNBTCell.BLOCK_TAG));
         gsonBuilder.registerTypeAdapter(new TypeToken<TagKey<Fluid>>() {
         }.getType(), new NBTCellSerializer<>(AllNBTCell.FLUID_TAG));
+        gsonBuilder.registerTypeAdapter(new TypeToken<Map<TagKey<Item>, Integer>>() {
+        }.getType(), new NBTCellSerializer<>(AllNBTCell.ITEM_TAG_INT_MAP));
+        gsonBuilder.registerTypeAdapter(new TypeToken<Map<TagKey<Fluid>, Integer>>() {
+        }.getType(), new NBTCellSerializer<>(AllNBTCell.FLUID_TAG_INT_MAP));
+        gsonBuilder.registerTypeAdapter(new TypeToken<Map<ItemStack, Double>>() {
+        }.getType(), new NBTCellSerializer<>(AllNBTCell.ITEM_STACK_DOUBLE_MAP));
+        gsonBuilder.registerTypeAdapter(new TypeToken<Map<FluidStack, Double>>() {
+        }.getType(), new NBTCellSerializer<>(AllNBTCell.FLUID_STACK_DOUBLE_MAP));
         gsonBuilder.registerTypeAdapterFactory(new RegisterBasicsAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory( new DelayedTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new AcceptTypeAdapterFactory());

@@ -19,7 +19,7 @@ import com.til.dusk.common.register.mana_level.block.DefaultCapacityMechanic;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.other.BindType;
 import com.til.dusk.common.register.other.CapabilityRegister;
-import com.til.dusk.common.world.block.ModBlock;
+import com.til.dusk.common.world.block.DuskBlock;
 import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.Extension;
 import com.til.dusk.util.prefab.ColorPrefab;
@@ -52,7 +52,7 @@ public abstract class IOMechanic extends DefaultCapacityMechanic {
     }
 
     @Override
-    public ModBlock.ICustomModel getBlockModelMapping(ManaLevel manaLevel) {
+    public DuskBlock.ICustomModel getBlockModelMapping(ManaLevel manaLevel) {
         return () -> MODEL_NAME;
     }
 

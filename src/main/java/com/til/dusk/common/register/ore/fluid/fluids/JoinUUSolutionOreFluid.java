@@ -1,5 +1,7 @@
 package com.til.dusk.common.register.ore.fluid.fluids;
 
+import com.til.dusk.client.data.lang.LangProvider;
+import com.til.dusk.client.data.lang.LangType;
 import com.til.dusk.common.register.ore.fluid.OreFluid;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.util.pack.FluidPack;
@@ -8,7 +10,7 @@ import com.til.dusk.util.pack.FluidPack;
  * @author til
  */
 public class JoinUUSolutionOreFluid extends OreFluid {
-    public JoinUUSolutionOreFluid(){
+    public JoinUUSolutionOreFluid() {
         super("join_uu_solution");
     }
 
@@ -18,6 +20,13 @@ public class JoinUUSolutionOreFluid extends OreFluid {
             return super.create(ore);
         }
         return null;
+    }
+
+    @Override
+    public void registerLang(LangProvider.LangTool lang) {
+        lang.setCache(name.toLanguageKey());
+        lang.add(LangType.ZH_CN, "掺入UU溶液");
+        lang.add(LangType.EN_CH, "Join UU Solution");
     }
 
     @Override
