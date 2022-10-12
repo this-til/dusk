@@ -76,16 +76,15 @@ public class ClientDuskData {
                     if (itemRegister.pack == null) {
                         continue;
                     }
-                    if (itemRegister instanceof DuskItem.ICustomModel customModel) {
-                        createItemJson(ForgeRegistries.ITEMS.getKey(itemRegister.pack.item()), customModel, cachedOutput);
-                    }
+                    createItemJson(ForgeRegistries.ITEMS.getKey(itemRegister.pack.item()), itemRegister, cachedOutput);
                 }
                 for (BlockPackRegister blockRegister : BlockPackRegister.BLOCK_PACK_REGISTER.get()) {
                     if (blockRegister.pack == null) {
                         continue;
                     }
                     if (blockRegister instanceof DuskBlock.ICustomModel customModel) {
-                        createBlockJson(ForgeRegistries.ITEMS.getKey(blockRegister.pack.blockItem()), customModel, cachedOutput);
+                        createItemJson(ForgeRegistries.ITEMS.getKey(blockRegister.pack.blockItem()), customModel, cachedOutput);
+                        createBlockJson(ForgeRegistries.BLOCKS.getKey(blockRegister.pack.block()), customModel, cachedOutput);
                     }
                 }
             }
@@ -102,7 +101,11 @@ public class ClientDuskData {
                 if (iCustomModel == null) {
                     return;
                 }
-                createJson(String.format("assets/%s/models/item/%s.json", name.getNamespace(), name.getPath()), iCustomModel.itemJson(), cachedOutput);
+                String json = iCustomModel.itemJson();
+                if (json.isEmpty()) {
+                    return;
+                }
+                createJson(String.format("assets/%s/models/item/%s.json", name.getNamespace(), name.getPath()), json, cachedOutput);
             }
 
             public void createBlockJson(ResourceLocation name, DuskBlock.ICustomModel iCustomModel, CachedOutput cachedOutput) throws IOException {
@@ -112,8 +115,11 @@ public class ClientDuskData {
                 if (iCustomModel == null) {
                     return;
                 }
-                ResourceLocation blockModel = iCustomModel.blockModelName();
-                createJson(String.format("assets/%s/blockstates/%s.json", name.getNamespace(), name.getPath()), iCustomModel.blockStateJson(), cachedOutput);
+                String json = iCustomModel.blockStateJson();
+                if (json.isEmpty()) {
+                    return;
+                }
+                createJson(String.format("assets/%s/blockstates/%s.json", name.getNamespace(), name.getPath()), json, cachedOutput);
             }
 
             public void createJson(String pack, String json, CachedOutput cachedOutput) throws IOException {

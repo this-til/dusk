@@ -31,11 +31,6 @@ public abstract class DiamondMakeItemPackRegister extends ItemPackRegister imple
     }
 
     @Override
-    protected Item createItem() {
-        return new Item(new Item.Properties().tab(Dusk.TAB));
-    }
-
-    @Override
     public void itemColorBlack(ColorProxy.ItemColorPack itemColorPack) {
         itemColorPack.addColor(1, itemStack -> strokeColor);
         itemColorPack.addColor(2, itemStack -> coreColor);

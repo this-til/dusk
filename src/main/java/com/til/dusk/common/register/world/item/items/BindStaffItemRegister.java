@@ -11,6 +11,7 @@ import com.til.dusk.common.register.key.KeyRegister;
 import com.til.dusk.common.register.other.BindType;
 import com.til.dusk.common.register.other.CapabilityRegister;
 import com.til.dusk.common.register.world.item.ItemPackRegister;
+import com.til.dusk.common.register.world.item.StaffItemRegister;
 import com.til.dusk.common.world.item.DuskItem;
 import com.til.dusk.common.world.item.ItemBasics;
 import com.til.dusk.util.Lang;
@@ -20,6 +21,7 @@ import net.minecraft.data.recipes.RecipeBuilder;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -35,13 +37,14 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.eventbus.api.EventPriority;
 import org.jetbrains.annotations.NotNull;
 
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.function.Consumer;
 
 /**
  * @author til
  */
-public class BindStaffItemRegister extends ItemPackRegister {
+public class BindStaffItemRegister extends StaffItemRegister {
 
     public BindStaffItemRegister() {
         super("bind_staff");
@@ -67,7 +70,7 @@ public class BindStaffItemRegister extends ItemPackRegister {
 
     @Override
     public void defaultConfig() {
-
+        super.defaultConfig();
     }
 
     @Override
@@ -79,7 +82,7 @@ public class BindStaffItemRegister extends ItemPackRegister {
      * 绑定法杖
      * @author til
      */
-    public static class BindStaffItem extends ItemBasics implements DuskItem.IHasCustomColor {
+    public static class BindStaffItem extends Item {
         public BindStaffItem(Properties properties) {
             super(properties);
             MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, (Consumer<EventKey>) event -> {

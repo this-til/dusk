@@ -9,6 +9,7 @@ import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shapeds.Shaped;
 import com.til.dusk.common.register.shaped.shapeds.ShapedMiddleExtend;
+import com.til.dusk.common.register.world.item.ItemPackRegister;
 import com.til.dusk.common.world.item.DuskItem;
 import com.til.dusk.util.Lang;
 import com.til.dusk.util.nbt.pack.AllNBTPack;
@@ -82,7 +83,7 @@ public class RecoveryShapedType extends ShapedType {
         @Override
         protected ShapedHandle create(ItemStack itemStack) {
             if (random.nextDouble() < probability) {
-                return new ShapedHandle(surplusTime, consumeMana, outMana, List.of(new ItemStack(DuskItem.waste.get())), null);
+                return new ShapedHandle(surplusTime, consumeMana, outMana, List.of(new ItemStack(ItemPackRegister.waste.pack.item())), null);
             }
             return null;
         }
@@ -97,7 +98,7 @@ public class RecoveryShapedType extends ShapedType {
 
                 @Override
                 public @NotNull List<List<ItemStack>> getItemOut() {
-                    ItemStack itemStack = new ItemStack(DuskItem.waste.get());
+                    ItemStack itemStack = new ItemStack(ItemPackRegister.waste.pack.item());
                     CompoundTag compoundTag = new CompoundTag();
                     AllNBTPack.PROBABILITY.set(compoundTag, 0.2);
                     itemStack.setTag(compoundTag);

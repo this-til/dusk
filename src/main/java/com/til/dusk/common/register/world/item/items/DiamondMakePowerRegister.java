@@ -21,7 +21,7 @@ import java.util.function.Consumer;
  */
 public class DiamondMakePowerRegister extends DiamondMakeItemPackRegister {
     public DiamondMakePowerRegister() {
-        super("diamondMakePower");
+        super("diamond_make_power");
     }
 
     @Override

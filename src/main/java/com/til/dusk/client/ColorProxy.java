@@ -98,6 +98,16 @@ public class ColorProxy {
                 iHasCustomColor.itemColorBlack(itemColorPack);
             }
         }
+        for (BlockPackRegister blockPackRegister : BlockPackRegister.BLOCK_PACK_REGISTER.get()) {
+            if (blockPackRegister.pack == null) {
+                continue;
+            }
+            if (blockPackRegister instanceof DuskItem.IHasCustomColor iHasCustomColor) {
+                ItemColorPack itemColorPack = new ItemColorPack(blockPackRegister.pack.blockItem());
+                ITEM_COLOR_PACK_MAP.put(blockPackRegister.pack.blockItem(), itemColorPack);
+                iHasCustomColor.itemColorBlack(itemColorPack);
+            }
+        }
         for (Map.Entry<Item, ItemColorPack> itemItemColorPackEntry : ITEM_COLOR_PACK_MAP.entrySet()) {
             event.register(itemItemColorPackEntry.getValue(), itemItemColorPackEntry.getKey());
         }
@@ -135,9 +145,9 @@ public class ColorProxy {
             if (blockPackRegister.pack == null) {
                 continue;
             }
-          if (blockPackRegister instanceof DuskBlock.IHasCustomColor iHasCustomColor) {
-              BlockColorPack blockColorPack = new BlockColorPack(blockPackRegister.pack.block());
-              BLOCK_COLOR_PACK_MAP.put(blockPackRegister.pack.block(), blockColorPack);
+            if (blockPackRegister instanceof DuskBlock.IHasCustomColor iHasCustomColor) {
+                BlockColorPack blockColorPack = new BlockColorPack(blockPackRegister.pack.block());
+                BLOCK_COLOR_PACK_MAP.put(blockPackRegister.pack.block(), blockColorPack);
                 iHasCustomColor.blockColorBlack(blockColorPack);
             }
         }

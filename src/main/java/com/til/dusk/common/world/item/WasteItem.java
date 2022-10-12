@@ -17,4 +17,5 @@ public class WasteItem extends BoneMealItem implements DuskItem.IHasCustomColor 
         itemColorPack.addColor(0, itemStack -> new DuskColor(163, 128, 100));
         itemColorPack.addColor(1, itemStack -> new DuskColor(246, 183, 92));
     }
+
 }

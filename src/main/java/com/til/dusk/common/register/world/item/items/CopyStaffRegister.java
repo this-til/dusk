@@ -13,6 +13,7 @@ import com.til.dusk.common.register.other.BindType;
 import com.til.dusk.common.register.other.CapabilityRegister;
 import com.til.dusk.common.register.particle_register.ParticleRegister;
 import com.til.dusk.common.register.world.item.ItemPackRegister;
+import com.til.dusk.common.register.world.item.StaffItemRegister;
 import com.til.dusk.common.world.item.DuskItem;
 import com.til.dusk.common.world.item.ItemBasics;
 import com.til.dusk.util.Lang;
@@ -47,9 +48,9 @@ import java.util.function.Consumer;
 /**
  * @author til
  */
-public class CopyStaffItemRegister extends ItemPackRegister {
+public class CopyStaffRegister extends StaffItemRegister {
 
-    public CopyStaffItemRegister() {
+    public CopyStaffRegister() {
         super("copy_staff");
     }
 
@@ -63,7 +64,7 @@ public class CopyStaffItemRegister extends ItemPackRegister {
     @Override
     public void registerRecipe(Consumer<RecipeBuilder> recipeConsumer) {
         recipeConsumer.accept(ShapedRecipeBuilder.shaped(pack.item())
-                .define('A', diamondMakeInstructions.get().tag())
+                .define('A', diamondMakeInstructions.pack.itemTag())
                 .define('B', Tags.Items.GEMS)
                 .pattern("  A")
                 .pattern(" B ")
@@ -73,19 +74,24 @@ public class CopyStaffItemRegister extends ItemPackRegister {
 
     @Override
     public void defaultConfig() {
-
+        super.defaultConfig();
     }
 
     @Override
     protected Item createItem() {
-        return new CopyStaffItem(new Item.Properties().stacksTo(1).tab(Dusk.TAB));
+        return new CopyStaffItem(new Item.Properties().stacksTo(1).tab(Dusk.TAB)){
+            @Override
+            public @NotNull Component getName(@NotNull ItemStack stack) {
+                return Component.translatable(name.toLanguageKey());
+            }
+        };
     }
 
     /***
      * 复制法杖
      * @author til
      */
-    public static class CopyStaffItem extends ItemBasics implements DuskItem.IHasCustomColor {
+    public static class CopyStaffItem  extends Item  {
 
         @Expose
         public final Random random = new Random();

@@ -12,6 +12,7 @@ import com.til.dusk.common.register.other.BindType;
 import com.til.dusk.common.register.other.CapabilityRegister;
 import com.til.dusk.common.register.particle_register.ParticleRegister;
 import com.til.dusk.common.register.world.item.ItemPackRegister;
+import com.til.dusk.common.register.world.item.StaffItemRegister;
 import com.til.dusk.common.world.item.DuskItem;
 import com.til.dusk.common.world.item.ItemBasics;
 import com.til.dusk.util.prefab.ColorPrefab;
@@ -19,6 +20,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
 import net.minecraft.data.recipes.RecipeBuilder;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -41,7 +43,7 @@ import java.util.function.Consumer;
 /**
  * @author til
  */
-public class ShowStaffRegister extends ItemPackRegister {
+public class ShowStaffRegister extends StaffItemRegister {
 
     public ShowStaffRegister() {
         super("show_staff");
@@ -67,15 +69,20 @@ public class ShowStaffRegister extends ItemPackRegister {
 
     @Override
     public void defaultConfig() {
-
+        super.defaultConfig();
     }
 
     @Override
     protected Item createItem() {
-        return new ShowStaffItem(new Item.Properties().stacksTo(1).tab(Dusk.TAB));
+        return new ShowStaffItem(new Item.Properties().stacksTo(1).tab(Dusk.TAB)) {
+            @Override
+            public @NotNull Component getName(@NotNull ItemStack stack) {
+                return Component.translatable(name.toLanguageKey());
+            }
+        };
     }
 
-    public static class ShowStaffItem extends ItemBasics implements DuskItem.IHasCustomColor {
+    public static class ShowStaffItem extends Item {
         public ShowStaffItem(Properties properties) {
             super(properties);
             MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, (Consumer<EventKey>) event -> {
@@ -100,7 +107,7 @@ public class ShowStaffRegister extends ItemPackRegister {
         }
 
         @Override
-        public InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player, InteractionHand interactionHand) {
+        public InteractionResultHolder<ItemStack> use(@NotNull Level level, @NotNull Player player, @NotNull InteractionHand interactionHand) {
             display(player);
             return super.use(level, player, interactionHand);
         }

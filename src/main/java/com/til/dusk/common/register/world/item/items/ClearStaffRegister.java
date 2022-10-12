@@ -7,28 +7,32 @@ import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.data.ModRecipeProvider;
 import com.til.dusk.common.register.other.CapabilityRegister;
 import com.til.dusk.common.register.world.item.ItemPackRegister;
+import com.til.dusk.common.register.world.item.StaffItemRegister;
 import com.til.dusk.common.world.item.DuskItem;
 import com.til.dusk.common.world.item.ItemBasics;
 import com.til.dusk.util.Lang;
 import net.minecraft.core.BlockPos;
 import net.minecraft.data.recipes.RecipeBuilder;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.util.LazyOptional;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Consumer;
 
 /**
  * @author til
  */
-public class ClearStaffRegister extends ItemPackRegister {
+public class ClearStaffRegister extends StaffItemRegister {
 
     public ClearStaffRegister() {
         super("clear_staff");
@@ -54,18 +58,23 @@ public class ClearStaffRegister extends ItemPackRegister {
 
     @Override
     public void defaultConfig() {
-
+        super.defaultConfig();
     }
 
     @Override
     protected Item createItem() {
-        return new ClearStaffItem(new Item.Properties().stacksTo(1).tab(Dusk.TAB));
+        return new ClearStaffItem(new Item.Properties().stacksTo(1).tab(Dusk.TAB)){
+            @Override
+            public @NotNull Component getName(@NotNull ItemStack stack) {
+                return Component.translatable(name.toLanguageKey());
+            }
+        };
     }
 
     /**
      * @author til
      */
-    public static class ClearStaffItem extends ItemBasics implements DuskItem.IHasCustomColor {
+    public static class ClearStaffItem  extends Item  {
         public ClearStaffItem(Properties properties) {
             super(properties);
         }
