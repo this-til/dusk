@@ -55,7 +55,7 @@ public class ExtractManaHandleMechanic extends HandleMechanic {
     public void defaultConfig() {
         manaLevelMakeData = new ManaLevelMakeData()
                 .addOreConfig(List.of(
-                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(frameBasic.name, 2),
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(frameBasic.name, 1),
                         new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(OreItem.casing.name, 4),
                         new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(OreItem.foil.name, 4)));
     }

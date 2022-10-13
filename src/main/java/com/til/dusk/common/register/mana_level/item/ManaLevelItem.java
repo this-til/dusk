@@ -6,6 +6,7 @@ import com.til.dusk.common.register.ItemUnitRegister;
 import com.til.dusk.common.register.RegisterManage;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -21,8 +22,7 @@ public class ManaLevelItem extends ItemUnitRegister<ManaLevelItem, ManaLevel> {
 
     public static Supplier<IForgeRegistry<ManaLevelItem>> LEVEL_ITEM;
 
-
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.HIGH)
     public static void onEvent(NewRegistryEvent event) {
         LEVEL_ITEM = RegisterManage.create(ManaLevelItem.class, new ResourceLocation(Dusk.MOD_ID, "mana_level_item"), event);
     }

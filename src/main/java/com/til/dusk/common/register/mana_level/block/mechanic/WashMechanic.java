@@ -5,7 +5,7 @@ import com.til.dusk.client.data.lang.LangProvider;
 import com.til.dusk.client.data.lang.LangType;
 import com.til.dusk.common.data.tag.ItemTag;
 import com.til.dusk.common.register.mana_level.block.HandleMechanic;
-import com.til.dusk.common.register.mana_level.item.ManaLevelItemPack;
+import com.til.dusk.common.register.mana_level.item.group.ManaLevelItemGroup;
 import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 
@@ -34,7 +34,7 @@ public class WashMechanic extends HandleMechanic {
                 .addOreConfig(List.of(
                         new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(frameBasic.name, 1),
                         new IShapedOreConfig.IShapedOreManaLevelConfig.ItemIn(() ->ItemTag.CAULDRON.d1(), 1),
-                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.destruction.name, 1),
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemGroup.destruction.name, 1),
                         new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(OreItem.rotor.name, 1)));
     }
 }

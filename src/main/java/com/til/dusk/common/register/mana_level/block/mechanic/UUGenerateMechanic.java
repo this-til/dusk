@@ -18,7 +18,7 @@ public class UUGenerateMechanic extends HandleMechanic {
     @Override
     public void registerLang(LangProvider.LangTool lang) {
         lang.setCache(name.toLanguageKey());
-        lang.add(LangType.ZH_CN, "uu生成晶体");
+        lang.add(LangType.ZH_CN, "UU生成晶体");
         lang.add(LangType.EN_CH, "UU Generate Crystal");
     }
 

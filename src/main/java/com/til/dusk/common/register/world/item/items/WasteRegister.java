@@ -10,6 +10,9 @@ import com.til.dusk.common.world.item.DuskItem;
 import com.til.dusk.util.DuskColor;
 import org.checkerframework.checker.units.qual.C;
 
+/**
+ * @author til
+ */
 public class WasteRegister extends ItemPackRegister implements DuskItem.IHasCustomColor {
 
     public WasteRegister() {
@@ -41,4 +44,8 @@ public class WasteRegister extends ItemPackRegister implements DuskItem.IHasCust
     @ConfigField
     public DuskColor colorEmbellishment;
 
+    @Override
+    public String itemJson() {
+        return "";
+    }
 }

@@ -4,10 +4,9 @@ import com.til.dusk.client.data.lang.LangProvider;
 import com.til.dusk.client.data.lang.LangType;
 import com.til.dusk.common.data.ModRecipeProvider;
 import com.til.dusk.common.data.tag.ItemTag;
-import com.til.dusk.common.register.mana_level.item.ManaLevelItemPack;
+import com.til.dusk.common.register.mana_level.item.group.ManaLevelItemGroup;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.world.item.DiamondMakeItemPackRegister;
-import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.pack.ItemPack;
 import com.til.dusk.util.prefab.ColorPrefab;
 import net.minecraft.data.recipes.RecipeBuilder;
@@ -40,7 +39,7 @@ public class DiamondMakeOperationRegister extends DiamondMakeItemPackRegister {
     @Override
     protected void register(ItemPack itemPack) {
         super.register(itemPack);
-        ItemTag.addTag(ManaLevel.t1.acceptableTagPack.getTagPack(ManaLevelItemPack.operation).itemTagKey(), itemPack.item());
+        ItemTag.addTag(ManaLevel.t1.acceptableTagPack.getTagPack(ManaLevelItemGroup.operation).itemTagKey(), itemPack.item());
     }
 
     @Override

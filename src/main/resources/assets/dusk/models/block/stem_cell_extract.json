@@ -1,0 +1,8 @@
+{
+  "parent": "dusk:custom/stem_cell_extract/stem_cell_extract",
+  "render_type": "translucent",
+  "textures": {
+    "missing": "dusk:block/white_0",
+    "particle": "dusk:block/white"
+  }
+}

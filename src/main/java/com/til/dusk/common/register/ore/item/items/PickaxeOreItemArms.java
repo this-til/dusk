@@ -6,6 +6,7 @@ import com.til.dusk.common.data.tag.ItemTag;
 import com.til.dusk.common.register.ore.item.ArmsData;
 import com.til.dusk.common.register.ore.item.OreItemArms;
 import com.til.dusk.common.register.ore.ore.Ore;
+import com.til.dusk.common.world.item.CapabilityPickaxeItem;
 import com.til.dusk.common.world.item.CapabilityShovelItem;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.common.Tags;
@@ -28,7 +29,7 @@ public class PickaxeOreItemArms extends OreItemArms {
 
     @Override
     public Item createArmsItem(Ore ore, ArmsData armsData) {
-        CapabilityShovelItem item = new CapabilityShovelItem(ore, this, armsData);
+        CapabilityPickaxeItem item = new CapabilityPickaxeItem(ore, this, armsData);
         ItemTag.addTag(Tags.Items.TOOLS, item);
         ItemTag.addTag(Tags.Items.TOOLS_SHOVELS, item);
         return item;

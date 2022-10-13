@@ -4,12 +4,11 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.til.dusk.Dusk;
 import com.til.dusk.client.data.ClientDuskData;
-import com.til.dusk.common.data.DuskData;
 import com.til.dusk.common.event.DelayTrigger;
 import com.til.dusk.common.event.RegisterLangEvent;
 import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.register.RegisterManage;
-import com.til.dusk.common.register.mana_level.item.ManaLevelItemPack;
+import com.til.dusk.common.register.mana_level.item.group.ManaLevelItemGroup;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -91,13 +90,13 @@ public class LangProvider implements DataProvider {
         for (LangType value : LangType.values()) {
             event.langTool.add(value, "dusk default plugin");
         }
-        event.langTool.setCache(ManaLevelItemPack.INTEGRATE.toLanguageKey());
+        event.langTool.setCache(ManaLevelItemGroup.INTEGRATE.toLanguageKey());
         event.langTool.add(LangType.ZH_CN, "集成处理器");
         event.langTool.add(LangType.EN_CH, "Integrate Processor");
-        event.langTool.setCache(ManaLevelItemPack.PROCESSOR.toLanguageKey());
+        event.langTool.setCache(ManaLevelItemGroup.PROCESSOR.toLanguageKey());
         event.langTool.add(LangType.ZH_CN, "处理器");
         event.langTool.add(LangType.EN_CH, "Processor");
-        event.langTool.setCache(ManaLevelItemPack.HOST.toLanguageKey());
+        event.langTool.setCache(ManaLevelItemGroup.HOST.toLanguageKey());
         event.langTool.add(LangType.ZH_CN, "主机");
         event.langTool.add(LangType.EN_CH, "Host Processor");
     }

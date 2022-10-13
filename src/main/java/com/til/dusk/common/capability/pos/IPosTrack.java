@@ -12,18 +12,37 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
  * @author til
  */
 public interface IPosTrack {
+
+    /***
+     * @return 获取当前的位置
+     */
     Pos getPos();
-
-    Level getLevel();
-
-    boolean isTileEntity();
-
-    BlockEntity getAsTileEntity();
 
     BlockPos getAsBlockPos();
 
+    /***
+     * @return 获取当前的世界
+     */
+    Level getLevel();
+
+    /***
+     * @return 是实体方块
+     */
+    boolean isTileEntity();
+
+    /***
+     * @return 转为实体方块
+     */
+    BlockEntity getAsTileEntity();
+
+    /***
+     * 是实体
+     */
     boolean isEntity();
 
+    /***
+     * @return 转为实体
+     */
     Entity getAsEntity();
 
     ICapabilityProvider getAsCapabilityProvider();

@@ -4,7 +4,7 @@ import com.til.dusk.common.config.util.IShapedOreConfig;
 import com.til.dusk.client.data.lang.LangProvider;
 import com.til.dusk.client.data.lang.LangType;
 import com.til.dusk.common.register.mana_level.block.HandleMechanic;
-import com.til.dusk.common.register.mana_level.item.ManaLevelItemPack;
+import com.til.dusk.common.register.mana_level.item.group.ManaLevelItemGroup;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 
 import java.util.List;
@@ -31,6 +31,6 @@ public class EncapsulationMechanic extends HandleMechanic {
         manaLevelMakeData = new ManaLevelMakeData()
                 .addOreConfig(List.of(
                         new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(assemble.name, 1),
-                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.gather.name, 1)));
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemGroup.gather.name, 1)));
     }
 }

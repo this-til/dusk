@@ -6,6 +6,7 @@ import com.til.dusk.common.config.ConfigField;
 import com.til.dusk.common.config.util.Delayed;
 import com.til.dusk.common.world.item.DuskItem;
 import com.til.dusk.util.DuskColor;
+import com.til.dusk.util.prefab.JsonPrefab;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 
@@ -34,6 +35,11 @@ public abstract class DiamondMakeItemPackRegister extends ItemPackRegister imple
     public void itemColorBlack(ColorProxy.ItemColorPack itemColorPack) {
         itemColorPack.addColor(1, itemStack -> strokeColor);
         itemColorPack.addColor(2, itemStack -> coreColor);
+    }
+
+    @Override
+    public String itemJsonBasics() {
+        return JsonPrefab.ITEM_FATHER;
     }
 
     @ConfigField

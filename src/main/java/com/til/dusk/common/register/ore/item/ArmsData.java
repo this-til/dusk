@@ -27,7 +27,7 @@ public class ArmsData implements Tier {
 
     public int level = 5;
     public int uses = 2400;
-    public float speed = -3f;
+    public float speed = 3f;
     public int attackDamageBasics = 10;
     public int enchantmentValue = 23;
 
@@ -104,7 +104,7 @@ public class ArmsData implements Tier {
 
     @Override
     public float getSpeed() {
-        return 0;
+        return speed;
     }
 
     @Override

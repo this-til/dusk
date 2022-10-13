@@ -58,53 +58,6 @@ public class ShapedOre extends ShapedMiddle {
     }
 
     @Override
-    public JsonObject asJson() {
-        JsonObject jsonObject = super.asJson();
-        if (item != null && !item.isEmpty()) {
-            AllNBTPack.ITEM_IN_MAP.set(jsonObject, item);
-        }
-        if (fluid != null && !fluid.isEmpty()) {
-            AllNBTPack.FLUID_IN_MAP.set(jsonObject, fluid);
-        }
-        if (outItem != null && !outItem.isEmpty()) {
-            AllNBTPack.ITEM_OUT_MAP.set(jsonObject, outItem);
-        }
-        if (outFluid != null && !outFluid.isEmpty()) {
-            AllNBTPack.FLUID_OUT_MAP.set(jsonObject, outFluid);
-        }
-        return jsonObject;
-    }
-
-    @Override
-    public void init(JsonObject json) {
-        super.init(json);
-        if (AllNBTPack.ITEM_IN_MAP.contains(json)) {
-            item = AllNBTPack.ITEM_IN_MAP.get(json);
-            if (item.isEmpty()) {
-                item = null;
-            }
-        }
-        if (AllNBTPack.FLUID_IN_MAP.contains(json)) {
-            fluid = AllNBTPack.FLUID_IN_MAP.get(json);
-            if (fluid.isEmpty()) {
-                fluid = null;
-            }
-        }
-        if (AllNBTPack.ITEM_OUT_MAP.contains(json)) {
-            outItem = AllNBTPack.ITEM_OUT_MAP.get(json);
-            if (outItem.isEmpty()) {
-                outItem = null;
-            }
-        }
-        if (AllNBTPack.FLUID_OUT_MAP.contains(json)) {
-            outFluid = AllNBTPack.FLUID_OUT_MAP.get(json);
-            if (outFluid.isEmpty()) {
-                outFluid = null;
-            }
-        }
-    }
-
-    @Override
     public ShapedHandle get(IHandle iHandle, Map.Entry<IPosTrack, IItemHandler> iItemHandlers, Map<IPosTrack, IFluidHandler> fluidHandlers) {
         if (item != null && iItemHandlers == null) {
             return null;

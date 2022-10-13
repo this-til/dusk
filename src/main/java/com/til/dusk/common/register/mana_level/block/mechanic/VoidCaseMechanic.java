@@ -1,5 +1,7 @@
 package com.til.dusk.common.register.mana_level.block.mechanic;
 
+import com.til.dusk.client.data.lang.LangProvider;
+import com.til.dusk.client.data.lang.LangType;
 import com.til.dusk.common.capability.CapabilityHelp;
 import com.til.dusk.common.capability.DuskCapabilityProvider;
 import com.til.dusk.common.capability.item_handler.VoidCaseItemHandler;
@@ -36,6 +38,13 @@ import java.util.Optional;
 public class VoidCaseMechanic extends DefaultCapacityMechanic {
     public VoidCaseMechanic() {
         super("void_case");
+    }
+
+    @Override
+    public void registerLang(LangProvider.LangTool lang) {
+        lang.setCache(name.toLanguageKey());
+        lang.add(LangType.ZH_CN, "虚空箱");
+        lang.add(LangType.EN_CH, "Void Case");
     }
 
     @Override

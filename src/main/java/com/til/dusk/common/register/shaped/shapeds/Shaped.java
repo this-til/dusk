@@ -25,7 +25,7 @@ import java.util.*;
  * @author til
  */
 @AcceptTypeJson
-public abstract class Shaped implements ISerialize, ISerialize.IOnlyJsonSerialize {
+public abstract class Shaped {
 
     /***
      * 配方名称
@@ -60,26 +60,6 @@ public abstract class Shaped implements ISerialize, ISerialize.IOnlyJsonSerializ
         this.shapedType = shapedType;
         this.shapedDrive = shapedDrive;
         this.manaLevel = manaLevel;
-    }
-
-    @Override
-    public JsonObject asJson() {
-        JsonObject jsonObject = new JsonObject();
-        AllNBTPack.NAME.set(jsonObject, name);
-        AllNBTPack.SHAPED_TYPE.set(jsonObject, shapedType);
-        AllNBTPack.SHAPED_DRIVE.set(jsonObject, shapedDrive);
-        AllNBTPack.MANA_LEVEL.set(jsonObject, manaLevel);
-        AllNBTPack.IS_SHOW.set(jsonObject, isShow);
-        return jsonObject;
-    }
-
-    @Override
-    public void init(JsonObject json) {
-        name = AllNBTPack.NAME.get(json);
-        shapedType = AllNBTPack.SHAPED_TYPE.get(json);
-        shapedDrive = AllNBTPack.SHAPED_DRIVE.get(json);
-        manaLevel = AllNBTPack.MANA_LEVEL.get(json);
-        isShow = AllNBTPack.IS_SHOW.get(json);
     }
 
     /***

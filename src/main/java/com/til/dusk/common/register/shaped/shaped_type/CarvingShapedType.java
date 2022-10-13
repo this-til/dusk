@@ -4,7 +4,7 @@ import com.til.dusk.common.config.ConfigField;
 import com.til.dusk.common.config.util.IShapedCreate;
 import com.til.dusk.common.config.util.IShapedOreConfig;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
-import com.til.dusk.common.register.mana_level.item.ManaLevelItemPack;
+import com.til.dusk.common.register.mana_level.item.group.ManaLevelItemGroup;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.shaped.ShapedDrive;
@@ -63,15 +63,15 @@ public class CarvingShapedType extends ShapedType {
         integrate = new IShapedCreate.ManaLevelShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(),  "integrate"),
                 this, ShapedDrive.get(0), 1024L, 16L, 0L)
                 .addConfig(new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(OreItem.crystal.name, 1))
-                .addConfig(new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelItemOut(ManaLevelItemPack.operationBasics.integrate, 1, 1));
+                .addConfig(new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelItemOut(ManaLevelItemGroup.operationBasics.integrate, 1, 1));
         processor = new IShapedCreate.ManaLevelShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "processor"),
                 this, ShapedDrive.get(0), 2048L, 32L, 0L)
                 .addConfig(new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(OreItem.delicateCrystal.name, 1))
-                .addConfig(new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelItemOut(ManaLevelItemPack.operationBasics.processor, 1, 1));
+                .addConfig(new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelItemOut(ManaLevelItemGroup.operationBasics.processor, 1, 1));
         host = new IShapedCreate.ManaLevelShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "host"),
                 this, ShapedDrive.get(0), 4096L, 42L, 0L)
                 .addConfig(new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(OreItem.perfectCrystal.name, 1))
-                .addConfig(new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelItemOut(ManaLevelItemPack.operationBasics.host, 1, 1));
+                .addConfig(new IShapedOreConfig.IShapedOreManaLevelConfig.ManaLevelItemOut(ManaLevelItemGroup.operationBasics.host, 1, 1));
     }
 
     @ConfigField

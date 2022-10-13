@@ -27,23 +27,6 @@ public abstract class ShapedMiddle extends Shaped {
     }
 
     @Override
-    public JsonObject asJson() {
-        JsonObject jsonObject = super.asJson();
-        AllNBTPack.SURPLUS_TIME.set(jsonObject, surplusTime);
-        AllNBTPack.CONSUME_MANA.set(jsonObject, consumeMana);
-        AllNBTPack.OUT_MANA.set(jsonObject, outMana);
-        return jsonObject;
-    }
-
-    @Override
-    public void init(JsonObject json) {
-        super.init(json);
-        surplusTime = AllNBTPack.SURPLUS_TIME.get(json);
-        consumeMana = AllNBTPack.CONSUME_MANA.get(json);
-        outMana = AllNBTPack.OUT_MANA.get(json);
-    }
-
-    @Override
     public List<Component> getComponent() {
         List<Component> componentList = super.getComponent();
         if (consumeMana > 0) {

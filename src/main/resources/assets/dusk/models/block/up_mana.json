@@ -1,8 +1,0 @@
-{
-  "parent": "dusk:custom/up_mana/up_mana",
-  "render_type": "translucent",
-  "textures": {
-    "missing": "dusk:block/white_0",
-    "particle": "dusk:block/white"
-  }
-}

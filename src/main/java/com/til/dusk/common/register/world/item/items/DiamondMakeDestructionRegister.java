@@ -2,10 +2,9 @@ package com.til.dusk.common.register.world.item.items;
 
 import com.til.dusk.client.data.lang.LangProvider;
 import com.til.dusk.client.data.lang.LangType;
-import com.til.dusk.common.config.util.Delayed;
 import com.til.dusk.common.data.ModRecipeProvider;
 import com.til.dusk.common.data.tag.ItemTag;
-import com.til.dusk.common.register.mana_level.item.ManaLevelItemPack;
+import com.til.dusk.common.register.mana_level.item.group.ManaLevelItemGroup;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.world.item.DiamondMakeItemPackRegister;
 import com.til.dusk.util.DuskColor;
@@ -41,7 +40,7 @@ public class DiamondMakeDestructionRegister extends DiamondMakeItemPackRegister 
     @Override
     protected void register(ItemPack itemPack) {
         super.register(itemPack);
-        ItemTag.addTag(ManaLevel.t1.acceptableTagPack.getTagPack(ManaLevelItemPack.destruction).itemTagKey(), itemPack.item());
+        ItemTag.addTag(ManaLevel.t1.acceptableTagPack.getTagPack(ManaLevelItemGroup.destruction).itemTagKey(), itemPack.item());
     }
 
     @Override

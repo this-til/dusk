@@ -1,5 +1,7 @@
 package com.til.dusk.common.register.mana_level.block.mechanic;
 
+import com.til.dusk.client.data.lang.LangProvider;
+import com.til.dusk.client.data.lang.LangType;
 import com.til.dusk.common.capability.CapabilityHelp;
 import com.til.dusk.common.capability.DuskCapabilityProvider;
 import com.til.dusk.common.capability.fluid_handler.VoidTankFluidHandler;
@@ -35,6 +37,13 @@ public class VoidTankMechanic extends DefaultCapacityMechanic {
 
     public VoidTankMechanic() {
         super("void_tank");
+    }
+
+    @Override
+    public void registerLang(LangProvider.LangTool lang) {
+        lang.setCache(name.toLanguageKey());
+        lang.add(LangType.ZH_CN, "虚空缸");
+        lang.add(LangType.EN_CH, "Void Tank");
     }
 
     @Override

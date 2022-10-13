@@ -5,13 +5,12 @@ import com.til.dusk.common.data.ModRecipeProvider;
 import com.til.dusk.client.data.lang.LangProvider;
 import com.til.dusk.client.data.lang.LangType;
 import com.til.dusk.common.register.mana_level.block.Mechanic;
-import com.til.dusk.common.register.mana_level.item.ManaLevelItemPack;
+import com.til.dusk.common.register.mana_level.item.group.ManaLevelItemGroup;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.world.item.ItemPackRegister;
 import com.til.dusk.common.world.block.DuskBlock;
 import com.til.dusk.common.world.block.RepeaterBlock;
-import com.til.dusk.common.world.item.DuskItem;
 import com.til.dusk.util.prefab.JsonPrefab;
 import net.minecraft.data.recipes.RecipeBuilder;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
@@ -79,6 +78,6 @@ public class RepeaterMechanic extends Mechanic {
         manaLevelMakeData = new ManaLevelMakeData()
                 .addOreConfig(List.of(
                         new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(OreItem.casing.name, 2),
-                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemPack.operation.name, 1)));
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemGroup.operation.name, 1)));
     }
 }
