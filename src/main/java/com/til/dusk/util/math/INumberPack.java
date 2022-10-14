@@ -1,6 +1,7 @@
 package com.til.dusk.util.math;
 
 import com.til.dusk.util.gson.AcceptTypeJson;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -12,25 +13,26 @@ import java.util.List;
  */
 @AcceptTypeJson
 public interface INumberPack {
+
     double ofValue(double x);
 
     /***
      * 常量
      */
     class Constant implements INumberPack {
-        public INumberPack y;
+        public double y;
 
         public Constant() {
         }
 
-        public Constant(INumberPack y) {
+        public Constant(double y) {
             this.y = y;
         }
 
 
         @Override
         public double ofValue(double x) {
-            return y.ofValue(x);
+            return y;
         }
     }
 
@@ -269,7 +271,7 @@ public interface INumberPack {
         @Nullable
         public INumberPack min;
 
-        public Range(@Nullable INumberPack max, @Nullable INumberPack min) {
+        public Range(@Nullable INumberPack min, @Nullable INumberPack max) {
             this.max = max;
             this.min = min;
         }

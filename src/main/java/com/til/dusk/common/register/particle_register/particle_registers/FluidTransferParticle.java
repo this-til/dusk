@@ -49,7 +49,7 @@ public class FluidTransferParticle extends ParticleRegister {
                 if (fluidType == null) {
                     fluidType = fluidStackRouteCell.data().getFluid().getFluidType();
                 }
-                cells.add(new RoutePack.RouteCell<>(fluidStackRouteCell.start(), fluidStackRouteCell.end(), fluidStackRouteCell.data().getAmount() / 128D));
+                cells.add(new RoutePack.RouteCell<>(fluidStackRouteCell.start(), fluidStackRouteCell.end(), 1 + fluidStackRouteCell.data().getAmount() / 128D));
             }
             if (!cells.isEmpty()) {
                 route.add(cells);

@@ -147,42 +147,72 @@ public class Handle implements IHandle {
         }
 
         Set<ShapedDrive> shapedDrives = getShapedDrive();
-
-        Set<Shaped> shapedListOnt = new HashSet<>();
-        Set<Shaped> shapedListTwo = new HashSet<>();
-        Set<Shaped> shapedListThree = new HashSet<>();
+        Set<Shaped> needMate = new HashSet<>();
         for (Shaped s : this.shapedList) {
-            if (shapedDrives.contains(s.shapedDrive)) {
-                shapedListOnt.add(s);
+            if (!shapedDrives.contains(s.shapedDrive)) {
+                continue;
+            }
+            if (!s.hasItemIn() && !s.hasFluidIn()) {
+                ShapedHandle shapedHandle = s.get(this, null, null);
+                if (shapedHandle != null) {
+                    addShapedHandle(shapedHandle);
+                    return;
+                }
+            }
+            if (s.hasItemIn() && itemIn.isEmpty()) {
+                continue;
+            }
+            if (s.hasFluidIn() && fluidIn.isEmpty()) {
+                continue;
+            }
+            needMate.add(s);
+        }
+        if (needMate.isEmpty()) {
+            return;
+        }
+        Set<Shaped> cache = new HashSet<>();
+        Set<Shaped> canUse = new HashSet<>();
+        for (Shaped shaped : needMate) {
+            if (!shaped.hasFluidIn()) {
+                cache.add(shaped);
+                canUse.add(shaped);
             }
         }
-        if (shapedListOnt.isEmpty()) {
-            return;
+        if (!cache.isEmpty()) {
+            for (Shaped shaped : cache) {
+                needMate.remove(shaped);
+            }
+            cache.clear();
         }
         if (!fluidIn.isEmpty()) {
             for (Map.Entry<IPosTrack, IFluidHandler> entry : fluidIn.entrySet()) {
                 IFluidHandler iFluidHandler = entry.getValue();
                 for (int i = 0; i < iFluidHandler.getTanks(); i++) {
                     FluidStack fluidStack = iFluidHandler.getFluidInTank(i);
-                    for (Shaped shaped : shapedListOnt) {
-                        if (shaped.screenOfFluid(fluidStack)) {
-                            shapedListTwo.add(shaped);
-                            shapedListThree.add(shaped);
+                    for (Shaped shaped : needMate) {
+                        if (!shaped.screenOfFluid(fluidStack)) {
+                            continue;
                         }
+                        cache.add(shaped);
+                        canUse.add(shaped);
                     }
-                    if (!shapedListThree.isEmpty()) {
-                        for (Shaped shaped : shapedListThree) {
-                            shapedListOnt.remove(shaped);
+                    if (!cache.isEmpty()) {
+                        for (Shaped shaped : cache) {
+                            needMate.remove(shaped);
                         }
+                        cache.clear();
                     }
                 }
             }
         }
-        if (shapedListTwo.isEmpty()) {
+        if (canUse.isEmpty()){
             return;
         }
         if (itemIn.isEmpty()) {
-            for (Shaped shaped : shapedListTwo) {
+            for (Shaped shaped : canUse) {
+                if (shaped.hasItemIn()) {
+                    continue;
+                }
                 ShapedHandle shapedHandle = shaped.get(this, null, fluidIn);
                 if (shapedHandle != null) {
                     addShapedHandle(shapedHandle);
@@ -194,7 +224,7 @@ public class Handle implements IHandle {
                 IItemHandler iItemHandler = entry.getValue();
                 for (int i = 0; i < iItemHandler.getSlots(); i++) {
                     ItemStack itemStack = iItemHandler.getStackInSlot(i);
-                    for (Shaped shaped : shapedListTwo) {
+                    for (Shaped shaped : canUse) {
                         if (shaped.screenOfItem(itemStack)) {
                             ShapedHandle shapedHandle = shaped.get(this, entry, fluidIn);
                             if (shapedHandle != null) {

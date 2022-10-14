@@ -48,7 +48,6 @@ public class RecoveryShapedType extends ShapedType {
     }
 
     public static class RecoveryShaped extends ShapedMiddleExtend {
-        @Expose
         public final Random random = new Random();
         public double probability;
 
@@ -60,19 +59,6 @@ public class RecoveryShapedType extends ShapedType {
         public RecoveryShaped(ResourceLocation name, ShapedType shapedType, ShapedDrive shapedDrive, ManaLevel manaLevel, double probability) {
             super(name, shapedType, shapedDrive, manaLevel);
             this.probability = probability;
-        }
-
-        @Override
-        public JsonObject asJson() {
-            JsonObject jsonObject = super.asJson();
-            AllNBTPack.PROBABILITY.set(jsonObject, probability);
-            return jsonObject;
-        }
-
-        @Override
-        public void init(JsonObject json) {
-            super.init(json);
-            probability = AllNBTPack.PROBABILITY.get(json);
         }
 
         @Override

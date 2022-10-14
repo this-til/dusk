@@ -75,7 +75,19 @@ public class BindStaffItemRegister extends StaffItemRegister {
 
     @Override
     protected Item createItem() {
-        return new BindStaffItem(new Item.Properties().stacksTo(1).tab(Dusk.TAB));
+        return new BindStaffItem(new Item.Properties().stacksTo(1).tab(Dusk.TAB)){
+            @Override
+            public @NotNull Component getName(@NotNull ItemStack stack) {
+                CompoundTag compoundTag = stack.getTag();
+                if (compoundTag != null) {
+                    BindType bindType = AllNBTPack.BIND_TYPE.get(compoundTag);
+                    if (bindType != null) {
+                        return Component.translatable("%s[%s]", Component.translatable(name.toLanguageKey()), Lang.getLang(bindType));
+                    }
+                }
+                return super.getName(stack);
+            }
+        };
     }
 
     /***
@@ -183,18 +195,6 @@ public class BindStaffItemRegister extends StaffItemRegister {
                     ShowStaffRegister.ShowStaffItem.showControl(serverPlayer, lazyOptional.orElse(null));
                 });
             });
-        }
-
-        @Override
-        public @NotNull Component getName(@NotNull ItemStack stack) {
-            CompoundTag compoundTag = stack.getTag();
-            if (compoundTag != null) {
-                BindType bindType = AllNBTPack.BIND_TYPE.get(compoundTag);
-                if (bindType != null) {
-                    return Component.translatable("%s[%s]", Component.translatable(this.getDescriptionId(stack)), Lang.getLang(bindType));
-                }
-            }
-            return super.getName(stack);
         }
 
         @Override

@@ -8,6 +8,7 @@ import com.google.gson.reflect.TypeToken;
 import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.gson.serializer.DuskColorSerializer;
 import com.til.dusk.util.gson.serializer.NBTCellSerializer;
+import com.til.dusk.util.gson.serializer.RandomSerializer;
 import com.til.dusk.util.gson.serializer.ResourceLocationSerializer;
 import com.til.dusk.util.gson.type_adapter.factory.AcceptTypeAdapterFactory;
 import com.til.dusk.util.gson.type_adapter.factory.DelayedTypeAdapterFactory;
@@ -38,17 +39,7 @@ public class ConfigGson {
     static {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setPrettyPrinting();
-        gsonBuilder.setExclusionStrategies(new ExclusionStrategy() {
-            @Override
-            public boolean shouldSkipField(FieldAttributes f) {
-                return false;
-            }
-
-            @Override
-            public boolean shouldSkipClass(Class<?> clazz) {
-                return clazz.isAssignableFrom(Random.class);
-            }
-        });
+        gsonBuilder.registerTypeAdapter(Random.class, new RandomSerializer());
         gsonBuilder.registerTypeAdapter(ResourceLocation.class,  new ResourceLocationSerializer());
         gsonBuilder.registerTypeAdapter(DuskColor.class, new DuskColorSerializer());
         gsonBuilder.registerTypeAdapter(ItemStack.class, new NBTCellSerializer<>(AllNBTCell.ITEM_STACK));

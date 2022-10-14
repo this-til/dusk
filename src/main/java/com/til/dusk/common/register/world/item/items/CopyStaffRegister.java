@@ -93,7 +93,6 @@ public class CopyStaffRegister extends StaffItemRegister {
      */
     public static class CopyStaffItem  extends Item  {
 
-        @Expose
         public final Random random = new Random();
 
         public CopyStaffItem(Properties properties) {

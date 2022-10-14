@@ -78,4 +78,15 @@ public abstract class ShapedMiddleExtend extends ShapedMiddle {
     public boolean screenOfItem(ItemStack itemStack) {
         return isItem(itemStack);
     }
+
+    @Override
+    public boolean hasItemIn() {
+        return true;
+    }
+
+    @Override
+    public boolean hasFluidIn() {
+        return false;
+    }
+
 }

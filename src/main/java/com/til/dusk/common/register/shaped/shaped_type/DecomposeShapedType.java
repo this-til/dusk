@@ -65,19 +65,6 @@ public class DecomposeShapedType extends ShapedType {
         }
 
         @Override
-        public JsonObject asJson() {
-            JsonObject jsonObject = super.asJson();
-            AllNBTPack.BASICS_OUT.set(jsonObject, basicsOut);
-            return jsonObject;
-        }
-
-        @Override
-        public void init(JsonObject json) {
-            super.init(json);
-            basicsOut = AllNBTPack.BASICS_OUT.get(json);
-        }
-
-        @Override
         public IJEIShaped getJEIShaped() {
             return new IJEIShaped() {
                 @Override

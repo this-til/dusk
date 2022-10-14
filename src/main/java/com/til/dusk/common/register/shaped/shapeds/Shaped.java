@@ -68,12 +68,22 @@ public abstract class Shaped {
     public abstract boolean screenOfItem(ItemStack itemStack);
 
     /***
+     * 有没有物品输入
+     */
+    public abstract boolean hasItemIn();
+
+    /***
      * 通过流体筛选，优先于物品
      */
     public abstract boolean screenOfFluid(FluidStack fluidStack);
 
+    /***
+     * 有么有流体输入
+     */
+    public abstract boolean hasFluidIn();
+
     @Nullable
-    public abstract ShapedHandle get(IHandle iHandle, @Nullable Map.Entry<IPosTrack, IItemHandler> items, Map<IPosTrack, IFluidHandler> fluids);
+    public abstract ShapedHandle get(IHandle iHandle, @Nullable Map.Entry<IPosTrack, IItemHandler> items,@Nullable Map<IPosTrack, IFluidHandler> fluids);
 
     /***
      * 获取JEI配方

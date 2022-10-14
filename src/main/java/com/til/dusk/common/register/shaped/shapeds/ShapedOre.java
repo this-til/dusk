@@ -46,15 +46,10 @@ public class ShapedOre extends ShapedMiddle {
     @Nullable
     public TagKey<Fluid> fluidScreen;
 
-    @Expose
-    Random random = new Random();
+    public final Random random = new Random();
 
     public ShapedOre(ResourceLocation resourceLocation, ShapedType shapedType, ShapedDrive shapedDrive, ManaLevel manaLevel) {
         super(resourceLocation, shapedType, shapedDrive, manaLevel);
-        this.item = new HashMap<>();
-        this.fluid = new HashMap<>();
-        this.outItem = new HashMap<>();
-        this.outFluid = new HashMap<>();
     }
 
     @Override
@@ -62,7 +57,7 @@ public class ShapedOre extends ShapedMiddle {
         if (item != null && iItemHandlers == null) {
             return null;
         }
-        if (fluid != null && fluidHandlers.isEmpty()) {
+        if (fluid != null && (fluidHandlers == null || fluidHandlers.isEmpty())) {
             return null;
         }
         if (extractFluid(iHandle, fluidHandlers, true)) {
@@ -88,6 +83,16 @@ public class ShapedOre extends ShapedMiddle {
     @Override
     public boolean screenOfFluid(FluidStack fluidStack) {
         return fluidScreen == null || fluidStack.getFluid().is(fluidScreen);
+    }
+
+    @Override
+    public boolean hasItemIn() {
+        return itemScreen != null;
+    }
+
+    @Override
+    public boolean hasFluidIn() {
+        return fluidScreen != null;
     }
 
     @Nullable
@@ -252,7 +257,9 @@ public class ShapedOre extends ShapedMiddle {
     }
 
     public ShapedOre addInItem(TagKey<Item> item, Integer i) {
-        assert this.item != null;
+        if (this.item == null) {
+            this.item = new HashMap<>();
+        }
         MapUtil.add(this.item, item, i);
         if (itemScreen == null) {
             itemScreen = item;
@@ -261,7 +268,9 @@ public class ShapedOre extends ShapedMiddle {
     }
 
     public ShapedOre addInFluid(TagKey<Fluid> fluid, Integer i) {
-        assert this.fluid != null;
+        if (this.fluid == null) {
+            this.fluid = new HashMap<>();
+        }
         MapUtil.add(this.fluid, fluid, i);
         if (fluidScreen == null) {
             fluidScreen = fluid;
@@ -270,19 +279,18 @@ public class ShapedOre extends ShapedMiddle {
     }
 
     public ShapedOre addOutItem(ItemStack item, Double i) {
-        assert this.outItem != null;
+        if (this.outItem == null) {
+            this.outItem = new HashMap<>();
+        }
         this.outItem.put(item, i);
         return this;
     }
 
     public ShapedOre addOutFluid(FluidStack fluid, Double i) {
-        assert this.outFluid != null;
+        if (this.outFluid == null) {
+            this.outFluid = new HashMap<>();
+        }
         this.outFluid.put(fluid, i);
-        return this;
-    }
-
-    public ShapedOre runThis(Extension.Action_1V<ShapedOre> run) {
-        run.action(this);
         return this;
     }
 }
