@@ -82,18 +82,18 @@ public interface IOrePlacedFeatureConfig {
          * 筛选世界
          */
         @Nullable
-        public IScreen canInLevel;
+        public IScreen<Level> canInLevel;
 
         /***
          * 可以在某生物群系生成
          */
         @Nullable
-        public IScreen canInBiome;
+        public IScreen<Biome> canInBiome;
 
         /***
          * 获取放置方块
          */
-        public Delayed<IPair> place;
+        public Delayed<IPair<Block, Block>> place;
 
         private Holder<PlacedFeature> holder;
 
@@ -102,7 +102,7 @@ public interface IOrePlacedFeatureConfig {
             this.inChunkAmount = inChunkAmount;
             this.name = ore.name;
             place = new Delayed<>(() -> {
-                Map<ResourceLocation, ResourceLocation> map = new HashMap<>();
+                Map<Block, Block> map = new HashMap<>();
                 for (Map.Entry<OreBlock, BlockPack> entry : ore.blockEntrySet()) {
                     if (!(entry.getKey() instanceof OreBlockMineral mineral)) {
                         continue;
@@ -110,14 +110,11 @@ public interface IOrePlacedFeatureConfig {
                     if (mineral.replaceBasicsBlock == null) {
                         continue;
                     }
-                    ResourceLocation blockName = ForgeRegistries.BLOCKS.getKey(mineral.replaceBasicsBlock.get());
-                    if (blockName == null) {
-                        continue;
-                    }
-                    map.put(blockName, ForgeRegistries.BLOCKS.getKey(entry.getValue().block()));
+                    map.put(mineral.replaceBasicsBlock.get(), entry.getValue().block());
                 }
-                return new IPair.ResourceLocationPair(map, null);
-            }){};
+                return new IPair.BlockPair(map, null);
+            }) {
+            };
             return this;
         }
 
@@ -146,7 +143,7 @@ public interface IOrePlacedFeatureConfig {
         @Nullable
         @Override
         public Holder<PlacedFeature> getPlacedFeature(Holder<Biome> biome) {
-            if (canInBiome == null || canInBiome.isAccept(ForgeRegistries.BIOMES.getKey(biome.get()))) {
+            if (canInBiome == null || canInBiome.isAccept(biome.get())) {
                 return holder;
             }
             return null;
@@ -155,11 +152,11 @@ public interface IOrePlacedFeatureConfig {
         @Nullable
         @Override
         public BlockState placed(Level level, BlockState blockState, BlockPos blockPos) {
-            if (canInLevel != null && !canInLevel.isAccept(level.dimension().location())) {
+            if (canInLevel != null && !canInLevel.isAccept(level)) {
                 return null;
             }
             if (place != null) {
-                Block block = ForgeRegistries.BLOCKS.getValue(place.get().pair(ForgeRegistries.BLOCKS.getKey(blockState.getBlock())));
+                Block block = place.get().pair(blockState.getBlock());
                 if (block == null) {
                     return null;
                 }

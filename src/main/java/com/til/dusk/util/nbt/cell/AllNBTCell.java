@@ -14,6 +14,7 @@ import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 import com.til.dusk.common.register.skill.Skill;
 import com.til.dusk.common.world.DuskAttribute;
 import com.til.dusk.util.DuskColor;
+import com.til.dusk.util.Pos;
 import com.til.dusk.util.nbt.ISerialize;
 import com.til.dusk.util.nbt.NBTUtil;
 import com.til.dusk.util.nbt.pack.AllNBTPack;
@@ -26,6 +27,8 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Fluid;
@@ -364,6 +367,7 @@ public class AllNBTCell {
     public static final RegisterItemNBTCell<Item> ITEM = new RegisterItemNBTCell<>(() -> ForgeRegistries.ITEMS, () -> Items.AIR);
     public static final RegisterItemNBTCell<Block> BLOCK = new RegisterItemNBTCell<>(() -> ForgeRegistries.BLOCKS, () -> Blocks.AIR);
     public static final RegisterItemNBTCell<Fluid> FLUID = new RegisterItemNBTCell<>(() -> ForgeRegistries.FLUIDS, () -> Fluids.EMPTY);
+    public static final RegisterItemNBTCell<Biome> BIOME = new RegisterItemNBTCell<>(() -> ForgeRegistries.BIOMES, () -> ForgeRegistries.BIOMES.getValue(Biomes.THE_VOID.registry()));
 
     public static final RegisterItemNBTCell<ManaLevel> MANA_LEVEL = new RegisterItemNBTCell<>(() -> ManaLevel.MANA_LEVEL.get(), () -> ManaLevel.t1);
     public static final RegisterItemNBTCell<ShapedType> SHAPED_TYPE = new RegisterItemNBTCell<>(() -> ShapedType.SHAPED_TYPE.get(), () -> ShapedType.empty);
@@ -376,6 +380,7 @@ public class AllNBTCell {
     public static final TagKeyNBTCell<Item> ITEM_TAG = new TagKeyNBTCell<>(ForgeRegistries.ITEMS::tags);
     public static final TagKeyNBTCell<Block> BLOCK_TAG = new TagKeyNBTCell<>(ForgeRegistries.BLOCKS::tags);
     public static final TagKeyNBTCell<Fluid> FLUID_TAG = new TagKeyNBTCell<>(ForgeRegistries.FLUIDS::tags);
+    public static final TagKeyNBTCell<Biome> BIOME_TAG = new TagKeyNBTCell<>(ForgeRegistries.BIOMES::tags);
 
     public static final NBTCell<ItemStack> ITEM_STACK = new NBTCell<>() {
         @Override
@@ -625,6 +630,7 @@ public class AllNBTCell {
     public static final NBTMapCell<Skill, Integer> SKILL_INT_MAP = new NBTMapCell<>(SKILL, INT);
     public static final NBTMapCell<Attribute, List<AttributeModifier>> ATTRIBUTE_LIST_NBT_MAP = new NBTMapCell<>(ATTRIBUTE, ATTRIBUTE_MODIFIER.getListNBTCell());
     public static final NBTMapCell<ResourceLocation, ResourceLocation> RESOURCE_LOCATION_MAP = new NBTMapCell<>(RESOURCE_LOCATION, RESOURCE_LOCATION);
+    public static final NBTMapCell<Block, Block> BLOCK_BLOCK_MAP = new NBTMapCell<>(BLOCK, BLOCK);
     /*public static final NBTCell<ConfigMap> CONFIG_MAP = new NBTCell<>() {
         @Override
         public Tag as(ConfigMap configMapCell) {

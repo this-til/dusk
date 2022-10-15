@@ -1,7 +1,7 @@
 package com.til.dusk.common.data;
 
-/**
- * @author til
+/*
+  @author til
  */
 /*public class ShapedProvider implements DataProvider {
     @Override

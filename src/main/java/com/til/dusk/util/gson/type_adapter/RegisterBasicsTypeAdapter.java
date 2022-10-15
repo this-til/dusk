@@ -30,7 +30,7 @@ public class RegisterBasicsTypeAdapter<T extends RegisterBasics<?>> extends Type
     public RegisterBasics<?> read(JsonReader in) throws IOException {
         ResourceLocation name = new ResourceLocation(in.nextString());
         try {
-            return Util.forcedConversion(RegisterManage.ALL_MAP.get(Class.forName(registerBasicsClass.getTypeName())).get().getValue(name));
+            return RegisterManage.getOfClass(Util.forcedConversion(Class.forName(registerBasicsClass.getTypeName())), name);
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }

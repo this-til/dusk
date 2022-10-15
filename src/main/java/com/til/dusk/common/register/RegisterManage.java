@@ -77,4 +77,15 @@ public class RegisterManage implements IModStateProvider {
         ALL_MAP.put(cClass, Util.forcedConversion(supplier));
         return supplier;
     }
+
+    public static <C extends RegisterBasics<?>> C getOfClass(Class<C> cClass, ResourceLocation name){
+        if (ALL_MAP.containsKey(cClass)) {
+            return Util.forcedConversion(ALL_MAP.get(cClass).get().getValue(name));
+        }
+        Class<?> basics = cClass.getSuperclass();
+        if (basics == null || basics.equals(Object.class)) {
+            return null;
+        }
+        return getOfClass(Util.forcedConversion(basics), name);
+    }
 }

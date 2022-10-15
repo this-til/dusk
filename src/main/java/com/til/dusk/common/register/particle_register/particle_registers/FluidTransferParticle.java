@@ -49,7 +49,7 @@ public class FluidTransferParticle extends ParticleRegister {
                 if (fluidType == null) {
                     fluidType = fluidStackRouteCell.data().getFluid().getFluidType();
                 }
-                cells.add(new RoutePack.RouteCell<>(fluidStackRouteCell.start(), fluidStackRouteCell.end(), 1 + fluidStackRouteCell.data().getAmount() / 128D));
+                cells.add(new RoutePack.RouteCell<>(fluidStackRouteCell.start(), fluidStackRouteCell.end(), Math.max(1, fluidStackRouteCell.data().getAmount() / 128D)));
             }
             if (!cells.isEmpty()) {
                 route.add(cells);
@@ -76,6 +76,7 @@ public class FluidTransferParticle extends ParticleRegister {
         }
         return new Extension.Data_2<>(start.distance(end) * speed, list);
     }
+
     @Override
     public void defaultConfig() {
         speed = 6;

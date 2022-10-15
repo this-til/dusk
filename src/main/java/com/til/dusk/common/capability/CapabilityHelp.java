@@ -388,11 +388,11 @@ public class CapabilityHelp {
                 nFluidStack.add(new FluidStack(stack, stack.getAmount() - out));
             }
         }
-        if (nFluidStack.isEmpty()) {
-            return null;
-        }
         if (!isSimulate && isOriginal) {
             MinecraftForge.EVENT_BUS.post(new EventIO.Fluid(iPosTrack.getLevel(), routePack));
+        }
+        if (nFluidStack.isEmpty()) {
+            return null;
         }
         return nFluidStack;
     }
