@@ -11,6 +11,7 @@ import com.til.dusk.client.data.lang.LangType;
 import com.til.dusk.common.register.mana_level.block.DefaultCapacityMechanic;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.other.CapabilityRegister;
+import com.til.dusk.util.math.INumberPack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 
@@ -28,8 +29,8 @@ public class GatherManaMechanic extends DefaultCapacityMechanic {
         super.addCapability(event, duskModCapability, manaLevel, iPosTrack);
         IBack iBack = duskModCapability.addCapability(CapabilityRegister.iBlack.capability, new Back());
         duskModCapability.addCapability(CapabilityRegister.iManaHandle.capability, new ManaHandle(
-                manaBasics * manaLevel.level,
-                rateBasics * manaLevel.level, iBack));
+                (long) manaBasics.ofValue(manaLevel.level),
+                (long) rateBasics.ofValue(manaLevel.level), iBack));
     }
 
     @Override
@@ -42,15 +43,15 @@ public class GatherManaMechanic extends DefaultCapacityMechanic {
 
     @Override
     public void defaultConfig() {
-        manaBasics = 5120000L;
-        rateBasics = 128L;
+        manaBasics = new INumberPack.LinearFunction(new INumberPack.Constant(5120000), new INumberPack.Constant(0));
+        rateBasics = new INumberPack.LinearFunction(new INumberPack.Constant(128), new INumberPack.Constant(0));
     }
 
     @ConfigField
-    public long manaBasics;
+    public INumberPack manaBasics;
 
     @ConfigField
-    public long rateBasics;
+    public INumberPack rateBasics;
 
 
 }

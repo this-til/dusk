@@ -8,7 +8,7 @@ import com.til.dusk.common.capability.control.Control;
 import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.capability.pos.IPosTrack;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
-import com.til.dusk.common.register.other.BindType;
+import com.til.dusk.common.register.bind_type.BindType;
 import com.til.dusk.common.register.other.CapabilityRegister;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.entity.BlockEntity;

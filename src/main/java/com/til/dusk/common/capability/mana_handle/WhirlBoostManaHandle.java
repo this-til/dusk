@@ -3,7 +3,7 @@ package com.til.dusk.common.capability.mana_handle;
 import com.til.dusk.common.capability.CapabilityHelp;
 import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.capability.pos.IPosTrack;
-import com.til.dusk.common.register.other.BindType;
+import com.til.dusk.common.register.bind_type.BindType;
 import com.til.dusk.common.register.other.CapabilityRegister;
 import com.til.dusk.util.Extension;
 import com.til.dusk.util.Lang;
@@ -113,7 +113,7 @@ public class WhirlBoostManaHandle implements IManaHandle, RoutePack.ISupportRout
             return 0;
         }
         long l = (long) (demand * manaLoss);
-        long mana = CapabilityHelp.extractMana(control.getPosTrack(), routePackCache, map, demand + l,  simulate);
+        long mana = CapabilityHelp.extractMana(control.getPosTrack(), routePackCache, map, demand + l, simulate);
         this.routePackCache = null;
         lock = false;
         mana = mana - l;
@@ -142,7 +142,9 @@ public class WhirlBoostManaHandle implements IManaHandle, RoutePack.ISupportRout
 
     @Override
     public void appendTooltip(IComponentPack iTooltip, CompoundTag compoundTag) {
-        iTooltip.add(Lang.getLang(CapabilityRegister.iManaHandle));
+        iTooltip.add(Lang.getLang(
+                Lang.getLang(CapabilityRegister.iManaHandle),
+                Component.literal(":")));
         iTooltip.indent();
         long mana = AllNBTPack.MANA.get(compoundTag);
         long maxMana = AllNBTPack.MAX_MANA.get(compoundTag);

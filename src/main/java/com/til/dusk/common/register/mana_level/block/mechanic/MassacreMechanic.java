@@ -14,9 +14,10 @@ import com.til.dusk.client.data.lang.LangProvider;
 import com.til.dusk.client.data.lang.LangType;
 import com.til.dusk.common.register.mana_level.block.DefaultCapacityMechanic;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
-import com.til.dusk.common.register.other.BindType;
+import com.til.dusk.common.register.bind_type.BindType;
 import com.til.dusk.common.register.other.CapabilityRegister;
 import com.til.dusk.common.register.shaped.ShapedDrive;
+import com.til.dusk.util.math.INumberPack;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.Enemy;
@@ -42,7 +43,8 @@ public class MassacreMechanic extends DefaultCapacityMechanic {
         super.addCapability(event, duskModCapability, manaLevel, iPosTrack);
         IControl iControl = duskModCapability.addCapability(CapabilityRegister.iControl.capability, new Control(iPosTrack, List.of(BindType.manaIn, BindType.modelStore, BindType.posTrack), manaLevel));
         IBack iBack = duskModCapability.addCapability(CapabilityRegister.iBlack.capability, new Back());
-        IClock iClock = duskModCapability.addCapability(CapabilityRegister.iClock.capability, new ManaClock(iBack, manaLevel.clock / transmissionEfficiency, iControl, consume * manaLevel.level));
+        IClock iClock = duskModCapability.addCapability(CapabilityRegister.iClock.capability, new ManaClock(iBack,
+                (int) (manaLevel.clock / transmissionEfficiency.ofValue(manaLevel.level)), iControl, (long) consume.ofValue(manaLevel.level)));
         iClock.addBlock(() -> {
             Level level = iPosTrack.getLevel();
             if (level == null) {
@@ -80,7 +82,7 @@ public class MassacreMechanic extends DefaultCapacityMechanic {
             }
             if (attackEntity != null) {
                 attackEntity.invulnerableTime = 0;
-                attackEntity.hurt(new DamageSource("regression").setMagic(), attackBasics + (attackUp * manaLevel.level));
+                attackEntity.hurt(new DamageSource("regression").setMagic(), (float) attack.ofValue(manaLevel.level));
             }
         });
     }
@@ -94,19 +96,16 @@ public class MassacreMechanic extends DefaultCapacityMechanic {
 
     @Override
     public void defaultConfig() {
-        consume = 8L;
-        transmissionEfficiency = 3;
-        attackBasics = 8;
-        attackUp = 2;
+        consume = new INumberPack.LinearFunction(new INumberPack.Constant(12), new INumberPack.Constant(0));
+        transmissionEfficiency = new INumberPack.Constant(3);
+        attack = new INumberPack.LinearFunction(new INumberPack.Constant(4), new INumberPack.Constant(8));
     }
 
     @ConfigField
-    public int transmissionEfficiency;
+    public INumberPack transmissionEfficiency;
     @ConfigField
-    public float attackBasics;
+    public INumberPack attack;
     @ConfigField
-    public float attackUp;
-    @ConfigField
-    public long consume;
+    public INumberPack consume;
 
 }

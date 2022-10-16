@@ -12,7 +12,7 @@ import com.til.dusk.common.capability.handle.Handle;
 import com.til.dusk.common.capability.handle.IHandle;
 import com.til.dusk.common.capability.pos.IPosTrack;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
-import com.til.dusk.common.register.other.BindType;
+import com.til.dusk.common.register.bind_type.BindType;
 import com.til.dusk.common.register.other.CapabilityRegister;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 import net.minecraft.resources.ResourceLocation;

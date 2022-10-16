@@ -15,10 +15,11 @@ import com.til.dusk.client.data.lang.LangType;
 import com.til.dusk.common.event.EventIO;
 import com.til.dusk.common.register.mana_level.block.DefaultCapacityMechanic;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
-import com.til.dusk.common.register.other.BindType;
+import com.til.dusk.common.register.bind_type.BindType;
 import com.til.dusk.common.register.other.CapabilityRegister;
 import com.til.dusk.util.Pos;
 import com.til.dusk.util.RoutePack;
+import com.til.dusk.util.math.INumberPack;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
@@ -48,7 +49,8 @@ public class CollectMechanic extends DefaultCapacityMechanic {
         super.addCapability(event, duskModCapability, manaLevel, iPosTrack);
         IControl iControl = duskModCapability.addCapability(CapabilityRegister.iControl.capability, new Control(iPosTrack, List.of(BindType.manaIn, BindType.itemOut, BindType.posTrack), manaLevel));
         IBack iBack = duskModCapability.addCapability(CapabilityRegister.iBlack.capability, new Back());
-        IClock iClock = duskModCapability.addCapability(CapabilityRegister.iClock.capability, new ManaClock(iBack, manaLevel.clock / transmissionEfficiency, iControl, consume * manaLevel.level));
+        IClock iClock = duskModCapability.addCapability(CapabilityRegister.iClock.capability, new ManaClock(iBack,
+                (int) (manaLevel.clock / transmissionEfficiency.ofValue(manaLevel.level)), iControl, (long) consume .ofValue(manaLevel.level)));
         iClock.addBlock(() -> {
             Level level = event.getObject().getLevel();
             if (level == null) {
@@ -62,7 +64,7 @@ public class CollectMechanic extends DefaultCapacityMechanic {
             if (outItem.isEmpty()) {
                 return;
             }
-            int transmissionAmount = this.transmissionAmount;
+            int transmissionAmount = (int) this.transmissionAmount.ofValue(manaLevel.level);
             for (ItemEntity itemEntity : itemEntityList) {
                 if (transmissionAmount <= 0) {
                     break;
@@ -97,16 +99,16 @@ public class CollectMechanic extends DefaultCapacityMechanic {
 
     @Override
     public void defaultConfig() {
-        consume = 8L;
-        transmissionEfficiency = 5;
-        transmissionAmount = 1;
+        consume = new INumberPack.Constant(8);
+        transmissionEfficiency = new INumberPack.Constant(5);
+        transmissionAmount = new INumberPack.Constant(1);
     }
 
     @ConfigField
-    public int transmissionEfficiency;
+    public INumberPack transmissionEfficiency;
     @ConfigField
-    public int transmissionAmount;
+    public INumberPack transmissionAmount;
     @ConfigField
-    public long consume;
+    public INumberPack consume;
 
 }

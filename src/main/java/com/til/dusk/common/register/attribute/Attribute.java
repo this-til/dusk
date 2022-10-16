@@ -18,7 +18,7 @@ import java.util.function.Supplier;
  * @author til
  */
 @Mod.EventBusSubscriber(modid = Dusk.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class Attribute extends RegisterBasics<Attribute> {
+public abstract class Attribute extends RegisterBasics<Attribute> {
     public static Supplier<IForgeRegistry<Attribute>> ATTRIBUTE_REGISTERS;
 
     @SubscribeEvent
@@ -26,18 +26,12 @@ public class Attribute extends RegisterBasics<Attribute> {
         ATTRIBUTE_REGISTERS = RegisterManage.create(Attribute.class, new ResourceLocation(Dusk.MOD_ID, "attribute"), event);
     }
 
-    public Attribute(ResourceLocation name, INumberPack.Range range) {
+    public Attribute(ResourceLocation name) {
         super(name, ATTRIBUTE_REGISTERS);
-        this.range = range;
     }
 
-    public Attribute(String name, INumberPack.Range range) {
-        this(new ResourceLocation(Dusk.MOD_ID, name), range);
-    }
-
-    @Override
-    public void defaultConfig() {
-
+    public Attribute(String name) {
+        this(new ResourceLocation(Dusk.MOD_ID, name));
     }
 
     @Override

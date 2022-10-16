@@ -6,7 +6,7 @@ import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.capability.mana_handle.IManaHandle;
 import com.til.dusk.common.capability.pos.IPosTrack;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
-import com.til.dusk.common.register.other.BindType;
+import com.til.dusk.common.register.bind_type.BindType;
 import com.til.dusk.common.register.other.CapabilityRegister;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
@@ -31,7 +31,6 @@ import java.util.*;
 public class Handle implements IHandle {
 
     public final IPosTrack posTrack;
-
     public final Set<Shaped> shapedList;
     public final IControl iControl;
     public final IClock iClock;
@@ -205,7 +204,7 @@ public class Handle implements IHandle {
                 }
             }
         }
-        if (canUse.isEmpty()){
+        if (canUse.isEmpty()) {
             return;
         }
         if (itemIn.isEmpty()) {
@@ -266,7 +265,8 @@ public class Handle implements IHandle {
 
     @Override
     public void appendTooltip(IComponentPack iTooltip, CompoundTag compoundTag) {
-        iTooltip.add(Lang.getLang(CapabilityRegister.iControl));
+        iTooltip.add(Lang.getLang(Lang.getLang(CapabilityRegister.iControl),
+                Component.literal(":")));
         iTooltip.add(Lang.getLang(Component.translatable(Lang.getKey("最大并行配方")),
                 Component.literal(String.valueOf(AllNBTPack.MAX_PARALLEL.get(compoundTag)))));
         List<ShapedDrive> shapedDriveList = AllNBTPack.SHAPED_DRIVE_LIST.get(compoundTag);

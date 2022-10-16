@@ -7,10 +7,12 @@ import com.til.dusk.util.Lang;
 import com.til.dusk.util.nbt.pack.AllNBTPack;
 import com.til.dusk.util.tooltip_pack.IComponentPack;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.Nullable;
 
 /**
  * 代表该实体方块有一个等级
+ *
  * @author til
  */
 public interface IManaLevel extends ITooltipCapability {
@@ -23,7 +25,7 @@ public interface IManaLevel extends ITooltipCapability {
 
     @Nullable
     @Override
-   default CompoundTag appendServerData(){
+    default CompoundTag appendServerData() {
         CompoundTag compoundTag = new CompoundTag();
         AllNBTPack.MANA_LEVEL.set(compoundTag, manaLevel());
         return compoundTag;
@@ -31,9 +33,12 @@ public interface IManaLevel extends ITooltipCapability {
     }
 
     @Override
-    default  void appendTooltip(IComponentPack iTooltip, CompoundTag compoundTag){
+    default void appendTooltip(IComponentPack iTooltip, CompoundTag compoundTag) {
         ManaLevel manaLevel = AllNBTPack.MANA_LEVEL.get(compoundTag);
-        iTooltip.add(Lang.getLang(Lang.getLang(CapabilityRegister.iManaLevel), Lang.getLang(manaLevel)));
+        iTooltip.add(Lang.getLang(
+                Lang.getLang(CapabilityRegister.iManaLevel),
+                Component.literal(":"),
+                Lang.getLang(manaLevel)));
 
     }
 }

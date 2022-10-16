@@ -139,9 +139,9 @@ public class ClientTransfer {
         }
         List<Extension.VariableData_2<Float, Runnable>> rList = null;
         for (Extension.VariableData_2<Float, Runnable> longRunnableData_2 : RUN_LIST) {
-            longRunnableData_2.d1--;
-            if (longRunnableData_2.d1 <= 0) {
-                longRunnableData_2.d2.run();
+            longRunnableData_2.k--;
+            if (longRunnableData_2.k <= 0) {
+                longRunnableData_2.v.run();
                 if (rList == null) {
                     rList = new ArrayList<>();
                 }

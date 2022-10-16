@@ -17,8 +17,9 @@ import com.til.dusk.client.data.lang.LangProvider;
 import com.til.dusk.client.data.lang.LangType;
 import com.til.dusk.common.register.mana_level.block.DefaultCapacityMechanic;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
-import com.til.dusk.common.register.other.BindType;
+import com.til.dusk.common.register.bind_type.BindType;
 import com.til.dusk.common.register.other.CapabilityRegister;
+import com.til.dusk.util.math.INumberPack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
@@ -39,7 +40,7 @@ public class TransformationFEMechanic extends DefaultCapacityMechanic {
         super.addCapability(event, duskModCapability, manaLevel, iPosTrack);
         IBack back = duskModCapability.addCapability(CapabilityRegister.iBlack.capability, new Back());
         IControl iControl = duskModCapability.addCapability(CapabilityRegister.iControl.capability, new Control(iPosTrack, List.of(BindType.manaIn), manaLevel));
-        TransformationFEEnergyStorage energyStorage = (TransformationFEEnergyStorage) duskModCapability.addCapability(CapabilityRegister.iEnergyStorage.capability, new TransformationFEEnergyStorage(loadBasics * manaLevel.level, manaLevel.level * power, back));
+        TransformationFEEnergyStorage energyStorage = (TransformationFEEnergyStorage) duskModCapability.addCapability(CapabilityRegister.iEnergyStorage.capability, new TransformationFEEnergyStorage((int) loadBasics.ofValue(manaLevel.level), (int) (power.ofValue(manaLevel.level) * transmissionProportion.ofValue(manaLevel.level)), back));
         back.add(IBack.UP, v -> {
             if (energyStorage.getEnergyStored() >= energyStorage.getMaxEnergyStored()) {
                 return;
@@ -48,7 +49,7 @@ public class TransformationFEMechanic extends DefaultCapacityMechanic {
             if (inMana.isEmpty()) {
                 return;
             }
-            energyStorage.receiveEnergyInside((int) (CapabilityHelp.extractMana(iPosTrack, null, inMana, (long) manaLevel.level * power, false) * transmissionProportion), false);
+            energyStorage.receiveEnergyInside((int) (CapabilityHelp.extractMana(iPosTrack, null, inMana, (long) power.ofValue(manaLevel.level), false) * transmissionProportion.ofValue(manaLevel.level)), false);
         });
     }
 
@@ -129,18 +130,18 @@ public class TransformationFEMechanic extends DefaultCapacityMechanic {
 
     @Override
     public void defaultConfig() {
-        transmissionProportion = 8;
-        power = 64;
-        loadBasics = 25600000;
+        transmissionProportion = new INumberPack.Constant(8);
+        power = new INumberPack.LinearFunction(new INumberPack.Constant(64), new INumberPack.Constant(0));
+        loadBasics = new INumberPack.LinearFunction(new INumberPack.Constant(25600000), new INumberPack.Constant(0));
     }
 
     /***
      * 一灵气转FE的量
      */
     @ConfigField
-    public double transmissionProportion;
+    public INumberPack transmissionProportion;
     @ConfigField
-    public int power;
+    public INumberPack power;
     @ConfigField
-    public int loadBasics;
+    public INumberPack loadBasics;
 }

@@ -13,8 +13,9 @@ import com.til.dusk.client.data.lang.LangProvider;
 import com.til.dusk.client.data.lang.LangType;
 import com.til.dusk.common.register.mana_level.block.DefaultCapacityMechanic;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
-import com.til.dusk.common.register.other.BindType;
+import com.til.dusk.common.register.bind_type.BindType;
 import com.til.dusk.common.register.other.CapabilityRegister;
+import com.til.dusk.util.math.INumberPack;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -62,7 +63,7 @@ public class ChargeMechanic extends DefaultCapacityMechanic {
                 IManaHandle manaHandle = lazyOptional.orElse(null);
                 outManaMap.put(player.getCapability(CapabilityRegister.iPosTrack.capability).orElse(null), manaHandle);
             }
-            CapabilityHelp.manaPointToPointTransmit(iPosTrack, inManaMap, outManaMap, power * manaLevel.level, 0, false);
+            CapabilityHelp.manaPointToPointTransmit(iPosTrack, inManaMap, outManaMap, (long) power.ofValue(manaLevel.level), 0, false);
         });
     }
 
@@ -75,10 +76,10 @@ public class ChargeMechanic extends DefaultCapacityMechanic {
 
     @Override
     public void defaultConfig() {
-        power = 12L;
+        power = new INumberPack.LinearFunction(new INumberPack.Constant(12), new INumberPack.Constant(0));
     }
 
     @ConfigField
-    public long power;
+    public INumberPack power;
 
 }

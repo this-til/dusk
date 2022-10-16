@@ -90,28 +90,28 @@ public class Extension {
     }
 
     public static class VariableData_2<D1, D2> implements Map.Entry<D1,D2> {
-        public D1 d1;
-        public D2 d2;
+        public D1 k;
+        public D2 v;
 
-        public VariableData_2(D1 d1, D2 d2) {
-            this.d1 = d1;
-            this.d2 = d2;
+        public VariableData_2(D1 k, D2 v) {
+            this.k = k;
+            this.v = v;
         }
 
         @Override
         public D1 getKey() {
-            return d1;
+            return k;
         }
 
         @Override
         public D2 getValue() {
-            return d2;
+            return v;
         }
 
         @Override
         public D2 setValue(D2 value) {
-            D2 d2 = this.d2;
-            this.d2 = value;
+            D2 d2 = this.v;
+            this.v = value;
             return d2;
         }
     }

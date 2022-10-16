@@ -3,7 +3,7 @@ package com.til.dusk.common.capability.clock;
 import com.til.dusk.common.capability.CapabilityHelp;
 import com.til.dusk.common.capability.black.IBack;
 import com.til.dusk.common.capability.control.IControl;
-import com.til.dusk.common.register.other.BindType;
+import com.til.dusk.common.register.bind_type.BindType;
 import com.til.dusk.common.register.other.CapabilityRegister;
 import com.til.dusk.common.register.shaped.ShapedHandleProcess;
 import com.til.dusk.util.Extension;

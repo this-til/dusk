@@ -24,6 +24,7 @@ import javax.annotation.Nullable;
  * 在给定范围内进行坐标递增
  * @author til
  */
+@Deprecated
 public abstract class PosImplementMechanic extends DefaultCapacityMechanic {
 
     @Nullable

@@ -17,11 +17,12 @@ import com.til.dusk.client.data.lang.LangProvider;
 import com.til.dusk.client.data.lang.LangType;
 import com.til.dusk.common.register.mana_level.block.DefaultCapacityMechanic;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
-import com.til.dusk.common.register.other.BindType;
+import com.til.dusk.common.register.bind_type.BindType;
 import com.til.dusk.common.register.other.CapabilityRegister;
 import com.til.dusk.common.world.block.DuskBlock;
 import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.Extension;
+import com.til.dusk.util.math.INumberPack;
 import com.til.dusk.util.prefab.ColorPrefab;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -78,7 +79,7 @@ public abstract class IOMechanic extends DefaultCapacityMechanic {
         @Override
         public void addCapability(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability, ManaLevel manaLevel, IPosTrack iPosTrack) {
             super.addCapability(event, duskModCapability, manaLevel, iPosTrack);
-            long max = (long) transmissionAmount * manaLevel.level;
+            long max = (long) transmissionAmount.ofValue(manaLevel.level);
             IControl iControl = duskModCapability.addCapability(CapabilityRegister.iControl.capability, new Control(iPosTrack, List.of(BindType.manaIn, BindType.manaOut), manaLevel));
             IBack iUp = duskModCapability.addCapability(CapabilityRegister.iBlack.capability, new Back());
             iUp.add(IBack.UP, v -> {
@@ -101,7 +102,7 @@ public abstract class IOMechanic extends DefaultCapacityMechanic {
         @Override
         public void defaultConfig() {
             ioColor = ColorPrefab.MANA_IO;
-            transmissionAmount = 1024;
+            transmissionAmount = new INumberPack.LinearFunction(new INumberPack.Constant(1024), new INumberPack.Constant(0));
         }
 
     }
@@ -118,7 +119,7 @@ public abstract class IOMechanic extends DefaultCapacityMechanic {
             IControl iControl = duskModCapability.addCapability(CapabilityRegister.iControl.capability, new Control(iPosTrack, List.of(BindType.itemIn, BindType.itemOut, BindType.manaIn), manaLevel));
             IBack iUp = duskModCapability.addCapability(CapabilityRegister.iBlack.capability, new Back());
             IClock iClock = duskModCapability.addCapability(CapabilityRegister.iClock.capability, new ManaClock(iUp,
-                    manaLevel.clock / transmissionEfficiency, iControl, consume * manaLevel.level));
+                    (int) (manaLevel.clock / transmissionEfficiency.ofValue(manaLevel.level)), iControl, (long) consume.ofValue(manaLevel.level)));
             iClock.addBlock(() -> {
                 Level level = event.getObject().getLevel();
                 if (level == null) {
@@ -186,8 +187,8 @@ public abstract class IOMechanic extends DefaultCapacityMechanic {
         @Override
         public void defaultConfig() {
             ioColor = ColorPrefab.ITEM_IO;
-            transmissionEfficiency = 5;
-            consume = 2;
+            transmissionEfficiency = new INumberPack.Constant(5);
+            consume = new INumberPack.LinearFunction(new INumberPack.Constant(2), new INumberPack.Constant(0));
         }
     }
 
@@ -203,7 +204,7 @@ public abstract class IOMechanic extends DefaultCapacityMechanic {
             IControl iControl = duskModCapability.addCapability(CapabilityRegister.iControl.capability, new Control(iPosTrack, List.of(BindType.fluidIn, BindType.fluidOut, BindType.manaIn), manaLevel));
             IBack iBack = duskModCapability.addCapability(CapabilityRegister.iBlack.capability, new Back());
             IClock iClock = duskModCapability.addCapability(CapabilityRegister.iClock.capability, new ManaClock(iBack,
-                    manaLevel.clock / transmissionEfficiency, iControl, consume * manaLevel.level));
+                    (int) (manaLevel.clock / transmissionEfficiency.ofValue(manaLevel.level)), iControl, (long) consume.ofValue(manaLevel.level)));
             iClock.addBlock(() -> {
                 Level level = event.getObject().getLevel();
                 if (level == null) {
@@ -223,7 +224,7 @@ public abstract class IOMechanic extends DefaultCapacityMechanic {
                         outMap.put(entry.getKey(), entry.getValue());
                     }
                 }
-                int maxRate = transmissionAmount * manaLevel.level;
+                int maxRate = (int) transmissionAmount.ofValue(manaLevel.level);
                 FluidStack outSimulate = null;
                 Extension.Data_2<Map.Entry<IPosTrack, IFluidHandler>, FluidStack> outData = null;
                 for (Map.Entry<IPosTrack, IFluidHandler> entry : inMap.entrySet()) {
@@ -270,19 +271,19 @@ public abstract class IOMechanic extends DefaultCapacityMechanic {
         @Override
         public void defaultConfig() {
             ioColor = ColorPrefab.ITEM_IO;
-            transmissionEfficiency = 5;
-            transmissionAmount = 1000;
-            consume = 2;
+            transmissionEfficiency = new INumberPack.Constant(5);
+            transmissionAmount = new INumberPack.LinearFunction(new INumberPack.Constant(1000), new INumberPack.Constant(0));
+            consume = new INumberPack.LinearFunction(new INumberPack.Constant(2), new INumberPack.Constant(0));
         }
     }
 
     @ConfigField
     public DuskColor ioColor;
     @ConfigField
-    public int transmissionEfficiency;
+    public INumberPack transmissionEfficiency;
     @ConfigField
-    public int transmissionAmount;
+    public INumberPack transmissionAmount;
     @ConfigField
-    public long consume;
+    public INumberPack consume;
 
 }

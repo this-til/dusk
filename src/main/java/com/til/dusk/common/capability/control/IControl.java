@@ -3,7 +3,8 @@ package com.til.dusk.common.capability.control;
 
 import com.til.dusk.common.capability.ITooltipCapability;
 import com.til.dusk.common.capability.pos.IPosTrack;
-import com.til.dusk.common.register.other.BindType;
+import com.til.dusk.common.register.bind_type.BindType;
+import com.til.dusk.common.register.bind_type.BindTypeBindCapability;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.common.capabilities.Capability;
@@ -50,7 +51,7 @@ public interface IControl extends INBTSerializable<CompoundTag>, ITooltipCapabil
 
     <C> Map<IPosTrack, C> getCapability(Capability<C> capability, BindType iBindType);
 
-    <C> Map<IPosTrack, C> getCapability(BindType.BindTypeBindCapability<C> bundTypeBindCapability);
+    <C> Map<IPosTrack, C> getCapability(BindTypeBindCapability<C> bundTypeBindCapability);
 
     /***
      * 获取可以绑定实体方块的最大范围

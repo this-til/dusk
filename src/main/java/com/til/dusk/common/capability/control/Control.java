@@ -1,8 +1,9 @@
 package com.til.dusk.common.capability.control;
 
 import com.til.dusk.common.capability.pos.IPosTrack;
+import com.til.dusk.common.register.bind_type.BindTypeBindCapability;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
-import com.til.dusk.common.register.other.BindType;
+import com.til.dusk.common.register.bind_type.BindType;
 import com.til.dusk.common.register.other.CapabilityRegister;
 import com.til.dusk.util.Lang;
 import com.til.dusk.util.nbt.pack.AllNBTPack;
@@ -163,8 +164,8 @@ public class Control implements IControl {
     }
 
     @Override
-    public <C> Map<IPosTrack, C> getCapability(BindType.BindTypeBindCapability<C> bundTypeBindCapability) {
-        return getCapability(bundTypeBindCapability.getCapability(), bundTypeBindCapability);
+    public <C> Map<IPosTrack, C> getCapability(BindTypeBindCapability<C> bundTypeBindCapability) {
+        return getCapability(bundTypeBindCapability.capability.capability, bundTypeBindCapability);
     }
 
     /***
@@ -216,7 +217,9 @@ public class Control implements IControl {
 
     @Override
     public void appendTooltip(IComponentPack iTooltip, CompoundTag compoundTag) {
-        iTooltip.add(Lang.getLang(CapabilityRegister.iControl));
+        iTooltip.add(Lang.getLang(
+                Lang.getLang(CapabilityRegister.iControl),
+                Component.literal(":")));
         iTooltip.indent();
         iTooltip.add(Lang.getLang(Component.translatable(Lang.getKey("最大绑定数量")), Component.literal(String.valueOf(AllNBTPack.MAX_BIND.get(compoundTag)))));
         iTooltip.add(Lang.getLang(Component.translatable(Lang.getKey("最大范围")), Component.literal(String.valueOf(AllNBTPack.MAX_RANGE.get(compoundTag)))));

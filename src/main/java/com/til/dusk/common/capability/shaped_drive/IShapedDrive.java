@@ -43,6 +43,9 @@ public interface IShapedDrive extends ITooltipCapability {
         }
         stringBuilder.deleteCharAt(stringBuilder.length() - 1);
         stringBuilder.append(']');
-        iTooltip.add(Lang.getLang(Lang.getLang(CapabilityRegister.iShapedDrive), Component.literal(stringBuilder.toString())));
+        iTooltip.add(Lang.getLang(
+                Lang.getLang(CapabilityRegister.iShapedDrive),
+                Component.literal(":"),
+                Component.literal(stringBuilder.toString())));
     }
 }

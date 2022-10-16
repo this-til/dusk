@@ -113,7 +113,8 @@ public class DuskEnergyStorage implements IEnergyStorage, INBTSerializable<Compo
 
     @Override
     public void appendTooltip(IComponentPack iTooltip, CompoundTag compoundTag) {
-        iTooltip.add(Lang.getLang(CapabilityRegister.iEnergyStorage));
+        iTooltip.add(Lang.getLang(Lang.getLang(CapabilityRegister.iEnergyStorage),
+                Component.literal(":")));
         iTooltip.indent();
         int energy = AllNBTPack.ENERGY.get(compoundTag);
         int maxEnergy = AllNBTPack.MAX_ENERGY.get(compoundTag);

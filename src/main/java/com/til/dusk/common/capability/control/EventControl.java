@@ -1,7 +1,7 @@
 package com.til.dusk.common.capability.control;
 
 import com.til.dusk.common.capability.pos.IPosTrack;
-import com.til.dusk.common.register.other.BindType;
+import com.til.dusk.common.register.bind_type.BindType;
 import net.minecraftforge.eventbus.api.Event;
 
 /***

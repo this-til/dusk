@@ -1,6 +1,5 @@
 package com.til.dusk.common.register.world.item.items;
 
-import com.google.gson.annotations.Expose;
 import com.til.dusk.Dusk;
 import com.til.dusk.client.data.lang.LangProvider;
 import com.til.dusk.client.data.lang.LangType;
@@ -9,13 +8,10 @@ import com.til.dusk.common.capability.pos.IPosTrack;
 import com.til.dusk.common.data.ModRecipeProvider;
 import com.til.dusk.common.register.key.EventKey;
 import com.til.dusk.common.register.key.KeyRegister;
-import com.til.dusk.common.register.other.BindType;
+import com.til.dusk.common.register.bind_type.BindType;
 import com.til.dusk.common.register.other.CapabilityRegister;
 import com.til.dusk.common.register.particle_register.ParticleRegister;
-import com.til.dusk.common.register.world.item.ItemPackRegister;
 import com.til.dusk.common.register.world.item.StaffItemRegister;
-import com.til.dusk.common.world.item.DuskItem;
-import com.til.dusk.common.world.item.ItemBasics;
 import com.til.dusk.util.Lang;
 import com.til.dusk.util.Pos;
 import com.til.dusk.util.nbt.pack.AllNBTPack;

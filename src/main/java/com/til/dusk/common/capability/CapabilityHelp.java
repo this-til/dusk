@@ -5,7 +5,7 @@ import com.til.dusk.common.capability.mana_handle.IManaHandle;
 import com.til.dusk.common.capability.pos.IPosTrack;
 import com.til.dusk.common.capability.shaped_drive.IShapedDrive;
 import com.til.dusk.common.event.EventIO;
-import com.til.dusk.common.register.other.BindType;
+import com.til.dusk.common.register.bind_type.BindType;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.util.Pos;
 import com.til.dusk.util.RoutePack;

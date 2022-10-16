@@ -12,6 +12,7 @@ import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.other.CapabilityRegister;
 import com.til.dusk.common.world.block.MechanicBlock;
 import com.til.dusk.util.Extension;
+import com.til.dusk.util.math.INumberPack;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -159,14 +160,14 @@ public class VoidTankMechanic extends DefaultCapacityMechanic {
     @Override
     public void addCapability(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability, ManaLevel manaLevel, IPosTrack iPosTrack) {
         super.addCapability(event, duskModCapability, manaLevel, iPosTrack);
-        duskModCapability.addCapability(ForgeCapabilities.FLUID_HANDLER, new VoidTankFluidHandler(loadBasics * manaLevel.level));
+        duskModCapability.addCapability(ForgeCapabilities.FLUID_HANDLER, new VoidTankFluidHandler((int) loadBasics.ofValue(manaLevel.level)));
     }
 
     @Override
     public void defaultConfig() {
-        loadBasics = 12800000;
+        loadBasics = new INumberPack.LinearFunction(new INumberPack.Constant(12800000), new INumberPack.Constant(0));
     }
 
     @ConfigField
-    public int loadBasics;
+    public INumberPack loadBasics;
 }

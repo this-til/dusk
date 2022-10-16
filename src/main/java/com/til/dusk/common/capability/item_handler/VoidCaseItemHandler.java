@@ -64,7 +64,7 @@ public class VoidCaseItemHandler implements IItemHandler, INBTSerializable<Compo
             return stack.copy();
         }
         if (itemStackTag != null) {
-            if (ItemHandlerHelper.canItemStacksStack(itemStackTag,stack)) {
+            if (ItemHandlerHelper.canItemStacksStack(itemStackTag, stack)) {
                 long in = Math.min(stack.getCount(), maxCount - count);
                 if (!simulate) {
                     count += in;
@@ -142,9 +142,14 @@ public class VoidCaseItemHandler implements IItemHandler, INBTSerializable<Compo
         ItemStack itemStack = AllNBTPack.ITEM_STACK.get(compoundTag);
         long c = AllNBTPack.COUNT.get(compoundTag);
         if (!itemStack.isEmpty() && c > 0) {
-            iTooltip.add(Lang.getLang(Lang.getLang(CapabilityRegister.iItemHandler), itemStack.getDisplayName(), Component.literal("x" + c)));
+            iTooltip.add(Lang.getLang(Lang.getLang(CapabilityRegister.iItemHandler),
+                    Component.literal(":"),
+                    itemStack.getDisplayName(),
+                    Component.literal("x" + c)));
         } else {
-            iTooltip.add(Lang.getLang(Lang.getLang(CapabilityRegister.iItemHandler)));
+            iTooltip.add(Lang.getLang(Lang.getLang(CapabilityRegister.iItemHandler),
+                    Component.literal(":"),
+                    Component.literal("empty")));
         }
     }
 }

@@ -114,7 +114,9 @@ public class ManaHandle implements IManaHandle {
 
     @Override
     public void appendTooltip(IComponentPack iTooltip, CompoundTag compoundTag) {
-        iTooltip.add(Lang.getLang(CapabilityRegister.iManaHandle));
+        iTooltip.add(Lang.getLang(
+                Lang.getLang(CapabilityRegister.iManaHandle),
+                Component.literal(":")));
         iTooltip.indent();
         long mana = AllNBTPack.MANA.get(compoundTag);
         long maxMana = AllNBTPack.MAX_MANA.get(compoundTag);

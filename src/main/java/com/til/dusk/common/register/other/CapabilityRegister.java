@@ -1,8 +1,10 @@
 package com.til.dusk.common.register.other;
 
 import com.til.dusk.Dusk;
+import com.til.dusk.client.data.lang.LangType;
 import com.til.dusk.common.capability.ITooltipCapability;
 import com.til.dusk.common.capability.black.IBack;
+import com.til.dusk.common.capability.block_scan.IBlockScan;
 import com.til.dusk.common.capability.clock.IClock;
 import com.til.dusk.common.capability.control.EventControl;
 import com.til.dusk.common.capability.control.IControl;
@@ -13,6 +15,7 @@ import com.til.dusk.common.capability.mana_level.IManaLevel;
 import com.til.dusk.common.capability.pos.IPosTrack;
 import com.til.dusk.common.capability.shaped_drive.IShapedDrive;
 import com.til.dusk.common.capability.skill.ISkill;
+import com.til.dusk.common.event.DelayTrigger;
 import com.til.dusk.common.event.EventIO;
 import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.register.RegisterManage;
@@ -60,6 +63,7 @@ public class CapabilityRegister<C> extends RegisterBasics<CapabilityRegister<C>>
     public static CapabilityRegister<IPosTrack> iPosTrack;
     public static CapabilityRegister<ISkill> iSkill;
     public static CapabilityRegister<IBack> iBlack;
+    public static CapabilityRegister<IBlockScan> iBlockScan;
 
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
@@ -85,6 +89,63 @@ public class CapabilityRegister<C> extends RegisterBasics<CapabilityRegister<C>>
         iSkill = new CapabilityRegister<ISkill>("i_skill", ISkill.class, () -> new CapabilityToken<ISkill>() {
         });
         iBlack = new CapabilityRegister<IBack>("i_black", IBack.class, () -> new CapabilityToken<IBack>() {
+        });
+        iBlockScan = new CapabilityRegister<IBlockScan>("i_block_scan", IBlockScan.class, () -> new CapabilityToken<IBlockScan>() {
+        });
+        DelayTrigger.addRun(DelayTrigger.LANG, langTool -> {
+            langTool.setCache(iItemHandler.name.toLanguageKey());
+            langTool.add(LangType.ZH_CN, "物品处理");
+            langTool.add(LangType.EN_CH, "Item Handler");
+        });
+        DelayTrigger.addRun(DelayTrigger.LANG, langTool -> {
+            langTool.setCache(iFluidHandler.name.toLanguageKey());
+            langTool.add(LangType.ZH_CN, "流体处理");
+            langTool.add(LangType.EN_CH, "Fluid Handler");
+        });
+        DelayTrigger.addRun(DelayTrigger.LANG, langTool -> {
+            langTool.setCache(iEnergyStorage.name.toLanguageKey());
+            langTool.add(LangType.ZH_CN, "FE处理");
+            langTool.add(LangType.EN_CH, "FE Handler");
+        });
+        DelayTrigger.addRun(DelayTrigger.LANG, langTool -> {
+            langTool.setCache(iManaLevel.name.toLanguageKey());
+            langTool.add(LangType.ZH_CN, "灵气等级");
+            langTool.add(LangType.EN_CH, "Mana Level");
+        });
+        DelayTrigger.addRun(DelayTrigger.LANG, langTool -> {
+            langTool.setCache(iClock.name.toLanguageKey());
+            langTool.add(LangType.ZH_CN, "时钟触发");
+            langTool.add(LangType.EN_CH, "Clock");
+        });
+        DelayTrigger.addRun(DelayTrigger.LANG, langTool -> {
+            langTool.setCache(iControl.name.toLanguageKey());
+            langTool.add(LangType.ZH_CN, "控制器");
+            langTool.add(LangType.EN_CH, "Control");
+        });
+        DelayTrigger.addRun(DelayTrigger.LANG, langTool -> {
+            langTool.setCache(iManaHandle.name.toLanguageKey());
+            langTool.add(LangType.ZH_CN, "灵气处理");
+            langTool.add(LangType.EN_CH, "Mana Handler");
+        });
+        DelayTrigger.addRun(DelayTrigger.LANG, langTool -> {
+            langTool.setCache(iShapedDrive.name.toLanguageKey());
+            langTool.add(LangType.ZH_CN, "配方集");
+            langTool.add(LangType.EN_CH, "Shaped Drive");
+        });
+        DelayTrigger.addRun(DelayTrigger.LANG, langTool -> {
+            langTool.setCache(iHandle.name.toLanguageKey());
+            langTool.add(LangType.ZH_CN, "处理器");
+            langTool.add(LangType.EN_CH, "Handle");
+        });
+        DelayTrigger.addRun(DelayTrigger.LANG, langTool -> {
+            langTool.setCache(iSkill.name.toLanguageKey());
+            langTool.add(LangType.ZH_CN, "技能");
+            langTool.add(LangType.EN_CH, "Skill");
+        });
+        DelayTrigger.addRun(DelayTrigger.LANG, langTool -> {
+            langTool.setCache(iBlockScan.name.toLanguageKey());
+            langTool.add(LangType.ZH_CN, "扫描方块");
+            langTool.add(LangType.EN_CH, "Block Scan");
         });
         MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, (Consumer<EventControl>) e -> {
             Level level = e.control.getPosTrack().getLevel();

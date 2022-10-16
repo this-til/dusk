@@ -10,6 +10,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
+import org.checkerframework.checker.units.qual.C;
 
 import javax.annotation.Nullable;
 
@@ -46,13 +47,17 @@ public class VoidTankFluidHandler extends FluidTank implements INBTSerializable<
         FluidStack fluidStack = AllNBTPack.FLUID_STACK.get(compoundTag);
         if (!fluidStack.isEmpty()) {
             iTooltip.add(Lang.getLang(Lang.getLang(CapabilityRegister.iFluidHandler),
+                    Component.literal(":"),
                     fluidStack.getDisplayName(),
                     Component.literal("x"),
                     Component.literal(fluidStack.getAmount() + "mb"),
                     Component.literal("/"),
                     Component.translatable(AllNBTPack.MAX_AMOUNT.get(compoundTag) + "mb")));
         } else {
-            iTooltip.add(Lang.getLang(CapabilityRegister.iFluidHandler));
+            iTooltip.add(Lang.getLang(
+                    Lang.getLang(CapabilityRegister.iFluidHandler),
+                    Component.literal(":"),
+                    Component.literal("empty")));
         }
 
     }

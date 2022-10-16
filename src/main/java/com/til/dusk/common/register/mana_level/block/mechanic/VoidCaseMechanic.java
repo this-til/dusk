@@ -12,6 +12,7 @@ import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.other.CapabilityRegister;
 import com.til.dusk.common.world.block.MechanicBlock;
 import com.til.dusk.util.Extension;
+import com.til.dusk.util.math.INumberPack;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -187,14 +188,14 @@ public class VoidCaseMechanic extends DefaultCapacityMechanic {
     @Override
     public void addCapability(AttachCapabilitiesEvent<BlockEntity> event, DuskCapabilityProvider duskModCapability, ManaLevel manaLevel, IPosTrack iPosTrack) {
         super.addCapability(event, duskModCapability, manaLevel, iPosTrack);
-        duskModCapability.addCapability(ForgeCapabilities.ITEM_HANDLER, new VoidCaseItemHandler(loadBasics * manaLevel.level));
+        duskModCapability.addCapability(ForgeCapabilities.ITEM_HANDLER, new VoidCaseItemHandler((long) loadBasics.ofValue(manaLevel.level)));
     }
 
     @Override
     public void defaultConfig() {
-        loadBasics = 4096L;
+        loadBasics = new INumberPack.LinearFunction(new INumberPack.Constant(4096), new INumberPack.Constant(0));
     }
 
     @ConfigField
-    public long loadBasics;
+    public INumberPack loadBasics;
 }
