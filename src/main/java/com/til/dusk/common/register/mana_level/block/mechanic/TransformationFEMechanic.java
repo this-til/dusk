@@ -40,7 +40,7 @@ public class TransformationFEMechanic extends DefaultCapacityMechanic {
         super.addCapability(event, duskModCapability, manaLevel, iPosTrack);
         IBack back = duskModCapability.addCapability(CapabilityRegister.iBlack.capability, new Back());
         IControl iControl = duskModCapability.addCapability(CapabilityRegister.iControl.capability, new Control(iPosTrack, List.of(BindType.manaIn), manaLevel));
-        TransformationFEEnergyStorage energyStorage = (TransformationFEEnergyStorage) duskModCapability.addCapability(CapabilityRegister.iEnergyStorage.capability, new TransformationFEEnergyStorage((int) loadBasics.ofValue(manaLevel.level), (int) (power.ofValue(manaLevel.level) * transmissionProportion.ofValue(manaLevel.level)), back));
+        TransformationFEEnergyStorage energyStorage = (TransformationFEEnergyStorage) duskModCapability.addCapability(CapabilityRegister.iEnergyStorage.capability, new TransformationFEEnergyStorage(loadBasics.ofValue(manaLevel.level), power.ofValue(manaLevel.level) * transmissionProportion.ofValue(manaLevel.level), back));
         back.add(IBack.UP, v -> {
             if (energyStorage.getEnergyStored() >= energyStorage.getMaxEnergyStored()) {
                 return;
@@ -130,18 +130,18 @@ public class TransformationFEMechanic extends DefaultCapacityMechanic {
 
     @Override
     public void defaultConfig() {
-        transmissionProportion = new INumberPack.Constant(8);
-        power = new INumberPack.LinearFunction(new INumberPack.Constant(64), new INumberPack.Constant(0));
-        loadBasics = new INumberPack.LinearFunction(new INumberPack.Constant(25600000), new INumberPack.Constant(0));
+        transmissionProportion = new INumberPack.IIntPack.Constant(8);
+        power = new INumberPack.IIntPack.LinearFunction(new INumberPack.IIntPack.Constant(64), new INumberPack.IIntPack.Constant(0));
+        loadBasics = new INumberPack.IIntPack.LinearFunction(new INumberPack.IIntPack.Constant(25600000), new INumberPack.IIntPack.Constant(0));
     }
 
     /***
      * 一灵气转FE的量
      */
     @ConfigField
-    public INumberPack transmissionProportion;
+    public INumberPack<Integer> transmissionProportion;
     @ConfigField
-    public INumberPack power;
+    public INumberPack<Integer> power;
     @ConfigField
-    public INumberPack loadBasics;
+    public INumberPack<Integer> loadBasics;
 }

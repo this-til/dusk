@@ -1,6 +1,7 @@
 package com.til.dusk.common.register.mana_level.block;
 
 import com.til.dusk.Dusk;
+import com.til.dusk.common.register.multiblock.multiblocks.AccelerateMultiBlock;
 import com.til.dusk.util.gson.AcceptTypeJson;
 import com.til.dusk.common.config.ConfigField;
 import com.til.dusk.common.config.util.IShapedOreConfig;
@@ -359,6 +360,11 @@ public abstract class ManaLevelBlock extends BlockUnitRegister<ManaLevelBlock, M
      */
     public static TransformationFEMechanic transformationFEMechanic;
 
+    /***
+     * 超频法阵核心
+     */
+    public static AccelerateMultiBlockMechanic accelerateMultiBlock;
+
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
         LEVEL_BLOCK = RegisterManage.create(ManaLevelBlock.class, new ResourceLocation(Dusk.MOD_ID, "mana_level_block"), event);
@@ -426,6 +432,7 @@ public abstract class ManaLevelBlock extends BlockUnitRegister<ManaLevelBlock, M
         mining = new MiningMechanic();
         massacre = new MassacreMechanic();
         transformationFEMechanic = new TransformationFEMechanic();
+        accelerateMultiBlock = new AccelerateMultiBlockMechanic();
     }
 
     public ManaLevelBlock(ResourceLocation name) {

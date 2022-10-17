@@ -50,7 +50,7 @@ public class CollectMechanic extends DefaultCapacityMechanic {
         IControl iControl = duskModCapability.addCapability(CapabilityRegister.iControl.capability, new Control(iPosTrack, List.of(BindType.manaIn, BindType.itemOut, BindType.posTrack), manaLevel));
         IBack iBack = duskModCapability.addCapability(CapabilityRegister.iBlack.capability, new Back());
         IClock iClock = duskModCapability.addCapability(CapabilityRegister.iClock.capability, new ManaClock(iBack,
-                (int) (manaLevel.clock / transmissionEfficiency.ofValue(manaLevel.level)), iControl, (long) consume .ofValue(manaLevel.level)));
+                manaLevel.clock / transmissionEfficiency.ofValue(manaLevel.level), iControl, consume.ofValue((long) manaLevel.level)));
         iClock.addBlock(() -> {
             Level level = event.getObject().getLevel();
             if (level == null) {
@@ -99,16 +99,16 @@ public class CollectMechanic extends DefaultCapacityMechanic {
 
     @Override
     public void defaultConfig() {
-        consume = new INumberPack.Constant(8);
-        transmissionEfficiency = new INumberPack.Constant(5);
-        transmissionAmount = new INumberPack.Constant(1);
+        consume = new INumberPack.ILongPack.LinearFunction(new INumberPack.ILongPack.Constant(12), new INumberPack.ILongPack.Constant(0));
+        transmissionEfficiency = new INumberPack.IIntPack.Constant(5);
+        transmissionAmount = new INumberPack.IIntPack.Constant(1);
     }
 
     @ConfigField
-    public INumberPack transmissionEfficiency;
+    public INumberPack<Integer> transmissionEfficiency;
     @ConfigField
-    public INumberPack transmissionAmount;
+    public INumberPack<Integer> transmissionAmount;
     @ConfigField
-    public INumberPack consume;
+    public INumberPack<Long> consume;
 
 }

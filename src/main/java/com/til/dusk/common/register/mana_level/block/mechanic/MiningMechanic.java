@@ -50,7 +50,7 @@ public class MiningMechanic extends DefaultCapacityMechanic {
         super.addCapability(event, duskModCapability, manaLevel, iPosTrack);
         IControl control = duskModCapability.addCapability(CapabilityRegister.iControl.capability, new Control(iPosTrack, List.of(BindType.manaIn, BindType.itemOut, BindType.posTrack, BindType.modelStore), manaLevel));
         IBack iBack = duskModCapability.addCapability(CapabilityRegister.iBlack.capability, new Back());
-        IClock clock = duskModCapability.addCapability(CapabilityRegister.iClock.capability, new ManaClock(iBack, (int) (manaLevel.clock / transmissionEfficiency.ofValue(manaLevel.level)), control, (long) consume.ofValue(manaLevel.level)));
+        IClock clock = duskModCapability.addCapability(CapabilityRegister.iClock.capability, new ManaClock(iBack, manaLevel.clock / transmissionEfficiency.ofValue(manaLevel.level), control, consume.ofValue((long) manaLevel.level)));
         IBlockScan iBlockScan = duskModCapability.addCapability(CapabilityRegister.iBlockScan.capability, new BlockScan(clock, iPosTrack, control) {
             public void run() {
                 Level level = iPosTrack.getLevel();
@@ -105,12 +105,12 @@ public class MiningMechanic extends DefaultCapacityMechanic {
 
     @Override
     public void defaultConfig() {
-        consume = new INumberPack.LinearFunction(new INumberPack.Constant(32), new INumberPack.Constant(0));
-        transmissionEfficiency = new INumberPack.Constant(10);
+        consume = new INumberPack.ILongPack.LinearFunction(new INumberPack.ILongPack.Constant(32), new INumberPack.ILongPack.Constant(0));
+        transmissionEfficiency = new INumberPack.IIntPack.Constant(10);
     }
 
     @ConfigField
-    public INumberPack transmissionEfficiency;
+    public INumberPack<Integer> transmissionEfficiency;
     @ConfigField
-    public INumberPack consume;
+    public INumberPack<Long> consume;
 }

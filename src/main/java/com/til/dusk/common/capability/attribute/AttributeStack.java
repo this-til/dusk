@@ -1,7 +1,7 @@
 package com.til.dusk.common.capability.attribute;
 
-import com.til.dusk.common.register.attribute.Attribute;
-import com.til.dusk.common.register.attribute.limit.AttributeLimit;
+import com.til.dusk.common.register.attribute.entity.Attribute;
+import com.til.dusk.common.register.attribute.entity.limit.AttributeLimit;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package com.til.dusk.common.register.attribute;
+package com.til.dusk.common.register.attribute.entity;
 
 import com.til.dusk.Dusk;
 import net.minecraft.resources.ResourceLocation;

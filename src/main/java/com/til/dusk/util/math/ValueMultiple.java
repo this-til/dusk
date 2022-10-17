@@ -1,6 +1,8 @@
 package com.til.dusk.util.math;
 
-import com.til.dusk.common.register.attribute.multiple.AttributeMultiple;
+
+import com.til.dusk.common.register.attribute.entity.Attribute;
+import com.til.dusk.common.register.attribute.entity.multiple.AttributeMultiple;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;

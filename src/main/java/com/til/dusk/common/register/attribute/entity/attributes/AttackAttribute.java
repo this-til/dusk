@@ -1,8 +1,8 @@
-package com.til.dusk.common.register.attribute.attributes;
+package com.til.dusk.common.register.attribute.entity.attributes;
 
 import com.til.dusk.client.data.lang.LangProvider;
 import com.til.dusk.client.data.lang.LangType;
-import com.til.dusk.common.register.attribute.ContainOriginalAttribute;
+import com.til.dusk.common.register.attribute.entity.ContainOriginalAttribute;
 import com.til.dusk.util.math.INumberPack;
 
 /**
@@ -17,7 +17,7 @@ public class AttackAttribute extends ContainOriginalAttribute {
 
     @Override
     public void defaultConfig() {
-        range = new INumberPack.Range(new INumberPack.Constant(0), null);
+        range = new INumberPack.IDoublePack.Range(new INumberPack.IDoublePack.Constant(0), null);
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.til.dusk.common.register.multiblock.multiblocks;
 
+import com.til.dusk.client.data.lang.LangProvider;
+import com.til.dusk.client.data.lang.LangType;
 import com.til.dusk.common.config.ConfigField;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.multiblock.LevelMultiBlock;
@@ -19,7 +21,6 @@ public class AccelerateMultiBlock extends LevelMultiBlock {
     public AccelerateMultiBlock() {
         super("accelerate");
     }
-
 
     @Override
     public void defaultConfig() {

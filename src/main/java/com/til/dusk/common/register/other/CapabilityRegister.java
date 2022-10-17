@@ -4,6 +4,8 @@ import com.til.dusk.Dusk;
 import com.til.dusk.client.data.lang.LangType;
 import com.til.dusk.common.capability.ITooltipCapability;
 import com.til.dusk.common.capability.black.IBack;
+import com.til.dusk.common.capability.block_attribute.IBlockAttribute;
+import com.til.dusk.common.capability.block_attribute.IBlockAttributeSupplier;
 import com.til.dusk.common.capability.block_scan.IBlockScan;
 import com.til.dusk.common.capability.clock.IClock;
 import com.til.dusk.common.capability.control.EventControl;
@@ -12,6 +14,7 @@ import com.til.dusk.common.capability.handle.EventHandle;
 import com.til.dusk.common.capability.handle.IHandle;
 import com.til.dusk.common.capability.mana_handle.IManaHandle;
 import com.til.dusk.common.capability.mana_level.IManaLevel;
+import com.til.dusk.common.capability.multi_block.IMultiBlock;
 import com.til.dusk.common.capability.pos.IPosTrack;
 import com.til.dusk.common.capability.shaped_drive.IShapedDrive;
 import com.til.dusk.common.capability.skill.ISkill;
@@ -64,89 +67,93 @@ public class CapabilityRegister<C> extends RegisterBasics<CapabilityRegister<C>>
     public static CapabilityRegister<ISkill> iSkill;
     public static CapabilityRegister<IBack> iBlack;
     public static CapabilityRegister<IBlockScan> iBlockScan;
+    public static CapabilityRegister<IMultiBlock> iMultiBlock;
+    public static CapabilityRegister<IBlockAttribute> iBlockAttribute;
+    public static CapabilityRegister<IBlockAttributeSupplier> iBlockAttributeSupplier;
 
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
         CAPABILITY_REGISTER = RegisterManage.create(Util.forcedConversion(CapabilityRegister.class), new ResourceLocation(Dusk.MOD_ID, "capability_register"), event);
-        iItemHandler = new CapabilityRegister<>("i_item_handler", IItemHandler.class, ForgeCapabilities.ITEM_HANDLER);
-        iFluidHandler = new CapabilityRegister<>("i_fluid_handler", IFluidHandler.class, ForgeCapabilities.FLUID_HANDLER);
-        iEnergyStorage = new CapabilityRegister<>("i_energy_storage", IEnergyStorage.class, ForgeCapabilities.ENERGY);
-        iManaLevel = new CapabilityRegister<>("i_mana_level", IManaLevel.class, () -> new CapabilityToken<IManaLevel>() {
-        });
-
-        iClock = new CapabilityRegister<>("i_clock", IClock.class, () -> new CapabilityToken<IClock>() {
-        });
-        iControl = new CapabilityRegister<>("i_control", IControl.class, () -> new CapabilityToken<IControl>() {
-        });
-        iManaHandle = new CapabilityRegister<>("i_mana_handle", IManaHandle.class, () -> new CapabilityToken<IManaHandle>() {
-        });
-        iShapedDrive = new CapabilityRegister<>("i_shaped_drive", IShapedDrive.class, () -> new CapabilityToken<IShapedDrive>() {
-        });
-        iHandle = new CapabilityRegister<>("i_handle", IHandle.class, () -> new CapabilityToken<IHandle>() {
-        });
-        iPosTrack = new CapabilityRegister<>("i_pos_track", IPosTrack.class, () -> new CapabilityToken<IPosTrack>() {
-        });
-        iSkill = new CapabilityRegister<ISkill>("i_skill", ISkill.class, () -> new CapabilityToken<ISkill>() {
-        });
-        iBlack = new CapabilityRegister<IBack>("i_black", IBack.class, () -> new CapabilityToken<IBack>() {
-        });
-        iBlockScan = new CapabilityRegister<IBlockScan>("i_block_scan", IBlockScan.class, () -> new CapabilityToken<IBlockScan>() {
-        });
-        DelayTrigger.addRun(DelayTrigger.LANG, langTool -> {
+        iItemHandler = new CapabilityRegister<>("i_item_handler", IItemHandler.class, ForgeCapabilities.ITEM_HANDLER).addLang(langTool -> {
             langTool.setCache(iItemHandler.name.toLanguageKey());
             langTool.add(LangType.ZH_CN, "物品处理");
             langTool.add(LangType.EN_CH, "Item Handler");
         });
-        DelayTrigger.addRun(DelayTrigger.LANG, langTool -> {
+        iFluidHandler = new CapabilityRegister<>("i_fluid_handler", IFluidHandler.class, ForgeCapabilities.FLUID_HANDLER).addLang(langTool -> {
             langTool.setCache(iFluidHandler.name.toLanguageKey());
             langTool.add(LangType.ZH_CN, "流体处理");
             langTool.add(LangType.EN_CH, "Fluid Handler");
         });
-        DelayTrigger.addRun(DelayTrigger.LANG, langTool -> {
+        iEnergyStorage = new CapabilityRegister<>("i_energy_storage", IEnergyStorage.class, ForgeCapabilities.ENERGY).addLang(langTool -> {
             langTool.setCache(iEnergyStorage.name.toLanguageKey());
             langTool.add(LangType.ZH_CN, "FE处理");
             langTool.add(LangType.EN_CH, "FE Handler");
         });
-        DelayTrigger.addRun(DelayTrigger.LANG, langTool -> {
+        iManaLevel = new CapabilityRegister<>("i_mana_level", IManaLevel.class, () -> new CapabilityToken<IManaLevel>() {
+        }).addLang(langTool -> {
             langTool.setCache(iManaLevel.name.toLanguageKey());
             langTool.add(LangType.ZH_CN, "灵气等级");
             langTool.add(LangType.EN_CH, "Mana Level");
         });
-        DelayTrigger.addRun(DelayTrigger.LANG, langTool -> {
+
+        iClock = new CapabilityRegister<>("i_clock", IClock.class, () -> new CapabilityToken<IClock>() {
+        }).addLang(langTool -> {
             langTool.setCache(iClock.name.toLanguageKey());
             langTool.add(LangType.ZH_CN, "时钟触发");
             langTool.add(LangType.EN_CH, "Clock");
         });
-        DelayTrigger.addRun(DelayTrigger.LANG, langTool -> {
+        iControl = new CapabilityRegister<>("i_control", IControl.class, () -> new CapabilityToken<IControl>() {
+        }).addLang(langTool -> {
             langTool.setCache(iControl.name.toLanguageKey());
             langTool.add(LangType.ZH_CN, "控制器");
             langTool.add(LangType.EN_CH, "Control");
         });
-        DelayTrigger.addRun(DelayTrigger.LANG, langTool -> {
+        iManaHandle = new CapabilityRegister<>("i_mana_handle", IManaHandle.class, () -> new CapabilityToken<IManaHandle>() {
+        }).addLang(langTool -> {
             langTool.setCache(iManaHandle.name.toLanguageKey());
             langTool.add(LangType.ZH_CN, "灵气处理");
             langTool.add(LangType.EN_CH, "Mana Handler");
         });
-        DelayTrigger.addRun(DelayTrigger.LANG, langTool -> {
+        iShapedDrive = new CapabilityRegister<>("i_shaped_drive", IShapedDrive.class, () -> new CapabilityToken<IShapedDrive>() {
+        }).addLang(langTool -> {
             langTool.setCache(iShapedDrive.name.toLanguageKey());
             langTool.add(LangType.ZH_CN, "配方集");
             langTool.add(LangType.EN_CH, "Shaped Drive");
         });
-        DelayTrigger.addRun(DelayTrigger.LANG, langTool -> {
+        iHandle = new CapabilityRegister<>("i_handle", IHandle.class, () -> new CapabilityToken<IHandle>() {
+        }).addLang(langTool -> {
             langTool.setCache(iHandle.name.toLanguageKey());
             langTool.add(LangType.ZH_CN, "处理器");
             langTool.add(LangType.EN_CH, "Handle");
         });
-        DelayTrigger.addRun(DelayTrigger.LANG, langTool -> {
+        iPosTrack = new CapabilityRegister<>("i_pos_track", IPosTrack.class, () -> new CapabilityToken<IPosTrack>() {
+        });
+        iSkill = new CapabilityRegister<>("i_skill", ISkill.class, () -> new CapabilityToken<ISkill>() {
+        }).addLang(langTool -> {
             langTool.setCache(iSkill.name.toLanguageKey());
             langTool.add(LangType.ZH_CN, "技能");
             langTool.add(LangType.EN_CH, "Skill");
         });
-        DelayTrigger.addRun(DelayTrigger.LANG, langTool -> {
+        iBlack = new CapabilityRegister<>("i_black", IBack.class, () -> new CapabilityToken<IBack>() {
+        });
+        iBlockScan = new CapabilityRegister<>("i_block_scan", IBlockScan.class, () -> new CapabilityToken<IBlockScan>() {
+        }).addLang(langTool -> {
             langTool.setCache(iBlockScan.name.toLanguageKey());
-            langTool.add(LangType.ZH_CN, "扫描方块");
+            langTool.add(LangType.ZH_CN, "方块扫描");
             langTool.add(LangType.EN_CH, "Block Scan");
         });
+
+        iMultiBlock = new CapabilityRegister<>("i_multi_block", IMultiBlock.class, () -> new CapabilityToken<IMultiBlock>() {
+        }).addLang(langTool -> {
+            langTool.setCache(iMultiBlock.name.toLanguageKey());
+            langTool.add(LangType.ZH_CN, "多方块结构");
+            langTool.add(LangType.EN_CH, "Multi Block");
+        });
+        iBlockAttribute = new CapabilityRegister<>("i_block_attribute", IBlockAttribute.class, () -> new CapabilityToken<IBlockAttribute>() {
+        });
+        iBlockAttributeSupplier = new CapabilityRegister<>("i_block_attribute_supplier", IBlockAttributeSupplier.class, () -> new CapabilityToken<IBlockAttributeSupplier>() {
+        });
+
         MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, (Consumer<EventControl>) e -> {
             Level level = e.control.getPosTrack().getLevel();
             if (level != null) {

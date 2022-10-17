@@ -63,7 +63,7 @@ public class ChargeMechanic extends DefaultCapacityMechanic {
                 IManaHandle manaHandle = lazyOptional.orElse(null);
                 outManaMap.put(player.getCapability(CapabilityRegister.iPosTrack.capability).orElse(null), manaHandle);
             }
-            CapabilityHelp.manaPointToPointTransmit(iPosTrack, inManaMap, outManaMap, (long) power.ofValue(manaLevel.level), 0, false);
+            CapabilityHelp.manaPointToPointTransmit(iPosTrack, inManaMap, outManaMap, power.ofValue((long) manaLevel.level), 0, false);
         });
     }
 
@@ -76,10 +76,10 @@ public class ChargeMechanic extends DefaultCapacityMechanic {
 
     @Override
     public void defaultConfig() {
-        power = new INumberPack.LinearFunction(new INumberPack.Constant(12), new INumberPack.Constant(0));
+        power = new INumberPack.ILongPack.LinearFunction(new INumberPack.ILongPack.Constant(12), new INumberPack.ILongPack.Constant(0));
     }
 
     @ConfigField
-    public INumberPack power;
+    public INumberPack<Long> power;
 
 }

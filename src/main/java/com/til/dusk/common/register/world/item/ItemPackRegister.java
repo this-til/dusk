@@ -41,6 +41,7 @@ public abstract class ItemPackRegister extends RegisterPack<ItemPackRegister, It
     public static ClearStaffRegister clearStaff;
     public static CopyStaffRegister copyStaffItem;
     public static ShowStaffRegister showStaff;
+    public static MultiBlockStaffRegister multiBlockStaff;
 
     public static DiamondMakeOperationBasicsRegister diamondMakeOperationBasics;
     public static DiamondMakeOperationRegister diamondMakeOperation;
@@ -72,6 +73,7 @@ public abstract class ItemPackRegister extends RegisterPack<ItemPackRegister, It
         clearStaff = new ClearStaffRegister();
         copyStaffItem = new CopyStaffRegister();
         showStaff = new ShowStaffRegister();
+        multiBlockStaff = new MultiBlockStaffRegister();
         diamondMakeOperationBasics = new DiamondMakeOperationBasicsRegister();
         diamondMakeOperation = new DiamondMakeOperationRegister();
         diamondMakeForming = new DiamondMakeFormingRegister();

@@ -4,6 +4,7 @@ import com.til.dusk.Dusk;
 import com.til.dusk.common.capability.DuskCapabilityProvider;
 import com.til.dusk.common.capability.black.Back;
 import com.til.dusk.common.capability.black.IBack;
+import com.til.dusk.common.capability.block_attribute.IBlockAttribute;
 import com.til.dusk.common.capability.clock.Clock;
 import com.til.dusk.common.capability.clock.IClock;
 import com.til.dusk.common.capability.control.Control;
@@ -45,7 +46,8 @@ public abstract class HandleMechanic extends DefaultCapacityMechanic {
         IControl iControl = duskModCapability.addCapability(CapabilityRegister.iControl.capability, new Control(iPosTrack, List.of(BindType.manaIn, BindType.manaOut, BindType.itemIn, BindType.itemOut, BindType.fluidIn, BindType.fluidOut, BindType.modelStore), manaLevel));
         IBack iUp = duskModCapability.addCapability(CapabilityRegister.iBlack.capability, new Back());
         IClock iClock = duskModCapability.addCapability(CapabilityRegister.iClock.capability, new Clock(iUp, manaLevel));
-        IHandle iHandle = duskModCapability.addCapability(CapabilityRegister.iHandle.capability, new Handle(iPosTrack, getShapedTypeList.get(), iControl, iClock, iUp, manaLevel));
+        IBlockAttribute iBlockAttribute = duskModCapability.addCapability(CapabilityRegister.iBlockAttribute.capability, new IBlockAttribute.Pack(iPosTrack, iClock));
+        IHandle iHandle = duskModCapability.addCapability(CapabilityRegister.iHandle.capability, new Handle(iPosTrack, getShapedTypeList.get(), iControl, iBlockAttribute, iClock, iUp, manaLevel));
     }
 
 }

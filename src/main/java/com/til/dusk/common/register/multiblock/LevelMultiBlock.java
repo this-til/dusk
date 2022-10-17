@@ -100,7 +100,7 @@ public abstract class LevelMultiBlock extends MultiBlock<ManaLevel> {
                 if (!blockState.is(tagKey)) {
                     return false;
                 }
-                if (!stateStrict) {
+                if (stateStrict) {
                     for (Map.Entry<Property<?>, Comparable<?>> entry : blockState.getValues().entrySet()) {
                         String name = entry.getKey().getName();
                         if (!stateMap.containsKey(name)) {

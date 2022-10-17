@@ -3,6 +3,7 @@ package com.til.dusk.common.capability.handle;
 
 import com.til.dusk.common.capability.ITooltipCapability;
 import com.til.dusk.common.capability.black.IBack;
+import com.til.dusk.common.capability.block_attribute.IBlockAttribute;
 import com.til.dusk.common.capability.clock.IClock;
 import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.capability.pos.IPosTrack;
@@ -38,6 +39,8 @@ public interface IHandle extends INBTSerializable<CompoundTag>, ITooltipCapabili
     IClock getClockTime();
 
     IBack getBack();
+
+    IBlockAttribute getBlockAttribute();
 
     IPosTrack getPosTrack();
 }

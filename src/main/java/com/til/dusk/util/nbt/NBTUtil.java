@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import net.minecraft.nbt.*;
 
+import java.util.Map;
 import java.util.Set;
 
 public class NBTUtil {
@@ -20,8 +21,8 @@ public class NBTUtil {
     }
 
     public static void clear(JsonObject jsonObject) {
-        for (String s : jsonObject.keySet()) {
-            jsonObject.remove(s);
+        for (Map.Entry<String, JsonElement> entry : jsonObject.entrySet()) {
+            jsonObject.remove(entry.getKey());
         }
     }
 
@@ -42,7 +43,7 @@ public class NBTUtil {
 
     public static Tag toTag(JsonElement jsonElement) {
         if (jsonElement.isJsonNull()) {
-            return net.minecraft.nbt.StringTag.valueOf("null");
+            return StringTag.valueOf("null");
         }
         if (jsonElement.isJsonPrimitive()) {
             String s = jsonElement.getAsJsonPrimitive().getAsString();
@@ -57,11 +58,11 @@ public class NBTUtil {
             try {
                 return DoubleTag.valueOf(Double.parseDouble(ns));
             } catch (Exception e) {
-                return net.minecraft.nbt.StringTag.valueOf(jsonElement.getAsJsonPrimitive().getAsString());
+                return StringTag.valueOf(jsonElement.getAsJsonPrimitive().getAsString());
             }
         }
         if (jsonElement.isJsonArray()) {
-            net.minecraft.nbt.ListTag listTag = new net.minecraft.nbt.ListTag();
+            ListTag listTag = new ListTag();
             for (JsonElement element : jsonElement.getAsJsonArray()) {
                 listTag.add(toTag(element));
             }
@@ -69,8 +70,8 @@ public class NBTUtil {
         }
         if (jsonElement.isJsonObject()) {
             CompoundTag compoundTag = new CompoundTag();
-            for (String s : jsonElement.getAsJsonObject().keySet()) {
-                compoundTag.put(s, toTag(jsonElement.getAsJsonObject().get(s)));
+            for (Map.Entry<String, JsonElement> entry : jsonElement.getAsJsonObject().entrySet()) {
+                compoundTag.put(entry.getKey(), toTag(entry.getValue()));
             }
             return compoundTag;
         }

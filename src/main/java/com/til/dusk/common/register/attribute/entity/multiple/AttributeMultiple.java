@@ -1,4 +1,4 @@
-package com.til.dusk.common.register.attribute.multiple;
+package com.til.dusk.common.register.attribute.entity.multiple;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.common.config.ConfigField;
@@ -48,20 +48,20 @@ public class AttributeMultiple extends RegisterBasics<AttributeMultiple> {
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
         ATTRIBUTE_MULTIPLE = RegisterManage.create(AttributeMultiple.class, new ResourceLocation(Dusk.MOD_ID, "attribute_multiple"), event);
-        basics = new AttributeMultiple("basics", 1, new INumberPack.Range(new INumberPack.Constant(10), new INumberPack.Constant(0.02)));
-        skill = new AttributeMultiple("skill", 1, new INumberPack.Range(new INumberPack.Constant(10), new INumberPack.Constant(0.02)));
-        effect = new AttributeMultiple("effect", 1, new INumberPack.Range(new INumberPack.Constant(10), new INumberPack.Constant(0.02)));
-        hit = new AttributeMultiple("hit", 1, new INumberPack.Range(new INumberPack.Constant(2), new INumberPack.Constant(0.02)));
-        defense = new AttributeMultiple("defense", 1, new INumberPack.Range(new INumberPack.Constant(1), new INumberPack.Constant(0.02)));
+        basics = new AttributeMultiple("basics", 1, new INumberPack.IDoublePack.Range(new INumberPack.IDoublePack.Constant(10), new INumberPack.IDoublePack.Constant(0.02)));
+        skill = new AttributeMultiple("skill", 1, new INumberPack.IDoublePack.Range(new INumberPack.IDoublePack.Constant(10), new INumberPack.IDoublePack.Constant(0.02)));
+        effect = new AttributeMultiple("effect", 1, new INumberPack.IDoublePack.Range(new INumberPack.IDoublePack.Constant(10), new INumberPack.IDoublePack.Constant(0.02)));
+        hit = new AttributeMultiple("hit", 1, new INumberPack.IDoublePack.Range(new INumberPack.IDoublePack.Constant(2), new INumberPack.IDoublePack.Constant(0.02)));
+        defense = new AttributeMultiple("defense", 1, new INumberPack.IDoublePack.Range(new INumberPack.IDoublePack.Constant(1), new INumberPack.IDoublePack.Constant(0.02)));
     }
 
-    public AttributeMultiple(ResourceLocation name, double basicsValue, INumberPack.Range range) {
+    public AttributeMultiple(ResourceLocation name, double basicsValue, INumberPack.IDoublePack.Range range) {
         super(name, ATTRIBUTE_MULTIPLE);
         this.basicsValue = basicsValue;
         this.range = range;
     }
 
-    public AttributeMultiple(String name, double basicsValue, INumberPack.Range range) {
+    public AttributeMultiple(String name, double basicsValue, INumberPack.IDoublePack.Range range) {
         this(new ResourceLocation(Dusk.MOD_ID, name), basicsValue, range);
     }
 
@@ -84,7 +84,7 @@ public class AttributeMultiple extends RegisterBasics<AttributeMultiple> {
      * 这个属性值存在的范围
      */
     @ConfigField
-    public INumberPack.Range range;
+    public INumberPack.IDoublePack.Range range;
 
     /***
      * 这个乘区的基础值

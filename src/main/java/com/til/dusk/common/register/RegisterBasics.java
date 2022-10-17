@@ -1,7 +1,9 @@
 package com.til.dusk.common.register;
 
 import com.til.dusk.client.data.lang.LangProvider;
+import com.til.dusk.common.event.DelayTrigger;
 import com.til.dusk.common.register.shaped.shapeds.Shaped;
+import com.til.dusk.util.Extension;
 import com.til.dusk.util.Util;
 import net.minecraft.data.recipes.RecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
@@ -61,15 +63,38 @@ public abstract class RegisterBasics<T extends RegisterBasics<?>> {
     }
 
     /***
+     * 便捷添加配方
+     */
+    public T addShaped(Extension.Func<Shaped> recipeBuilder) {
+        DelayTrigger.addRun(DelayTrigger.SHAPED, recipeBuilder);
+        return Util.forcedConversion(this);
+    }
+    /***
      * 注册核查表
      */
     public void registerRecipe(Consumer<RecipeBuilder> recipeConsumer) {
     }
 
     /***
+     * 便捷添加配方
+     */
+    public T addRecipe(Extension.Func<RecipeBuilder> recipeBuilder) {
+        DelayTrigger.addRun(DelayTrigger.RECIPE, recipeBuilder);
+        return Util.forcedConversion(this);
+    }
+
+    /***
      * 注册语言
      */
     public void registerLang(LangProvider.LangTool lang) {
+    }
+
+    /***
+     * 便捷添加语言秒
+     */
+    public T addLang(Extension.Action_1V<LangProvider.LangTool> shapedSupplier) {
+        DelayTrigger.addRun(DelayTrigger.LANG, shapedSupplier);
+        return Util.forcedConversion(this);
     }
 
     /***

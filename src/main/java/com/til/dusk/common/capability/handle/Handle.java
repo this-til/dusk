@@ -1,6 +1,7 @@
 package com.til.dusk.common.capability.handle;
 
 import com.til.dusk.common.capability.black.IBack;
+import com.til.dusk.common.capability.block_attribute.IBlockAttribute;
 import com.til.dusk.common.capability.clock.IClock;
 import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.capability.mana_handle.IManaHandle;
@@ -33,15 +34,17 @@ public class Handle implements IHandle {
     public final IPosTrack posTrack;
     public final Set<Shaped> shapedList;
     public final IControl iControl;
+    public final IBlockAttribute iBlockAttribute;
     public final IClock iClock;
     public final IBack iBack;
     public final int maxParallel;
     public List<ShapedHandle> shapedHandles = new ArrayList<>();
 
-    public Handle(IPosTrack iPosTrack, Set<Shaped> shapedTypes, IControl iControl, IClock iClock, IBack iBack, int maxParallel) {
+    public Handle(IPosTrack iPosTrack, Set<Shaped> shapedTypes, IControl iControl, IBlockAttribute iBlockAttribute, IClock iClock, IBack iBack, int maxParallel) {
         this.shapedList = shapedTypes;
         this.posTrack = iPosTrack;
         this.iControl = iControl;
+        this.iBlockAttribute = iBlockAttribute;
         this.iClock = iClock;
         this.iBack = iBack;
         this.maxParallel = maxParallel;
@@ -49,10 +52,11 @@ public class Handle implements IHandle {
         iBack.add(IBack.UP, v -> up());
     }
 
-    public Handle(IPosTrack iPosTrack, Set<ShapedType> shapedTypes, IControl iControl, IClock iClock, IBack iBack, ManaLevel maxParallel) {
+    public Handle(IPosTrack iPosTrack, Set<ShapedType> shapedTypes, IControl iControl, IBlockAttribute iBlockAttribute, IClock iClock, IBack iBack, ManaLevel maxParallel) {
         this.shapedList = Shaped.get(shapedTypes.toArray(new ShapedType[0]));
         this.posTrack = iPosTrack;
         this.iControl = iControl;
+        this.iBlockAttribute = iBlockAttribute;
         this.iClock = iClock;
         this.iBack = iBack;
         this.maxParallel = maxParallel.parallel;
@@ -66,6 +70,10 @@ public class Handle implements IHandle {
         return maxParallel;
     }
 
+    @Override
+    public IBlockAttribute getBlockAttribute() {
+        return iBlockAttribute;
+    }
 
     @Override
     public IControl getControl() {
@@ -303,7 +311,7 @@ public class Handle implements IHandle {
             if (shapedHandle.outMana > 0) {
                 iTooltip.add(Lang.getLang(Component.translatable(Lang.getKey("输出灵气")), Component.literal(String.valueOf(shapedHandle.outMana))));
             }
-            if (shapedHandle.outItem != null) {
+            if (shapedHandle.outItem != null && !shapedHandle.outItem.isEmpty()) {
                 iTooltip.indent();
                 iTooltip.add(Lang.getLang(Lang.getLang(BindType.itemOut), Component.translatable(":")));
                 iTooltip.indent();
@@ -313,7 +321,7 @@ public class Handle implements IHandle {
                 iTooltip.returnIndent();
                 iTooltip.returnIndent();
             }
-            if (shapedHandle.outFluid != null) {
+            if (shapedHandle.outFluid != null && !shapedHandle.outFluid.isEmpty()) {
                 iTooltip.indent();
                 iTooltip.add(Lang.getLang(Lang.getLang(BindType.fluidOut), Component.translatable(":")));
                 iTooltip.indent();

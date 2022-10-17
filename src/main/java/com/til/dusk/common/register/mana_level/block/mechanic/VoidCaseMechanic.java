@@ -193,9 +193,9 @@ public class VoidCaseMechanic extends DefaultCapacityMechanic {
 
     @Override
     public void defaultConfig() {
-        loadBasics = new INumberPack.LinearFunction(new INumberPack.Constant(4096), new INumberPack.Constant(0));
+        loadBasics = new INumberPack.IIntPack.LinearFunction(new INumberPack.IIntPack.Constant(4096), new INumberPack.IIntPack.Constant(0));
     }
 
     @ConfigField
-    public INumberPack loadBasics;
+    public INumberPack<Integer> loadBasics;
 }

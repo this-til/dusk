@@ -165,9 +165,9 @@ public class VoidTankMechanic extends DefaultCapacityMechanic {
 
     @Override
     public void defaultConfig() {
-        loadBasics = new INumberPack.LinearFunction(new INumberPack.Constant(12800000), new INumberPack.Constant(0));
+        loadBasics = new INumberPack.IIntPack.LinearFunction(new INumberPack.IIntPack.Constant(12800000), new INumberPack.IIntPack.Constant(0));
     }
 
     @ConfigField
-    public INumberPack loadBasics;
+    public INumberPack<Integer> loadBasics;
 }

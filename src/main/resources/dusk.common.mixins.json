@@ -1,0 +1,12 @@
+{
+  "required": false,
+  "minVersion": "0.7",
+  "package": "com.til.dusk.common.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "refmap": "dusk.common.refmap.json"
+}

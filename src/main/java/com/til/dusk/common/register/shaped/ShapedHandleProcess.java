@@ -5,6 +5,7 @@ import com.til.dusk.common.capability.CapabilityHelp;
 import com.til.dusk.common.capability.handle.EventHandle;
 import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.register.RegisterManage;
+import com.til.dusk.common.register.attribute.block.BlockAttribute;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -27,15 +28,17 @@ public abstract class ShapedHandleProcess extends RegisterBasics<ShapedHandlePro
 
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
-        SHAPED_TYPE_PROCESS = RegisterManage.create(ShapedHandleProcess.class, new ResourceLocation(Dusk.MOD_ID, "shaped_handle_process"), event);;
+        SHAPED_TYPE_PROCESS = RegisterManage.create(ShapedHandleProcess.class, new ResourceLocation(Dusk.MOD_ID, "shaped_handle_process"), event);
+        ;
         production = new ShapedHandleProcess("production") {
             @Override
             public void up(EventHandle.EventShapedHandle.Up event) {
-                if (CapabilityHelp.extractMana(event.iHandle.getPosTrack(), null, event.manaIn, event.shapedHandle.consumeMana, false) < event.shapedHandle.consumeMana) {
+                if (CapabilityHelp.extractMana(event.iHandle.getPosTrack(), null, event.manaIn,
+                        event.shapedHandle.consumeMana * event.iHandle.getBlockAttribute().get(BlockAttribute.consume), false) < event.shapedHandle.consumeMana) {
                     event.shapedHandle.process = trippingOperation;
                     event.shapedHandle._surplusTime = event.shapedHandle.surplusTime;
                 } else {
-                    event.shapedHandle._surplusTime--;
+                    event.shapedHandle._surplusTime -= event.iHandle.getBlockAttribute().get(BlockAttribute.efficiency);
                     if (event.shapedHandle._surplusTime <= 0) {
                         event.shapedHandle.process = out;
                     }

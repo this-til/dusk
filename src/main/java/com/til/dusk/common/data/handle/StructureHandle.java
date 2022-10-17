@@ -50,11 +50,11 @@ public class StructureHandle {
         int centerId = -1;
         List<Map.Entry<OreBlock, String>> tagComparisonTable = new ArrayList<>();
         {
-            tagComparisonTable.add(new Extension.VariableData_2<>(OreBlock.coil, "OreBlock.coil"));
-            tagComparisonTable.add(new Extension.VariableData_2<>(OreBlock.slab, "OreBlock.slab"));
-            tagComparisonTable.add(new Extension.VariableData_2<>(OreBlock.stairs, "OreBlock.stairs"));
-            tagComparisonTable.add(new Extension.VariableData_2<>(OreBlock.wall, "OreBlock.wall"));
-            tagComparisonTable.add(new Extension.VariableData_2<>(OreBlock.block, "OreBlock.block"));
+            tagComparisonTable.add(new Extension.VariableData_2<>(OreBlock.coil, "OreBlock.coil.name"));
+            tagComparisonTable.add(new Extension.VariableData_2<>(OreBlock.slab, "OreBlock.slab.name"));
+            tagComparisonTable.add(new Extension.VariableData_2<>(OreBlock.stairs, "OreBlock.stairs.name"));
+            tagComparisonTable.add(new Extension.VariableData_2<>(OreBlock.wall, "OreBlock.wall.name"));
+            tagComparisonTable.add(new Extension.VariableData_2<>(OreBlock.block, "OreBlock.block.name"));
         }
         File structureFile = gamePath.resolve("handle/structures").toFile();
         File[] allFile = structureFile.listFiles((file, name) -> name.endsWith(NBT));
@@ -158,7 +158,7 @@ public class StructureHandle {
                 } else {
                     state.append("null");
                 }
-                out.append(String.format("new BlockPosPack(%s.name,%s)", outTagName, state));
+                out.append(String.format("new BlockPosPack(%s,%s)", outTagName, state));
                 for (BlockPos blockPos : entry.getValue()) {
                     out.append('\n').append("    ").append("    ").append(String.format(".addPos(new BlockPos(%s, %s, %s))", blockPos.getX(), blockPos.getY(), blockPos.getZ()));
                 }

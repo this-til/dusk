@@ -1,9 +1,9 @@
-package com.til.dusk.common.register.attribute.limit;
+package com.til.dusk.common.register.attribute.entity.limit;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.register.RegisterManage;
-import com.til.dusk.common.register.attribute.Attribute;
+import com.til.dusk.common.register.attribute.entity.Attribute;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;

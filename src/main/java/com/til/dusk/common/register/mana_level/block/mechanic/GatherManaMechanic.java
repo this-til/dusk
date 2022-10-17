@@ -29,8 +29,8 @@ public class GatherManaMechanic extends DefaultCapacityMechanic {
         super.addCapability(event, duskModCapability, manaLevel, iPosTrack);
         IBack iBack = duskModCapability.addCapability(CapabilityRegister.iBlack.capability, new Back());
         duskModCapability.addCapability(CapabilityRegister.iManaHandle.capability, new ManaHandle(
-                (long) manaBasics.ofValue(manaLevel.level),
-                (long) rateBasics.ofValue(manaLevel.level), iBack));
+                manaBasics.ofValue(manaLevel.level),
+                rateBasics.ofValue(manaLevel.level), iBack));
     }
 
     @Override
@@ -43,15 +43,15 @@ public class GatherManaMechanic extends DefaultCapacityMechanic {
 
     @Override
     public void defaultConfig() {
-        manaBasics = new INumberPack.LinearFunction(new INumberPack.Constant(5120000), new INumberPack.Constant(0));
-        rateBasics = new INumberPack.LinearFunction(new INumberPack.Constant(128), new INumberPack.Constant(0));
+        manaBasics = new INumberPack.ILongPack.LinearFunction(new INumberPack.ILongPack.Constant(5120000), new INumberPack.ILongPack.Constant(0));
+        rateBasics = new INumberPack.ILongPack.LinearFunction(new INumberPack.ILongPack.Constant(128), new INumberPack.ILongPack.Constant(0));
     }
 
     @ConfigField
-    public INumberPack manaBasics;
+    public INumberPack<Long> manaBasics;
 
     @ConfigField
-    public INumberPack rateBasics;
+    public INumberPack<Long> rateBasics;
 
 
 }

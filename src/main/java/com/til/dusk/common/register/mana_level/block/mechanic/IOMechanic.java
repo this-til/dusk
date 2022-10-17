@@ -102,7 +102,7 @@ public abstract class IOMechanic extends DefaultCapacityMechanic {
         @Override
         public void defaultConfig() {
             ioColor = ColorPrefab.MANA_IO;
-            transmissionAmount = new INumberPack.LinearFunction(new INumberPack.Constant(1024), new INumberPack.Constant(0));
+            transmissionAmount = new INumberPack.IIntPack.LinearFunction(new INumberPack.IIntPack.Constant(1024), new INumberPack.IIntPack.Constant(0));
         }
 
     }
@@ -119,7 +119,7 @@ public abstract class IOMechanic extends DefaultCapacityMechanic {
             IControl iControl = duskModCapability.addCapability(CapabilityRegister.iControl.capability, new Control(iPosTrack, List.of(BindType.itemIn, BindType.itemOut, BindType.manaIn), manaLevel));
             IBack iUp = duskModCapability.addCapability(CapabilityRegister.iBlack.capability, new Back());
             IClock iClock = duskModCapability.addCapability(CapabilityRegister.iClock.capability, new ManaClock(iUp,
-                    (int) (manaLevel.clock / transmissionEfficiency.ofValue(manaLevel.level)), iControl, (long) consume.ofValue(manaLevel.level)));
+                    (int) (manaLevel.clock / transmissionEfficiency.ofValue(manaLevel.level)), iControl, consume.ofValue((long) manaLevel.level)));
             iClock.addBlock(() -> {
                 Level level = event.getObject().getLevel();
                 if (level == null) {
@@ -187,8 +187,8 @@ public abstract class IOMechanic extends DefaultCapacityMechanic {
         @Override
         public void defaultConfig() {
             ioColor = ColorPrefab.ITEM_IO;
-            transmissionEfficiency = new INumberPack.Constant(5);
-            consume = new INumberPack.LinearFunction(new INumberPack.Constant(2), new INumberPack.Constant(0));
+            transmissionEfficiency = new INumberPack.IIntPack.Constant(5);
+            consume = new INumberPack.ILongPack.LinearFunction(new INumberPack.ILongPack.Constant(2), new INumberPack.ILongPack.Constant(0));
         }
     }
 
@@ -204,7 +204,7 @@ public abstract class IOMechanic extends DefaultCapacityMechanic {
             IControl iControl = duskModCapability.addCapability(CapabilityRegister.iControl.capability, new Control(iPosTrack, List.of(BindType.fluidIn, BindType.fluidOut, BindType.manaIn), manaLevel));
             IBack iBack = duskModCapability.addCapability(CapabilityRegister.iBlack.capability, new Back());
             IClock iClock = duskModCapability.addCapability(CapabilityRegister.iClock.capability, new ManaClock(iBack,
-                    (int) (manaLevel.clock / transmissionEfficiency.ofValue(manaLevel.level)), iControl, (long) consume.ofValue(manaLevel.level)));
+                    (int) (manaLevel.clock / transmissionEfficiency.ofValue(manaLevel.level)), iControl,  consume.ofValue((long) manaLevel.level)));
             iClock.addBlock(() -> {
                 Level level = event.getObject().getLevel();
                 if (level == null) {
@@ -271,19 +271,19 @@ public abstract class IOMechanic extends DefaultCapacityMechanic {
         @Override
         public void defaultConfig() {
             ioColor = ColorPrefab.ITEM_IO;
-            transmissionEfficiency = new INumberPack.Constant(5);
-            transmissionAmount = new INumberPack.LinearFunction(new INumberPack.Constant(1000), new INumberPack.Constant(0));
-            consume = new INumberPack.LinearFunction(new INumberPack.Constant(2), new INumberPack.Constant(0));
+            transmissionEfficiency = new INumberPack.IIntPack.Constant(5);
+            transmissionAmount = new INumberPack.IIntPack.LinearFunction(new INumberPack.IIntPack.Constant(1000), new INumberPack.IIntPack.Constant(0));
+            consume = new INumberPack.ILongPack.LinearFunction(new INumberPack.ILongPack.Constant(2), new INumberPack.ILongPack.Constant(0));
         }
     }
 
     @ConfigField
     public DuskColor ioColor;
     @ConfigField
-    public INumberPack transmissionEfficiency;
+    public INumberPack<Integer> transmissionEfficiency;
     @ConfigField
-    public INumberPack transmissionAmount;
+    public INumberPack<Integer> transmissionAmount;
     @ConfigField
-    public INumberPack consume;
+    public INumberPack<Long> consume;
 
 }

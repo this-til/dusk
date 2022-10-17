@@ -1,0 +1,13 @@
+{
+  "required": false,
+  "minVersion": "0.7",
+  "package": "com.til.dusk.client.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "LevelRendererMixin"
+  ],
+  "injectors": {
+  "defaultRequire": 1
+},
+  "refmap": "dusk.client.refmap.json"
+}

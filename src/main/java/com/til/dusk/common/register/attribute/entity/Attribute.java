@@ -1,4 +1,4 @@
-package com.til.dusk.common.register.attribute.up;
+package com.til.dusk.common.register.attribute.entity;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.common.config.ConfigField;
@@ -17,21 +17,22 @@ import java.util.function.Supplier;
  * @author til
  */
 @Mod.EventBusSubscriber(modid = Dusk.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public abstract class AttributeUp extends RegisterBasics<AttributeUp> {
-    public static Supplier<IForgeRegistry<AttributeUp>> ATTRIBUTE_UP;
+public abstract class Attribute extends RegisterBasics<Attribute> {
+    public static Supplier<IForgeRegistry<Attribute>> ATTRIBUTE_REGISTERS;
 
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
-        ATTRIBUTE_UP = RegisterManage.create(AttributeUp.class, new ResourceLocation(Dusk.MOD_ID, "attribute_up"), event);
+        ATTRIBUTE_REGISTERS = RegisterManage.create(Attribute.class, new ResourceLocation(Dusk.MOD_ID, "attribute"), event);
     }
 
-    public AttributeUp(ResourceLocation name) {
-        super(name, ATTRIBUTE_UP);
+    public Attribute(ResourceLocation name) {
+        super(name, ATTRIBUTE_REGISTERS);
     }
 
-    public AttributeUp(String name) {
+    public Attribute(String name) {
         this(new ResourceLocation(Dusk.MOD_ID, name));
     }
+
     @Override
     public boolean equals(Object o) {
         return super.equals(o);
@@ -41,4 +42,11 @@ public abstract class AttributeUp extends RegisterBasics<AttributeUp> {
     public int hashCode() {
         return super.hashCode();
     }
+
+    /***
+     * 这个属性值存在的范围
+     */
+    @ConfigField
+    public INumberPack.IDoublePack.Range range;
+
 }

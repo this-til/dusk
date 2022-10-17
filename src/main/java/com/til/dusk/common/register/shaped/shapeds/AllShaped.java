@@ -1,6 +1,7 @@
 package com.til.dusk.common.register.shaped.shapeds;
 
 import com.til.dusk.Dusk;
+import com.til.dusk.common.event.DelayTrigger;
 import com.til.dusk.common.event.RegisterShapedEvent;
 import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.register.RegisterManage;
@@ -59,6 +60,7 @@ public class AllShaped {
             allRegisterBasic.registerShaped(shapedConsumer);
         }
         Dusk.instance.modEventBus.post(new RegisterShapedEvent(shapedConsumer));
+        DelayTrigger.run(DelayTrigger.SHAPED, r -> shapedConsumer.accept(r.func()));
         for (Map.Entry<ShapedType, Map<ShapedDrive, List<Shaped>>> e1 : map.entrySet()) {
             for (Map.Entry<ShapedDrive, List<Shaped>> e2 : e1.getValue().entrySet()) {
                 AllShaped.Judge judge = new AllShaped.Judge();
