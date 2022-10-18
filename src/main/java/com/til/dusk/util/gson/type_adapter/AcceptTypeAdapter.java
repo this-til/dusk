@@ -49,7 +49,7 @@ public class AcceptTypeAdapter<T> extends TypeAdapter<T> {
         } else {
             vJson = gson.getAdapter(value.getClass()).toJsonTree(Util.forcedConversion(value));
         }
-        if (vJson.isJsonObject() && !vJson.getAsJsonObject().has(TYPE)) {
+        if (vJson.isJsonObject()) {
             for (Map.Entry<String, JsonElement> entry : vJson.getAsJsonObject().entrySet()) {
                 jsonObject.add(entry.getKey(), entry.getValue());
             }

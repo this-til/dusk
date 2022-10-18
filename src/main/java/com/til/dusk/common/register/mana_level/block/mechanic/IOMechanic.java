@@ -224,7 +224,7 @@ public abstract class IOMechanic extends DefaultCapacityMechanic {
                         outMap.put(entry.getKey(), entry.getValue());
                     }
                 }
-                int maxRate = (int) transmissionAmount.ofValue(manaLevel.level);
+                int maxRate = transmissionAmount.ofValue(manaLevel.level);
                 FluidStack outSimulate = null;
                 Extension.Data_2<Map.Entry<IPosTrack, IFluidHandler>, FluidStack> outData = null;
                 for (Map.Entry<IPosTrack, IFluidHandler> entry : inMap.entrySet()) {
@@ -270,7 +270,7 @@ public abstract class IOMechanic extends DefaultCapacityMechanic {
 
         @Override
         public void defaultConfig() {
-            ioColor = ColorPrefab.ITEM_IO;
+            ioColor = ColorPrefab.FLUID_IO;
             transmissionEfficiency = new INumberPack.IIntPack.Constant(5);
             transmissionAmount = new INumberPack.IIntPack.LinearFunction(new INumberPack.IIntPack.Constant(1000), new INumberPack.IIntPack.Constant(0));
             consume = new INumberPack.ILongPack.LinearFunction(new INumberPack.ILongPack.Constant(2), new INumberPack.ILongPack.Constant(0));

@@ -31,9 +31,13 @@ public class AccelerateMultiBlockMechanic extends ManaLevelMultiBlockMechanic {
     public void defaultConfig() {
         multiBlock = MultiBlock.accelerate;
         clock = new INumberPack.IIntPack.Constant(30 * 20);
-        supplier = Map.of(BlockAttribute.efficiency, new INumberPack.IIntPack.PackList(List.of(
+        supplier = Map.of(
+                BlockAttribute.efficiency, new INumberPack.IIntPack.PackList(List.of(
                 new INumberPack.IIntPack.LinearFunction(new INumberPack.IIntPack.Constant(1), new INumberPack.IIntPack.Constant(1)),
-                new INumberPack.IIntPack.ExponentialFunction(new INumberPack.IIntPack.Constant(2))
-        )));
+                new INumberPack.IIntPack.ExponentialFunction(new INumberPack.IIntPack.Constant(2)))),
+                BlockAttribute.consume, new INumberPack.IIntPack.PackList(List.of(
+                        new INumberPack.IIntPack.LinearFunction(new INumberPack.IIntPack.Constant(1), new INumberPack.IIntPack.Constant(1)),
+                        new INumberPack.IIntPack.ExponentialFunction(new INumberPack.IIntPack.Constant(2))))
+        );
     }
 }

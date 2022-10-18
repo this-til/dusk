@@ -113,6 +113,16 @@ public abstract class OreBlock extends BlockUnitRegister<OreBlock, Ore> {
         itemColorPack.addColor(1, (blockState, blockAndTintGetter, blockPos) -> ore.color);
     }
 
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
     /***
      * 强度
      */

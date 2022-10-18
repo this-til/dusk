@@ -152,6 +152,16 @@ public abstract class ManaLevel extends UnitRegister<ManaLevel, ManaLevelItem, M
 
     public static RegistryPack<ManaLevel, ManaLevelItem, ManaLevelBlock, ManaLevelFluid> cellRegistry;
 
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
     @Nullable
     public ManaLevel getUp() {
         return up;

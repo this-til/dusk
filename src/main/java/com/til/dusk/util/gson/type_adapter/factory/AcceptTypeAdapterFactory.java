@@ -15,17 +15,11 @@ import java.util.Map;
  * @author til
  */
 public class AcceptTypeAdapterFactory implements TypeAdapterFactory {
-    public Map<TypeToken<?>, TypeAdapter<?>> map = new HashMap<>();
 
     @Override
     public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
         if (pass(type)) {
-            if (map.containsKey(type)) {
-                return null;
-            }
-            AcceptTypeAdapter<T> acceptTypeAdapter = new AcceptTypeAdapter<>(gson, type, gson.getDelegateAdapter(this, type));
-            map.put(type, acceptTypeAdapter);
-            return acceptTypeAdapter;
+            return new AcceptTypeAdapter<>(gson, type, gson.getDelegateAdapter(this, type));
         }
         return null;
     }

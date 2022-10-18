@@ -155,94 +155,104 @@ public class Handle implements IHandle {
 
         Set<ShapedDrive> shapedDrives = getShapedDrive();
         Set<Shaped> needMate = new HashSet<>();
-        for (Shaped s : this.shapedList) {
-            if (!shapedDrives.contains(s.shapedDrive)) {
-                continue;
-            }
-            if (!s.hasItemIn() && !s.hasFluidIn()) {
-                ShapedHandle shapedHandle = s.get(this, null, null);
-                if (shapedHandle != null) {
-                    addShapedHandle(shapedHandle);
-                    return;
-                }
-            }
-            if (s.hasItemIn() && itemIn.isEmpty()) {
-                continue;
-            }
-            if (s.hasFluidIn() && fluidIn.isEmpty()) {
-                continue;
-            }
-            needMate.add(s);
-        }
-        if (needMate.isEmpty()) {
-            return;
-        }
         Set<Shaped> cache = new HashSet<>();
         Set<Shaped> canUse = new HashSet<>();
-        for (Shaped shaped : needMate) {
-            if (!shaped.hasFluidIn()) {
-                cache.add(shaped);
-                canUse.add(shaped);
-            }
-        }
-        if (!cache.isEmpty()) {
-            for (Shaped shaped : cache) {
-                needMate.remove(shaped);
-            }
-            cache.clear();
-        }
-        if (!fluidIn.isEmpty()) {
-            for (Map.Entry<IPosTrack, IFluidHandler> entry : fluidIn.entrySet()) {
-                IFluidHandler iFluidHandler = entry.getValue();
-                for (int i = 0; i < iFluidHandler.getTanks(); i++) {
-                    FluidStack fluidStack = iFluidHandler.getFluidInTank(i);
-                    for (Shaped shaped : needMate) {
-                        if (!shaped.screenOfFluid(fluidStack)) {
-                            continue;
-                        }
-                        cache.add(shaped);
-                        canUse.add(shaped);
-                    }
-                    if (!cache.isEmpty()) {
-                        for (Shaped shaped : cache) {
-                            needMate.remove(shaped);
-                        }
-                        cache.clear();
-                    }
-                }
-            }
-        }
-        if (canUse.isEmpty()) {
-            return;
-        }
-        if (itemIn.isEmpty()) {
-            for (Shaped shaped : canUse) {
-                if (shaped.hasItemIn()) {
+        ShapedHandle shapedHandle;
+        do {
+            shapedHandle = null;
+            for (Shaped s : this.shapedList) {
+                if (!shapedDrives.contains(s.shapedDrive)) {
                     continue;
                 }
-                ShapedHandle shapedHandle = shaped.get(this, null, fluidIn);
-                if (shapedHandle != null) {
-                    addShapedHandle(shapedHandle);
-                    return;
+                if (!s.hasItemIn() && !s.hasFluidIn()) {
+                    shapedHandle = s.get(this, null, null);
+                    if (shapedHandle != null) {
+                        addShapedHandle(shapedHandle);
+                        break;
+                    }
+                }
+                if (s.hasItemIn() && itemIn.isEmpty()) {
+                    continue;
+                }
+                if (s.hasFluidIn() && fluidIn.isEmpty()) {
+                    continue;
+                }
+                needMate.add(s);
+            }
+            if (shapedHandle != null) {
+                continue;
+            }
+            if (needMate.isEmpty()) {
+                return;
+            }
+            for (Shaped shaped : needMate) {
+                if (!shaped.hasFluidIn()) {
+                    cache.add(shaped);
+                    canUse.add(shaped);
                 }
             }
-        } else {
-            for (Map.Entry<IPosTrack, IItemHandler> entry : itemIn.entrySet()) {
-                IItemHandler iItemHandler = entry.getValue();
-                for (int i = 0; i < iItemHandler.getSlots(); i++) {
-                    ItemStack itemStack = iItemHandler.getStackInSlot(i);
-                    for (Shaped shaped : canUse) {
-                        if (shaped.screenOfItem(itemStack)) {
-                            ShapedHandle shapedHandle = shaped.get(this, entry, fluidIn);
-                            if (shapedHandle != null) {
-                                addShapedHandle(shapedHandle);
-                                return;
+            if (!cache.isEmpty()) {
+                for (Shaped shaped : cache) {
+                    needMate.remove(shaped);
+                }
+                cache.clear();
+            }
+            if (!fluidIn.isEmpty()) {
+                for (Map.Entry<IPosTrack, IFluidHandler> entry : fluidIn.entrySet()) {
+                    IFluidHandler iFluidHandler = entry.getValue();
+                    for (int i = 0; i < iFluidHandler.getTanks(); i++) {
+                        FluidStack fluidStack = iFluidHandler.getFluidInTank(i);
+                        for (Shaped shaped : needMate) {
+                            if (!shaped.screenOfFluid(fluidStack)) {
+                                continue;
                             }
+                            cache.add(shaped);
+                            canUse.add(shaped);
+                        }
+                        if (!cache.isEmpty()) {
+                            for (Shaped shaped : cache) {
+                                needMate.remove(shaped);
+                            }
+                            cache.clear();
                         }
                     }
                 }
             }
-        }
+            if (canUse.isEmpty()) {
+                return;
+            }
+            if (itemIn.isEmpty()) {
+                for (Shaped shaped : canUse) {
+                    if (shaped.hasItemIn()) {
+                        continue;
+                    }
+                    shapedHandle = shaped.get(this, null, fluidIn);
+                    if (shapedHandle != null) {
+                        addShapedHandle(shapedHandle);
+                        break;
+                    }
+                }
+            } else {
+                for (Map.Entry<IPosTrack, IItemHandler> entry : itemIn.entrySet()) {
+                    IItemHandler iItemHandler = entry.getValue();
+                    for (int i = 0; i < iItemHandler.getSlots(); i++) {
+                        ItemStack itemStack = iItemHandler.getStackInSlot(i);
+                        for (Shaped shaped : canUse) {
+                            if (shaped.screenOfItem(itemStack)) {
+                                shapedHandle = shaped.get(this, entry, fluidIn);
+                                if (shapedHandle != null) {
+                                    addShapedHandle(shapedHandle);
+                                    break;
+                                }
+                            }
+                        }
+                        if (shapedHandle != null) {
+                            break;
+                        }
+                    }
+                }
+            }
+        } while (shapedHandle != null && shapedHandles.size() < getParallelHandle());
     }
 
     @Override
@@ -273,10 +283,8 @@ public class Handle implements IHandle {
 
     @Override
     public void appendTooltip(IComponentPack iTooltip, CompoundTag compoundTag) {
-        iTooltip.add(Lang.getLang(Lang.getLang(CapabilityRegister.iControl),
-                Component.literal(":")));
-        iTooltip.add(Lang.getLang(Component.translatable(Lang.getKey("最大并行配方")),
-                Component.literal(String.valueOf(AllNBTPack.MAX_PARALLEL.get(compoundTag)))));
+        iTooltip.add(Lang.getLang(Lang.getLang(CapabilityRegister.iControl), Component.literal(":")));
+        iTooltip.add(Lang.getLang(Component.translatable(Lang.getKey("最大并行配方")), Component.literal(String.valueOf(AllNBTPack.MAX_PARALLEL.get(compoundTag)))));
         List<ShapedDrive> shapedDriveList = AllNBTPack.SHAPED_DRIVE_LIST.get(compoundTag);
         StringBuilder stringBuilder = new StringBuilder();
         if (shapedDriveList.isEmpty()) {

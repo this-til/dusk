@@ -7,6 +7,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -80,6 +81,12 @@ public abstract class Delayed<E> {
 
     public static class ManaLevelShapedOreConfigDelayed extends Delayed<List<IShapedOreConfig<ManaLevel>>>{
         public ManaLevelShapedOreConfigDelayed(Supplier<List<IShapedOreConfig<ManaLevel>>> supplier) {
+            super(supplier);
+        }
+    }
+
+    public static class BlockStateDelayed extends Delayed<BlockState> {
+        public BlockStateDelayed(Supplier<BlockState> supplier) {
             super(supplier);
         }
     }

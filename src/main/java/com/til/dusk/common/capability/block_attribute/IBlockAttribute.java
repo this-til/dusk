@@ -61,7 +61,7 @@ public interface IBlockAttribute {
             if (map == null || !map.containsKey(nBlockAttribute)) {
                 return nBlockAttribute.range.ofValue(1);
             }
-            return nBlockAttribute.range.ofValue(Util.forcedConversion(map.get(nBlockAttribute)));
+            return nBlockAttribute.range.ofValue((Number) map.get(nBlockAttribute));
         }
     }
 }

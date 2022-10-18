@@ -10,6 +10,7 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtIo;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -48,14 +49,12 @@ public class StructureHandle {
         String airName = Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(Blocks.AIR)).toString();
         BlockPos centerPos = null;
         int centerId = -1;
-        List<Map.Entry<OreBlock, String>> tagComparisonTable = new ArrayList<>();
-        {
-            tagComparisonTable.add(new Extension.VariableData_2<>(OreBlock.coil, "OreBlock.coil.name"));
-            tagComparisonTable.add(new Extension.VariableData_2<>(OreBlock.slab, "OreBlock.slab.name"));
-            tagComparisonTable.add(new Extension.VariableData_2<>(OreBlock.stairs, "OreBlock.stairs.name"));
-            tagComparisonTable.add(new Extension.VariableData_2<>(OreBlock.wall, "OreBlock.wall.name"));
-            tagComparisonTable.add(new Extension.VariableData_2<>(OreBlock.block, "OreBlock.block.name"));
-        }
+        Map<OreBlock, String> oreBlockName = new HashMap<>();
+        oreBlockName.put(OreBlock.coil, "OreBlock.coil.name");
+        oreBlockName.put(OreBlock.slab, "OreBlock.slab.name");
+        oreBlockName.put(OreBlock.stairs, "OreBlock.stairs.name");
+        oreBlockName.put(OreBlock.wall, "OreBlock.wall.name");
+        oreBlockName.put(OreBlock.block, "OreBlock.block.name");
         File structureFile = gamePath.resolve("handle/structures").toFile();
         File[] allFile = structureFile.listFiles((file, name) -> name.endsWith(NBT));
         if (allFile == null) {
@@ -122,20 +121,10 @@ public class StructureHandle {
             for (Map.Entry<Integer, List<BlockPos>> entry : idPos.entrySet()) {
                 CompoundTag compound = paletteMap.get(entry.getKey());
                 ResourceLocation name = new ResourceLocation(compound.getString(NAME));
-                OreBlock tagName = null;
-                String outTagName = "";
-                for (Map.Entry<OreBlock, String> entry_ : tagComparisonTable) {
-                    if (!name.getNamespace().equals(entry_.getKey().name.getNamespace())) {
-                        continue;
-                    }
-                    if (!name.getPath().contains(entry_.getKey().name.getPath())) {
-                        continue;
-                    }
-                    tagName = entry_.getKey();
-                    outTagName = entry_.getValue();
-                    break;
+                Block block = ForgeRegistries.BLOCKS.getValue(name);
+                if (block == null) {
+                    continue;
                 }
-                assert tagName != null;
                 if (!isFirst) {
                     out.append(',').append('\n').append("    ");
                 }
@@ -158,7 +147,18 @@ public class StructureHandle {
                 } else {
                     state.append("null");
                 }
-                out.append(String.format("new BlockPosPack(%s,%s)", outTagName, state));
+                String outTagName = "";
+                for (OreBlock oreBlock : OreBlock.ORE_BLOCK.get()) {
+                    if (block.defaultBlockState().is(oreBlock.tagPackSupplier.getTagPack().blockTagKey())) {
+                        outTagName = oreBlockName.get(oreBlock);
+                        break;
+                    }
+                }
+                if (!oreBlockName.isEmpty()) {
+                    out.append(String.format("new IMultiBlockPack.ManaLevelAcceptableBlockPack(%s,%s)", outTagName, state));
+                } else {
+                    out.append(String.format("new IMultiBlockPack.BlockStateBlockPack(() -> BlockStateUtil.create(ForgeRegistries.BLOCKS.getValue(new ResourceLocation(%s)),%s))", name, state));
+                }
                 for (BlockPos blockPos : entry.getValue()) {
                     out.append('\n').append("    ").append("    ").append(String.format(".addPos(new BlockPos(%s, %s, %s))", blockPos.getX(), blockPos.getY(), blockPos.getZ()));
                 }

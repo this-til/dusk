@@ -1,6 +1,7 @@
 package com.til.dusk.common.register.multiblock;
 
 import com.til.dusk.Dusk;
+import com.til.dusk.common.config.ConfigField;
 import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.register.RegisterManage;
 import com.til.dusk.common.register.multiblock.multiblocks.*;
@@ -12,6 +13,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.NewRegistryEvent;
+import org.checkerframework.checker.units.qual.C;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -46,8 +48,16 @@ public abstract class MultiBlock<D> extends RegisterBasics<MultiBlock<D>> {
      * @param d 自定义数据
      * @return 是否完成
      */
-    public abstract boolean isCompleted(Level level, BlockPos core, D d);
+    public boolean isCompleted(Level level, BlockPos core, D d) {
+        for (IMultiBlockPack<D> diMultiBlockPack : getMultiBlockPack(d)) {
+            if (!diMultiBlockPack.isCompleted(level, core, d)) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     public abstract List<DefaultBlockPack> asDefaultBlockPack(D d);
+    public abstract List<IMultiBlockPack<D>> getMultiBlockPack(D d);
 
 }

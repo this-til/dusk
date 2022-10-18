@@ -1,10 +1,13 @@
 package com.til.dusk.util;
 
+import com.til.dusk.util.gson.AcceptTypeJson;
+
 import java.util.Map;
 import java.util.function.Supplier;
 
 public class Extension {
 
+    @AcceptTypeJson
     public interface Action {
 
         Action empty = () -> {
@@ -13,46 +16,57 @@ public class Extension {
         void action();
     }
 
+    @AcceptTypeJson
     public interface Action_1V<A> {
         void action(A a);
     }
 
+    @AcceptTypeJson
     public interface Action_2V<A, B> {
         void action(A a, B b);
     }
 
+    @AcceptTypeJson
     public interface Action_3V<A, B, C> {
         void action(A a, B b, C c);
     }
 
+    @AcceptTypeJson
     public interface Action_4V<A, B, C, D> {
         void action(A a, B b, C c, D d);
     }
 
+    @AcceptTypeJson
     public interface Action_5V<A, B, C, D, E> {
         void action(A a, B b, C c, D d, E e);
     }
 
+    @AcceptTypeJson
     public interface Action_6V<A, B, C, D, E, F> {
         void action(A a, B b, C c, D d, E e, F f);
     }
 
+    @AcceptTypeJson
     public interface Func<O> {
         O func();
     }
 
+    @AcceptTypeJson
     public interface Func_1I<I, O> {
         O func(I i);
     }
 
+    @AcceptTypeJson
     public interface Func_2I<I1, I2, O> {
         O func(I1 i1, I2 i2);
     }
 
+    @AcceptTypeJson
     public interface Func_3I<I1, I2, I3, O> {
         O func(I1 i1, I2 i2, I3 i3);
     }
 
+    @AcceptTypeJson
     public interface Func_4I<I1, I2, I3, I4, O> {
         O func(I1 i1, I2 i2, I3 i3, I4 i4);
     }
@@ -89,7 +103,7 @@ public class Extension {
         }
     }
 
-    public static class VariableData_2<D1, D2> implements Map.Entry<D1,D2> {
+    public static class VariableData_2<D1, D2> implements Map.Entry<D1, D2> {
         public D1 k;
         public D2 v;
 
