@@ -53,7 +53,7 @@ public class ClientDuskData {
         };
         event.getGenerator().addProvider(true, new DataProvider() {
             @Override
-            public void run(CachedOutput cachedOutput) throws IOException {
+            public void run(@NotNull CachedOutput cachedOutput) throws IOException {
                 for (IForgeRegistry<UnitRegister<?, ?, ?, ?>> registry : registries) {
                     for (UnitRegister<?, ?, ?, ?> unitRegister : registry) {
                         for (Object o : unitRegister.itemEntrySet()) {

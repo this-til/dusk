@@ -48,6 +48,26 @@ public abstract class OreBlock extends BlockUnitRegister<OreBlock, Ore> {
     public static CoilOreBlockMetal coil;
 
     /***
+     * 分压原件
+     */
+    public static PartialPressureOreBlockMetal partialPressure;
+
+    /***
+     * 脉冲元件
+     */
+    public static PulseOreBlockMetal pulse;
+
+    /***
+     * 束缚元件
+     */
+    public static ShacklesOreBlockMetal shackles;
+
+    /***
+     * 置换元件
+     */
+    public static SubstitutionOreBlockMetal substitution;
+
+    /***
      * 快
      */
     public static BlockOreBlockDecorate block;
@@ -79,6 +99,10 @@ public abstract class OreBlock extends BlockUnitRegister<OreBlock, Ore> {
         endWorldEndStone = new EndWorldEndStoneOreBlockMineral();
         bracket = new BracketOreBlockMetal();
         coil = new CoilOreBlockMetal();
+        partialPressure = new PartialPressureOreBlockMetal();
+        pulse = new PulseOreBlockMetal();
+        shackles = new ShacklesOreBlockMetal();
+        substitution = new SubstitutionOreBlockMetal();
         block = new BlockOreBlockDecorate();
         slab = new SlabOreBlockDecorate();
         stairs = new StairsOreBlockDecorate();
@@ -135,7 +159,7 @@ public abstract class OreBlock extends BlockUnitRegister<OreBlock, Ore> {
     @ConfigField
     public double explosionProofBasics = 1;
 
-   protected void strength(double basics) {
+    protected void strength(double basics) {
         strengthBasics = basics;
         explosionProofBasics = basics * 2;
     }

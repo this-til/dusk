@@ -1,13 +1,15 @@
 package com.til.dusk.common.register.mana_level.block;
 
 import com.til.dusk.Dusk;
-import com.til.dusk.common.register.multiblock.multiblocks.AccelerateMultiBlock;
+import com.til.dusk.client.ColorProxy;
+import com.til.dusk.common.register.mana_level.block.mechanic.core.AccelerateMultiBlockMechanic;
+import com.til.dusk.common.register.mana_level.block.mechanic.extract_mana.*;
+import com.til.dusk.common.register.mana_level.block.mechanic.handle_mechanic.*;
 import com.til.dusk.util.gson.AcceptTypeJson;
 import com.til.dusk.common.config.ConfigField;
 import com.til.dusk.common.config.util.IShapedOreConfig;
 import com.til.dusk.common.register.BlockUnitRegister;
 import com.til.dusk.common.register.RegisterManage;
-import com.til.dusk.common.register.mana_level.block.mechanic.*;
 import com.til.dusk.common.register.mana_level.mana_level.MakeLevel;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import net.minecraft.resources.ResourceLocation;
@@ -441,6 +443,16 @@ public abstract class ManaLevelBlock extends BlockUnitRegister<ManaLevelBlock, M
 
     public ManaLevelBlock(String name) {
         this(new ResourceLocation(Dusk.MOD_ID, name));
+    }
+
+    @Override
+    public void dyeBlack(ManaLevel manaLevel, ColorProxy.ItemColorPack itemColorPack) {
+        itemColorPack.addColor(0, itemStack -> manaLevel.color);
+    }
+
+    @Override
+    public void dyeBlack(ManaLevel manaLevel, ColorProxy.BlockColorPack blockColorPack) {
+        blockColorPack.addColor(0, (blockState, blockAndTintGetter, blockPos) -> manaLevel.color);
     }
 
     @ConfigField

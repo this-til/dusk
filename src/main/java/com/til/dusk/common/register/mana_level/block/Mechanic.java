@@ -18,14 +18,4 @@ public abstract class Mechanic extends ManaLevelBlock {
         this(new ResourceLocation(Dusk.MOD_ID, name));
     }
 
-    @Override
-    public void dyeBlack(ManaLevel manaLevel, ColorProxy.ItemColorPack itemColorPack) {
-        itemColorPack.addColor(0, itemStack -> manaLevel.color);
-    }
-
-    @Override
-    public void dyeBlack(ManaLevel manaLevel, ColorProxy.BlockColorPack blockColorPack) {
-        blockColorPack.addColor(0, (blockState, blockAndTintGetter, blockPos) -> manaLevel.color);
-    }
-
 }

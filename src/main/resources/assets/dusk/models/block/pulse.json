@@ -1,0 +1,8 @@
+{
+  "parent": "dusk:block/cube_ore_all",
+  "textures": {
+    "all0": "dusk:block/black",
+    "all1": "dusk:block/pulse",
+    "particle": "dusk:block/pulse"
+  }
+}

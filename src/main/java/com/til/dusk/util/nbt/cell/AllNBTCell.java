@@ -496,7 +496,7 @@ public class AllNBTCell {
         @Override
         public DuskColor fromJson(JsonElement json) {
             JsonObject jsonObject = json.getAsJsonObject();
-            return new DuskColor(jsonObject.get(r).getAsFloat(), jsonObject.get(g).getAsFloat(), jsonObject.get(b).getAsFloat(), jsonObject.get(a).getAsFloat());
+            return new DuskColor(jsonObject.get(r).getAsInt(), jsonObject.get(g).getAsInt(), jsonObject.get(b).getAsInt(), jsonObject.get(a).getAsInt());
         }
     };
     public static final NBTCell<ShapedHandle> SHAPED_HANDLE = new NBTCell<>() {
