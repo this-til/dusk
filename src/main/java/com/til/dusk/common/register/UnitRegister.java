@@ -25,8 +25,6 @@ public abstract class UnitRegister<T extends UnitRegister<T, ITEM, BLOCK, FLUID>
     protected final Map<BLOCK, BlockPack> blockMap = new HashMap<>();
     protected final Map<FLUID, FluidPack> fluidMap = new HashMap<>();
 
-    protected TagPack tagPack;
-
     public UnitRegister(ResourceLocation name, Supplier<IForgeRegistry<T>> iForgeRegistrySupplier) {
         super(name, iForgeRegistrySupplier);
     }

@@ -19,7 +19,19 @@ import com.til.dusk.common.register.ore.item.ArmorData;
 import com.til.dusk.common.register.ore.item.ArmsData;
 import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.ore.item.ToolData;
-import com.til.dusk.common.register.ore.ore.ores.*;
+import com.til.dusk.common.register.ore.ore.ores.crysta.*;
+import com.til.dusk.common.register.ore.ore.ores.fluid.*;
+import com.til.dusk.common.register.ore.ore.ores.fluid.ba_gua.*;
+import com.til.dusk.common.register.ore.ore.ores.fluid.basics.*;
+import com.til.dusk.common.register.ore.ore.ores.crysta.CinnabarOre;
+import com.til.dusk.common.register.ore.ore.ores.fluid.cell.*;
+import com.til.dusk.common.register.ore.ore.ores.fluid.liang_yi.YangOre;
+import com.til.dusk.common.register.ore.ore.ores.fluid.liang_yi.YinOre;
+import com.til.dusk.common.register.ore.ore.ores.fluid.si_xiang.SaoYang;
+import com.til.dusk.common.register.ore.ore.ores.fluid.si_xiang.SaoYin;
+import com.til.dusk.common.register.ore.ore.ores.fluid.si_xiang.TaiYang;
+import com.til.dusk.common.register.ore.ore.ores.fluid.si_xiang.TaiYin;
+import com.til.dusk.common.register.ore.ore.ores.metal.*;
 import com.til.dusk.common.register.shaped.shapeds.Shaped;
 import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.pack.BlockPack;
@@ -223,7 +235,7 @@ public abstract class Ore extends UnitRegister<Ore, OreItem, OreBlock, OreFluid>
     /***
      * 虚空辉光
      */
-    public static Ore voidGlow;
+    public static VoidGlowOre voidGlow;
 
     //other
 
@@ -255,19 +267,89 @@ public abstract class Ore extends UnitRegister<Ore, OreItem, OreBlock, OreFluid>
     public static ElementAirOre elementAir;
 
     /***
+     * 念空
+     */
+    public static IdeaAirOre ideaAirOre;
+
+    /***
      * 质
      */
     public static NatureOre nature;
-
     /***
      * 源
      */
     public static SourceOre source;
-
     /***
      * 素
      */
     public static ElementOre element;
+    /***
+     * 念
+     */
+    public static Ore idea;
+
+    /***
+     *乾
+     */
+    public static Ore qian;
+    /***
+     *兑
+     */
+    public static Ore dui;
+    /***
+     *离
+     */
+    public static Ore li;
+    /***
+     *震
+     */
+    public static Ore zhen;
+    /***
+     *巽
+     */
+    public static Ore xun;
+    /***
+     *坎
+     */
+    public static Ore kan;
+    /***
+     *艮
+     */
+    public static Ore gen;
+    /***
+     *坤
+     */
+    public static Ore kun;
+
+    /***
+     * 太阳
+     */
+    public static Ore taiYang;
+
+    /***
+     * 少阴
+     */
+    public static Ore saoYin;
+
+    /***
+     * 少阳
+     */
+    public static Ore saoYang;
+
+    /***
+     * 太阴
+     */
+    public static Ore taiYin;
+
+    /***
+     * 阳仪
+     */
+    public static Ore yang;
+
+    /***
+     * 阴仪
+     */
+    public static Ore yin;
 
 
     /***
@@ -369,9 +451,28 @@ public abstract class Ore extends UnitRegister<Ore, OreItem, OreBlock, OreFluid>
         natureAir = new NatureAirOre();
         sourceAir = new SourceAirOre();
         elementAir = new ElementAirOre();
+        ideaAirOre = new IdeaAirOre();
         nature = new NatureOre();
         source = new SourceOre();
         element = new ElementOre();
+        idea = new IdeaOre();
+
+        qian = new QianOre();
+        dui = new DuiOre();
+        li = new LiOre();
+        zhen = new ZhenOre();
+        xun = new XunOre();
+        kan = new KanOre();
+        gen = new GenOre();
+        kun = new KunOre();
+
+        taiYang = new TaiYang();
+        saoYin = new SaoYin();
+        saoYang = new SaoYang();
+        taiYin = new TaiYin();
+
+        yang = new YangOre();
+        yin = new YinOre();
 
         highEnergyRedStone = new HighEnergyRedStoneOre();
         coolant = new CoolantOre();
@@ -496,6 +597,13 @@ public abstract class Ore extends UnitRegister<Ore, OreItem, OreBlock, OreFluid>
      */
     @ConfigField
     public boolean isCrysta;
+
+    /***
+     * 默认一单位所含灵气数量
+     * 这个值作用在前期灵气提取晶体产生灵气
+     */
+    @ConfigField
+    public long defaultMana;
 
     /***
      * 表明该灵压等级可接受物品作为通用输入

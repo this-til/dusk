@@ -40,7 +40,7 @@ public class ConfigGson {
         gsonBuilder.setPrettyPrinting();
         gsonBuilder.registerTypeAdapter(Random.class, new RandomSerializer());
         gsonBuilder.registerTypeAdapter(ResourceLocation.class, new ResourceLocationSerializer());
-        gsonBuilder.registerTypeAdapter(DuskColor.class, new DuskColorSerializer());
+        gsonBuilder.registerTypeAdapter(DuskColor.class, new NBTCellSerializer<>(AllNBTCell.COLOR));
         gsonBuilder.registerTypeAdapter(BlockState.class, new BlockStateTypeAdapter());
         gsonBuilder.registerTypeAdapter(Item.class, new NBTCellSerializer<>(AllNBTCell.ITEM));
         gsonBuilder.registerTypeAdapter(Block.class, new NBTCellSerializer<>(AllNBTCell.BLOCK));

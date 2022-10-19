@@ -572,5 +572,12 @@ public interface IShapedOreConfig<DATA> {
                 }
             }
         }
+
+        class OreDefaultManaOut implements IShapedOreOreConfig {
+            @Override
+            public void config(ShapedOre shapedOre, Ore ore) {
+                shapedOre.addMultipleOutMana(ore.defaultMana);
+            }
+        }
     }
 }
