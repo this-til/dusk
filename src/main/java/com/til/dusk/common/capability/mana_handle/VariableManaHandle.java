@@ -14,8 +14,8 @@ public class VariableManaHandle extends ManaHandle {
     public final Extension.Func<Double> rateMultiple;
 
 
-    public VariableManaHandle(long maxMana, long maxRate, IBack back, Extension.Func<Double> manaMultiple, Extension.Func<Double> rateMultiple) {
-        super(maxMana, maxRate, back);
+    public VariableManaHandle(long maxMana, long maxIn, long maxOut, IBack back, Extension.Func<Double> manaMultiple, Extension.Func<Double> rateMultiple) {
+        super(maxMana, maxIn,maxOut, back);
         this.manaMultiple = manaMultiple;
         this.rateMultiple = rateMultiple;
     }
@@ -29,10 +29,18 @@ public class VariableManaHandle extends ManaHandle {
     }
 
     @Override
-    public long getMaxRate() {
+    public long getMaxOut() {
         if (rateMultiple == null) {
-            return super.getMaxRate();
+            return super.getMaxOut();
         }
-        return (long) (maxRate * rateMultiple.func());
+        return (long) (maxOut * rateMultiple.func());
+    }
+
+    @Override
+    public long getRemainMana() {
+        if (rateMultiple == null) {
+            return super.getMaxOut();
+        }
+        return (long) (maxOut * rateMultiple.func());
     }
 }

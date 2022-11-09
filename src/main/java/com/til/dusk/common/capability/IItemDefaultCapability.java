@@ -53,8 +53,8 @@ public interface IItemDefaultCapability {
             }
             if (armsData.manaBasics > 0) {
                 duskCapabilityProvider.addCapability(CapabilityRegister.iManaHandle.capability,
-                        new VariableManaHandle(armsData.manaBasics, armsData.rateBasics, iBack,
-                        () -> 1 + iSkill.getSkill(Skill.maxManaDilatation).level * 0.2, () -> 1 + iSkill.getSkill(Skill.rateDilatation).level * 0.2));
+                        new VariableManaHandle(armsData.manaBasics, armsData.rateBasics, Long.MAX_VALUE, iBack,
+                                () -> 1 + iSkill.getSkill(Skill.maxManaDilatation).level * 0.2, () -> 1 + iSkill.getSkill(Skill.rateDilatation).level * 0.2));
             }
         }
     }
@@ -74,7 +74,7 @@ public interface IItemDefaultCapability {
             }
             if (armorData.manaBasics > 0) {
                 duskCapabilityProvider.addCapability(CapabilityRegister.iManaHandle.capability,
-                        new VariableManaHandle(armorData.manaBasics, armorData.rateBasics, iBack,
+                        new VariableManaHandle(armorData.manaBasics, armorData.rateBasics, Long.MAX_VALUE, iBack,
                                 () -> 1 + iSkill.getSkill(Skill.maxManaDilatation).level * 0.2, () -> 1 + iSkill.getSkill(Skill.rateDilatation).level * 0.2));
             }
         }

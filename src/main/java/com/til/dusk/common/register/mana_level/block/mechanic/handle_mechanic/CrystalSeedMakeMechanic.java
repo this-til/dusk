@@ -8,14 +8,13 @@ import com.til.dusk.common.register.mana_level.item.group.ManaLevelItemGroup;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author til
  */
 public class CrystalSeedMakeMechanic extends HandleMechanic {
     public CrystalSeedMakeMechanic() {
-        super("crystal_seed_make", () -> Set.of(ShapedType.crystalSeedMake));
+        super("crystal_seed_make");
     }
 
     @Override
@@ -26,7 +25,7 @@ public class CrystalSeedMakeMechanic extends HandleMechanic {
     }
 
     @Override
-    public void defaultConfig() {
+    public void defaultConfig() {shapedTypeList = List.of(ShapedType.crystalSeedMake);
         manaLevelMakeData = new ManaLevelMakeData()
                 .addOreConfig(List.of(
                         new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(unpack.name, 1),

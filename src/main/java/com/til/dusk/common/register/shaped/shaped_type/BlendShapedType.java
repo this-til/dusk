@@ -1,5 +1,6 @@
 package com.til.dusk.common.register.shaped.shaped_type;
 
+import com.til.dusk.common.config.util.Delayed;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
 import com.til.dusk.common.register.shaped.shapeds.Shaped;
 
@@ -12,16 +13,17 @@ import java.util.function.Consumer;
 public class BlendShapedType extends ShapedType {
 
     public BlendShapedType() {
-        super("blend", () -> ManaLevelBlock.blend);
+        super("blend");
     }
 
     @Override
     public void defaultConfig() {
-
+        blockTagKey = new Delayed.BlockDelayed(() -> ManaLevelBlock.blend.tagPackSupplier.getTagPack().blockTagKey());
     }
 
     @Override
     public void registerRuleShaped(Consumer<Shaped> shapedConsumer) {
+
         /*for (Ore ore : Ore.screen(Ore.IS_CRYSTA)) {
             new ShapedOre(this, ShapedDrive.get(0), ore.manaLevel)
                     .addInItem(ore.itemMap.get(OreItem.dust).itemTag(), 1)

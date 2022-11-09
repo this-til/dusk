@@ -8,7 +8,6 @@ import com.til.dusk.common.register.mana_level.item.group.ManaLevelItemGroup;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author til
@@ -16,7 +15,7 @@ import java.util.Set;
 public class DistillationMechanic extends HandleMechanic {
 
     public DistillationMechanic() {
-        super("distillation", () -> Set.of(ShapedType.distillation));
+        super("distillation");
     }
 
     @Override
@@ -27,7 +26,7 @@ public class DistillationMechanic extends HandleMechanic {
     }
 
     @Override
-    public void defaultConfig() {
+    public void defaultConfig() {shapedTypeList = List.of(ShapedType.distillation);
         manaLevelMakeData = new ManaLevelMakeData()
                 .addOreConfig(List.of(
                         new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(blastFurnace.name, 1),

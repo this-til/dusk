@@ -1,9 +1,13 @@
 package com.til.dusk.common.register;
 
+import com.google.gson.JsonObject;
 import com.til.dusk.Dusk;
 import com.til.dusk.client.ColorProxy;
+import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.world.block.DuskBlock;
+import com.til.dusk.common.world.item.DuskItem;
 import com.til.dusk.util.Lang;
+import com.til.dusk.util.ModelJsonUtil;
 import com.til.dusk.util.pack.BlockPack;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -21,13 +25,13 @@ import java.util.function.Supplier;
 /**
  * @author til
  */
-public abstract class BlockUnitRegister<T extends BlockUnitRegister<T, O>, O extends TagPackSupplierRegister<?>> extends TagPackSupplierRegister<T> {
+public abstract class BlockUnitRegister<T extends BlockUnitRegister<T, O>, O extends TagPackSupplierRegister<?>> extends TagPackSupplierRegister<T> implements DuskBlock.ICustomModel<O> {
     public BlockUnitRegister(ResourceLocation name, Supplier<IForgeRegistry<T>> iForgeRegistrySupplier) {
         super(name, iForgeRegistrySupplier);
     }
 
     @Nullable
-    public BlockPack create(O o) {
+    protected BlockPack create(O o) {
         Block block = createBlock(o);
         if (block == null) {
             return null;
@@ -37,13 +41,13 @@ public abstract class BlockUnitRegister<T extends BlockUnitRegister<T, O>, O ext
     }
 
     @Nullable
-    public abstract Block createBlock(O o);
+    protected abstract Block createBlock(O o);
 
-    public final TagKey<Block> createBlockTag(O o) {
+    protected final TagKey<Block> createBlockTag(O o) {
         return o.tagPackSupplier.getTagPack(this).blockTagKey();
     }
 
-    public BlockItem createBlockItem(O o, Block block) {
+    protected BlockItem createBlockItem(O o, Block block) {
         return new BlockItem(block, new Item.Properties().tab(Dusk.TAB)) {
             @Override
             public @NotNull Component getName(@NotNull ItemStack stack) {
@@ -52,15 +56,18 @@ public abstract class BlockUnitRegister<T extends BlockUnitRegister<T, O>, O ext
         };
     }
 
-    public final TagKey<Item> createBlockItemTag(O o) {
+    protected final TagKey<Item> createBlockItemTag(O o) {
         return o.tagPackSupplier.getTagPack(this).itemTagKey();
     }
 
-    /***
-     * 获取模型映射
-     */
-    public DuskBlock.ICustomModel getBlockModelMapping(O o) {
-        return () -> name;
+    @Override
+    public JsonObject createBlockModel(Block block, O o) {
+        return ModelJsonUtil.createBlockState(name);
+    }
+
+    @Override
+    public JsonObject createModel(Item item, O o) {
+        return ModelJsonUtil.createBlockFather(name);
     }
 
     /***

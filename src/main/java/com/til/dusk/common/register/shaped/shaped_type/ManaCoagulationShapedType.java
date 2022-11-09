@@ -18,7 +18,7 @@ import java.util.function.Consumer;
  */
 public class ManaCoagulationShapedType extends ShapedType {
     public ManaCoagulationShapedType() {
-        super("mana_coagulation", () -> ManaLevelBlock.manaCoagulation);
+        super("mana_coagulation");
     }
 
     @Override
@@ -28,6 +28,7 @@ public class ManaCoagulationShapedType extends ShapedType {
 
     @Override
     public void defaultConfig() {
+        blockTagKey =new Delayed.BlockDelayed(() ->  ManaLevelBlock.manaCoagulation.tagPackSupplier.getTagPack().blockTagKey());
         relevantShaped = new Delayed.ListShapedDelayed(() -> List.of(
                 new ShapedOre(name, this, ShapedDrive.get(0), ManaLevel.t1)
                         .addOutFluid(new FluidStack(Ore.mana.get(OreFluid.solution).source(), 1), 1D)

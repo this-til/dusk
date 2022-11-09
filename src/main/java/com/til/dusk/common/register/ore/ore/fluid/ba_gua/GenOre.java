@@ -12,7 +12,7 @@ import java.awt.*;
 /**
  * @author til
  */
-public class GenOre extends Ore {
+public class GenOre extends BaGuaBasicsOre {
 
     public GenOre() {
         super("gen");

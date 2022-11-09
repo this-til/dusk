@@ -59,33 +59,33 @@ public class AccelerateMultiBlock extends LevelMultiBlock {
 
     public List<IMultiBlockPack<ManaLevel>> getT1() {
         return List.of(
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.coil.name, null)
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.coil.name,null)
                         .addPos(new BlockPos(-2, 0, -2))
                         .addPos(new BlockPos(-2, 0, 2))
                         .addPos(new BlockPos(2, 0, -2))
                         .addPos(new BlockPos(2, 0, 2)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name, Map.of("east", "none", "waterlogged", "false", "south", "none", "north", "low", "west", "none", "up", "true"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name,Map.of("east","none","waterlogged","false","south","none","north","low","west","none","up","true"))
                         .addPos(new BlockPos(-2, 0, -1))
                         .addPos(new BlockPos(2, 0, -1)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name, Map.of("east", "none", "waterlogged", "false", "south", "low", "north", "none", "west", "none", "up", "true"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name,Map.of("east","none","waterlogged","false","south","low","north","none","west","none","up","true"))
                         .addPos(new BlockPos(-2, 0, 1))
                         .addPos(new BlockPos(2, 0, 1)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name, Map.of("east", "none", "waterlogged", "false", "south", "none", "north", "none", "west", "low", "up", "true"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name,Map.of("east","none","waterlogged","false","south","none","north","none","west","low","up","true"))
                         .addPos(new BlockPos(-1, 0, -2))
                         .addPos(new BlockPos(-1, 0, 2)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.slab.name, Map.of("waterlogged", "false", "type", "bottom"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.slab.name,Map.of("half","true","waterlogged","false","facing","down"))
                         .addPos(new BlockPos(-1, 0, 0))
                         .addPos(new BlockPos(0, 0, -1))
                         .addPos(new BlockPos(0, 0, 1))
                         .addPos(new BlockPos(1, 0, 0)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name, Map.of("east", "low", "waterlogged", "false", "south", "none", "north", "none", "west", "none", "up", "true"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name,Map.of("east","low","waterlogged","false","south","none","north","none","west","none","up","true"))
                         .addPos(new BlockPos(1, 0, -2))
                         .addPos(new BlockPos(1, 0, 2)));
     }
 
     public List<IMultiBlockPack<ManaLevel>> getT2() {
-        return List.of(
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.coil.name, null)
+        return  List.of(
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.coil.name,null)
                         .addPos(new BlockPos(-2, 0, -1))
                         .addPos(new BlockPos(-2, 0, 1))
                         .addPos(new BlockPos(-1, 0, -2))
@@ -94,24 +94,24 @@ public class AccelerateMultiBlock extends LevelMultiBlock {
                         .addPos(new BlockPos(1, 0, 2))
                         .addPos(new BlockPos(2, 0, -1))
                         .addPos(new BlockPos(2, 0, 1)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name, Map.of("east", "low", "waterlogged", "false", "south", "low", "north", "none", "west", "none", "up", "true"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name,Map.of("east","low","waterlogged","false","south","low","north","none","west","none","up","true"))
                         .addPos(new BlockPos(-2, 0, -2)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name, Map.of("east", "low", "waterlogged", "false", "south", "none", "north", "low", "west", "none", "up", "true"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name,Map.of("east","low","waterlogged","false","south","none","north","low","west","none","up","true"))
                         .addPos(new BlockPos(-2, 0, 2)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.slab.name, Map.of("waterlogged", "false", "type", "bottom"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.slab.name,Map.of("half","true","waterlogged","false","facing","down"))
                         .addPos(new BlockPos(-1, 0, 0))
                         .addPos(new BlockPos(0, 0, -1))
                         .addPos(new BlockPos(0, 0, 1))
                         .addPos(new BlockPos(1, 0, 0)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name, Map.of("east", "none", "waterlogged", "false", "south", "low", "north", "none", "west", "low", "up", "true"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name,Map.of("east","none","waterlogged","false","south","low","north","none","west","low","up","true"))
                         .addPos(new BlockPos(2, 0, -2)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name, Map.of("east", "none", "waterlogged", "false", "south", "none", "north", "low", "west", "low", "up", "true"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name,Map.of("east","none","waterlogged","false","south","none","north","low","west","low","up","true"))
                         .addPos(new BlockPos(2, 0, 2)));
     }
 
     public List<IMultiBlockPack<ManaLevel>> getT3() {
         return List.of(
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.coil.name, null)
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.coil.name,null)
                         .addPos(new BlockPos(-3, 0, -1))
                         .addPos(new BlockPos(-3, 0, 1))
                         .addPos(new BlockPos(-1, 0, -3))
@@ -120,16 +120,16 @@ public class AccelerateMultiBlock extends LevelMultiBlock {
                         .addPos(new BlockPos(1, 0, 3))
                         .addPos(new BlockPos(3, 0, -1))
                         .addPos(new BlockPos(3, 0, 1)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name, Map.of("east", "none", "waterlogged", "false", "south", "low", "north", "none", "west", "none", "up", "true"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name,Map.of("east","none","waterlogged","false","south","low","north","none","west","none","up","true"))
                         .addPos(new BlockPos(-3, 0, -2))
                         .addPos(new BlockPos(3, 0, -2)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name, Map.of("east", "none", "waterlogged", "false", "south", "none", "north", "low", "west", "none", "up", "true"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name,Map.of("east","none","waterlogged","false","south","none","north","low","west","none","up","true"))
                         .addPos(new BlockPos(-3, 0, 2))
                         .addPos(new BlockPos(3, 0, 2)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name, Map.of("east", "low", "waterlogged", "false", "south", "none", "north", "none", "west", "none", "up", "true"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name,Map.of("east","low","waterlogged","false","south","none","north","none","west","none","up","true"))
                         .addPos(new BlockPos(-2, 0, -3))
                         .addPos(new BlockPos(-2, 0, 3)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.slab.name, Map.of("waterlogged", "false", "type", "bottom"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.slab.name,Map.of("half","true","waterlogged","false","facing","down"))
                         .addPos(new BlockPos(-1, 0, -1))
                         .addPos(new BlockPos(-1, 0, 0))
                         .addPos(new BlockPos(-1, 0, 1))
@@ -138,14 +138,14 @@ public class AccelerateMultiBlock extends LevelMultiBlock {
                         .addPos(new BlockPos(1, 0, -1))
                         .addPos(new BlockPos(1, 0, 0))
                         .addPos(new BlockPos(1, 0, 1)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name, Map.of("east", "none", "waterlogged", "false", "south", "none", "north", "none", "west", "low", "up", "true"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name,Map.of("east","none","waterlogged","false","south","none","north","none","west","low","up","true"))
                         .addPos(new BlockPos(2, 0, -3))
                         .addPos(new BlockPos(2, 0, 3)));
     }
 
     public List<IMultiBlockPack<ManaLevel>> getT4() {
         return List.of(
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.coil.name, null)
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.coil.name,null)
                         .addPos(new BlockPos(-3, 0, -2))
                         .addPos(new BlockPos(-3, 0, 2))
                         .addPos(new BlockPos(-2, 0, -3))
@@ -154,36 +154,36 @@ public class AccelerateMultiBlock extends LevelMultiBlock {
                         .addPos(new BlockPos(2, 0, 3))
                         .addPos(new BlockPos(3, 0, -2))
                         .addPos(new BlockPos(3, 0, 2)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name, Map.of("east", "low", "waterlogged", "false", "south", "low", "north", "none", "west", "none", "up", "true"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name,Map.of("east","low","waterlogged","false","south","low","north","none","west","none","up","true"))
                         .addPos(new BlockPos(-3, 0, -3)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name, Map.of("east", "low", "waterlogged", "false", "south", "none", "north", "low", "west", "none", "up", "true"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name,Map.of("east","low","waterlogged","false","south","none","north","low","west","none","up","true"))
                         .addPos(new BlockPos(-3, 0, 3)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.slab.name, Map.of("waterlogged", "false", "type", "bottom"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.slab.name,Map.of("half","true","waterlogged","false","facing","down"))
                         .addPos(new BlockPos(-2, 0, 0))
                         .addPos(new BlockPos(0, 0, -2))
                         .addPos(new BlockPos(0, 0, 2))
                         .addPos(new BlockPos(2, 0, 0)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.stairs.name, Map.of("half", "bottom", "waterlogged", "false", "shape", "outer_left", "facing", "south"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.stairs.name,Map.of("half","bottom","waterlogged","false","shape","outer_left","facing","south"))
                         .addPos(new BlockPos(-1, 0, -1)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.stairs.name, Map.of("half", "bottom", "waterlogged", "false", "shape", "straight", "facing", "east"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.stairs.name,Map.of("half","bottom","waterlogged","false","shape","straight","facing","east"))
                         .addPos(new BlockPos(-1, 0, 0)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.stairs.name, Map.of("half", "bottom", "waterlogged", "false", "shape", "outer_left", "facing", "east"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.stairs.name,Map.of("half","bottom","waterlogged","false","shape","outer_left","facing","east"))
                         .addPos(new BlockPos(-1, 0, 1)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.stairs.name, Map.of("half", "bottom", "waterlogged", "false", "shape", "straight", "facing", "south"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.stairs.name,Map.of("half","bottom","waterlogged","false","shape","straight","facing","south"))
                         .addPos(new BlockPos(0, 0, -1)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.stairs.name, Map.of("half", "bottom", "waterlogged", "false", "shape", "straight", "facing", "north"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.stairs.name,Map.of("half","bottom","waterlogged","false","shape","straight","facing","north"))
                         .addPos(new BlockPos(0, 0, 1)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.stairs.name, Map.of("half", "bottom", "waterlogged", "false", "shape", "outer_left", "facing", "west"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.stairs.name,Map.of("half","bottom","waterlogged","false","shape","outer_left","facing","west"))
                         .addPos(new BlockPos(1, 0, -1)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.stairs.name, Map.of("half", "bottom", "waterlogged", "false", "shape", "straight", "facing", "west"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.stairs.name,Map.of("half","bottom","waterlogged","false","shape","straight","facing","west"))
                         .addPos(new BlockPos(1, 0, 0)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.stairs.name, Map.of("half", "bottom", "waterlogged", "false", "shape", "outer_right", "facing", "west"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.stairs.name,Map.of("half","bottom","waterlogged","false","shape","outer_right","facing","west"))
                         .addPos(new BlockPos(1, 0, 1)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name, Map.of("east", "none", "waterlogged", "false", "south", "low", "north", "none", "west", "low", "up", "true"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name,Map.of("east","none","waterlogged","false","south","low","north","none","west","low","up","true"))
                         .addPos(new BlockPos(3, 0, -3)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name, Map.of("east", "none", "waterlogged", "false", "south", "none", "north", "low", "west", "low", "up", "true"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name,Map.of("east","none","waterlogged","false","south","none","north","low","west","low","up","true"))
                         .addPos(new BlockPos(3, 0, 3)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name, Map.of("east", "none", "waterlogged", "false", "south", "none", "north", "none", "west", "none", "up", "true"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name,Map.of("east","none","waterlogged","false","south","none","north","none","west","none","up","true"))
                         .addPos(new BlockPos(-3, 1, -2))
                         .addPos(new BlockPos(-3, 1, 2))
                         .addPos(new BlockPos(-2, 1, -3))
@@ -196,7 +196,7 @@ public class AccelerateMultiBlock extends LevelMultiBlock {
 
     public List<IMultiBlockPack<ManaLevel>> getT5() {
         return List.of(
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.coil.name, null)
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.coil.name,null)
                         .addPos(new BlockPos(-4, 0, -3))
                         .addPos(new BlockPos(-4, 0, -2))
                         .addPos(new BlockPos(-4, 0, 2))
@@ -213,16 +213,16 @@ public class AccelerateMultiBlock extends LevelMultiBlock {
                         .addPos(new BlockPos(4, 0, -2))
                         .addPos(new BlockPos(4, 0, 2))
                         .addPos(new BlockPos(4, 0, 3)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.block.name, null)
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.block.name,null)
                         .addPos(new BlockPos(-1, 0, -1))
                         .addPos(new BlockPos(-1, 0, 1))
                         .addPos(new BlockPos(1, 0, -1))
                         .addPos(new BlockPos(1, 0, 1)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name, Map.of("east", "low", "waterlogged", "false", "south", "low", "north", "none", "west", "none", "up", "true"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name,Map.of("east","low","waterlogged","false","south","low","north","none","west","none","up","true"))
                         .addPos(new BlockPos(-4, 0, -4)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name, Map.of("east", "low", "waterlogged", "false", "south", "none", "north", "low", "west", "none", "up", "true"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name,Map.of("east","low","waterlogged","false","south","none","north","low","west","none","up","true"))
                         .addPos(new BlockPos(-4, 0, 4)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.slab.name, Map.of("waterlogged", "false", "type", "bottom"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.slab.name,Map.of("half","true","waterlogged","false","facing","down"))
                         .addPos(new BlockPos(-3, 0, -3))
                         .addPos(new BlockPos(-3, 0, 3))
                         .addPos(new BlockPos(-2, 0, -1))
@@ -235,19 +235,19 @@ public class AccelerateMultiBlock extends LevelMultiBlock {
                         .addPos(new BlockPos(2, 0, 1))
                         .addPos(new BlockPos(3, 0, -3))
                         .addPos(new BlockPos(3, 0, 3)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name, Map.of("east", "low", "waterlogged", "false", "south", "low", "north", "low", "west", "none", "up", "true"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name,Map.of("east","low","waterlogged","false","south","low","north","low","west","none","up","true"))
                         .addPos(new BlockPos(-1, 0, 0)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name, Map.of("east", "low", "waterlogged", "false", "south", "low", "north", "none", "west", "low", "up", "true"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name,Map.of("east","low","waterlogged","false","south","low","north","none","west","low","up","true"))
                         .addPos(new BlockPos(0, 0, -1)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name, Map.of("east", "low", "waterlogged", "false", "south", "none", "north", "low", "west", "low", "up", "true"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name,Map.of("east","low","waterlogged","false","south","none","north","low","west","low","up","true"))
                         .addPos(new BlockPos(0, 0, 1)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name, Map.of("east", "none", "waterlogged", "false", "south", "low", "north", "low", "west", "low", "up", "true"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name,Map.of("east","none","waterlogged","false","south","low","north","low","west","low","up","true"))
                         .addPos(new BlockPos(1, 0, 0)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name, Map.of("east", "none", "waterlogged", "false", "south", "low", "north", "none", "west", "low", "up", "true"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name,Map.of("east","none","waterlogged","false","south","low","north","none","west","low","up","true"))
                         .addPos(new BlockPos(4, 0, -4)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name, Map.of("east", "none", "waterlogged", "false", "south", "none", "north", "low", "west", "low", "up", "true"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name,Map.of("east","none","waterlogged","false","south","none","north","low","west","low","up","true"))
                         .addPos(new BlockPos(4, 0, 4)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name, Map.of("east", "none", "waterlogged", "false", "south", "none", "north", "none", "west", "none", "up", "true"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name,Map.of("east","none","waterlogged","false","south","none","north","none","west","none","up","true"))
                         .addPos(new BlockPos(-4, 1, -4))
                         .addPos(new BlockPos(-4, 1, 4))
                         .addPos(new BlockPos(4, 1, -4))
@@ -256,7 +256,7 @@ public class AccelerateMultiBlock extends LevelMultiBlock {
 
     public List<IMultiBlockPack<ManaLevel>> getT6() {
         return List.of(
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.coil.name, null)
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.coil.name,null)
                         .addPos(new BlockPos(-4, 0, -3))
                         .addPos(new BlockPos(-4, 0, -2))
                         .addPos(new BlockPos(-4, 0, 2))
@@ -273,10 +273,10 @@ public class AccelerateMultiBlock extends LevelMultiBlock {
                         .addPos(new BlockPos(4, 0, -2))
                         .addPos(new BlockPos(4, 0, 2))
                         .addPos(new BlockPos(4, 0, 3)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name, Map.of("east", "low", "waterlogged", "false", "south", "none", "north", "none", "west", "none", "up", "true"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name,Map.of("east","low","waterlogged","false","south","none","north","none","west","none","up","true"))
                         .addPos(new BlockPos(-5, 0, -2))
                         .addPos(new BlockPos(-5, 0, 2)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.slab.name, Map.of("waterlogged", "false", "type", "bottom"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.slab.name,Map.of("half","true","waterlogged","false","facing","down"))
                         .addPos(new BlockPos(-4, 0, -1))
                         .addPos(new BlockPos(-4, 0, 1))
                         .addPos(new BlockPos(-2, 0, -1))
@@ -297,32 +297,32 @@ public class AccelerateMultiBlock extends LevelMultiBlock {
                         .addPos(new BlockPos(2, 0, 1))
                         .addPos(new BlockPos(4, 0, -1))
                         .addPos(new BlockPos(4, 0, 1)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name, Map.of("east", "none", "waterlogged", "false", "south", "low", "north", "none", "west", "none", "up", "true"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name,Map.of("east","none","waterlogged","false","south","low","north","none","west","none","up","true"))
                         .addPos(new BlockPos(-2, 0, -5))
                         .addPos(new BlockPos(2, 0, -5)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name, Map.of("east", "none", "waterlogged", "false", "south", "none", "north", "low", "west", "none", "up", "true"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name,Map.of("east","none","waterlogged","false","south","none","north","low","west","none","up","true"))
                         .addPos(new BlockPos(-2, 0, 5))
                         .addPos(new BlockPos(2, 0, 5)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.stairs.name, Map.of("half", "bottom", "waterlogged", "false", "shape", "outer_left", "facing", "south"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.stairs.name,Map.of("half","bottom","waterlogged","false","shape","outer_left","facing","south"))
                         .addPos(new BlockPos(-1, 0, -1)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.stairs.name, Map.of("half", "bottom", "waterlogged", "false", "shape", "straight", "facing", "east"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.stairs.name,Map.of("half","bottom","waterlogged","false","shape","straight","facing","east"))
                         .addPos(new BlockPos(-1, 0, 0)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.stairs.name, Map.of("half", "bottom", "waterlogged", "false", "shape", "outer_left", "facing", "east"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.stairs.name,Map.of("half","bottom","waterlogged","false","shape","outer_left","facing","east"))
                         .addPos(new BlockPos(-1, 0, 1)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.stairs.name, Map.of("half", "bottom", "waterlogged", "false", "shape", "straight", "facing", "south"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.stairs.name,Map.of("half","bottom","waterlogged","false","shape","straight","facing","south"))
                         .addPos(new BlockPos(0, 0, -1)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.stairs.name, Map.of("half", "bottom", "waterlogged", "false", "shape", "straight", "facing", "north"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.stairs.name,Map.of("half","bottom","waterlogged","false","shape","straight","facing","north"))
                         .addPos(new BlockPos(0, 0, 1)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.stairs.name, Map.of("half", "bottom", "waterlogged", "false", "shape", "outer_left", "facing", "west"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.stairs.name,Map.of("half","bottom","waterlogged","false","shape","outer_left","facing","west"))
                         .addPos(new BlockPos(1, 0, -1)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.stairs.name, Map.of("half", "bottom", "waterlogged", "false", "shape", "straight", "facing", "west"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.stairs.name,Map.of("half","bottom","waterlogged","false","shape","straight","facing","west"))
                         .addPos(new BlockPos(1, 0, 0)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.stairs.name, Map.of("half", "bottom", "waterlogged", "false", "shape", "outer_right", "facing", "west"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.stairs.name,Map.of("half","bottom","waterlogged","false","shape","outer_right","facing","west"))
                         .addPos(new BlockPos(1, 0, 1)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name, Map.of("east", "none", "waterlogged", "false", "south", "none", "north", "none", "west", "low", "up", "true"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name,Map.of("east","none","waterlogged","false","south","none","north","none","west","low","up","true"))
                         .addPos(new BlockPos(5, 0, -2))
                         .addPos(new BlockPos(5, 0, 2)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name, Map.of("east", "none", "waterlogged", "false", "south", "none", "north", "none", "west", "none", "up", "true"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name,Map.of("east","none","waterlogged","false","south","none","north","none","west","none","up","true"))
                         .addPos(new BlockPos(-4, 1, -2))
                         .addPos(new BlockPos(-4, 1, 2))
                         .addPos(new BlockPos(-2, 1, -4))
@@ -335,7 +335,7 @@ public class AccelerateMultiBlock extends LevelMultiBlock {
 
     public List<IMultiBlockPack<ManaLevel>> getT7() {
         return List.of(
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.coil.name, null)
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.coil.name,null)
                         .addPos(new BlockPos(-5, 0, -2))
                         .addPos(new BlockPos(-5, 0, 2))
                         .addPos(new BlockPos(-4, 0, -3))
@@ -352,12 +352,12 @@ public class AccelerateMultiBlock extends LevelMultiBlock {
                         .addPos(new BlockPos(4, 0, 3))
                         .addPos(new BlockPos(5, 0, -2))
                         .addPos(new BlockPos(5, 0, 2)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.block.name, null)
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.block.name,null)
                         .addPos(new BlockPos(-1, 0, 0))
                         .addPos(new BlockPos(0, 0, -1))
                         .addPos(new BlockPos(0, 0, 1))
                         .addPos(new BlockPos(1, 0, 0)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.slab.name, Map.of("waterlogged", "false", "type", "bottom"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.slab.name,Map.of("half","true","waterlogged","false","facing","down"))
                         .addPos(new BlockPos(-5, 0, -1))
                         .addPos(new BlockPos(-5, 0, 1))
                         .addPos(new BlockPos(-3, 0, -3))
@@ -374,13 +374,13 @@ public class AccelerateMultiBlock extends LevelMultiBlock {
                         .addPos(new BlockPos(3, 0, 3))
                         .addPos(new BlockPos(5, 0, -1))
                         .addPos(new BlockPos(5, 0, 1)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name, Map.of("east", "none", "waterlogged", "false", "south", "none", "north", "low", "west", "low", "up", "true"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name,Map.of("east","none","waterlogged","false","south","none","north","low","west","low","up","true"))
                         .addPos(new BlockPos(-4, 0, -2))
                         .addPos(new BlockPos(-2, 0, -4)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name, Map.of("east", "none", "waterlogged", "false", "south", "low", "north", "none", "west", "low", "up", "true"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name,Map.of("east","none","waterlogged","false","south","low","north","none","west","low","up","true"))
                         .addPos(new BlockPos(-4, 0, 2))
                         .addPos(new BlockPos(-2, 0, 4)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name, Map.of("east", "none", "waterlogged", "false", "south", "none", "north", "none", "west", "none", "up", "true"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name,Map.of("east","none","waterlogged","false","south","none","north","none","west","none","up","true"))
                         .addPos(new BlockPos(-2, 0, -1))
                         .addPos(new BlockPos(-2, 0, 1))
                         .addPos(new BlockPos(-1, 0, -2))
@@ -397,25 +397,83 @@ public class AccelerateMultiBlock extends LevelMultiBlock {
                         .addPos(new BlockPos(3, 1, 4))
                         .addPos(new BlockPos(4, 1, -3))
                         .addPos(new BlockPos(4, 1, 3)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.stairs.name, Map.of("half", "bottom", "waterlogged", "false", "shape", "straight", "facing", "east"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.stairs.name,Map.of("half","bottom","waterlogged","false","shape","straight","facing","east"))
                         .addPos(new BlockPos(-2, 0, 0)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.stairs.name, Map.of("half", "bottom", "waterlogged", "false", "shape", "straight", "facing", "south"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.stairs.name,Map.of("half","bottom","waterlogged","false","shape","straight","facing","south"))
                         .addPos(new BlockPos(0, 0, -2)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.stairs.name, Map.of("half", "bottom", "waterlogged", "false", "shape", "straight", "facing", "north"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.stairs.name,Map.of("half","bottom","waterlogged","false","shape","straight","facing","north"))
                         .addPos(new BlockPos(0, 0, 2)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name, Map.of("east", "low", "waterlogged", "false", "south", "none", "north", "low", "west", "none", "up", "true"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name,Map.of("east","low","waterlogged","false","south","none","north","low","west","none","up","true"))
                         .addPos(new BlockPos(2, 0, -4))
                         .addPos(new BlockPos(4, 0, -2)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.stairs.name, Map.of("half", "bottom", "waterlogged", "false", "shape", "straight", "facing", "west"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.stairs.name,Map.of("half","bottom","waterlogged","false","shape","straight","facing","west"))
                         .addPos(new BlockPos(2, 0, 0)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name, Map.of("east", "low", "waterlogged", "false", "south", "low", "north", "none", "west", "none", "up", "true"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name,Map.of("east","low","waterlogged","false","south","low","north","none","west","none","up","true"))
                         .addPos(new BlockPos(2, 0, 4))
                         .addPos(new BlockPos(4, 0, 2)));
     }
 
     public List<IMultiBlockPack<ManaLevel>> getT8() {
         return List.of(
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.coil.name, null)
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.block.name,null)
+                        .addPos(new BlockPos(-10, -1, -3))
+                        .addPos(new BlockPos(-10, -1, 3))
+                        .addPos(new BlockPos(-9, -1, -2))
+                        .addPos(new BlockPos(-9, -1, 2))
+                        .addPos(new BlockPos(-8, -1, -3))
+                        .addPos(new BlockPos(-8, -1, 3))
+                        .addPos(new BlockPos(-4, -1, -3))
+                        .addPos(new BlockPos(-4, -1, 3))
+                        .addPos(new BlockPos(-3, -1, -10))
+                        .addPos(new BlockPos(-3, -1, -8))
+                        .addPos(new BlockPos(-3, -1, -4))
+                        .addPos(new BlockPos(-3, -1, -2))
+                        .addPos(new BlockPos(-3, -1, -1))
+                        .addPos(new BlockPos(-3, -1, 0))
+                        .addPos(new BlockPos(-3, -1, 1))
+                        .addPos(new BlockPos(-3, -1, 2))
+                        .addPos(new BlockPos(-3, -1, 4))
+                        .addPos(new BlockPos(-3, -1, 8))
+                        .addPos(new BlockPos(-3, -1, 10))
+                        .addPos(new BlockPos(-2, -1, -9))
+                        .addPos(new BlockPos(-2, -1, -3))
+                        .addPos(new BlockPos(-2, -1, -2))
+                        .addPos(new BlockPos(-2, -1, 2))
+                        .addPos(new BlockPos(-2, -1, 3))
+                        .addPos(new BlockPos(-2, -1, 9))
+                        .addPos(new BlockPos(-1, -1, -3))
+                        .addPos(new BlockPos(-1, -1, 3))
+                        .addPos(new BlockPos(0, -1, -3))
+                        .addPos(new BlockPos(0, -1, 0))
+                        .addPos(new BlockPos(0, -1, 3))
+                        .addPos(new BlockPos(1, -1, -3))
+                        .addPos(new BlockPos(1, -1, 3))
+                        .addPos(new BlockPos(2, -1, -9))
+                        .addPos(new BlockPos(2, -1, -3))
+                        .addPos(new BlockPos(2, -1, -2))
+                        .addPos(new BlockPos(2, -1, 2))
+                        .addPos(new BlockPos(2, -1, 3))
+                        .addPos(new BlockPos(2, -1, 9))
+                        .addPos(new BlockPos(3, -1, -10))
+                        .addPos(new BlockPos(3, -1, -8))
+                        .addPos(new BlockPos(3, -1, -4))
+                        .addPos(new BlockPos(3, -1, -2))
+                        .addPos(new BlockPos(3, -1, -1))
+                        .addPos(new BlockPos(3, -1, 0))
+                        .addPos(new BlockPos(3, -1, 1))
+                        .addPos(new BlockPos(3, -1, 2))
+                        .addPos(new BlockPos(3, -1, 4))
+                        .addPos(new BlockPos(3, -1, 8))
+                        .addPos(new BlockPos(3, -1, 10))
+                        .addPos(new BlockPos(4, -1, -3))
+                        .addPos(new BlockPos(4, -1, 3))
+                        .addPos(new BlockPos(8, -1, -3))
+                        .addPos(new BlockPos(8, -1, 3))
+                        .addPos(new BlockPos(9, -1, -2))
+                        .addPos(new BlockPos(9, -1, 2))
+                        .addPos(new BlockPos(10, -1, -3))
+                        .addPos(new BlockPos(10, -1, 3)),
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.coil.name,null)
                         .addPos(new BlockPos(-9, -1, -8))
                         .addPos(new BlockPos(-9, -1, -6))
                         .addPos(new BlockPos(-9, -1, -5))
@@ -496,69 +554,25 @@ public class AccelerateMultiBlock extends LevelMultiBlock {
                         .addPos(new BlockPos(9, 0, -3))
                         .addPos(new BlockPos(9, 0, 3))
                         .addPos(new BlockPos(9, 0, 8)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.block.name, null)
-                        .addPos(new BlockPos(-9, -1, -2))
-                        .addPos(new BlockPos(-9, -1, 2))
-                        .addPos(new BlockPos(-8, -1, -3))
-                        .addPos(new BlockPos(-8, -1, 3))
-                        .addPos(new BlockPos(-4, -1, -3))
-                        .addPos(new BlockPos(-4, -1, 0))
-                        .addPos(new BlockPos(-4, -1, 3))
-                        .addPos(new BlockPos(-3, -1, -10))
-                        .addPos(new BlockPos(-3, -1, -8))
-                        .addPos(new BlockPos(-3, -1, -4))
-                        .addPos(new BlockPos(-3, -1, -2))
-                        .addPos(new BlockPos(-3, -1, -1))
-                        .addPos(new BlockPos(-3, -1, 0))
-                        .addPos(new BlockPos(-3, -1, 1))
-                        .addPos(new BlockPos(-3, -1, 2))
-                        .addPos(new BlockPos(-3, -1, 4))
-                        .addPos(new BlockPos(-3, -1, 8))
-                        .addPos(new BlockPos(-3, -1, 10))
-                        .addPos(new BlockPos(-2, -1, -9))
-                        .addPos(new BlockPos(-2, -1, -3))
-                        .addPos(new BlockPos(-2, -1, -2))
-                        .addPos(new BlockPos(-2, -1, 2))
-                        .addPos(new BlockPos(-2, -1, 3))
-                        .addPos(new BlockPos(-2, -1, 9))
-                        .addPos(new BlockPos(-1, -1, -3))
-                        .addPos(new BlockPos(-1, -1, 3))
-                        .addPos(new BlockPos(0, -1, -4))
-                        .addPos(new BlockPos(0, -1, -3))
-                        .addPos(new BlockPos(0, -1, 0))
-                        .addPos(new BlockPos(0, -1, 3))
-                        .addPos(new BlockPos(0, -1, 4))
-                        .addPos(new BlockPos(1, -1, -3))
-                        .addPos(new BlockPos(1, -1, 3))
-                        .addPos(new BlockPos(2, -1, -9))
-                        .addPos(new BlockPos(2, -1, -3))
-                        .addPos(new BlockPos(2, -1, -2))
-                        .addPos(new BlockPos(2, -1, 2))
-                        .addPos(new BlockPos(2, -1, 3))
-                        .addPos(new BlockPos(2, -1, 9))
-                        .addPos(new BlockPos(3, -1, -10))
-                        .addPos(new BlockPos(3, -1, -8))
-                        .addPos(new BlockPos(3, -1, -4))
-                        .addPos(new BlockPos(3, -1, -2))
-                        .addPos(new BlockPos(3, -1, -1))
-                        .addPos(new BlockPos(3, -1, 0))
-                        .addPos(new BlockPos(3, -1, 1))
-                        .addPos(new BlockPos(3, -1, 2))
-                        .addPos(new BlockPos(3, -1, 4))
-                        .addPos(new BlockPos(3, -1, 8))
-                        .addPos(new BlockPos(3, -1, 10))
-                        .addPos(new BlockPos(4, -1, -3))
-                        .addPos(new BlockPos(4, -1, 0))
-                        .addPos(new BlockPos(4, -1, 3))
-                        .addPos(new BlockPos(8, -1, -3))
-                        .addPos(new BlockPos(8, -1, 3))
-                        .addPos(new BlockPos(9, -1, -2))
-                        .addPos(new BlockPos(9, -1, 2))
-                        .addPos(new BlockPos(10, -1, -3))
-                        .addPos(new BlockPos(10, -1, 3)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.slab.name, Map.of("waterlogged", "false", "type", "bottom"))
-                        .addPos(new BlockPos(-9, -1, -9))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.slab.name,Map.of("half","false","waterlogged","false","facing","north"))
                         .addPos(new BlockPos(-9, -1, -7))
+                        .addPos(new BlockPos(-8, -1, 4))
+                        .addPos(new BlockPos(-8, -1, 5))
+                        .addPos(new BlockPos(9, -1, -7)),
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.slab.name,Map.of("half","true","waterlogged","false","facing","down"))
+                        .addPos(new BlockPos(-10, -1, -8))
+                        .addPos(new BlockPos(-10, -1, -7))
+                        .addPos(new BlockPos(-10, -1, -6))
+                        .addPos(new BlockPos(-10, -1, -5))
+                        .addPos(new BlockPos(-10, -1, -4))
+                        .addPos(new BlockPos(-10, -1, -2))
+                        .addPos(new BlockPos(-10, -1, 2))
+                        .addPos(new BlockPos(-10, -1, 4))
+                        .addPos(new BlockPos(-10, -1, 5))
+                        .addPos(new BlockPos(-10, -1, 6))
+                        .addPos(new BlockPos(-10, -1, 7))
+                        .addPos(new BlockPos(-10, -1, 8))
+                        .addPos(new BlockPos(-9, -1, -9))
                         .addPos(new BlockPos(-9, -1, 7))
                         .addPos(new BlockPos(-9, -1, 9))
                         .addPos(new BlockPos(-8, -1, -10))
@@ -566,8 +580,6 @@ public class AccelerateMultiBlock extends LevelMultiBlock {
                         .addPos(new BlockPos(-8, -1, -4))
                         .addPos(new BlockPos(-8, -1, -2))
                         .addPos(new BlockPos(-8, -1, 2))
-                        .addPos(new BlockPos(-8, -1, 4))
-                        .addPos(new BlockPos(-8, -1, 5))
                         .addPos(new BlockPos(-8, -1, 10))
                         .addPos(new BlockPos(-7, -1, -10))
                         .addPos(new BlockPos(-7, -1, -9))
@@ -591,6 +603,7 @@ public class AccelerateMultiBlock extends LevelMultiBlock {
                         .addPos(new BlockPos(-4, -1, -4))
                         .addPos(new BlockPos(-4, -1, -2))
                         .addPos(new BlockPos(-4, -1, -1))
+                        .addPos(new BlockPos(-4, -1, 0))
                         .addPos(new BlockPos(-4, -1, 1))
                         .addPos(new BlockPos(-4, -1, 2))
                         .addPos(new BlockPos(-4, -1, 4))
@@ -611,6 +624,8 @@ public class AccelerateMultiBlock extends LevelMultiBlock {
                         .addPos(new BlockPos(-1, -1, 4))
                         .addPos(new BlockPos(-1, -1, 5))
                         .addPos(new BlockPos(0, -1, -5))
+                        .addPos(new BlockPos(0, -1, -4))
+                        .addPos(new BlockPos(0, -1, 4))
                         .addPos(new BlockPos(0, -1, 5))
                         .addPos(new BlockPos(1, -1, -5))
                         .addPos(new BlockPos(1, -1, -4))
@@ -631,6 +646,7 @@ public class AccelerateMultiBlock extends LevelMultiBlock {
                         .addPos(new BlockPos(4, -1, -4))
                         .addPos(new BlockPos(4, -1, -2))
                         .addPos(new BlockPos(4, -1, -1))
+                        .addPos(new BlockPos(4, -1, 0))
                         .addPos(new BlockPos(4, -1, 1))
                         .addPos(new BlockPos(4, -1, 2))
                         .addPos(new BlockPos(4, -1, 4))
@@ -662,7 +678,6 @@ public class AccelerateMultiBlock extends LevelMultiBlock {
                         .addPos(new BlockPos(8, -1, 5))
                         .addPos(new BlockPos(8, -1, 10))
                         .addPos(new BlockPos(9, -1, -9))
-                        .addPos(new BlockPos(9, -1, -7))
                         .addPos(new BlockPos(9, -1, 7))
                         .addPos(new BlockPos(9, -1, 9))
                         .addPos(new BlockPos(10, -1, -8))
@@ -693,18 +708,18 @@ public class AccelerateMultiBlock extends LevelMultiBlock {
                         .addPos(new BlockPos(2, 0, 3))
                         .addPos(new BlockPos(3, 0, -2))
                         .addPos(new BlockPos(3, 0, 2)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name, Map.of("east", "tall", "waterlogged", "false", "south", "tall", "north", "tall", "west", "tall", "up", "true"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name,Map.of("east","tall","waterlogged","false","south","tall","north","tall","west","tall","up","true"))
                         .addPos(new BlockPos(-8, -1, -8))
                         .addPos(new BlockPos(-8, -1, 8))
                         .addPos(new BlockPos(8, -1, -8))
                         .addPos(new BlockPos(8, -1, 8)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name, Map.of("east", "none", "waterlogged", "false", "south", "none", "north", "low", "west", "low", "up", "true"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name,Map.of("east","none","waterlogged","false","south","none","north","low","west","low","up","true"))
                         .addPos(new BlockPos(-8, -1, -6))
                         .addPos(new BlockPos(-6, -1, -8)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name, Map.of("east", "none", "waterlogged", "false", "south", "low", "north", "none", "west", "low", "up", "true"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name,Map.of("east","none","waterlogged","false","south","low","north","none","west","low","up","true"))
                         .addPos(new BlockPos(-8, -1, 6))
                         .addPos(new BlockPos(-6, -1, 8)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name, Map.of("east", "low", "waterlogged", "false", "south", "low", "north", "low", "west", "low", "up", "true"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name,Map.of("east","low","waterlogged","false","south","low","north","low","west","low","up","true"))
                         .addPos(new BlockPos(-3, -1, -3))
                         .addPos(new BlockPos(-3, -1, 3))
                         .addPos(new BlockPos(-2, -1, -1))
@@ -721,24 +736,34 @@ public class AccelerateMultiBlock extends LevelMultiBlock {
                         .addPos(new BlockPos(-8, 0, 8))
                         .addPos(new BlockPos(8, 0, -8))
                         .addPos(new BlockPos(8, 0, 8)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name, Map.of("east", "tall", "waterlogged", "false", "south", "low", "north", "low", "west", "low", "up", "true"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name,Map.of("east","tall","waterlogged","false","south","low","north","low","west","low","up","true"))
                         .addPos(new BlockPos(-1, -1, 0)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name, Map.of("east", "low", "waterlogged", "false", "south", "tall", "north", "low", "west", "low", "up", "true"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name,Map.of("east","low","waterlogged","false","south","tall","north","low","west","low","up","true"))
                         .addPos(new BlockPos(0, -1, -1)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name, Map.of("east", "low", "waterlogged", "false", "south", "low", "north", "tall", "west", "low", "up", "true"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name,Map.of("east","low","waterlogged","false","south","low","north","tall","west","low","up","true"))
                         .addPos(new BlockPos(0, -1, 1)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name, Map.of("east", "low", "waterlogged", "false", "south", "low", "north", "low", "west", "tall", "up", "true"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name,Map.of("east","low","waterlogged","false","south","low","north","low","west","tall","up","true"))
                         .addPos(new BlockPos(1, -1, 0)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name, Map.of("east", "low", "waterlogged", "false", "south", "none", "north", "low", "west", "none", "up", "true"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name,Map.of("east","low","waterlogged","false","south","none","north","low","west","none","up","true"))
                         .addPos(new BlockPos(6, -1, -8))
                         .addPos(new BlockPos(8, -1, -6))
                         .addPos(new BlockPos(7, 0, -7)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name, Map.of("east", "low", "waterlogged", "false", "south", "low", "north", "none", "west", "none", "up", "true"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name,Map.of("east","low","waterlogged","false","south","low","north","none","west","none","up","true"))
                         .addPos(new BlockPos(6, -1, 8))
                         .addPos(new BlockPos(8, -1, 6)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name, Map.of("east", "tall", "waterlogged", "false", "south", "none", "north", "tall", "west", "none", "up", "true"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name,Map.of("east","tall","waterlogged","false","south","none","north","tall","west","none","up","true"))
                         .addPos(new BlockPos(7, -1, -7)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name, Map.of("east", "none", "waterlogged", "false", "south", "none", "north", "none", "west", "none", "up", "true"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name,Map.of("east","low","waterlogged","false","south","none","north","none","west","none","up","true"))
+                        .addPos(new BlockPos(-10, 0, -3))
+                        .addPos(new BlockPos(-10, 0, 3))
+                        .addPos(new BlockPos(-4, 0, -9))
+                        .addPos(new BlockPos(-4, 0, 9))
+                        .addPos(new BlockPos(-1, 0, 0))
+                        .addPos(new BlockPos(2, 0, -9))
+                        .addPos(new BlockPos(2, 0, 9))
+                        .addPos(new BlockPos(8, 0, -3))
+                        .addPos(new BlockPos(8, 0, 3)),
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name,Map.of("east","none","waterlogged","false","south","none","north","none","west","none","up","true"))
                         .addPos(new BlockPos(-9, 0, -6))
                         .addPos(new BlockPos(-9, 0, 6))
                         .addPos(new BlockPos(-6, 0, -9))
@@ -803,7 +828,7 @@ public class AccelerateMultiBlock extends LevelMultiBlock {
                         .addPos(new BlockPos(-8, 3, 8))
                         .addPos(new BlockPos(8, 3, -8))
                         .addPos(new BlockPos(8, 3, 8)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name, Map.of("east", "none", "waterlogged", "false", "south", "low", "north", "none", "west", "none", "up", "true"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name,Map.of("east","none","waterlogged","false","south","low","north","none","west","none","up","true"))
                         .addPos(new BlockPos(-9, 0, -4))
                         .addPos(new BlockPos(-9, 0, 2))
                         .addPos(new BlockPos(-3, 0, -10))
@@ -813,7 +838,7 @@ public class AccelerateMultiBlock extends LevelMultiBlock {
                         .addPos(new BlockPos(3, 0, 8))
                         .addPos(new BlockPos(9, 0, -4))
                         .addPos(new BlockPos(9, 0, 2)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name, Map.of("east", "none", "waterlogged", "false", "south", "none", "north", "low", "west", "none", "up", "true"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name,Map.of("east","none","waterlogged","false","south","none","north","low","west","none","up","true"))
                         .addPos(new BlockPos(-9, 0, -2))
                         .addPos(new BlockPos(-9, 0, 4))
                         .addPos(new BlockPos(-3, 0, -8))
@@ -823,7 +848,7 @@ public class AccelerateMultiBlock extends LevelMultiBlock {
                         .addPos(new BlockPos(3, 0, 10))
                         .addPos(new BlockPos(9, 0, -2))
                         .addPos(new BlockPos(9, 0, 4)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name, Map.of("east", "none", "waterlogged", "false", "south", "none", "north", "none", "west", "low", "up", "true"))
+                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name,Map.of("east","none","waterlogged","false","south","none","north","none","west","low","up","true"))
                         .addPos(new BlockPos(-8, 0, -3))
                         .addPos(new BlockPos(-8, 0, 3))
                         .addPos(new BlockPos(-2, 0, -9))
@@ -832,15 +857,7 @@ public class AccelerateMultiBlock extends LevelMultiBlock {
                         .addPos(new BlockPos(4, 0, -9))
                         .addPos(new BlockPos(4, 0, 9))
                         .addPos(new BlockPos(10, 0, -3))
-                        .addPos(new BlockPos(10, 0, 3)),
-                new IMultiBlockPack.ManaLevelAcceptableBlockPack(OreBlock.wall.name, Map.of("east", "low", "waterlogged", "false", "south", "none", "north", "none", "west", "none", "up", "true"))
-                        .addPos(new BlockPos(-4, 0, -9))
-                        .addPos(new BlockPos(-4, 0, 9))
-                        .addPos(new BlockPos(-1, 0, 0))
-                        .addPos(new BlockPos(2, 0, -9))
-                        .addPos(new BlockPos(2, 0, 9))
-                        .addPos(new BlockPos(8, 0, -3))
-                        .addPos(new BlockPos(8, 0, 3)));
+                        .addPos(new BlockPos(10, 0, 3)));
     }
 
     public Map<ManaLevel, List<DefaultBlockPack>> defaultBlockPackMap;

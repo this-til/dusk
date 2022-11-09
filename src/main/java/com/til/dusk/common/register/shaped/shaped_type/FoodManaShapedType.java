@@ -28,15 +28,17 @@ import java.util.function.Consumer;
 public class FoodManaShapedType extends ShapedType {
 
     public FoodManaShapedType() {
-        super("food_mana", () -> ManaLevelBlock.foodMana);
+        super("food_mana");
     }
 
     @Override
     public void registerRuleShaped(Consumer<Shaped> shapedConsumer) {
+
     }
 
     @Override
     public void defaultConfig() {
+        blockTagKey =new Delayed.BlockDelayed(() ->  ManaLevelBlock.foodMana.tagPackSupplier.getTagPack().blockTagKey());
         relevantShaped = new Delayed.ListShapedDelayed(() -> List.of(
                 new FoodShaped(name, this, ShapedDrive.get(0), ManaLevel.t1)
                         .addMultipleSurplusTime(1024)

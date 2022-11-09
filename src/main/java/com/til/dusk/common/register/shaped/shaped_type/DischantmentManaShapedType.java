@@ -27,11 +27,12 @@ import java.util.function.Consumer;
  */
 public class DischantmentManaShapedType extends ShapedType {
     public DischantmentManaShapedType() {
-        super("dischantment_mana", () -> ManaLevelBlock.dischantmentMana);
+        super("dischantment_mana");
     }
 
     @Override
     public void defaultConfig() {
+        blockTagKey = new Delayed.BlockDelayed(() -> ManaLevelBlock.dischantmentMana.tagPackSupplier.getTagPack().blockTagKey());
         relevantShaped = new Delayed.ListShapedDelayed(() -> List.of(
                 new DischantmentManaShaped(name, this, ShapedDrive.get(0), ManaLevel.t1)
                         .addMultipleSurplusTime(1024L)

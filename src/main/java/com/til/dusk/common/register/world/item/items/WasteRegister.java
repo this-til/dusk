@@ -1,5 +1,6 @@
 package com.til.dusk.common.register.world.item.items;
 
+import com.google.gson.JsonObject;
 import com.til.dusk.client.ColorProxy;
 import com.til.dusk.client.data.lang.LangProvider;
 import com.til.dusk.client.data.lang.LangType;
@@ -8,6 +9,7 @@ import com.til.dusk.common.register.world.item.ItemPackRegister;
 import com.til.dusk.common.world.block.DuskBlock;
 import com.til.dusk.common.world.item.DuskItem;
 import com.til.dusk.util.DuskColor;
+import net.minecraft.world.item.Item;
 import org.checkerframework.checker.units.qual.C;
 
 /**
@@ -38,14 +40,14 @@ public class WasteRegister extends ItemPackRegister implements DuskItem.IHasCust
         colorEmbellishment = new DuskColor(246, 183, 92);
     }
 
+    @Override
+    public JsonObject createModel(Item item, Void unused) {
+        return null;
+    }
+
     @ConfigField
     public DuskColor colorBasics;
 
     @ConfigField
     public DuskColor colorEmbellishment;
-
-    @Override
-    public String itemJson() {
-        return "";
-    }
 }

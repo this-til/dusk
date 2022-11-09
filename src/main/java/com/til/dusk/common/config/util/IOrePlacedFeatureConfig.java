@@ -135,8 +135,9 @@ public interface IOrePlacedFeatureConfig {
                     List.of(CountPlacement.of(inChunkAmount),
                             InSquarePlacement.spread(),
                             HeightRangePlacement.uniform(
-                                    VerticalAnchor.absolute(maxHeight),
-                                    VerticalAnchor.absolute(minHeight)),
+                                    VerticalAnchor.absolute(minHeight),
+                                    VerticalAnchor.absolute(maxHeight)
+                            ),
                             BiomeFilter.biome()));
         }
 

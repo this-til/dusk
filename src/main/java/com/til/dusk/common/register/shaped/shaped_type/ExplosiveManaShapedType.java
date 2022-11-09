@@ -19,7 +19,7 @@ import java.util.function.Consumer;
  */
 public class ExplosiveManaShapedType extends ShapedType {
     public ExplosiveManaShapedType() {
-        super("explosive_mana", () -> ManaLevelBlock.explosiveMana);
+        super("explosive_mana");
     }
 
     @Override
@@ -28,7 +28,7 @@ public class ExplosiveManaShapedType extends ShapedType {
     }
 
     @Override
-    public void defaultConfig() {
+    public void defaultConfig() {        blockTagKey = new Delayed.BlockDelayed(() -> ManaLevelBlock.explosiveMana.tagPackSupplier.getTagPack().blockTagKey());
         relevantShaped = new Delayed.ListShapedDelayed(() -> List.of(
                 new ShapedOre(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), Tags.Items.GUNPOWDER.location().getPath()}),
                         this, ShapedDrive.get(0), ManaLevel.t1)

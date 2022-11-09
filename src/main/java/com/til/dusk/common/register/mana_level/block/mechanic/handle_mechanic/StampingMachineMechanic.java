@@ -10,14 +10,13 @@ import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author til
  */
 public class StampingMachineMechanic extends HandleMechanic {
     public StampingMachineMechanic() {
-        super("stamping_machine", () -> Set.of(ShapedType.stampingMachine));
+        super("stamping_machine");
     }
 
     @Override
@@ -28,7 +27,7 @@ public class StampingMachineMechanic extends HandleMechanic {
     }
 
     @Override
-    public void defaultConfig() {
+    public void defaultConfig() {shapedTypeList = List.of(ShapedType.stampingMachine);
         manaLevelMakeData = new ManaLevelMakeData()
                 .addOreConfig(List.of(
                         new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(shaping.name, 1),

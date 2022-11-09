@@ -1,6 +1,7 @@
 package com.til.dusk.common.register.shaped.shaped_type;
 
 import com.til.dusk.common.config.ConfigField;
+import com.til.dusk.common.config.util.Delayed;
 import com.til.dusk.common.config.util.IShapedCreate;
 import com.til.dusk.common.config.util.IShapedOreConfig;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
@@ -19,7 +20,7 @@ import java.util.function.Consumer;
 public class UnPackShapedType extends ShapedType {
 
     public UnPackShapedType() {
-        super("unpack", () -> ManaLevelBlock.unpack);
+        super("unpack");
     }
 
     @Override
@@ -42,7 +43,7 @@ public class UnPackShapedType extends ShapedType {
     }
 
     @Override
-    public void defaultConfig() {
+    public void defaultConfig() {        blockTagKey =new Delayed.BlockDelayed(() ->  ManaLevelBlock.unpack.tagPackSupplier.getTagPack().blockTagKey());
         ingot = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "ingot"),
                 this, ShapedDrive.get(0), 128L, 4L, 0L)
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreBlock.block.name, 1))

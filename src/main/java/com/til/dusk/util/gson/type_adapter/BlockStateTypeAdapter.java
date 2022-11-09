@@ -42,6 +42,7 @@ public class BlockStateTypeAdapter extends TypeAdapter<BlockState> {
         }
         if (immutableMap.isEmpty()) {
             jsonWriter.value(blockName.toString());
+            return;
         }
         JsonObject jsonObject = new JsonObject();
         jsonObject.add(NAME, new JsonPrimitive(blockName.toString()));

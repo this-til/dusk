@@ -8,14 +8,13 @@ import com.til.dusk.common.register.mana_level.item.group.ManaLevelItemGroup;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author til
  */
 public class RecoveryMechanic extends HandleMechanic {
     public RecoveryMechanic() {
-        super("recovery", () -> Set.of(ShapedType.recovery));
+        super("recovery");
     }
 
     @Override
@@ -27,6 +26,7 @@ public class RecoveryMechanic extends HandleMechanic {
 
     @Override
     public void defaultConfig() {
+        shapedTypeList = List.of(ShapedType.recovery);
         manaLevelMakeData = new ManaLevelMakeData()
                 .addOreConfig(List.of(
                         new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(decompose.name, 1),

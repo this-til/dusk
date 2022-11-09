@@ -12,7 +12,6 @@ import net.minecraft.data.recipes.RecipeBuilder;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 
 import java.util.List;
-import java.util.Set;
 import java.util.function.Consumer;
 
 /**
@@ -21,7 +20,7 @@ import java.util.function.Consumer;
 public class ExtractManaHandleMechanic extends HandleMechanic {
 
     public ExtractManaHandleMechanic() {
-        super("extract_mana", () -> Set.of(ShapedType.extractMana));
+        super("extract_mana");
 
     }
 
@@ -52,7 +51,7 @@ public class ExtractManaHandleMechanic extends HandleMechanic {
     }
 
     @Override
-    public void defaultConfig() {
+    public void defaultConfig() {shapedTypeList = List.of(ShapedType.extractMana);
         manaLevelMakeData = new ManaLevelMakeData()
                 .addOreConfig(List.of(
                         new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(frameBasic.name, 1),

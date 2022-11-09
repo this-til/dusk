@@ -28,7 +28,7 @@ public class FlameManaMechanic extends ExtractManaMechanic {
     }
 
     @Override
-    public void defaultConfig() {
+    public void defaultConfig() {shapedTypeList = List.of(ShapedType.flameMana);
         extractManaColor = new DuskColor(255, 0, 0);
         manaLevelMakeData = new ManaLevelMakeData()
                 .addOreConfig( List.of(

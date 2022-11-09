@@ -10,7 +10,6 @@ import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author til
@@ -18,7 +17,7 @@ import java.util.Set;
 public class LatheMechanic extends HandleMechanic {
 
     public LatheMechanic() {
-        super("lathe", () -> Set.of(ShapedType.lathe));
+        super("lathe");
     }
 
     @Override
@@ -29,7 +28,7 @@ public class LatheMechanic extends HandleMechanic {
     }
 
     @Override
-    public void defaultConfig() {
+    public void defaultConfig() {shapedTypeList = List.of(ShapedType.lathe);
         manaLevelMakeData = new ManaLevelMakeData()
                 .addOreConfig(List.of(
                         new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(stampingMachine.name, 1),

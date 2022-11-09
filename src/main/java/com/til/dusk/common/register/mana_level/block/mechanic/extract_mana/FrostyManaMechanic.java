@@ -27,7 +27,7 @@ public class FrostyManaMechanic extends ExtractManaMechanic {
     }
 
     @Override
-    public void defaultConfig() {
+    public void defaultConfig() {shapedTypeList = List.of(ShapedType.frostyMana);
         extractManaColor = new DuskColor(29, 237, 255);
         manaLevelMakeData = new ManaLevelMakeData()
                 .addOreConfig(List.of(

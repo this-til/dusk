@@ -24,7 +24,7 @@ import java.util.function.Consumer;
  */
 public class AssembleMechanic extends HandleMechanic {
     public AssembleMechanic() {
-        super("assemble", () -> Set.of(ShapedType.assemble));
+        super("assemble");
     }
 
     @Override
@@ -54,6 +54,7 @@ public class AssembleMechanic extends HandleMechanic {
 
     @Override
     public void defaultConfig() {
+        shapedTypeList = List.of(ShapedType.assemble);
         manaLevelMakeData = new ManaLevelMakeData()
                 .setManaLevel(MakeLevel.UP)
                 .addOreConfig(List.of(
@@ -61,6 +62,6 @@ public class AssembleMechanic extends HandleMechanic {
                         new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemGroup.power.name, 2),
                         new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemGroup.instructions.name, 2),
                         new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(OreItem.wrench.name, 2),
-                        new IShapedOreConfig.IShapedOreManaLevelConfig.ItemIn(() ->ItemTag.CRAFTING_TABLE.d1(), 18)));
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.ItemIn(() -> ItemTag.CRAFTING_TABLE.d1(), 18)));
     }
 }

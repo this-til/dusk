@@ -112,7 +112,7 @@ public interface IMultiBlockPack<D> {
         }
     }
 
-    class BlockStateBlockPack implements IMultiBlockPack<Object> {
+    class BlockStateBlockPack<N> implements IMultiBlockPack<N> {
         public Delayed<BlockState> blockState;
         public List<BlockPos> pos = new ArrayList<>();
 
@@ -126,12 +126,12 @@ public interface IMultiBlockPack<D> {
         }
 
         @Override
-        public DefaultBlockPack ofDefaultBlockPack(Object o) {
+        public DefaultBlockPack ofDefaultBlockPack(N o) {
             return new DefaultBlockPack(List.of(blockState.get()), pos);
         }
 
         @Override
-        public boolean isCompleted(Level level, BlockPos blockPos, Object o) {
+        public boolean isCompleted(Level level, BlockPos blockPos, N o) {
             for (BlockPos po : pos) {
                 BlockState worldBlockStack = level.getBlockState(blockPos.offset(po));
                 if (stateStrict) {
@@ -145,12 +145,12 @@ public interface IMultiBlockPack<D> {
             return true;
         }
 
-        public BlockStateBlockPack addPos(BlockPos blockPos) {
+        public BlockStateBlockPack<N> addPos(BlockPos blockPos) {
             pos.add(blockPos);
             return this;
         }
 
-        public BlockStateBlockPack setStateStrict(boolean stateStrict) {
+        public BlockStateBlockPack<N> setStateStrict(boolean stateStrict) {
             this.stateStrict = stateStrict;
             return this;
         }

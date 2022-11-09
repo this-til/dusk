@@ -18,7 +18,7 @@ import java.util.function.Consumer;
 public class HalitosisManaShapedType extends ShapedType {
 
     public HalitosisManaShapedType() {
-        super("halitosis_mana", () -> ManaLevelBlock.halitosisMana);
+        super("halitosis_mana");
     }
 
     @Override
@@ -28,6 +28,7 @@ public class HalitosisManaShapedType extends ShapedType {
 
     @Override
     public void defaultConfig() {
+        blockTagKey = new Delayed.BlockDelayed(() -> ManaLevelBlock.halitosisMana.tagPackSupplier.getTagPack().blockTagKey());
         relevantShaped = new Delayed.ListShapedDelayed(() -> List.of(
                 new ShapedOre(name, this, ShapedDrive.get(0), ManaLevel.t1)
                         .addInItem(ItemTag.DRAGON_BREATH, 1)

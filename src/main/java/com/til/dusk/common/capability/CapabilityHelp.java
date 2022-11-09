@@ -1,5 +1,6 @@
 package com.til.dusk.common.capability;
 
+import com.til.dusk.Dusk;
 import com.til.dusk.common.capability.control.IControl;
 import com.til.dusk.common.capability.mana_handle.IManaHandle;
 import com.til.dusk.common.capability.pos.IPosTrack;
@@ -12,8 +13,10 @@ import com.til.dusk.util.RoutePack;
 import com.til.dusk.util.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
@@ -443,21 +446,55 @@ public class CapabilityHelp {
 
     /***
      * 排出
+     * 返回排出的
      */
-    public static FluidStack drain(IPosTrack iPosTrack, @Nullable RoutePack<FluidStack> routePack, IFluidHandler fluidHandler, IPosTrack itemHandlerPos, int fluidStack, boolean isSimulate) {
+    public static int drain(IPosTrack iPosTrack, @Nullable RoutePack<FluidStack> routePack, Map.Entry<IPosTrack, IFluidHandler> fluidHandler, Map.Entry<TagKey<Fluid>, Integer> fluid, boolean isSimulate) {
         boolean isOriginal = routePack == null;
         if (isOriginal) {
             routePack = new RoutePack<>();
         }
-        if (fluidHandler instanceof RoutePack.ISupportRoutePack<?> supportRoutePack) {
-            supportRoutePack.set(Util.forcedConversion(routePack.getNext()));
+        int need = fluid.getValue();
+        for (int i = 0; i < fluidHandler.getValue().getTanks(); i++) {
+            FluidStack fluidStack = fluidHandler.getValue().getFluidInTank(i);
+            if (!fluidStack.getFluid().is(fluid.getKey())) {
+                continue;
+            }
+            FluidStack needDrain;
+            if (fluidStack.getAmount() > need) {
+                needDrain = fluidStack.copy();
+                needDrain.setAmount(need);
+            } else {
+                needDrain = fluidStack;
+            }
+            FluidStack out = drain(iPosTrack, routePack, fluidHandler, needDrain, isSimulate);
+            if (out.isEmpty()) {
+                continue;
+            }
+            need -= out.getAmount();
+            routePack.add(new RoutePack.RouteCell<>(fluidHandler.getKey().getPos(), iPosTrack.getPos(), out));
+            if (need == 0) {
+                break;
+            }
         }
-        FluidStack d = fluidHandler.drain(fluidStack, asFluidAction(isSimulate));
-        routePack.add(new RoutePack.RouteCell<>(itemHandlerPos.getPos(), iPosTrack.getPos(), d));
         if (!isSimulate && isOriginal) {
             MinecraftForge.EVENT_BUS.post(new EventIO.Fluid(iPosTrack.getLevel(), routePack));
         }
-        return d;
+        return fluid.getValue() - need;
+    }
+
+    public static int drain(IPosTrack iPosTrack, @Nullable RoutePack<FluidStack> routePack, Map<IPosTrack, IFluidHandler> fluidHandler, Map.Entry<TagKey<Fluid>, Integer> fluid, boolean isSimulate) {
+        boolean isOriginal = routePack == null;
+        if (isOriginal) {
+            routePack = new RoutePack<>();
+        }
+        int need = fluid.getValue();
+        for (Map.Entry<IPosTrack, IFluidHandler> entry : fluidHandler.entrySet()) {
+            need -= drain(iPosTrack, routePack, entry, fluid, isSimulate);
+        }
+        if (!isSimulate && isOriginal) {
+            MinecraftForge.EVENT_BUS.post(new EventIO.Fluid(iPosTrack.getLevel(), routePack));
+        }
+        return fluid.getValue() - need;
     }
 
     public static void drainAndFillFluid(IPosTrack iPosTrack, Map.Entry<IPosTrack, IFluidHandler> fluidHandler, FluidStack fluidStack, Map<IPosTrack, IFluidHandler> out, boolean isSimulate) {

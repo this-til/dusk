@@ -11,7 +11,6 @@ import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author til
@@ -19,7 +18,7 @@ import java.util.Set;
 public class FurnaceMechanic extends HandleMechanic {
 
     public FurnaceMechanic(){
-        super("furnace", () -> Set.of(ShapedType.furnace));
+        super("furnace");
     }
 
     @Override
@@ -30,7 +29,7 @@ public class FurnaceMechanic extends HandleMechanic {
     }
 
     @Override
-    public void defaultConfig() {
+    public void defaultConfig() {shapedTypeList = List.of(ShapedType.furnace);
         manaLevelMakeData = new ManaLevelMakeData()
                 .addOreConfig( List.of(
                         new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(flameMana.name, 1),

@@ -19,7 +19,7 @@ import java.util.function.Consumer;
 public class EnderManaShapedType extends ShapedType {
 
     public EnderManaShapedType() {
-        super("ender_mana", () -> ManaLevelBlock.enderMana);
+        super("ender_mana");
     }
 
     @Override
@@ -28,7 +28,7 @@ public class EnderManaShapedType extends ShapedType {
     }
 
     @Override
-    public void defaultConfig() {
+    public void defaultConfig() {        blockTagKey =new Delayed.BlockDelayed(() ->  ManaLevelBlock.enderMana.tagPackSupplier.getTagPack().blockTagKey());
         relevantShaped = new Delayed.ListShapedDelayed(() -> List.of(
                 new ShapedOre(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), Tags.Items.END_STONES.location().getPath()}),
                         this, ShapedDrive.get(0), ManaLevel.t1)

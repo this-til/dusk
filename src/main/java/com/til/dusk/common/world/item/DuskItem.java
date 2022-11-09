@@ -1,12 +1,12 @@
 package com.til.dusk.common.world.item;
 
 
+import com.google.gson.JsonObject;
 import com.til.dusk.Dusk;
 import com.til.dusk.client.ColorProxy;
 import com.til.dusk.common.data.tag.ItemTag;
 import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.nbt.pack.AllNBTPack;
-import com.til.dusk.util.prefab.JsonPrefab;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
@@ -19,7 +19,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegistryObject;
 
-import java.text.MessageFormat;
+import javax.annotation.Nullable;
 
 /**
  * @author til
@@ -67,21 +67,9 @@ public class DuskItem {
     /***
      * 自定义模型
      */
-    public interface ICustomModel {
-        /***
-         * 物品自定义模型名称
-         * @R
-         */
-        ResourceLocation itemModelName();
-
-        default String itemJson() {
-            ResourceLocation resourceLocation = itemModelName();
-            return MessageFormat.format(itemJsonBasics(), resourceLocation.getNamespace(), resourceLocation.getPath());
-        }
-
-        default String itemJsonBasics() {
-            return JsonPrefab.ITEM_FATHER;
-        }
+    public interface ICustomModel<D> {
+        @Nullable
+        JsonObject createModel(Item item, D d);
     }
 
 

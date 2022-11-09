@@ -1,5 +1,6 @@
 package com.til.dusk.common.register.shaped.shaped_type;
 
+import com.til.dusk.common.config.util.Delayed;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
 import com.til.dusk.common.register.shaped.shapeds.Shaped;
 import net.minecraft.world.Container;
@@ -15,14 +16,14 @@ import java.util.function.Consumer;
 public class FurnaceShapedType extends ShapedType {
 
     public FurnaceShapedType() {
-        super("furnace", () -> ManaLevelBlock.furnace);
+        super("furnace");
     }
 
     final RecipeManager.CachedCheck<Container, SmeltingRecipe> quickCheck = RecipeManager.createCheck(RecipeType.SMELTING);
 
     @Override
     public void defaultConfig() {
-
+        blockTagKey =new Delayed.BlockDelayed(() ->  ManaLevelBlock.furnace.tagPackSupplier.getTagPack().blockTagKey());
     }
 
     @Override

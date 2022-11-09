@@ -27,7 +27,7 @@ public class FoodManaMechanic extends ExtractManaMechanic {
     }
 
     @Override
-    public void defaultConfig() {
+    public void defaultConfig() {shapedTypeList = List.of(ShapedType.foodMana);
         extractManaColor = new DuskColor(255, 184, 66);
         manaLevelMakeData = new ManaLevelMakeData()
                 .addOreConfig(List.of(

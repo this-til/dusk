@@ -8,7 +8,6 @@ import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shapeds.Shaped;
 import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
 import com.til.dusk.util.ResourceLocationUtil;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraftforge.common.Tags;
 
@@ -21,7 +20,7 @@ import java.util.function.Consumer;
 public class BotanyManaShapedType extends ShapedType {
 
     public BotanyManaShapedType() {
-        super("botany_mana", () -> ManaLevelBlock.botanyMana);
+        super("botany_mana");
     }
 
     @Override
@@ -31,6 +30,7 @@ public class BotanyManaShapedType extends ShapedType {
 
     @Override
     public void defaultConfig() {
+        blockTagKey = new Delayed.BlockDelayed(() -> ManaLevelBlock.botanyMana.tagPackSupplier.getTagPack().blockTagKey());
         relevantShaped = new Delayed.ListShapedDelayed(() -> List.of(
                 new ShapedOre(ResourceLocationUtil.fuseName(name.getNamespace(), "/", new String[]{name.getPath(), ItemTags.SAPLINGS.location().getPath()}),
                         this, ShapedDrive.get(0), ManaLevel.t1)

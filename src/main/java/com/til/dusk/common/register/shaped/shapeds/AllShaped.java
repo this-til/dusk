@@ -7,6 +7,7 @@ import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.register.RegisterManage;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
+import com.til.dusk.util.Extension;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -92,8 +93,19 @@ public class AllShaped {
 
         public JudgeCell(ShapedOre shapedOre) {
             this.shapedOre = shapedOre;
-            item = shapedOre.item != null ? shapedOre.item.keySet() : new HashSet<>();
-            fluid = shapedOre.fluid != null ? shapedOre.fluid.keySet() : new HashSet<>();
+            item = new HashSet<>();
+            if (shapedOre.item != null) {
+                for (Extension.VariableData_2<TagKey<Item>, Integer> data : shapedOre.item) {
+                    item.add(data.k);
+                }
+            }
+
+            fluid = new HashSet<>();
+            if (shapedOre.fluid != null) {
+                for (Extension.VariableData_2<TagKey<Fluid>, Integer> data : shapedOre.fluid) {
+                    fluid.add(data.k);
+                }
+            }
         }
 
         public boolean contains(JudgeCell judgeCell) {

@@ -1,13 +1,16 @@
 package com.til.dusk.common.register.world.item;
 
+import com.google.gson.JsonObject;
 import com.til.dusk.client.ColorProxy;
 import com.til.dusk.common.config.ConfigField;
 import com.til.dusk.common.world.item.DuskItem;
 import com.til.dusk.util.DuskColor;
+import com.til.dusk.util.ModelJsonUtil;
 import com.til.dusk.util.nbt.pack.AllNBTPack;
 import com.til.dusk.util.prefab.ColorPrefab;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 
 /**
  * @author til
@@ -33,8 +36,8 @@ public abstract class StaffItemRegister extends ItemPackRegister implements Dusk
     }
 
     @Override
-    public String itemJson() {
-        return "";
+    public JsonObject createModel(Item item, Void unused) {
+        return null;
     }
 
     @Override

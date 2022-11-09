@@ -10,7 +10,6 @@ import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 import net.minecraftforge.common.Tags;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author til
@@ -18,7 +17,7 @@ import java.util.Set;
 public class GrindMechanic extends HandleMechanic {
 
     public GrindMechanic() {
-        super("grind", () -> Set.of(ShapedType.grind));
+        super("grind");
     }
 
     @Override
@@ -29,7 +28,7 @@ public class GrindMechanic extends HandleMechanic {
     }
 
     @Override
-    public void defaultConfig() {
+    public void defaultConfig() {shapedTypeList = List.of(ShapedType.grind);
         manaLevelMakeData = new ManaLevelMakeData()
                 .addOreConfig(List.of(
                         new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(frameBasic.name, 1),

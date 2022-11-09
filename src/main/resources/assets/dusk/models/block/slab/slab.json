@@ -1,11 +1,8 @@
 {
-  "parent": "dusk:block/slab/slab_model",
+  "parent": "dusk:block/cube_ore_all",
   "textures": {
-    "bottom0": "dusk:block/black",
-    "side0": "dusk:block/black",
-    "top": "dusk:block/black",
-    "bottom1": "minecraft:block/iron_block",
-    "side1": "minecraft:block/iron_block",
-    "top1": "minecraft:block/iron_block"
+    "all0": "dusk:block/black",
+    "all1": "minecraft:block/iron_block",
+    "particle": "minecraft:block/iron_block"
   }
 }

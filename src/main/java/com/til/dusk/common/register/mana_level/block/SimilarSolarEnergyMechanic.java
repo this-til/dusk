@@ -1,5 +1,6 @@
 package com.til.dusk.common.register.mana_level.block;
 
+import com.google.gson.JsonObject;
 import com.til.dusk.Dusk;
 import com.til.dusk.client.ColorProxy;
 import com.til.dusk.common.capability.CapabilityHelp;
@@ -12,9 +13,12 @@ import com.til.dusk.common.register.bind_type.BindType;
 import com.til.dusk.common.world.block.DuskBlock;
 import com.til.dusk.util.DuskColor;
 import com.til.dusk.util.Extension;
+import com.til.dusk.util.ModelJsonUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
@@ -77,8 +81,13 @@ public abstract class SimilarSolarEnergyMechanic extends PassiveProductionMechan
     }
 
     @Override
-    public DuskBlock.ICustomModel getBlockModelMapping(ManaLevel manaLevel) {
-        return () -> MODEL_NAME;
+    public JsonObject createBlockModel(Block block, ManaLevel o) {
+        return ModelJsonUtil.createBlockState(MODEL_NAME);
+    }
+
+    @Override
+    public JsonObject createModel(Item item, ManaLevel o) {
+        return ModelJsonUtil.createItemFather(MODEL_NAME);
     }
 
 

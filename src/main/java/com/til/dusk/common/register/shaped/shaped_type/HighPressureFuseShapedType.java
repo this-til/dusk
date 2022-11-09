@@ -1,6 +1,7 @@
 package com.til.dusk.common.register.shaped.shaped_type;
 
 import com.til.dusk.common.config.ConfigField;
+import com.til.dusk.common.config.util.Delayed;
 import com.til.dusk.common.config.util.IShapedCreate;
 import com.til.dusk.common.config.util.IShapedOreConfig;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
@@ -19,7 +20,7 @@ import java.util.function.Consumer;
 public class HighPressureFuseShapedType extends ShapedType {
 
     public HighPressureFuseShapedType() {
-        super("high_pressure_fuse", () -> ManaLevelBlock.highPressureFuse);
+        super("high_pressure_fuse");
     }
 
     @Override
@@ -46,6 +47,7 @@ public class HighPressureFuseShapedType extends ShapedType {
 
     @Override
     public void defaultConfig() {
+        blockTagKey = new Delayed.BlockDelayed(() -> ManaLevelBlock.highPressureFuse.tagPackSupplier.getTagPack().blockTagKey());
         splittingSunlightSolution = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "sunlight"),
                 this, ShapedDrive.get(1), 2048L, 22L, 0)
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptFluidIn(OreFluid.solution.name, 72))

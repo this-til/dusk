@@ -1,5 +1,6 @@
 package com.til.dusk.common.register.world.item;
 
+import com.google.gson.JsonObject;
 import com.til.dusk.Dusk;
 import com.til.dusk.common.config.ConfigField;
 import com.til.dusk.common.config.util.Delayed;
@@ -11,7 +12,7 @@ import com.til.dusk.common.register.world.item.items.*;
 import com.til.dusk.common.world.item.DuskItem;
 import com.til.dusk.util.ResourceLocationUtil;
 import com.til.dusk.util.pack.ItemPack;
-import com.til.dusk.util.prefab.JsonPrefab;
+import com.til.dusk.util.ModelJsonUtil;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -33,7 +34,7 @@ import java.util.function.Supplier;
  * @author til
  */
 @Mod.EventBusSubscriber(modid = Dusk.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public abstract class ItemPackRegister extends RegisterPack<ItemPackRegister, ItemPack> implements DuskItem.ICustomModel {
+public abstract class ItemPackRegister extends RegisterPack<ItemPackRegister, ItemPack> implements DuskItem.ICustomModel<Void> {
 
     public static Supplier<IForgeRegistry<ItemPackRegister>> ITEM_PACK_REGISTER;
 
@@ -147,12 +148,7 @@ public abstract class ItemPackRegister extends RegisterPack<ItemPackRegister, It
     public Delayed<List<Shaped>> defaultShaped;
 
     @Override
-    public ResourceLocation itemModelName() {
-        return name;
-    }
-
-    @Override
-    public String itemJsonBasics() {
-        return JsonPrefab.CURRENCY_ITEM_MODEL;
+    public JsonObject createModel(Item item, Void unused) {
+        return ModelJsonUtil.createItemModel(name);
     }
 }

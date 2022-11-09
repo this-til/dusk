@@ -2,6 +2,7 @@ package com.til.dusk.common.register.shaped.shaped_type;
 
 
 import com.til.dusk.common.config.ConfigField;
+import com.til.dusk.common.config.util.Delayed;
 import com.til.dusk.common.config.util.IShapedCreate;
 import com.til.dusk.common.config.util.IShapedOreConfig;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
@@ -19,7 +20,7 @@ import java.util.function.Consumer;
 public class ScreenShapedType extends ShapedType {
 
     public ScreenShapedType() {
-        super("screen", () -> ManaLevelBlock.screen);
+        super("screen");
     }
 
     @Override
@@ -43,6 +44,7 @@ public class ScreenShapedType extends ShapedType {
 
     @Override
     public void defaultConfig() {
+        blockTagKey = new Delayed.BlockDelayed(() -> ManaLevelBlock.screen.tagPackSupplier.getTagPack().blockTagKey());
         screen = new IShapedCreate.OreShapedCreate(name, this, ShapedDrive.get(0), 128, 4, 0)
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.crushedPurified.name, 1))
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.damagedCrystal, 1, 0.5))

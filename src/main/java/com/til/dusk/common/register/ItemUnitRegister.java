@@ -1,9 +1,12 @@
 package com.til.dusk.common.register;
 
+import com.google.gson.JsonObject;
+import com.mojang.realmsclient.util.JsonUtils;
 import com.til.dusk.Dusk;
 import com.til.dusk.client.ColorProxy;
 import com.til.dusk.common.world.item.DuskItem;
 import com.til.dusk.util.Lang;
+import com.til.dusk.util.ModelJsonUtil;
 import com.til.dusk.util.ResourceLocationUtil;
 import com.til.dusk.util.pack.ItemPack;
 import net.minecraft.network.chat.Component;
@@ -21,7 +24,7 @@ import java.util.function.Supplier;
 /**
  * @author til
  */
-public abstract class ItemUnitRegister<T extends ItemUnitRegister<T, O>, O extends TagPackSupplierRegister<?>> extends TagPackSupplierRegister<T> {
+public abstract class ItemUnitRegister<T extends ItemUnitRegister<T, O>, O extends TagPackSupplierRegister<?>> extends TagPackSupplierRegister<T> implements DuskItem.ICustomModel<O> {
 
     public ItemUnitRegister(ResourceLocation name, Supplier<IForgeRegistry<T>> iForgeRegistrySupplier) {
         super(name, iForgeRegistrySupplier);
@@ -46,12 +49,9 @@ public abstract class ItemUnitRegister<T extends ItemUnitRegister<T, O>, O exten
         };
     }
 
-
-    /***
-     * 获取方块物品模型映射
-     */
-    public DuskItem.ICustomModel getItemMoldMapping(O o) {
-        return () -> name;
+    @Override
+    public JsonObject createModel(Item item, O o) {
+        return ModelJsonUtil.createItemFather(name);
     }
 
     /***

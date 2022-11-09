@@ -1,6 +1,8 @@
 package com.til.dusk.common.data.tag;
 
 import com.til.dusk.Dusk;
+import com.til.dusk.common.event.RegisterManageEvent;
+import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.util.Extension;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
@@ -113,7 +115,7 @@ public class ItemTag extends ItemTagsProvider {
     public static TagKey<Item> triodeTag;
 
     @SubscribeEvent
-    public static void event(NewRegistryEvent event) {
+    public static void event(RegisterManageEvent.InMap event) {
         TNT = createBlockTag((BlockItem) Items.TNT);
         ICES = createBlockTag(new ResourceLocation("ices"));
         {

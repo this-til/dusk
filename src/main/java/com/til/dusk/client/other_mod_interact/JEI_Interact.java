@@ -32,7 +32,9 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.registries.tags.ITag;
 import org.jetbrains.annotations.NotNull;
 
 import java.text.DecimalFormat;
@@ -83,9 +85,8 @@ public class JEI_Interact implements IModPlugin {
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
         for (ShapedType shapedType : ShapedType.SHAPED_TYPE.get()) {
             RecipeType<Shaped> shapedRecipeType = new RecipeType<>(shapedType.name, Shaped.class);
-            ManaLevelBlock manaLevelBlock = shapedType.manaLevelBlockSupplier.get();
-            for (ManaLevel manaLevel : ManaLevel.MANA_LEVEL.get()) {
-                registration.addRecipeCatalyst(new ItemStack(manaLevel.get(manaLevelBlock).blockItem()), shapedRecipeType);
+            for (Block block : Dusk.instance.BLOCK_TAG.getTag(shapedType.blockTagKey.get())) {
+                registration.addRecipeCatalyst(new ItemStack(block), shapedRecipeType);
             }
         }
     }
@@ -111,7 +112,17 @@ public class JEI_Interact implements IModPlugin {
         public CurrencyCategory(IGuiHelper guiHelper, ShapedType shapedType) {
             this.shapedType = shapedType;
             background = guiHelper.createDrawable(new ResourceLocation(Dusk.MOD_ID, "textures/gui/currency_category.png"), 0, 0, WIDTH, HEIGHT);
-            icon = guiHelper.createDrawableItemStack(new ItemStack(ManaLevel.t8.get(shapedType.manaLevelBlockSupplier.get()).block()));
+            ITag<Block> blockTag = Dusk.instance.BLOCK_TAG.getTag(shapedType.blockTagKey.get());
+            IDrawable i = null;
+            if (blockTag.isEmpty()) {
+                i = guiHelper.createDrawableItemStack(ItemStack.EMPTY);
+            } else {
+                for (Block block : blockTag) {
+                    i = guiHelper.createDrawableItemStack(new ItemStack(block));
+                    break;
+                }
+            }
+            icon = i;
         }
 
         @Override
@@ -202,9 +213,7 @@ public class JEI_Interact implements IModPlugin {
                 }
                 if (AllNBTPack.PROBABILITY.contains(compoundTag) && AllNBTPack.PROBABILITY.get(compoundTag) < 1) {
                     DecimalFormat df = new DecimalFormat("0.00%");
-                    listComponent.add(Lang.getLang(Component.translatable(
-                                    Lang.getKey("概率")),
-                            Component.literal(df.format(AllNBTPack.PROBABILITY.get(compoundTag)))));
+                    listComponent.add(Lang.getLang(Component.translatable(Lang.getKey("概率")), Component.literal(df.format(AllNBTPack.PROBABILITY.get(compoundTag)))));
                 }
             }
         }
@@ -219,9 +228,7 @@ public class JEI_Interact implements IModPlugin {
                 }
                 if (AllNBTPack.PROBABILITY.contains(compoundTag) && AllNBTPack.PROBABILITY.get(compoundTag) < 1) {
                     DecimalFormat df = new DecimalFormat("0.00%");
-                    listComponent.add(Lang.getLang(
-                            Component.translatable(Lang.getKey("概率")),
-                            Component.literal(df.format(AllNBTPack.PROBABILITY.get(compoundTag)))));
+                    listComponent.add(Lang.getLang(Component.translatable(Lang.getKey("概率")), Component.literal(df.format(AllNBTPack.PROBABILITY.get(compoundTag)))));
                 }
             }
         }

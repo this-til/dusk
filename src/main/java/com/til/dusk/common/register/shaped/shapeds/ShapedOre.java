@@ -13,6 +13,7 @@ import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 import com.til.dusk.util.Extension;
+import com.til.dusk.util.ListUtil;
 import com.til.dusk.util.MapUtil;
 import com.til.dusk.util.RoutePack;
 import com.til.dusk.util.nbt.pack.AllNBTPack;
@@ -34,13 +35,13 @@ import java.util.*;
 public class ShapedOre extends ShapedMiddle {
 
     @Nullable
-    public Map<TagKey<Item>, Integer> item;
+    public List<Extension.VariableData_2<TagKey<Item>, Integer>> item;
     @Nullable
-    public Map<TagKey<Fluid>, Integer> fluid;
+    public List<Extension.VariableData_2<TagKey<Fluid>, Integer>> fluid;
     @Nullable
-    public Map<ItemStack, Double> outItem;
+    public List<Extension.VariableData_2<ItemStack, Double>> outItem;
     @Nullable
-    public Map<FluidStack, Double> outFluid;
+    public List<Extension.VariableData_2<FluidStack, Double>> outFluid;
     @Nullable
     public TagKey<Item> itemScreen;
     @Nullable
@@ -101,7 +102,7 @@ public class ShapedOre extends ShapedMiddle {
             return null;
         }
         List<FluidStack> fluidStacks = new ArrayList<>(outFluid.size());
-        for (Map.Entry<FluidStack, Double> entry : outFluid.entrySet()) {
+        for (Map.Entry<FluidStack, Double> entry : outFluid) {
             if (random.nextDouble() < entry.getValue()) {
                 fluidStacks.add(entry.getKey().copy());
             }
@@ -115,7 +116,7 @@ public class ShapedOre extends ShapedMiddle {
             return null;
         }
         List<ItemStack> itemStackList = new ArrayList<>(outItem.size());
-        for (Map.Entry<ItemStack, Double> entry : outItem.entrySet()) {
+        for (Map.Entry<ItemStack, Double> entry : outItem) {
             if (random.nextDouble() < entry.getValue()) {
                 itemStackList.add(entry.getKey().copy());
             }
@@ -128,7 +129,7 @@ public class ShapedOre extends ShapedMiddle {
             return true;
         }
         RoutePack<ItemStack> routePack = new RoutePack<>();
-        for (Map.Entry<TagKey<Item>, Integer> tagKeyIntegerEntry : item.entrySet()) {
+        for (Map.Entry<TagKey<Item>, Integer> tagKeyIntegerEntry : item) {
             int needItem = tagKeyIntegerEntry.getValue();
             for (int i = 0; i < entry.getValue().getSlots(); i++) {
                 ItemStack oldItemStack = entry.getValue().getStackInSlot(i);
@@ -158,16 +159,9 @@ public class ShapedOre extends ShapedMiddle {
             return true;
         }
         RoutePack<FluidStack> routePack = new RoutePack<>();
-        for (Map.Entry<TagKey<Fluid>, Integer> tagKeyIntegerEntry : fluid.entrySet()) {
+        for (Map.Entry<TagKey<Fluid>, Integer> tagKeyIntegerEntry : fluid) {
             int need = tagKeyIntegerEntry.getValue();
-            for (Fluid fluid1 : Dusk.instance.FLUID_TAG.getTag(tagKeyIntegerEntry.getKey())) {
-                FluidStack fluidStack = new FluidStack(fluid1, need);
-                FluidStack out = CapabilityHelp.drain(iControl.getPosTrack(), routePack, fluidHandlers, fluidStack, isSimulated);
-                need -= out.getAmount();
-                if (need == 0) {
-                    break;
-                }
-            }
+            need -= CapabilityHelp.drain(iControl.getPosTrack(), null, fluidHandlers, tagKeyIntegerEntry, isSimulated);
             if (need > 0) {
                 return false;
             }
@@ -188,13 +182,13 @@ public class ShapedOre extends ShapedMiddle {
                     return null;
                 }
                 List<List<ItemStack>> list = new ArrayList<>();
-                item.forEach((k, v) -> {
+                for (Extension.VariableData_2<TagKey<Item>, Integer> entry : item) {
                     List<ItemStack> itemStackList = new ArrayList<>();
-                    for (Item item1 : ForgeRegistries.ITEMS.tags().getTag(k)) {
-                        itemStackList.add(new ItemStack(item1, v));
+                    for (Item item1 : Dusk.instance.ITEM_TAG.getTag(entry.getKey())) {
+                        itemStackList.add(new ItemStack(item1, entry.getValue()));
                     }
                     list.add(itemStackList);
-                });
+                }
                 return list;
 
             }
@@ -206,15 +200,15 @@ public class ShapedOre extends ShapedMiddle {
                     return null;
                 }
                 List<List<FluidStack>> list = new ArrayList<>();
-                fluid.forEach((k, v) -> {
+                for (Extension.VariableData_2<TagKey<Fluid>, Integer> entry : fluid) {
                     List<FluidStack> itemStackList = new ArrayList<>();
-                    for (Fluid fluid1 : Dusk.instance.FLUID_TAG.getTag(k)) {
+                    for (Fluid fluid1 : Dusk.instance.FLUID_TAG.getTag(entry.getKey())) {
                         CompoundTag compoundTag = new CompoundTag();
-                        AllNBTPack.MB.set(compoundTag, v);
-                        itemStackList.add(new FluidStack(fluid1, v, compoundTag));
+                        AllNBTPack.MB.set(compoundTag, entry.getValue());
+                        itemStackList.add(new FluidStack(fluid1, entry.getValue(), compoundTag));
                     }
                     list.add(itemStackList);
-                });
+                }
                 return list;
             }
 
@@ -226,13 +220,13 @@ public class ShapedOre extends ShapedMiddle {
                     return null;
                 }
                 List<List<ItemStack>> list = new ArrayList<>();
-                outItem.forEach((k, v) -> {
+                for (Extension.VariableData_2<ItemStack, Double> entry : outItem) {
                     CompoundTag compoundTag = new CompoundTag();
-                    AllNBTPack.PROBABILITY.set(compoundTag, v);
-                    ItemStack itemStack = k.copy();
+                    AllNBTPack.PROBABILITY.set(compoundTag, entry.getValue());
+                    ItemStack itemStack = entry.getKey().copy();
                     itemStack.setTag(compoundTag.copy());
                     list.add(Lists.newArrayList(itemStack));
-                });
+                }
                 return list;
             }
 
@@ -243,14 +237,14 @@ public class ShapedOre extends ShapedMiddle {
                     return null;
                 }
                 List<List<FluidStack>> list = new ArrayList<>();
-                outFluid.forEach((k, v) -> {
+                for (Extension.VariableData_2<FluidStack, Double> entry : outFluid) {
                     CompoundTag compoundTag = new CompoundTag();
-                    AllNBTPack.PROBABILITY.set(compoundTag, v);
-                    AllNBTPack.MB.set(compoundTag, k.getAmount());
-                    FluidStack fluidStack = k.copy();
+                    AllNBTPack.PROBABILITY.set(compoundTag, entry.getValue());
+                    AllNBTPack.MB.set(compoundTag, entry.getKey().getAmount());
+                    FluidStack fluidStack = entry.getKey().copy();
                     fluidStack.setTag(compoundTag.copy());
                     list.add(Lists.newArrayList(fluidStack));
-                });
+                }
                 return list;
             }
         };
@@ -258,9 +252,9 @@ public class ShapedOre extends ShapedMiddle {
 
     public ShapedOre addInItem(TagKey<Item> item, Integer i) {
         if (this.item == null) {
-            this.item = new HashMap<>();
+            this.item = new ArrayList<>();
         }
-        MapUtil.add(this.item, item, i);
+        ListUtil.add(this.item, item, i);
         if (itemScreen == null) {
             itemScreen = item;
         }
@@ -269,9 +263,9 @@ public class ShapedOre extends ShapedMiddle {
 
     public ShapedOre addInFluid(TagKey<Fluid> fluid, Integer i) {
         if (this.fluid == null) {
-            this.fluid = new HashMap<>();
+            this.fluid = new ArrayList<>();
         }
-        MapUtil.add(this.fluid, fluid, i);
+        ListUtil.add(this.fluid, fluid, i);
         if (fluidScreen == null) {
             fluidScreen = fluid;
         }
@@ -280,17 +274,17 @@ public class ShapedOre extends ShapedMiddle {
 
     public ShapedOre addOutItem(ItemStack item, Double i) {
         if (this.outItem == null) {
-            this.outItem = new HashMap<>();
+            this.outItem = new ArrayList<>();
         }
-        this.outItem.put(item, i);
+        this.outItem.add(new Extension.VariableData_2<>(item, i));
         return this;
     }
 
     public ShapedOre addOutFluid(FluidStack fluid, Double i) {
         if (this.outFluid == null) {
-            this.outFluid = new HashMap<>();
+            this.outFluid = new ArrayList<>();
         }
-        this.outFluid.put(fluid, i);
+        this.outFluid.add(new Extension.VariableData_2<>(fluid, i));
         return this;
     }
 }

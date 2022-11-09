@@ -10,14 +10,13 @@ import com.til.dusk.common.register.ore.block.OreBlock;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author til
  */
 public class DissolutionMechanic extends HandleMechanic {
     public DissolutionMechanic() {
-        super("dissolution", () -> Set.of(ShapedType.dissolution));
+        super("dissolution");
     }
 
     @Override
@@ -28,7 +27,7 @@ public class DissolutionMechanic extends HandleMechanic {
     }
 
     @Override
-    public void defaultConfig() {
+    public void defaultConfig() { shapedTypeList = List.of(ShapedType.dissolution);
         manaLevelMakeData = new ManaLevelMakeData()
                 .addOreConfig(List.of(
                         new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(blastFurnace.name, 1),

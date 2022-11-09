@@ -9,14 +9,13 @@ import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author til
  */
 public class CentrifugalMechanic extends HandleMechanic {
     public CentrifugalMechanic(){
-        super("centrifugal", () -> Set.of(ShapedType.centrifugal));
+        super("centrifugal");
     }
 
     @Override
@@ -27,7 +26,7 @@ public class CentrifugalMechanic extends HandleMechanic {
     }
 
     @Override
-    public void defaultConfig() {
+    public void defaultConfig() {        shapedTypeList = List.of(ShapedType.centrifugal);
         manaLevelMakeData = new ManaLevelMakeData()
                 .addOreConfig(List.of(
                 new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(frameBasic.name, 1),

@@ -26,7 +26,7 @@ public class DischantmentManaMechanic extends ExtractManaMechanic {
         lang.add(LangType.EN_CH, "Dischantment Mana Crystal");
     }
     @Override
-    public void defaultConfig() {
+    public void defaultConfig() { shapedTypeList = List.of(ShapedType.dischantmentMana);
         extractManaColor = new DuskColor(135, 60, 168);
         manaLevelMakeData = new ManaLevelMakeData()
                 .addOreConfig(List.of(

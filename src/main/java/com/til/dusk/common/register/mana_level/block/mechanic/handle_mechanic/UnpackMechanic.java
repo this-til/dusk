@@ -9,14 +9,13 @@ import com.til.dusk.common.register.mana_level.item.group.ManaLevelItemGroup;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author til
  */
 public class UnpackMechanic extends HandleMechanic {
     public UnpackMechanic(){
-        super("unpack", () -> Set.of(ShapedType.unpack));
+        super("unpack");
     }
 
     @Override
@@ -27,7 +26,7 @@ public class UnpackMechanic extends HandleMechanic {
     }
 
     @Override
-    public void defaultConfig() {
+    public void defaultConfig() {shapedTypeList = List.of(ShapedType.unpack);
         manaLevelMakeData = new ManaLevelMakeData()
                 .addOreConfig(List.of(
                         new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(assemble.name, 1),

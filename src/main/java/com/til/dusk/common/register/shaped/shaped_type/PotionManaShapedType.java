@@ -35,7 +35,7 @@ import java.util.function.Consumer;
 public class PotionManaShapedType extends ShapedType {
 
     public PotionManaShapedType() {
-        super("potion_mana", () -> ManaLevelBlock.potionMana);
+        super("potion_mana");
     }
 
     @Override
@@ -45,7 +45,8 @@ public class PotionManaShapedType extends ShapedType {
 
     @Override
     public void defaultConfig() {
-        relevantShaped = new Delayed.ListShapedDelayed(() -> List.of(  new ShapedPotionMana(name, this, ShapedDrive.get(0), ManaLevel.t1)
+        blockTagKey = new Delayed.BlockDelayed(() -> ManaLevelBlock.potionMana.tagPackSupplier.getTagPack().blockTagKey());
+        relevantShaped = new Delayed.ListShapedDelayed(() -> List.of(new ShapedPotionMana(name, this, ShapedDrive.get(0), ManaLevel.t1)
                 .addMultipleSurplusTime(1024L)
                 .addMultipleOutMana(20L)));
     }
@@ -54,6 +55,7 @@ public class PotionManaShapedType extends ShapedType {
         public ShapedPotionMana() {
 
         }
+
         public ShapedPotionMana(ResourceLocation name, ShapedType shapedType, ShapedDrive shapedDrive, ManaLevel manaLevel) {
             super(name, shapedType, shapedDrive, manaLevel);
         }

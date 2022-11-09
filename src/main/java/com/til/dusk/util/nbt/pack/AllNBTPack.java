@@ -52,7 +52,8 @@ public class AllNBTPack {
     public static final NBTPack<ShapedHandle> SHAPED_HANDLE = new NBTPack<>("shapedHandleTag", AllNBTCell.SHAPED_HANDLE);
     public static final LongPack MANA = new LongPack("manaTag");
     public static final LongPack MAX_MANA = new LongPack("maxMana");
-    public static final LongPack RATE = new LongPack("rate");
+    public static final LongPack RATE_IN = new LongPack("rate_in");
+    public static final LongPack RATE_OUT = new LongPack("rate_out");
     public static final IntPack TIME = new IntPack("time");
     public static final IntPack CYCLE_TIME = new IntPack("cycleTime");
     public static final NBTPack<List<BindType>> BIND_TYPE_LIST = new NBTPack<>("bindTypeList", AllNBTCell.BIND_TYPE.getListNBTCell());

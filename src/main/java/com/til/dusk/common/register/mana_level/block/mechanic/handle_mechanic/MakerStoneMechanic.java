@@ -9,7 +9,6 @@ import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 import net.minecraft.tags.FluidTags;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author til
@@ -17,7 +16,7 @@ import java.util.Set;
 public class MakerStoneMechanic extends HandleMechanic {
 
     public MakerStoneMechanic() {
-        super("maker_stone", () -> Set.of(ShapedType.makerStone));
+        super("maker_stone");
     }
 
     @Override
@@ -28,7 +27,7 @@ public class MakerStoneMechanic extends HandleMechanic {
     }
 
     @Override
-    public void defaultConfig() {
+    public void defaultConfig() {shapedTypeList = List.of(ShapedType.makerStone);
         manaLevelMakeData = new ManaLevelMakeData()
                 .addOreConfig(List.of(
                         new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(frameBasic.name, 1),

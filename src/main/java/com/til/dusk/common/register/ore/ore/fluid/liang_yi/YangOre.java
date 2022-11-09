@@ -2,12 +2,20 @@ package com.til.dusk.common.register.ore.ore.fluid.liang_yi;
 
 import com.til.dusk.client.data.lang.LangProvider;
 import com.til.dusk.client.data.lang.LangType;
+import com.til.dusk.common.config.util.Delayed;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.ore.fluid.FluidData;
+import com.til.dusk.common.register.ore.fluid.OreFluid;
 import com.til.dusk.common.register.ore.ore.Ore;
+import com.til.dusk.common.register.shaped.ShapedDrive;
+import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
+import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
 import com.til.dusk.util.DuskColor;
+import net.minecraftforge.fluids.FluidStack;
 
-public class YangOre extends Ore {
+import java.util.List;
+
+public class YangOre extends LiangYiBasicsOre {
 
     public YangOre() {
         super("yang");
@@ -26,5 +34,14 @@ public class YangOre extends Ore {
         color = new DuskColor(255, 255, 255);
         manaLevel = ManaLevel.t1;
         fluidData = new FluidData();
+        relevantShaped = new Delayed.ListShapedDelayed(() -> List.of(
+                new ShapedOre(name, ShapedType.mk3, ShapedDrive.get(0), manaLevel)
+                        .addInFluid(Ore.taiYang.get(OreFluid.solution).fluidTag(), 1)
+                        .addInFluid(Ore.saoYin.get(OreFluid.solution).fluidTag(), 1)
+                        .addOutFluid(new FluidStack(get(OreFluid.solution).source(), 2), 0.5D)
+                        .addMultipleSurplusTime(81920)
+                        .addMultipleConsumeMana(1024)
+                        .addMultipleOutMana(167772160)
+        ));
     }
 }

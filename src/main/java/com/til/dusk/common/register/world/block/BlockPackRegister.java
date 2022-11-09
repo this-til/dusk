@@ -5,6 +5,7 @@ import com.til.dusk.common.data.tag.BlockTag;
 import com.til.dusk.common.data.tag.ItemTag;
 import com.til.dusk.common.register.RegisterPack;
 import com.til.dusk.common.register.RegisterManage;
+import com.til.dusk.common.world.block.DuskBlock;
 import com.til.dusk.util.ResourceLocationUtil;
 import com.til.dusk.util.pack.BlockPack;
 import net.minecraft.resources.ResourceLocation;
@@ -24,7 +25,7 @@ import java.util.function.Supplier;
  * @author til
  */
 @Mod.EventBusSubscriber(modid = Dusk.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public abstract class BlockPackRegister extends RegisterPack<BlockPackRegister, BlockPack> {
+public abstract class BlockPackRegister extends RegisterPack<BlockPackRegister, BlockPack> implements DuskBlock.ICustomModel<Void>{
 
     public static Supplier<IForgeRegistry<BlockPackRegister>> BLOCK_PACK_REGISTER;
 

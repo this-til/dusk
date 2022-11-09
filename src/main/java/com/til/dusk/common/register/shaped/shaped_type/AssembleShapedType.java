@@ -1,6 +1,7 @@
 package com.til.dusk.common.register.shaped.shaped_type;
 
 import com.til.dusk.common.config.ConfigField;
+import com.til.dusk.common.config.util.Delayed;
 import com.til.dusk.common.config.util.IShapedCreate;
 import com.til.dusk.common.config.util.IShapedOreConfig;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
@@ -28,11 +29,12 @@ import java.util.function.Consumer;
  */
 public class AssembleShapedType extends ShapedType {
     public AssembleShapedType() {
-        super("assemble", () -> ManaLevelBlock.assemble);
+        super("assemble");
     }
 
     @Override
     public void registerRuleShaped(Consumer<Shaped> shapedConsumer) {
+        blockTagKey = new Delayed.BlockDelayed(() -> ManaLevelBlock.assemble.tagPackSupplier.getTagPack().blockTagKey());
         for (Ore ore : Ore.ORE.get()) {
             if (!ore.isMetal) {
                 continue;

@@ -19,7 +19,7 @@ import java.util.function.Consumer;
  */
 public class FlameManaShapedType extends ShapedType {
     public FlameManaShapedType() {
-        super("flame_mana", () -> ManaLevelBlock.flameMana);
+        super("flame_mana");
     }
 
     @Override
@@ -30,6 +30,7 @@ public class FlameManaShapedType extends ShapedType {
 
     @Override
     public void defaultConfig() {
+        blockTagKey =new Delayed.BlockDelayed(() ->  ManaLevelBlock.flameMana.tagPackSupplier.getTagPack().blockTagKey());
         relevantShaped = new Delayed.ListShapedDelayed(() -> List.of(
                 new ShapedOre(ResourceLocationUtil.fuseName(name.getNamespace(),  "/", new String[]{name.getPath(), FluidTags.LAVA.location().getPath()}),
                         this, ShapedDrive.get(0), ManaLevel.t1)

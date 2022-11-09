@@ -5,14 +5,14 @@ import com.til.dusk.client.data.lang.LangType;
 import com.til.dusk.common.register.mana_level.block.HandleMechanic;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 
-import java.util.Set;
+import java.util.List;
 
 /**
  * @author til
  */
 public class CellCultureMechanic extends HandleMechanic {
     public CellCultureMechanic(){
-        super("cell_culture", () -> Set.of(ShapedType.cellCulture));
+        super("cell_culture");
     }
 
     @Override
@@ -24,6 +24,6 @@ public class CellCultureMechanic extends HandleMechanic {
 
     @Override
     public void defaultConfig() {
-
+        shapedTypeList = List.of(ShapedType.cellCulture);
     }
 }

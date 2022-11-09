@@ -21,7 +21,7 @@ import java.util.function.Consumer;
 public class MakerStoneShapedType extends ShapedType {
 
     public MakerStoneShapedType() {
-        super("maker_stone", () -> ManaLevelBlock.makerStone);
+        super("maker_stone");
     }
 
     @Override
@@ -31,6 +31,7 @@ public class MakerStoneShapedType extends ShapedType {
 
     @Override
     public void defaultConfig() {
+        blockTagKey = new Delayed.BlockDelayed(() -> ManaLevelBlock.makerStone.tagPackSupplier.getTagPack().blockTagKey());
         relevantShaped = new Delayed.ListShapedDelayed(() -> List.of(
                 new ShapedOre(ResourceLocationUtil.fuseName(name.getNamespace(),  "stone"),
                         this, ShapedDrive.get(0), ManaLevel.t1)

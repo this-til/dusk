@@ -22,11 +22,12 @@ import java.util.function.Consumer;
 public class ExtractManaShapedType extends ShapedType {
 
     public ExtractManaShapedType() {
-        super("extract_mana", () -> ManaLevelBlock.extractMana);
+        super("extract_mana");
     }
 
     @Override
     public void registerRuleShaped(Consumer<Shaped> shapedConsumer) {
+
         for (Ore ore : Ore.ORE.get()) {
             if (ore.defaultMana > 0) {
                 if (ore.isMetal) {
@@ -41,6 +42,7 @@ public class ExtractManaShapedType extends ShapedType {
 
     @Override
     public void defaultConfig() {
+        blockTagKey = new Delayed.BlockDelayed(() -> ManaLevelBlock.extractMana.tagPackSupplier.getTagPack().blockTagKey());
         relevantShaped = new Delayed.ListShapedDelayed(() -> List.of(
                 new ShapedOre(name, this, ShapedDrive.get(1), ManaLevel.t1)
                         .addMultipleSurplusTime(1024)

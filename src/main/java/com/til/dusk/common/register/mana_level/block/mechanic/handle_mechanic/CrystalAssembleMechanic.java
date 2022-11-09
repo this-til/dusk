@@ -8,14 +8,13 @@ import com.til.dusk.common.register.mana_level.item.group.ManaLevelItemGroup;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author til
  */
 public class CrystalAssembleMechanic extends HandleMechanic {
     public CrystalAssembleMechanic(){
-        super("crystal_assemble", () -> Set.of(ShapedType.crystalAssemble));
+        super("crystal_assemble");
     }
 
     @Override
@@ -27,6 +26,7 @@ public class CrystalAssembleMechanic extends HandleMechanic {
 
     @Override
     public void defaultConfig() {
+        shapedTypeList = List.of(ShapedType.crystalAssemble);
         manaLevelMakeData = new ManaLevelMakeData()
                 .addOreConfig( List.of(
                         new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(assemble.name, 1),

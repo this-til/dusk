@@ -15,8 +15,8 @@ public class SolutionOreFluid extends OreFluid {
     @Override
     public void registerLang(LangProvider.LangTool lang) {
         lang.setCache(name.toLanguageKey());
-        lang.add(LangType.ZH_CN,"溶液");
-        lang.add(LangType.EN_CH, "Solution");
+        lang.add(LangType.ZH_CN,"");
+        lang.add(LangType.EN_CH, "");
     }
 
     @Override

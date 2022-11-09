@@ -2,8 +2,15 @@ package com.til.dusk.common.register.mana_level.block;
 
 import com.til.dusk.Dusk;
 import com.til.dusk.client.ColorProxy;
+import com.til.dusk.common.register.mana_level.block.mechanic.*;
 import com.til.dusk.common.register.mana_level.block.mechanic.core.AccelerateMultiBlockMechanic;
+import com.til.dusk.common.register.mana_level.block.mechanic.core.MK1MultiBlockMechanic;
+import com.til.dusk.common.register.mana_level.block.mechanic.core.MK2MultiBlockMechanic;
+import com.til.dusk.common.register.mana_level.block.mechanic.core.MK3MultiBlockMechanic;
 import com.til.dusk.common.register.mana_level.block.mechanic.extract_mana.*;
+import com.til.dusk.common.register.mana_level.block.mechanic.extract_mana.passive.MoonlightSimilarSolarEnergyMechanic;
+import com.til.dusk.common.register.mana_level.block.mechanic.extract_mana.passive.RainSimilarSolarEnergyMechanic;
+import com.til.dusk.common.register.mana_level.block.mechanic.extract_mana.passive.SunlightSimilarSolarEnergyMechanic;
 import com.til.dusk.common.register.mana_level.block.mechanic.handle_mechanic.*;
 import com.til.dusk.util.gson.AcceptTypeJson;
 import com.til.dusk.common.config.ConfigField;
@@ -115,6 +122,11 @@ public abstract class ManaLevelBlock extends BlockUnitRegister<ManaLevelBlock, M
      * 食物转灵晶体
      */
     public static FoodManaMechanic foodMana;
+
+    /***
+     * 源质转灵
+     */
+    public static ElementManaMechanic elementMana;
 
     //处理
 
@@ -367,6 +379,10 @@ public abstract class ManaLevelBlock extends BlockUnitRegister<ManaLevelBlock, M
      */
     public static AccelerateMultiBlockMechanic accelerateMultiBlock;
 
+    public static MK1MultiBlockMechanic mk1;
+    public static MK2MultiBlockMechanic mk2;
+    public static MK3MultiBlockMechanic mk3;
+
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
         LEVEL_BLOCK = RegisterManage.create(ManaLevelBlock.class, new ResourceLocation(Dusk.MOD_ID, "mana_level_block"), event);
@@ -386,6 +402,7 @@ public abstract class ManaLevelBlock extends BlockUnitRegister<ManaLevelBlock, M
         flameMana = new FlameManaMechanic();
         botanyMana = new BotanyManaMechanic();
         foodMana = new FoodManaMechanic();
+        elementMana = new ElementManaMechanic();
         grind = new GrindMechanic();
         wash = new WashMechanic();
         centrifugal = new CentrifugalMechanic();
@@ -435,6 +452,9 @@ public abstract class ManaLevelBlock extends BlockUnitRegister<ManaLevelBlock, M
         massacre = new MassacreMechanic();
         transformationFEMechanic = new TransformationFEMechanic();
         accelerateMultiBlock = new AccelerateMultiBlockMechanic();
+        mk1 = new MK1MultiBlockMechanic();
+        mk2 = new MK2MultiBlockMechanic();
+        mk3 = new MK3MultiBlockMechanic();
     }
 
     public ManaLevelBlock(ResourceLocation name) {

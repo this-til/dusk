@@ -1,6 +1,7 @@
 package com.til.dusk.common.register.shaped.shaped_type;
 
 import com.til.dusk.common.config.ConfigField;
+import com.til.dusk.common.config.util.Delayed;
 import com.til.dusk.common.config.util.IShapedCreate;
 import com.til.dusk.common.config.util.IShapedOreConfig;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
@@ -17,11 +18,12 @@ import java.util.function.Consumer;
 public class CrystalAssembleShapedType extends ShapedType {
 
     public CrystalAssembleShapedType() {
-        super("crystal_assemble", () -> ManaLevelBlock.crystalAssemble);
+        super("crystal_assemble");
     }
 
     @Override
     public void registerRuleShaped(Consumer<Shaped> shapedConsumer) {
+
         for (ManaLevel level : ManaLevel.MANA_LEVEL.get()) {
             if (level.operation != null) {
                 List<IShapedOreConfig<ManaLevel>> list = level.operation.get();
@@ -224,6 +226,7 @@ public class CrystalAssembleShapedType extends ShapedType {
 
     @Override
     public void defaultConfig() {
+        blockTagKey =new Delayed.BlockDelayed(() ->  ManaLevelBlock.crystalAssemble.tagPackSupplier.getTagPack().blockTagKey());
         operation_integrate = new IShapedCreate.ManaLevelShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(),  "operation_integrate"),
                 this, ShapedDrive.get(0), 2048, 16, 0L)
                 .addConfig(new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(ManaLevelItemGroup.operationBasics.integrate.name, 1))

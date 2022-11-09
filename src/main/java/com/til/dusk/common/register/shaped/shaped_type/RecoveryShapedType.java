@@ -1,7 +1,5 @@
 package com.til.dusk.common.register.shaped.shaped_type;
 
-import com.google.gson.JsonObject;
-import com.google.gson.annotations.Expose;
 import com.til.dusk.common.capability.handle.ShapedHandle;
 import com.til.dusk.common.config.util.Delayed;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
@@ -10,7 +8,6 @@ import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shapeds.Shaped;
 import com.til.dusk.common.register.shaped.shapeds.ShapedMiddleExtend;
 import com.til.dusk.common.register.world.item.ItemPackRegister;
-import com.til.dusk.common.world.item.DuskItem;
 import com.til.dusk.util.Lang;
 import com.til.dusk.util.nbt.pack.AllNBTPack;
 import net.minecraft.nbt.CompoundTag;
@@ -30,7 +27,7 @@ import java.util.function.Consumer;
 public class RecoveryShapedType extends ShapedType {
 
     public RecoveryShapedType() {
-        super("recovery", () -> ManaLevelBlock.recovery);
+        super("recovery");
     }
 
     @Override
@@ -42,6 +39,7 @@ public class RecoveryShapedType extends ShapedType {
 
     @Override
     public void defaultConfig() {
+        blockTagKey = new Delayed.BlockDelayed(() -> ManaLevelBlock.recovery.tagPackSupplier.getTagPack().blockTagKey());
         relevantShaped = new Delayed.ListShapedDelayed(() -> List.of(new RecoveryShaped(name, this, ShapedDrive.get(0), ManaLevel.t1, 0.2f)
                 .addMultipleConsumeMana(128L)
                 .addMultipleConsumeMana(8L)));

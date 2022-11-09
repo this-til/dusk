@@ -54,8 +54,8 @@ public class TransformationFEMechanic extends DefaultCapacityMechanic {
     }
 
     public static class TransformationFEManaHandle extends ManaHandle {
-        public TransformationFEManaHandle(long maxMana, long maxRate, IBack iBack) {
-            super(maxMana, maxRate, iBack);
+        public TransformationFEManaHandle(long maxMana, long maxIn, long maxOut, IBack iBack) {
+            super(maxMana, maxIn, maxOut, iBack);
         }
 
         @Override
@@ -67,7 +67,7 @@ public class TransformationFEMechanic extends DefaultCapacityMechanic {
             if (demand <= 0) {
                 return 0;
             }
-            long extractMana = Math.min(Math.min(demand, getMaxRate()), this.getMana());
+            long extractMana = Math.min(Math.min(demand, getMaxOut()), this.getMana());
             if (extractMana != 0) {
                 if (!isSimulate) {
                     this.mana -= extractMana;

@@ -10,7 +10,7 @@ import com.til.dusk.util.DuskColor;
 /**
  * @author til
  */
-public class LiOre extends Ore {
+public class LiOre extends BaGuaBasicsOre {
 
     public LiOre() {
         super("li");

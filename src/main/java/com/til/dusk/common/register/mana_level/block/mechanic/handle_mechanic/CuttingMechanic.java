@@ -9,14 +9,13 @@ import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author til
  */
 public class CuttingMechanic extends HandleMechanic {
     public CuttingMechanic() {
-        super("cutting", () -> Set.of(ShapedType.cutting));
+        super("cutting");
     }
 
     @Override
@@ -26,7 +25,7 @@ public class CuttingMechanic extends HandleMechanic {
         lang.add(LangType.EN_CH, "Cutting Crystal");
     }
     @Override
-    public void defaultConfig() {
+    public void defaultConfig() {shapedTypeList = List.of(ShapedType.cutting);
         manaLevelMakeData = new ManaLevelMakeData()
                 .addOreConfig(List.of(
                         new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(shaping.name, 1),

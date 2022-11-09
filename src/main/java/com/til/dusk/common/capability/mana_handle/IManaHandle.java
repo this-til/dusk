@@ -29,7 +29,12 @@ public interface IManaHandle extends INBTSerializable<CompoundTag>, ITooltipCapa
     /***
      * 返回最大的提取速度
      */
-    long getMaxRate();
+    long getMaxOut();
+
+    /***
+     * 返回最大输入速度
+     */
+    long getMaxIn();
 
     /***
      * 返回当前输入速度
@@ -52,7 +57,6 @@ public interface IManaHandle extends INBTSerializable<CompoundTag>, ITooltipCapa
      *  返回提取了多少
      */
     long extractMana(long demand, boolean isSimulate);
-
 
 
 }

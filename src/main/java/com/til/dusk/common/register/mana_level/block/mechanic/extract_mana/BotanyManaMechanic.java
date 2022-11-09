@@ -19,6 +19,7 @@ public class BotanyManaMechanic extends ExtractManaMechanic {
     public BotanyManaMechanic() {
         super("botany_mana", () -> Set.of(ShapedType.botanyMana));
     }
+
     @Override
     public void registerLang(LangProvider.LangTool lang) {
         lang.setCache(name.toLanguageKey());
@@ -28,10 +29,11 @@ public class BotanyManaMechanic extends ExtractManaMechanic {
 
     @Override
     public void defaultConfig() {
+        shapedTypeList = List.of(ShapedType.botanyMana);
         extractManaColor = new DuskColor(7, 140, 0);
         manaLevelMakeData = new ManaLevelMakeData()
                 .addOreConfig(List.of(
                         new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(extractMana.name, 1),
-                        new IShapedOreConfig.IShapedOreManaLevelConfig.ItemIn(() ->ItemTags.FLOWERS, 256)));
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.ItemIn(() -> ItemTags.FLOWERS, 256)));
     }
 }

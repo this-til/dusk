@@ -83,7 +83,7 @@ public abstract class Shaped {
     public abstract boolean hasFluidIn();
 
     @Nullable
-    public abstract ShapedHandle get(IHandle iHandle, @Nullable Map.Entry<IPosTrack, IItemHandler> items,@Nullable Map<IPosTrack, IFluidHandler> fluids);
+    public abstract ShapedHandle get(IHandle iHandle, @Nullable Map.Entry<IPosTrack, IItemHandler> items, @Nullable Map<IPosTrack, IFluidHandler> fluids);
 
     /***
      * 获取JEI配方
@@ -162,7 +162,7 @@ public abstract class Shaped {
         return name.toString();
     }
 
-    public static Set<Shaped> get(ShapedType... s) {
+    public static Set<Shaped> get(List<ShapedType> s) {
         Set<Shaped> list = new HashSet<>();
         for (ShapedType shapedType : s) {
             if (AllShaped.MAP.containsKey(shapedType)) {

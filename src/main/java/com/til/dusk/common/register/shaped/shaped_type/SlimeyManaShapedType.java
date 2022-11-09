@@ -18,7 +18,7 @@ import java.util.function.Consumer;
 public class SlimeyManaShapedType extends ShapedType {
 
     public SlimeyManaShapedType() {
-        super("slimey_mana", () -> ManaLevelBlock.slimeyMana);
+        super("slimey_mana");
     }
 
     @Override
@@ -27,6 +27,7 @@ public class SlimeyManaShapedType extends ShapedType {
 
     @Override
     public void defaultConfig() {
+        blockTagKey = new Delayed.BlockDelayed(() -> ManaLevelBlock.slimeyMana.tagPackSupplier.getTagPack().blockTagKey());
         relevantShaped = new Delayed.ListShapedDelayed(() -> List.of(
                 new ShapedOre(ResourceLocationUtil.fuseName(name.getNamespace(),  "/", new String[]{name.getPath(), ItemTag.SLIME_BALL.location().getPath()}),
                         this, ShapedDrive.get(0), ManaLevel.t1)

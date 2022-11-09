@@ -1,6 +1,7 @@
 package com.til.dusk.common.register.shaped.shaped_type;
 
 import com.til.dusk.common.config.ConfigField;
+import com.til.dusk.common.config.util.Delayed;
 import com.til.dusk.common.config.util.IShapedCreate;
 import com.til.dusk.common.config.util.IShapedOreConfig;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
@@ -18,7 +19,7 @@ import java.util.function.Consumer;
 public class TieWireShapedType extends ShapedType {
 
     public TieWireShapedType() {
-        super("tie_wire", () -> ManaLevelBlock.tieWire);
+        super("tie_wire");
     }
 
     @Override
@@ -35,7 +36,7 @@ public class TieWireShapedType extends ShapedType {
     public IShapedCreate<Ore> tieWire;
 
     @Override
-    public void defaultConfig() {
+    public void defaultConfig() {        blockTagKey = new Delayed.BlockDelayed(() -> ManaLevelBlock.tieWire.tagPackSupplier.getTagPack().blockTagKey());
         tieWire = new IShapedCreate.OreShapedCreate(name, this, ShapedDrive.get(0), 1024L, 12L, 0L)
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.stick.name, 1))
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.string, 6, 1));

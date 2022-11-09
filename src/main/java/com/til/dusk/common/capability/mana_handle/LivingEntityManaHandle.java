@@ -71,8 +71,8 @@ public class LivingEntityManaHandle implements IManaHandle {
     }
 
     @Override
-    public long getMaxRate() {
-        return integration(IManaHandle::getMaxRate);
+    public long getMaxOut() {
+        return integration(IManaHandle::getMaxOut);
     }
 
     @Override
@@ -83,6 +83,11 @@ public class LivingEntityManaHandle implements IManaHandle {
     @Override
     public long getOutCurrentRate() {
         return integration(IManaHandle::getOutCurrentRate);
+    }
+
+    @Override
+    public long getMaxIn() {
+        return integration(IManaHandle::getMaxIn);
     }
 
     @Override

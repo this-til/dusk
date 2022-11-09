@@ -25,8 +25,8 @@ public class JoinUUSolutionOreFluid extends OreFluid {
     @Override
     public void registerLang(LangProvider.LangTool lang) {
         lang.setCache(name.toLanguageKey());
-        lang.add(LangType.ZH_CN, "掺入UU溶液");
-        lang.add(LangType.EN_CH, "Join UU Solution");
+        lang.add(LangType.ZH_CN, "(掺入UU)");
+        lang.add(LangType.EN_CH, "(Join UU)");
     }
 
     @Override

@@ -5,14 +5,14 @@ import com.til.dusk.client.data.lang.LangType;
 import com.til.dusk.common.register.mana_level.block.HandleMechanic;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 
-import java.util.Set;
+import java.util.List;
 
 /**
  * @author til
  */
 public class QualityGenerateMechanic extends HandleMechanic {
     public QualityGenerateMechanic(){
-        super("quality_generate", () -> Set.of(ShapedType.qualityGenerate));
+        super("quality_generate");
     }
 
     @Override
@@ -24,6 +24,6 @@ public class QualityGenerateMechanic extends HandleMechanic {
 
     @Override
     public void defaultConfig() {
-
+        shapedTypeList = List.of(ShapedType.qualityGenerate);
     }
 }

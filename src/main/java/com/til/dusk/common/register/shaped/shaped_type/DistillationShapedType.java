@@ -1,5 +1,6 @@
 package com.til.dusk.common.register.shaped.shaped_type;
 
+import com.til.dusk.common.config.util.Delayed;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
 import com.til.dusk.common.register.shaped.shapeds.Shaped;
 
@@ -11,7 +12,7 @@ import java.util.function.Consumer;
 public class DistillationShapedType extends ShapedType{
 
     public DistillationShapedType(){
-        super("distillation", () -> ManaLevelBlock.distillation);
+        super("distillation");
     }
 
     @Override
@@ -21,6 +22,6 @@ public class DistillationShapedType extends ShapedType{
 
     @Override
     public void defaultConfig() {
-
+        blockTagKey =new Delayed.BlockDelayed(() ->  ManaLevelBlock.distillation.tagPackSupplier.getTagPack().blockTagKey());
     }
 }

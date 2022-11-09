@@ -1,6 +1,7 @@
 package com.til.dusk.common.register.shaped.shaped_type;
 
 import com.til.dusk.common.config.ConfigField;
+import com.til.dusk.common.config.util.Delayed;
 import com.til.dusk.common.config.util.IShapedCreate;
 import com.til.dusk.common.config.util.IShapedOreConfig;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
@@ -10,7 +11,6 @@ import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shapeds.Shaped;
-import com.til.dusk.util.ResourceLocationUtil;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.function.Consumer;
@@ -21,7 +21,7 @@ import java.util.function.Consumer;
 public class GrindShapedType extends ShapedType {
 
     public GrindShapedType() {
-        super("grind", () -> ManaLevelBlock.grind);
+        super("grind");
     }
 
     @Override
@@ -44,6 +44,7 @@ public class GrindShapedType extends ShapedType {
 
     @Override
     public void defaultConfig() {
+        blockTagKey = new Delayed.BlockDelayed(() -> ManaLevelBlock.grind.tagPackSupplier.getTagPack().blockTagKey());
         crushed = new IShapedCreate.OreShapedCreate(new ResourceLocation(name.getNamespace(),  "crushed")
                 , this, ShapedDrive.get(0), 1024L, 8L, 0)
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreBlockMineral.MINERAL_NAME, 1))

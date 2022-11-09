@@ -20,7 +20,7 @@ import java.util.function.Supplier;
  * @author til
  */
 @Mod.EventBusSubscriber(modid = Dusk.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class BlockAttribute<N extends Number> extends RegisterBasics<BlockAttribute<N>> {
+public abstract class BlockAttribute<N> extends RegisterBasics<BlockAttribute<N>> {
     public static Supplier<IForgeRegistry<BlockAttribute<?>>> BLOCK_ATTRIBUTE;
 
     /***
@@ -36,18 +36,26 @@ public class BlockAttribute<N extends Number> extends RegisterBasics<BlockAttrib
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
         BLOCK_ATTRIBUTE = RegisterManage.create(Util.forcedConversion(BlockAttribute.class), new ResourceLocation(Dusk.MOD_ID, "block_attribute"), event);
-        efficiency = new BlockAttribute<>("efficiency", new INumberPack.ILongPack.Range(new INumberPack.ILongPack.Constant(1), null))
-                .addLang(langTool -> {
-                    langTool.setCache(efficiency.name.toLanguageKey());
-                    langTool.add(LangType.ZH_CN, "效率");
-                    langTool.add(LangType.EN_CH, "Efficiency");
-                });
-        consume = new BlockAttribute<>("consume", new INumberPack.ILongPack.Range(new INumberPack.ILongPack.Constant(1), null))
-                .addLang(langTool -> {
-                    langTool.setCache(efficiency.name.toLanguageKey());
-                    langTool.add(LangType.ZH_CN, "消耗");
-                    langTool.add(LangType.EN_CH, "Consume");
-                });
+        efficiency = new BlockAttribute<>("efficiency", new INumberPack.ILongPack.Range(new INumberPack.ILongPack.Constant(1), null)) {
+            @Override
+            public void defaultConfig() {
+                defaultValue = 1L;
+            }
+        }.addLang(langTool -> {
+            langTool.setCache(efficiency.name.toLanguageKey());
+            langTool.add(LangType.ZH_CN, "效率");
+            langTool.add(LangType.EN_CH, "Efficiency");
+        });
+        consume = new BlockAttribute<>("consume", new INumberPack.ILongPack.Range(new INumberPack.ILongPack.Constant(1), null)) {
+            @Override
+            public void defaultConfig() {
+                defaultValue = 1L;
+            }
+        }.addLang(langTool -> {
+            langTool.setCache(efficiency.name.toLanguageKey());
+            langTool.add(LangType.ZH_CN, "消耗");
+            langTool.add(LangType.EN_CH, "Consume");
+        });
     }
 
     public BlockAttribute(ResourceLocation name, INumberPack<N> range) {
@@ -69,14 +77,12 @@ public class BlockAttribute<N extends Number> extends RegisterBasics<BlockAttrib
         return super.equals(obj);
     }
 
-    @Override
-    public void defaultConfig() {
-
-    }
-
     /***
      * 这个属性值存在的范围
      */
     @ConfigField
     public INumberPack<N> range;
+
+    @ConfigField
+    public N defaultValue;
 }

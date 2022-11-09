@@ -26,11 +26,17 @@ public abstract class MultiBlock<D> extends RegisterBasics<MultiBlock<D>> {
     public static Supplier<IForgeRegistry<MultiBlock<?>>> MULTI_BLOCK_REGISTERS;
 
     public static AccelerateMultiBlock accelerate;
+    public static MK1MultiBlock mk1;
+    public static MK2MultiBlock mk2;
+    public static MK3MultiBlock mk3;
 
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
         MULTI_BLOCK_REGISTERS = RegisterManage.create(Util.forcedConversion(MultiBlock.class), new ResourceLocation(Dusk.MOD_ID, "multi_block"), event);
         accelerate = new AccelerateMultiBlock();
+        mk1 = new MK1MultiBlock();
+        mk2 = new MK2MultiBlock();
+        mk3 = new MK3MultiBlock();
     }
 
     public MultiBlock(ResourceLocation name) {
@@ -58,6 +64,7 @@ public abstract class MultiBlock<D> extends RegisterBasics<MultiBlock<D>> {
     }
 
     public abstract List<DefaultBlockPack> asDefaultBlockPack(D d);
+
     public abstract List<IMultiBlockPack<D>> getMultiBlockPack(D d);
 
 }

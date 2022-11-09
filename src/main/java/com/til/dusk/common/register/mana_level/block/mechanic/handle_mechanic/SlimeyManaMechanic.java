@@ -28,7 +28,7 @@ public class SlimeyManaMechanic extends ExtractManaMechanic {
     }
 
     @Override
-    public void defaultConfig() {
+    public void defaultConfig() {shapedTypeList = List.of(ShapedType.slimeyMana);
         extractManaColor = new DuskColor(43, 255, 33);
         manaLevelMakeData = new ManaLevelMakeData()
                 .addOreConfig(List.of(

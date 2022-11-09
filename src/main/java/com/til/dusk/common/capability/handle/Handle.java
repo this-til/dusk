@@ -52,18 +52,6 @@ public class Handle implements IHandle {
         iBack.add(IBack.UP, v -> up());
     }
 
-    public Handle(IPosTrack iPosTrack, Set<ShapedType> shapedTypes, IControl iControl, IBlockAttribute iBlockAttribute, IClock iClock, IBack iBack, ManaLevel maxParallel) {
-        this.shapedList = Shaped.get(shapedTypes.toArray(new ShapedType[0]));
-        this.posTrack = iPosTrack;
-        this.iControl = iControl;
-        this.iBlockAttribute = iBlockAttribute;
-        this.iClock = iClock;
-        this.iBack = iBack;
-        this.maxParallel = maxParallel.parallel;
-        iClock.addBlock(this::clockTriggerRun);
-        iBack.add(IBack.UP, v -> up());
-    }
-
     @Override
 
     public int getParallelHandle() {

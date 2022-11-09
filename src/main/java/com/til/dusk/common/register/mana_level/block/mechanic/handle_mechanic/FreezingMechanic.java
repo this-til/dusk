@@ -9,14 +9,13 @@ import com.til.dusk.common.register.mana_level.item.group.ManaLevelItemGroup;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author til
  */
 public class FreezingMechanic extends HandleMechanic {
     public FreezingMechanic(){
-        super("freezing", () -> Set.of(ShapedType.freezing));
+        super("freezing");
     }
 
     @Override
@@ -27,7 +26,7 @@ public class FreezingMechanic extends HandleMechanic {
     }
 
     @Override
-    public void defaultConfig() {
+    public void defaultConfig() {shapedTypeList = List.of(ShapedType.freezing);
         manaLevelMakeData = new ManaLevelMakeData()
                 .addOreConfig(List.of(
                         new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(frostyMana.name, 1),

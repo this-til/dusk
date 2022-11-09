@@ -1,6 +1,7 @@
 package com.til.dusk.common.register.shaped.shaped_type;
 
 import com.til.dusk.common.config.ConfigField;
+import com.til.dusk.common.config.util.Delayed;
 import com.til.dusk.common.config.util.IShapedCreate;
 import com.til.dusk.common.config.util.IShapedOreConfig;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
@@ -21,7 +22,7 @@ import java.util.function.Consumer;
 public class SplittingShapedType extends ShapedType {
 
     public SplittingShapedType() {
-        super("splitting", () -> ManaLevelBlock.splitting);
+        super("splitting");
     }
 
     @Override
@@ -60,6 +61,7 @@ public class SplittingShapedType extends ShapedType {
 
     @Override
     public void defaultConfig() {
+        blockTagKey =new Delayed.BlockDelayed(() ->  ManaLevelBlock.splitting.tagPackSupplier.getTagPack().blockTagKey());
         splittingSunlightSolution = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "sunlight"),
                 this, ShapedDrive.get(0), 1024L, 12L, 0L)
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptFluidIn(OreFluid.splittingSunlightSolution.name, 144))

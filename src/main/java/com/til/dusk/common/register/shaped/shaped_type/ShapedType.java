@@ -3,11 +3,14 @@ package com.til.dusk.common.register.shaped.shaped_type;
 import com.til.dusk.Dusk;
 import com.til.dusk.common.config.ConfigField;
 import com.til.dusk.common.config.util.Delayed;
+import com.til.dusk.common.data.tag.BlockTag;
 import com.til.dusk.common.register.RegisterBasics;
 import com.til.dusk.common.register.RegisterManage;
-import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
 import com.til.dusk.common.register.shaped.shapeds.Shaped;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -82,6 +85,11 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
      * 食物转灵
      */
     public static FoodManaShapedType foodMana;
+
+    /***
+     * 源质转灵
+     */
+    public static ElementManaShapedType elementMana;
 
 
     /***
@@ -258,11 +266,15 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
      */
     public static SplittingShapedType splitting;
 
+    public static MK1ShapedType mk1;
+    public static MK2ShapedType mk2;
+    public static MK3ShapedType mk3;
 
     @SubscribeEvent
     public static void onEvent(NewRegistryEvent event) {
-        SHAPED_TYPE = RegisterManage.create(ShapedType.class, new ResourceLocation(Dusk.MOD_ID, "shaped_type"), event);;
-        empty = new ShapedType("empty", () -> ManaLevelBlock.frameBasic) {
+        SHAPED_TYPE = RegisterManage.create(ShapedType.class, new ResourceLocation(Dusk.MOD_ID, "shaped_type"), event);
+        ;
+        empty = new ShapedType("empty") {
             @Override
             public void registerRuleShaped(Consumer<Shaped> shapedConsumer) {
 
@@ -270,7 +282,7 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
 
             @Override
             public void defaultConfig() {
-
+                blockTagKey = new Delayed.BlockDelayed(() -> BlockTag.AIR);
             }
         };
         extractMana = new ExtractManaShapedType();
@@ -319,17 +331,18 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
         qualityGenerate = new QualityGenerateShapedType();
         dialysis = new DialysisShapedType();
         splitting = new SplittingShapedType();
+        mk1 = new MK1ShapedType();
+        mk2 = new MK2ShapedType();
+        mk3 = new MK3ShapedType();
     }
 
-    public final Supplier<ManaLevelBlock> manaLevelBlockSupplier;
 
-    public ShapedType(ResourceLocation name, Supplier<ManaLevelBlock> manaLevelBlockSupplier) {
+    public ShapedType(ResourceLocation name) {
         super(name, SHAPED_TYPE);
-        this.manaLevelBlockSupplier = manaLevelBlockSupplier;
     }
 
-    public ShapedType(String name, Supplier<ManaLevelBlock> manaLevelBlockSupplier) {
-        this(new ResourceLocation(Dusk.MOD_ID, name), manaLevelBlockSupplier);
+    public ShapedType(String name) {
+        this(new ResourceLocation(Dusk.MOD_ID, name));
     }
 
     @Override
@@ -343,10 +356,22 @@ public abstract class ShapedType extends RegisterBasics<ShapedType> {
         registerRuleShaped(shapedConsumer);
     }
 
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
 
     public abstract void registerRuleShaped(Consumer<Shaped> shapedConsumer);
 
     @Nullable
     @ConfigField
     public Delayed<List<Shaped>> relevantShaped;
+
+    @ConfigField
+    public Delayed<TagKey<Block>> blockTagKey;
 }

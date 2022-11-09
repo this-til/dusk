@@ -29,7 +29,7 @@ public class EnderManaMechanic extends ExtractManaMechanic {
     }
 
     @Override
-    public void defaultConfig() {
+    public void defaultConfig() { shapedTypeList = List.of(ShapedType.enderMana);
         extractManaColor = new DuskColor(96, 22, 96);
         manaLevelMakeData = new ManaLevelMakeData()
                 .addOreConfig(List.of(

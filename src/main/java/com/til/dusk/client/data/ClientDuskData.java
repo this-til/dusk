@@ -1,9 +1,10 @@
 package com.til.dusk.client.data;
 
-import com.google.common.hash.Hashing;
-import com.google.common.hash.HashingOutputStream;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.til.dusk.Dusk;
 import com.til.dusk.client.data.lang.LangProvider;
+import com.til.dusk.common.data.DuskData;
 import com.til.dusk.common.register.BlockUnitRegister;
 import com.til.dusk.common.register.ItemUnitRegister;
 import com.til.dusk.common.register.UnitRegister;
@@ -21,6 +22,8 @@ import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -29,11 +32,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
-import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 /**
@@ -47,10 +46,7 @@ public class ClientDuskData {
     @SubscribeEvent
     public static void onEvent(GatherDataEvent event) {
         dataGenerator = event.getGenerator();
-        IForgeRegistry<UnitRegister<?, ?, ?, ?>>[] registries = new IForgeRegistry[]{
-                Ore.ORE.get(),
-                ManaLevel.MANA_LEVEL.get()
-        };
+        IForgeRegistry<UnitRegister<?, ?, ?, ?>>[] registries = new IForgeRegistry[]{Ore.ORE.get(), ManaLevel.MANA_LEVEL.get()};
         event.getGenerator().addProvider(true, new DataProvider() {
             @Override
             public void run(@NotNull CachedOutput cachedOutput) throws IOException {
@@ -58,34 +54,31 @@ public class ClientDuskData {
                     for (UnitRegister<?, ?, ?, ?> unitRegister : registry) {
                         for (Object o : unitRegister.itemEntrySet()) {
                             Map.Entry<ItemUnitRegister<?, ?>, ItemPack> entry = Util.forcedConversion(o);
-                            createItemJson(ForgeRegistries.ITEMS.getKey(entry.getValue().item()), entry.getKey().getItemMoldMapping(Util.forcedConversion(unitRegister)), cachedOutput);
+                            createItemJson(entry.getValue().item(), entry.getKey(), Util.forcedConversion(unitRegister), cachedOutput);
                         }
                         for (Object o : unitRegister.blockEntrySet()) {
                             Map.Entry<BlockUnitRegister<?, ?>, BlockPack> entry = Util.forcedConversion(o);
-                            DuskBlock.ICustomModel customModel = entry.getKey().getBlockModelMapping(Util.forcedConversion(unitRegister));
-                            createItemJson(ForgeRegistries.ITEMS.getKey(entry.getValue().blockItem()), customModel, cachedOutput);
-                            createBlockJson(ForgeRegistries.BLOCKS.getKey(entry.getValue().block()), customModel, cachedOutput);
+                            createItemJson(entry.getValue().blockItem(), entry.getKey(), Util.forcedConversion(unitRegister), cachedOutput);
+                            createBlockJson(entry.getValue().block(), entry.getKey(), Util.forcedConversion(unitRegister), cachedOutput);
                         }
                     }
                 }
                 for (ShapedDrive shapedDrive : ShapedDrive.SHAPED_DRIVE.get()) {
-                    createItemJson(shapedDrive.name, ShapedDrive.RESOURCE_LOCATION, cachedOutput);
-                    createBlockJson(shapedDrive.name, ShapedDrive.RESOURCE_LOCATION, cachedOutput);
+                    createItemJson(shapedDrive.blockPack.blockItem(),shapedDrive, null, cachedOutput);
+                    createBlockJson(shapedDrive.blockPack.block(), shapedDrive, null, cachedOutput);
                 }
                 for (ItemPackRegister itemRegister : ItemPackRegister.ITEM_PACK_REGISTER.get()) {
                     if (itemRegister.pack == null) {
                         continue;
                     }
-                    createItemJson(ForgeRegistries.ITEMS.getKey(itemRegister.pack.item()), itemRegister, cachedOutput);
+                    createItemJson(itemRegister.pack.item(), itemRegister, null, cachedOutput);
                 }
                 for (BlockPackRegister blockRegister : BlockPackRegister.BLOCK_PACK_REGISTER.get()) {
                     if (blockRegister.pack == null) {
                         continue;
                     }
-                    if (blockRegister instanceof DuskBlock.ICustomModel customModel) {
-                        createItemJson(ForgeRegistries.ITEMS.getKey(blockRegister.pack.blockItem()), customModel, cachedOutput);
-                        createBlockJson(ForgeRegistries.BLOCKS.getKey(blockRegister.pack.block()), customModel, cachedOutput);
-                    }
+                    createItemJson(blockRegister.pack.blockItem(), blockRegister, null, cachedOutput);
+                    createBlockJson(blockRegister.pack.block(), blockRegister, null, cachedOutput);
                 }
             }
 
@@ -94,50 +87,38 @@ public class ClientDuskData {
                 return "default_block_state";
             }
 
-            public void createItemJson(ResourceLocation name, DuskItem.ICustomModel iCustomModel, CachedOutput cachedOutput) throws IOException {
+            public <D> void createItemJson(Item item, DuskItem.ICustomModel<D> iCustomModel, D d, CachedOutput cachedOutput) throws IOException {
+                ResourceLocation name = ForgeRegistries.ITEMS.getKey(item);
                 if (name == null) {
                     return;
                 }
                 if (iCustomModel == null) {
                     return;
                 }
-                String json = iCustomModel.itemJson();
-                if (json.isEmpty()) {
-                    return;
-                }
-                createJson(String.format("assets/%s/models/item/%s.json", name.getNamespace(), name.getPath()), json, cachedOutput);
+                createJson(String.format("assets/%s/models/item/%s.json", name.getNamespace(), name.getPath()), iCustomModel.createModel(item, d), cachedOutput);
             }
 
-            public void createBlockJson(ResourceLocation name, DuskBlock.ICustomModel iCustomModel, CachedOutput cachedOutput) throws IOException {
+            public <D> void createBlockJson(Block block, DuskBlock.ICustomModel<D> iCustomModel, D d, CachedOutput cachedOutput) throws IOException {
+                ResourceLocation name = ForgeRegistries.BLOCKS.getKey(block);
                 if (name == null) {
                     return;
                 }
                 if (iCustomModel == null) {
                     return;
                 }
-                String json = iCustomModel.blockStateJson();
-                if (json.isEmpty()) {
-                    return;
-                }
-                createJson(String.format("assets/%s/blockstates/%s.json", name.getNamespace(), name.getPath()), json, cachedOutput);
+                createJson(String.format("assets/%s/blockstates/%s.json", name.getNamespace(), name.getPath()), iCustomModel.createBlockModel(block, d), cachedOutput);
             }
 
-            public void createJson(String pack, String json, CachedOutput cachedOutput) throws IOException {
+            public void createJson(String pack, JsonObject json, CachedOutput cachedOutput) throws IOException {
                 if (pack == null) {
                     return;
                 }
                 if (json == null) {
                     return;
                 }
-                ByteArrayOutputStream bytearrayoutputstream = new ByteArrayOutputStream();
-                HashingOutputStream hashingoutputstream = new HashingOutputStream(Hashing.sha256(), bytearrayoutputstream);
-                Writer writer = new OutputStreamWriter(hashingoutputstream, StandardCharsets.UTF_8);
-                writer.write(json.toCharArray());
-                writer.close();
-                cachedOutput.writeIfNeeded(dataGenerator.getOutputFolder().resolve(pack), bytearrayoutputstream.toByteArray(), hashingoutputstream.hash());
+                DataProvider.saveStable(cachedOutput, json, ClientDuskData.dataGenerator.getOutputFolder().resolve(pack));
             }
-        });
-        event.getGenerator().addProvider(true, new LangProvider());
+        }); event.getGenerator().addProvider(true, new LangProvider());
         try {
             event.getGenerator().run();
         } catch (IOException e) {

@@ -1,6 +1,5 @@
 package com.til.dusk.common.register.shaped.shaped_type;
 
-import com.google.gson.JsonObject;
 import com.til.dusk.common.capability.handle.ShapedHandle;
 import com.til.dusk.common.config.util.Delayed;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
@@ -11,7 +10,6 @@ import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shapeds.Shaped;
 import com.til.dusk.common.register.shaped.shapeds.ShapedMiddleExtend;
 import com.til.dusk.util.Lang;
-import com.til.dusk.util.nbt.pack.AllNBTPack;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -33,11 +31,12 @@ import java.util.function.Consumer;
 public class DecomposeShapedType extends ShapedType {
 
     public DecomposeShapedType() {
-        super("decompose", () -> ManaLevelBlock.decompose);
+        super("decompose");
     }
 
     @Override
     public void defaultConfig() {
+        blockTagKey = new Delayed.BlockDelayed(() -> ManaLevelBlock.decompose.tagPackSupplier.getTagPack().blockTagKey());
         relevantShaped = new Delayed.ListShapedDelayed(() -> List.of(
                 new FoolDecomposeShaped(name, this, ShapedDrive.get(0), ManaLevel.t1, 20)
                         .addMultipleSurplusTime(752L)

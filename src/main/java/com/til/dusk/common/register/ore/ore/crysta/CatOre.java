@@ -38,8 +38,6 @@ public class CatOre extends Ore {
         isCrysta = true;
         hasDust = true;
         isLevelAcceptable = List.of(ManaLevel.t2);
-        mineralBlockData = new MineralBlockData()
-                .addOrePlacedFeatureConfig(new IOrePlacedFeatureConfig.GenerateData().useDefaultConfig(this, 12, 4));
         decorateBlockData = new DecorateBlockData();
         fluidData = new FluidData();
         relevantShaped = new Delayed.ListShapedDelayed(() -> List.of(

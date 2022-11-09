@@ -10,7 +10,7 @@ import com.til.dusk.util.DuskColor;
 /**
  * @author til
  */
-public class ZhenOre extends Ore {
+public class ZhenOre extends BaGuaBasicsOre {
 
     public ZhenOre() {
         super("zhen");

@@ -1,6 +1,7 @@
 package com.til.dusk.common.register.shaped.shaped_type;
 
 import com.til.dusk.common.config.ConfigField;
+import com.til.dusk.common.config.util.Delayed;
 import com.til.dusk.common.config.util.IShapedCreate;
 import com.til.dusk.common.config.util.IShapedOreConfig;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
@@ -18,7 +19,7 @@ import java.util.function.Consumer;
 public class StampingMachineShapedType extends ShapedType {
 
     public StampingMachineShapedType() {
-        super("stamping_machine", () -> ManaLevelBlock.stampingMachine);
+        super("stamping_machine");
     }
 
     @Override
@@ -38,6 +39,7 @@ public class StampingMachineShapedType extends ShapedType {
 
     @Override
     public void defaultConfig() {
+        blockTagKey = new Delayed.BlockDelayed(() -> ManaLevelBlock.stampingMachine.tagPackSupplier.getTagPack().blockTagKey());
         plate = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(),  "plate1"),
                 this, ShapedDrive.get(0), 1024L, 16L, 0L)
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.ingot.name, 1))

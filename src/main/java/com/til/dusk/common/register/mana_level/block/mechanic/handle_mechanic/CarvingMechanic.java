@@ -9,7 +9,6 @@ import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author til
@@ -17,7 +16,7 @@ import java.util.Set;
 public class CarvingMechanic extends HandleMechanic {
 
     public CarvingMechanic() {
-        super("carving", () -> Set.of(ShapedType.carving));
+        super("carving");
     }
 
     @Override
@@ -29,6 +28,7 @@ public class CarvingMechanic extends HandleMechanic {
 
     @Override
     public void defaultConfig() {
+        shapedTypeList = List.of(ShapedType.carving);
         manaLevelMakeData = new ManaLevelMakeData()
                 .addOreConfig(List.of(
                         new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(assemble.name, 1),

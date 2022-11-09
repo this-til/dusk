@@ -6,6 +6,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Property;
 
+import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -15,8 +16,12 @@ import java.util.Optional;
  */
 public class BlockStateUtil {
 
-    public static BlockState create(Block block, Map<String, String> v) {
+    public static BlockState create(@Nullable Block block, Map<String, String> v) {
+        assert block != null;
         BlockState blockState = block.defaultBlockState();
+        if (v == null) {
+            return blockState;
+        }
         for (Map.Entry<Property<?>, Comparable<?>> entry : blockState.getValues().entrySet()) {
             if (!v.containsKey(entry.getKey().getName())) {
                 continue;
@@ -30,7 +35,11 @@ public class BlockStateUtil {
         return blockState;
     }
 
-    public static BlockState create(Block block, JsonObject v) {
+    public static BlockState create(@Nullable Block block, JsonObject v) {
+        assert block != null;
+        if (v == null) {
+            return block.defaultBlockState();
+        }
         Map<String, String> map = new HashMap<>(0);
         for (Map.Entry<String, JsonElement> entry : v.entrySet()) {
             map.put(entry.getKey(), entry.getValue().getAsString());

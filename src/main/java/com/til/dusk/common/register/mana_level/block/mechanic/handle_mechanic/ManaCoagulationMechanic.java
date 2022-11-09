@@ -10,14 +10,13 @@ import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author til
  */
 public class ManaCoagulationMechanic extends HandleMechanic {
     public ManaCoagulationMechanic() {
-        super("mana_coagulation", () -> Set.of(ShapedType.manaCoagulation));
+        super("mana_coagulation");
     }
 
     @Override
@@ -28,7 +27,7 @@ public class ManaCoagulationMechanic extends HandleMechanic {
     }
 
     @Override
-    public void defaultConfig() {
+    public void defaultConfig() {shapedTypeList = List.of(ShapedType.manaCoagulation);
         manaLevelMakeData = new ManaLevelMakeData()
                 .addOreConfig(List.of(
                         new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(frameBasic.name, 1),

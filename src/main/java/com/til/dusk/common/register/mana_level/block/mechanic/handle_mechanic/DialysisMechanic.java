@@ -5,14 +5,14 @@ import com.til.dusk.client.data.lang.LangType;
 import com.til.dusk.common.register.mana_level.block.HandleMechanic;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 
-import java.util.Set;
+import java.util.List;
 
 /**
  * @author til
  */
 public class DialysisMechanic extends HandleMechanic {
     public DialysisMechanic(){
-        super("dialysis", () -> Set.of(ShapedType.dialysis));
+        super("dialysis");
     }
 
     @Override
@@ -24,6 +24,6 @@ public class DialysisMechanic extends HandleMechanic {
 
     @Override
     public void defaultConfig() {
-
+        shapedTypeList = List.of(ShapedType.dialysis);
     }
 }

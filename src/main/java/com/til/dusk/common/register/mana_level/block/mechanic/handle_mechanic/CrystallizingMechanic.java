@@ -10,14 +10,13 @@ import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author til
  */
 public class CrystallizingMechanic extends HandleMechanic {
     public CrystallizingMechanic() {
-        super("crystallizing", () -> Set.of(ShapedType.crystallizing));
+        super("crystallizing");
     }
 
     @Override
@@ -29,6 +28,7 @@ public class CrystallizingMechanic extends HandleMechanic {
 
     @Override
     public void defaultConfig() {
+        shapedTypeList = List.of(ShapedType.crystallizing);
         manaLevelMakeData = new ManaLevelMakeData()
                 .addOreConfig(List.of(
                         new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(pack.name, 1),

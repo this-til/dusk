@@ -1,5 +1,6 @@
 package com.til.dusk.common.register.shaped;
 
+import com.google.gson.JsonObject;
 import com.til.dusk.Dusk;
 import com.til.dusk.common.capability.DuskCapabilityProvider;
 import com.til.dusk.common.capability.pos.IPosTrack;
@@ -12,6 +13,7 @@ import com.til.dusk.common.register.other.CapabilityRegister;
 import com.til.dusk.common.world.block.MechanicBlock;
 import com.til.dusk.common.world.block.DuskBlock;
 import com.til.dusk.util.Lang;
+import com.til.dusk.util.ModelJsonUtil;
 import com.til.dusk.util.pack.BlockPack;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -40,9 +42,9 @@ import java.util.function.Supplier;
  * @author til
  */
 @Mod.EventBusSubscriber(modid = Dusk.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class ShapedDrive extends RegisterBasics<ShapedDrive> {
+public class ShapedDrive extends RegisterBasics<ShapedDrive> implements DuskBlock.ICustomModel<Void> {
 
-    public static final DuskBlock.ICustomModel RESOURCE_LOCATION = () -> new ResourceLocation(Dusk.MOD_ID, "shaped_drive");
+    public static final ResourceLocation MODEL_NAME = new ResourceLocation(Dusk.MOD_ID, "shaped_drive");
     public static Supplier<IForgeRegistry<ShapedDrive>> SHAPED_DRIVE;
     public final static Map<Integer, ShapedDrive> SHAPED_DRIVE_MAP = new HashMap<>();
 
@@ -95,6 +97,16 @@ public class ShapedDrive extends RegisterBasics<ShapedDrive> {
         ItemTag.addTag(ItemTags.create(SHAPED_DRIVE.get().getRegistryName()), blockItem);
         ForgeRegistries.ITEMS.register(name, blockItem);
         blockPack = new BlockPack(block, blockTag, blockItem, itemTag);
+    }
+
+    @Override
+    public JsonObject createBlockModel(Block block, Void unused) {
+        return ModelJsonUtil.createBlockState(MODEL_NAME);
+    }
+
+    @Override
+    public JsonObject createModel(Item item, Void unused) {
+        return ModelJsonUtil.createItemFather(MODEL_NAME);
     }
 
     @Override

@@ -1,13 +1,16 @@
 package com.til.dusk.common.register.mana_level.block;
 
+import com.google.gson.JsonObject;
 import com.til.dusk.Dusk;
 import com.til.dusk.client.ColorProxy;
 import com.til.dusk.common.config.ConfigField;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
-import com.til.dusk.common.world.block.DuskBlock;
 import com.til.dusk.util.DuskColor;
+import com.til.dusk.util.ModelJsonUtil;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 
 import java.util.Set;
 import java.util.function.Supplier;
@@ -21,7 +24,7 @@ public abstract class ExtractManaMechanic extends HandleMechanic {
 
 
     public ExtractManaMechanic(ResourceLocation name, Supplier<Set<ShapedType>> getShapedTypeList) {
-        super(name, getShapedTypeList);
+        super(name);
     }
 
     public ExtractManaMechanic(String name, Supplier<Set<ShapedType>> getShapedTypeList) {
@@ -41,8 +44,13 @@ public abstract class ExtractManaMechanic extends HandleMechanic {
     }
 
     @Override
-    public DuskBlock.ICustomModel getBlockModelMapping(ManaLevel manaLevel) {
-        return () -> MODEL_NAME;
+    public JsonObject createBlockModel(Block block, ManaLevel o) {
+        return ModelJsonUtil.createBlockState(MODEL_NAME);
+    }
+
+    @Override
+    public JsonObject createModel(Item item, ManaLevel o) {
+        return ModelJsonUtil.createItemFather(MODEL_NAME);
     }
 
     @ConfigField

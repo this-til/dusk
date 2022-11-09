@@ -12,7 +12,7 @@ import java.awt.*;
 /**
  * @author til
  */
-public class KanOre extends Ore {
+public class KanOre extends BaGuaBasicsOre {
 
     public KanOre() {
         super("kan");

@@ -1,6 +1,7 @@
 package com.til.dusk.common.register.shaped.shaped_type;
 
 import com.til.dusk.common.config.ConfigField;
+import com.til.dusk.common.config.util.Delayed;
 import com.til.dusk.common.config.util.IShapedCreate;
 import com.til.dusk.common.config.util.IShapedOreConfig;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
@@ -18,11 +19,12 @@ import java.util.function.Consumer;
 public class CentrifugalShapedType extends ShapedType {
 
     public CentrifugalShapedType() {
-        super("centrifugal", () -> ManaLevelBlock.centrifugal);
+        super("centrifugal");
     }
 
     @Override
     public void registerRuleShaped(Consumer<Shaped> shapedConsumer) {
+
         for (Ore ore : Ore.ORE.get()) {
             if (ore.mineralBlockData == null) {
                 continue;
@@ -38,7 +40,7 @@ public class CentrifugalShapedType extends ShapedType {
     }
 
     @Override
-    public void defaultConfig() {
+    public void defaultConfig() {blockTagKey =new Delayed.BlockDelayed(() ->  ManaLevelBlock.centrifugal.tagPackSupplier.getTagPack().blockTagKey());
         centrifugal = new IShapedCreate.OreShapedCreate(name, this, ShapedDrive.get(0), 1280L, 24L, 0L)
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.crushedPurified.name, 1))
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.dust, 1, 1));

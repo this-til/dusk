@@ -1,6 +1,7 @@
 package com.til.dusk.common.register.shaped.shaped_type;
 
 import com.til.dusk.common.config.ConfigField;
+import com.til.dusk.common.config.util.Delayed;
 import com.til.dusk.common.config.util.IShapedCreate;
 import com.til.dusk.common.config.util.IShapedOreConfig;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
@@ -9,9 +10,7 @@ import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.ore.ore.Ore;
 import com.til.dusk.common.register.shaped.ShapedDrive;
 import com.til.dusk.common.register.shaped.shapeds.Shaped;
-import com.til.dusk.common.register.shaped.shapeds.ShapedOre;
 import com.til.dusk.util.ResourceLocationUtil;
-import net.minecraft.world.item.ItemStack;
 
 import java.util.function.Consumer;
 
@@ -21,11 +20,12 @@ import java.util.function.Consumer;
 public class CrystallizingShapedType extends ShapedType {
 
     public CrystallizingShapedType() {
-        super("crystallizing", () -> ManaLevelBlock.crystallizing);
+        super("crystallizing");
     }
 
     @Override
     public void registerRuleShaped(Consumer<Shaped> shapedConsumer) {
+
         for (Ore ore : Ore.ORE.get()) {
             if (!ore.isCrysta) {
                 continue;
@@ -40,7 +40,7 @@ public class CrystallizingShapedType extends ShapedType {
     }
 
     @Override
-    public void defaultConfig() {
+    public void defaultConfig() {        blockTagKey =new Delayed.BlockDelayed(() ->  ManaLevelBlock.crystallizing.tagPackSupplier.getTagPack().blockTagKey());
         crystal = new IShapedCreate.OreShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(), "crystal"),
                 this, ShapedDrive.get(0), 2048L, 8L, 0L)
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.crystalSeed.name, 1))

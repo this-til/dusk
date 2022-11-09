@@ -9,7 +9,6 @@ import com.til.dusk.common.register.ore.item.OreItem;
 import com.til.dusk.common.register.shaped.shaped_type.ShapedType;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author til
@@ -17,7 +16,7 @@ import java.util.Set;
 public class BlendMechanic extends HandleMechanic {
 
     public BlendMechanic() {
-        super("blend", () -> Set.of(ShapedType.blend));
+        super("blend");
     }
 
     @Override
@@ -29,6 +28,7 @@ public class BlendMechanic extends HandleMechanic {
 
     @Override
     public void defaultConfig() {
+        shapedTypeList = List.of(ShapedType.blend);
         manaLevelMakeData =  new ManaLevelMakeData()
                 .addOreConfig(List.of(
                         new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(frameBasic.name, 1),

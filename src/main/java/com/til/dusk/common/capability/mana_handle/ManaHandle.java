@@ -16,21 +16,23 @@ import org.jetbrains.annotations.Nullable;
 public class ManaHandle implements IManaHandle {
 
     public final long maxMana;
-    public final long maxRate;
+    public final long maxIn;
+    public final long maxOut;
     public long inRate;
     public long outRate;
     public long mana;
 
-    public ManaHandle(long maxMana, long maxRate, IBack iBack) {
-        this.maxMana = maxMana;
-        this.maxRate = maxRate;
+    public ManaHandle(long maxMana, long maxIn, long maxOut, IBack iBack) {
         up();
+        this.maxMana = maxMana;
+        this.maxIn = maxIn;
+        this.maxOut = maxOut;
         iBack.add(IBack.UP, v -> up());
     }
 
     public void up() {
-        inRate = getMaxRate();
-        outRate = getMaxRate();
+        inRate = getMaxOut();
+        outRate = getMaxOut();
     }
 
     @Override
@@ -54,10 +56,14 @@ public class ManaHandle implements IManaHandle {
     }
 
     @Override
-    public long getMaxRate() {
-        return maxRate;
+    public long getMaxOut() {
+        return maxOut;
     }
 
+    @Override
+    public long getMaxIn() {
+        return maxIn;
+    }
 
     @Override
     public long addMana(long mana, boolean isSimulate) {
@@ -108,21 +114,22 @@ public class ManaHandle implements IManaHandle {
     public CompoundTag appendServerData() {
         CompoundTag compoundTag = serializeNBT();
         AllNBTPack.MAX_MANA.set(compoundTag, getMaxMana());
-        AllNBTPack.RATE.set(compoundTag, getMaxRate());
+        AllNBTPack.RATE_OUT.set(compoundTag, getMaxOut());
+        AllNBTPack.RATE_IN.set(compoundTag, getMaxOut());
         return compoundTag;
     }
 
     @Override
     public void appendTooltip(IComponentPack iTooltip, CompoundTag compoundTag) {
-        iTooltip.add(Lang.getLang(
-                Lang.getLang(CapabilityRegister.iManaHandle),
-                Component.literal(":")));
+        iTooltip.add(Lang.getLang(Lang.getLang(CapabilityRegister.iManaHandle), Component.literal(":")));
         iTooltip.indent();
         long mana = AllNBTPack.MANA.get(compoundTag);
         long maxMana = AllNBTPack.MAX_MANA.get(compoundTag);
-        long rate = AllNBTPack.RATE.get(compoundTag);
+        long rateIn = AllNBTPack.RATE_IN.get(compoundTag);
+        long rateOut = AllNBTPack.RATE_OUT.get(compoundTag);
         iTooltip.add(Lang.getLang(Component.translatable(Lang.getKey("现存灵气")), Component.literal(mana + "/" + maxMana)));
-        iTooltip.add(Lang.getLang(Component.translatable(Lang.getKey("最大灵气流速")), Component.literal(String.valueOf(rate))));
+        iTooltip.add(Lang.getLang(Component.translatable(Lang.getKey("最大灵气输入流速")), rateIn == Long.MAX_VALUE ? Component.translatable(Lang.getKey("无限")) : Component.literal(String.valueOf(rateIn))));
+        iTooltip.add(Lang.getLang(Component.translatable(Lang.getKey("最大灵气输出流速")), rateOut == Long.MAX_VALUE ? Component.translatable(Lang.getKey("无限")) : Component.literal(String.valueOf(rateOut))));
 
     }
 }

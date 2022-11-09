@@ -1,6 +1,7 @@
 package com.til.dusk.common.register.shaped.shaped_type;
 
 import com.til.dusk.common.config.ConfigField;
+import com.til.dusk.common.config.util.Delayed;
 import com.til.dusk.common.config.util.IShapedCreate;
 import com.til.dusk.common.config.util.IShapedOreConfig;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
@@ -20,11 +21,12 @@ import java.util.function.Consumer;
 public class CarvingShapedType extends ShapedType {
 
     public CarvingShapedType() {
-        super("carving", () -> ManaLevelBlock.carving);
+        super("carving");
     }
 
     @Override
     public void registerRuleShaped(Consumer<Shaped> shapedConsumer) {
+
         for (ManaLevel level : ManaLevel.MANA_LEVEL.get()) {
             if (level.operationBasics == null) {
                 continue;
@@ -59,7 +61,7 @@ public class CarvingShapedType extends ShapedType {
     }
 
     @Override
-    public void defaultConfig() {
+    public void defaultConfig() {   blockTagKey =new Delayed.BlockDelayed(() ->  ManaLevelBlock.carving.tagPackSupplier.getTagPack().blockTagKey());
         integrate = new IShapedCreate.ManaLevelShapedCreate(ResourceLocationUtil.fuseName(name.getNamespace(),  "integrate"),
                 this, ShapedDrive.get(0), 1024L, 16L, 0L)
                 .addConfig(new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(OreItem.crystal.name, 1))

@@ -1,6 +1,7 @@
 package com.til.dusk.common.register.shaped.shaped_type;
 
 import com.til.dusk.common.config.ConfigField;
+import com.til.dusk.common.config.util.Delayed;
 import com.til.dusk.common.config.util.IShapedCreate;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
 import com.til.dusk.common.register.ore.ore.Ore;
@@ -14,7 +15,7 @@ import java.util.function.Consumer;
  */
 public class FreezingShapedType extends ShapedType {
     public FreezingShapedType() {
-        super("freezing", () -> ManaLevelBlock.freezing);
+        super("freezing");
     }
 
     @Override
@@ -29,6 +30,7 @@ public class FreezingShapedType extends ShapedType {
 
     @Override
     public void defaultConfig() {
+        blockTagKey =new Delayed.BlockDelayed(() ->  ManaLevelBlock.freezing.tagPackSupplier.getTagPack().blockTagKey());
         freezing = new IShapedCreate.OreShapedCreate(name, this, ShapedDrive.get(0), 724L, 32L, 0L);
     }
 

@@ -63,8 +63,13 @@ public class WhirlBoostManaHandle implements IManaHandle, RoutePack.ISupportRout
     }
 
     @Override
-    public long getMaxRate() {
-        return integration(IManaHandle::getMaxRate);
+    public long getMaxOut() {
+        return integration(IManaHandle::getMaxOut);
+    }
+
+    @Override
+    public long getMaxIn() {
+        return integration(IManaHandle::getMaxIn);
     }
 
     @Override
@@ -136,7 +141,7 @@ public class WhirlBoostManaHandle implements IManaHandle, RoutePack.ISupportRout
         CompoundTag compoundTag = new CompoundTag();
         AllNBTPack.MANA.set(compoundTag, getMana());
         AllNBTPack.MAX_MANA.set(compoundTag, getMaxMana());
-        AllNBTPack.RATE.set(compoundTag, getMaxRate());
+        AllNBTPack.RATE_IN.set(compoundTag, getMaxOut());
         return compoundTag;
     }
 
@@ -148,7 +153,7 @@ public class WhirlBoostManaHandle implements IManaHandle, RoutePack.ISupportRout
         iTooltip.indent();
         long mana = AllNBTPack.MANA.get(compoundTag);
         long maxMana = AllNBTPack.MAX_MANA.get(compoundTag);
-        long rate = AllNBTPack.RATE.get(compoundTag);
+        long rate = AllNBTPack.RATE_IN.get(compoundTag);
         if (mana > 0 && maxMana > 0) {
             iTooltip.add(Lang.getLang(Component.translatable(Lang.getKey("现存灵气")), Component.literal(mana + "/" + maxMana)));
         }

@@ -28,7 +28,7 @@ public class PotionManaMechanic extends ExtractManaMechanic {
     }
 
     @Override
-    public void defaultConfig() {
+    public void defaultConfig() {shapedTypeList = List.of(ShapedType.potionMana);
         extractManaColor =  new DuskColor(243, 138, 255);
         manaLevelMakeData = new ManaLevelMakeData()
                 .addOreConfig(List.of(

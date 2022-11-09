@@ -29,7 +29,7 @@ public class ExplosiveManaMechanic extends ExtractManaMechanic {
     }
 
     @Override
-    public void defaultConfig() {
+    public void defaultConfig() {shapedTypeList = List.of(ShapedType.explosiveMana);
         extractManaColor = new DuskColor(178, 25, 25);
         manaLevelMakeData = new ManaLevelMakeData()
                 .addOreConfig(List.of(

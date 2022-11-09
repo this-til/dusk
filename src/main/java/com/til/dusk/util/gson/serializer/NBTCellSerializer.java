@@ -1,7 +1,10 @@
 package com.til.dusk.util.gson.serializer;
 
 import com.google.gson.*;
+import com.google.gson.reflect.TypeToken;
 import com.til.dusk.util.nbt.cell.NBTCell;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.level.block.Block;
 
 import java.lang.reflect.Type;
 
@@ -10,6 +13,9 @@ import java.lang.reflect.Type;
  */
 public class NBTCellSerializer<E> implements JsonSerializer<E>, JsonDeserializer<E> {
     public final NBTCell<E> cell;
+
+    public static final TypeToken<TagKey<Block>> T = new TypeToken<>() {
+    };
 
     public NBTCellSerializer(NBTCell<E> cell) {
         this.cell = cell;

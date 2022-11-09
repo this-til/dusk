@@ -145,11 +145,30 @@ public abstract class Ore extends UnitRegister<Ore, OreItem, OreBlock, OreFluid>
      * 星云金
      */
     public static StarGoldOre starGold;
+    /***
+     * 切尔西
+     */
+    public static ChelseaOre chelsea;
 
     /***
      * 星河合金
      */
     public static StarRiverOre starRiver;
+
+    /***
+     * 蓝色妖姬
+     */
+    public static BlueDemonConcubineOre blueDemonConcubine;
+
+    /***
+     * 红色风暴
+     */
+    public static RedStormOre redStorm;
+
+    /***
+     * 刹那之花
+     */
+    public static MomentFlowerOre momentFlower;
 
     /***
      * 日耀
@@ -204,7 +223,7 @@ public abstract class Ore extends UnitRegister<Ore, OreItem, OreBlock, OreFluid>
     /***
      * 藕荷
      */
-    public static Ore lotusRoot;
+    public static LotusRootOre lotusRoot;
 
     /***
      * 乌
@@ -357,9 +376,24 @@ public abstract class Ore extends UnitRegister<Ore, OreItem, OreBlock, OreFluid>
     public static HighEnergyRedStoneOre highEnergyRedStone;
 
     /***
+     * 瓦斯
+     */
+    public static GasOre gas;
+
+    /***
+     * 高能瓦斯
+     */
+    public static HighEnergyGasOre highEnergyGas;
+
+    /***
      * 冷却液
      */
     public static CoolantOre coolant;
+
+    /***
+     * 过热
+     */
+    public static OverheatedCoolantOre overheatedCoolantOre;
 
     /***
      * 灵气融液
@@ -424,8 +458,12 @@ public abstract class Ore extends UnitRegister<Ore, OreItem, OreBlock, OreFluid>
         starSilver = new StarSilver();
         starIron = new StarIronOre();
         starGold = new StarGoldOre();
+        chelsea = new ChelseaOre();
 
         starRiver = new StarRiverOre();
+        blueDemonConcubine = new BlueDemonConcubineOre();
+        redStorm = new RedStormOre();
+        momentFlower = new MomentFlowerOre();
 
         sunlight = new SunlightOre();
         moonlight = new MoonlightOre();
@@ -474,7 +512,10 @@ public abstract class Ore extends UnitRegister<Ore, OreItem, OreBlock, OreFluid>
         yin = new YinOre();
 
         highEnergyRedStone = new HighEnergyRedStoneOre();
+        gas = new GasOre();
+        highEnergyGas = new HighEnergyGasOre();
         coolant = new CoolantOre();
+        overheatedCoolantOre = new OverheatedCoolantOre();
         dissolutionMana = new DissolutionManaOre();
         culture = new CultureOre();
         stemCell = new StemCellOre();

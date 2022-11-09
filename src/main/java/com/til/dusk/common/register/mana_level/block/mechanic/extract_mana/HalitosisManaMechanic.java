@@ -16,7 +16,7 @@ import java.util.Set;
  */
 public class HalitosisManaMechanic extends ExtractManaMechanic {
 
-    public HalitosisManaMechanic(){
+    public HalitosisManaMechanic() {
         super("halitosis_mana", () -> Set.of(ShapedType.halitosisMana));
     }
 
@@ -29,10 +29,11 @@ public class HalitosisManaMechanic extends ExtractManaMechanic {
 
     @Override
     public void defaultConfig() {
+        shapedTypeList = List.of(ShapedType.halitosisMana);
         extractManaColor = new DuskColor(229, 45, 136);
         manaLevelMakeData = new ManaLevelMakeData()
                 .addOreConfig(List.of(
                         new IShapedOreConfig.IShapedOreManaLevelConfig.AcceptItemIn(extractMana.name, 1),
-                        new IShapedOreConfig.IShapedOreManaLevelConfig.ItemIn(() ->ItemTag.DRAGON_BREATH, 16)));
+                        new IShapedOreConfig.IShapedOreManaLevelConfig.ItemIn(() -> ItemTag.DRAGON_BREATH, 16)));
     }
 }

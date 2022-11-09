@@ -1,10 +1,13 @@
 package com.til.dusk.common.register.mana_level.item;
 
+import com.google.gson.JsonObject;
 import com.til.dusk.client.ColorProxy;
 import com.til.dusk.common.register.mana_level.item.group.ManaLevelCrystalGroup;
 import com.til.dusk.common.register.mana_level.mana_level.ManaLevel;
 import com.til.dusk.common.world.item.DuskItem;
+import com.til.dusk.util.ModelJsonUtil;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 
 /**
  * @author til
@@ -25,7 +28,7 @@ public abstract class CrystalGroupBasicsManaLevelItem extends GroupBasicsManaLev
     }
 
     @Override
-    public DuskItem.ICustomModel getItemMoldMapping(ManaLevel manaLevel) {
-        return () -> suffix;
+    public JsonObject createModel(Item item, ManaLevel manaLevel) {
+        return ModelJsonUtil.createItemFather(suffix);
     }
 }

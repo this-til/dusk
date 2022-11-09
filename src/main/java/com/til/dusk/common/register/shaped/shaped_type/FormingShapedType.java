@@ -1,6 +1,7 @@
 package com.til.dusk.common.register.shaped.shaped_type;
 
 import com.til.dusk.common.config.ConfigField;
+import com.til.dusk.common.config.util.Delayed;
 import com.til.dusk.common.config.util.IShapedCreate;
 import com.til.dusk.common.config.util.IShapedOreConfig;
 import com.til.dusk.common.register.mana_level.block.ManaLevelBlock;
@@ -14,7 +15,7 @@ import java.util.function.Consumer;
 public class FormingShapedType extends ShapedType {
 
     public FormingShapedType() {
-        super("forming", () -> ManaLevelBlock.shaping);
+        super("forming");
     }
 
     @Override
@@ -29,6 +30,7 @@ public class FormingShapedType extends ShapedType {
 
     @Override
     public void defaultConfig() {
+        blockTagKey = new Delayed.BlockDelayed(() -> ManaLevelBlock.shaping.tagPackSupplier.getTagPack().blockTagKey());
         casing = new IShapedCreate.OreShapedCreate(name, this, ShapedDrive.get(0), 1024L, 12L, 0L)
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.AcceptItemIn(OreItem.ingot.name, 1))
                 .addConfig(new IShapedOreConfig.IShapedOreOreConfig.OreItemOut(OreItem.casing, 1, 1));

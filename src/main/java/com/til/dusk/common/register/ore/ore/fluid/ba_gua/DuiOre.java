@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * @author til
  */
-public class DuiOre extends Ore {
+public class DuiOre extends BaGuaBasicsOre {
 
     public DuiOre() {
         super("dui");

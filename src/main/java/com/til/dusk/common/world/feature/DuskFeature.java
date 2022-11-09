@@ -40,7 +40,7 @@ public class DuskFeature {
         BIOME_MODIFIER_CODEC.register(Dusk.instance.modEventBus);
     }
 
-    @Deprecated
+    @SubscribeEvent
     public static void onEvent(FMLCommonSetupEvent event) {
         for (Ore ore : Ore.ORE.get()) {
             if (ore.mineralBlockData == null) {
